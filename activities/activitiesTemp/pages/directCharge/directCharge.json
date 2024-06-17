@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navbar": "../components/navbar/navbar",
+    "dialog": "../components/dialog/dialog",
+    "component-toast": "../components/toast/toast",
+    "basic": "/sub-package/common-package/components/captcha/captchaBasic/captchaBasic"
+  },
+  "componentPlaceholder": {
+    "basic": "view"
+  }
+}

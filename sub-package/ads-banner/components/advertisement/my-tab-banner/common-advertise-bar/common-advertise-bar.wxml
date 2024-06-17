@@ -1,0 +1,24 @@
+<!--pages/component/advertise-bar/advertise-bar.wxml-->
+<!-- 首页登录后无设备时的广告位 -->
+<view wx:if="{{bannerList && bannerList.length>0}}" class="advertise-wrap">
+  <swiper
+    class="advertise"
+    circular="{{true}}"
+    duration="500"
+    indicator-dots="{{indicatorDots}}"
+    indicator-color="rgba(255, 255, 255, 0.4)"
+    indicator-active-color="#FFFFFF"
+    autoplay="{{autoPlay}}"
+    bindchange="swiperChange"
+  >
+    <swiper-item
+      class="swiperItem"
+      wx:for="{{bannerList}}"
+      catchtap="advertiseBarLink"
+      data-item="{{ item }}"
+      wx:key="{{index}}"
+    >
+      <image class="device-mall" src="{{item.contentUrl}}" style="background-image:url({{defaultBac}});"></image>
+    </swiper-item>
+  </swiper>
+</view>

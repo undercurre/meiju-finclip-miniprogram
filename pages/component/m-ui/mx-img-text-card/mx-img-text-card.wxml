@@ -1,0 +1,13 @@
+<!--m-ui/m-img-text-card/m-img-text-card.wxml-->
+<view class="card-wrap">
+  <view class="card" bindtap="cardClicked" style="flex-direction:{{direction?'row':'row-reverse'}}">
+   <view class="left-content">
+    <view class="title">{{title}}</view>
+    <view wx:if="{{name}}" class="name">{{name}}</view>
+    <slot></slot>
+   </view>
+   <view class="image-wrap"  style="background:url('{{bgImg}}'); background-size:100% auto;background-repeat:no-repeat; margin-left:{{direction?'32rpx':''}}; margin-right:{{direction?'':'32rpx'}};">
+      <image class='image' mode="aspectFill" lazy-load="{{lazyLoad}}" src="{{imgSrc}}" binderror="loadImgError" ></image>
+    </view>
+  </view>
+</view>

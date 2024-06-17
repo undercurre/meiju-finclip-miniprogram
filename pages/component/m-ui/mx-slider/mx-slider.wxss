@@ -1,0 +1,8 @@
+/* m-ui/m-slider/m-slider.wxss */
+@import '../../m-ui/assets/common.wxss';
+
+
+/* 无效，需要写在页面中 */
+/* wx-slider .wx-slider-handle-wrapper{
+  height:8rpx !important;
+} */

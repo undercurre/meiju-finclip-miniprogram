@@ -1,0 +1,188 @@
+<view class="container">
+  <block wx:if="{{applianceData.onlineStatus == 1}}">
+    <block wx:if="{{deviceStatus == -2}}">
+      <trojanHorse isShowHorse="{{deviceStatus == -2}}" />
+    </block>
+    <block wx:else>
+      <view class="flex flex_column align_center" style="padding-bottom: 200rpx;">
+        <!-- 中间圆圈 -->
+        <view style="position: relative;" wx:if="{{!showCircle}}">
+          <!-- 静态背景 -->
+          <image wx:if="{{deviceStatus != 3 && deviceStatus != 12}}" src="{{imgsrc}}" class="circle" />
+          <!-- 动态背景 -->
+          <image wx:if="{{deviceStatus == 3 || deviceStatus == 12}}" class="working-ani" style="position: relative;left: -18rpx;animation-play-state:{{aniWorking}};" src="{{imgsrc}}" />
+          <view class="banner-text-wrap">
+            <text wx:if="{{deviceStatus===-1}}" class="offline-text">已离线</text><text wx:if="{{deviceStatus==-2}}" class="offline-text">初始化</text>
+            <text wx:elif="{{deviceStatus == 4}}" class="offline-text">故障中</text>
+            <text wx:elif="{{deviceStatus===0}}" class="offline-text">已关机</text>
+            <banner-text wx:else data="{{bannerData}}" />
+          </view>
+        </view>
+
+        <!-- 当前模式、说明语及结束时间 -->
+        <step-stage style="margin-bottom: 20rpx;margin-top: 20rpx;position: relative;" deviceStatus="{{deviceStatus}}" status="{{_applianceDataStatus}}" curMode="{{curMode}}" keepAndDryName="{{pagesConfig.text}}"></step-stage>
+
+        <!-- <button style="color: black;" bindtap="temp">查询</button> -->
+        <!-- <view>uuid: {{uuid}}</view> -->
+
+        <!-- <view>{{errtext}}</view>
+      <view>curTime: {{curTime}}</view> -->
+        <!-- 模式选择 -->
+        <view wx:if="{{deviceStatus == 1}}" bindtap="showModePicker">
+          <van-cell title="模式选择" value="{{curMode.name}}" label="设置设备当前运行模式" custom-class="top-cell" is-link="true">
+            <view class="cell-img-wrap flex align_center justify_center" slot="icon" style="background:#25c4fb">
+              <image src="{{imgs.modeChoose}}" class="cell-img" />
+            </view>
+          </van-cell>
+        </view>
+
+        <!-- 童锁 -->
+        <view wx:if="{{showLock}}">
+          <van-cell title="童锁" custom-class="middle-cell">
+            <view class="cell-img-wrap flex align_center justify_center" slot="icon" style="background:#25c4fb">
+              <image src="{{imgs.lock}}" class="cell-img" />
+            </view>
+            <van-switch checked="{{ _applianceDataStatus.lock == 'on' }}" slot="right-icon" active-color="#25c4fb" bind:change="changeLock" size="40rpx" />
+          </van-cell>
+        </view>
+
+        <!-- 保管和烘干 -->
+        <block wx:for="{{kdList}}" wx:if="{{deviceStatus != 12}}" wx:for-item="item" wx:key="index">
+          <view wx:if="{{kdShow[item]}}">
+            <van-cell title="{{kdTitle[item]}}" label="{{kdLabel[item]}}" custom-class="middle-cell" is-link="{{kdLink[item]}}" bindtap="showKDMPicker" data-kdflag="{{item}}">
+              <view data-kdflag="{{item}}" class="cell-img-wrap flex align_center justify_center" slot="icon" style="background:#25c4fb">
+                <image src="{{kdIcon[item]}}" data-kdflag="{{item}}" class="cell-img" />
+              </view>
+              <van-switch wx:if="{{!kdLink[item]}}" checked="{{kdCheck[item]}}" slot="right-icon" active-color="#25c4fb" catchtap="changeKD" data-kdcheck="{{item}}" size="40rpx" disabled="{{deviceStatus>=5}}" />
+              <text data-kdflag="{{item}}" wx:else>{{kdRightText[item]}}</text>
+            </van-cell>
+          </view>
+        </block>
+
+        <!-- more列表 -->
+        <block wx:if="{{deviceStatus == 1}}" wx:for="{{moreList}}" wx:for-item="item" wx:key="index">
+          <view bindtap="showKDMPicker" data-kdflag="more" data-cur-Func="{{item.key}}">
+            <van-cell data-kdflag="more" data-cur-Func="{{item.key}}" title="{{item.name}}" label="{{item.desc}}" border="{{true}}" custom-class="middle-cell" is-link="{{item.link}}">
+              <view class="cell-img-wrap flex align_center justify_center" slot="icon" style="background:#25c4fb">
+                <image data-cur-Func="{{item.key}}" data-kdflag="more" src="{{item.icon}}" class="cell-img" />
+              </view>
+              <van-switch data-cur-Func="{{item.key}}" wx:if="{{!item.link}}" checked="{{item.checked}}" catch:change="changeMore" slot="right-icon" active-color="#25c4fb" size="40rpx" />
+              <text data-kdflag="more" data-cur-Func="{{item.key}}" wx:if="{{item.link}}">{{item.rightText}}</text>
+            </van-cell>
+          </view>
+        </block>
+
+        <!-- 耗材状态 -->
+        <view class="consumable" wx:if="{{(pagesConfig.more.bright.enable || pagesConfig.more.salt.enable)}}" style="display: flex;flex-direction: column;align-items: center;">
+          <view style="display: flex;justify-content: space-between;width: 100%;">
+            <text class="text1">耗材状态</text>
+            <text class="text2" bindtap="goBuy">购买</text>
+          </view>
+          <view style="display: flex;justify-content: {{pagesConfig.more.bright.enable&&pagesConfig.more.salt.enable?'space-between':'center'}}; margin-top: 48rpx;width: 320rpx;">
+            <view style="display: flex;flex-direction: column;" wx:if="{{pagesConfig.more.bright.enable}}">
+              <view class="circle-bg flex align_center justify_center" style="background-color:{{brightLackBgColor}}">
+                <view class="circle-bg-1 flex align_center justify_center" style="background-color:{{barBrightColor}};">
+                  <view class="circle-bg-2 flex align_center justify_center" style="background-color:{{brightLackBgColor}}">
+                    <text class="circle-text" style="color: {{!_applianceDataStatus.bright_lack?'#fff':'#7C879B'}};">{{_applianceDataStatus.bright_lack?'缺少':'充足'}}</text>
+                  </view>
+                </view>
+              </view>
+              <text class="text4">漂洗剂</text>
+            </view>
+            <view style="display: flex;flex-direction: column;" wx:if="{{pagesConfig.more.salt.enable}}">
+              <view class="circle-bg flex align_center justify_center" style="background-color:{{softwaterLackBgColor}}">
+                <view class="circle-bg-1 flex align_center justify_center" style="background-color:{{barBrightColor}};">
+                  <view class="circle-bg-2 flex align_center justify_center" style="background-color:{{softwaterLackBgColor}}">
+                    <text class="circle-text" style="color: {{!_applianceDataStatus.softwater_lack?'#fff':'#7C879B'}};">{{_applianceDataStatus.softwater_lack?'缺少':'充足'}}</text>
+                  </view>
+                </view>
+              </view>
+              <text class="text4">洗碗盐</text>
+            </view>
+          </view>
+        </view>
+        <!-- 月用数据 -->
+        <view class="usage" wx:if="{{pagesConfig.more.waterEl}}">
+          <view style="display: flex;line-height: 1;justify-content: space-around;margin-top: 56rpx">
+            <view class="flex flex_column align_center" style="flex:1">
+              <view>
+                <text class="text6" style="color:{{isInoperableStatus?'#7C879B':'#26c2ff'}}">{{totalElec}}</text>
+                <text class="text7">度</text>
+              </view>
+              <text class="text5">月耗电量</text>
+            </view>
+            <view class="flex flex_column align_center" style="flex:1">
+              <view>
+                <text class="text6" style="color:{{isInoperableStatus?'#7C879B':'#26c2ff'}}">{{totalWater}}</text>
+                <text class="text7">升</text>
+              </view>
+              <text class="text5">月耗水量</text>
+            </view>
+            <view class="flex flex_column align_center" style="flex:1">
+              <view>
+                <text class="text6" style="color:{{isInoperableStatus?'#7C879B':'#26c2ff'}}">{{waterSaved}}</text>
+                <text class="text7">升</text>
+              </view>
+              <text class="text5">月省水量</text>
+            </view>
+          </view>
+          <view style="display: flex;line-height: 1;margin-top: 60rpx;align-items: center;">
+            <image src="{{isInoperableStatus?imgs.bottle_gray:imgs.bottle_blue}}" class="bottle" />
+            <text class="text8" style="color:{{isInoperableStatus?'#7C879B':'#26c2ff'}}">≈</text>
+            <view style="display: flex;flex-direction: column;justify-content: space-around;">
+              <text class="text9">{{saveBucketOfWater}}桶水</text>
+              <text class="text10">恭喜你节约了{{saveBucketOfWater}}桶水哦</text>
+            </view>
+          </view>
+        </view>
+
+        <active-dialog active-style="top: 20rpx"></active-dialog>
+
+        <text class="openMeiJuApp" wx:if="{{!showCircle}}">更多功能尽在美的美居App</text>
+
+        <!-- 底部按钮 -->
+        <view class="control-bar-container" style="z-index: 5;" wx:if="{{deviceStatus > -2}}">
+          <!-- 开关机 -->
+          <view class="btn-container" style="margin-bottom: 0;" bindtap="powerToggle" wx:if="{{deviceStatus != 3 && deviceStatus != 2 && deviceStatus != 12}}">
+            <image src="{{imgs.power}}" class="btn-power" style="background-color:{{isInoperableStatus?'#7C879B':'#26c2ff'}}" />
+            <view class="desc-text">{{deviceStatus == -1 || deviceStatus == 0 ? '开机' : '关机'}}</view>
+          </view>
+
+          <!-- 停止工作、保管、烘干 -->
+          <view class="btn-container" wx:if="{{deviceStatus == 3 || deviceStatus == 5 || deviceStatus == 6 || deviceStatus == 12}}" style="margin-bottom: 0;" bindtap="equipmentStop">
+            <image src="{{imgs.stop}}" class="btn-power" style="background-color: #e2e1e1" />
+            <view class="desc-text">取消</view>
+          </view>
+
+          <!-- 启动暂停 -->
+          <view class="btn-container" wx:if="{{deviceStatus == 1 || deviceStatus == 3 || deviceStatus == 12}}" style="margin-bottom: 0;" bindtap="operatorToggle">
+            <image src="{{operatorImgSrc}}" class="btn-power" style="background-color: #e2e1e1" />
+            <view class="desc-text">{{_applianceDataStatus.operator == 'start' ? '暂停' : '启动'}}</view>
+          </view>
+
+          <!-- 取消预约 -->
+          <view class="btn-container" wx:if="{{deviceStatus == 2  && applianceData.sn8 != '00W2601C'}}" style="margin-bottom: 0;" bindtap="orderCancel">
+            <image src="{{operatorImgSrc}}" class="btn-power" style="background-color: #e2e1e1" />
+            <view class="desc-text">取消预约</view>
+          </view>
+
+          <!-- 预约 -->
+          <view class="btn-container" wx:if="{{deviceStatus == 1 && applianceData.sn8 != '00W2601C'}}" style="margin-bottom: 0;" bindtap="gotoAppointment">
+            <image src="{{imgs.appointment}}" class="btn-power" style="background-color: #e2e1e1" />
+            <view class="desc-text">预约</view>
+          </view>
+        </view>
+      </view>
+
+
+      <view wx:if="{{isInited}}">
+        <c-picker show="{{showMode}}" mode="multiSelector" range="{{modeArray}}" value="{{curModeIndex}}" bind:cancel="modePickerCancel" bind:afterleave="modePickerCancel" bind:confirm="modePickerConfirm"></c-picker>
+        <c-picker show="{{showKDM}}" mode="multiSelector" range="{{kdmArray}}" unit="{{kdmUnits}}" value="{{kdmIndex}}" bind:confirm="kdmConfirm" bind:cancel="kdmCancel" bind:afterleave="kdmCancel"></c-picker>
+      </view>
+    </block>
+
+  </block>
+  <block wx:else>
+    <offline style="height: 100vh;"></offline>
+  </block>
+</view>

@@ -1,0 +1,22 @@
+<!--m-ui/m-row/m-row.wxml-->
+<view class="row {{radiusTop?'radiusTop':''}} {{radiusBottom?'radiusBottom':''}}" style="width:{{fullScreen?'100vw':'686rpx'}}">
+  <view wx:if="{{!center}}"  class="row-item {{showBorder?'row-item-border':'' }}" bindtap="rowAction" data-label="{{label}}" data-item="{{item}}" style="border:{{showBorder?'':'none'}}">
+    <!-- <view wx:if="{{iconSrc}}" class="icon">
+      <image src="{{ iconSrc }}"></image>
+    </view> -->
+    <view wx:if="{{bgSrc || iconSrc}}" class="icon">
+      <image style="{{bgSrc}}" wx:if="{{bgSrc}}"></image>
+      <image src="{{ iconSrc }}" wx:else class="newImages"></image>
+    </view>
+    <view class="content">
+      <text class="title"> {{ label }}</text>
+    </view>
+    <view class="arrow-right"  wx:if="{{showArrow}}">
+      <image class="arrow" src="../assets/icon/icon_more.svg"></image>
+    </view>
+  </view>
+  <view wx:else class="only-content-wrap" bindtap="rowAction" data-label="{{label}}" style="border:{{showBorder?'':'none'}}">
+    <text class="center-title"> {{ label }}</text>
+  </view>
+  <button wx:if="{{openType}}" open-type='{{ openType }}' catchtap="rowAction"  class="row-btn"></button>
+</view>

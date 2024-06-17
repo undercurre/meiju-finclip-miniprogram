@@ -1,0 +1,32 @@
+<view class="panel-block block-center" style="height: 600rpx;">
+    <view class="off-bolck block-center" wx:if="{{isOffLine}}">
+        <text class="text-off">设备离线</text>
+    </view>
+
+    <view class="off-bolck block-center" wx:if="{{!isOffLine && isOff && !isMainLightEnable && !isBlowingEnable && !isVentilationEnable}}">
+        <text class="text-off">已关机</text>
+        <text class="off-sub-text">{{isAutoVentilationEnable ? '自动换气中' : isSensoring ? '异味感应中' : ''}}</text>
+    </view>
+
+    <view class="light-block block-center" wx:if="{{!isOffLine && isMainLightEnable && !isBlowingEnable && !isVentilationEnable}}">
+        <view class="light-block-inner block-center">
+            <text class="text-mode-title" style="margin-bottom: 50rpx">当前模式</text>
+            <text class="text-mode-value" style="margin-bottom: 70rpx">照明</text>
+        </view>
+    </view>
+
+    <view class="wind-block block-center" wx:if="{{!isOffLine && isBlowingEnable || isVentilationEnable}}">
+        <image class="wind-image" src="{{curWindBG}}"></image>
+        <view class="wind-text-block block-center">
+            <text class="text-mode-title" style="margin-bottom: 50rpx">当前模式</text>
+            <view class="line" wx:if="{{isShowModeTextLine}}"></view>
+            <text class="text-mode-value">{{curWindModeText}}</text>
+        </view>
+        <view class="sub-status-block-cantain block-center">
+            <view class="sub-status-block block-center" style="width: {{curSubBlockWidth}}rpx">
+                <text class="sub-status-text">{{curSubStatusText}}</text>
+            </view>
+        </view>
+    </view>
+
+</view>

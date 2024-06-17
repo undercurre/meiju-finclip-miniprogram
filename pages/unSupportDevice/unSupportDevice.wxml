@@ -1,0 +1,19 @@
+<!--pages/unSupportDevice/unSupportDevice.wxml-->
+<view class="page" style="padding-top:{{statusBarHeight+40}}px">
+  <plugin-navbar backTo="{{backTo}}" navBarName="{{deviceInfo.name}}" bind:clickBack="clickBack"></plugin-navbar>
+  <view class="content">
+    <view class="unSupport flex-cc">
+      <image class="unSupport-icon" src="{{images.unSupport}}"></image>
+      <view wx:if="{{fm=='inputWifi'}}" class="unSupport-desc">该设备暂不支持蓝牙连接控制</view>
+      <view wx:else class="unSupport-desc">该设备暂不支持小程序控制</view>
+      <view wx:if="{{fm=='inputWifi' || isCanTryLink}}" class="wifiControl" bindtap="backToWifiInput"
+        >尝试网络远程控制</view
+      >
+    </view>
+    <view class="no-open-app" wx:if="{{fm !='inputWifi' && !isCanTryLink}}">请在美居App控制该设备</view>
+  </view>
+  <!-- 更新协议弹窗 -->
+  <block>
+    <agreement-update-dialog></agreement-update-dialog>
+  </block>
+</view>

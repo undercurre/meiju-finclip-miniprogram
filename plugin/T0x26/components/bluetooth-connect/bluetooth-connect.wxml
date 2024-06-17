@@ -1,0 +1,20 @@
+<view class="block-center panel-block">
+    <view class="block-no-conn block-center">
+        <text class="text-no-conn" wx:if="{{!isConnectting}}">未连接网络</text>
+    </view>
+
+    <view class="off-bolck block-center" wx:if="{{!isSupportBLE}}">
+        <text class="text-off">设备离线</text>
+    </view>
+
+    <view class="block-conn-btn block-center" bindtap="onConnectClick" wx:if="{{!isConnectting && isSupportBLE}}">
+        <image class="img-bluetooth" src="{{iconBluetooth}}"></image>
+        <text class="text-click-conn">点击连接蓝牙</text>
+    </view>
+
+    <view class="block-connectting block-center" wx:if="{{isConnectting && isSupportBLE}}">
+        <image class="img-connectting" src="{{imgConnectting}}"></image>
+        <text class="text-connectting">连接中</text>
+        <text class="text-tip">请将手机尽量靠近设备</text>
+    </view>
+</view>

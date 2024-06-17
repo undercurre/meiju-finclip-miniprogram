@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "normal-container": "../components/normal-container/normal-container",
+    "invite-register-container": "../components/invite-register-container/invite-register-container",
+    "join-family-container": "../components/join-family-container/join-family-container",
+    "my-reward": "../components/my-reward/my-reward",
+    "face-invite": "../components/face-invite/face-invite",
+    "navbar": "../components/navbar/navbar",
+    "dialog": "../components/dialog/dialog",
+    "component-toast": "../components/toast/toast",
+    "component-invite": "../components/invite-panel/invite-panel"
+  }
+}

@@ -1,0 +1,28 @@
+<view class="container-box">
+  <view wx:if="{{checkSelfList&&checkSelfList.length>0 || needServiceList&&needServiceList.length>0}}">
+    <text wx:if="{{checkSelfList&&checkSelfList.length}}" class="remind-text">以下故障可以自主排查</text>
+    <view class="default-box">
+      <block wx:for="{{checkSelfList}}" wx:for-index="index" wx:for-item="item" wx:key="*this">
+        <view class="item-list" bindtap="toSelfCheckItem" data-item="{{item}}">
+          <view class="item-content">{{item.serviceRequireItemName}}</view>
+          <image class="arrow" src="./assets/img/ic_more_right.png"></image>
+        </view>
+      </block>
+    </view>
+    <text wx:if="{{needServiceList&&needServiceList.length}}" class="remind-text">以下故障需要专业人员维修</text>
+    <view class="default-box">
+      <block wx:for="{{needServiceList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view class="item-list" data-item="{{item}}">
+          <view class="item-content">{{item.serviceRequireItemName}}</view>
+          <text class="registerRepair" catchtap="registerRepair" data-item="{{item}}">去报修</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view wx:else class="no-data-container">
+    <image class="no-data-icon" src="./assets/img/img_no_location@1x.png"></image>
+    <text class="no-data-text">这里什么都没有喔</text>
+  </view>
+  <toast text="{{toastTitle}}" show="{{showToast}}"></toast>
+  <!-- <longToast  id="longToast" isLongToast="{{true}}" longText="我是longtoast"></longToast> -->
+</view>

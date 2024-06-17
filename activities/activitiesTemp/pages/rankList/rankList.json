@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "榜单",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navbar": "../components/navbar/navbar",
+    "my-score-rank": "../components/my-score-rank/my-score-rank",
+    "dialog": "../components/dialog/dialog",
+    "component-toast": "../components/toast/toast"
+  }
+}

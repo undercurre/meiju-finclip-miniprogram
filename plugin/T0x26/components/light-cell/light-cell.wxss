@@ -1,0 +1,34 @@
+.cell-block{
+    width: 750rpx;
+    height: 176rpx;
+    position: relative;
+}
+.block-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.item-block{
+    width: 334rpx;
+    height: 160rpx;
+    background-color: #ffffff;
+    border-radius: 16rpx;
+    margin-left: 8rpx;
+    margin-right: 8rpx;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+.item-title{
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #000000;
+    font-weight: 400;
+    margin-left: 32rpx;
+}
+.item-switch{
+    position: absolute;
+    top: 56rpx;
+    right: 32rpx;
+}

@@ -1,0 +1,53 @@
+<import src="../../templates/template.wxml"></import>
+<wxs src="../../common.wxs" module="c1"></wxs>
+<wxs src="./invite-panel.wxs" module="s1"></wxs>
+<view class="my-invite-container">
+  <!-- <view class="my-invite-panel">
+    <view class="title-container">
+      <view class="main-title">任务标题</view>
+      <view class="sub-title">副标题</view>
+    </view>
+    <view class="bottom-container">
+      <view class="bottomBtn-container">
+        <button hover-class="none" class="button inviteFriend"
+        bindTap="actionGetReward">邀请好友</button>
+        <button hover-class="none" class="button inviteFaceToFace" bindTap="actionGetReward">面对面邀请</button>
+      </view>
+      <view class="inviteRecordBtn" bindtap="">邀请记录 ></view>
+    </view>
+  </view> -->
+  <view
+    class="bg-normal"
+    wx:key="id"
+    wx:for="{{ containerList }}"
+    wx:for-item="containerItem"
+    style="position:absolute; background-image:url({{ containerItem.bgImgUrl }};)"
+  >
+    <view wx:if="{{ containerItem.containerType === '1'}}">
+      <view wx:for="{{ containerItem.basicList }}" wx:for-item="viewItem" wx:key="id">
+        <template
+          wx:if="{{ viewItem.type == 'hotSpace' }}"
+          is="hotzone"
+          data="{{ ...hotzoneComponentData }}"
+        ></template>
+        <view
+          wx:if="{{ viewItem.type == '3' }}"
+          style="position:absolute;  top:{{positionX}}rpx; left:{{positionY}}rpx; {{s1.getStyle(viewItem)}})"
+        ></view>
+        <view wx:if="{{ viewItem.type == '1' }}">
+          <button
+            wx:if="{{ viewItem.target == '3' }}"
+            open-type="share"
+            style="position:absolute;  top:{{positionX}}rpx; left:{{positionY}}rpx; {{s1.getStyle(viewItem)}})"
+          ></button>
+          <button
+            wx:else
+            data-item="{{viewItem}}"
+            bindtap="btnClick"
+            style="position:absolute;  top:{{positionX}}rpx; left:{{positionY}}rpx; {{s1.getStyle(viewItem)}})"
+          ></button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

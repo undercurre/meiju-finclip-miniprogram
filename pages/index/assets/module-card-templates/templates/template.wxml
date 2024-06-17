@@ -1,0 +1,32 @@
+<!-- 使用templates来实现动态组件 -->
+<!-- 卡片 -->
+<template name="Text">
+  <card-Text id="{{id}}" type="{{type}}" cardItem="{{cardItem}}" deviceInfo="{{deviceInfo}}"></card-Text>
+</template>
+<!-- 图片 -->
+<template name="Image">
+  <card-Image id="{{id}}" type="{{type}}" cardItem="{{cardItem}}" deviceInfo="{{deviceInfo}}"></card-Image>
+</template>
+<!-- 布局 -->
+<template name="View">
+  <card-View id="{{id}}" type="{{type}}" cardItem="{{cardItem}}" deviceInfo="{{deviceInfo}}"></card-View>
+</template>
+<!-- 按钮 -->
+<template name="Checkbox">
+  <card-Checkbox id="{{id}}" type="{{type}}" cardItem="{{cardItem}}" deviceInfo="{{deviceInfo}}"></card-Checkbox>
+</template>
+<!-- 滑动条 -->
+<template name="Silder">
+  <card-Silder bind:click="click" id="{{id}}" type="{{type}}" cardItem="{{cardItem}}"></card-Silder>
+</template>
+
+<!-- 容器 -->
+<template name="container">
+  <card-Container
+    bind:click="click"
+    id="{{id}}"
+    type="{{type}}"
+    cardContainerItem="{{cardItem}}"
+    deviceInfo="{{deviceInfo}}"
+  ></card-Container>
+</template>

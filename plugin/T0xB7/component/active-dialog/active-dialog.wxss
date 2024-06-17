@@ -1,0 +1,28 @@
+/* plugin/T0xB6/activeDialog/active-dialog.wxss */
+
+.active-dialog {
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  right: -10rpx;
+  z-index: 9999;    /* 协议更新时 遮罩层需要覆盖浮动窗口 */
+}
+.active-close {
+  width: 45rpx;
+  height: 45rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: -4rpx;
+  z-index: 100005;
+  /* background-color: #666; */
+}
+.active-dialog-main {
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  z-index: 100000;
+}

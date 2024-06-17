@@ -1,0 +1,28 @@
+/* pages/component/advertise-bar/advertise-bar.wxss */
+
+.advertise-wrap {
+  width: 686rpx;
+  height: 180rpx;
+  margin-left: 32rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.advertise {
+  width: 686rpx;
+  height: 180rpx;
+}
+
+.swiperItem {
+  width: 686rpx;
+  height: 180rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+.device-mall {
+  width: 686rpx;
+  height: 180rpx;
+  border-radius: 24rpx;
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}

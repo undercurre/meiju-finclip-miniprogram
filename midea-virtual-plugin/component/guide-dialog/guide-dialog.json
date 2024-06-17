@@ -1,0 +1,8 @@
+{
+    "component": true,
+    "usingComponents": {
+      "mx-mask":"/pages/component/m-ui/mx-mask/mx-mask",
+      "cell": "plugin://contactPlugin/cell"
+    }
+  }
+  

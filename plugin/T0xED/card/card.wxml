@@ -1,0 +1,35 @@
+<!--导入模板-->
+<import src="../templates/templates.wxml" />
+<view class="container">
+  <block wx:if="{{deviceInfo && deviceSetting && deviceStatus.version}}">
+    <view class="container flex flex_column align_center">
+      <banner-panel></banner-panel>
+      <view style="width: 100%;opacity: {{statusNum == 1? 0.5 : 1}}" class="flex flex_column align_center">
+        <view class="filter-status" wx:if="{{isShowFilterStatus}}">
+          <view class="flex align_center justify_between" style="margin-bottom: 30rpx;">
+            <text class="filter-status-text">{{hasLeftWater ? (hasFilter ? '滤芯与水量' : '水量') : '滤芯'}}状态</text>
+            <text class="filter-buy-text" bindtap="goFilterPage">{{hasLeftWater ? (hasFilter ? '详情' : '') : '详情及购买'}}</text>
+          </view>
+          <filter-status value="{{filterDataList}}" disabled="{{statusNum == 1}}" />
+        </view>
+        <view class="cell-group flex flex_column align_center">
+          <block wx:for="{{funcList}}" wx:key="index">
+            <template is="{{item.key}}"
+              data="{{iconColor,title:item.title,desc:item.desc,cellStyle:index===0?'top-cell':index+1===funcList.length?'bottom-cell':'cell',border:index+1===funcList.length?false:true}}" />
+          </block>
+        </view>
+      </view>
+      <activity-wrapper activeStyle="top:{{statusNavBarHeight+6}}px;"></activity-wrapper>
+    </view>
+    <view class="ctrl-panel" wx:if="{{ctrlList.length}}">
+      <block wx:for="{{ctrlList}}" wx:key="index">
+        <template is="{{item.key}}" data="{{title:item.title}}" />
+      </block>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="container flex flex_column align_center justify_center" style="margin-top:400rpx;">
+      <image class="swing" src="/assets/img/loading.png"></image>
+    </view>
+  </block>
+</view>

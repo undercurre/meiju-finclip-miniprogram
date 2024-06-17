@@ -1,0 +1,14 @@
+<view class="page-body">
+  <map
+    id="myMap"
+    style="width: 100%; height: 100vh"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    markers="{{markers}}"
+    bindmarkertap="markertap"
+    bindregionchange="regionchange"
+    scale="14"
+    show-location
+  ></map>
+  <button type="primary" bindtap="navigate" style="position: fixed; width: 100%; left: 0; bottom: 0">导航</button>
+</view>

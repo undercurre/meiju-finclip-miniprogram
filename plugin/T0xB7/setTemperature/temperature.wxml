@@ -1,0 +1,65 @@
+<!--plugin/T0xB7/setTemperature/temperature.wxml-->
+<view class="tempContainer">
+    <view class="temp-slider">
+        <view class="temp-slider-message">
+            <text class="temp-slider-message-text">调温控制</text>
+            <view class="temp-slider-message-temp">{{targtTemperature}}℃</view>
+            <!-- <view class="temp-slider-message-cancle" bindtap="cancleTemp">取消</view> -->
+        </view>
+        <view class="temp-slider-area">
+            <text style="color: #8A8A8F;font-size: 28rpx;">130℃</text>
+            <slider style="width: 80%;" bindchange="sliderChange" min="130" max="210" step="10" activeColor='#FFBB00' block-color='#FFBB00' backgroundColor='#DFE5E7' block-size='{{20}}' value="{{targtTemperature}}" />
+            <text style="color: #8A8A8F;font-size: 28rpx;margin-right: 20rpx;">210℃</text>
+        </view>
+    </view>
+    <view class="device-list">
+        <view style="padding-bottom: 20rpx;font-size: 32rpx;font-weight: bold;">油炸/煎类</view>
+        <block wx:for="{{foodList}}" wx:key="food" wx:for-index="indexs">
+            <view class="{{ selectItem == indexs ? 'device-card-select':'device-card'}}">
+                <view class="device-card-cook" bindtap="itemClicked" id="{{indexs}}">
+                    <view class="device-card-cook-text">{{item.min}}℃~{{item.max}}℃</view>
+                    <view class="device-card-cook-text">{{item.name}}</view>
+                </view>
+            </view>
+        </block>
+    </view>
+
+    <view wx:if="{{currentEquipment === 'left'}}">
+        <view class="device-temp-area" wx:if="{{isCookmode == 'off'}}">
+            <view class="device-temp-area-start">
+                <view class="device-temp-area-start-btn" bindtap="modifyButtonClicked">
+                    开始
+                </view>
+            </view>
+        </view>
+        <view class="device-temp-area" wx:else>
+            <view class="device-temp-area-start">
+                <view class="{{ 'device-temp-area-change'}}" bindtap="modifyButtonClicked">
+                    确定
+                </view>
+                <!-- <view class="device-temp-area-change" bindtap="cancleButtonClicked">
+                    退出定温
+                </view> -->
+            </view>
+        </view>
+    </view>
+    <view wx:else>
+        <view class="device-temp-area" wx:if="{{isRightCookmode == 'off'}}">
+            <view class="device-temp-area-start">
+                <view class="device-temp-area-start-btn" bindtap="modifyButtonClicked">
+                    开始
+                </view>
+            </view>
+        </view>
+        <view class="device-temp-area" wx:else>
+            <view class="device-temp-area-start">
+                <view class="{{ selectItem == -1 ? 'device-temp-area-change-disabled':'device-temp-area-change'}}" bindtap="modifyButtonClicked">
+                    确定
+                </view>
+                <!-- <view class="device-temp-area-change" bindtap="cancleButtonClicked">
+                    退出定温
+                </view> -->
+            </view>
+        </view>
+    </view>
+</view>

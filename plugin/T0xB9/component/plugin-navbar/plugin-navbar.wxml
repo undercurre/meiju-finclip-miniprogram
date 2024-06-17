@@ -1,0 +1,6 @@
+<view class="header" style="padding-top:{{topPadding+ 6}}px">
+  <image class="back" src="{{backImgBase}}" bindtap="clickBack"></image>
+  <view class="center-title">
+    <slot></slot>
+  </view>
+</view>

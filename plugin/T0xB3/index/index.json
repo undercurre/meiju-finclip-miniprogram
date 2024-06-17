@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "device-card": "/plugin/T0xB3/card/card",
+    "nav-bar": "../../../common-packages/plugin/component/navbar/navbar"
+  },
+  "componentPlaceholder": {
+    "nav-bar": "view"
+  }
+}

@@ -1,0 +1,90 @@
+<!-- index.wxml -->
+<import src="../templates/template.wxml"></import>
+<view class="shadow" wx:if="{{ isLoading }}"></view>
+<view class="whole">
+  <view class="form">
+    <!-- input获取的时候会闪烁一下   后续可以换成textarea -->
+    <!-- 或者placeholder用text显示 -->
+    <view class="form-list">
+      <text>{{user.text}}</text>
+      <text wx:if="{{!form.name && !input1}}" class="input-place" bindtap="placeHo" data-id="1"
+        >{{user.placeHolder}}
+      </text>
+      <input
+        wx:else
+        value="{{form.name}}"
+        focus="{{input1}}"
+        data-id="name|1"
+        bindblur="inputBlur"
+        maxlength="15"
+        bindinput="inputInput"
+      />
+    </view>
+    <view class="form-list">
+      <text>{{phone.text}}</text>
+      <text wx:if="{{!form.phone && !input2}}" class="input-place" bindtap="placeHo" data-id="2"
+        >{{phone.placeHolder}}
+      </text>
+      <input
+        wx:else
+        minlength="11"
+        maxlength="11"
+        type="number"
+        value="{{form.phone}}"
+        focus="{{input2}}"
+        data-id="phone|2"
+        bindblur="inputBlur"
+        bindinput="inputInput"
+      />
+    </view>
+    <view class="form-list">
+      <text>{{chooseArea.text}}</text>
+      <text wx:if="{{form.region.length==0}}" class="input-place" bindtap="showAddressPopup"
+        >{{chooseArea.placeHolder}}
+      </text>
+      <text wx:else class="form-region" bindtap="showAddressPopup"
+        >{{form.region[0]+' '+form.region[1]+' '+form.region[2]+' '+form.region[3]}}
+      </text>
+      <image class="arrow" wx:if="{{form.region.length==0}}" src="./arrow-right.png" bindtap="showAddressPopup"></image>
+    </view>
+    <view class="form-list">
+      <text>{{address.text}}</text>
+      <text wx:if="{{!form.address && !input4}}" class="input-place" bindtap="placeHo" data-id="4"
+        >{{address.placeHolder}}
+      </text>
+      <textarea
+        wx:else
+        maxlength="50"
+        auto-height
+        value="{{form.address}}"
+        bindblur="inputBlur"
+        bindinput="inputInput"
+        focus="{{input4}}"
+        data-id="address|4"
+      ></textarea>
+    </view>
+  </view>
+  <button class="form-dis-submit" wx:if="{{disabled && !isGameOver}}" style="width: 686rpx; border-radius: 46rpx">
+    保存
+  </button>
+  <button class="form-submit" wx:else style="width: 686rpx; border-radius: 46rpx" bindtap="save">保存</button>
+  <template
+    is="dialog"
+    data="{{...templateMethods, selectData, ...dialogComponentInitData, commonData, options}}"
+  ></template>
+  <view-address-popup
+    id="addressPopup"
+    isShowAdressPopup="{{ isShowAdressPopup }}"
+    regionList="{{ form.region }}"
+    bind:dialogClose="onDialogClose"
+    bind:getRegion="onGetRegion"
+  ></view-address-popup>
+  <!-- <view-address-dialog 
+    :isShowConfirmDialog="{{ isShowConfirmDialog }}"
+  ></view-address-dialog> -->
+  <view-address-dialog
+    isShowConfirmDialog="{{ isShowConfirmDialog }}"
+    bind:submitAddress="submitAddress"
+    form="{{form}}"
+  ></view-address-dialog>
+</view>

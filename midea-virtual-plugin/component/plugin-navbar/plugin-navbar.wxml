@@ -1,0 +1,7 @@
+<view class="top-headers {{isShowBg?'topHeaderBg':''}}" style="height:{{statusBarHeight+ 6+30+10}}px;">
+  <view class="header" style="top:{{statusBarHeight+ 6}}px">
+    <image class="back" src="./img/ic_back.png"></image>
+    <view class="back-click" bindtap="clickBack"></view>
+    <text class="title">{{title}}</text>
+  </view>
+</view>

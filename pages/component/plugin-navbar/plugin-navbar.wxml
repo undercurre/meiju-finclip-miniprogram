@@ -1,0 +1,5 @@
+<view class="header" style="top:{{statusBarHeight+ 6}}px">
+  <image class="back" src="{{backIcon}}" bindtap="clickBack" wx:if="{{!stopTemporarily}}"></image>
+  <view class="stop-temporarily" wx:if="{{stopTemporarily}}" style="color:{{stopTemporarilyColor}};" bindtap="jumpSuccess">暂不设置</view>
+  <view class="title">{{ navBarName }}</view>
+</view>

@@ -1,0 +1,98 @@
+<view class="fault-box" wx:if="{{isShow}}" catchtouchmove="{{true}}">
+  <view class="fault-body" catchtouchmove="{{true}}">
+    <view class="fault-title">
+      <view
+        class="close-btn padding5"
+        bindtap="hideFaultTips"
+        style="background:url('{{imgBurl+co}}') no-repeat -234rpx -156rpx;background-size:800rpx auto;"
+      ></view>
+    </view>
+    <swiper class="fault-swiper0" bindchange="swiperChange" current="{{swiperCurrent}}">
+      <swiper-item class="fault-flex-box" wx:for="{{flFault}}" wx:key="index">
+        <view class="fault-content">
+          <scroll-view scroll-y="{{true}}" style="height: 516rpx" scroll-top="{{topPosition}}">
+            <view class="fault-list">
+              <view class="fault-item">
+                <view class="empty-border">
+                  <view class="fault-header">
+                    <view
+                      class="fault-header-icons"
+                      style="background:url('{{imgBurl+co}}') no-repeat -660rpx -98rpx;background-size:800rpx auto"
+                    ></view>
+                    <view class="ml6">故障排除建议</view>
+                  </view>
+                  <view class="fault-des fault-des0"> {{item.faultServiceDesc + (item.faultSolutionDesc || '')}} </view>
+                  <view class="fault-des fault-des0"> {{item.faultServiceDesc + (item.faultSolutionDesc || '')}} </view>
+                  <!-- wx:if="{{item.guidelineLink}}" -->
+                  <view
+                    class="falut-link"
+                    bindtap="goLink"
+                    data-link="{{item.guidelineLink}}"
+                    wx:if="{{item.guidelineLink}}"
+                  >
+                    点击查看【图文/视频指引】
+                  </view>
+                </view>
+                <view class="fault-header mt45">
+                  <view
+                    class="fault-header-icons fault-header-icons0"
+                    style="background:url('{{imgBurl+co}}') no-repeat -730rpx -98rpx;background-size:800rpx auto"
+                  ></view>
+                  <view class="ml6">可能原因说明</view>
+                </view>
+                <view class="fault-des">{{item.faultReason}}</view>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+        <view class="fault-footer {{flFault.length > 1 ? 'fault-footer-pagination' : ''}}">
+          <view
+            class="footer-btn0 mr32 {{item.isFeedBack && item.stasus=='N' ? 'footer-btn-selected' : 'footer-btn'}} "
+            bindtap="feedback"
+            data-fault="{{item}}"
+            data-index="{{index}}"
+            data-stasus="N"
+          >
+            <view
+              class="left-view"
+              wx:if="{{item.isFeedBack && item.stasus=='N'}}"
+              style="background:url('{{imgBurl+co}}') no-repeat  -246rpx -228rpx;background-size:800rpx auto;"
+            ></view>
+            <view
+              class="left-view"
+              wx:else
+              style="background:url('{{imgBurl+co}}') no-repeat  -316rpx -228rpx;background-size:800rpx auto;"
+            ></view>
+            <view class="right-view">没帮助</view>
+          </view>
+          <view
+            class="footer-btn0 {{item.isFeedBack && item.stasus=='Y' ? 'footer-btn-selected' : 'footer-btn'}} "
+            bindtap="feedback"
+            data-fault="{{item}}"
+            data-index="{{index}}"
+            data-stasus="Y"
+          >
+            <view
+              class="left-view"
+              wx:if="{{item.isFeedBack && item.stasus=='Y'}}"
+              style="background:url('{{imgBurl+co}}') no-repeat  -386rpx -228rpx;background-size:800rpx auto;"
+            ></view>
+            <view
+              class="left-view"
+              wx:else
+              style="background:url('{{imgBurl+co}}') no-repeat  -456rpx -228rpx;background-size:800rpx auto;"
+            ></view>
+            <view class="right-view">有帮助</view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="fault-swiper-dots" wx:if="{{flFault.length > 1}}">
+      <view
+        wx:for="{{flFault}}"
+        wx:key="index"
+        class="'dot-item' {{ index == swiperCurrent ? 'active-dot-item' : ''}}"
+      ></view>
+    </view>
+  </view>
+</view>

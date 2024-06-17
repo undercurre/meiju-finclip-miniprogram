@@ -1,0 +1,10 @@
+<!--midea-virtual-plugin//pages/virtual-plugin/virtual-plugin.wxml-->
+<view class="container">
+  <view class="page-body" hidden="{{isHourse}}">
+    <view class="page-section page-section-gap">
+      <web-view src="{{ pageUrl }}"></web-view>
+    </view>
+  </view>
+  <!-- 小木马 -->
+  <trojan-horse isShowHorse="{{isHourse}}" />
+</view>

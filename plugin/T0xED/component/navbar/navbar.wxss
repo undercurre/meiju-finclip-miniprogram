@@ -1,0 +1,22 @@
+.custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+}
+
+.nav_logo {
+  position: absolute;
+  left: 18rpx;
+  width: 61rpx;
+  height: 55rpx;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 500;
+}

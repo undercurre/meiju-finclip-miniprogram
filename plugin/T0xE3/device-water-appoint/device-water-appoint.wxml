@@ -1,0 +1,18 @@
+<view class="add-sub">
+  <van-cell title="开始时间" is-link value="{{startTime || '12:00'}}" custom-class="cell" bindtap="onStartTimePickerClick" />
+
+  <van-cell title="结束时间" is-link value="{{endTime || '12:00'}}" custom-class="cell" bindtap="onEndTimePickerClick" />
+
+  <c-picker show="{{isShow}}" mode="multiSelector" range="{{endTimeMultiArray}}" value="{{ timeType=='end'? endTimeMultiIndex : startTimeMultiIndex}}" unit="{{multiUnit}}" bind:change="onPickerChange" bind:confirm="onConfirm" bind:cancel="onCancel" />
+
+  <view style="margin-top: 30rpx;">
+    <repeat-circle default-loop="{{appointType-1}}" default-weekday="{{defaultWeekdaySelectList}}"
+      bindloopitemclick='onLoopItemClick' bindweekdayitemclick='onWeekdayItemClick' />
+  </view>
+
+  <view class="flex flex_column align_center" style="margin-top: 48rpx;">
+    <view class="btn btn--warnning flex align_center justify_center" bindtap="saveOrder">
+      <text class="btn-text">保存</text>
+    </view>
+  </view>
+</view>

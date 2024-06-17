@@ -1,0 +1,98 @@
+/* midea-service//pages/servicePhonenumber/servicePhonenumber.wxss */
+page {
+  background: #f9f9f9;
+}
+
+.container {
+  background: #fff;
+  padding-top: 40rpx;
+  padding-bottom: 100rpx;
+}
+
+.service-phone-title {
+  font-size: 28rpx;
+  color: #8a8a8f;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 90rpx;
+  font-weight: 400;
+}
+
+.service-phone-time {
+  width: calc(100vw - 64rpx);
+  height:100rpx;
+  display: flex;
+  align-items: center;
+  background: #F9F9F9;
+  border-radius: 16rpx;
+  margin-left: 32rpx;
+  margin-right: 32rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #333333;
+  font-weight: 400;
+  position: relative;
+}
+
+.service-phone-time-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-left: 32rpx;
+  margin-right: 16rpx;
+}
+
+.arrow-icon {
+  width:20rpx;
+  height:20rpx;
+  position: absolute;
+  right:32rpx;
+}
+
+.service-phone-list-title {
+  margin-left: 32rpx;
+  margin-top: 40rpx;
+  margin-bottom: 24rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #666666;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.service-phone-list-content {
+  width: calc(100vw - 64rpx);
+  margin-left: 32rpx;
+  margin-right: 32rpx;
+  border-radius: 16rpx;
+  background: #F9F9F9;
+}
+
+.service-phone-list-content-item {
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-bottom: 1rpx solid #F2F2F2;
+}
+
+.service-phone-list-content-item:nth-last-child(1) {
+  border-bottom: none;
+}
+
+.brand {
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #000000;
+  font-weight: 400;
+  margin-left: 32rpx;
+}
+
+.phone {
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #267AFF;
+  font-weight: 400;
+  position: absolute;
+  right: 72rpx;
+}

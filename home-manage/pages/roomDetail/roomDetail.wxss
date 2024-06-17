@@ -1,0 +1,50 @@
+/* home-manage/pages/roomDetail/roomDetail.wxss */
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  margin-top: 20rpx;
+  padding-bottom: calc(204rpx + var(--iphonex-fix-bottom));
+}
+.room-name{
+  width: 280rpx;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.device-list-title{
+  margin: 48rpx 0 28rpx 36rpx;
+  font-size: 28rpx;
+  color: #999;
+}
+.btn-container{
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 80rpx 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  background-color: #f9f9f9;
+}
+.dialog-input{
+  padding:32rpx 30rpx 20rpx;
+}
+.input-class{
+  font-size: 24rpx;
+}
+.field-container{
+  padding-bottom: 12rpx;
+}
+.tips-container{
+  line-height: 1;
+}
+.tips{
+  font-size: 20rpx;
+  line-height: 20rpx;
+  color: #FF8225;
+}

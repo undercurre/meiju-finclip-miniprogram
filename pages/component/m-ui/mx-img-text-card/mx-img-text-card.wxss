@@ -1,0 +1,61 @@
+/* m-ui/m-img-text-card/m-img-text-card.wxss */
+
+.card-wrap{
+  background-color: #ffffff;
+}
+.card{
+  height: 234rpx;
+  width: 686rpx;
+  padding: 0 32rpx;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #ffffff; */
+  /* background-color: #666; */
+}
+.left-content{
+  height: 176rpx;   /*  image height*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.title{
+  display: -webkit-box;
+  line-height: 45rpx;
+  max-height: 135rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #333333;
+  letter-spacing: 0;
+  font-weight: 500;
+  text-overflow: -o-ellipsis-lastline;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2;
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
+
+.name{
+  display: inline-block;
+  vertical-align: top;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #BFBFBF;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.image-wrap{
+  width: 236rpx;
+  height: 176rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+.image{
+  width: 236rpx;
+  height: 176rpx;
+  border-radius: 16rpx;
+}

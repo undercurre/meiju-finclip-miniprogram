@@ -1,0 +1,181 @@
+@import '../../common.wxss';
+page {
+  background-color: #f9f9f9;
+}
+.order-title {
+  position: relative;
+  height: 192rpx;
+}
+.order-title image {
+  display: block;
+  width: 750rpx;
+  height: 192rpx;
+}
+.title-text {
+  position: absolute;
+  left: 50rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffffff;
+  font-size: 48rpx;
+}
+.content-item {
+  position: relative;
+  padding: 32rpx 70rpx 32rpx 34rpx;
+  font-size: 28rpx;
+  color: #000000;
+  background-color: #ffffff;
+  margin-bottom: 16rpx;
+}
+.content-title {
+  position: relative;
+  font-weight: 500;
+  padding-left: 46rpx;
+  margin-bottom: 30rpx;
+}
+.progress-text {
+  line-height: 1.5;
+}
+.progress-time {
+  font-size: 26rpx;
+  color: #666666;
+  margin-top: 8rpx;
+}
+.content-net {
+  padding-right: 32rpx;
+  padding-bottom: 0;
+}
+.net-text {
+  position: relative;
+  padding: 10rpx 178rpx 0 0;
+}
+.net-street {
+  font-size: 24rpx;
+  color: #8a8a8f;
+  margin-top: 16rpx;
+}
+.net-address {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.title-icon {
+  width: 32rpx;
+  height: 32rpx;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.net-info {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  font-size: 20rpx;
+  color: #666666;
+  text-align: center;
+}
+.net-phone {
+  margin-right: 28rpx;
+}
+.icon-info {
+  width: 58rpx;
+  height: 58rpx;
+  margin-bottom: 15rpx;
+}
+.content-next-icon {
+  width: 20rpx;
+  height: 20rpx;
+  position: absolute;
+  right: 26rpx;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.net-icon-down {
+  width: 20rpx;
+  height: 20rpx;
+  position: absolute;
+  left: 50%;
+  bottom: 18rpx;
+  transform: translateX(-50%) rotate(90deg);
+}
+.net-bottom-hide {
+  position: relative;
+  height: 60rpx;
+}
+.net-bottom-show {
+  position: relative;
+  padding: 38rpx 0 60rpx 0;
+  font-size: 24rpx;
+  color: #8a8a8f;
+}
+.net-icon-up {
+  width: 20rpx;
+  height: 20rpx;
+  position: absolute;
+  left: 50%;
+  bottom: 18rpx;
+  transform: translateX(-50%) rotate(-90deg);
+}
+.service-item {
+  position: relative;
+  line-height: 1.5;
+  margin-bottom: 16rpx;
+  padding-left: 170rpx;
+}
+.service-title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #666666;
+}
+.service-item:nth-last-child(1) {
+  /* margin-bottom: 0; */
+}
+.service-num {
+  display: flex;
+}
+.service-blue {
+  color: #267aff;
+  margin-left: 17rpx;
+}
+.bottom-sec {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #ffffff;
+  padding-top: 22rpx;
+}
+.bottom-btn {
+  position: relative;
+  padding: 0 32rpx;
+  display: flex;
+  justify-content: flex-end;
+  height: 60rpx;
+}
+.bottom-btn view {
+  width: 156rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  border: 2rpx solid #c7c7cc;
+  border-radius: 48rpx;
+  font-size: 26rpx;
+  color: #000000;
+  text-align: center;
+  margin-left: 16rpx;
+}
+.bottom-btn .bottom-charge {
+  position: absolute;
+  left: 32rpx;
+  top: 0;
+  margin-left: 0;
+}
+.content-item-info {
+  padding-right: 32rpx;
+}

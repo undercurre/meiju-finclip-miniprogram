@@ -1,0 +1,13 @@
+<view style="padding-top:18rpx;">
+  <navbar navBarName="{{type==='quantifySet'?'定量设置':'温度设置'}}" bgColor="#ffffff"></navbar>
+  <block wx:if="{{type==='quantifySet'}}">
+    <van-cell wx:for="{{list}}" wx:key="index" title="{{item.title}}" value="{{list[index].rightText}}" is-link="true"
+      data-index="{{index}}" border="{{index+1!==list.length}}" bind:click="onQuantifyCellClick" />
+  </block>
+
+  <block wx:if="{{type==='tempSet'}}">
+    <van-cell wx:for="{{list}}" wx:key="index" title="{{item.title}}" value="{{list[index].rightText}}" is-link="true"
+      data-index="{{index}}" border="{{index+1!==list.length}}" bind:click="onTempCellClick" />
+  </block>
+  <c-picker show="{{showPicker}}" range="{{pickerRange}}" value="{{pickerValue}}" unit="{{pickerUnit}}" bind:confirm="onConfirm" bind:cancel="onCancel"></c-picker>
+</view>

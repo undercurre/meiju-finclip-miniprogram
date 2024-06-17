@@ -1,0 +1,6 @@
+{
+    "component": true,
+    "usingComponents": {
+        "switch": "/plugin/T0x26/components/switch/switch"
+    }
+}

@@ -1,0 +1,154 @@
+/* pages/download/download.wxss */
+
+.container {
+  padding: 0 32rpx;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-image: linear-gradient(180deg, #eff6ff 0%, #f9f9f9 76%);
+}
+
+.download-header {
+  padding-top: 182rpx;
+  width: 100%;
+  height: 512rpx;
+  box-sizing: border-box;
+}
+
+.download-header-icon {
+  display: block;
+  margin: 0 auto 8rpx;
+  width: 152rpx;
+  height: 152rpx;
+}
+
+.download-header-title {
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #267aff;
+  letter-spacing: -0.89rpx;
+  text-align: center;
+  line-height: 32rpx;
+  font-weight: 500;
+}
+
+.download-header-split {
+  margin-top: 62rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.download-header-split-line {
+  width: 248rpx;
+  height: 2rpx;
+  background: #dbe0ea;
+}
+
+.download-header-split-text {
+  font-family: PingFangSC-Medium;
+  font-size: 28rpx;
+  color: #414659;
+  letter-spacing: -0.78rpx;
+  line-height: 28rpx;
+  font-weight: 500;
+}
+
+.download-card {
+  margin-bottom: 24rpx;
+  padding: 34rpx 28rpx 34rpx 28rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+
+.download-card-describe {
+  display: flex;
+  justify-content: left;
+  align-items: baseline;
+}
+
+.describe-method {
+  width: 94rpx;
+  height: 28rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 24rpx;
+  color: #333333;
+  letter-spacing: -0.67rpx;
+  line-height: 28rpx;
+  font-weight: 500;
+}
+
+.describe-text-wrap {}
+
+.describe-text {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8a8a8f;
+  letter-spacing: -0.67rpx;
+  line-height: 28rpx;
+  font-weight: 400;
+}
+
+.download-card-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 52rpx auto 0;
+  width: 260rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border: 2rpx solid #267aff;
+  border-radius: 46rpx;
+}
+
+.download-card-btn-icon {
+  margin-right: 8rpx;
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.download-card-btn-text {
+  font-family: PingFangSC-Medium;
+  font-size: 24rpx;
+  color: #267aff;
+  letter-spacing: -0.67rpx;
+  line-height: 24rpx;
+  font-weight: 500;
+}
+
+.download-card-qrcode {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.qrcode-img {
+  width: 280rpx;
+  height: 280rpx;
+}
+
+.download-card-describe-method3 {
+  margin-bottom: 45rpx;
+}
+
+.download-card-btn-method3 {
+  margin-top: 32rpx;
+  width: 240rpx;
+}
+
+.tip-title {
+  font-size: 24rpx;
+  color: #333333;
+  line-height: 28rpx;
+  font-weight: 500;
+}
+
+.add-device-tip-detail{
+  margin-top: 16rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8a8a8f;
+  line-height: 28rpx;
+  font-weight: 400;
+}

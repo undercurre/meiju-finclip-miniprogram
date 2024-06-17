@@ -1,0 +1,9 @@
+<!--T0xAC//index/index.wxml-->
+<view class="continer" style="padding-top:{{statusBarHeight+40}}px">
+    <plugin-navbar backTo="{{backTo}}"></plugin-navbar>
+    <view class="device-card">
+        <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"
+            bindmodeChange="modeChange"></device-card>
+    </view>
+    <footer fromApp="{{fromApp}}" appParameter="{{appParameter}}"></footer>
+</view>

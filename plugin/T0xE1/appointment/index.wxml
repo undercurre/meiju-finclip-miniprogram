@@ -1,0 +1,43 @@
+<view class="appointment-container">
+  <navbar navBarName="预约洗碗" bgColor="#fff" hasEmpty="{{false}}"></navbar>
+  <view style="padding-top:{{statusNavBarHeight}}px;background-color:#fff;margin-bottom: 20rpx;"></view>
+  <van-cell title="预约时间" isLink="true" value="{{timeValue}}" bindtap="showTimePicker"></van-cell>
+  <van-cell title="程序选择" isLink="true" value="{{modeValue}}" bindtap="showModePicker"></van-cell>
+
+  <!-- <van-cell title="保管" isLink="true" value="{{presValue}}" bindtap="showPresPicker"></van-cell>
+  <van-cell title="烘干">
+    <van-switch capture-catch:tap="clickDry" checked="{{isDry}}" active-color="#25c4fb" size="40rpx" />
+  </van-cell>
+  <van-cell title="加速" wx:if="{{temp}}">
+    <van-switch checked="0" active-color="#25c4fb" size="40rpx" />
+  </van-cell>
+  <van-cell title="漂洗" wx:if="{{temp}}" isLink="true" value="一次"></van-cell> -->
+
+  <view wx:for="{{moreList}}" wx:for-item="item" wx:key="index">
+    <view bindtap="showMorePicker" data-cur-Func="{{item.key}}" data-cur-func-type="{{item.type}}">
+      <van-cell data-cur-Func="{{item.key}}" data-cur-func-type="{{item.type}}" title="{{item.name}}" border="{{true}}" custom-class="bottom-cell" is-link="{{item.type == 0}}">
+        <!-- <new-switch data-cur-Func="{{item.key}}" data-cur-func-type="{{item.type}}" wx:if="{{item.type == 1}}" checked="{{item.checked}}" catch:change="moreChange" size="20"></new-switch> -->
+        <van-switch data-cur-Func="{{item.key}}" data-cur-func-type="{{item.type}}" style="position: relative; left: -40rpx;" wx:if="{{item.type == 1}}" checked="{{item.checked}}" catch:tap="moreChange" active-color="#25c4fb" size="40rpx" />
+        <text data-cur-Func="{{item.key}}" data-cur-func-type="{{item.type}}" wx:if="{{item.type == 0}}">{{item.rightText}}</text>
+      </van-cell>
+    </view>
+  </view>
+
+  <view style="position: absolute; top: 100%;">
+    <c-picker show="{{isShow}}" mode="multiSelector" range="{{timeArray}}" value="{{orderTimeValue}}" unit="{{timeUnits}}" bind:confirm="onTimeConfirm" bind:cancel="timeCancel" bind:afterleave="timeCancel" />
+    <c-picker show="{{showMode}}" mode="multiSelector" range="{{modeArray}}" value="{{modeIndex}}" bind:confirm="onModeConfirm" bind:cancel="modeCancel" bind:afterleave="modeCancel"></c-picker>
+    <c-picker show="{{showMore}}" mode="multiSelector" range="{{moreArray}}" value="{{moreIndex}}" bind:confirm="onMoreConfirm" bind:cancel="moreCancel" bind:afterleave="moreCancel"></c-picker>
+  </view>
+
+  <!-- <button bindtap="test">Button</button> -->
+
+  <!-- 底部预约按钮 -->
+  <view class="bottom-container">
+    <view class="order-button" bindtap="order">
+      <text class="button-value">预约</text>
+    </view>
+  </view>
+
+
+  <!-- <c-picker show="{{showPres}}" mode="multiSelector" range="{{presArray}}" unit="{{presUnits}}" value="{{presIndex}}" bind:confirm="onPresConfirm" bind:cancel="presCancel" bind:afterleave="presCancel"></c-picker> -->
+</view>

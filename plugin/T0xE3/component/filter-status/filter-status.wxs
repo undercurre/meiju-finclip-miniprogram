@@ -1,0 +1,8 @@
+function getCircleColor(circleVal) {
+  if (circleVal >= 5) return "#29C3FF";
+  if (circleVal > 0 && circleVal < 5) return "#FFAA10";
+  if (circleVal <= 0) return "#FF3B30";
+}
+module.exports = {
+  getCircleColor: getCircleColor,
+};

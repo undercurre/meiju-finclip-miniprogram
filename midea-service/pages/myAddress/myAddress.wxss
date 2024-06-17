@@ -1,0 +1,58 @@
+page {
+  background-color: #f9f9f9;
+}
+.container {
+  width: 686rpx;
+  padding: 0 32rpx;
+  background-color: #f9f9f9;
+  padding-top: 1rpx;
+  height: 100vh;
+}
+
+.addAddress {
+  width: 686rpx;
+  height: 92rpx;
+  margin-top: 60rpx;
+}
+
+.addAddressBtn {
+  position: fixed;
+  bottom: 100rpx;
+  width: 686rpx;
+  height: 92rpx;
+}
+.add-btn {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: #267aff;
+  color: #fff;
+  text-align: center;
+  line-height: 92rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 400;
+}
+
+.addrWrap {
+  padding-bottom: 120rpx;
+}
+
+.noAddr {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80vh;
+}
+
+.noAddrImg {
+  width: 480rpx;
+  height: 400rpx;
+}
+.noAddrText {
+  font-size: 28rpx;
+  color: #8a8a8f;
+  margin-top: 44rpx;
+}

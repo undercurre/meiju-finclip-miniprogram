@@ -1,0 +1,164 @@
+<view class="order-detail">
+  <view class="order-main">
+    <view class="order-title">
+      <image src="{{ formattedOrder.statusIcon }}"></image>
+      <text class="title-text"
+        >{{ formattedOrder.statusDesc}}{{ '(' + (formattedOrder.serviceSubTypeName ||
+        formattedOrder.serviceMainTypeName) + ')' }}</text
+      >
+    </view>
+    <view class="order-content" style="padding-bottom: {{ isIphoneX ? '200' : '132' }}rpx">
+      <view class="content-item" wx:if="{{ lastProgress }}">
+        <view class="content-title">
+          <view
+            class="title-icon"
+            style="background:url({{ spritePicture }}) no-repeat -454rpx -166rpx;background-size:800rpx auto;"
+          ></view>
+          <text>最新进度</text>
+        </view>
+        <view class="progress-text" bindtap="goProgress">
+          {{ lastProgress.processDesc=='您的服务订单已取消'?conT: lastProgress.processDesc}}
+        </view>
+        <view class="progress-time">{{ progressProcessTime }}</view>
+        <view
+          class="content-next-icon"
+          style="background:url({{ spritePicture }}) no-repeat -40rpx -340rpx;background-size:800rpx auto;"
+        ></view>
+      </view>
+      <view class="content-net content-item" wx:if="{{ netBranch }}">
+        <view class="content-title">
+          <view
+            class="title-icon"
+            style="background:url({{ spritePicture }}) no-repeat -524rpx -166rpx;background-size:800rpx auto;"
+          ></view>
+          <text>服务网点</text>
+        </view>
+        <view class="net-text">
+          <view class="net-info">
+            <view class="net-phone" bindtap="makePhoneCall" wx:if="{{netBranch && netBranch.deliverTel}}">
+              <view
+                class="icon-info"
+                style="background:url({{ spritePicture }}) no-repeat -511rpx -319rpx;background-size:800rpx auto;"
+              >
+              </view>
+              <view>电话</view>
+            </view>
+            <view class="net-address" bindtap="goMap">
+              <view
+                class="icon-info"
+                style="background:url({{ spritePicture }}) no-repeat -441rpx -319rpx;background-size:800rpx auto;"
+              >
+              </view>
+              <view>到这去</view>
+            </view>
+          </view>
+          <view class="net-address">{{ netBranch.unitName }}</view>
+          <view class="net-street">{{ netBranch.unitAddress }}</view>
+        </view>
+        <block>
+          <view class="net-bottom-hide" wx:if="{{ netShowFlag }}" bindtap="actionNetShow">
+            <view
+              class="net-icon-down"
+              style="background:url({{ spritePicture }}) no-repeat -40rpx -340rpx;background-size:800rpx auto;"
+            ></view>
+          </view>
+          <view class="net-bottom-show" wx:else bindtap="actionNetShow">
+            <view>业务范围：{{ netBranch.businessScope?netBranch.businessScope:''}}</view>
+            <view
+              class="net-icon-up"
+              style="background:url({{ spritePicture }}) no-repeat -40rpx -340rpx;background-size:800rpx auto;"
+            ></view>
+          </view>
+        </block>
+      </view>
+      <view class="content-item content-item-info">
+        <view class="service-item">
+          <view class="service-title">服务内容：</view>
+          <view class="service-text">
+            <view>
+              <block
+                wx:for="{{ formattedOrder.serviceUserDemandVOs }}"
+                wx:for-item="newItem"
+                wx:for-index="index"
+                wx:key="index"
+              >
+                <view>
+                  <text
+                    >{{ formattedOrder.serviceSubTypeName || formattedOrder.serviceMainTypeName}}{{newItem.prodName ||
+                    newItem.prodNameFirst}}</text
+                  >
+                  <text style="margin-left: 15rpx">x{{newItem.productAmount}}</text>
+                </view>
+              </block>
+            </view>
+          </view>
+        </view>
+        <view class="service-item">
+          <view class="service-title">服务单号：</view>
+          <view class="service-text service-num">
+            <view>{{ serviceOrderNo }}</view>
+            <view class="service-blue" bindtap="setClipboardData">复制</view>
+          </view>
+        </view>
+        <view class="service-item">
+          <view class="service-title">下单渠道：</view>
+          <view class="service-text">{{ formattedOrder.interfaceSourceDesc }}</view>
+        </view>
+        <view class="service-item">
+          <view class="service-title">下单时间：</view>
+          <view class="service-text">{{ formattedOrder.contactTimeDesc }}</view>
+        </view>
+        <view class="service-item">
+          <view class="service-title">服务地址：</view>
+          <view class="service-text">
+            <view>{{ formattedOrder.servCustomerAddress }}</view>
+            <view>{{ servCustomerAddressAndPhone }}</view>
+          </view>
+        </view>
+        <view class="service-item" wx:if="{{ serviceTimeShow }}">
+          <view class="service-title">服务时间：</view>
+          <view class="service-text">
+            <view class="service-text service-num">
+              <view>{{ serviceTime }}</view>
+              <view class="service-blue" bindtap="showCalendarPicker" wx:if="{{ isAbleChangeFlag }}">改约时间</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="content-item" wx:if="{{ engineerInfo.name && engineerInfo.id }}">
+        <view class="service-item">
+          <view class="service-title">工程师：</view>
+          <view class="service-text">{{ engineerInfo.name }}</view>
+        </view>
+        <view class="service-item">
+          <view class="service-title">工程师编号：</view>
+          <view class="service-text">{{ engineerInfo.id }}</view>
+        </view>
+      </view>
+    </view>
+    <!-- 底部tab -->
+    <view class="bottom-sec">
+      <view class="bottom-btn" style="padding-bottom: {{ isIphoneX ? '90' : '22' }}rpx">
+        <view class="bottom-charge" bindtap="goServiceChargeTypes">收费标准</view>
+        <view wx:if="{{ formattedOrder.isAbleToAddSupplyInfo }}" bindtap="goToOrderSupplyInfo">补充信息</view>
+        <view wx:if="{{ formattedOrder.isAbleToCancel }}" bindtap="cancelOrderAction">取消工单</view>
+        <view wx:if="{{ formattedOrder.isAbleToRenew }}" bindtap="renewOrder">重新报单</view>
+        <view
+          wx:if="{{ formattedOrder.allowCallbackWX == 'Y' && phoneNumber == formattedOrder.servCustomerMobilephone1 }}"
+          bindtap="goToCallback">去评价</view>
+      </view>
+    </view>
+  </view>
+  <!-- 时间选择器 -->
+  <timerCalendar
+    bind:select="selectDate"
+    bindhide="hideCalendar"
+    is-show="{{showCalendarPickerFlag}}"
+    cancel-text="{{calendarConf.cancelText}}"
+    confirm-text="{{calendarConf.confirmText}}"
+    title-text="{{calendarConf.title}}"
+    sub-title-text="{{restTimeOfSubTitle}}"
+    select-type="CSS"
+    cannotServiceTimeObj="{{calendarConf.cannotServiceTimeObj}}"
+  ></timerCalendar>
+</view>

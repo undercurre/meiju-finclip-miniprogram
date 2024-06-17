@@ -1,0 +1,13 @@
+/* m-ui/m-switch/m-switch.wxss */
+@import '../assets/common.wxss';
+
+/* .m-switch{} */
+
+.disabled-mask{
+  position: absolute;
+  width: 114rpx;
+  height: 64rpx;
+  background-color: rgba(255, 255, 255, 0.7);
+  /* background-color: #333333; */
+  z-index: 99;
+}

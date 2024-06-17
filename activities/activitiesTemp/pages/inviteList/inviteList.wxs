@@ -1,0 +1,13 @@
+/* eslint-disable */
+var getStyle = function (recordList, pageSetting) {
+  var str = ''
+  if (recordList.length > 0) {
+    str += "background-color:;background-image:url('');"
+  } else {
+    str += 'background-color:' + pageSetting.backgroundColor + ';background-image:url(' + pageSetting.background + ');'
+  }
+  return str
+}
+module.exports = {
+  getStyle: getStyle,
+}

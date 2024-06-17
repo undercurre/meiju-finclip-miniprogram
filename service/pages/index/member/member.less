@@ -1,0 +1,444 @@
+.my-member {
+    .page-con-vistor {
+        .card-wrapper {
+            padding: 10px 12px 0;
+            .member-card {
+                position: relative;
+                height: 190px;
+                background: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/midea-member-card.png") no-repeat;
+                background-size: cover;
+                border-radius: 8px;
+                box-shadow: -1px 4px 5px 5px rgba(124, 124, 124, 0.1);
+                span {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    color: #fff;
+                    font-size: 17px;
+                }
+            }
+        }
+        .my-member-data {
+            position: relative;
+            top: -17px;
+            height: 99px;
+            background: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/arc-white-bg.png") no-repeat;
+            background-size: 100%;
+            margin-bottom: 15px;
+            .member-list {
+                display: flex;
+                justify-content: space-between;
+                .member-item {
+                    position: relative;
+                    -webkit-flex: 1;
+                    flex: 1;
+                    padding-top: 50px;
+                    .item-value {
+                        height: 22px;
+                        line-height: 22px;
+                    }
+                    .item-con {
+                        text-align: center;
+                        font-size: 14px;
+                        color: #666;
+                        &.item-value {
+                            color: #333;
+                        }
+                    }
+                    &::before {
+                        position: absolute;
+                        content: '';
+                        left: 0;
+                        top: 68px;
+                        width: 1px;
+                        height: 18px;
+                        background: #ccc;
+                    }
+                    &:first-child::before {
+                        display: none;
+                    }
+                }
+            }
+            .white-box {
+                height: 17px;
+                background: #fff;
+            }
+        }
+        .mini-program-qrcode {
+            position: relative;
+            image {
+                position: absolute;
+                top: -165px;
+                left: 50%;
+                width: 80px;
+                height: 80px;
+                margin-left: -38px;
+                border-radius: 50%;
+                box-shadow: 0 6px 12px 0 rgba(0,0,0,0.25);
+            }
+        }
+        .get-member-card {
+            position: relative;
+            .btn {
+                position: absolute;
+                top: -140px;
+                left: 50%;
+                width: 152px;
+                height: 38px;
+                margin-left: -76px;
+                background: #318BF5;
+                border-radius: 19px;
+                font-size: 18px;
+                color: #FFFFFF;
+                text-align: center;
+                line-height: 38px;
+                box-shadow: 2px 6px 12px rgba(124, 124, 124, 0.3);
+            }
+        }
+    }
+    .page-con {
+        position: relative;
+        height: 175px;
+        .front {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            right: 0;
+            .card-wrapper {
+                position: relative;
+                padding: 10px 0 0;
+                .member-card {
+                    height: 165px;
+                    background: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/bg-member-generic.png") no-repeat;
+                    background-size: 100% 100%;
+                    border-radius: 8px;
+                    // box-shadow: -1px 4px 5px 5px rgba(124, 124, 124, 0.1);
+                    .base-info {
+                        position: relative;
+                        height: 100px;
+                        span {
+                            position: absolute;
+                        }
+                        .head-img {
+                            top: 17px;
+                            left: 17px;
+                            width: 58px;
+                            height: 58px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                        }
+                        .nickname {
+                            left: 86px;
+                            top: 21px;
+                            font-family: PingFangSC-Regular;
+                            font-size: 18px;
+                            color: #FFFFFF;
+                        }
+                        .member-level {
+                            top: 52px;
+                            left: 86px;
+                            width: 76px;
+                            border-radius: 10px;
+                            line-height: 20px;
+                            text-indent: 21px;
+                            font-family: PingFangSC-Regular;
+                            font-size: 12px;
+                            color: #3A63AD;
+                            background: #fff url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/icon-member-generic-s.png") no-repeat left 5px top 4px;
+                            background-size: 12px;
+                        }
+                        .card-no {
+                            position: absolute;
+                            top: 16px;
+                            right: 16px;
+                            font-family: PingFangSC-Regular;
+                            font-size: 12px;
+                            color: #FFFFFF;
+                            line-height: 17px;
+                        }
+                    }
+
+                    &.gold-member {
+                        background-image: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/bg-member-glod.png");
+                        .member-level {
+                            background-image: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/icon-member-gold-s.png");
+                            color: #B68E50;
+                        }
+                    }
+                    &.diamond-member {
+                        background-image: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/bg-member-diamond.png");
+                        .member-level {
+                            background-image: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/icon-member-diamond-s.png");
+                            color: #6F7177;
+                        }
+                    }
+
+                    .other-info {
+                        .member-list {
+                            display: flex;
+                            .member-item {
+                                flex: 1;
+                                .value {
+                                    font-family: PingFangSC-Medium;
+                                    font-size: 16px;
+                                    color: #FFFFFF;
+                                    text-align: center;
+                                    line-height: 22px;
+                                }
+                                .name {
+                                    font-family: PingFangSC-Regular;
+                                    font-size: 12px;
+                                    color: #FFFFFF;
+                                    text-align: center;
+                                    line-height: 17px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .back {
+            position: absolute;
+            z-index: 1;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/arc-white-bg.png") no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .my-member-data {
+            position: relative;
+            top: -17px;
+            height: 99px;
+            background: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/arc-white-bg.png") no-repeat;
+            background-size: 100% 100%;
+            margin-bottom: 15px;
+            .member-list {
+                display: flex;
+                justify-content: space-between;
+                .member-item {
+                    position: relative;
+                    -webkit-flex: 1;
+                    flex: 1;
+                    padding-top: 50px;
+                    .item-con {
+                        text-align: center;
+                        font-size: 14px;
+                        color: #666;
+                        &.item-value {
+                            color: #333;
+                        }
+                    }
+                    &::before {
+                        position: absolute;
+                        content: '';
+                        left: 0;
+                        top: 68px;
+                        width: 1px;
+                        height: 18px;
+                        background: #ccc;
+                    }
+                    &:first-child::before {
+                        display: none;
+                    }
+                }
+            }
+            .white-box {
+                height: 17px;
+                background: #fff;
+            }
+        }
+        .mini-program-qrcode {
+            position: relative;
+            image {
+                position: absolute;
+                top: -135px;
+                left: 50%;
+                width: 80px;
+                height: 80px;
+                margin-left: -38px;
+                border-radius: 50%;
+                box-shadow: 0 6px 12px 0 rgba(0,0,0,0.25);
+            }
+        }
+        .get-member-card {
+            position: relative;
+            .btn {
+                position: absolute;
+                top: -120px;
+                left: 50%;
+                width: 152px;
+                height: 38px;
+                margin-left: -76px;
+                background: #318BF5;
+                border-radius: 19px;
+                font-size: 18px;
+                color: #FFFFFF;
+                text-align: center;
+                line-height: 38px;
+                box-shadow: 2px 6px 12px rgba(124, 124, 124, 0.3);
+            }
+        }
+    }
+
+    .valued-bg {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 1052px;
+        padding: 88px 12px 0;
+        background:url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/bg-member.png") #fff no-repeat left bottom/ 100% 100%;
+    }
+    .valued-con {
+
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        .item-list {
+            position: relative;
+            padding: 0 5px;
+            display: flex;
+            flex-wrap: wrap;
+            .item {
+                position: relative;
+                width: 50%;
+                height: 125px;
+                .item-img {
+                    position: absolute;
+                    top: 12px;
+                    left: 50%;
+                    width: 50px;
+                    height: 50px;
+                    transform: translate(-50%, 0);
+                    background-color: #FAF7F0;
+                    border-radius: 50%;
+                    image {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 35px;
+                        height: 35px;
+                    }
+                }
+                .item-desc {
+                    text-align: center;
+                    font-size: 12px;
+                    color: #999;
+                    line-height: 17px;
+                }
+                .item-name {
+                    position: relative;
+                    margin-top: 75px;
+                    font-size: 14px;
+                    text-align: center;
+                    line-height: 20px;
+                    color: #333;
+                }
+                .item-name.has-icon::after {
+                    content: '';
+                    position: absolute;
+                    width: 18px;
+                    height: 18px;
+                    background: url('https://weixincs.midea.com/apps/miniprogram-midea-service/personal/valued-help.png') no-repeat right center/14px;
+                }
+            }
+        }
+        .member-title {
+            padding-top: 17px;
+            .title {
+                background: url("https://weixincs.midea.com/apps/miniprogram-midea-service/personal/valued-icon.png") no-repeat left 17px top 3px;
+                background-size: 20px;
+                text-indent: 43px;
+                line-height: 28px;
+                font-family: PingFangSC-Medium;
+                font-size: 20px;
+                color: #333333;
+            }
+            .desc {
+                padding: 2px 0 18px;
+                text-indent: 17px;
+                line-height: 17px;
+                ont-family: PingFangSC-Regular;
+                font-size: 12px;
+                color: #999999;
+            }
+        }
+        .valued-qrcode {
+            position: relative;
+            height: 240px;
+            .qr-tips {
+                padding: 35px 0 0 29px;
+                .title {
+                    width: 200px;
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-family: PingFangSC-Medium;
+                    color: #333333;
+                }
+                .desc {
+                    padding-top: 4px;
+                    font-family: PingFangSC-Regular;
+                    font-size: 12px;
+                    color: #999999;
+                }
+            }
+            .qr-img {
+                position: absolute;
+                top: 12px;
+                right: 50px;
+                width: 92px;
+                height: 92px;
+                padding: 2px;
+                border: 1px solid #D9D9D9;
+                image {
+                    width: 86px;
+                    height: 86px;
+                }
+            }
+        }
+        .valued-share {
+            position: relative;
+            text {
+                position: absolute;
+                bottom: 24px;
+                display: inline-block;
+                left: 50%;
+                transform: translate(-50%, 0);
+                height: 40px;
+                line-height: 40px;
+                min-width: 260px;
+                font-size: 18px;
+                text-indent: 75px;
+                color: #fff;
+                background: url('https://weixincs.midea.com/apps/miniprogram-midea-service/personal/valued-wechat.png') no-repeat left 20px center/40px 24px #D2A569;
+                box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+                border-radius: 4px;
+            }
+        }
+    }
+    .valued-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, .6);
+        z-index: 10;
+        .share-tips {
+            position: absolute;
+            right: 0;
+            top: 2%;
+            width: 100%;
+            height: 300px;
+            background: url('https://weixincs.midea.com/apps/miniprogram-midea-service/personal/valued-share.png') no-repeat 0% 0% /contain;
+        }
+    }
+}

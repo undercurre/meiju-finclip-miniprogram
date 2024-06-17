@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="wrap">
+    <view class="header">
+      <image src="{{ baseImgUrl }}" mode="widthFix" style="width: 480rpx"></image>
+    </view>
+    <view>
+      <view class="content-title"> {{ title }} </view>
+      <view class="content-desc"> {{ desText1 }}</view>
+      <view class="content-desc"> {{ desText2 }}</view>
+    </view>
+  </view>
+</view>

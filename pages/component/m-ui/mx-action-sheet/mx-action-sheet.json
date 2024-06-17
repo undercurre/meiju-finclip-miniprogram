@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-icon": "../icon/index",
+    "mx-popup": "../mx-popup/mx-popup",
+    "mx-loading": "../loading/index"
+  }
+}

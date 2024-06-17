@@ -1,0 +1,9 @@
+<view wx:if="{{ show }}" 
+  class="container {{ buttonClass }} {{ type }}" 
+  style="background: {{ background }};"
+  catchtap="btnClicked"
+  >
+  <view class="button" style="color:{{ color }};">
+    {{ text }}
+  </view>
+</view>

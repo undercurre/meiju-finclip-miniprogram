@@ -1,0 +1,18 @@
+/* m-ui/m-flex-mark/m-flex-mark.wxss */
+
+.m-mark{
+  width: 100%;
+}
+.mark-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mark-label{
+  font-size: 20rpx;
+  color: #8A8A8F;
+  letter-spacing: 0;
+  font-weight: 400;
+}

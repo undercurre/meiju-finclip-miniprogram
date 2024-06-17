@@ -1,0 +1,31 @@
+.offline-container {
+  position: absolute;
+  width: 100%;
+  /* top: 192rpx; */
+  top: 320rpx;
+  text-align: center;
+}
+.offline-img {
+  width: 320rpx;
+  height: 320rpx;
+}
+
+.offline-title {
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 20px;
+  margin-bottom: 40rpx;
+}
+.offline-desc {
+  width: 480rpx;
+  margin: auto;
+  text-align: left;
+  color: #8a8a8f;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 22px;
+}

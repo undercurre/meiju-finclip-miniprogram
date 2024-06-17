@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "上传凭证",
+  "usingComponents": {
+    "timerCalendar": "../../components/selector-calendar/selector-calendar",
+    "centerDialog": "../../components/sure-center-dialog/sure-center-dialog"
+  }
+}

@@ -1,0 +1,12 @@
+<!--T0xAC//index/index.wxml-->
+<view class="{{isNewVersion ? 'mainContainer' : 'continer'}}">
+    <view class="{{isNewVersion ? 'device-newCard' : 'device-card'}}">
+        <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" id="card" ></device-card>
+    </view>
+    <block wx:if="{{deviceInfo.onlineStatus == 1}}">
+      <activity-wrapper></activity-wrapper>
+    </block>
+    
+    <!-- <footer fromApp="{{fromApp}}" appParameter="{{appParameter}}"></footer> -->
+</view>
+

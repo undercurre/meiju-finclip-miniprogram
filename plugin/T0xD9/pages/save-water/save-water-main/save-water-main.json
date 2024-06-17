@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "洗衣攒水滴",
+  "usingComponents": {
+    "mx-notice-bar": "/miniprogram_npm/m-ui/mx-notice-bar/index",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-overlay": "/miniprogram_npm/m-ui/mx-overlay/index"
+  }
+}

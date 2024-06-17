@@ -1,0 +1,143 @@
+<view class="dialog" wx:if="{{ isShowSignDialog }}">
+  <view class="dialog-mask" bindtap="closeSignDialog"></view>
+  <!--testA-start-->
+  <view wx:if="{{!isShowB}}" class="dialog-main">
+    <view class="dialog-top"></view>
+    <image class="dialog-main-bg" src="{{ imgUrl }}/mainContent/images/qiandao_coin@2x.png" mode="widthFix"></image>
+    <view class="dialog-title">今日已签到</view>
+    <view class="dialog-reward" bind:tap="goToVipMiniProgram">
+      <view>+{{ initData.hasGetPoint }} <text class="dialog-reward-text">积分</text></view>
+      <view class="dialog-arrow">
+        <image class="dialog-arrow-image" mode="aspectFill" src="{{imgUrl}}/mainContent/images/my/ic_more_yellow.png" />
+        <view class="dialog-arrow-image-click"></view>
+      </view>
+    </view>
+    <view class="dialog-content">
+      <view class="dialog-content-item" wx:for="{{list}}" wx:item="item" wx:key="index">
+        <view
+          class="itemConnect conect-right {{ item.day > initData.ContRegisterNum ?'connect-notsign' : 'connect-sign'}}"
+          wx:if="{{ index == 0 }}"
+          style="opacity:{{ item.day == 1 ? 0:1}};width:5rpx;"
+        ></view>
+        <view
+          class="itemConnect conect-left {{ item.day > initData.ContRegisterNum ?'connect-notsign' : 'connect-sign'}}"
+          style="opacity:{{ item.day == 1 ? 0:1}}"
+        ></view>
+        <view class="dialog-content-item-main">
+          <view
+            wx:if="{{ item.status == 1 && item.day != 7 && item.day != 15 }}"
+            class="dialog-content-reward dialog-content-reward-active"
+          >
+            <view class="check-style-unequal-width"></view>
+          </view>
+          <view
+            wx:if="{{ item.status == 1 && (item.day == 7 || item.day == 15) }}"
+            class="dialog-content-reward dialog-hasSign"
+          >
+            {{ item.reward }}
+          </view>
+          <view wx:if="{{ item.status == 0 }}" class="dialog-content-reward dialog-noSign"> {{ item.reward }}</view>
+          <view
+            class="dialogContentDay {{ item.status == 1 ? 'dialog-content-sign-color':'dialog-content-notsign-color'}}"
+          >
+            {{ item.day }}天</view
+          >
+        </view>
+        <view
+          class="itemConnect conect-right {{ item.day < initData.ContRegisterNum ?'connect-sign':'connect-notsign' }}"
+          style="opacity:{{ item.day == 15 ? 0:1}}"
+        ></view>
+        <view
+          class="itemConnect conect-left {{ item.day < initData.ContRegisterNum ?'connect-sign':'connect-notsign' }}"
+          wx:if="{{ index == 6 }}"
+          style="opacity:{{ item.day == 15 ? 0:1}};width:5rpx;"
+        ></view>
+      </view>
+    </view>
+    <view class="dialog-desc">
+      <view class="dialog-desc-image">
+        <image
+          style="width: 32rpx; height: 34rpx"
+          src="{{ imgUrl }}/mainContent/images/qiandao_ic_tishi@2x.png"
+        ></image>
+      </view>
+      <view> {{ initData.remarks }} </view>
+    </view>
+    <!-- 加的取消按钮 -->
+    <view class="cancle-btn-box" bindtap="closeSignDialog">
+      <view class="cancle-btn-box-left"></view>
+      <view class="cancle-btn-box-rignt"></view>
+    </view>
+  </view>
+  <!--testA-end-->
+
+  <!--testB-start-->
+  <view wx:if="{{isShowB}}" class="dialog-main-b">
+    <view class="dialog-top-b"></view>
+    <image class="dialog-main-bg" src="{{ imgUrl }}/mainContent/images/qiandao_coin@2x.png" mode="widthFix"></image>
+    <view class="dialog-title-b">今日已签到</view>
+    <view class="dialog-reward-b">
+      <view class="addPoints">+{{ initData.hasGetPoint }} <text class="PointText">积分</text></view>
+    </view>
+    <view class="pointsEntrance" bind:tap="goToVipMiniProgram">
+      <view class="title">去兑换</view>
+      <image class="entrance" src="{{imgUrl}}/mainContent/images/my/ic_more_yellow.png" />
+    </view>
+    <view class="dialog-content-b">
+      <view class="dialog-content-item" wx:for="{{list}}" wx:item="item" wx:key="index">
+        <view
+          class="itemConnect conect-right {{ item.day > initData.ContRegisterNum ?'connect-notsign' : 'connect-sign'}}"
+          wx:if="{{ index == 0 }}"
+          style="opacity:{{ item.day == 1 ? 0:1}};width:5rpx;"
+        ></view>
+        <view
+          class="itemConnect conect-left {{ item.day > initData.ContRegisterNum ?'connect-notsign' : 'connect-sign'}}"
+          style="opacity:{{ item.day == 1 ? 0:1}}"
+        ></view>
+        <view class="dialog-content-item-main">
+          <view
+            wx:if="{{ item.status == 1 && item.day != 7 && item.day != 15 }}"
+            class="dialog-content-reward dialog-content-reward-active"
+          >
+            <view class="check-style-unequal-width"></view>
+          </view>
+          <view
+            wx:if="{{ item.status == 1 && (item.day == 7 || item.day == 15) }}"
+            class="dialog-content-reward dialog-hasSign"
+          >
+            {{ item.reward }}
+          </view>
+          <view wx:if="{{ item.status == 0 }}" class="dialog-content-reward dialog-noSign"> {{ item.reward }}</view>
+          <view
+            class="dialogContentDay {{ item.status == 1 ? 'dialog-content-sign-color':'dialog-content-notsign-color'}}"
+          >
+            {{ item.day }}天</view
+          >
+        </view>
+        <view
+          class="itemConnect conect-right {{ item.day < initData.ContRegisterNum ?'connect-sign':'connect-notsign' }}"
+          style="opacity:{{ item.day == 15 ? 0:1}}"
+        ></view>
+        <view
+          class="itemConnect conect-left {{ item.day < initData.ContRegisterNum ?'connect-sign':'connect-notsign' }}"
+          wx:if="{{ index == 6 }}"
+          style="opacity:{{ item.day == 15 ? 0:1}};width:5rpx;"
+        ></view>
+      </view>
+    </view>
+    <view class="dialog-desc-b">
+      <view class="dialog-desc-image">
+        <image
+          style="width: 32rpx; height: 34rpx"
+          src="{{ imgUrl }}/mainContent/images/qiandao_ic_tishi@2x.png"
+        ></image>
+      </view>
+      <view> {{ initData.remarks }} </view>
+    </view>
+    <view class="cancle-btn-box-b" bindtap="closeSignDialog">
+      <view class="cancle-btn-box-left"></view>
+      <view class="cancle-btn-box-rignt"></view>
+    </view>
+  </view>
+  <!--testB-end-->
+</view>

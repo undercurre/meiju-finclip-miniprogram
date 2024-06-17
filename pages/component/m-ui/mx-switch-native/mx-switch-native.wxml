@@ -1,0 +1,9 @@
+<!--m-ui/m-switch/m-switch.wxml-->
+<view class="m-switch">
+  <view wx:if="{{disabled}}" class="disabled-mask"></view>
+  <switch class="switch sm" 
+          checked="{{checked}}" 
+          bindchange="onSwitch" 
+          color="{{color?color:'#267aff'}}" 
+          disabled="{{disabled}}"></switch>
+</view>

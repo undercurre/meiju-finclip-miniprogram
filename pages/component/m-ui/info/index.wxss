@@ -1,0 +1,45 @@
+@import '../common/index.wxss';
+page{
+  --info-background-color:#ee0a24;
+  --info-border-width:1px;
+  --info-size:16px;
+  --info-color:#fff;
+  --info-font-family:-apple-system-font,Helvetica Neue,Arial,sans-serif;
+  --info-font-size:12px;
+  --info-font-weight:500;
+  --info-size:16px;
+  --info-size:16px;
+  --info-padding:0 3px;
+  --info-dot-color:#ee0a24;
+  --info-dot-size:8px;
+}
+.mx-info {
+	align-items: center;
+	background-color: var(--info-background-color);
+	border: var(--info-border-width) solid #fff;
+	border-radius: var(--info-size);
+	box-sizing: border-box;
+	color: var(--info-color);
+	display: inline-flex;
+	font-family: var(--info-font-family);
+	font-size: var(--info-font-size);
+	font-weight: var(--info-font-weight);
+	height: var(--info-size);
+	justify-content: center;
+	min-width: var(--info-size);
+	padding: var(--info-padding);
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: translate(50%,-50%);
+	transform-origin: 100%;
+	white-space: nowrap
+}
+
+.mx-info--dot {
+	background-color: var(--info-dot-color);
+	border-radius: 100%;
+	height: var(--info-dot-size);
+	min-width: 0;
+	width: var(--info-dot-size)
+}

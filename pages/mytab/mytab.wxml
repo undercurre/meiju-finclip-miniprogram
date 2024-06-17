@@ -1,0 +1,123 @@
+<!-- pages/mytab/mytab.wxml -->
+<wxs src="./assets/js/tools.wxs" module="tools" />
+<privacy-popup></privacy-popup>
+<view class="shadow" wx:if="{{ isLoading }}"></view>
+<view class="topBacWarp" wx:if="{{isLogon}}">
+  <image src="{{topBac}}"></image>
+</view>
+<view style="height: {{statusBarHeight}}px;background-color: #F9F9F9;"></view>
+<view
+  class="content"
+  style="{{isIpx ? 'padding-bottom: 200rpx;' : 'padding-bottom: 130rpx;'}}"
+  catchtap="elementTracker"
+>
+  <view wx:if="{{showTips}}" class="triangle_border_up">
+    <view class="triangle_content_up">
+      <text class="triangle-text">点击“添加到我的小程序”快速访问美的美居lite</text>
+    </view>
+  </view>
+  <view wx:if="{{isLogon}}" class="top position-relative">
+    <view class="userinfo" bindtap="goPersonalCenter">
+      <view class="userinfoDetail">
+        <view class="userinfo-avatar">
+          <!-- <open-data type="userAvatarUrl"></open-data> -->
+          <image class="header-img" mode="aspectFill" src="{{headImgUrl}}"></image>
+        </view>
+        <view class="userinfo-detail">
+          <view class="user-nick-name text-overflow2">{{nickName}}</view>
+          <view class="vip-level">
+            <image
+              class="vip-level-img"
+              src="{{ imgUrl }}/mainContent/images/my/vip_{{vipLevel}}.png"
+              mode="aspectFit"
+            />
+            <image
+              wx:if="{{paymentMember}}"
+              class="vip-level-pro"
+              src="{{ imgUrl }}/mainContent/images/my/pro.png"
+              mode="aspectFit"
+            />
+          </view>
+        </view>
+      </view>
+      <view class="top_check_in" catchtap="gotoSign" wx:if="{{ signData.IsRegister == 0 || signData.IsRegister == 1 }}">
+        <view wx:if="{{ signData.IsRegister == 0 }}" class="top_check_in_icon">
+          <image src="{{signIco}}" class="signIco"></image>
+          <view class="sign-text">签到</view>
+        </view>
+        <view class="check-in-text" wx:if="{{ signData.IsRegister == 1 }}">{{ signData.text }}</view>
+      </view>
+    </view>
+  </view>
+  <view wx:else>
+    <button class="feedback-button" hover-class="none" bindtap="goLogin">
+      <view class="userinfo">
+        <view class="userinfo-avatar">
+          <!-- <open-data type="userAvatarUrl"></open-data> -->
+          <image class="header-img" mode="aspectFill" src="{{ imgUrl }}/mainContent/images/header_logon@3x.png"></image>
+        </view>
+        <view class="userinfo-detail userinfo-detail-noLogon">
+          <!-- <open-data class="user-nick-name" type="userNickName"></open-data> -->
+          <text class="user-nick-name-onLogon">未登录</text>
+          <text class="user-nick-name-prelogon">点击登录</text>
+        </view>
+      </view>
+    </button>
+    <!-- v2.26去掉广告位 -->
+    <!-- <block>
+      <common-advertise-bar initData="{{advertiseBarData}}"></common-advertise-bar>
+    </block> -->
+  </view>
+
+  <mx-cell-group border="{{ false }}" inset>
+    <block wx:for="{{pageListShowData}}" data-item="{{ item }}" wx:for-index="index" wx:key="*this">
+      <mx-cell
+        imageSize="20"
+        wx:if="{{item.isShow}}"
+        bind:click="{{item.funName}}"
+        title="{{item.name}}"
+        size="large"
+        icon="{{item.listItemLeftImg}}"
+        is-link
+        border="{{ item.id != 'feedback' }}"
+      >
+        <button
+          wx:if="{{item.openType}}"
+          open-type="{{ item.openType }}"
+          bind:tap="{{item.funName}}"
+          class="my-item-btn"
+        ></button
+      ></mx-cell>
+    </block>
+  </mx-cell-group>
+  <view class="btn-setting-wrap">
+    <mx-cell-group border="{{ false }}" inset>
+      <mx-cell
+        imageSize="20"
+        bind:click="goToSetting"
+        title="设置"
+        size="large"
+        icon="{{setIco}}"
+        is-link
+        border="{{ false }}"
+      />
+    </mx-cell-group>
+  </view>
+</view>
+<!-- 协议确认弹窗 -->
+<block>
+  <agreement-update-dialog agreementShow="{{isUpdatedAgreement}}"></agreement-update-dialog>
+</block>
+<block>
+  <center-sign-dialog
+    isShowSignDialog="{{ isShowSignDialog }}"
+    signData="{{ signData }}"
+    huiyuanEnvVersion="{{huiyuan_envVersion}}"
+    vipLevel="{{vipLevel}}"
+    levelName="{{levelName}}"
+    isShowB="{{isShowB}}"
+    bind:closeSignDialog="closeSignDialog"
+    bind:sendStr="sendStr"
+  ></center-sign-dialog>
+</block>
+<mx-dialog id="mx-dialog" />

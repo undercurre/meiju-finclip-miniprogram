@@ -1,0 +1,37 @@
+<view class="clean-setting-container">
+<view class="left" bindtap="openPanel" data-type="fan">
+  <view class="text">
+    吸力
+  </view>
+   <image src="{{fanImageUrl}}" class="fan-icon"></image>
+     <image src="{{arrowImageUrl}}" class="arrow"></image>
+</view>
+<view class="right" bindtap="openPanel"  data-type="water">
+  <view class="text">
+    水速
+  </view>
+   <image src="{{waterImageUrl}}" class="water-icon"></image>
+     <image src="{{arrowImageUrl}}" class="arrow"></image>
+</view>
+
+
+
+
+  <!-- <view class="clean-state-container">
+    <view class="clean-setting-layout">
+      <text class="clean-setting-title">{{lastCleanTitle}}</text>
+      <view class="clean-mode-layout">
+        <image src="{{fanImageUrl}}" style="width:24px;height:24px;margin-left:32rpx;"></image>
+        <image src="{{waterImageUrl}}" style="width:24px;height:24px;margin-left:24rpx;"></image>
+      </view>
+    </view>
+    <image style="width:12px;height:12px;"></image>
+  </view> -->
+  <!-- <view style="width: 90%;height: 1px;background: #F2F2F2;"></view>
+  <view class="clean-state-container">
+    <view class="clean-setting-layout">
+      <text class="clean-setting-title">{{lastOrderTitle}}</text>
+      <text class="lastest-order-desc">{{lastOrderDesc}}</text>
+    </view>
+  </view> -->
+</view>

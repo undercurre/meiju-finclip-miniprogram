@@ -1,0 +1,55 @@
+@import '../common/index.wxss';.mx-transition {
+	transition-timing-function: ease
+}
+
+.mx-fade-enter-active,.mx-fade-leave-active {
+	transition-property: opacity
+}
+
+.mx-fade-enter,.mx-fade-leave-to {
+	opacity: 0
+}
+
+.mx-fade-down-enter-active,.mx-fade-down-leave-active,.mx-fade-left-enter-active,.mx-fade-left-leave-active,.mx-fade-right-enter-active,.mx-fade-right-leave-active,.mx-fade-up-enter-active,.mx-fade-up-leave-active {
+	transition-property: opacity,transform
+}
+
+.mx-fade-up-enter,.mx-fade-up-leave-to {
+	opacity: 0;
+	transform: translate3d(0,100%,0)
+}
+
+.mx-fade-down-enter,.mx-fade-down-leave-to {
+	opacity: 0;
+	transform: translate3d(0,-100%,0)
+}
+
+.mx-fade-left-enter,.mx-fade-left-leave-to {
+	opacity: 0;
+	transform: translate3d(-100%,0,0)
+}
+
+.mx-fade-right-enter,.mx-fade-right-leave-to {
+	opacity: 0;
+	transform: translate3d(100%,0,0)
+}
+
+.mx-slide-down-enter-active,.mx-slide-down-leave-active,.mx-slide-left-enter-active,.mx-slide-left-leave-active,.mx-slide-right-enter-active,.mx-slide-right-leave-active,.mx-slide-up-enter-active,.mx-slide-up-leave-active {
+	transition-property: transform
+}
+
+.mx-slide-up-enter,.mx-slide-up-leave-to {
+	transform: translate3d(0,100%,0)
+}
+
+.mx-slide-down-enter,.mx-slide-down-leave-to {
+	transform: translate3d(0,-100%,0)
+}
+
+.mx-slide-left-enter,.mx-slide-left-leave-to {
+	transform: translate3d(-100%,0,0)
+}
+
+.mx-slide-right-enter,.mx-slide-right-leave-to {
+	transform: translate3d(100%,0,0)
+}

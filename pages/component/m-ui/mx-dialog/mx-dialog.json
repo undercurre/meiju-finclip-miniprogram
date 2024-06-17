@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-mask": "../mx-mask/mx-mask"
+  }
+}

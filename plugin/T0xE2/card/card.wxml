@@ -1,0 +1,119 @@
+<view class="continer flex flex_column align_center">
+  <block wx:if="{{applianceData.onlineStatus == 1}}">
+    <view class="container flex flex_column align_center">
+      <!-- 头部信息 -->
+      <view class="lottie-wrap flex justify_center align_center">
+        <view class="data-wrap" style="opacity: {{deviceStatus<5?1:0.5}};" wx:if="{{ deviceStatus < 6 }}">
+          <text class="set-temp">实际水温</text>
+          <view class="temp flex">
+            <text class="temp-value">{{cur_temperature}}</text>
+            <text class="temp-unit">℃</text>
+          </view>
+          <view class="bottom flex align_center justify_center">
+            <view class="flex flex_column align_center" wx:if="{{showCloud}}">
+              <text class="title">{{isCloudDelay?"云管家暂停":'云管家'+currentHour}}</text>
+              <text class="text" wx:if="{{!isCloudDelay}}">调温{{status.temperature}}℃</text>
+            </view>
+            <view class="hbar" wx:if="{{showCloud}}"></view>
+            <view class="flex flex_column align_center" wx:if="{{showBathTime}}">
+              <text class="title">可洗浴时间</text>
+              <text class="text">≈ {{status.bath_remaining_time}}分钟</text>
+            </view>
+            <!-- <view class="flex flex_column align_center" wx:elif="{{setting.hotWaterType=='fuzzyWater'}}">
+              <text class="title">剩余热水</text>
+              <text class="text">≈ {{fuzzyWaterTime}}分钟</text>
+            </view> -->
+            <view class="flex flex_column align_center" wx:elif="{{setting.hotWaterType!='noWater'}}">
+              <text class="title">热水量</text>
+              <text class="text">{{hotWaterQuantity}}</text>
+            </view>
+          </view>
+        </view>
+        <!-- 故障 -->
+        <view wx:elif="{{ deviceStatus == 7 }}" class="data-wrap">
+          <image class="error-img" src="{{images.warning}}"></image>
+          <text class="error-text">{{errContent}}</text>
+        </view>
+        <image src="{{ deviceStatus > 1 ? images.highTemperature : images.circleYellow}}" class="power-off-img" wx:if="{{ deviceStatus < 5 }}"/>
+        <image src="{{images.powerOffBg}}" class="power-off-img" wx:else  style="margin-bottom:20rpx"/>
+      </view>
+
+      <!-- 运行状态 -->
+      <view style="width: 100%;" class="flex flex_column align_center">
+        <van-cell custom-class="cell" border="{{false}}" title-class="cell-title" style="margin-top:80rpx">
+          <text slot="title" class="van-cell-text">{{deviceStatus==5?'已关机':btnText}}</text>
+          <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="powerToggle"
+            style="background:{{deviceStatus<5?(deviceStatus == 1 || deviceStatus == 0 ? '#ffaa10' : '#FF6A4C'):'#7C879B'}}">
+            <image src="{{images.powerOn}}" class="power-img" />
+          </view>
+        </van-cell>
+
+        <!-- 温度设置 -->
+        <view class="cell-group flex flex_column align_center" style="opacity: {{deviceStatus<5?1:0.5}};">
+          <van-cell title="设置温度" value="{{temCellRightText}}" label="" custom-class="cell" title-class="cell-title"
+            value-class="cell-value" border="{{false}}" bind:click="openTemPicker" is-link>
+            <view class="cell-img-wrap flex align_center justify_center" slot="icon"
+              style="background:{{deviceStatus<5?(deviceStatus == 1 || deviceStatus == 0 ? '#ffaa10' : '#FF6A4C'):'#d8dbe1'}}">
+              <image src="{{images.temSet}}" class="cell-img" />
+            </view>
+          </van-cell>
+        </view>
+
+        <!-- 主内容 -->
+        <view class="cell-group flex flex_column align_center" style="opacity: {{deviceStatus<5?1:0.5}};">
+          <van-cell title="预约" label="预定时段内自动加热" custom-class="top-cell" title-class="cell-title" is-link
+            bind:click="goappointment" wx:if="{{showFunAppointType}}">
+            <view class="cell-img-wrap flex align_center justify_center" slot="icon"
+              style="background:{{deviceStatus<5?(deviceStatus == 1 || deviceStatus == 0 ? '#ffaa10' : '#FF6A4C'):'#d8dbe1'}}">
+              <image src="{{images.appointOn}}" class="cell-img" />
+            </view>
+            <text style="font-size: 32rpx;color: #666666;">{{nextAppointText}}</text>
+          </van-cell>
+          <van-cell label="智能控温，省电省心" custom-class="bottom-cell" title-class="cell-title" border="{{false}}"
+            wx:if="{{showFunCloudHome}}">
+            <view class="cell-img-wrap flex align_center justify_center" slot="icon"
+              style="background:{{deviceStatus<5?(deviceStatus == 1 || deviceStatus == 0 ? '#ffaa10' : '#FF6A4C'):'#d8dbe1'}}">
+              <image src="{{images.cloudHome}}" class="cell-img" />
+            </view>
+            <view slot="title">
+              <text class="cell-title">云管家</text>
+              <van-icon name="question-o" class="custom-icon" size="28rpx" bindtap="showCloudHomeInfo" /> 
+            </view>
+            <van-switch checked="{{ isCloudOn }}" slot="right-icon"
+              active-color="{{deviceStatus<5?(deviceStatus == 1 || deviceStatus == 0 ? '#ffaa10' : '#FF6A4C'):'#d8dbe1'}}" bind:change="beforeClickCloudSwitch" size="40rpx"
+              disabled="{{deviceStatus>=5}}" />
+          </van-cell>
+        </view>
+
+        <view wx:if="{{filterList != '' && filterList.length}}" class="filter-status" style="opacity: {{deviceStatus<6?1:0.5}};">
+          <view class="flex align_center justify_between" style="margin-bottom: 30rpx;">
+            <text class="filter-status-text">滤芯状态</text>
+            <text class="filter-buy-text" catchtap="buyFilter">滤芯购买</text>
+          </view>
+          <text wx:if="{{isShowFilterLoading}}"
+            style="color: #999;font-size: 24rpx;text-align:center;display: block;">加载中...</text>
+          <text wx:elif="{{!isShowFilterLoading&&!material.filter.length}}"
+            style="color: #999;font-size: 24rpx;text-align:center;display: block;">暂无滤芯</text>
+          <filter-status wx:else value="{{filterList}}"  deviceStatus="{{ deviceStatus }}" />
+        </view>
+      </view>
+
+      <!-- 滤芯购买sheet -->
+      <van-action-sheet show="{{ isShowBuyFilterSheet }}" actions="{{ actions }}" cancel-text="取消"
+        bind:cancel="closeBuyFilterSheet" bind:close="closeBuyFilterSheet" bind:select="onBuyFilterSheetSelect" />
+
+      <!-- 温度picker -->
+      <!-- <van-popup show="{{ isShowTemPicker }}" position="bottom" bind:close="closeTemPicker">
+        <van-picker columns="{{ temColumns }}" class="tempPicker" show-toolbar bind:confirm="onTemPickerConfirm"
+          bind:cancel="onTemPickerCancel" cancel-button-text="{{isCloudOn?'本次（三小时）':'取消'}}"
+          confirm-button-text="{{isCloudOn?'永久（关闭云管家）':'确认'}}" />
+      </van-popup> -->
+      <c-picker show="{{isShowTemPicker}}" mode="multiSelector" range="{{multiArray}}" value="{{ multiIndex }}" unit="℃" bind:confirm="onTemPickerConfirm" bind:cancel="onTemPickerCancel" leftBtnText="{{isCloudOn?'本次（三小时）':'取消'}}" rightBtnText="{{isCloudOn?'永久（关闭云管家）':'确认'}}"/>
+    </view>
+    <!-- 活动弹窗 -->
+    <activity-wrapper></activity-wrapper>
+    <!-- 活动弹窗 -->
+  </block>
+
+  <offline wx:else></offline>
+</view>

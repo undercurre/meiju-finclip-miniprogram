@@ -1,0 +1,8 @@
+<view class="box">
+<view class="content">
+  <image class="title" src="{{baseImgUrl + 'img_title@2x.png'}}"></image>
+  <image class="img" src="{{baseImgUrl + 'img_xiyiji@2x.png'}}"></image>
+  <view class="btn" bindtap="openLite">立即选购</view>
+  <view class="notice">温馨提示：您的耗材余量不足，已为您提供相关商品，点击【立即选购】查看购买吧</view>
+</view>
+</view>

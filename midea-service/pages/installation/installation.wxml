@@ -1,0 +1,341 @@
+<wxs src="../../wxs/base.wxs" module="tools" />
+<!-- 长内容弹框 -->
+<longToast id="longToast" isLongToast="{{isLongToast}}" longText="{{longToastContent}}"></longToast>
+
+<view class="container-box">
+  <view class="appointment-cells">
+    <!-- 收费标准 -->
+    <view class="money-box">
+      <view class="box-inbox" catchtap="goToServiceCharge">
+        <view
+          class="img"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -36rpx -228rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <view class="money-content">收费标准</view>
+      </view>
+    </view>
+    <view class="top_box">
+      <view class="appoint-p-row">
+        <view class="left-text">
+          <view
+            class="one-icon"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -660rpx -30rpx;background-size:800rpx auto;"
+          >
+          </view>
+          <text class="text-content">安装产品</text>
+          <text class="icon-require">*</text>
+        </view>
+        <view class="right-text" catchtap="showBrandPicker">
+          <view class="middle-text  {{selectedProductNames && selectedProduct.length ? '' : 'is-gray'}}">
+            {{selectedProductNames || '请选择'}}
+          </view>
+          <view
+            class="install-icon add-circle"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -336rpx;background-size:800rpx auto;"
+          >
+          </view>
+        </view>
+      </view>
+      <!-- <view class="install-product-list" wx:for="{{selectedProduct}}" wx:key="{{item.id}}">
+        <view class="install-product-item">
+          <view class="install-tips" wx:if="{{item.data[2].hasInstallTips}}"
+          bindtap="openInstallDialog">动手能力不错？试试自助安装
+          </view>
+          <view class="install-product-item-name">
+            {{item.data[0].name}} {{item.data[2].name}}
+          </view>
+          <view class="delete-circle" data-index="{{index}}" catchtap="delProduct"></view>
+        </view>
+      </view> -->
+      <!-- <warn-tip warn-note="包装箱内不包含的配件、辅材，在您安装时需额外收费" type="note"
+      wx:if="{{showProductNotice}}"></warn-tip> -->
+      <!-- 使用场所-->
+      <view class="appoint-p-row" wx:if="{{isIncludeU99}}">
+        <view class="left-text">
+          <view
+            class="one-icon"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -730rpx -30rpx;background-size:800rpx auto;"
+          >
+          </view>
+          <text class="text-content">使用场所</text>
+          <text class="icon-require">*</text>
+        </view>
+        <view class="right-text" catchtap="openPlace">
+          <view class="middle-text {{placeStatu.name?'':'is-gray'}}">{{placeStatu.name || '请选择'}}</view>
+          <view
+            class="iconfont icon-arrowdown icon-arrow-bottom"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -336rpx;background-size:800rpx auto;"
+          >
+          </view>
+        </view>
+      </view>
+      <!-- 物流状态 -->
+      <view class="appoint-p-row">
+        <view class="left-text">
+          <view
+            class="one-icon"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -450rpx -30rpx;background-size:800rpx auto;"
+          >
+          </view>
+          <text class="text-content">物流状态</text>
+          <text class="icon-require">*</text>
+        </view>
+        <view class="right-text" catchtap="showPopupPicker">
+          <view class="middle-text {{logisticStatu.name?'':'is-gray'}}">{{logisticStatu.name || '请选择'}}</view>
+          <view
+            class="iconfont icon-arrowdown icon-arrow-bottom"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -336rpx;background-size:800rpx auto;"
+          >
+          </view>
+        </view>
+      </view>
+      <!-- 期望时间 -->
+      <view class="appoint-p-row">
+        <view class="left-text">
+          <view
+            class="one-icon"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -590rpx -30rpx;background-size:800rpx auto;"
+          >
+          </view>
+          <text class="text-content">期望服务时间</text>
+          <text class="icon-require">*</text>
+        </view>
+        <view class="right-text" catch:tap="showCalendarPicker">
+          <view wx:if="{{!displayServiceDate && showWarnTips}}" class="middle-text warnTips">请选择</view>
+          <view wx:else class="middle-text {{displayServiceDate?'':'is-gray'}}">
+            {{displayServiceDate || '请选择'}}
+          </view>
+          <view
+            class="iconfont icon-arrowdown icon-arrow-bottom"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -336rpx;background-size:800rpx auto;"
+          >
+          </view>
+        </view>
+      </view>
+      <!-- 服务地址 -->
+      <view class="appoint-p-row appoint-p-row0  {{userAddress ? 'contact-p-row' : ''}}">
+        <view class="left-text">
+          <view
+            class="one-icon"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -380rpx -30rpx;background-size:800rpx auto;"
+          >
+          </view>
+          <text class="text-content">服务地址</text>
+          <text class="icon-require">*</text>
+        </view>
+        <view class="right-text right-text0" catchtap="showAddressPicker">
+          <block class="" wx:if="{{!userAddress}}">
+            <view class="middle-text {{userAddress ? '' : 'is-gray'}}"> 请选择 </view>
+          </block>
+          <block class="" wx:else>
+            <view class="middle-text">
+              <view class="inner-rows"
+                >{{userAddress.receiverName}} {{tools.formatTelNumber(userAddress.receiverMobile)}}
+              </view>
+              <view class="inner-rows">
+                {{userAddress.provinceName}}{{userAddress.cityName}}{{userAddress.countyName}}{{userAddress.streetName}}
+              </view>
+              <view class="inner-rows">{{userAddress.addr}}{{userAddress.addValue || ''}}</view>
+            </view>
+          </block>
+          <view
+            class="iconfont icon-arrowdown icon-arrow-bottom"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -336rpx;background-size:800rpx auto;"
+          >
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 是否Wifi智能产品 -->
+    <view class="switch-row-box">
+      <view class="appoint-p-row switch-row pdd">
+        <view class="left-text">
+          <view
+            class="one-icon"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -520rpx -30rpx;background-size:800rpx auto;"
+          >
+          </view>
+          <text class="text-content"> 是否智能产品</text>
+        </view>
+        <!-- <view class="icon-switch-tips {{showWifiTips ? 'selected': ''}}" ></view> -->
+        <view class="right-text right-text-pdd">
+          <!-- switch选择器 -->
+          <mySwitch bind:toChange="wifiSmartFlagCallback" isClicked="{{wifiSmartFlag}}"></mySwitch>
+        </view>
+      </view>
+      <view class="wifiTips" wx:if="{{wifiSmartFlag}}">
+        <view class="title-tips"> 请在家中预留以下信息，方便有需要时工程师协助调试智能产品： </view>
+        <view class="content-tips mt20">
+          <text></text>
+          <text>使用该产品的手机号码</text>
+        </view>
+        <view class="content-tips">
+          <text></text>
+          <text>家庭无线网络名称、密码</text>
+        </view>
+      </view>
+    </view>
+    <!-- 备注 -->
+    <view class="remarks-box">
+      <view class="remark-title">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -310rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">备注</text>
+      </view>
+      <view class="remark-title-title" wx:if="{{actionList.length>0}}"> 快捷选择(可多选) </view>
+      <block wx:for="{{actionList}}" wx:for-item="item" wx:key="index" wx:if="{{actionList.length>0}}">
+        <view class="style-title">{{item.realProdName}}</view>
+        <view class="flex-box">
+          <block wx:for="{{item.markList}}" wx:for-index="actIndex" wx:for-item="action" wx:key="actIndex">
+            <text
+              class="ok-color {{action.checked?'active-color':'common-color'}}"
+              catchtap="toChecks"
+              data-index="{{index}}"
+              data-actIndex="{{actIndex}}"
+              >{{action.key}}</text
+            >
+          </block>
+        </view>
+      </block>
+      <view class="textarea-wrapper">
+        <view class="textarea">
+          <textarea
+            value="{{memoValue}}"
+            placeholder="备注信息"
+            placeholder-style="line-height:22px;color:#C8C7CC;"
+            maxlength="120"
+            cursor-spacing="50"
+            show-confirm-bar="{{false}}"
+            bindinput="inputBindHandler"
+            bindblur="inputBlurHandler"
+            fixed="{{true}}"
+          ></textarea>
+          <view class="total">
+            <text>{{curCount}}</text>/
+            <text>120</text>
+            <text></text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 使用场所  -->
+    <usePlace id="usePlace" show="{{placePicker}}" bind:sendPlace="getPlace"></usePlace>
+
+    <!-- 物流筛选 -->
+    <serviceAddress id="logistics" show="{{PopupPicker}}" bind:sendData="getPicker"></serviceAddress>
+
+    <!-- 时间选择器 -->
+    <timerCalendar
+      bind:select="selectDate"
+      bindhide="hideCalendar"
+      is-show="{{showCalendarPickerFlag}}"
+      cancel-text="{{calendarConf.cancelText}}"
+      confirm-text="{{calendarConf.confirmText}}"
+      select-type="CSS"
+      cannotServiceTimeObj="{{calendarConf.cannotServiceTimeObj}}"
+    ></timerCalendar>
+
+    <!-- 居中知道了弹框 -->
+    <centerDialog
+      id="popup"
+      title="{{topTitle}}"
+      content="{{secondTitle}}"
+      btnz_only="{{btnText}}"
+      bind:success="makeSure"
+      isShowDialog="{{isDialogs}}"
+    ></centerDialog>
+
+    <!-- 居中可以取消确定弹框 -->
+    <cancle-sure-dialog
+      id="popups"
+      title="{{oneTitle}}"
+      content="{{twoTitle}}"
+      cancleTxet="{{cancleTxet}}"
+      sureText="{{sureText}}"
+      bind:cancles="cancleBtn"
+      bind:sureBtn="needSure"
+      isShowDialog="{{isCenters}}"
+    >
+    </cancle-sure-dialog>
+
+    <!--一键注册下单-->
+    <!--同一账号某段时间内下单过多，需要验证下手机号-->
+    <phone-validator
+      phone="{{userInfo.mobile}}"
+      is-show="{{showValidatorFlag}}"
+      bindcancel="hideValidatorHandler"
+      bindsuccess="validateSuccessHandler"
+    ></phone-validator>
+    <selector-product
+      brand-type="{{brandTypeList}}"
+      bindselect="selectProduct"
+      bindhide="hideSelector"
+      is-show="{{showBrandPickerFlag}}"
+      need-tabs="{{false}}"
+      title="报装产品"
+    ></selector-product>
+    <block wx:if="{{showAddressPickerFlag}}">
+      <selector-address
+        bindselect="selectAddress"
+        bindhide="hideSelector"
+        is-show="{{showAddressPickerFlag}}"
+        need-tabs="{{bindPhone}}"
+        address-list="{{addressList}}"
+      >
+      </selector-address>
+    </block>
+
+    <!-- isShowAgreements: coverview层级较高，在协议显示的时候要隐藏coverview -->
+    <!-- <cover-view class="footer" hidden="{{!showNativeComponent || isShowAgreements || showInstallDialog}}">
+      <button open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">提交</button>
+    </cover-view> -->
+    <view class="footer" catchtap="checkData">
+      <button disabled="{{!isDataReady}}">提交</button>
+    </view>
+
+    <!-- <view class="install-dialog" wx:if="{{showInstallDialog}}">
+      <view class="install-dialog-content">
+        <view class="install-dialog-title">
+          请选择您的洗衣机类型
+          <view class="dialog-close" bindtap="closeInstallDialog"></view>
+        </view>
+        <view class="install-dialog-list">
+          <view class="install-dialog-item">
+            <view class="install-dialog-item-img prudct-pulsator"></view>
+            <view class="install-dialog-item-info">
+              <view class="install-dialog-item-info-type">
+                波轮洗衣机
+              </view>
+              <view class="install-dialog-item-info-des">
+                上开盖
+              </view>
+            </view>
+            <view class="install-dialog-item-btn" bindtap="goVideoDeatail" data-type="pulsatorWashMachine">
+              查看视频
+            </view>
+          </view>
+          <view class="install-dialog-item">
+            <view class="install-dialog-item-img pruduct-drum"></view>
+            <view class="install-dialog-item-info">
+              <view class="install-dialog-item-info-type">
+                滚筒洗衣机
+              </view>
+              <view class="install-dialog-item-info-des">
+                侧开盖
+              </view>
+            </view>
+            <view class="install-dialog-item-btn" bindtap="goVideoDeatail" data-type="drumWashMachine">
+              查看视频
+            </view>
+          </view>
+        </view>
+      </view>
+    </view> -->
+  </view>
+</view>

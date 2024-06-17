@@ -1,0 +1,27 @@
+<view class="container" wx:if="{{isOpened}}">
+  <view class="notice"><text>{{title}}</text></view>
+  <scroll-view scroll-y="{{scrollY}}" class="scrollView">
+    <view
+      wx:for="{{list}}"
+      wx:key="index"
+      wx:for-index="index"
+      wx:for-item="device"
+      bindtap="changeCheck"
+      data-index="{{index}}"
+    >
+      <view class="item">
+        <image class="deviceImg" src="{{device.deviceImg}}"></image>
+        <view class="name">{{device.deviceName}}</view>
+        <view class="check">
+          <radio value="{{index}}" color="{{index!=0?'#267AFF':'#BED7FF'}}" checked="{{device.checked}}" />
+        </view>
+      </view>
+      <view class="divider"></view>
+    </view>
+  </scroll-view>
+  <view class="opButton">
+    <view class="cancelBtn" bindtap="cancel">{{cancelTxt}}</view>
+    <view class="addBtn" bindtap="go">{{sureTxt}}<text>({{checkedData.length}})</text></view>
+  </view>
+</view>
+<view class="mask" wx:if="{{isOpened}}"></view>

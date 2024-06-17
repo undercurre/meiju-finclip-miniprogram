@@ -1,0 +1,154 @@
+<view>
+  <van-tabs active="{{ selectedType }}" bind:change="tabClicked" color="#6575ff" wx:if="{{!isSingleOta}}">
+    <view wx:for="{{tabData}}" wx:key="index">
+      <van-tab title="{{item}}"></van-tab>
+    </view>
+  </van-tabs>
+
+  <view class="lottie-wrap flex justify_center align_center">
+    <view class="viewBox">
+      <!-- 背景图 -->
+      <view class="view_bg" style="display: flex; justify-content: center; align-items: center;">
+        <view wx:if="{{!is_error && (power.state && (showPage.curStatus == 'working' || showPage.curStatus == 'order'))}}" class="temp-container">
+          <view class="bg-circle"></view>
+          <image binderror="loadWork" class="bg-working" style="position: absolute;margin-left: auto;margin-right: auto" src="{{icon.on_pause_bg}}"></image>
+        </view>
+        <image binderror="loadStandby" class="bg_picture" style="height: 400rpx; width: 400rpx;" src="{{icon.standby}}" wx:if="{{(power.state && showPage.curStatus == 'power_on') || (is_error && power.state)}}"></image>
+        <image binderror="loadOff" class="bg_picture" src="{{icon.off_view_bg}}" wx:if="{{!power.state}}"></image>
+      </view>
+
+      <!-- 离线||关机||待机 -->
+      <view class="pictureBox center" wx:if="{{is_error || !power.state || (showPage.curStatus == 'power_on' && power.state) || (showPage.curStatus == 'order') && power.state}}">
+
+        <!-- 关机 -->
+        <view wx:if="{{!power.state}}" class="statuBox center" ref="viewText">
+          <text class="offText">{{ Language.poweroffText }}</text>
+        </view>
+
+        <!-- 报错 -->
+        <view wx:elif="{{power.state && is_error}}" class="statuBox center" ref="viewText">
+          <text class="offText">故障中</text>
+        </view>
+
+        <!-- 待机 -->
+        <view wx:elif="{{showPage.curStatus == 'power_on' && power.state && !is_error}}" class="statuBox center" ref="viewText">
+          <text class="offText">未启动</text>
+        </view>
+
+        <!-- 预约状态 -->
+        <view wx:elif="{{power.state && !is_error && showPage.curStatus == 'order'}}" class="statuBox center" ref="viewText">
+          <view class="order-speed-title-box">
+            <text class="order-speed-title">{{ showPage.orderDay }}</text>
+          </view>
+          <view class="order-speed-box">
+            <text class="order-speed">{{ showPage.orderTime }}</text>
+          </view>
+          <view class="order-speed-text-box">
+            <text class="order-speed-text">{{ Language.orderText + showPage.modeText }}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 非待机状态下出现故障 -->
+      <!-- <view class="pictureBox center" wx:if="{{!offline && power.state && is_error && (showPage.curStatus == 'working' || showPage.curStatus == 'order')}}">
+        <view class="statuBox center" ref="viewText">
+          <text class="offText">{{ Language.pauseStatus }}</text>
+        </view>
+      </view> -->
+      <!-- <view class="lottie">
+        <canvas id="lottieCanvas" class="canvas" type="2d" style="width:600rpx;height:600rpx"></canvas>
+      </view> -->
+
+      <!-- 正常工作状态 -->
+      <view class="warpper-content flex_column_center relative" style="border: 1px solid black; box-sizing: border-box;" wx:if="{{!offline && power.state && !is_error && showPage.curStatus == 'working'}}">
+        <view class="statuBox" ref="viewText">
+          <view wx:if="{{!is_error && !showPage.isPreservation}}">
+            <!-- 剩余时间 -->
+            <view class="standby-speed-title-box" style="margin-top: 20rpx; margin-bottom: 10rpx;">
+              <!-- <text class="standby-speed-title" wx:if="{{showPage.workTime}}">{{Language.statusTimeLeft}}</text> -->
+              <text class="standby-speed-title" style="font-size: 20rpx;" wx:if="{{showPage.workTime&& !showPage.isHeating && !showPage.isCooling}}">剩余时间</text>
+            </view>
+
+            <view class="standby-speed-box">
+              <!-- 中间文字 -->
+              <view class="flex-row-center" wx:if="{{showPage.workTime != '' && showPage.workTime != '--' && !showPage.isHeating && !showPage.isCooling}}">
+                <view wx:if="{{showPage.workTime > 60}}">
+                  <text class="standby-speed-number-small">{{workTimeHour}}</text>
+                </view>
+                <view class="standby-speed-unit-box" wx:if="{{showPage.workTime > 60}}">
+                  <text class="{{showPage.workTime > 60 ? 'standby-speed-unit-small' : 'standby-speed-unit-big'}}">{{Language.statusUnitH}}</text>
+                </view>
+                <view>
+                  <text class="{{showPage.workTime > 60 ? 'standby-speed-number-small' : 'standby-speed-number-big'}}">{{showPage.workTime
+                    > 60 ? showPage.workTime % 60 > 9 ? showPage.workTime % 60 : '0' +(showPage.workTime % 60) :
+                    showPage.workTime}}</text>
+                </view>
+                <view class="standby-speed-unit-box">
+                  <text class="{{showPage.workTime > 60 ? 'standby-speed-unit-small' : 'standby-speed-unit-big'}}">{{Language.statusUnitM}}</text>
+                </view>
+              </view>
+
+              <!-- 加热中 -->
+              <view class="flex-row-center" style="margin-top: 68rpx;" wx:if="{{showPage.workTime == '--' || showPage.workTime == '' || showPage.isHeating}}">
+                <text class="timeWords">加热中</text>
+              </view>
+
+              <!-- 冷却中 -->
+              <view class="flex-row-center" style="margin-top: 68rpx;" wx:if="{{showPage.isCooling}}">
+                <text class="timeWords">冷却中</text>
+              </view>
+            </view>
+            <view class="standby-speed-title-box">
+              <view>
+                <text style="font-size: 20rpx;">模式</text>
+              </view>
+              <view>
+                <text style="font-size: 24rpx; position: relative; top: -20rpx;">{{showPage.modeText}}</text>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{!is_error && showPage.isPreservation}}">
+            <view class="order-speed-text-box">
+              <!-- <text class="order-speed-text">{{Language.keepTemp}}</text> -->
+            </view>
+            <view class="standby-speed-box flex-row-center">
+              <!-- 单位镜像 -->
+              <view class="standby-speed-temp-unit-box"></view>
+              <view class="flex-row-center">
+                <text class="standby-speed-number-big">{{showPage.insulationTemperature}}</text>
+              </view>
+              <view class="standby-speed-temp-unit-box">
+                <text class="standby-speed-unit-big">{{Language.tempUnit}}</text>
+              </view>
+            </view>
+            <view class="order-speed-text-box">
+              <text class="order-speed-text">{{Language.keepTemp}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <van-cell custom-class="cell" border="{{false}}" style="width: 686rpx;">
+    <text slot="title" class="van-cell-text">{{statusTitle}}</text>
+    <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="btnClick" style="background:{{'#6575ff'}}" data-flag="cancel" wx:if="{{!offline && power.state && (showPage.curStatus == 'working' || showPage.curStatus == 'order')}}">
+      <image binderror="loadBtnStop" src="{{icon.stop}}" class="power-img" />
+    </view>
+    <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="btnClick" style="background:{{'#6575ff'}}" data-flag="start" wx:if="{{!offline && power.state && showPage.curStatus == 'power_on'}}">
+      <image binderror="loadBtnStart" src="{{icon.start}}" class="power-img" />
+    </view>
+    <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="btnClick" style="background:{{'#6575ff'}}" data-flag="turn_on" wx:if="{{confObj.powerBtn && !offline && !power.state}}">
+      <image binderror="loadBtnTurnOn" src="{{icon.turn_on}}" class="power-img" />
+    </view>
+    <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="btnClick" style="background:{{'#6575ff'}};margin-left: 32rpx;" data-flag="turn_off" wx:if="{{!offline && power.state && (showPage.curStatus == 'power_on'||showPage.curStatus == 'order'||showPage.curStatus == 'working')}}">
+      <image binderror="loadBtnTurnOff" src="{{icon.turn_off}}" class="power-img" />
+    </view>
+    <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="btnClick" style="background:{{'#6575ff'}};margin-left: 32rpx;" data-flag="pause" wx:if="{{!offline && confObj.pauseBtn && power.state && showPage.curStatus == 'power_on'}}">
+      <image binderror="loadBtnPause" src="{{icon.pause}}" class="power-img" />
+    </view>
+  </van-cell>
+  <!-- <view>
+  <image style="height: 0; width: 0;" src="{{loadImage}}"></image>
+  </view> -->
+</view>

@@ -1,0 +1,31 @@
+.pv {
+  height: 200rpx;
+}
+.picker-view .picker-view-column {
+  height: 290rpx;
+}
+.picker-view .picker-view-column .picker-view-column-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.picker-view .picker-view-column .picker-view-column-item .item-label {
+  font-size: 36rpx;
+}
+.picker-view .picker-view-column .picker-view-column-item .item-unit {
+  font-size: 26rpx;
+  color: rgba(102, 102, 102);
+  line-height: 34rpx;
+  height: 34rpx;
+  margin-left: 20rpx;
+}
+.indicator-style {
+  line-height: 100rpx;
+  height: 100rpx;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+.blue {
+  color: #007dff;
+}

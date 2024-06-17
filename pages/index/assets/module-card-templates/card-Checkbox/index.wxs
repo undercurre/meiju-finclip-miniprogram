@@ -1,0 +1,32 @@
+/*
+ * @desc: 文本组件
+ * @author: zhucc22
+ * @Date: 2022-05-30 10:29:07
+ */
+/* eslint-disable */
+var style = require('../common/style.wxs');
+var utils = require('../common/utils.wxs');
+
+function customTextStyle(data) {
+  return style(data);
+}
+
+function custombuttonStyle(styles) {
+  if (!styles || !styles.width || !styles.height) return;
+  return style([
+    {
+      width: utils.pxToRpx(styles.width),
+      height: utils.pxToRpx(styles.height),
+      display: 'flex',
+      'align-items': 'center',
+      'justify-content': 'center',
+    }
+  ]);
+}
+
+
+
+module.exports = {
+  customTextStyle: customTextStyle,
+  custombuttonStyle: custombuttonStyle
+};

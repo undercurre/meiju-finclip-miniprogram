@@ -1,0 +1,7 @@
+{
+    "component": true,
+
+    "usingComponents": {
+      "vcBattery": "../../component/vc-battery/vc-battery"
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "故障排查",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "toast": "../../components/toast/toast",
+    "longToast": "../../components/longToast/longToast"
+  }
+}

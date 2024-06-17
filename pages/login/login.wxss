@@ -1,0 +1,119 @@
+.login-main {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(180deg, rgba(153, 192, 255, 0.16) 0%, rgba(255, 255, 255, 0.16) 100%);
+}
+.topBac {
+  position: absolute;
+  top: 24rpx;
+  left: 0;
+  width: 100%;
+  height: 728rpx;
+  z-index: 9;
+  background: transparent;
+}
+.topBacImg {
+  width: 100%;
+  height: 100%;
+}
+.login-logo {
+  position: relative;
+  z-index: 99;
+}
+.login-logo image {
+  display: block;
+  width: 360rpx;
+  height: 360rpx;
+  margin: 0 auto;
+}
+.login-section {
+  position: absolute;
+  left: 0;
+  bottom: 350rpx;
+  width: 100%;
+}
+.login-btn {
+  width: 640rpx!important;
+  height: 86rpx!important;
+  line-height: 86rpx!important;
+  background-color: #267aff!important;
+  border-radius: 43rpx!important;
+  font-size: 32rpx!important;
+  color: #ffffff!important;
+  text-align: center!important;
+  margin: 0 auto!important;
+  display: flex!important;
+  align-items: center!important;
+  justify-content: center!important;
+}
+.agree-icon {
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.blue-text {
+  color: #267aff;
+}
+
+button {
+  border: none;
+}
+button::after {
+  border: none;
+}
+
+.content {
+  display: flex;
+  width: 640rpx;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 220rpx;
+  left: 50%;
+  margin-left: -320rpx;
+  z-index: 10;
+}
+.agreeIcoWarp {
+  width: 28rpx;
+  height: 64rpx;
+  line-height: 38rpx;
+  text-align: right;
+  padding-right: 12rpx;
+}
+.des {
+  width: 600rpx;
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #666666;
+}
+
+.loginBtnHover {
+  background: #226de5;
+}
+
+.loadingIco {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 12rpx;
+}
+
+.editApplianceNameInputWarp {
+  position: relative;
+  width: 466rpx;
+  margin: 26rpx auto 24rpx;
+  background: #ffffff;
+}
+
+.login-cell-group{
+  margin: 20rpx 48rpx;
+}
+
+.login-vercode-button{
+ font-size: 24rpx;
+}
+
+.login-section{
+  --cell-line-height:56rpx
+}

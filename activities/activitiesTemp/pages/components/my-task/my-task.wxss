@@ -1,0 +1,12 @@
+@import '../../common.wxss';
+button::after {
+  border: none;
+}
+.font {
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 40rpx;
+}
+.font text {
+  color: #ff0025;
+}

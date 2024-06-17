@@ -1,0 +1,135 @@
+/* midea-service/pages/faultDescription/faultDescription.wxss */
+page {
+  background: #f9f9f9;
+}
+
+.container-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.default-box {
+  /* padding:0 32rpx; */
+  background: #fff;
+}
+
+.default-box:last-child {
+  margin-bottom: 60rpx;
+}
+
+.row-item-wrap {
+  background: #fff;
+  margin: 0 32rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+.row-item-wrap:last-child {
+  border-bottom: none;
+}
+.line-box {
+  /* border-bottom: 1rpx solid #F2F2F2; */
+}
+.item-list {
+  /* border-bottom: 1rpx solid #F2F2F2; */
+  padding: 32rpx 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+/* .row-item-wrap:last-child .item-list{
+  border-bottom:none;
+} */
+.item-content {
+  width: 650rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #000000;
+  line-height: 48rpx;
+  font-weight: 400;
+}
+
+.remind-text {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 80rpx;
+  /* font-weight: bold; */
+  /* margin:40rpx auto 24rpx 32rpx */
+  margin-left: 32rpx;
+}
+
+.arrow-top {
+  width: 20rpx;
+  height: 20rpx;
+  transform: rotateZ(-90deg);
+}
+
+.arrow-bottom {
+  width: 20rpx;
+  height: 20rpx;
+  transform: rotateZ(90deg);
+}
+
+.reson-panel {
+  background-color: #f6f6f6;
+  /* background-color: #333333; */
+  padding: 0 32rpx 32rpx;
+}
+
+.title {
+  font-size: 28rpx;
+  color: #000000;
+  font-weight: bold;
+  line-height: 80rpx;
+}
+
+.decribe {
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.line {
+  width: 100%;
+  height: 2rpx;
+  color: #e5e5e8;
+  /* background-color: #267aff; */
+  margin: 20rpx auto;
+}
+
+.item-link-row {
+  margin-top: 24rpx;
+  flex-direction: row;
+  align-items: center;
+}
+
+.item-link {
+  color: #267aff;
+  font-family: PingFangSC-Medium;
+  font-weight: 600;
+  font-size: 24rpx;
+}
+
+.item-link-icon {
+  height: 24rpx;
+  width: 24rpx;
+}
+
+.no-data-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.no-data-icon {
+  width: 480rpx;
+  height: 400rpx;
+}
+
+.no-data-text {
+  font-size: 28rpx;
+  color: #8a8a8f;
+  margin-top: 44rpx;
+}

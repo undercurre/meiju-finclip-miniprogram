@@ -1,0 +1,18 @@
+module.exports = {
+  formatTelNumber: function (number) {
+    if (!number) return ''
+    return number.substring(0, 3) + '****' + number.substring(7)
+  },
+  cHeight: function (windowHeight, show, styelcustom, statusBarHeight) {
+    // windowHeight>740||!show?'':styelcustom?windowHeight-126-statusBarHeight:windowHeight-126
+    // if (windowHeight > 810 + statusBarHeight || !show) {
+    //   return ''
+    // } else {
+    if (styelcustom) {
+      return windowHeight - 126 - statusBarHeight
+    } else {
+      return windowHeight - 126
+    }
+    // }
+  },
+}

@@ -1,0 +1,130 @@
+/* midea-replace-repair/pages/uploadLocalImage/uploadLocalImage.wxss */
+.conrainer-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  margin-bottom: 1000rpx;
+}
+.evidence-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 702rpx;
+  height: 280rpx;
+  background-color: #f9f9f9;
+  border: 2rpx dotted #979797;
+  border-radius: 16rpx;
+  margin-top: 32rpx;
+  overflow: hidden;
+}
+.upload-icon {
+  width: 68rpx;
+  height: 68rpx;
+}
+.upload-text {
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #000000;
+  letter-spacing: -0.78rpx;
+  font-weight: 400;
+  margin-top: 24rpx;
+}
+.time-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 702rpx;
+  height: 144rpx;
+  margin-top: 48rpx;
+  /* background-color: #FFFFFF; */
+  /* background-color: #aaaaaa; */
+  box-shadow: 0 0 4rpx #dddddd;
+}
+.time-text {
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #000000;
+  letter-spacing: -0.89rpx;
+}
+.time-text-first {
+  margin-right: auto;
+  margin-left: 32rpx;
+  font-weight: 500;
+}
+.time-text-last {
+  margin-right: 20rpx;
+  color: #999999;
+}
+.bColor {
+  color: #000000;
+}
+.time-arrow {
+  width: 32rpx;
+  height: 40rpx;
+  margin-right: 24rpx;
+}
+
+.submit-btn-wrap {
+  width: 686rpx;
+  height: 92rpx;
+  margin-top: 60rpx;
+  margin-bottom: 120rpx;
+}
+.submit-btn {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: #267aff;
+  color: #fff;
+  text-align: center;
+  line-height: 92rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 400;
+  opacity: 0.2;
+}
+
+.submit {
+  opacity: 1;
+}
+
+.is-img {
+  display: block; /*有图片时 将flex处理为block*/
+  position: relative; /*有图片时 为了子元素能够正常布局 给父元素新增position*/
+  border: none; /*delete border*/
+}
+.evidence-image {
+  width: 100%;
+  height: 100%;
+}
+.has-image-textWrap {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 702rpx;
+  height: 280rpx;
+  background-color: #000000;
+  opacity: 0.6;
+  border: none;
+}
+.has-image-text {
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #ffffff;
+  letter-spacing: -0.89rpx;
+  font-weight: 500;
+}
+.del-icon {
+  position: absolute;
+  top: 32rpx;
+  right: 32rpx;
+  width: 44rpx;
+  height: 44rpx;
+  /* background-color: #DFDFDF; */
+  z-index: 999;
+}

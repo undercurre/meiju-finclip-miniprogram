@@ -1,0 +1,158 @@
+/* midea-service/pages/addAddress/addAddress.wxss */
+/**index.wxss**/
+/* @import '../common.wxss'; */
+.whole {
+  height: calc(100vh - 16rpx);
+  padding-top: 16rpx;
+  background-color: rgb(249, 249, 249);
+}
+.form {
+  background-color: #fff;
+}
+.form-list {
+  display: flex;
+  flex-direction: row;
+  min-height: 104rpx;
+  align-items: center;
+  padding-right: 32rpx;
+  margin-left: 32rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+  position: relative;
+}
+.form-list text {
+  width: 240rpx;
+  font-size: 32rpx;
+  color: #1d1d1d;
+}
+
+/* 一个是placeHoldeclass  一个是私有化前缀 */
+.form-list .input-place {
+  width: 426rpx;
+  font-size: 28rpx;
+  height: 104rpx;
+  color: #7c7c7c;
+  line-height: 104rpx;
+}
+
+textarea::-webkit-input-placeholder {
+  color: #7c7c7c;
+}
+
+.form-list input {
+  width: 426rpx;
+  font-size: 28rpx;
+  color: #1d1d1d;
+  height: 104rpx;
+}
+.form-list .form-region {
+  width: 426rpx;
+  font-size: 28rpx;
+  color: #1d1d1d;
+  height: 104rpx;
+  /* min-height: 104rpx;
+  max-height: 240rpx; */
+  display: flex;
+  align-items: center;
+}
+/* 字体问题  导致输入的时候会出现滚动条  优化项 */
+textarea {
+  font-size: 28rpx;
+  width: 392rpx;
+  padding: 26rpx 0;
+}
+
+.picker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+.picker-view {
+  position: absolute;
+  left: 240rpx;
+  top: 0;
+  width: calc(100% - 240rpx);
+  /* background-color: red; */
+  flex: 1;
+  height: 100%;
+}
+
+.form-dis-submit {
+  width: 686rpx;
+  height: 92rpx;
+  position: fixed;
+  bottom: 100rpx;
+  border-radius: 46rpx;
+  line-height: 92rpx;
+  background: rgba(38, 122, 255, 0.3);
+  font-size: 32rpx;
+  color: #ffffff;
+  text-align: center;
+  margin-left: 32rpx;
+}
+
+.form-submit {
+  width: 686rpx;
+  height: 92rpx;
+  position: fixed;
+  bottom: 100rpx;
+  border-radius: 46rpx;
+  line-height: 92rpx;
+  background: #267aff;
+  font-size: 32rpx;
+  color: #ffffff;
+  text-align: center;
+  margin-left: 32rpx;
+}
+
+.arrowTab {
+  position: relative;
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: -24rpx;
+  margin-top: 5rpx;
+}
+.arrow-click {
+  position: absolute;
+  left: -10rpx;
+  top: -10rpx;
+  bottom: -10rpx;
+  right: -10rpx;
+}
+.arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* .textarea{
+  padding-right: 28rpx;
+} */
+
+.clearAddrIcon {
+  position: relative;
+  width: 32rpx;
+  height: 32rpx;
+  margin-left: 10rpx; 
+  margin-top: 5rpx;
+}
+
+/* dealwith default address */
+.form-list:last-child {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.del-wrap {
+  display: flex;
+  flex-direction: row;
+  min-height: 104rpx;
+  align-items: center;
+  padding-right: 32rpx;
+  margin-left: 32rpx;
+  color: #267aff;
+}

@@ -1,0 +1,15 @@
+{
+  "component": true,
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "cardHeader": "/pages/component/card-header/card-header",
+    "status-panel": "/plugin/T0x26/components/status-panel/status-panel",
+    "power-panel": "/plugin/T0x26/components/power-panel/power-panel",
+    "cell-list": "/plugin/T0x26/components/cell-list/cell-list",
+    "bluetooth-connect": "/plugin/T0x26/components/bluetooth-connect/bluetooth-connect",
+    "light-cell": "/plugin/T0x26/components/light-cell/light-cell",
+    "wind-panel": "/plugin/T0x26/components/wind-panel/wind-panel",
+    "connect-tip": "/plugin/T0x26/components/connect-tip/connect-tip",
+    "mx-service": "/miniprogram_npm/m-services/index/index"
+  }
+}

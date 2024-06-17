@@ -1,0 +1,81 @@
+/* m-ui/mx-log-panel/mx-log-panel.wxss */
+.log-panel-wrap{
+  width: 750rpx;
+  padding-left: 32rpx;
+  border-radius: 32rpx;
+  overflow: hidden;
+}
+.log-panel{
+  width: 686rpx;
+  /* height: 168rpx; */
+  background-color: #ffffff;
+  border-radius: 32rpx;
+  box-shadow: 0 2rpx 20rpx 0 rgba(0,0,0,0.04);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+.title{
+  font-family: PingFangSC-Medium;
+  font-size: 44rpx;
+  color: #000000;
+  font-weight: 500;
+}
+.unit, .describe{
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #666666;
+  font-weight: 400;
+}
+.unit{
+  margin-left: 10rpx;
+}
+.describe{
+  margin-top: 10rpx;
+}
+.item{
+  flex: 1;
+  border-right: 1rpx solid #f2f2f2;
+}
+.item:last-child{
+  border-right:none;
+}
+
+/* ------------------- four ------------------------ */
+.item-four{
+  border-right: 1rpx solid #f2f2f2;
+  /* border-right: 1rpx solid #000000; */
+}
+.item-four:nth-child(2), .item-four:last-child{
+  border-right:none;
+}
+.horizontal-border{
+  position: absolute;
+  width: 622rpx;
+  height: 2rpx;
+  left: 32rpx;
+  top:168.5rpx;
+  /* background-color: #000000; */
+  background-color: #F2F2F2;
+}
+
+/* ------------------- six ------------------------ */
+.item-other{
+  border-right: 1rpx solid #f2f2f2;
+  /* border-right: 1rpx solid #000000; */
+}
+.item-other:nth-child(3), .item-other:last-child{
+  border-right:none;
+}
+.horizontal-border-six{
+  position: absolute;
+  width: 622rpx;
+  height: 2rpx;
+  left: 32rpx;
+  top:168rpx;
+  /* background-color: #000000; */
+  background-color: #F2F2F2;
+}

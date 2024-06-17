@@ -1,0 +1,50 @@
+/* T0xAC//index/index.wxss */
+.continer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #F9F9F9;
+    box-sizing: border-box;
+}
+
+.device-card {
+    width: 686rpx;
+    height: calc(100% - 212rpx);
+    margin: 44rpx auto 84rpx;
+}
+
+button {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    position: static;
+    border: 0;
+    border-radius: 0;
+    color: transparent;
+ }
+ button::after {
+   content: '';
+   width: 0;
+   height: 0;
+   -webkit-transform:scale(1);
+   transform:scale(1);
+   display: none;
+   background: transparent;
+ }
+ .bottom-box{
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+.openMeiJuAPpp {
+    height: 40rpx;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 28rpx;
+    color: #666666;
+}
+
+.blue {
+    color: #267AFF;
+}

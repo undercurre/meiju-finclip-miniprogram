@@ -1,0 +1,8 @@
+<import src="../templates/template.wxml"></import>
+
+<view class="card-container">
+  <view wx:for="{{ deviceInfo.cardUITemplate.body }}" wx:key="id" wx:for-item="cardItem" wx:for-index="idx">
+    <template is="{{ cardItem.type }}" data="{{cardItem,deviceInfo}}"></template>
+    <slot></slot>
+  </view>
+</view>

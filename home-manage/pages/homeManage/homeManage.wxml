@@ -1,0 +1,144 @@
+<!-- pages/homeManage/homeManage.wxml -->
+<wxs src="./assets/js/subutil.wxs" module="tools" />
+<view class="homeManageWarp">
+  <view class="content">
+    <view wx:if="{{creatList.length>0}}" class="home-list-title">我创建的</view>
+    <view class="homeListWarp" wx:for="{{creatList}}" wx:key="homegroupId">
+      <view
+        bindtap="goToDetail"
+        data-homegroupId="{{item.homegroupId}}"
+        data-name="{{ item.name }}"
+        data-roleId="{{ item.roleId }}"
+        data-ownHomeNum="{{ ownHomeNum }}"
+      >
+        <view class="container">
+          <view class="title">
+            <view class="{{uid == item.createUserUid?'homeName homeNameEllipsis':'homeName'}}">{{item.name}}</view>
+          </view>
+          <view class="numList">
+            <view class="itemWarp">
+              <image class="Ico" src="{{roomIco}}"></image>
+              <text class="centerDes">房间</text>
+              <text>{{item.roomCount}}</text>
+            </view>
+            <view class="itemWarp">
+              <image class="Ico" src="{{equipmentIco}}"></image>
+              <text class="centerDes">设备</text>
+              <text>{{item.applianceCount}}</text>
+            </view>
+            <view class="itemWarp">
+              <image class="Ico" src="{{parentIco}}"></image>
+              <text class="centerDes">成员</text>
+              <text>{{item.memberCount}}</text>
+            </view>
+          </view>
+          <button
+            open-type="share"
+            class="inviteButton"
+            hover-class="none"
+            data-homegroupId="{{item.homegroupId}}"
+            catch:tap="clickInviteBtn"
+            wx:if="{{tools.checkHasFamilyPermission(item.roleId) && item.memberCount<20}}"
+          >
+            <text class="inviteText">邀请</text>
+          </button>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{inviteList.length>0}}" class="home-list-title">被邀请的</view>
+    <view class="homeListWarp" wx:for="{{inviteList}}" wx:key="homegroupId">
+      <view
+        bindtap="goToDetail"
+        data-homegroupId="{{item.homegroupId}}"
+        data-name="{{ item.name }}"
+        data-roleId="{{ item.roleId }}"
+        data-ownHomeNum="{{ ownHomeNum }}"
+      >
+        <view class="container">
+          <view class="title">
+            <view class="{{uid == item.createUserUid?'homeName homeNameEllipsis':'homeName'}}">{{item.name}}</view>
+            <text class="myHome" wx:if="{{uid == item.createUserUid}}">（我创建的）</text>
+          </view>
+          <view class="numList">
+            <view class="itemWarp">
+              <image class="Ico" src="{{roomIco}}"></image>
+              <text class="centerDes">房间</text>
+              <text>{{item.roomCount}}</text>
+            </view>
+            <view class="itemWarp">
+              <image class="Ico" src="{{equipmentIco}}"></image>
+              <text class="centerDes">设备</text>
+              <text>{{item.applianceCount}}</text>
+            </view>
+            <view class="itemWarp">
+              <image class="Ico" src="{{parentIco}}"></image>
+              <text class="centerDes">成员</text>
+              <text>{{item.memberCount}}</text>
+            </view>
+          </view>
+          <button
+            open-type="share"
+            class="inviteButton"
+            hover-class="none"
+            data-homegroupId="{{item.homegroupId}}"
+            catch:tap="clickInviteBtn"
+            wx:if="{{tools.checkHasFamilyPermission(item.roleId) && item.memberCount<20}}"
+          >
+            <text class="inviteText">邀请</text>
+          </button>
+        </view>
+      </view>
+    </view>
+    <view class="btn-container">
+      <view bindtap="clickCreateBtn">
+        <mx-icon
+          classPrefix="mx-iconfont"
+          custom-class="custom-plus-class"
+          name="add2"
+          size="14px"
+          color="{{publicColor}}"
+        />
+        新建家庭
+      </view>
+    </view>
+    <mx-dialog
+      z-index="10001"
+      use-slot
+      title="家庭名称"
+      show="{{ dialogShow }}"
+      show-cancel-button
+      bind:cancel="onCancel"
+      cancelButtonColor="{{publicColor}}"
+      confirmButtonColor="{{publicColor}}"
+      scale="1"
+      bind:confirm="confirm"
+      autoClose="{{ false }}"
+      top="40%"
+    >
+      <view class="dialog-input">
+        <view class="field-container">
+          <mx-field
+            custom-style="padding: 3px 8px; background: #F9F9F9;border: 1px solid #EEEEEE;font-size:12px"
+            value="{{ familyValue }}"
+            maxlength="{{15}}"
+            type="text"
+            clearable
+            placeholder="请输入家庭名称"
+            border="{{ false }}"
+            bind:input="onChange"
+            bind:click-input="clickInput"
+            input-class="input-class"
+            confirmButtonText="保存"
+            adjust-position="{{false}}"
+            errorMessage="{{errorMessage}}"
+            error-color="{{errorColor}}"
+            focus="{{autoFocus}}"
+          ></mx-field>
+        </view>
+        <!-- <view class="tips-container" wx:if="{{ tipsShow }}">
+        <text class="tips">{{ tips }}</text>
+      </view> -->
+      </view>
+    </mx-dialog>
+  </view>
+</view>

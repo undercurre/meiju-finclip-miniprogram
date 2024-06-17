@@ -1,0 +1,18 @@
+<!--m-ui/m-cell/m-cell.wxml-->
+<view class="m-card">
+  <view bindtap="cellClicked" class="card-item {{borderRadius=='top'?'top-radius':''}} {{borderRadius=='bottom'?'bottom-radius':''}}"
+  style="background-color:{{backgroundColor}}; border:4rpx solid {{showBorder?borderColor:'transparent'}};">
+    <image wx:if="{{imgSrc}}" class='icon'  src="{{imgSrc}}"></image>
+    <view class="content">
+      <!-- <view class="title"> {{ title }}</view> -->
+      <view class="title">
+        <view>{{title}}</view>
+        <view wx:if="{{leagueTitle}}" style="margin-left:40rpx; margin-top:-4rpx">{{leagueTitle}}</view>
+      </view>
+      <view class="subTitle" style="margin-top:{{desc?'16rpx':0}}" > {{ desc }}</view>
+    </view>
+    <view wx:if="{{rightText}}" class="right-text" data-text="{{rightText}}" catchtap="rightTextClicked">{{rightText}}</view>
+    <image wx:if="{{hasArrow}}" class='arrow' catchtap="rightImgClicked" src="../assets/icon/icon_more.svg"></image>
+    <slot></slot>
+  </view>
+</view>

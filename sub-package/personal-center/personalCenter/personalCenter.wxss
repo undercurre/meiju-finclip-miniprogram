@@ -1,0 +1,46 @@
+/* pages/personalCenter/personalCenter.wxss */
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  margin-top: 20rpx;
+}
+.phone-container,.logout-container{
+  margin-top: 20rpx;
+}
+.avatar{
+  width: 96rpx;
+  height: 96rpx;
+}
+.dialog-input{
+  padding:32rpx 30rpx 20rpx;
+}
+.input-class{
+  font-size: 24rpx;
+}
+.field-container{
+  padding-bottom: 12rpx;
+}
+.tips-container{
+  line-height: 1;
+}
+.tips{
+  font-size: 20rpx;
+  line-height: 20rpx;
+  color: #FF8225;
+}
+
+.avatar-loading{
+  position: absolute;
+  top: 15px;
+  right: 48px;
+}
+.avatar-loading-text{
+  color: #E61E1E;
+  font-size: 10px;
+  height: 12px;
+  line-height: 12px;
+}

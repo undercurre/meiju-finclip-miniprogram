@@ -1,0 +1,26 @@
+.continer{
+    width: 750rpx;
+    height: unset;
+    display: flex;
+    flex-direction: column;
+    background-color: #F9F9F9;
+    box-sizing: border-box;
+}
+.device-card{
+    width: 750rpx;
+    height: unset;
+    margin-bottom: 60rpx;
+}
+.blank{
+    width: 750rpx;
+    height: 60rpx;
+    background-color: #F9F9F9;
+}
+.top-mask{
+    width: 750rpx;
+    background-color: #f9f9f9;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 900;
+}

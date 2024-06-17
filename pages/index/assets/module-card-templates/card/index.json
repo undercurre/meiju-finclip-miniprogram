@@ -1,0 +1,10 @@
+{
+  "usingComponents":{
+    "card-Text":"../card-Text/index",
+    "card-Image":"../card-Image/index",
+    "card-View":"../card-View/index",
+    "card-Checkbox":"../card-Checkbox/index",
+    "card-Container":"../card-Container/index"
+  },
+  "component": true
+}

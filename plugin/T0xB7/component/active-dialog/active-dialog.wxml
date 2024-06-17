@@ -1,0 +1,7 @@
+<!--plugin/T0xB6/activeDialog/active-dialog.wxml-->
+<view class="active-dialog" wx:if="{{activity.iconLink}}">
+  <view class="active-close" bindtap="clickToClose">
+    <van-icon name="close" color="#8a8a8a"></van-icon>
+  </view>
+  <view class="active-dialog-main" style="background-image:url({{ activity.iconLink }});background-size:100% 100%;" bindtap="clickToWebView"></view>
+</view>

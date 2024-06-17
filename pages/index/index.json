@@ -1,0 +1,30 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "美的美居",
+  "backgroundColor": "#ecf0f6",
+  "usingComponents": {
+    "index-header": "/pages/component/index-header/index-header",
+    "active-float-dialog": "/sub-package/ads-banner/components/advertisement/index-float/active-float-dialog/active-float-dialog",
+    "center-product-dialog": "/pages/component/center-product-dialog/center-product-dialog",
+    "trojan-horse": "/pages/component/trojan-horse/trojan-horse",
+    "apply-for-family": "/pages/component/apply-for-family/apply-for-family",
+    "no-device": "/pages/component/no-device/no-device",
+    "fail-home-info": "/pages/component/fail-home-info/fail-home-info",
+    "edit-delete-card": "/pages/component/edit-delete-card/edit-delete-card",
+    "home-manage": "/pages/index/component/home-manage/index",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-field": "/miniprogram_npm/m-ui/mx-field/index",
+    "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
+    "device-card-tips": "./component/device-card-tips/index",
+    "module-card": "./assets/module-card-templates/card/index"
+  },
+
+  "componentPlaceholder": {
+    "active-float-dialog": "view",
+    "advertise-bar": "view",
+    "edit-delete-card": "view",
+    "center-product-dialog": "view",
+    "scene-control-fault": "view",
+    "apply-for-family": "view"
+  }
+}

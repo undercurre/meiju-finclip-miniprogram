@@ -1,0 +1,189 @@
+<wxs src="./assets/wxs/utils.wxs" module="tools" />
+<view class="container">
+  <scroll-view class="content" scroll-y="{{true}}" bindscroll="bindscroll" id="scroll-wrap">
+    <plugin-navbar title="{{}}" backTo="{{backTo}}" isShowBg="{{isShowBg}}"></plugin-navbar>
+    <!-- 小木马 -->
+    <trojan-horse isShowHorse="{{isHourse}}" />
+    <!-- 新页面 -->
+    <view class="all-box" hidden="{{isHourse}}" id="all-box" bindtouchstart="start_fn" bindtouchend="end_fn">
+      <view
+        class="top-big-img {{productDataObj.iconUrl?'hasImg':'noImg'}}"
+        style="background:url('{{imgBaseUrl+otherImg}}') no-repeat;background-size:100% 100%;"
+      >
+        <view class="center-product" style="padding-top:{{tools.format(productDataObj,statusBarHeight)}}px;">
+          <image
+            wx:if="{{productDataObj.iconUrl}}"
+            class="center-product-img"
+            mode="aspectFit"
+            src="{{productDataObj.iconUrl}}"
+          ></image>
+          <text
+            class="big-p-title {{isShowAll?'showAll':'showTwo'}}"
+            wx:if="{{productDataObj.productName}}"
+            catch:tap="toExpand"
+            >{{productDataObj.msCategoryName || productDataObj.productName}}
+          </text>
+          <text class="small-p-title" wx:if="{{productDataObj.marketModel || productDataObj.productModel }}"
+            >型号：{{productDataObj.marketModel ? productDataObj.marketModel : productDataObj.productModel }}
+          </text>
+        </view>
+      </view>
+      <!-- 服务中心 -->
+      <view class="serviceCenter" bindtap="gotoServiceMiniProgram">
+        <image src="{{imgBaseUrl+serviceCenterImg}}" mode="scaleToFill" class="serviceCenterImg"></image>
+      </view>
+      <!-- 电子说明书以及保修政策 -->
+      <block>
+        <view class="two-adv">
+          <block wx:for="{{btnList}}" wx:for-item="basicItem" wx:key="index">
+            <view class="new-one-otem" catchtap="toJump" data-index="{{index}}">
+              <image class="new-icon-img" src="{{imgBaseUrl+basicItem.icon}}" mode="aspectFill"></image>
+            </view>
+          </block>
+        </view>
+      </block>
+      <block wx:for="{{bannerAllList}}" wx:for-item="itemAll" wx:key="index">
+        <block wx:if="{{index>1}}">
+          <!-- 两个广告位 -->
+          <block wx:if="{{itemAll.widgetType == 'banner' && itemAll.type == 3}}">
+            <view
+              class="two-adv"
+              wx:if="{{itemAll.contentSetting.imageList && itemAll.contentSetting.imageList.length>0}}"
+            >
+              <block wx:for="{{itemAll.contentSetting.imageList}}" wx:for-item="basicItem" wx:key="index">
+                <view
+                  class="new-one-otem"
+                  catchtap="imgEnter"
+                  data-linkurl="{{basicItem.jumpLinkUrl}}"
+                  data-jumppictureurl="{{basicItem.jumpPictureUrl}}"
+                  data-jumptype="{{basicItem.jumpType}}"
+                  data-params="{{itemAll}}"
+                  data-index="{{index}}"
+                >
+                  <image class="new-icon-img" src="{{basicItem.imageUrl}}" mode="aspectFill"></image>
+                </view>
+              </block>
+            </view>
+          </block>
+          <!-- 其他服务 -->
+          <block wx:if="{{itemAll.widgetType == 'title' &&  itemAll.contentSetting.hasMore ==false}}">
+            <view class="h-title">{{itemAll.contentSetting.title}}</view>
+          </block>
+          <block wx:if="{{itemAll.widgetType == 'banner' && itemAll.type == 4}}">
+            <view
+              class="scrow-box"
+              wx:if="{{itemAll.contentSetting.imageList && itemAll.contentSetting.imageList.length>0}}"
+            >
+              <scroll-view class="card-list" scroll-x="{{true}}">
+                <block wx:if="{{itemAll.contentSetting.imageList && itemAll.contentSetting.imageList.length !=2}}">
+                  <view
+                    class="only-one"
+                    wx:for="{{itemAll.contentSetting.imageList}}"
+                    wx:key="index"
+                    wx:for-index="index"
+                    wx:for-item="item"
+                    catchtap="imgEnter"
+                    data-linkurl="{{item.jumpLinkUrl}}"
+                    data-jumppictureurl="{{item.jumpPictureUrl}}"
+                    data-jumptype="{{item.jumpType}}"
+                    data-params="{{itemAll}}"
+                    data-index="{{index}}"
+                  >
+                    <image class="scrow-img" src="{{item.imageUrl}}" mode="aspectFill"></image>
+                  </view>
+                </block>
+                <block wx:else>
+                  <view
+                    class="only-ones"
+                    wx:for="{{itemAll.contentSetting.imageList}}"
+                    wx:key="index"
+                    wx:for-index="index"
+                    wx:for-item="item"
+                    catchtap="imgEnter"
+                    data-linkurl="{{item.jumpLinkUrl}}"
+                    data-jumppictureurl="{{item.jumpPictureUrl}}"
+                    data-jumptype="{{item.jumpType}}"
+                    data-params="{{itemAll}}"
+                    data-index="{{index}}"
+                  >
+                    <image class="scrow-img" src="{{item.imageUrl}}" mode="aspectFill"></image>
+                  </view>
+                </block>
+              </scroll-view>
+            </view>
+          </block>
+          <!-- 活动信息 -->
+          <block wx:if="{{itemAll.widgetType == 'title' &&  itemAll.contentSetting.hasMore ==true}}">
+            <view class="swiper-title" catchtap="toOther" data-link="{{itemAll.contentSetting.link}}">
+              <view class="act-title">{{itemAll.contentSetting.title}}</view>
+              <view class="right-icon-box">
+                <view class="more-content">更多</view>
+                <image class="more-icon" src="{{imgBaseUrl+rawIcon}}"></image>
+              </view>
+            </view>
+          </block>
+          <block wx:if="{{itemAll.widgetType == 'banner' && itemAll.type == 1}}">
+            <view
+              class="swiper-box"
+              wx:if="{{ itemAll.contentSetting.imageList && itemAll.contentSetting.imageList.length>0}}"
+            >
+              <view class="advertise-wrap">
+                <swiper
+                  class="advertise"
+                  circular="{{true}}"
+                  duration="500"
+                  indicator-dots="{{itemAll.contentSetting.imageList.length>1?true:false}}"
+                  indicator-color="rgba(255, 255, 255, 0.4)"
+                  indicator-active-color="#FFFFFF"
+                  autoplay="{{autoPlay}}"
+                  bindchange="swiperChange"
+                  interval="{{interval}}"
+                >
+                  <swiper-item
+                    class="swiperItem"
+                    wx:for="{{itemAll.contentSetting.imageList}}"
+                    data-item="{{item}}"
+                    wx:key="index"
+                    wx:for-item="itemA"
+                    catchtap="imgEnter"
+                    data-linkurl="{{itemA.jumpLinkUrl}}"
+                    data-jumppictureurl="{{itemA.jumpPictureUrl}}"
+                    data-jumptype="{{itemA.jumpType}}"
+                    data-params="{{itemAll}}"
+                    data-index="{{index}}"
+                  >
+                    <image class="device-mall" src="{{itemA.imageUrl}}" mode="aspectFill"></image>
+                  </swiper-item>
+                </swiper>
+              </view>
+            </view>
+          </block>
+        </block>
+      </block>
+      <view class="{{isPx?'pdBottom':'commonPadding'}}"></view>
+    </view>
+    <!-- 两个弹框  用户权益跟企业微信 -->
+    <!-- <user-right-dialog show="{{isUserBox}}" userAddress="{{userAddress}}" bind:getUserInformation="getUserInfor">
+    </user-right-dialog> -->
+    <!-- <guide-dialog show="{{isWetChat}}" guideInfo="{{guideInfo}}"></guide-dialog> -->
+  </scroll-view>
+</view>
+<!-- 用户权益填写弹窗 -->
+<user-right-dialog
+  show="{{showRightDilaog}}"
+  userAddress="{{userAddress}}"
+  bindclickInformationClose="clickInformationClose"
+  bindclickChooseAddress="clickChooseAddress"
+  bindclickChoosePic="clickChoosePic"
+  bindclickChooseDate="clickChooseDate"
+  bindclickSumbitInformation="clickSumbitInformation"
+  bindclickScanCode="clickInformationScan"
+></user-right-dialog>
+<!-- 导购企微添加弹窗 -->
+<guide-dialog
+  show="{{showGuideDilaog}}"
+  guideInfo="{{guideInfo}}"
+  bindclickWechatBlankClose="clickWechatBlankClose"
+  bindclickWechatClose="clickWechatClose"
+  bindclickWechatContact="clickWechatContact"
+></guide-dialog>

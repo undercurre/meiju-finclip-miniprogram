@@ -1,0 +1,127 @@
+/* plugin/T0xDB/pages/insurance-card/insurance-card.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+.swiper {
+  width: 100%;
+  height: 194px;
+}
+.swiperImage {
+  width: 100%;
+  height: 194px;
+}
+.insurance-fetch-content-all {
+  width: 90%;
+  /* min-height: 332px; */
+  background-color: #ffffff;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: -8px;
+  margin-bottom: 78px;
+  border-radius: 5px;
+  align-content: center;
+  justify-items: center;
+  margin-inline-start: auto;
+  z-index: 9;
+}
+.insurance-fetch-content-basic {
+  width: 90%;
+  /* min-height: 332px; */
+  background-color: #ffffff;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: -8px;
+  /* margin-bottom: 78px; */
+  border-radius: 5px;
+  align-content: center;
+  justify-items: center;
+  margin-inline-start: auto;
+  z-index: 9;
+}
+.secure-code {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  margin-top: 40px;
+}
+.secure-code-title {
+  margin-left: 5%;
+  width: 70px;
+  text-align: left;
+}
+.secure-code-input {
+  margin-left: 20px;
+  width: calc(90%-90px);
+}
+.gap-line {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  height: 1px;
+  background-color: #f9f9f9;
+}
+.mobile-phone {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  margin-top: 20px;
+}
+.get-insurance-btn {
+  margin-top: 30px;
+  width: 196px;
+  height: 44px;
+  background-color: #4f72f7;
+  border-radius: 22px;
+}
+.description-text {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.description-text-click {
+  display: flex;
+  width: 35px;
+  height: 20px;
+}
+.description-text-btn-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 13px;
+  width: 35px;
+  height: 20px;
+  line-height: 13px;
+  color: #4f72f7;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.description-text-rich-text {
+  margin-top: -18.5px;
+}
+.description-text-rich-text-content {
+  font-size: 12px;
+  color: #666666;
+}
+.content-shrink {
+  margin-top: 10px;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+.content-btn {
+  width: 13px;
+  height: 8px;
+}

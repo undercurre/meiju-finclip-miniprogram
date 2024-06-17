@@ -1,0 +1,79 @@
+.container {
+    background: #fff;
+    border-radius: 10rpx;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.flex-floor {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+}
+.zblank-wrap{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  align-content: center;
+}
+.center-floor{
+  position:relative;
+}
+.blank-floor{
+    height: 128rpx;
+}
+.footer-floor {
+  /* padding:0 44rpx; */
+    padding-bottom: 10rpx;
+}
+.button-floor {
+  padding-bottom: 20rpx;
+    text-align: center;
+    background: #fff;
+}
+.button-floor-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.button-icons{
+  position:relative;
+  height:120rpx;
+  width:120rpx;
+  border-radius:50%;
+}
+.button-img{
+  width:60rpx;
+  height:60rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+/* .mycanvas{
+  width:476rpx;
+  height:476rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+} */
+.button-text{
+  font-size:24rpx;
+  color:#232323;
+}
+.bg-img{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size:72rpx;
+  color:#000000;
+}
+
+button::after {
+  border: none
+}

@@ -1,0 +1,18 @@
+{
+  "navigationBarTitleText": "",
+  "component": true,
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-switch": "/pages/component/vant/switch/index",
+    "banner-text": "../component/banner-text/banner-text",
+    "step-stage": "../component/step-stage/step-stage",
+    "c-picker": "../../../common-packages/plugin/component/picker/picker",
+    "active-dialog": "../../../common-packages/plugin/component/activityWrapper/activity-wrapper",
+    "trojanHorse": "/pages/component/trojan-horse/trojan-horse"
+  },
+  "componentPlaceholder": {
+    "active-dialog": "view",
+    "c-picker": "view"
+  }
+}

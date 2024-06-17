@@ -1,0 +1,15 @@
+{
+    "component": true,
+    "usingComponents": {
+        "mbutton": "/pages/component/mbutton/mbutton",
+        "offline": "/pages/component/offline/offline",
+        "cardHeader": "/pages/component/card-header/card-header",
+        "circleProgressBar": "/pages/component/circle-progress-bar/circle-progress-bar",
+        "vcCleanInfo":"../component/vc-clean-info/vc-clean-info",
+        "vcControl":"../component/vc-control/vc-control",
+        "vcErrorAlert":"../component/error-alert/error-alert",
+        "vcDeviceState":"../component/vc-device-state/device-state",
+        "vcCleanSetting":"../component/vc-clean-setting/vc-clean-setting",
+        "mp-half-screen-dialog": "../component/half-screen-dialog/half-screen-dialog"
+    }
+}   

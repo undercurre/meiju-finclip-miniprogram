@@ -1,0 +1,31 @@
+.switch {
+  width: 96rpx;
+  height: 40rpx;
+  border: 4rpx solid #8a8a8a;
+  background-color: #ffffff;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.switch-blue {
+  width: 96rpx;
+  height: 48rpx;
+  background-color: #267aff;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.switch-grey-dot {
+  width: 16rpx;
+  height: 16rpx;
+  position: relative;
+  left: 16rpx;
+  background-color: #8a8a8f;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+.switch-blue .switch-grey-dot {
+  background-color: #ffffff;
+}

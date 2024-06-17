@@ -1,0 +1,75 @@
+/* midea-service/pages/faultCheck/faultCheck.wxss */
+page {
+  background: #f9f9f9;
+}
+.container-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.default-box {
+  padding: 0 32rpx;
+  background: #fff;
+}
+.default-box:last-child {
+  margin-bottom: 60rpx;
+}
+
+.item-list {
+  width: 100%;
+  height: 104rpx;
+  line-height: 104rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.item-list:last-of-type {
+  border: none;
+}
+
+.remind-text {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 80rpx;
+  /* font-weight: bold; */
+  /* margin:40rpx auto 24rpx 32rpx */
+  margin-left: 32rpx;
+}
+.arrow {
+  position: relative;
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: -24rpx;
+  margin-top: 5rpx;
+}
+.registerRepair {
+  width: 112rpx;
+  height: 48rpx;
+  text-align: center;
+  line-height: 48rpx;
+  font-size: 24rpx;
+  color: #267aff;
+  background-color: #f6f6f6;
+  border-radius: 28rpx;
+  font-weight: bold;
+}
+
+.no-data-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+.no-data-icon {
+  width: 480rpx;
+  height: 400rpx;
+}
+.no-data-text {
+  font-size: 28rpx;
+  color: #8a8a8f;
+  margin-top: 44rpx;
+}

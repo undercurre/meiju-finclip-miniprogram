@@ -1,0 +1,109 @@
+<import src="../templates/template.wxml"></import>
+<wxs src="../common.wxs" module="c1"></wxs>
+<image src="{{image}}" wx:if="{{showImage}}" mode="aspectFit"></image>
+<view class="page-inner" style="{{ isShowLuck ? 'page-inner-hidden':''}}">
+  <navbar text="{{ pageSetting.name }}" back="{{ false }}" home="{{ true }}"></navbar>
+  <view class="shadow" wx:if="{{ isLoading }}"></view>
+  <view
+    class="container bg-normal"
+    style="position: relative;min-height:calc(100vh - {{statusNavBarHeight}}px);{{c1.getStyle(pageSetting)}}"
+  >
+    <!-- 全屏遮罩 -->
+    <view class="full-shadow" wx:if="{{ fullShadow }}"></view>
+    <view
+      class="container-item"
+      wx:for="{{ containerList }}"
+      wx:key="id"
+      wx:for-item="containerItem"
+      wx:for-index="idx"
+    >
+      <view class="bg-normal" wx:if="{{containerItem.containerType != 7}}" style="{{c1.getStyle(containerItem)}}">
+        <!-- eslint-disable -->
+        <template
+          is="{{ containerTypeMap[containerItem.containerType] }}"
+          data="{{containerItem,isLogon,...templateMethods,commonData,options,gameRule,pageSetting,userInfo,isSliderValidation}}"
+        ></template>
+        <!-- eslint-disable -->
+      </view>
+      <!-- 滚动签到样式特殊处理 -->
+      <view
+        wx:if="{{ containerItem.containerType == 7 }}"
+        style="position: relative;{{c1.contactStyle(containerItem,'mt,mb')}}"
+      >
+        <view
+          style="margin: 0;{{c1.contactStyle(containerItem,'bc,mb,ml,mr')}}border-radius:20rpx;padding-bottom:20rpx;"
+        >
+          <template
+            is="{{ containerTypeMap[containerItem.containerType] }}"
+            data="{{ containerItem, isLogon, ...templateMethods, commonData, options, gameRule, pageSetting, userInfo,isSliderValidation }}"
+          ></template>
+        </view>
+      </view>
+    </view>
+    <template
+      is="dialog"
+      data="{{...templateMethods,selectData,...dialogComponentInitData, commonData, options}}"
+    ></template>
+    <template is="toast" data="{{...templateMethods,selectData,...toastComponentInitData, options}}"></template>
+    <template
+      is="face-invite"
+      data="{{...templateMethods,selectData,...faceComponentInitData, options, userInfo, pageSetting}}"
+    ></template>
+    <!-- 查看券码弹框 -->
+    <view-card-dialog
+      isShowCardDialog="{{ cardComponentInitData.isShowCardDialog }}"
+      bind:actionDialogClose="actionDialogClose"
+      props="{{ selectData }}"
+      options="{{ options }}"
+      pageSetting="{{pageSetting}}"
+      basicSetting="{{basicSetting}}"
+      cardPageSetting="{{ cardPageSetting }}"
+      cardContainerInfo="{{ cardContainerInfo }}"
+    ></view-card-dialog>
+    <!-- 查看红包弹框 -->
+    <view-money-dialog
+      isShowMoneyDialog="{{ moneyComponentInitData.isShowMoneyDialog }}"
+      bind:actionDialogClose="actionDialogClose"
+      props="{{ selectData }}"
+      options="{{ options }}"
+    ></view-money-dialog>
+    <!-- 多奖励弹框 -->
+    <view-reward-dialog
+      isShowRewardDialog="{{ rewardComponentInitData.isShowRewardDialog }}"
+      bind:actionDialogClose="actionDialogClose"
+      props="{{ selectData }}"
+      options="{{ options }}"
+      pageSetting="{{pageSetting}}"
+      basicSetting="{{basicSetting}}"
+      composePageSetting="{{ composePageSetting }}"
+      composeContainerInfo="{{ composeContainerInfo }}"
+    ></view-reward-dialog>
+    <!-- 实物弹窗，红包弹窗， 抽奖机会弹窗 -->
+    <view-award-dialog
+      isShowAwardDialog="{{ awardComponentInitData.isShowAwardDialog }}"
+      bind:actionDialogClose="actionDialogClose"
+      bind:actionLaunchApp="actionLaunchApp"
+      bind:actionLaunchAppDialog="actionLaunchAppDialog"
+      bind:actionReceive="actionReceive"
+      props="{{ selectData }}"
+      options="{{ options }}"
+      pageSetting="{{pageSetting}}"
+      basicSetting="{{basicSetting}}"
+      awardPageSetting="{{ awardPageSetting }}"
+      awardContainerInfo="{{ awardContainerInfo }}"
+    ></view-award-dialog>
+  </view>
+  <!-- 顶象滑块弹窗 -->
+  <basic
+    bind:captchaSuccess="captchaSuccess"
+    bind:captchaHide="captchaHide"
+    captchaReload="{{captchaReload}}"
+    captchaShow="{{captchaShow}}"
+    uid="{{verifyCode}}"
+    wx:if="{{captchaShow}}"
+  />
+</view>
+<!-- 更新协议弹窗 -->
+<block>
+  <agreement-update-dialog></agreement-update-dialog>
+</block>

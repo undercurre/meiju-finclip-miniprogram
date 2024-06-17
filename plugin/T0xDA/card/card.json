@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mbutton": "/pages/component/mbutton/mbutton",
+    "offline": "/pages/component/offline/offline",
+    "cardHeader": "/plugin/T0xDA/component/card-header/card-header",
+    "vant-popup": "/pages/component/vant/popup/index",
+    "trojan-horse": "/pages/component/trojan-horse/trojan-horse"
+  }
+}

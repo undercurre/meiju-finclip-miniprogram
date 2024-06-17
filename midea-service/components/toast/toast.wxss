@@ -1,0 +1,35 @@
+/* midea-service/components/address-item/address-item.wxss */
+.container {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 686rpx;
+  height: 72rpx;
+  margin-left: 32rpx;
+  /* background-color: #f9f9f9; */
+  bottom: 300rpx;
+}
+.toast {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 72rpx;
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+  background-color: #000000;
+  border-radius: 16rpx;
+}
+
+.label {
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

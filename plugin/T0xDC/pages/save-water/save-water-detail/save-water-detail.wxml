@@ -1,0 +1,52 @@
+<!--plugin/T0xDB/pages/save-water/save-water-detail.wxml-->
+<view class="wrapper">
+  <mx-notice-bar left-icon="volume-o" scrollable text="优惠券兑换成功后，消耗的水滴无法退还，建议兑换之前先通过查看商品详情确认商品库存情况，谢谢配合。" />
+  <view class="goods-image-wrapper">
+    <image src="{{productInfo.bigProductImg}}" class="goods-image"></image>
+  </view>
+  <view class="name-wrapper">
+    <view class="name-left">{{productInfo.productName}}的优惠券</view>
+    <view class="name-right" bindtap="clickDetail">查看商品详情</view>
+  </view>
+  <view class="coupon-list">
+    <view class="coupon-item" wx:for="{{productInfo.couponInfoList}}" wx:key="index" data-item="{{item}}" bindtap="clickCoupon">
+      <image wx:if="{{item.idCouponInfo === selectedCoupon.idCouponInfo}}" src="https://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/save-water/selcected-icon.png" class="selected-icon"></image>
+      <view class="coupon-text">{{item.couponName}}</view>
+      <view class="coupon-tips">（需{{item.requiredDrip}}g水滴）</view>
+    </view>
+  </view>
+  <view class="drip-count-wrapper">
+    <view class="drip-text">可用</view>
+    <view class="drip-count">{{productInfo.dripCount}}g</view>
+    <view class="drip-text">水滴</view>
+  </view>
+  <view class="exchange-btn {{(selectedCoupon.idCouponInfo && selectedCoupon.couponCurrentStock > 0) ? 'enable' : 'disable'}}" bindtap="showExchangeDialog">{{btnText}}</view>
+  <view class="history-btn" bindtap="clickHistory">查看兑换记录 ></view>
+  <view class="exchange-desc-wrapper">
+    <view class="desc-title">- 兑换说明 -</view>
+    <view class="desc-item" wx:for="{{productInfo.exchangeDescription}}">{{item}}</view>
+  </view>
+  <mx-dialog use-slot title="兑换成功" show-cancel-button confirmButtonText="立即使用" cancelButtonText="确认" confirm-button-color="#29C3FF" cancel-button-color="#29C3FF" show="{{showSuccess}}" bind:cancel="cancelDialog" bind:confirm="confirmDialog">
+    <view class="coupon-container">
+      <view class="coupon-wrapper">
+        <image src="https://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/save-water/selcected-icon.png" class="res-coupon-selected"></image>
+        <view class="res-coupon-name">{{selectedCoupon.couponName}}</view>
+        <view class="res-coupon-tips">{{productInfo.productName}}</view>
+      </view>
+    </view>
+  </mx-dialog>
+  <mx-dialog use-slot title="提示" show-cancel-button confirmButtonText="查看商品详情" cancelButtonText="继续兑换" confirm-button-color="#29C3FF" cancel-button-color="#29C3FF" show="{{exchangeDialogShow}}" use-title-slot bind:cancel="clickExchange" bind:confirm="clickDetail">
+    <view solt="title">
+      <view class="title-wrapper">
+        <view class="title-text">
+          提示
+        </view>
+        <van-icon class="close-btn" name="cross" bind:click="closeExchangeDialog"></van-icon>
+      </view>
+
+    </view>
+    <view class="confirm-exchange-container">
+      优惠券兑换成功后，消耗的水滴无法退还，建议兑换之前先通过查看商品详情确认商品库存情况，谢谢配合。
+    </view>
+  </mx-dialog>
+</view>

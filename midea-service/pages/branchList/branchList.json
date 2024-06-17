@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "网点查询",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "view-address-popup": "../../components/view-address-popup/view-address-popup"
+  }
+}

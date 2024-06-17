@@ -1,0 +1,78 @@
+<view class="container-box">
+  <view class="padding-inner">
+    <view class="" style="width: 100%; height: calc(100vh - 412rpx)">
+      <map
+        id="myMap"
+        style="width: 100%; height: 100%"
+        latitude="{{latitude}}"
+        longitude="{{longitude}}"
+        markers="{{markers}}"
+        scale="14"
+        show-location
+      ></map>
+    </view>
+    <!-- 底部轮播图 -->
+    <view class="swiper-box">
+      <view class="idot-box">
+        <block wx:for="{{ productBranchList.length }}" wx:key="index">
+          <view class="idots-items {{index == currentIndex? 'activeColor':''}}"> </view>
+        </block>
+      </view>
+      <view class="sit-address-box">
+        <swiper
+          autoplay="{{false}}"
+          class="swiper-container"
+          bindchange="swiperChange"
+          current="{{ currentIndex }}"
+          duration="300"
+        >
+          <swiper-item wx:for="{{ productBranchList }}" wx:key="index">
+            <view class="only-one-item">
+              <view class="swiper-l-r">
+                <view class="l-d-c">
+                  <view class="swiper-title line-1">
+                    <text wx:if="{{ productBranchList.length > 1 }}">{{index+1}}.</text>{{ item.unitName }}
+                  </view>
+                  <view class="c-top line-1">业务范围：{{ item.businessScope ? item.businessScope : ''}}</view>
+                  <view class="num-address">
+                    <view class="l-num-km" wx:if="{{item.distanceDesc}}">
+                      <text>{{item.distanceDesc}}</text>
+                    </view>
+                    <view class="sure-add line-1">{{item.unitAddress}}</view>
+                  </view>
+                </view>
+                <view class="r-p-add-box">
+                  <view class="r-p-add">
+                    <view
+                      class="right-l right-l-phone"
+                      catchtap="makePhoneCall"
+                      data-phone="{{ item.deliverTel }}"
+                      wx:if="{{ item.deliverTel }}"
+                    >
+                      <view
+                        class="r-l-icon"
+                        style="background:url('{{imgBurl+co}}') no-repeat -515rpx -322rpx;background-size:800rpx auto"
+                      >
+                      </view>
+                      <view class="r-l-icon-l">电话</view>
+                    </view>
+                    <view class="right-l" catchtap="goMapNavi" data-item="{{ item }}">
+                      <view
+                        class="r-l-icon"
+                        style="background:url('{{imgBurl+co}}') no-repeat -446rpx -322rpx;background-size:800rpx auto"
+                      >
+                      </view>
+                      <view class="r-l-icon-l">
+                        <text>到这去</text>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </swiper-item>
+        </swiper>
+      </view>
+    </view>
+  </view>
+</view>

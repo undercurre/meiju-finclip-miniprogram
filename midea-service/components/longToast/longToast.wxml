@@ -1,0 +1,3 @@
+<view class="toast-view-box" wx:if="{{isLongToast}}">
+  <text class="center-text">{{longText}}</text>
+</view>

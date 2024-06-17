@@ -1,0 +1,173 @@
+<!--pages/T0xDC/card.wxml-->
+<movable-area class="container">
+  <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+  <!-- <cardHeader
+    image="{{machineIcon}}"
+    title="{{applianceData.name}}"
+    desc="{{applianceData.roomName}}"
+    activitys="{{configActivitys}}"
+  /> -->
+
+  <block wx:if="{{needHorse}}">
+    <trojan-horse isShowHorse="true"></trojan-horse>
+  </block>
+  <block wx:else>
+    <block wx:if="{{applianceData.onlineStatus == 1}}">
+      <!-- <cardHeader activitys="{{configActivitys}}" applianceData="{{applianceData}}" /> -->
+      <!-- 内容区域：分为中部和底部两个区域，使用flex布局，底部区域固定在card底部 -->
+      <scroll-view scroll-y="true" class="scroll-floor" scroll-top="{{scrollViewTop}}" scroll-with-animation="{{true}}">
+        <view class="scroller-flex-floor">
+          <!--使flex生效，不可删除此包裹元素-->
+          <!-- <view class="blank-floor"></view>布局占位用，不可删除 -->
+          <!-- 中部区域: 设备剩余时间设置以及工作状态  -->
+          <view class="content" style="padding-top: 70px">
+            <block wx:if="{{applianceStatus.power == 'on'}}">
+              <block wx:if="{{applianceStatus.running_status === 'fault' || applianceStatus.running_status === 'end'}}">
+                <view class="center-content center-content-off">
+                  <image
+                    class="runningBg"
+                    src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_waiquanCircle.png"
+                  ></image>
+                  <text class="appliance-end-fault">{{modeDesc[applianceStatus.running_status]}}</text>
+                </view>
+              </block>
+              <block wx:else>
+                <view class="center-content">
+                  <image
+                    class="runningBg"
+                    src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_waiquanCircle.png"
+                  ></image>
+                  <image
+                    wx:if="{{applianceStatus.running_status === 'start'}}"
+                    class="runningAnimate"
+                    src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_runningAnima.png"
+                    animation="{{animationData}}"
+                  ></image>
+                  <view class="appliance-temp">
+                    <text class="center-desc">{{modeDesc[applianceStatus.running_status]}}</text>
+                    <block wx:if="{{applianceStatus.remain_time === 65535}}">--</block>
+                    <block wx:else>{{applianceStatus.remain_time}}</block>
+                    <text class="unit">分</text></view>
+                </view>
+              </block>
+            </block>
+            <block wx:else>
+              <view class="center-content center-content-off">
+                <image
+                  class="runningBg"
+                  src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_waiquanCircle.png"
+                ></image>
+                <text class="appliance-off">关机</text>
+              </view>
+            </block>
+          </view>
+          <!-- 底部区域: 操控按钮 -->
+          <view class="footer-area">
+            <view class="footer-content">
+              <view class="footer-control">
+                <block wx:if="{{applianceStatus.power != 'on'}}" class="controlPowerOn">
+                  <view class="buttonPowerOn" bindtap="powerToggle">
+                    <text class="buttonDesc">开机</text>
+                    <image
+                      class="controlIconRight"
+                      src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_powerOnOff.png"
+                    ></image>
+                  </view>
+                </block>
+                <block wx:elif="{{applianceStatus.running_status === 'delay' || applianceStatus.running_status === 'fault' || applianceStatus.running_status === 'end'}}" class="controlPowerOn">
+                  <view class="buttonPowerOn" bindtap="powerToggle">
+                    <text class="buttonDesc">关机</text>
+                    <image
+                      class="controlIconRight"
+                      src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_powerOff.png"
+                    ></image>
+                  </view>
+                </block>
+                <block wx:else>
+                  <view class="buttonPowerOff" bindtap="powerToggle">
+                    <image
+                      class="controlIconLeft"
+                      src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_powerOff.png"
+                    ></image>
+                    <text class="buttonDesc">关机</text>
+                  </view>
+                  <block wx:if="{{applianceStatus.running_status === 'start'}}">
+                    <view class="buttonRun" bindtap="pauseToggle">
+                      <image class="controlIconLeft" src="{{running_status2.mainImg}}"></image>
+                      <text class="buttonDesc">暂停</text>
+                    </view>
+                  </block>
+                  <block wx:else>
+                    <view class="buttonRun" bindtap="startToggle">
+                      <image class="controlIconLeft" src="{{running_status1.mainImg}}"></image>
+                      <text class="buttonDesc">启动</text>
+                    </view>
+                  </block>
+                </block>
+              </view>
+            </view>
+
+            <view class="footer-view"> 
+              <block wx:if="{{!notShowMode && applianceStatus.power == 'on'}}"> 
+                <view class="footer-view-item"> 
+                  <view class="footer-view-content" bindtap="modeToggle"> 
+                    <image 
+                      class="viewIconLeft" 
+                      src="{{running_status3.mainImg}}"
+                    ></image> 
+                    <view class="view-descs"> 
+                      <text class="">设置模式</text>               
+                    </view>
+                    <view class="view-right-content">
+                      <text class="">{{modeNameShown}}</text>
+                    </view>
+                    <image 
+                      class="viewIconRight" 
+                      src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_arrowright.png" 
+                    ></image> 
+                  </view> 
+                </view>
+                <view class="footer-view-gapline"></view>
+                <view class="footer-view-item">
+                  <view class="footer-view-content" bindtap="gotoMall">
+                    <image class="viewIconLeft" src="http://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/haocai.png"></image>
+                    <view class="view-descs">
+                      <text class="">耗材购买</text>
+                    </view>
+                  </view>
+                  <image class="viewIconRight" src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_arrowright.png"></image>
+                </view>
+              </block>
+            </view>
+
+          </view>
+        </view>
+      </scroll-view>
+    </block>
+    <block wx:else>
+      <offline></offline>
+    </block>
+  </block>
+  <movable-view wx:if="{{saveWaterImage!==''}}" style="width: 128rpx; height: 128rpx;" x="600rpx" y="80rpx" direction="all">
+    <view style="width: 128rpx; height: 128rpx;">
+      <image src="{{saveWaterImage}}" style="width: 64px; height: 64px;" bindtap="goToSaveWater"></image>
+      <image src="http://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/close.png" style="width: 32rpx; height: 32rpx; position: absolute; top: 0; right: 0;" bindtap="clickCloseWater"></image>
+    </view>
+  </movable-view>
+  <vant-popup show="{{isShowModePicker}}" position="bottom" bind:click-overlay="closeModePop" customStyle="background:#fff;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+    <view class="modal-wrapper">
+      <view class="pop-title">选择模式</view>
+      <view class="pickerViewContent">
+          <picker-view indicator-style="" value="{{pickerNameValue}}" style="width: 100%; height: 200px;" bindchange="selectModeChange" immediate-change="true">
+              <picker-view-column>
+                  <view class="center-flex-row" wx:for="{{modeNames}}" wx:key="index">{{item}}</view>
+              </picker-view-column>
+          </picker-view>
+      </view>
+      <view class="pop-footer">
+          <view class="pop-button" bindtap="closeModePop">取消</view>
+          <view class="pop-button" bindtap="confirmModePop">确认</view>
+      </view>
+    </view>
+  </vant-popup>  
+</movable-area>

@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="list-header-content">
+    <text>历史记录</text>
+    <text class="goto-insurance-desc" bindtap="gotoInsuranceDesc">使用规则></text>
+  </view>
+
+  <block wx:for-items="{{contractLists}}" wx:for-item="item" wx:key="*this">
+    <view class="hover-class {{item.type === 'notUsed'?'notUsed':(item.type === 'used'?'used':'expired' )}}">
+      <!--左边title和有效期-->
+      <view class="item-title-desc">
+        <text class="item-title">{{item.title}}</text>
+        <text class="item-date">{{item.dateRange}}</text>
+      </view>
+      <!-- 分割 -->
+      <!-- <view class="item-gap-line">
+            </view> -->
+      <!-- 右边使用状态 -->
+      <view class="item-status">
+        <text class="item-status-text">{{item.statusDesc}}</text>
+      </view>
+    </view>
+  </block>
+</view>

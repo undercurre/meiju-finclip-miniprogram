@@ -1,0 +1,23 @@
+<overlay receiveDialog="{{isShowAdressPopup}}" bind:maskHide="onMaskHide"></overlay>
+<view wx:if="{{isLoading}}" class="overlay"></view>
+<view wx:if="{{isShowAdressPopup}}" class="bottom-popup" id="popup">
+  <image class="loading" wx:if="{{isLoading}}" src="./loading.gif"></image>
+  <view class="popop-header">
+    <text wx:for="{{chooseArea}}" wx:key="index" data-index="{{index}}" bindtap="headerClick" class="header-text">
+      {{item}}
+    </text>
+  </view>
+  <scroll-view scroll-y="{{true}}" scroll-into-view="{{ toPos }}" style="height: 510rpx">
+    <view
+      wx:for="{{areaList}}"
+      wx:key="item"
+      id="city{{item.regionCode}}"
+      class="scroll-text"
+      data-code="{{item.regionCode}}"
+      data-name="{{item.regionName}}"
+      bindtap="itemClick"
+    >
+      {{item.regionName}}
+    </view>
+  </scroll-view>
+</view>

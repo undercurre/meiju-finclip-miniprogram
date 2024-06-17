@@ -1,0 +1,38 @@
+<view class="appointment">
+  <scroll-view scroll-y="true" class="content" style="height:{{ isIphoneX?'calc(100vh - 188rpx)':'calc(100vh - 128rpx)' }}">
+    <view class="none-sub flex flex_column align_center" wx:if="{{list.length===0}}">
+      <image src="{{images.noneSub}}" class="none-sub-img" />
+      <text class="none-sub-text">未设置预约时间</text>
+    </view>
+
+    <block wx:else>
+      <van-swipe-cell wx:for="{{list}}" wx:key="index" right-width="{{ 80 }}" bind:open="onOpen" disabled="{{item.label}}"> 
+       <van-cell label="{{item.wkStr}}" border="{{list.length-1!==index}}" custom-class="cell" title-style='cell-title' bind:click="itemClick" data-item="{{item}}">
+          <view slot="title" class="list-item-title flex align_center">
+            <view class="day-desc flex align_center justify_center" wx:if="{{item.label}}">
+              <text class="text">{{item.label}}</text>
+            </view>
+            <text class="time">{{item.startTime}}-{{item.endTimeStr}}</text>
+            <text class="tem">{{ item.temp + '℃'}}</text>
+          </view>
+          <van-switch checked="{{item.enable}}" slot="right-icon" active-color="#FFAA10" catch:tap="beforeChange" data-item="{{item}}" size="40rpx" />
+        </van-cell>
+        <view wx:if="{{showDelete}}" slot="right" class="delete-btn flex align_center justify_center" data-item="{{item}}" bindtap="deleteAppoint">
+          <text class="delete-btn-text">删除</text>
+        </view>
+      </van-swipe-cell>
+    </block>
+
+    <view class="appoint-tips" wx:if="{{appointType == 1}}">
+      <text class="appoint-tips-desc">
+        温馨提示：
+        1.电热水器将会根据内胆容积、功率和当前温度等，自动提前加热，在设定时间加热到设定温度；
+        2.非预约时间段内，如需临时加热，调整设置温度即可。
+      </text>
+    </view>
+  </scroll-view>
+  <view class="footer flex align_center justify_center" style="margin-bottom:{{isIphoneX?'60rpx':'0'}}"
+    bindtap="addAppoint">
+    <text class="footer-text">添加时间</text>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+<van-cell custom-class="cell" border="{{false}}" title-class="cell-title">
+  <text slot="title" class="van-cell-text">{{title}}</text>
+  <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="powerToggle"
+    style="background:{{iconColor}}">
+    <image src="{{images.powerOn}}" class="power-img" />
+  </view>
+</van-cell>

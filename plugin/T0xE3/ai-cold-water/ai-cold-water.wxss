@@ -1,0 +1,142 @@
+@import "../assets/css/public.wxss";
+
+page {
+  background: #f9f9f9;
+}
+
+.cell-group {
+  width: 686rpx !important;
+  border-radius: 16rpx;
+  margin-top: 16rpx;
+}
+
+.top-cell {
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+  margin-top: 0;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+
+.bottom-cell {
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+  margin-top: 0;
+  border-bottom-left-radius: 16rpx;
+  border-bottom-right-radius: 16rpx;
+}
+
+.cell {
+  margin-top: 16rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+}
+.check-cell {
+  margin-top: 16rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+  background-color: #E5E5E8 !important;
+}
+
+.cell-title {
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #000000;
+  font-weight: 500;
+}
+.cell-label {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8A8A8F;
+  font-weight: 400;
+}
+.cell-value {
+  font-size: 32rpx;
+  color: #666666;
+}
+
+.cell-img-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 32rpx;
+  margin-right: 32rpx;
+}
+
+.cell-img-wrap .cell-img {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.list-container {
+  margin: 32rpx 0;
+}
+
+.text {
+  font-size: 24rpx;
+  line-height: 1;
+  display: block;
+  font-family: PingFangSC-Regular;
+  color: #8A8A8F;
+  font-weight: 400;
+  margin: 32rpx;
+}
+
+.tab2 {
+  flex-direction: row;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  margin: 20rpx 0 52rpx 0;
+  width: 100vw
+}
+
+.tab2-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 32rpx;
+}
+
+.left-title {
+  height: 28rpx;
+  line-height: 28rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium;
+  color: #666666;
+  font-weight: 500;
+}
+
+.tab2-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.right-edit {
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  color: #ffaa10;
+  line-height: 32rpx;
+  font-weight: 400;
+  margin-right: 32rpx;
+}
+
+.step-flow {
+  margin-left: 32rpx;
+}
+
+.no-appoint {
+  margin-left: 32rpx;
+  color: #8a8a8f;
+  font-size: 28rpx;
+}

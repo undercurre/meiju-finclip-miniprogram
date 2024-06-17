@@ -1,0 +1,42 @@
+/*
+ * @desc: 首页ui一致性整改
+ * @author: zhucc22
+ * @Date: 2024-03-04 14:36:00
+ */
+// 修改eslint超长部分
+var filterHomePickerOptionsWrapper = function (bindex, currentHomeGroupIndex) {
+  return bindex === currentHomeGroupIndex
+    ? 'home-picker-options-wrapper-active home-picker-options-wrapper'
+    : 'home-picker-options-wrapper'
+}
+
+var sub = function (val) {
+  if (val.length == 0 || val == undefined) {
+    return
+  }
+  if (val.length > 15) {
+    return val.substring(0, 15) + '...'
+  } else {
+    return val
+  }
+}
+var checkHasFamilyPermission = function (roleId) {
+  var hasPermissionList = ['1001', '1002'] // 1001 - 创建者 1002 - 管理员
+  return hasPermissionList.indexOf(roleId) >= 0
+}
+
+var pickItemActive = function (bindex, currentHomeGroupIndex) {
+  return bindex === currentHomeGroupIndex ? 'home-picker-item-active' : ''
+}
+
+var pickerItemMaxWidth = function (roleId) {
+  return roleId === '1001' ? 'home-active-select' : 'home-default-select'
+}
+
+module.exports = {
+  sub: sub,
+  filterHomePickerOptionsWrapper: filterHomePickerOptionsWrapper,
+  checkHasFamilyPermission: checkHasFamilyPermission,
+  pickItemActive: pickItemActive,
+  pickerItemMaxWidth: pickerItemMaxWidth,
+}

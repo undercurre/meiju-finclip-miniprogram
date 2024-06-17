@@ -1,0 +1,23 @@
+<!--plugin/T0xDB/pages/save-water/save-water-history/save-water-history.wxml-->
+<view class="wrapper">
+  <view class="empty-wrapper" wx:if="{{exchangeList.length === 0}}">
+    <image src="https://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/save-water/empty.png" class="empty-image"></image>
+    <view class="empty-text">暂无兑换记录</view>
+  </view>
+  <view class="list-wrapper" wx:else>
+    <view wx:for="{{exchangeList}}" wx:key="index" class="exchange-item">
+      <view class="exchange-left">
+        <view class="product-name">{{item.productName}}</view>
+        <view class="exchange-time">兑换时间：{{item.exchangeTime}}</view>
+      </view>
+      <view class="exchange-right">
+        <view class="coupon-name">{{item.couponName}}</view>
+        <view class="drip-wrapper">
+          <view class="drip-count">{{item.requiredDrip}}g</view>
+          <view class="drip-unit">水滴</view>
+        </view>
+        <view wx:if="{{item.expiredFlag===1}}" class="use-btn" data-item="{{item}}" bindtap="clickUse">立即使用</view>
+      </view>
+    </view>
+  </view>
+</view>

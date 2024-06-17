@@ -1,0 +1,14 @@
+/* eslint-disable */
+var getStyle = function (containerList, containerItem, idx) {
+  var str = ''
+  if ((containerList.length > 1 && idx == 0) || containerList.length == 1) {
+    str += 'height:' + containerItem.height + 'rpx;'
+  }
+  if (idx == 0) {
+    str += 'background-image:url(' + containerItem.background + ');'
+  }
+  return str
+}
+module.exports = {
+  getStyle: getStyle,
+}

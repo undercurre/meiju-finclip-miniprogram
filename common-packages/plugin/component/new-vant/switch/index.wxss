@@ -1,0 +1,10 @@
+@import '../common/index.wxss';
+.van-switch{background-color:var(--switch-background-color,#fff);border:var(--switch-border,2px solid rgba(138, 138, 143, 1));border-radius:var(--switch-node-size,1em);box-sizing:initial;display:inline-block;height:var(--switch-height,1em);position:relative;transition:background-color var(--switch-transition-duration,.3s);width:var(--switch-width,2.2em)}
+
+.van-switch__node{background-color:var(--switch-node-background-color,#8A8A8F);border-radius:100%;height:var(--switch-node-size,0.4em);left:6px;position:absolute;top:7px;transition:var(--switch-transition-duration,.3s) cubic-bezier(.3,1.05,.4,1.05);width:var(--switch-node-size,0.4em);z-index:var(--switch-node-z-index,1)}
+
+.van-switch__loading{height:50%;left:25%;position:absolute!important;top:25%;width:50%}
+.van-switch--on{background-color:var(--switch-on-background-color,#1989fa);border: none;width: var(--switch-width, 2.4em);height: var(--switch-height, 1.2em)}
+.van-switch--on .van-switch__node{transform:translateX(calc(var(--switch-width, 2em) - var(--switch-node-size, 1.0em)));background-color: var(--switch-node-background-color, #fff);height: var(--switch-node-size, 0.9em);width: var(--switch-node-size, 0.9em);right: 6px;
+position: absolute;top: 3px;}
+.van-switch--disabled{opacity:var(--switch-disabled-opacity,.4)}

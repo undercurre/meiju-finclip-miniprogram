@@ -1,0 +1,118 @@
+<!-- <import src="../../templates/template.wxml"></import> -->
+<wxs src="../../common.wxs" module="c1"></wxs>
+<wxs src="./rolling-sign-container.wxs" module="s1"></wxs>
+<view class="common-container" style="position: relative">
+  <view class="common-main" wx:key="id" wx:for="{{ containerData.basicList }}" wx:for-item="basicItem">
+    <!-- 通用组件：custom : 0
+    target:   0、无交互；1、关闭；2、活动内页面；3、分享；4、美的美居；5、链接；6、定制功能；7、弹窗 -->
+    <!-- <template is="hotzone" data="{{ basicItem }}"></template> -->
+    <view wx:if="{{ basicItem.custom == '0' }}">
+      <hotzone
+        props="{{ basicItem }}"
+        selectContainer="{{ containerData }}"
+        commonData="{{ commonData }}"
+        options="{{ options }}"
+        bind:actionHotzoneDialog="actionHotzoneDialog"
+        bind:actionLaunchAppError="actionLaunchAppError"
+        bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+        bind:actionGetHotzonePhonenumber="actionGetHotzonePhonenumber"
+        bind:actionHotzoneCustom="actionHotzoneCustom"
+        isLogon="{{ isLogon }}"
+      ></hotzone>
+    </view>
+    <view wx:else>
+      <!-- 日历签到玩法 -->
+      <!-- 1.点击签到;2.签到日历;3.签到提醒 -->
+      <view
+        wx:if="{{ basicItem.custom == '3' && rollSignInfo.warnNotice == 1 }}"
+        class="common-target"
+        data-item="{{ basicItem }}"
+        style="{{c1.contactStyle(basicItem,'wi,he,x,y,z')}}"
+      >
+        <button
+          hover-class="none"
+          wx:if="{{ !isLogon }}"
+          data-item="{{ basicItem }}"
+          bindtap="actionGetphonenumber"
+          class="button-common common-target"
+          style="width:100%;height:{{ basicItem.height }}rpx;top: 0rpx;left: 0rpx;z-index:{{basicItem.positionZ + 1}};"
+        ></button>
+        <text class="rolling-notice">签到提醒</text>
+        <!-- 获取手机号冒泡,所以放放两个 -->
+        <switch color="#1E89FF" wx:if="{{ !isLogon }}" data-item="{{ basicItem }}" disabled="{{true}}" />
+        <switch
+          color="{{ signNotice ? '#1E89FF': '#fff'}}"
+          wx:if="{{ isLogon }}"
+          data-item="{{ basicItem }}"
+          checked="{{ signNotice }}"
+          bindchange="switch1Change"
+        />
+      </view>
+      <view
+        wx:if="{{ basicItem.custom == '2' }}"
+        class="sign-center"
+        style="width:{{ basicItem.width }}rpx;padding-top:{{ basicItem.positionY }}rpx;z-index:{{basicItem.positionZ}}"
+      >
+        <view class="rolling-content" style="">
+          <view
+            class="rolling-item"
+            style="z-index:{{basicItem.positionZ}}"
+            wx:for="{{ signInfo }}"
+            wx:key="ids"
+            wx:for-item="signInfoItem"
+            wx:for-index="idx"
+          >
+            <view class="rolling-item-day" data-item="{{ basicItem }}" data-selectday="{{ signInfoItem }}" style="">
+              <view
+                class="rolling-item-day"
+                data-item="{{ basicItem }}"
+                data-selectday="{{ signInfoItem }}"
+                style="z-index:{{basicItem.positionZ}};background-image:url({{ signInfoItem.signUrl }});"
+              ></view>
+              <view class="connect {{ s1.isTrue(signInfoItem) }}" style="" wx:if="{{ signInfoItem.isShowConnect }}">
+              </view>
+            </view>
+            <view class="rolling-status-wait {{signInfoItem.signStatus == 0 ? 'sign-wait':'sign-other'}}">
+              {{ signInfoItem.signStatus == 0 ? "待签" : signInfoItem.signStatus == 2 ? "已签" : idx + 1 }}
+            </view>
+          </view>
+        </view>
+        <view wx:if="{{ isShowMore }}" class="rolling-more" bindtap="actionViewMore">
+          <view>{{ moreText }}</view>
+          <view
+            class="arrow bg-hundred"
+            style="background-image:url({{ imgUrl }}{{ moreOpen ? 'icon-top.png':'icon-bottom.png'}});"
+          ></view>
+        </view>
+      </view>
+      <view wx:if="{{ basicItem.custom == '1' }}">
+        <!-- 登录 -->
+        <button
+          hover-class="none"
+          wx:if="{{ !isLogon }}"
+          data-item="{{ basicItem }}"
+          bindtap="actionGetphonenumber"
+          class="button-common bg-normal"
+          style="margin:0 auto;{{c1.contactStyle(basicItem,'he,wi,z,bbg')}}"
+        ></button>
+        <!-- 引导到美居app -->
+        <!-- <button
+          hover-class="none"
+          class="button-common"
+          bindtap="actionLaunchApp"
+          data-item="{{ basicItem }}"
+          wx:elif="{{selectGameRule.needLoad}}"
+          data-loadtype="{{selectGameRule.min}}"
+         style="margin:0 auto;{{c1.contactStyle(basicItem,'he,wi,z,bbg')}}"></button> -->
+        <button
+          hover-class="none"
+          class="button-common bg-normal"
+          bindtap="actionSign"
+          data-item="{{ basicItem }}"
+          wx:else="{{ isLogon }}"
+          style="margin:0 auto;{{c1.contactStyle(basicItem,'he,wi,z,bbg')}}"
+        ></button>
+      </view>
+    </view>
+  </view>
+</view>

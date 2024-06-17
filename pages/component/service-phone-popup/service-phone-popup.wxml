@@ -1,0 +1,24 @@
+<view class="active-mask" hidden="{{ !show }}"></view>
+<view class="swiper-dialog" hidden="{{ !show }}">
+  <block>
+    <view class="padding-b" bindtap="confirmPopup">
+      <text class="left_text">附近有可添加的设备</text>
+      <image src="./assets/pop_ic_close@1x.png" class="right-chacha" bindtap="closeSwiperDialog"></image>
+    </view>
+  </block>
+  <block>
+    <view class="animimate-box">
+      <scroll-view scroll-x="{{scrollX}}">
+        <view class=" {{productList.length>4?'isOne':'flex-box'}}">
+          <block wx:for="{{productList}}" wx:for-index="key" wx:for-item="item" wx:key="index">
+            <view class="only-one {{productList.length>4?'isLeftMargin':''}}">
+              <image class="p-img" src="{{item.src}}"></image>
+              <view class="p-name">{{item.name}}</view>
+              <view>添加</view>
+            </view>
+          </block>
+        </view>
+      </scroll-view>
+    </view>
+  </block>
+</view>

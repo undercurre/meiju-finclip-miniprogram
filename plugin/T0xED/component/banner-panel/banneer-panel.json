@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "btn-animation": "../btn-animation/btn-animation"
+  }
+}

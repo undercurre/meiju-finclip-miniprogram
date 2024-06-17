@@ -1,0 +1,79 @@
+<!--plugin/T0xB9/component/midea-stove-card/midea-stove-card.wxml-->
+<view class="card-wrapper">
+  <!--工作中背景-->
+  <view class="working-bg" wx:if="{{bindModel.isWorking}}">
+    <image
+      mode="widthFix"
+      class="image {{bindModel.isPause?'':'running'}}"
+      src="{{bindModel.isPause?bgImage.default:bgImage.running}}"
+    ></image>
+  </view>
+  <view class="header-wrapper between-flex">
+    <view wx:if="{{!bindModel.isWorking}}" class="stove-status-wrapper">
+      <view class="stove-name-wrapper">
+        <text class="stove-name">{{bindModel.name||'未知'}}</text>
+        <text class="line">|</text>
+        <text class="stove-status-label">{{bindModel.statusName||'未知'}}</text>
+      </view>
+      <view class="stove-info-wrapper">
+        <text>烹饪时间: {{bindModel.settingParams.setWorkTimeLabel}}</text>
+      </view>
+    </view>
+    <view wx:if="{{!bindModel.isWorking&&bindModel.isRunning}}" class="stove-value-wrapper">
+      <text>{{bindModel.settingParams.valueText}}</text>
+    </view>
+    <view wx:if="{{!bindModel.isRunning}}" class="stove-value-wrapper disabled-text">
+      <text>已关机</text>
+    </view>
+    <!--故障中区域-->
+    <view wx:if="{{bindModel.isError&&bindModel.isRunning}}" class="error-wrapper column-center-flex">
+      <view class="stove-name">{{bindModel.name||'未知'}}</view>
+      <view class="error-title">故障中</view>
+      <view class="error-content-wrapper center-flex">
+        <text class="error-content">{{bindModel.errorMsg}}</text>
+      </view>
+      <!--<view class="footer-wrapper">-->
+      <!--  <text class="btn-check">查看详情></text>-->
+      <!--</view>-->
+    </view>
+    <!--工作中区域-->
+    <view wx:elif="{{bindModel.isWorking}}" class="working-wrapper column-center-flex">
+      <view class="stove-name-wrapper">
+        <text class="stove-name">{{bindModel.name||'未知'}}</text>
+        <text class="line">|</text>
+        <text class="stove-status-label">{{bindModel.statusName||'未知'}}</text>
+      </view>
+      <view class="work-time-title">剩余时间</view>
+      <view class="work-time-wrapper" wx:if="{{bindModel.isPause}}">
+        <text>已暂停</text>
+      </view>
+      <view class="work-time-wrapper" wx:else>
+        <text>{{bindModel.settingParams.workTimeLabel.hours}}</text>
+        <text class="flash-dot">:</text>
+        <text>{{bindModel.settingParams.workTimeLabel.minutes}}</text>
+        <text class="flash-dot">:</text>
+        <text class="disabled">{{bindModel.settingParams.workTimeLabel.seconds}}</text>
+      </view>
+      <view class="work-setting-wrapper center-flex">
+        <text>{{bindModel.settingParams.valueText}}</text>
+        <view class="line"></view>
+        <text>{{bindModel.settingParams.setWorkTimeLabel}}</text>
+      </view>
+    </view>
+    <!--<view class="disabled-mask" wx:if="{{!bindModel.isRunning}}"></view>-->
+  </view>
+  <view class="line" wx:if="{{!bindModel.isWorking}}"></view>
+  <!--功能选项-->
+  <view class="options-wrapper space-flex" wx:if="{{!bindModel.isError}}">
+    <view class="options-item-box" wx:for="{{btnOptions}}" wx:key="index" wx:for-item="btnItem">
+      <view
+        class="options-item-wrapper center-flex click {{btnItem.customClass}}"
+        data-item="{{btnItem}}"
+        bindtap="onClickEvent"
+      >
+        <image class="icon" mode="heightFix" src="{{btnItem.iconUrl}}"></image>
+      </view>
+      <view class="disabled-mask" wx:if="{{btnItem.disabled||!bindModel.isRunning&&btnItem.index!=='power'}}"></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,12 @@
+<!--m-ui/mx-data-card/mx-data-card.wxml-->
+<view class="container-wrap" style="height:{{useSlot?'244rpx':'160rpx'}}; padding-top:{{useSlot?'44rpx':''}}">
+  <view class="container">
+    <image class="icon" catchtap="decrease" src="{{decreaseIcon}}"></image>
+    <view class="center">
+      <view><text class="label">{{value}}</text><text class="label" style="font-size:32rpx">{{unit}}</text></view>
+      <view class="describe">{{describe}}</view>
+    </view>
+    <image class="icon" catchtap="increase" src="{{increaseIcon}}"></image>
+  </view>
+  <slot></slot>
+</view>

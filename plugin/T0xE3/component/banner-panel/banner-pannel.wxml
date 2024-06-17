@@ -1,0 +1,55 @@
+<view class="lottie-wrap flex justify_center align_center">
+  <view class="BannerPanelDetail">
+    <!-- 离线 -->
+    <view wx:if="{{status == 7}}" class="offline-box mar-top-12">
+      <text class="offline-text">已离线</text>
+      <image src="{{images.powerOffBg}}" class="power-off-img" style="position: absolute;z-index: -1;" />
+    </view>
+    <!-- 故障 -->
+    <view wx:elif="{{status == 6}}" class="offline-box">
+      <image class="error-img" src="{{images.warning}}"></image>
+      <text class="error-text">{{errContent}}</text>
+      <image src="{{images.powerOffBg}}" class="power-off-img" style="position: absolute;z-index: -1;" />
+    </view>
+    <!-- 其他状态（关机、待机，加热，零冷水加热，高温杀菌） -->
+    <view wx:else class="BannerPanelDetail">
+      <text class="main-title mar-top-12">设置温度</text>
+      <view class="main-view"
+        wx:if="{{!((appData.sterilization==2 && type!= 'colmo') || appData.bubble==2 || appData.pipe_uv=='on')}}">
+        <view class="main-unit-panel"></view>
+        <text class="{{setting.isHalfTem?'main-number-half':'main-number'}}">{{mainNumber}}</text>
+        <view class="main-unit-panel">
+          <text class="main-unit">℃</text>
+        </view>
+      </view>
+      <view class="main-view"
+        wx:if="{{(appData.sterilization==2 && type!='colmo') || appData.bubble==2 || appData.pipe_uv=='on'}}">
+        <view class="main-unit-panel"></view>
+        <text class="main-number"></text>
+        <view class="main-unit-panel"></view>
+      </view>
+      <view class="desc-panel">
+        <!-- 用气率计算 -->
+        <!-- <view class="desc-cell-left"
+          wx:if="{{status<4 && setting.gasConsumption && appData.change_litre_switch=='on'}}">
+          <text class="desc-title">{{setting.gasConsumptionName}}</text>
+          <text class="desc-text" wx:if="{{status<4}}">{{appData.gas_lift_precent}}%</text>
+          <text class="desc-text" wx:else>0%</text>
+        </view> -->
+        <!-- 中间的竖线 -->
+        <!-- <view class="split-line" wx:if="{{status<4 && appData.change_litre_switch=='on' && setting.isInWaterTemp}}">
+        </view> -->
+        <!-- 进水温度 -->
+        <view class="desc-cell" wx:if="{{status<5 && setting.isInWaterTemp}}">
+          <text class="desc-title">进水温度</text>
+          <text class="desc-text">{{appData.in_water_tem || ''}}°C</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- <lottie-canvas style="display: {{ appData.power==='on' && heatStatus ? 'initial' : 'none' }}" animationData="{{lottieHeating}}" animationContainerInfo="{{animationContainerInfo}}" />
+  <lottie-canvas style="display: {{ appData.power==='on' && !heatStatus  ? 'initial' : 'none' }}" animationData="{{lottieStandby}}" animationContainerInfo="{{animationContainerInfo}}" /> -->
+  <image src="{{images.powerOffBg}}" class="power-off-img" wx:if="{{appData.power==='off'}}" />
+  <image src="{{images.heating}}" class="heating-bg-img" wx:elif="{{status < 6 && heatStatus}}" />
+  <image src="{{images.running}}" class="running-bg-img" wx:elif= "{{status < 6 && !heatStatus}}" />
+</view>

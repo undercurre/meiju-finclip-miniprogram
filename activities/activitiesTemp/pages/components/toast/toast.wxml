@@ -1,0 +1,6 @@
+<view class="toast-container" wx:if="{{ isShowToast1 }}" animation="{{animation}}">
+  <!-- <view class="dialog-mask" ></view> -->
+  <view class="toast-main">
+    <text class="toast-main-text">{{ props.popups.content }}</text>
+  </view>
+</view>

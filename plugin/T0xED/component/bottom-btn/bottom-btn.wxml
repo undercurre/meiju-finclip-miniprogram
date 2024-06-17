@@ -1,0 +1,4 @@
+<view class="bottom-item" style="opacity: {{disabled ? 0.5 : 1}}" bindtap="{{disabled?'':'itemClicked'}}">
+  <image class='bottom-icon' style="background-color: {{checked ? checkedBg : '#F2F2F2'}};" src="{{checked?onIcon:offIcon}}"></image>
+  <text class="describe">{{title}}</text>
+</view>

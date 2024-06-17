@@ -1,0 +1,6 @@
+<view style="background: #F1F7FD;height:100vh;width:100%;overflow: hidden; position: relative;">
+    <plugin-navbar  show-bg="true" bind:click-left="onClickLeft" title="{{navBarName}}"></plugin-navbar>
+    <device-card wx:if="{{isInit && !is8B}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" bindmodeChange="modeChange" bindsubWeixinNews="newsSub"  pageHeight="{{viewHeight}}" ></device-card>
+    <device-card1 wx:if="{{isInit && is8B}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" bindsubWeixinNews="newsSub" ></device-card1>
+    <!-- <footer fromApp="{{fromApp}}" appParameter="{{appParameter}}"></footer> -->
+</view>

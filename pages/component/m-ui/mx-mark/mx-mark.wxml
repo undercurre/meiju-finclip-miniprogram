@@ -1,0 +1,6 @@
+<!--m-ui/m-flex-mark/m-flex-mark.wxml-->
+<view class="m-mark">
+  <view class="mark-bar">
+    <view  class="mark-label"  wx:for="{{markList}}" data-item="{{item}}" data-index="{{index}}">{{item}}</view>
+  </view>
+</view>

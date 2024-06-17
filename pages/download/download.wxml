@@ -1,0 +1,60 @@
+<!--pages/download/download.wxml-->
+<view class="container">
+  <navbar></navbar>
+  <view class="download-header">
+    <image class="download-header-icon" src="{{images.appIcon}}"></image>
+    <view class="download-header-title">美的美居App</view>
+    <view class="download-header-split">
+      <view class="download-header-split-line"></view>
+      <view class="download-header-split-text">下载方式</view>
+      <view class="download-header-split-line"></view>
+    </view>
+  </view>
+
+  <view class="download-card">
+    <view class="download-card-describe">
+      <view class="describe-method">方式一：</view>
+      <view class="describe-text-wrap">
+        <view class="describe-text">前往AppStore或安卓市场搜索“美的美居”并下载</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="download-card">
+    <view class="download-card-describe download-card-describe-method3">
+      <view class="describe-method">方式二：</view>
+      <view class="describe-text-wrap">
+        <view class="describe-text">1. 保存二维码</view>
+        <view class="describe-text">2. 进入微信扫一扫功能，点击“相册”，选取二维码</view>
+        <view class="describe-text">3. 下载美的美居App</view>
+      </view>
+    </view>
+    <view class="download-card-qrcode">
+      <image class="qrcode-img" src="assets/img/appstore@3x.png"></image>
+    </view>
+    <view class="download-card-btn download-card-btn-method3" bindtap="authPhotoAlbum">
+      <image class="download-card-btn-icon" src="{{images.iconDownload}}"></image>
+      <view class="download-card-btn-text">保存到相册</view>
+    </view>
+  </view>
+
+  <view wx:if="{{fm=='addDevice'}}" class="download-card">
+    <view class="add-device-tip">
+      <view class="tip-title">温馨提示</view>
+      <view class="add-device-tip-detail">当前美的美居Lite仅⽀持添加
+        <text wx:for="{{supportAutoFoundACModel}}" wx:for-item="item" wx:for-index="index">{{item }}{{(index<(supportAutoFoundACModel.length-1))?'、':''}}</text> 等{{supportAutoFoundACModel.length}}款设备，其他设备请到上述渠道进⾏添加
+      </view>
+    </view>
+  </view>
+  <!-- 自发现 -->
+  <block>
+    <center-product-dialog
+      isShowProductDialog="{{ isDeviceLength  }}"
+      productList="{{ devices }}"
+      bind:goNetwork="goNetwork"
+      bind:devicesListDialog="devicesListDialog"
+      bind:closeDeviceDialog="closeDeviceDialog"
+    ></center-product-dialog>
+  </block>
+  <mx-dialog id="mx-dialog" />
+</view>

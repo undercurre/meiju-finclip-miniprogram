@@ -1,0 +1,47 @@
+/*
+ * @Author: error: git config user.name && git config user.email & please set dead value or install git
+ * @Date: 2022-05-30 10:43:05
+ * @LastEditors: error: git config user.name && git config user.email & please set dead value or install git
+ * @LastEditTime: 2022-05-30 10:44:43
+ * @FilePath: \ant-simple-pro-mastere:\开发项目代码\midea-meiju-lite-ui\m-ui\wxs\bem.wxs
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+/* eslint-disable */
+var array = require('./array.wxs');
+var object = require('./object.wxs');
+var PREFIX = 'mx-';
+
+function join(name, mods) {
+  name = PREFIX + name;
+  mods = mods.map(function(mod) {
+    return name + '--' + mod;
+  });
+  mods.unshift(name);
+  return mods.join(' ');
+}
+
+function traversing(mods, conf) {
+  if (!conf) {
+    return;
+  }
+
+  if (typeof conf === 'string' || typeof conf === 'number') {
+    mods.push(conf);
+  } else if (array.isArray(conf)) {
+    conf.forEach(function(item) {
+      traversing(mods, item);
+    });
+  } else if (typeof conf === 'object') {
+    object.keys(conf).forEach(function(key) {
+      conf[key] && mods.push(key);
+    });
+  }
+}
+
+function bem(name, conf) {
+  var mods = [];
+  traversing(mods, conf);
+  return join(name, mods);
+}
+
+module.exports = bem;

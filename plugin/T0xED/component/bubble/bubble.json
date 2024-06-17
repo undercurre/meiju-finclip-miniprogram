@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "bottom-btn": "../bottom-btn/bottom-btn"
+  }
+}

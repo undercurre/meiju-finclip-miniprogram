@@ -1,0 +1,86 @@
+<!-- activities/activitiesTemplates/pages/InviteToFamily/InviteToFamily.wxml -->
+<import src="../templates/template.wxml"></import>
+<wxs src="../common.wxs" module="c1"></wxs>
+<navbar text="{{ pageSetting.name }}" back="{{ false }}" home="{{ true }}"></navbar>
+<view class="shadow" wx:if="{{ isLoading }}"></view>
+<view
+  class="container bg-normal"
+  style="min-height:calc(100vh - {{statusNavBarHeight}}px);{{c1.contactStyle(pageSetting,'bg,bc')}}"
+>
+  <view
+    class="container-item bg-normal"
+    wx:for="{{ containerList }}"
+    wx:for-item="containerItem"
+    wx:key="id"
+    wx:for-index="idx"
+    style="height:{{ containerItem.height }}rpx;background-image:url({{ containerItem.background }});"
+  >
+    <!-- 邀请家庭begin -->
+    <view
+      wx:for="{{containerItem.basicList}}"
+      wx:for-item="basicItem"
+      wx:key="ids"
+      wx:if="{{basicItem.custom== '3' || basicItem.custom== '4'|| basicItem.custom== '6'}}"
+      wx:for-index="basicIdx"
+    >
+      <image
+        wx:if="{{basicItem.custom=='3'}}"
+        src="{{containerItem.data.userInfo.headimgurl}}"
+        style="position:absolute; border-radius:50%; {{c1.contactStyle(basicItem,'wi,he,x,y,bg')}}"
+      ></image>
+      <view
+        wx:if="{{basicItem.custom=='4'}}"
+        class="nickWrap"
+        style="position:absolute;{{c1.contactStyle(basicItem,'wi,he,x,y')}}"
+      >
+        <text>{{containerItem.data.userInfo.nickname}}</text>
+      </view>
+      <view
+        wx:if="{{basicItem.custom=='6'}}"
+        class="inviteTextDescribe"
+        style="position:absolute; {{c1.contactStyle(basicItem,'wi,he,x,y')}}"
+      >
+        <text>{{inviteResultDescripMap[inviteFamilyCode]}}</text>
+      </view>
+    </view>
+    <!-- 邀请家庭end -->
+    <template
+      is="{{ containerTypeMap[containerItem.containerType] }}"
+      wx:if="{{containerItem.containerType != 2}}"
+      data="{{ containerItem, isLogon, ...templateMethods,  options, pageSetting }}"
+    ></template>
+    <template
+      is="{{ containerTypeMap[containerItem.containerType] }}"
+      wx:if="{{containerItem.containerType==2&&containerItem.data.awardsList}}"
+      data="{{ containerItem, isLogon, ...templateMethods, options, pageSetting,isSliderValidation }}"
+    ></template>
+  </view>
+  <template
+    is="dialog"
+    data="{{...templateMethods, selectData, ...dialogComponentInitData, commonData, options}}"
+  ></template>
+  <template is="toast" data="{{...templateMethods,selectData,...toastComponentInitData}}"></template>
+</view>
+<!-- 查看券码弹框 -->
+<view-card-dialog
+  isShowCardDialog="{{ cardComponentInitData.isShowCardDialog }}"
+  bind:actionDialogClose="actionDialogClose"
+  props="{{ selectData }}"
+  options="{{ options }}"
+  pageSetting="{{pageSetting}}"
+  cardPageSetting="{{ cardPageSetting }}"
+  cardContainerInfo="{{ cardContainerInfo }}"
+></view-card-dialog>
+<!-- 更新协议弹窗 -->
+<block>
+  <agreement-update-dialog></agreement-update-dialog>
+</block>
+<!-- 顶象滑块弹窗 -->
+<basic
+  bind:captchaSuccess="captchaSuccess"
+  bind:captchaHide="captchaHide"
+  captchaReload="{{captchaReload}}"
+  captchaShow="{{captchaShow}}"
+  uid="{{verifyCode}}"
+  wx:if="{{captchaShow}}"
+/>

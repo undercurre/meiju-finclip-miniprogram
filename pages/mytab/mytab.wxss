@@ -1,0 +1,300 @@
+/* pages/mytab/mytab.wxss */
+page {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+.content {
+  position: relative;
+  z-index: 99;
+  width: 100%;
+  min-height: 556px;
+}
+.userinfo {
+  display: flex;
+  height: 198rpx;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 54rpx
+}
+.userinfoDetail {
+  display: flex;
+  align-items: center;
+}
+.userinfo-avatar {
+  overflow: hidden;
+  display: block;
+  width: 136rpx;
+  height: 136rpx;
+  margin: 0 24rpx 0 32rpx;
+  border-radius: 50%;
+  border: 2rpx solid #ffffff;
+}
+.userinfo-detail {
+  margin-left: 8rpx;
+}
+.userinfo-detail-noLogon {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 8rpx;
+  align-items: flex-start;
+}
+.user-nick-name {
+  width: 322rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 40rpx;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 48rpx;
+}
+.user-nick-name-onLogon {
+  font-family: PingFangSC-Medium;
+  font-size: 40rpx;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 48rpx;
+  font-weight: 500;
+}
+.user-nick-name-prelogon {
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #8a8a8f;
+  letter-spacing: 0;
+  line-height: 28rpx;
+  margin-top: 20rpx;
+}
+.vip-level {
+  margin-top: 18rpx;
+  display: flex;
+  align-items: center;
+}
+.vip-level-img {
+  width: 140rpx;
+  height: 30rpx;
+}
+.vip-level-pro {
+  margin-left: 8rpx;
+  width: 68rpx;
+  height: 38rpx;
+}
+.header-img {
+  width: 100%;
+  height: 100%;
+}
+.feedback-button {
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: #f9f9f9;
+  border: none;
+}
+.hover-class {
+  border: none;
+}
+.triangle_border_up {
+  width: 0;
+  height: 0;
+  top: 0px;
+  right: 130rpx;
+  border-width: 0 10rpx 10rpx;
+  border-style: solid;
+  border-color: transparent transparent rgba(0, 0, 0, 0.4);
+  position: absolute;
+  z-index: 3;
+}
+.triangle_content_up {
+  width: 379rpx;
+  height: 120rpx;
+  top: 10rpx;
+  right: 270rpx;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2rpx 10rpx 0 rgba(0, 0, 0, 0.16);
+  border-radius: 12rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.triangle-text {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #ffffff;
+  text-align: center;
+  padding: 20rpx 30rpx;
+}
+button .feedback-button .button-hover {
+  border: none;
+}
+button[class='feedback-button']::after {
+  border: 0;
+}
+.top_check_in {
+  display: flex;
+  /* flex-flow: column; */
+  align-items: center;
+  z-index: 2;
+}
+.check-in-text {
+  display: flex;
+  font-size: 24rpx;
+  margin-right: 32rpx;
+  border: 2rpx solid #c7c7cc;
+  box-sizing: border-box;
+  width: 160rpx;
+  height: 64rpx;
+  color: #8a8a8f;
+  border-radius: 32rpx;
+  font-weight: 500;
+  font-family: PingFangSC-Medium;
+  justify-content: center;
+  align-items: center;
+}
+.sign-text {
+  font-size: 24rpx;
+  color: #e79b00;
+  text-align: center;
+}
+.top_check_in_icon {
+  width: 164rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  /* margin-bottom:10rpx; */
+  box-sizing: border-box;
+  background: #fff;
+  border-top-left-radius: 200rpx;
+  border-bottom-left-radius: 200rpx;
+  position: absolute;
+  right: 0;
+}
+/* banner */
+.userinfo-panel {
+  padding-bottom: 24rpx;
+  position: relative;
+}
+
+/* newList */
+.topBacWarp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 720rpx;
+}
+.topBacWarp image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 重构 row */
+.item-group {
+  padding: 0 32rpx;
+  /* box-shadow: 0 2rpx 20rpx 0 rgba(0,0,0,0.04); */
+}
+.my-item-wrap:nth-of-type(2n + 2) {
+  margin-top: 20rpx;
+}
+.my-item-wrap:nth-of-type(1) {
+  margin-bottom: 20rpx;
+}
+.myItemWrapShadow {
+  box-shadow: 0 2rpx 20rpx 0rpx rgba(0,0,0,0.04);
+}
+.my-item {
+  position: relative;
+  padding-left: 32rpx;
+  width: 100%;
+  height: 128rpx;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  box-sizing: border-box;
+}
+.my-item-icon {
+  width: 42rpx;
+  height: 40rpx;
+  overflow: hidden;
+}
+.my-item-name {
+  display: flex;
+  margin-left: 16rpx;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  font-family: PingFangSC-Regular;
+  font-size: 32rx;
+  color: #000000;
+  font-weight: 400;
+  border-bottom: 1rpx solid #f2f2f2;
+  box-sizing: border-box;
+}
+.no-border {
+  border: none;
+}
+.my-item-arrow {
+  position: absolute;
+  top: 50%;
+  right: 32rpx;
+  width: 32rpx;
+  height: 32rpx;
+  transform: translateY(-50%);
+}
+.my-item-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+}
+.btn-logout-wrap {
+  margin-top: 48rpx;
+  padding: 0 32rpx;
+}
+.btn-setting-wrap{
+  margin-top: 24rpx;
+}
+.btn-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #333333;
+  font-weight: 400;
+  height: 112rpx;
+  background: #fff;
+  box-shadow: 0 2rpx 20rpx 0 rgba(0, 0, 0, 0.04);
+  border-radius: 32rpx;
+}
+.radiusTop {
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
+}
+.radiusBottom {
+  border-bottom-left-radius: 32rpx;
+  border-bottom-right-radius: 32rpx;
+}
+.jifen-help {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: -10rpx;
+}
+.jifenIco {
+  width: 24rpx;
+  height: 24rpx;
+  margin-left: 9rpx;
+}
+
+.signIco {
+  width: 48rpx;
+  height: 48rpx;
+  margin: 0 20rpx 0 16rpx;
+}
+.position-relative {
+  position: relative;
+  margin-bottom: 54rpx;
+}

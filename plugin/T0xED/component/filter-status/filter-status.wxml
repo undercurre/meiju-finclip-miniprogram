@@ -1,0 +1,36 @@
+<wxs src="./filter-status.wxs" module="tools" />
+<view class="filter-status">
+
+  <!-- 不止有滤芯的情况 -->
+  <view class="filter-status-one-filter" wx:if="{{value.length===1}}" data-idx="{{0}}" bindtap="goFilterPage">
+    <view class="circle-container">
+      <van-circle value="{{ value[0].circleVal }}" size="45" stroke-width="3" clockwise="{{false}}" lineCap="butt"
+        color="{{value[0].completedColor}}"
+        layer-color="#F2F2F2">
+        <text class="circle-text"
+          style="color: {{value[0].textColor?value[0].textColor:'#333333'}};">{{value[0].circleText}}</text>
+      </van-circle>
+    </view>
+
+    <view class="right">
+      <text class="title">{{value[0].title}}</text>
+      <text class="label" style="color: {{value[0].descColor?value[0].descColor:'#999999'}};">{{value[0].desc}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{value.length>1}}" class="filter-status-filter"
+    style="width:{{value.length===2?'65%':value.length===4?'93%':'100%'}};justify-content:{{value.length>=5?'flex-start':'space-around'}};">
+    <view wx:for="{{value}}" wx:key="index" class="filter-status-filter-item"
+      style="width:{{value.length>=5?'33.3%':'auto'}};margin-bottom: 20rpx;" data-idx="{{index}}" bindtap="goFilterPage">
+      <view class="circle-container">
+        <van-circle value="{{ item.circleVal }}" size="45" stroke-width="3" clockwise="{{false}}" lineCap="butt"
+          color="{{item.completedColor}}"
+          layer-color="#F2F2F2">
+          <text class="circle-text"
+            style="color: {{item.textColor?item.textColor:'#333333'}};font-size:{{item.circleText.length>4?'20rpx':'24rpx'}};">{{item.circleText}}</text>
+        </van-circle>
+      </view>
+      <text class="filter-name">{{item.title}}</text>
+    </view>
+  </view>
+</view>

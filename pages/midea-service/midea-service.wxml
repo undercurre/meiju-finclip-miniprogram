@@ -1,0 +1,40 @@
+<view class="topBacWarp">
+  <image src="{{topBac}}"></image>
+</view>
+<view class="header" style="top:{{statusBarHeight+ 6}}px">
+  <text class="app-name">服务</text>
+</view>
+<view class="container" style="padding-top:{{statusBarHeight+40}}px">
+  <view class="doorService">上门服务</view>
+  <view class="doorServices">
+    <view
+      class="service"
+      wx:for="{{doorServiceList}}"
+      wx:for-item="item"
+      wx:key="index"
+      bindtap="enterPage"
+      data-index="{{index}}"
+    >
+      <image class="icon" src="{{baseImgUrl}}/mideaServices/images/service/{{item.imgUrl}}"></image>
+      <view class="name">{{item.name}}</view>
+    </view>
+  </view>
+  <view class="selfService">自助服务</view>
+  <view class="selfServices">
+    <view
+      class="service"
+      wx:for="{{selfServiceList}}"
+      wx:for-item="item"
+      wx:key="index"
+      bindtap="enterSelfHelpPage"
+      data-index="{{index}}"
+    >
+      <image class="icon" src="{{baseImgUrl}}/mideaServices/images/service/{{item.imgUrl}}"></image>
+      <view class="name">{{item.name}}</view>
+    </view>
+  </view>
+  <view class="more" bindtap="gotoServiceMiniProgram">
+    <view>更多服务</view>
+    <image class="go" src="{{baseImgUrl}}/mainContent/images/ic_next.png"></image>
+  </view>
+</view>

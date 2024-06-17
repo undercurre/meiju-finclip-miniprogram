@@ -1,0 +1,86 @@
+/* m-ui/mx-button-card/mx-button-card.wxss */
+
+.item{
+  position: relative;  /* 为遮罩层 */
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  width: 686rpx;
+  height: 224rpx;
+  margin: 32rpx;
+  border-radius: 32rpx;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.card-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 60rpx;
+  margin: 32rpx;
+  margin-top: 34rpx;
+  /* margin-left: 32rpx; */
+  /* background-color: lightgreen; */
+}
+/* .mode-icon{
+  width: 48rpx;
+  height: 48rpx;
+} */
+
+.label{
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #333333;
+}
+.vertical-line{
+  width: 2rpx;
+  height: 24rpx;
+  background-color: #dddddd;
+  margin-left: 14rpx;
+  margin-right: 14rpx;
+}
+.bg-white-text{
+  font-size: 32rpx;
+  color: #333333;
+}
+.forbidden-mask{
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index:99;
+}
+
+.button-wrap{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: -6rpx;
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+}
+.panel-button{
+  flex: 1;
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+  height: 72rpx;
+  color: #666666;
+  background-color: #f2f2f2;
+  /* border: 1px solid #C7C7CC; */
+  border-radius: 36rpx;
+  text-align: center;
+  line-height: 72rpx;
+  font-size: 28rpx;
+}
+
+.button-class{
+  color: #ffffff;
+  background-color: #267AFF;
+  border: none;
+}

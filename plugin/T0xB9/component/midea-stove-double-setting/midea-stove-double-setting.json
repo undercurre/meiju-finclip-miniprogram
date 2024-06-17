@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "vant-popup": "/pages/component/vant/popup/index",
+    "midea-slider-bold": "/plugin/T0xB9/component/midea-slider-bold/midea-slider-bold"
+  }
+}

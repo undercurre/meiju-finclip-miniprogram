@@ -1,0 +1,4 @@
+<view class="tips-wrap" wx:if="{{!hasShowed && isShow}}" style="top: {{statusBarHeight + 96}}rpx">
+  <view class="triangle"></view>
+  <view class="text"> 可通过“设置”管理小程序授权 </view>
+</view>

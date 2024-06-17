@@ -1,0 +1,7 @@
+<view class="container">
+  <image class="device-icon" src="{{image}}"></image>
+  <view>
+    <view class="device-name">{{title}}</view>
+    <view class="device-room">{{desc}}</view>
+  </view>
+</view>

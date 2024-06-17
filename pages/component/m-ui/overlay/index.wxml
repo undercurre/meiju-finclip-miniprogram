@@ -1,0 +1,21 @@
+<mx-transition
+  wx:if="{{ lockScroll }}"
+  show="{{ show }}"
+  custom-class="mx-overlay"
+  custom-style="z-index: {{ zIndex }}; {{ customStyle }}"
+  duration="{{ duration }}"
+  bind:tap="onClick"
+  catch:touchmove="noop"
+>
+  <slot></slot>
+</mx-transition>
+<mx-transition
+  wx:else
+  show="{{ show }}"
+  custom-class="mx-overlay"
+  custom-style="z-index: {{ zIndex }}; {{ customStyle }}"
+  duration="{{ duration }}"
+  bind:tap="onClick"
+>
+  <slot></slot>
+</mx-transition>

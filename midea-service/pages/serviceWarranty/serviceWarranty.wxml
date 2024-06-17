@@ -1,0 +1,74 @@
+<wxs src="./format.wxs" module="tools" />
+<view class="page">
+  <view class="input item">
+    <view class="form-item prod-base-item">
+      <input
+        placeholder="请输入或扫描机身条码"
+        class="product-model"
+        placeholder-class="placeholder"
+        data-key="productSnCode"
+        data-value="{{barCode}}"
+        value="{{barCode}}"
+        maxlength="60"
+        bindblur="search"
+      />
+      <view
+        class="ms-icon-scan"
+        style="background:url('{{imgBaseUrl+common}}') no-repeat -520rpx -98rpx;background-size:800rpx auto;"
+        catchtap="scan"
+      ></view>
+    </view>
+    <!-- <view class="input1">
+            <input class="input-scan" value="{{barCode}}" placeholder-class="placeholder"
+            placeholder="请输入或扫描机身条码">
+            </input>
+            <view class="scan-img" bindtap="scan"
+                style="background:url('{{imgBaseUrl+common}}') no-repeat  -520px -98px;background-size:800rpx auto;">
+            </view>
+        </view> -->
+
+    <input
+      class="input-type"
+      value="{{productModel}}"
+      placeholder-class="placeholder"
+      placeholder="请输入型号"
+      bindtap="goToSearch"
+      disabled="{{true}}"
+    />
+  </view>
+  <view class="shop-product-time item" bindtap="selectTime">
+    <view class="left flex-r">
+      <text class="shop-texr">购买产品时间</text>
+      <text class="will-choose" style="color: red"> *</text>
+      <!-- <image class="will-choose" src=""></image> -->
+    </view>
+    <view class="right">
+      <text class="right-text">{{selectTime||'请选择'}}</text>
+      <view
+        class="iconfont icon-arrowdown icon-arrow-bottom"
+        style="background:url('{{imgBaseUrl+common}}') no-repeat -40rpx -334rpx;background-size:800rpx auto;"
+      >
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{result}}" class="result item">
+    <view class="title">{{result.warrantyStandardName}}</view>
+    <view class="desc">{{result.warrantyStandardDesc}}</view>
+  </view>
+
+  <!-- 时间组件 -->
+  <date-picker-scroll
+    show="{{isShowDataPicker}}"
+    bind:bindChangeEvent="bindChangeEvent"
+    years="{{years}}"
+    months="{{months}}"
+    days="{{days}}"
+    value="{{selectedTime}}"
+    bind:confirmBtn="confirmTime"
+  ></date-picker-scroll>
+  <!-- <date-picker-scroll id="DateTimePicker" openflag="{{openflag}}" timevalue="{{value}}" years="{{years}}"
+    months="{{months}}" days="{{days}}" hours="{{hours}}" minutes="{{minutes}}" bind:canslebtn="canslebtn"
+    bind:closebtn="closebtn" bind:bindChangeEvent="bindChange">
+    </date-picker-scroll> -->
+</view>

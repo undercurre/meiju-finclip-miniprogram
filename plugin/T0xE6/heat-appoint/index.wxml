@@ -1,0 +1,27 @@
+<!--plugin/T0xE6/heat-appoint/index.wxml-->
+<view class="app-wrapper">
+
+  <scroll-view show-scrollbar="{{false}}" scroll-y style="max-height: 70vh;">
+    <view class="appoint-list" wx:if="{{list.length == 0}}">
+      <text class="no-appoint-text1">您还没有添加任何预约模式</text>
+      <text class="no-appoint-text2">点击下方的添加按钮，开启您的智能采暖生活吧</text>
+      <text class="no-appoint-text3">预约模式创建并开启后，壁挂炉会在指定的时间帮您自动加热到指定温度</text>
+    </view>
+    <view class="appoint-list" wx:else>
+      <van-swipe-cell wx:for="{{list}}" wx:key="index" right-width="{{ 80 }}" bind:open="onOpen">
+        <van-cell title="{{item.title }}" label="{{item.desc}}" data-action="update" data-item="{{item}}" data-index="{{index}}" bindclick="navigateToEdit" border>
+          <van-switch class="cell-switch" slot="right-icon"  active-color="#FFAA10" checked="{{item.enable}}" size="40rpx" data-item="{{item}}" data-index="{{index}}" catchtap="onCellSwitchTap" />
+        </van-cell>
+        <view wx:if="{{showDelete}}" slot="right" class="delete-btn" data-item="{{item}}" bindtap="deleteAppoint">
+          <text class="delete-btn-text">删除</text>
+        </view>
+      </van-swipe-cell>
+    </view>
+  </scroll-view>
+
+  <text class="tip-text">温馨提示：预约之外的时间段，将按预约启动前的设置温度运行。</text>
+  
+  <view class="add-button" data-action="add" bindtap="navigateToEdit">
+    <text class="add-text">添加预约</text>
+  </view>
+</view>

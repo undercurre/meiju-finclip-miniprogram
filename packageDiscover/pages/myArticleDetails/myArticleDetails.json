@@ -1,0 +1,16 @@
+{
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "agreement-update-dialog": "/pages/component/agreement-update-dialog/agreement-update-dialog",
+    "trojanHorse": "/pages/component/trojan-horse/trojan-horse",
+    "cancle-sure-dialog": "../../components/cancle-sure-dialog/cancle-sure-dialog",
+    "ylplayer": "plugin://ylPlugin/ylplayer",
+    "networkless": "/pages/component/networkless/index",
+    "popupToast": "../../components/product-popup/product-popup"
+  },
+  "componentPlaceholder": {
+    "ylplayer": "view"
+  }
+}

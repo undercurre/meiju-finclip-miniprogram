@@ -1,0 +1,13 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "center-sign-dialog": "/pages/mytab/component/center-sign-dialog/center-sign-dialog",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
+    "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index"
+  },
+
+  "componentPlaceholder": {
+    "common-advertise-bar": "view"
+  }
+}

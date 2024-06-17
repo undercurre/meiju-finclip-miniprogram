@@ -1,0 +1,6 @@
+<template name="pullUpLoading">
+    <view class="loading_container" style="height:80rpx">
+        <view class="loading" />
+        <text wx:if="{{text}}" class="text ma-l-16">{{text}}</text>
+    </view>
+</template>

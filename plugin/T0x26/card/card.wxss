@@ -1,0 +1,7 @@
+.container {
+    width: 750rpx;
+    height: unset;
+}
+.custom-service-class{
+  padding:0 16px;
+}

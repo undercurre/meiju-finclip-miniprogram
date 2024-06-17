@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-button": "../mx-button/mx-button"
+  }
+}

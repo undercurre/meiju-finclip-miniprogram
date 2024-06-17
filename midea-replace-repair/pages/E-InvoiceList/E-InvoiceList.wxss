@@ -1,0 +1,54 @@
+/* midea-replace-repair/pages/E-InvoiceList/E-InvoiceList.wxss */
+.container-wrap {
+  width: 750rpx;
+  height: 100vh;
+  /* padding-top: 32rpx; */
+  background-color: #f9f9f9;
+}
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  /* width: 686rpx; */ /*minus paddig*/
+  width: 618rpx;
+  background-color: #ffffff;
+  padding: 34rpx;
+  margin-top: 32rpx;
+  margin-left: 32rpx;
+}
+.mute-text {
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #999999;
+  /* letter-spacing: -0.78rpx; */
+  line-height: 64rpx;
+  font-weight: 400;
+}
+
+.product-info {
+  font-family: PingFangSC-Medium;
+  font-size: 28rpx;
+  color: #000000;
+  /* letter-spacing: -0.78rpx; */
+  line-height: 64rpx;
+  font-weight: 500;
+}
+
+.no-order {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+.no-order-img {
+  width: 480rpx;
+  height: 400rpx;
+  margin-top: -500rpx;
+}
+.no-order-describe {
+  font-size: 28rpx;
+  color: #666666;
+  margin-top: 48rpx;
+}

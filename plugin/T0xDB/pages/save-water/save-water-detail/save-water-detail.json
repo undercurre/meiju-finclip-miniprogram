@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "van-icon": "/miniprogram_npm/m-ui/mx-icon/index",
+    "mx-notice-bar": "/miniprogram_npm/m-ui/mx-notice-bar/index",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index"
+  }
+}

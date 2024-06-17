@@ -1,0 +1,19 @@
+import T0x9CApi from './plugin/T0x9C/T0x9C-api.js' //集成灶插件接口
+import T0xB8Api from './plugin/T0xB8/T0xB8-api.js' //微清扫地机
+import T0xB6Api from './plugin/T0xB6/T0xB6-api.js' //烟机插件接口
+import T0xEDApi from './plugin/T0xED/T0xED-api.js' //净饮插件接口
+import T0xE1Api from './plugin/T0xE1/T0xE1-api.js' //洗碗机插件接口
+import T0xE2Api from './plugin/T0xE2/T0xE2-api.js' //电热插件接口
+import T0xE3Api from './plugin/T0xE3/T0xE3-api.js' //燃热插件接口
+import T0xE6Api from './plugin/T0xE6/T0xE6-api.js' //壁挂炉插件接口
+const api = {
+  ...T0x9CApi,
+  ...T0xB8Api,
+  ...T0xB6Api,
+  ...T0xEDApi,
+  ...T0xE1Api,
+  ...T0xE2Api,
+  ...T0xE3Api,
+  ...T0xE6Api,
+}
+export default api

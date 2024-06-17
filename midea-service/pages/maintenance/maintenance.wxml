@@ -1,0 +1,384 @@
+<wxs src="../../wxs/base.wxs" module="tools" />
+<!-- 小木马加载中 -->
+<trojan-horse isShowHorse="{{!isLogin}}" />
+<!-- 长内容弹框 -->
+<block wx:if="{{isLogin}}">
+<longToast id="longToast" isLongToast="{{isLongToast}}" longText="{{longToastContent}}"></longToast>
+<view class="appointment-cells">
+  <!-- 收费标准 -->
+  <view class="money-box">
+    <view class="box-inbox" catchtap="goToServiceCharge">
+      <view
+        class="img"
+        style="background:url('{{imgBaseUrl+common}}') no-repeat  -36rpx -228rpx;background-size:800rpx auto;"
+      >
+      </view>
+      <view class="money-content">收费标准</view>
+    </view>
+  </view>
+  <view class="top_box" data-selectedProduct="{{selectedProduct}}">
+    <!-- 维修产品 -->
+    <view class="appoint-p-row">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -660rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">维修产品</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text" catchtap="showBrandPicker">
+        <!-- <view class="middle-text warnTips" wx:if="{{selectedProductNames ==='请选择' && showWarnTips}}">
+        {{selectedProductNames}}</view> -->
+        <view class="middle-text {{selectedProductNames? '':'is-gray'}}">{{selectedProductNames || '请选择'}} </view>
+        <view
+          class="iconfont icon-arrowdown icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!-- 使用场所 -->
+    <view class="appoint-p-row" wx:if="{{isIncludeU99}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -730rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">使用场所</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text" catchtap="openPlace">
+        <view class="middle-text {{placeStatu.name?'':'is-gray'}}">{{placeStatu.name || '请选择'}}</view>
+        <view
+          class="icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!-- 故障类型 -->
+    <view class="appoint-p-row  {{excludedFault.length>0?'appoint-p-row0':''}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -590rpx -98rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">故障类型</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text" catch:tap="showPopupPicker">
+        <!-- <view class="middle-text warnTips" wx:if="{{!fault[0] && showWarnTips}}">请选择故障类型</view> -->
+        <view class="middle-text {{fault?'':'is-gray'}}">{{fault || '请选择'}}</view>
+        <view
+          class="iconfont icon-arrowdown icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!--假性故障-->
+    <view class="bad-notice" catchtap="showFlFault" wx:if="{{excludedFault.length>0}}">
+      <view class="flex-box">
+        <view
+          class="icon-left"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -107rpx -229rpx;background-size:800rpx auto;"
+        ></view>
+        <text class="notice">{{excludedFault[0].faultServiceDesc}}</text>
+      </view>
+      <view class="flex-box">
+        <text>可能原因</text>
+        <view
+          class="iconfont-right view-box"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -180rpx -228rpx;background-size:800rpx auto;"
+        ></view>
+      </view>
+      <view class="fixed-arc"></view>
+    </view>
+
+    <!-- 期望时间 -->
+    <view class="appoint-p-row" wx:if="{{isNeedServeTime}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -590rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">期望服务时间</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text" catch:tap="showCalendarPicker">
+        <view class="middle-text {{displayServiceDate?'':'is-gray'}}">{{displayServiceDate || '请选择'}} </view>
+        <view
+          class="iconfont icon-arrowdown icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!-- 服务地址 -->
+    <view class="appoint-p-row appoint-p-row0 {{userAddress ? 'contact-p-row' : ''}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -380rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">服务地址</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text right-text0" catchtap="showAddressPicker">
+        <block class="" wx:if="{{!userAddress}}">
+          <view class="middle-text {{userAddress ? '' : 'is-gray'}}"> 请选择 </view>
+        </block>
+        <block class="" wx:else>
+          <view class="middle-text">
+            <view class="inner-rows"
+              >{{userAddress.receiverName}} {{tools.formatTelNumber(userAddress.receiverMobile)}}
+            </view>
+            <view class="inner-rows">
+              {{userAddress.provinceName}}{{userAddress.cityName}}{{userAddress.countyName}}{{userAddress.streetName}}
+            </view>
+            <view class="inner-rows">{{userAddress.addr}}{{userAddress.addValue || ''}}</view>
+          </view>
+        </block>
+        <view
+          class="iconfont icon-arrowdown icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="two-box">
+    <view class="section-tips"> 以下为选填信息，有助于更好更快地为您服务 </view>
+    <view class="form-item prod-base-item">
+      <input
+        type="text"
+        placeholder="请输⼊产品型号或扫描录⼊机身条码"
+        class="product-model"
+        placeholder-class="product-model-hd place-holder"
+        data-key="productSnCode"
+        value="{{code}}"
+        maxlength="60"
+        bindblur="inputBlurHandler"
+      />
+      <view
+        class="ms-icon-scan"
+        style="background:url('{{imgBaseUrl+common}}') no-repeat  -520rpx -98rpx;background-size:800rpx auto;"
+        catchtap="codeScanHandler"
+      ></view>
+    </view>
+
+    <!--上传附件-视频、图片-->
+    <view class="video-box">
+      <text class="video-big-itle">现场图片</text>
+      <text class="video-small-itle">(最多上传3张图片)</text>
+      <!-- <text class="video-small-itle">(最多上传3张图片与1个视频)</text> -->
+    </view>
+    <view class="img-video-box">
+      <block wx:if="{{showVideoList.length || showPhotoList.length}}">
+        <!--附件-视频-->
+        <view class="image-item" wx:for="{{showVideoList}}" wx:key="{{item}}">
+          <video
+            class="image"
+            src="{{item}}"
+            controls="{{false}}"
+            show-fullscreen-btn="{{false}}"
+            show-play-btn="{{false}}"
+            show-center-play-btn="{{false}}"
+            enable-progress-gesture="{{false}}"
+            data-index="{{index}}"
+            catchtap="previewPicHandler"
+          ></video>
+          <!--蒙板：自定义播放按钮图标，点击触发自定义播放器-->
+          <view class="mask mask-play" wx:if="{{uploadPercent === 0 || uploadPercent >= 100}}">
+            <!-- <image class="ms-icon-play" src="{{imgUrl + 'appointment/icon-video-play-white.png'}}"
+              catchtap="openVideoPreview"></image> -->
+            <view
+              class="ms-icon-play"
+              style="background:url('{{imgBaseUrl+common}}') no-repeat  -658rpx -356rpx;background-size:800rpx auto;"
+            >
+            </view>
+          </view>
+          <!--蒙板：上传视频的时候显示进度-->
+          <!-- <view class="mask mask-upload" wx:else>{{uploadPercent}}%</view> -->
+          <view
+            class="ms-icon ms-icon-delete"
+            data-index="{{index}}"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -38rpx -272rpx;background-size:800rpx auto;"
+            catchtap="delVideoHandler"
+          ></view>
+        </view>
+        <!--附件-图片-->
+        <view class="image-item" wx:for="{{showPhotoList}}" wx:key="index" wx:for-item="item">
+          <image
+            class="image"
+            mode="scaleToFill"
+            src="{{item.imgUrl}}"
+            data-index="{{index}}"
+            catchtap="previewPicHandler"
+          >
+          </image>
+          <view
+            class="ms-icon ms-icon-delete"
+            style="background:url('{{imgBaseUrl+common}}') no-repeat  -38rpx -272rpx;background-size:800rpx auto;"
+            data-index="{{index}}"
+            catchtap="delPhoto"
+          ></view>
+        </view>
+      </block>
+      <!-- 选择上传视频的按钮 -->
+      <view class="chose-img-box" catchtap="openChoseBox" wx:if="{{showPhotoList.length<3}}">
+        <view
+          class="center-phone"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -720rpx -318rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!-- 备注信息 -->
+    <view class="textarea-wrapper">
+      <view class="textarea">
+        <textarea
+          value="{{memoValue}}"
+          placeholder="其他备注信息"
+          placeholder-style="line-height:22px;color:#C8C7CC"
+          maxlength="120"
+          cursor-spacing="50"
+          show-confirm-bar="{{false}}"
+          bindinput="inputBindHandler"
+          fixed="{{true}}"
+          disabled="{{disabled}}"
+        ></textarea>
+        <view class="total">
+          <text>{{curCount}}</text>/
+          <text>120</text>
+          <text></text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 时间选择器 -->
+  <timerCalendar
+    bind:select="selectDate"
+    bindhide="hideCalendar"
+    is-show="{{showCalendarPickerFlag}}"
+    cancel-text="{{calendarConf.cancelText}}"
+    confirm-text="{{calendarConf.confirmText}}"
+    select-type="CSS"
+    cannotServiceTimeObj="{{calendarConf.cannotServiceTimeObj}}"
+  ></timerCalendar>
+  <!-- 使用场所  -->
+  <usePlace id="usePlace" show="{{placePicker}}" bind:sendPlace="getPlace"></usePlace>
+  <!-- 居中知道了弹框 -->
+  <centerDialog
+    id="popup"
+    title="{{topTitle}}"
+    content="{{secondTitle}}"
+    btnz_only="{{btnText}}"
+    bind:success="makeSure"
+    isShowDialog="{{isDialogs}}"
+  ></centerDialog>
+  <!-- 居中可以取消确定弹框 -->
+  <cancle-sure-dialog
+    id="popups"
+    title="{{oneTitle}}"
+    content="{{twoTitle}}"
+    cancleTxet="{{cancleTxet}}"
+    sureText="{{sureText}}"
+    bind:cancles="cancleBtn"
+    bind:sureBtn="needSure"
+    isShowDialog="{{isCenters}}"
+  >
+  </cancle-sure-dialog>
+  <!-- 选择视频还是图片的底部弹框  -->
+  <choseImgVideo id="choseImgVideo" imgShow="{{choseImgVideoPicker}}" bind:checkPicker="clickPhoto"></choseImgVideo>
+  <!-- 可能原因弹框 -->
+  <assume-fault
+    isShow="{{showFlFaultFlag}}"
+    bind:getCanReson="clickDauflt"
+    bindhide="hideSelector"
+    bindplayVideo="playVideo"
+    flFault="{{excludedFault}}"
+    bind:getTextarea="getTextarea"
+  >
+  </assume-fault>
+  <!--一键注册下单-->
+  <!--同一账号某段时间内下单过多，需要验证下手机号-->
+  <phone-validator
+    phone="{{userInfo.mobile}}"
+    is-show="{{showValidatorFlag}}"
+    bindcancel="hideValidatorHandler"
+    bindsuccess="validateSuccessHandler"
+  ></phone-validator>
+  <!-- <assume-fault is-show="{{showFlFaultFlag}}" bindhide="hideSelector" bindplayVideo="playVideo"
+    fl-fault="{{flFault}}">
+  </assume-fault> -->
+  <!-- <selector-product brand-type="{{brandTypeList}}" bindselect="selectProduct" bindhide="hideSelector"
+    is-show="{{showBrandPickerFlag}}" need-tabs="{{bindPhone}}" product-list="{{productList}}"></selector-product>
+  <block wx:if="{{showAddressPickerFlag}}">
+    <selector-address bindselect="selectAddress" bindhide="hideSelector" is-show="{{showAddressPickerFlag}}"
+      need-tabs="{{bindPhone}}" address-list="{{addressList}}"></selector-address>
+  </block> -->
+  <!-- <selector-calendar bindselect="selectDate" bindhide="hideCalendar" is-show="{{showCalendarPickerFlag}}"
+    cancel-text="{{calendarConf.cancelText}}" confirm-text="{{calendarConf.confirmText}}" select-type="CSS"
+    cannotServiceTimeObj="{{calendarConf.cannotServiceTimeObj}}"></selector-calendar> -->
+  <!-- <popup-picker class="" listData="{{faultList}}" bindconfirm="selectFault" bindcancle="hidePopupPicker"
+    titleText=""
+    is-show-picker="{{showPopupPickerFlag}}"></popup-picker> -->
+
+  <!-- <view class="pre-pay-note" wx:if="{{showPrePayNoteFlag}}">
+    <view class="shadow-mask" catchtap="hidePrePayNote"></view>
+    <view class="view pay-note">
+      小家电产品需要您将机器送至指定的服务网点维修；您也可选择【付费上门】，额外在线支付上门费{{preFee}}元，请工程师上门服务。<br />
+      <view class="">注：该费用不包括非保修期内的产品维修费和配件费。</view>
+      <view class="ico-close" catchtap="hidePrePayNote"></view>
+    </view>
+  </view> -->
+  <!--播放视频时需要隐藏提交按钮-cover-view-->
+  <!-- <block wx:if="{{!showPreviewVideo}}">
+    <cover-view class="footer" hidden="{{!showNativeComponent || isShowAgreements}}">
+      <button open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">提交</button>
+    </cover-view> -->
+  <view class="footer" catch:tap="checkData">
+    <button disabled="{{!isDataReady}}">提交</button>
+  </view>
+  <!-- <view class="footer" hidden="{{showNativeComponent && !isShowAgreements}}" catch:tap="checkData">
+      <button>提交</button>
+    </view> -->
+  <!-- </block> -->
+  <!-- <view style="width:100%;height:100rpx;text-align:center;margin-top:100rpx" catchtap="toMobile">手机号码</view> -->
+  <!--预览用户选择的视频-->
+  <!-- <view class="page-preview page-preview-video" wx:if="{{showPreviewVideo}}">
+    <video src="{{showVideoList[0]}}" autoplay="{{true}}" enable-auto-rotation="{{true}}"></video>
+    <image class="btn-close" catchtap="closeVideoPreview">
+    </image>
+  </view> -->
+  <!-- <cover-view class="page-action-sheet" wx:if="{{showChooseMedia}}">
+    <cover-view class="com-body">
+      <cover-view class="title"></cover-view>
+      <cover-view class="item {{item.subName ? 'less-pd':''}}" wx:for="{{mediaMenuList}}" wx:key="index"
+        data-item="{{item}}" catchtap="actionSheetSelect">
+        <cover-view class="name">{{item.name}}</cover-view>
+        <cover-view class="sub-name" wx:if="{{item.subName}}">{{item.subName}}</cover-view>
+      </cover-view>
+      <cover-view class="btn-close" catchtap="closeActionSheet">取消</cover-view>
+    </cover-view>
+  </cover-view> -->
+  <!--上传进度弹框-->
+  <!-- <cover-view class="upload-video-tips" wx:if="{{isShowUploadWidget}}">
+    <cover-view class="com-body">
+      <cover-view class="main">
+        <cover-view class="text">请稍候，视频上传中（{{uploadPercent}}%）</cover-view>
+        <cover-view class="text">上传结束后自动提交</cover-view>
+      </cover-view>
+      <cover-view class="btn" catchtap="closeUploadWidget">关闭</cover-view>
+    </cover-view>
+  </cover-view> -->
+</view>
+</block>

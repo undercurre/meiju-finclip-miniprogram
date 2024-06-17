@@ -1,0 +1,29 @@
+.toast-view-box {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  width: 686rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.center-text {
+  display: inline-block;
+  padding: 10rpx 22rpx;
+  min-width: 320rpx;
+  /* min-height: 72rpx; */
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 12rpx 4rpx rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 48rpx;
+  font-weight: 400;
+}

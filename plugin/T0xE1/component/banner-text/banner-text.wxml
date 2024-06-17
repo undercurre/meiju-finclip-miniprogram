@@ -1,0 +1,54 @@
+<view class="BannerPanelDetail">
+  <!-- 0 -->
+  <view class="container" wx:if="{{data.type == 0}}">
+    <text class="text_about">大约需要</text>
+    <view class="standy">
+      <text class="text_time_smallHour">{{data.hour?data.hour:0}}</text>
+      <text class="text_smallHour">时</text>
+      <text class="text_time_smallMinutes">{{data.min?data.min:'00'}}</text>
+      <text class="text_smallMinutes">分</text>
+    </view>
+    <text wx:if="{{data.temp}}" class="text_temperature">洗涤温度 {{data.temp}}℃</text>
+  </view>
+  <!-- 1 -->
+  <view class="container" wx:if="{{data.type == 1}}">
+    <text class="text_about">{{data.day}}</text>
+    <view class="standy">
+      <text class="orderTime">{{data.hour+":"+data.min}}</text>
+    </view>
+    <text class="text_temperature">开始洗涤</text>
+  </view>
+  <!-- 2 -->
+  <view class="container" wx:if="{{data.type == 2}}">
+    <text class="text_about">剩余时间</text>
+    <view class="standy">
+      <text class="text_time">{{data.hour}}</text>
+      <text class="text_smallHour">时</text>
+    </view>
+  </view>
+  <!-- 3 -->
+  <view class="container" wx:if="{{data.type == 3}}">
+    <text class="h1">{{data.bigText}}</text>
+    <text wx:if="{{data.temp}}" class="text_temperature">洗涤温度 {{data.temp}}℃</text>
+  </view>
+  <!-- 4 -->
+  <view class="container" wx:if="{{data.type == 4}}">
+    <text class="text_about">大约需要</text>
+    <view class="standy">
+      <text class="text_time">{{data.hour}}</text>
+      <text class="text_smallHour">时</text>
+    </view>
+  </view>
+  <!-- 5 -->
+  <view class="container" wx:if="{{data.type == 5}}">
+    <text class="text_about">大约需要</text>
+    <view class="standy">
+      <text class="text_time">{{data.min}}</text>
+      <text class="text_smallHour">分</text>
+    </view>
+  </view>
+  <!-- 6 -->
+  <view class="container" wx:if="{{data.type == 6}}">
+    <text class="style_offline">{{data.bigText}}</text>
+  </view>
+</view>

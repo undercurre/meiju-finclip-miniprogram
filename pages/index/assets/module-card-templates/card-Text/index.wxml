@@ -1,0 +1,6 @@
+<wxs src="./index.wxs" module="computed" />
+
+<view wx:if="{{!deviceItem.hidden}}" style="{{ computed.customTextStyle(styles) }}">
+  <text wx:if="{{deviceItem.text}}">{{ deviceItem.text }}</text>
+  <text wx:else>{{cardItem.styles.text}}</text>
+</view>

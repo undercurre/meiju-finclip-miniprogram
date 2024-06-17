@@ -1,0 +1,24 @@
+<!--plugin/component/picker/picker.wxml-->
+<!-- <page-container show="{{show}}" close-on-slide-down="{{true}}" bindbeforeenter="onBeforeEnter" bindenter="onEnter" bindafterenter="onAfterEnter" bindbeforeleave="onBeforeLeave" bindleave="onLeave" bindafterleave="onAfterLeave" bindclickoverlay="onClickOverlay"> -->
+<c-popup show="{{show}}" zindex="100" boxheight="548rpx" bindbeforeenter="onBeforeEnter" bindafterleave="onAfterLeave" bind:layerClose="onClickOverlay">
+  <view class="picker-detail">
+    <view class="picker-view">
+      <picker-view indicator-class="picker-view-items" style="width: 100%; height: 420rpx;" mask-class="mask"  value="{{viewValue}}" 
+        immediate-change="true" bindchange="bindChange" bindpickstart="pickStart" bindpickend="pickEnd">
+        <picker-view-column wx:for="{{viewRange}}" wx:key="rkey" wx:for-item="items" wx:for-index="rkey">
+          <view wx:for="{{items}}" wx:key="key" wx:for-index="key" class="picker-view-item" style="line-height: 72rpx;text-align: center;">
+            <view class="view-item">
+              <view>{{rangeKey !== '' ? item[rangeKey] : item}}</view>
+              <view class="view-item-unit">{{!(close && key === 0) && item === items[viewValue[rkey]] && !picking ? (viewUnit[rkey] ? viewUnit[rkey] : '') : ''}}</view>
+            </view>
+          </view>
+        </picker-view-column>
+      </picker-view>
+    </view>
+    <view class="btn-wrapper">
+      <view class="btn left{{successType === 'left' ? ' success' : ''}}" data-btn="left" bindtap="onClick">{{leftBtnText}}</view>
+      <view class="btn{{successType === 'right' ? ' success' : ''}}" data-btn="right" bindtap="onClick">{{rightBtnText}}</view>
+    </view>
+  </view>
+</c-popup>
+<!-- </page-container> -->

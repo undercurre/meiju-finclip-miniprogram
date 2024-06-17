@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "设置",
+  "navigationBarBackgroundColor": "#f9f9f9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
+    "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
+    "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index"
+  }
+}

@@ -1,0 +1,33 @@
+<!-- TODO: 待获取到设备数据后，补充离线界面 -->
+<view class="continer flex flex_column align_center">
+    <block wx:if="{{applianceData.onlineStatus == 1}}">
+        <!-- 状态显示 -->
+        <banner-panel status="{{deviceStatus}}" appData="{{status}}" setting="{{setting}}" color="{{color}}" />
+        <view style="width: 100%;" class="flex flex_column align_center">
+            <!-- 运行状态 -->
+            <status-bar deviceStatus="{{deviceStatus}}" iconColor="{{iconColor}}" bindpowerToggle="powerToggle" />
+            <!-- 温度设置 -->
+            <view style="opacity: {{deviceStatus >= 4 ? 0.5:1}}">
+                <temp-set deviceStatus="{{deviceStatus}}" applianceData="{{applianceData}}" appData="{{status}}"
+                    iconColor="{{iconColor}}" setting="{{setting}}" disabled="{{isPowerOffStatus}}"
+                    bindupdateStatus="updateStatus" />
+                <view style="margin-top:16rpx;"></view>
+                <!-- 单次零冷水 -->
+                <cold-water-master wx:if="{{isShowColdWaterMaster}}" title="单次零冷水" desc="启动零冷水循环1次" cellStyle="top-cell"
+                    setting="{{setting}}" iconColor="{{iconColor}}" status="{{status}}" applianceData="{{applianceData}}" disabled="{{isPowerOffStatus}}" deviceStatus="{{deviceStatus}}"
+                    bindsetColdWaterMaster="setColdWaterMaster" />
+                <!-- AI定时零冷水 -->
+                <ai-cold-water wx:if="{{isShowAiColdWater}}" title="定时零冷水" desc="预约时段启动零冷水" cellStyle="bottom-cell" setting="{{setting}}"
+                    iconColor="{{iconColor}}" status="{{status}}" applianceData="{{applianceData}}" border="{{false}}"
+                    disabled="{{isPowerOffStatus}}" deviceStatus="{{deviceStatus}}" />
+                <!-- 滤芯状态 -->
+            </view>
+            <filter-info wx:if="{{isShowFilterInfo}}" status="{{status}}" applianceData="{{applianceData}}"
+                setting="{{setting}}" type="{{type}}" deviceStatus="{{deviceStatus}}" style="opacity: {{deviceStatus > 5 ?0.5:1}}"/>
+        </view>
+        <!-- 活动弹窗 -->
+        <activity-wrapper></activity-wrapper>
+        <!-- 活动弹窗 -->
+    </block>
+    <offline wx:else></offline>
+</view>

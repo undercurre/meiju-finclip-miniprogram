@@ -1,0 +1,14 @@
+<view class="container-box">
+  <view class="default-box">
+    <block wx:for="{{styleList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+      <view class="item-list" bindtap="toCheckItem" data-item="{{item}}" data-index="{{index}}">
+        <view class="item-content">{{item.serviceRequireItemName}}</view>
+        <view
+          class="gou-icon"
+          wx:if="{{item.checked ==true}}"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -30rpx -166rpx;background-size:800rpx auto;"
+        ></view>
+      </view>
+    </block>
+  </view>
+</view>

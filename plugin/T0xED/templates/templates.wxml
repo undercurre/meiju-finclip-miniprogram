@@ -1,0 +1,52 @@
+<!-- 高温杀菌提醒 -->
+<template name="GermicidalHint">
+  <germicidal-tips cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 洗茶 -->
+<template name="WashTea">
+  <wash-tea cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 定量设置 -->
+<template name="MultipleQuantify">
+  <quantify-set cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 温度设置 -->
+<template name="MultipleTemp">
+  <temp-set cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 温度设置 -->
+<template name="MultipleTemp4Level3">
+  <temp-set cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 保温功能 -->
+<template name="KeepWarm">
+  <keep-warm cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 保温时长 -->
+<template name="KeepWarmTime">
+  <keep-warm-time cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 加热功能 -->
+<template name="Heat">
+  <heat cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 微气泡 -->
+<template name="Bubble">
+  <bubble title="{{title}}" />
+</template>
+<!-- 滤芯冲洗 -->
+<template name="Wash">
+  <wash title="{{title}}" />
+</template>
+<!-- 智能冲洗 -->
+<template name="CloudWashLine">
+  <cloud-wash cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>
+<!-- 高温杀菌 -->
+<template name="Germicidal">
+  <germicidal title="{{title}}" />
+</template>
+<!-- 童锁 -->
+<template name="Lock">
+  <lock cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+</template>

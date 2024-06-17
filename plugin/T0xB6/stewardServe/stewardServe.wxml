@@ -1,0 +1,225 @@
+<!--plugin/T0xB6/stewardServe/stewardServe.wxml-->
+<view wx:if="{{pageType == '1'}}" class="newContainer">
+  <view style="height: 80rpx; margin-left: 48rpx;display: flex;flex-direction: row;margin-right: 48rpx;justify-content: space-around;">
+    <block wx:for="{{cleanMode}}" wx:key="mode">
+      <view wx:if="{{index == cleanSelect}}" style="color: #333;font-size: 28rpx;display: flex;padding: 0 32rpx;align-items: center;height: 100%;position: relative;">
+        {{item.name}}
+        <view style="position: absolute;bottom: 6rpx;left: 76rpx;right: 60rpx;background-color: #333; height: 8rpx;width: 34rpx;"></view>
+      </view>
+      <view wx:else style="color: #aaa;font-size: 28rpx;display: flex;padding: 0 32rpx;align-items: center;height: 80rpx;justify-content: center;margin-top: 2rpx;" bindtap="clickToTitle" id="{{index}}">{{item.name}}</view>
+    </block>
+  </view>
+  <block wx:if="{{cleanSelect == '0'}}">
+    <view wx:if="{{cleanMode[0].num > 0 && cleanMode[0].num <= 20 && isShowFengJi}}" style="width: 100%;height: 80rpx;background: #FFF2E9;display: flex;flex-direction: row;align-items: center;color: #FF8225;font-size: 24rpx;position: absolute;top: 80rpx;">
+      <view style="margin-left: 48rpx;width: 40rpx;height: 40rpx;background-color: #E55225;border-radius: 40rpx;margin-right: 20rpx;display: flex;justify-content: center;align-items: center;">
+        <image style="width: 30rpx;height: 30rpx;" src="https://pic.mdcdn.cn/h5/img/colmomini/plugin/0xB6/remind.png" ></image>
+      </view>
+      <view>已运行{{cleanMode[0].time}}小时</view>
+      <view style="flex: 1;display:flex;justify-content: flex-end;color: #E55225;margin-right: 48rpx;;" bindtap="closeShow" id="0">
+        <view class="remindArea" style="background-color: #FF8225;"></view>
+      </view>
+    </view>
+    <view wx:elif="{{cleanMode[0].num <= 0 && isShowFengJi }}" style="width: 100%;height: 80rpx;background: #FFEBEA;display: flex;flex-direction: row;align-items: center;color: #ff3b30;font-size: 24rpx;position: absolute;top: 80rpx;">
+      <view style="margin-left: 48rpx;width: 40rpx;height: 40rpx;background-color: #ff3b30;border-radius: 40rpx;margin-right: 16rpx;display: flex;justify-content: center;align-items: center;">
+        <image style="width: 30rpx;height: 30rpx;" src="https://pic.mdcdn.cn/h5/img/colmomini/plugin/0xB6/remind.png" ></image>
+      </view>
+      <view>已运行{{cleanMode[0].time}}小时，烟机该洗澡啦</view>
+      <view style="flex: 1;display:flex;justify-content: flex-end;color: #ff3b30;margin-right: 48rpx;;" bindtap="closeShow" id="0">
+        <view class="remindArea" style="background-color: #ff3b30;"></view>
+      </view>
+    </view>
+
+    <view style="margin-top: 150rpx;height: 224rpx;display: flex;justify-content: center;align-items: center;width: 100%;">
+      <view class="{{ cleanMode[0].num == 0 ? 'statusBgColorBad' : cleanMode[0].num > 20 ? 'statusBgColorGood' : 'statusBgColorSoso' }}" style="width: 172rpx;height: 172rpx;border-radius: 172rpx;font-size: 36rpx;display: flex;justify-content: center;align-items: center;position: relative;">
+        <text class="statusColorGood" wx:if="{{ cleanMode[0].num > 20}}">优</text>
+        <text class="statusColorSoso" wx:elif="{{ cleanMode[0].num > 0 && cleanMode[0].num <= 20 }}">良</text>
+        <text class="statusColorBad" wx:else>中</text>
+        <view style="position: absolute;width: 100%;display: flex;justify-content: center;align-items: center;">
+          <canvas style="width: 190rpx;height: 190rpx;position: absolute;" type="2d" id="canvasProgressbg"></canvas>
+        </view>
+      </view>
+    </view>
+
+    <view style="margin-top: 100rpx;width: 100%;display: flex;flex-direction: row;">
+      <view style="flex: 1;display: flex;flex-direction: column;justify-content: flex-end;align-items: flex-end;position: relative;">
+        <view style="flex: 1;margin-left: 60rpx;color: #333;display: flex;justify-content: center;align-items: center;">
+          <view style="flex: 1;display: flex;flex-direction: column;margin-right: 60rpx;">
+            <view style="flex: 1;display: flex;align-items: flex-end;width: 100%;color: #333;flex-direction: row;font-size: 26rpx;">
+              <view style="font-size: 64rpx;display: flex;justify-content: center;height: 64rpx;line-height: 64rpx;margin-right: 16rpx;">{{cleanMode[0].time}}</view> 小时
+            </view>
+            <view style="flex: 1;display: flex;width: 100%;font-size: 24rpx;color: #333;margin-top: 28rpx;margin-left: 8rpx;opacity: 0.6;">已运行时间</view>
+          </view>
+        </view>
+        <view style="position: absolute;width: 2rpx;background-color: #E5E5E8;height: 66rpx;right: 0;bottom: 20rpx;"></view>
+      </view>
+      <view style="flex: 1;color: #333;display: flex;justify-content: center;align-items: center;">
+        <view style="flex: 1;display: flex;flex-direction: column;">
+          <view style="display: flex;align-items: flex-end;width: 100%;color: #333;flex-direction: row;font-size: 26rpx;padding-left: 60rpx;">
+            <view style="font-size: 64rpx;display: flex;justify-content: center;height: 64rpx;line-height: 64rpx;margin-right: 16rpx;">{{cleanMode[0].num}}</view> %
+          </view>
+          <view style="display: flex;width: 100%;font-size: 24rpx;color: #333;margin-top: 28rpx;margin-left: 8rpx;opacity: 0.6;padding-left: 60rpx;">洁净度</view>
+        </view>
+      </view>
+    </view>
+
+    <view style="margin-top: 70rpx;font-size: 28rpx;color: #666666;margin-left: 48rpx;margin-right: 48rpx;">
+      请注意累计运行时长达15小时建议启动烟机内部清洗功能。自清洁结束后务必记得倒油杯。如长期未使用内部清洁功能，需深层清洁。
+    </view>
+  </block>
+  <block wx:elif="{{cleanSelect == '1'}}">
+    <view wx:if="{{cleanMode[1].num > 0 && cleanMode[1].num <= 20 && isShowOil}}" style="width: 100%;height: 80rpx;background: #FFF2E9;display: flex;flex-direction: row;align-items: center;color: #FF8225;font-size: 24rpx;position: absolute;top: 80rpx;">
+      <view style="margin-left: 48rpx;width: 40rpx;height: 40rpx;background-color: #E55225;border-radius: 40rpx;margin-right: 20rpx;display: flex;justify-content: center;align-items: center;">
+        <image style="width: 30rpx;height: 30rpx;" src="https://pic.mdcdn.cn/h5/img/colmomini/plugin/0xB6/remind.png" ></image>
+      </view>
+      <view>已运行{{cleanMode[1].time}}小时,记得来关心我。清洁后记得复位</view>
+      <view style="flex: 1;display:flex;justify-content: flex-end;color: #E55225;margin-right: 48rpx;;" bindtap="closeShow" id="1">
+        <view class="remindArea" style="background-color: #FF8225;"></view>
+      </view>
+    </view>
+    <view wx:elif="{{cleanMode[1].num <= 0 && isShowOil }}" style="width: 100%;height: 80rpx;background: #FFEBEA;display: flex;flex-direction: row;align-items: center;color: #ff3b30;font-size: 24rpx;position: absolute;top: 80rpx;">
+      <view style="margin-left: 48rpx;width: 40rpx;height: 40rpx;background-color: #ff3b30;border-radius: 40rpx;margin-right: 16rpx;display: flex;justify-content: center;align-items: center;">
+        <image style="width: 30rpx;height: 30rpx;" src="https://pic.mdcdn.cn/h5/img/colmomini/plugin/0xB6/remind.png" ></image>
+      </view>
+      <view>已运行{{cleanMode[1].time}}小时，油盒该倒啦。如已清洁，请复位</view>
+      <view style="flex: 1;display:flex;justify-content: flex-end;color: #ff3b30;margin-right: 48rpx;;" bindtap="closeShow" id="1">
+        <view class="remindArea" style="background-color: #ff3b30;"></view>
+      </view>
+    </view>
+
+    <view style="margin-top: 150rpx;height: 224rpx;display: flex;justify-content: center;align-items: center;width: 100%;">
+      <view class="{{ cleanMode[1].num == 0 ? 'statusBgColorBad' : cleanMode[1].num > 20 ? 'statusBgColorGood' : 'statusBgColorSoso' }}" style="width: 172rpx;height: 172rpx;border-radius: 172rpx;font-size: 36rpx;display: flex;justify-content: center;align-items: center;position: relative;">
+        <text class="statusColorGood" wx:if="{{ cleanMode[1].num > 20}}">优</text>
+        <text class="statusColorSoso" wx:elif="{{ cleanMode[1].num > 0 && cleanMode[1].num <= 20 }}">良</text>
+        <text class="statusColorBad" wx:else>中</text>
+        <view style="position: absolute;width: 100%;display: flex;justify-content: center;align-items: center;">
+          <canvas style="width: 190rpx;height: 190rpx;position: absolute;" type="2d" id="canvasProgressBg"></canvas>
+        </view>
+      </view>
+    </view>
+
+    <view style="margin-top: 100rpx;width: 100%;display: flex;flex-direction: row;">
+      <view style="flex: 1;display: flex;flex-direction: column;justify-content: flex-end;align-items: flex-end;position: relative;">
+        <view style="flex: 1;margin-left: 60rpx;color: #333;display: flex;justify-content: center;align-items: center;">
+          <view style="flex: 1;display: flex;flex-direction: column;margin-right: 60rpx;">
+            <view style="flex: 1;display: flex;align-items: flex-end;width: 100%;color: #333;flex-direction: row;font-size: 26rpx;">
+              <view style="font-size: 64rpx;display: flex;justify-content: center;height: 64rpx;line-height: 64rpx;margin-right: 16rpx;">{{cleanMode[1].time}}</view> 小时
+            </view>
+            <view style="flex: 1;display: flex;width: 100%;font-size: 24rpx;color: #333;margin-top: 28rpx;margin-left: 8rpx;opacity: 0.6;">已运行时间</view>
+          </view>
+        </view>
+        <view style="position: absolute;width: 2rpx;background-color: #E5E5E8;height: 66rpx;right: 0;bottom: 20rpx;"></view>
+      </view>
+      <view style="flex: 1;color: #333;display: flex;justify-content: center;align-items: center;">
+        <view style="flex: 1;display: flex;flex-direction: column;">
+          <view style="display: flex;align-items: flex-end;width: 100%;color: #333;flex-direction: row;font-size: 26rpx;padding-left: 60rpx;">
+            <view style="font-size: 64rpx;display: flex;justify-content: center;height: 64rpx;line-height: 64rpx;margin-right: 16rpx;">{{cleanMode[1].num}}</view> %
+          </view>
+          <view style="display: flex;width: 100%;font-size: 24rpx;color: #333;margin-top: 28rpx;margin-left: 8rpx;opacity: 0.6;padding-left: 60rpx;">油盒容量</view>
+        </view>
+      </view>
+    </view>
+
+    <view style="margin-top: 70rpx;font-size: 28rpx;color: #666666;margin-left: 48rpx;margin-right: 48rpx;">
+      油盒容量有限哦，请注意及时倾倒油盒里面的污油。不及时清理可能会造成抽烟率下降，并且积存的油污也会滋生细菌，危害健康。
+    </view>
+  </block>
+  <block wx:elif="{{cleanSelect == '2'}}">
+    <view wx:if="{{cleanMode[2].num > 0 && cleanMode[2].num <= 20 && isShowLvWang }}" style="width: 100%;height: 80rpx;background: #FFF2E9;display: flex;flex-direction: row;align-items: center;color: #FF8225;font-size: 24rpx;position: absolute;top: 80rpx;">
+      <view style="margin-left: 48rpx;width: 40rpx;height: 40rpx;background-color: #E55225;border-radius: 40rpx;margin-right: 20rpx;display: flex;justify-content: center;align-items: center;">
+        <image style="width: 30rpx;height: 30rpx;" src="https://pic.mdcdn.cn/h5/img/colmomini/plugin/0xB6/remind.png" ></image>
+      </view>
+      <view>已运行{{cleanMode[2].time}}小时</view>
+      <view style="flex: 1;display:flex;justify-content: flex-end;color: #FF8225;margin-right: 48rpx;;" bindtap="closeShow" id="2">
+        <view class="remindArea" style="background-color: #FF8225;"></view>
+      </view>
+    </view>
+    <view wx:elif="{{cleanMode[2].num <= 0 && isShowLvWang }}" style="width: 100%;height: 80rpx;background: #FFEBEA;display: flex;flex-direction: row;align-items: center;color: #ff3b30;font-size: 24rpx;position: absolute;top: 80rpx;">
+      <view style="margin-left: 48rpx;width: 40rpx;height: 40rpx;background-color: #ff3b30;border-radius: 40rpx;margin-right: 16rpx;display: flex;justify-content: center;align-items: center;">
+        <image style="width: 30rpx;height: 30rpx;" src="https://pic.mdcdn.cn/h5/img/colmomini/plugin/0xB6/remind.png" ></image>
+      </view>
+      <view>已运行{{cleanMode[2].time}}小时，烟机该洗澡啦</view>
+      <view style="flex: 1;display:flex;justify-content: flex-end;color: #ff3b30;margin-right: 48rpx;;" bindtap="closeShow" id="2">
+        <view class="remindArea" style="background-color: #ff3b30;"></view>
+      </view>
+    </view>
+    <view style="margin-top: 150rpx;height: 224rpx;display: flex;justify-content: center;align-items: center;width: 100%;">
+      <view class="{{ cleanMode[2].num == 0 ? 'statusBgColorBad' : cleanMode[2].num > 20 ? 'statusBgColorGood' : 'statusBgColorSoso' }}" style="width: 172rpx;height: 172rpx;border-radius: 172rpx;font-size: 36rpx;display: flex;justify-content: center;align-items: center;position: relative;">
+        <text class="statusColorGood" wx:if="{{ cleanMode[2].num > 20}}">优</text>
+        <text class="statusColorSoso" wx:elif="{{ cleanMode[2].num > 0 && cleanMode[2].num <= 20 }}">良</text>
+        <text class="statusColorBad" wx:else>中</text>
+        <view style="position: absolute;width: 100%;display: flex;justify-content: center;align-items: center;">
+          <canvas style="width: 190rpx;height: 190rpx;position: absolute;" type="2d" id="canvasProgressbgs"></canvas>
+        </view>
+      </view>
+    </view>
+
+    <view style="margin-top: 100rpx;width: 100%;display: flex;flex-direction: row;">
+      <view style="flex: 1;display: flex;flex-direction: column;justify-content: flex-end;align-items: flex-end;position: relative;">
+        <view style="flex: 1;margin-left: 60rpx;color: #333;display: flex;justify-content: center;align-items: center;">
+          <view style="flex: 1;display: flex;flex-direction: column;margin-right: 60rpx;">
+            <view style="flex: 1;display: flex;align-items: flex-end;width: 100%;color: #333;flex-direction: row;font-size: 26rpx;">
+              <view style="font-size: 64rpx;display: flex;justify-content: center;height: 64rpx;line-height: 64rpx;margin-right: 16rpx;">{{cleanMode[2].time}}</view> 小时
+            </view>
+            <view style="flex: 1;display: flex;width: 100%;font-size: 24rpx;color: #333;margin-top: 28rpx;margin-left: 8rpx;opacity: 0.6;">已运行时间</view>
+          </view>
+        </view>
+        <view style="position: absolute;width: 2rpx;background-color: #E5E5E8;height: 66rpx;right: 0;bottom: 20rpx;"></view>
+      </view>
+      <view style="flex: 1;color: #333;display: flex;justify-content: center;align-items: center;">
+        <view style="flex: 1;display: flex;flex-direction: column;">
+          <view style="display: flex;align-items: flex-end;width: 100%;color: #333;flex-direction: row;font-size: 26rpx;padding-left: 60rpx;">
+            <view style="font-size: 64rpx;display: flex;justify-content: center;height: 64rpx;line-height: 64rpx;margin-right: 16rpx;">{{cleanMode[2].num}}</view> %
+          </view>
+          <view style="display: flex;width: 100%;font-size: 24rpx;color: #333;margin-top: 28rpx;margin-left: 8rpx;opacity: 0.6;padding-left: 60rpx;">洁净度</view>
+        </view>
+      </view>
+    </view>
+
+    <view style="margin-top: 70rpx;font-size: 28rpx;color: #666666;margin-left: 48rpx;margin-right: 48rpx;">
+      请注意观察自家烟机的配件和折旧度哦，及时维护更换有助于保持烟机的寿命。
+    </view>
+  </block>
+  <view class="cleanReSetArea">
+    <view class="cleanReSet" bindtap="allDeviceReSet" >
+      复位
+    </view>
+  </view>
+</view>
+<view wx:elif="{{pageType == '0'}}" class="newContainer">
+  <view class="aiLightArea">
+    <view class="deviceB6LineArea">
+        <text class="deviceB6LineText">AI照明</text>
+        <view class="deviceB6LineTurnOnArea"> 
+          <df-switch inner-class="{{aiLightState == '0' ? '' : 'switch' }}" bind:dofSwitchChanged="dofSwitchChanged" checked="{{ aiLightState == '0' ? false : true }}"></df-switch>
+        </view>
+    </view>
+    <view class="aiLightMessage">
+      启动功能，会根据您手动开关照明的习惯，通过算法智能调节开机开灯的时间段。
+    </view>
+  </view>
+  <view class="aiLightSetArea" wx:if="{{aiLightState == '0'}}">
+    <view class="aiLightTitle">
+      开机不开灯时段
+    </view>
+    <block wx:for="{{timeData}}" wx:for-index="timeIndex" wx:key="time">
+      <view class="{{timeIndex == (timeData.length - 1) ? 'aiLightSelectArea' : 'aiLightSelectAreas'}}" id="{{timeIndex}}" bindtap="changeSelectNum">
+        {{item}}
+        <block wx:for="{{selectNumArr}}" wx:key="num">
+          <view wx:if="{{item == timeIndex}}" style="flex: 1;display: flex;justify-content: flex-end;">
+            <view style="width: 8px;height: 16px;border-color: #59D3FF;border-style: solid;border-width: 0 2rpx 2rpx 0;transform: rotate(45deg);"></view>
+          </view>
+        </block>
+      </view>
+    </block>
+  </view>
+  <c-dialog
+    isShow="{{isShowDialog || false}}"
+    confirmBtnType="button"
+    mainTitle="确定关闭AI照明功能吗？"
+    subTitle="关闭后烟机照明将不能根据您的习惯智能调节！"
+    cancelTxt="取消"
+    confirmTxt="确定"
+    bind:confirm="confirmFns"
+  >
+  </c-dialog>
+</view>

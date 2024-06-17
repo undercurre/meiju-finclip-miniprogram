@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-switch": "/common-packages/plugin/component/new-vant/switch/index",
+    "van-swipe-cell": "/common-packages/plugin/component/new-vant/swipe-cell/index"
+  },
+  "componentPlaceholder": {
+    "van-swipe-cell": "view",
+    "van-switch": "view"
+  }
+}

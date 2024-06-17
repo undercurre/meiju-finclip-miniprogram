@@ -1,0 +1,61 @@
+.switch-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.switch-option .option-icon {
+  width: 64rpx;
+  height: 64rpx;
+  margin-right: 32rpx;
+}
+.switch-option .option-text {
+  font-size: 32rpx;
+  flex: 1;
+  line-height: 156rpx;
+  height: 156rpx;
+}
+.switch-option switch {
+  transform: scale(0.7);
+}
+.underline {
+  position: relative;
+}
+.underline:after {
+  content: " ";
+  position: absolute;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  width: 100%;
+  height: 1px;
+  left: 0;
+  bottom: 0;
+  border-bottom: 1px solid #eee;
+}
+.slider-option {
+  padding-bottom: 50rpx;
+}
+.slider-option .slider-container {
+  margin-top: -22rpx;
+}
+.slider-option .slider-container slider {
+  margin: 0;
+}
+.slider-option .slider-container slider,
+.slider-option .slider-scale {
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+.slider-option .slider-scale {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.slider-option .slider-scale .scale-text {
+  font-size: 20rpx;
+  color: #8A8A8F;
+}

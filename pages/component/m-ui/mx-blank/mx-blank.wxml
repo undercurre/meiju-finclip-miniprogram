@@ -1,0 +1,16 @@
+<!--m-ui/m-blank/m-blank.wxml-->
+<view class="m-blank">
+  <!-- <slot></slot> -->
+  <view class="image-wrap" style="margin-top:{{!hasReason?'160rpx':0}}">
+    <image wx:if="{{imgSrc}}" class='blank-image' src="{{imgSrc}}"></image>
+  </view>
+  <view  wx:if="{{desc}}" class="blank-desc">{{desc}}</view>
+  <view wx:if="{{showBtn}}" class="btn-wrap">
+    <mx-button
+        type="{{ btnType }}"
+        text="{{ btnText }}"
+        bindonButtonClicked="buttonClicked"
+    ></mx-button>
+  </view>
+  <slot></slot>
+</view>

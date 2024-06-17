@@ -1,0 +1,37 @@
+<import src="../templates/template.wxml"></import>
+<wxs src="../common.wxs" module="c1"></wxs>
+<view class="page-inner" style="{{ isShowLuck ? 'page-inner-hidden':''}}">
+  <navbar text="{{ pageSetting.name }}" back="{{ true }}" home="{{ false }}"></navbar>
+  <view class="shadow" wx:if="{{ isLoading }}"></view>
+  <view
+    class="container bg-normal"
+    style="height:{{ pageSetting.backgroundHeight }}rpx;{{c1.contactStyle(pageSetting,'bg,bc')}}"
+  >
+    <view
+      class="container-item bg-normal"
+      wx:for="{{ containerList }}"
+      wx:for-item="containerItem"
+      wx:for-index="idx"
+      wx:key="id"
+      style="height:{{ containerItem.height }}rpx;background-image:url({{ containerItem.background }});"
+    >
+      <template
+        is="normal"
+        data="{{ containerItem, isLogon, ...templateMethods, commonData, options, gameRule, pageSetting }}"
+      ></template>
+    </view>
+    <template
+      is="dialog"
+      data="{{...templateMethods,selectData,...dialogComponentInitData, commonData, options}}"
+    ></template>
+    <template is="toast" data="{{...templateMethods,selectData,...toastComponentInitData, options}}"></template>
+    <template
+      is="face-invite"
+      data="{{...templateMethods,selectData,...faceComponentInitData, options, userInfo, pageSetting}}"
+    ></template>
+  </view>
+</view>
+<!-- 更新协议弹窗 -->
+<block>
+  <agreement-update-dialog></agreement-update-dialog>
+</block>

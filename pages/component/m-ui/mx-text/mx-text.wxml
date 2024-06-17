@@ -1,0 +1,4 @@
+<!--m-ui/m-text/m-text.wxml-->
+<view>
+  <text class="m-text">{{text}}</text>
+</view>

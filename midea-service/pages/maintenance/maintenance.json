@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "维修服务",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "trojan-horse": "../../../pages/component/trojan-horse/trojan-horse",
+    "timerCalendar": "../../components/selector-calendar/selector-calendar",
+    "usePlace": "../../components/usePlace/usePlace",
+    "assume-fault": "../../components/assume-fault/assume-fault",
+    "choseImgVideo": "../../components/choseImgVideo/choseImgVideo",
+    "centerDialog": "../../components/sure-center-dialog/sure-center-dialog",
+    "cancle-sure-dialog": "../../components/cancle-sure-dialog/cancle-sure-dialog",
+    "longToast": "../../components/longToast/longToast"
+  }
+}

@@ -1,0 +1,106 @@
+<block wx:if="{{isLoaded && chargeStandardList.length==0}}">
+  <view class="content-empty">
+    <view class="noList">
+      <image class="empty-img" src="./assets/img/default_ic_nobranch@3x.png" />
+      <text class="empty-desc">抱歉 {{ '\n' }}没有找到相关的收费标准</text>
+    </view>
+  </view>
+</block>
+<block wx:else>
+  <view class="location">
+    <view class="showLocation" bindtap="selectLocation">
+      <view wx:if="{{location.city!=''}}" class="currentLocation">
+        <view class="provinceShow" style="max-width: {{provinceWidth}}rpx;">{{location.province}}</view>
+        <view class="cityShow">{{location.city}}</view>
+      </view>
+      <view wx:else class="currentLocation">手动选择地址</view>
+      <image class="selectIcon" src="{{baseImgUrl + '/ic_zhankai@2x.png'}}"></image>
+    </view>
+    <view class="retry" bindtap="autoLocation">
+      <image class="locationIcon" src="{{baseImgUrl + '/ic_dingwei@3x.png'}}"></image>
+      <view class="retryLocation">重新定位</view>
+    </view>
+  </view>
+  <view class="main-content">
+    <view class="left-list">
+      <scroll-view scroll-y="{{true}}" style="height: 100%">
+        <view style="padding-bottom: 100rpx">
+          <view
+            class="left-item {{ currentIndex == index ? 'active-tag' : '' }}"
+            wx:for="{{ chargeStandardList }}"
+            wx:for-item="item"
+            wx:for-index="index"
+            wx:key="index"
+            data-index="{{index}}"
+            bindtap="switchExpand"
+          >
+            <view class="typeTag">{{item.classAProject}}</view>
+            <view class="active-line" wx:if="{{ currentIndex == index }}"></view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="right-list">
+      <scroll-view style="height: 100%" scroll-y="{{true}}" scroll-with-animation="{{true}}">
+        <view style="padding-bottom: 100rpx">
+          <view class="type">{{chargeStandardList[currentIndex]['classAProject']}}</view>
+          <view
+            class="classProject"
+            wx:for="{{chargeChildren}}"
+            wx:for-item="item"
+            wx:for-index="index"
+            wx:key="index"
+            data-index="{{index}}"
+            bindtap="showActionSheet"
+          >
+            <view class="typeList">{{item.classBProject}}</view>
+            <view class="money">
+              <view>{{item.money}}</view>
+              <image class="rightArrow" src="{{baseImgUrl + '/right_arrow@3x.png'}}"></image>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <!--底部收费明细actionSheet start-->
+  <view>
+    <view class="container" wx:if="{{isOpened}}">
+      <view class="notice">
+        <view class="chargeTitle">{{chargeTitle}}</view>
+        <view class="closeImg" bindtap="closeSheet">
+          <image class="close" src="{{baseImgUrl + '/card_ic_close@3x.png'}}"></image>
+        </view>
+      </view>
+      <scroll-view scroll-y="{{true}}" style="height: {{charegSheet.length>=3 ? '70vh' : '35vh'}}">
+        <view class="chargeList" wx:for="{{charegSheet}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+          <view class="desc">
+            <view class="descTitle">{{item.classCProject}}</view>
+            <view wx:if="{{item.pubRemark}}" class="descSubTitle">{{item.pubRemark}}</view>
+          </view>
+          <view class="descMoney">{{item.chargeStandard}}{{item.unit}}</view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="mask" wx:if="{{isOpened}}" bindtap="closeSheet"></view>
+  </view>
+</block>
+<!--底部收费明细actionSheet end-->
+
+<!-- 选择位置弹框 -->
+<view-address-popup
+  id="addressPopup"
+  isShowAdressPopup="{{ isShowAdressPopup }}"
+  addressMaxCount="{{ addressMaxCount }}"
+  bind:dialogClose="onDialogClose"
+  bind:getRegion="onGetRegion"
+>
+</view-address-popup>
+
+<sure-center-dialog
+  isShowSureDialog="{{ isSureDialog }}"
+  bind:makeSure="makeSure"
+  title="{{ dialogMixinsTitle }}"
+  content="{{ dialogMixinsContent }}"
+  dialogMixinsBtns="{{ dialogMixinsBtns }}"
+></sure-center-dialog>

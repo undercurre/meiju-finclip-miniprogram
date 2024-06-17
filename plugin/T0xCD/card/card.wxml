@@ -1,0 +1,85 @@
+<view class="container">
+  <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+  <cardHeader bindtap="" image="{{icons.header}}" title="{{applianceData.name}}" desc="{{applianceData.roomName}}" />
+  <!-- 内容区域：分为中部和底部两个区域，使用flex布局，底部区域固定在card底部 -->
+  <block wx:if="{{isInit}}">
+    <view class="flex-floor center-floor" wx:if="{{applianceData.onlineStatus == 1 && isQueryOffLine != true}}">
+      <!-- 布局占位用，不可删除 -->
+      <view class="blank-floor"></view>
+      <!-- 提示区域 -->
+      <view wx:if="{{haveTips}}" class="center-floor-tips">
+          <view class="tips-content">
+            <image src="{{icons.gantanhao}}" style="width:50rpx;height:50rpx;padding-left:10rpx;" />
+            <view style="font-size:30rpx;line-height:70rpx;color:#FFAA10;position:absolute;left:70rpx;">
+              <text>{{tipsText[tipsIndex]}}</text>
+            </view>
+            <image bindtap="weatherTips" src="{{icons.tips}}" style="width:50rpx;height:50rpx;padding-right:10rpx;" />
+          </view>
+      </view>
+      <!-- 中部区域: 设备温度 style="height:{{(temp_height + 'rpx') || ''}};" size='{{400}}' -->
+      <view>
+        <circleProgressBar id="circleProgressBar" class="circle-progress-bar" min='{{minTemp}}' minDesc='{{minTemp}}℃' max='{{maxTemp}}' maxDesc="{{maxTemp}}℃" completedColor="#FFBB00" incompletedColor="#E5E5E8">
+          <block wx:if="{{status.power == 'on'}}">
+            <view class="center-content-wrapper">
+              <view class="center-content">
+                <text id="tempMinus" class="heat-temp" bindtap="temperatureChange" bindlongpress="temperatureQuickChange" bindtouchend="temperatureQuickChangeEnd">–</text>
+                <view class="appliance-temp">{{status.set_temperature}}
+                  <text class="appliance-temp-unit">℃</text>
+                </view>
+                <text id="tempPlus" class="heat-temp" bindtap="temperatureChange" bindlongpress="temperatureQuickChange" bindtouchend="temperatureQuickChangeEnd">+</text>
+              </view>
+            </view>
+          </block>
+          <block wx:else class="center-content">
+            <view class="center-content-wrapper power-off">
+              <view class="center-content">
+                <text class="appliance-off">关机</text>
+              </view>
+            </view>
+          </block>
+        </circleProgressBar>
+        <view class="temperature-desc {{status.power == 'on'?'':'temperature-off'}}">
+          <text class="temperature-label">当前水温 </text>
+          <text class="temperature-unit">{{status.water_box_temperature || '--'}}℃</text>
+        </view>
+      </view>
+      <!-- 中部区域: 当前水温、剩余热水量 -->
+      <!-- <view class="row-sb" style="padding-bottom:10rpx;color:{{status.power == 'on'? '#666666' : '#D2D2D2'}}">
+        <view class="row-sb-center" style="width:{{machine_type ? '50%' : '100%'}};">
+            <text wx:if="{{status.power == 'on'}}" style="font-size:90rpx;position:relative;line-height:90rpx;">{{status.water_box_temperature}}<text style="font-size:30rpx;position:absolute;top:-22rpx;">℃</text></text>
+            <text wx:else style="font-size:90rpx;position:relative;line-height:90rpx;">--<text style="font-size:30rpx;position:absolute;top:-22rpx;">℃</text></text>
+            <text class="temperature-label" style="font-size:20rpx;margin:0;padding-top:10rpx;">当前水温</text>
+        </view>
+        <view wx:if="{{machine_type}}" class="row-sb-center" style="border-left:1rpx solid #C8C7CC;">
+          <view class="iconfont {{'krheatWatch'+ status.hotwater_level}}" style="font-size:90rpx;"></view>
+          <text class="temperature-label" style="font-size:20rpx;">当前水量</text>
+        </view>
+      </view> -->
+      <!-- 底部区域: 电源 -->
+      <view class="footer-floor">
+        <view class="button-floor button-floor-flex">
+          <!-- 电源开关 -->
+          <view>
+            <view class="iconfont krswitch" style="padding:0;text-align:center;line-height:120rpx;height:120rpx;width:120rpx;border-radius:50%;background:{{status.power == 'on' ?'#F2F2F2':'#EAEEFE'}}; color:{{status.power == 'off' ? '#5D75F6' : '#666666'}};" bindtap="powerToggle" />
+           <text style="font-size:24rpx;color:#000000;">{{status.power == "off"?'开机':'关机'}}</text>
+          </view>
+          <!-- 节能 -->
+            <view wx:if="{{machine_type}}">
+              <view wx:if="{{status.power == 'on'}}" bindtap="ecoRequest" class="iconfont krenergy" style="padding:0;text-align:center;line-height:120rpx;height:120rpx;width:120rpx;border-radius:50%;background:{{status.energy_mode =='on' ? '#FFF2DB':'#F2F2F2'}};color:{{status.energy_mode == 'on' ? '#FFAA10' : '#666666'}};" />
+              <view wx:else class="iconfont krenergy" style="padding:0;text-align:center;line-height:120rpx;height:120rpx;width:120rpx;border-radius:50%;background:#F2F2F2; color:#C7C7CC;" />
+              <text style="font-size:24rpx;color:#000000;opacity:{{status.power == 'off' ? 0.3 : 1}};">节能</text>
+            </view>
+          <!-- 快热 -->
+            <view wx:if="{{machine_type}}">
+              <view wx:if="{{status.power == 'on'}}" bindtap="compatibilizingRequest" class="iconfont krqHeat" style="padding:0;text-align:center;line-height:120rpx;height:120rpx;width:120rpx;border-radius:50%;background:{{status.compatibilizing_mode =='on' ? '#FFF2DB':'#F2F2F2'}};color:{{status.compatibilizing_mode == 'on' ? '#FFAA10' : '#666666'}};" />
+              <view wx:else class="iconfont krqHeat" style="padding:0;text-align:center;line-height:120rpx;height:120rpx;width:120rpx;border-radius:50%;background:#F2F2F2; color:#C7C7CC;" />
+              <text style="font-size:24rpx;color:#000000;opacity:{{status.power == 'off' ? 0.3 : 1}};">快热</text>
+            </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else>
+      <offline></offline>
+    </view>
+  </block>
+</view>

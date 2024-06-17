@@ -1,0 +1,29 @@
+<view class="container">
+  <view wx:if="{{zComponentType == 'zLOCK' && lockshowTemPassword}}" style="position:absolute;top:0;opacity:0.6;z-index: 3;height:100%;width:100%;background-color:#666666;"></view>
+  <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+  <cardHeader bindtap="" image="{{icons.header[headerIndex]}}" title="{{applianceData.name}}" desc="{{applianceData.roomName}}" />
+  <!-- 内容区域：分为中部和底部两个区域，使用flex布局，底部区域固定在card底部 -->
+  <block wx:if="{{isInit}}">
+    <view class="flex-floor center-floor" wx:if="{{applianceData.onlineStatus == 1 && !isQueryOffLine}}">
+      <!-- 布局占位用，不可删除 -->
+      <view class="blank-floor"/>
+
+      <!-- zigbee 门锁 -->
+      <zigbeeLock wx:if="{{zComponentType == 'zLOCK'}}" wrapData="{{status}}" style="height:89%;" bind:tempPassword="lockGetTempPassword" bind:mlLockPop="lockPop"/>
+
+      <!-- zigbee 面板 -->
+      <zigbeeSwitch wx:if="{{zComponentType == 'zSwitch'}}" wrapData="{{status}}" style="height:89%;" bind:powerToggle="switchControlPowerToggle"/>
+
+      <!-- zigbee 智能插座 -->
+      <zigbeeSocket wx:if="{{zComponentType == 'zSocket'}}" wrapData="{{status}}" style="height:89%;" bind:powerToggle="socketControlPowerToggle"/>
+
+      <!-- 空白 -->
+      <view wx:if="{{zComponentType == 'zBlank'}}" class="zblank-wrap">
+        <text>加载数据中...</text>
+      </view>
+    </view>
+    <view wx:else>
+      <offline></offline>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-slider":"../mx-slider/mx-slider",
+    "mx-bold-slider":"../mx-bold-slider/mx-bold-slider"
+  }
+}

@@ -1,0 +1,100 @@
+/* plugin/T0xDB/pages/save-water/save-water-list/save-water-list.wxss */
+page {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f7f7f7;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 32rpx;
+}
+.goods-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.goods-item {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  width: 334rpx;
+  margin-bottom: 16rpx;
+}
+.goods-image {
+  width: 334rpx;
+  height: 250rpx;
+}
+.goods-name {
+  font-size: 28rpx;
+  color: #000000;
+  font-weight: 500;
+  margin-left: 14rpx;
+  margin-top: 20rpx;
+}
+.discount-info {
+  display: flex;
+  background-color: #fe765c;
+  border-radius: 8rpx;
+  align-self: start;
+  height: 32rpx;
+  align-items: center;
+  margin-top: 14rpx;
+  margin-left: 14rpx;
+}
+.discount-water {
+  background-color: #ffffff;
+  color: #fe765c;
+  font-size: 18rpx;
+  padding: 0 10rpx;
+  margin-left: 2rpx;
+  border-radius: 8rpx;
+  height: 28rpx;
+}
+.discount-coupon {
+  color: #ffffff;
+  font-size: 18rpx;
+  padding: 0 16rpx;
+}
+.money-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-left: 14rpx;
+  margin-bottom: 20rpx;
+}
+.money-title {
+  font-size: 20rpx;
+  color: #8a8a8f;
+  line-height: 46rpx;
+}
+.money-unit {
+  color: #ff0e18;
+  font-size: 20rpx;
+  line-height: 46rpx;
+}
+.money-count {
+  color: #ff0e18;
+  font-size: 32rpx;
+  line-height: 56rpx;
+}
+.money-origin {
+  color: #8a8a8f;
+  font-size: 20rpx;
+  line-height: 46rpx;
+  margin-left: 12rpx;
+  text-decoration: line-through;
+}
+.bottom-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80rpx;
+  margin-bottom: 40rpx;
+}
+.bottom-tips {
+  font-size: 24rpx;
+  color: #666666;
+}

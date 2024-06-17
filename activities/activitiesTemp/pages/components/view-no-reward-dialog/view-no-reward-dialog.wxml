@@ -1,0 +1,30 @@
+<wxs module="c1" src="../../common.wxs"></wxs>
+<view
+  class="dialog-mask"
+  wx:if="{{ isShowDialog1 }}"
+  bindtap="actionDialogClose"
+  capture-catch:touchmove="preventdefault"
+></view>
+<view
+  class="dialog-container"
+  wx:if="{{ isShowDialog1 }}"
+  animation="{{animationData}}"
+  capture-catch:touchmove="preventdefault"
+>
+  <view class="dialog-main bg-normal" style="{{c1.contactStyle(cardPageSetting.popups,'wi,he,img')}}">
+    <!-- custom：10、再来一次 -->
+    <block wx:for="{{ cardContainerInfo.basicList }}" wx:key="id" wx:for-item="basicItem">
+      <button
+        hover-class="none"
+        class="button-common coupon-btns bg-normal"
+        bindtap="drawAgain"
+        data-item="{{ basicItem }}"
+        style="background-color: inherit;{{c1.getBIStyle(basicItem)}}"
+        wx:if="{{ basicItem.custom != 10 || (cardContainerInfo.lastDrawNum > 0 && basicItem.custom == 10) }}"
+      ></button>
+    </block>
+    <view class="dialog-close" bindtap="actionDialogClose">
+      <image src="{{ imgUrl }}close.png"></image>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,68 @@
+<!--plugin/T0xB9/component/midea-slider-bold/midea-slider-bold.wxml-->
+<view class="template-wrapper">
+  <!--两个滑块-->
+  <view class="component-wrapper" wx:if="{{bindModel.type==='double'}}">
+    <view class="slider-wrapper" style="{{bindModel.sliderWrapperStyle}}">
+      <!--左滑块-->
+      <view
+        class="slider-process-wrapper {{bindModel.leftAnchor.isMoving?'':'transition-default'}}"
+        style="{{bindModel.leftAnchor.sliderProcessStyle}}"
+      ></view>
+      <view
+        class="slider-anchor center-flex {{bindModel.leftAnchor.isMoving?'':'transition-default'}}"
+        style="{{bindModel.leftAnchor.anchorStyle}}"
+        data-index="left"
+        catch:touchstart="onTouchStart"
+        catch:touchmove="onTouchMove"
+        catch:touchend="onTouchEnd"
+      >
+        <text class="label">{{bindModel.leftAnchor.anchorLabel}}</text>
+      </view>
+      <view
+        wx:if="{{!bindModel.leftAnchor.disabled&&!bindModel.noLimit}}"
+        class="slider-process-limit-wrapper"
+        style="{{bindModel.leftAnchor.limitStyle}}"
+      ></view>
+      <!--右滑块-->
+      <view
+        class="slider-process-wrapper other-slider-process {{bindModel.rightAnchor.isMoving?'':'transition-default'}}"
+        style="{{bindModel.rightAnchor.sliderProcessStyle}}"
+      ></view>
+      <view
+        class="slider-anchor center-flex other-anchor {{bindModel.rightAnchor.isMoving?'':'transition-default'}}"
+        style="{{bindModel.rightAnchor.anchorStyle}}"
+        data-index="right"
+        catch:touchstart="onTouchStart"
+        catch:touchmove="onTouchMove"
+        catch:touchend="onTouchEnd"
+      >
+        <text class="label">{{bindModel.rightAnchor.anchorLabel}}</text>
+      </view>
+      <view
+        wx:if="{{!bindModel.rightAnchor.disabled&&!bindModel.noLimit}}"
+        class="slider-process-limit-wrapper other-slide"
+        style="{{bindModel.rightAnchor.limitStyle}}"
+      ></view>
+    </view>
+  </view>
+  <!--单个滑块-->
+  <view class="component-wrapper" wx:else>
+    <view class="slider-wrapper" style="{{bindModel.sliderWrapperStyle}}">
+      <view class="slider-process-wrapper" style="{{bindModel.sliderProcessStyle}}"></view>
+      <view
+        class="slider-anchor center-flex"
+        style="{{bindModel.anchorStyle}}"
+        catch:touchstart="onTouchStart"
+        catch:touchmove="onTouchMove"
+        catch:touchend="onTouchEnd"
+      >
+        <text class="label">{{bindModel.anchorLabel}}</text>
+      </view>
+    </view>
+    <view class="value-array-wrapper between-flex" wx:if="{{bindModel.valueArray&&bindModel.valueArray.length>0}}">
+      <view class="value-item" wx:for="{{bindModel.valueArray}}" wx:for-item="valueItem" wx:key="index">
+        <text>{{valueItem.label}}</text>
+      </view>
+    </view>
+  </view>
+</view>

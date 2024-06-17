@@ -1,0 +1,7 @@
+
+<!--Loading-->
+<template name="pageLoading">
+  <view hidden="{{!isLoading}}" class="loading_container">
+    <view class="loading" />
+  </view>
+</template>

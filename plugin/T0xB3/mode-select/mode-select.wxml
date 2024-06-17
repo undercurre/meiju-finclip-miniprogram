@@ -1,0 +1,85 @@
+<view class="mode-select_container">
+  <nav-bar navBarName="模式选择" bgColor="#F9F9F9" hasEmpty="{{false}}"></nav-bar>
+  <view style="padding-top:{{statusNavBarHeight}}px;background-color:#fff;"></view>
+  <view wx:if="{{isPageInit}}" class="wrapper">
+    <!-- 详情 -->
+    <view class="modeDesc" wx:if="{{selectedMode.desc}}">
+      <image class="descIcon" src="{{icon.tipIcon}}" />
+      <view class="text_margin_image">
+        <text class="descText">{{ selectedMode.desc }}</text>
+      </view>
+    </view>
+
+    <!-- 92-底部按钮高度及下边距 88-header高度 72-详情高度-->
+    <scroller-view class="scroller" show-scrollbar="{{false}}" style="height: {{screenH - 92 - 92 - 88 - 72}}rpx">
+      <!-- 最近使用(数据来源未定，可以调用服务器接口获取) -->
+
+      <!-- 常用模式 -->
+      <view class="titleBox">
+        <text class="title">{{ Language.usual }}</text>
+      </view>
+      <view class="box_item flex_row_flexStart">
+        <view class="{{index == selectedIndex ? 'bluebackground' : ''}} modeItem flex_row_flexStart" wx:for="{{modeList}}" data-index="{{index}}" data-bool="{{false}}" bindtap="selecteItem">
+          <view class="grayCircle flex_row_center {{index == selectedIndex ? 'blueCicle' : ''}}">
+            <image class="imgItem" src="{{index == selectedIndex ? modeList[index].activeImgSrc : modeList[index].imgSrc}}" />
+          </view>
+          <view class="modeInform flex_column_spaceAround">
+            <text class="modeName {{index == selectedIndex ? 'whitecolor' : ''}}">{{
+              modeList[index].text
+              }}</text>
+            <text wx:if="{{modeList[index].time || modeList[index].temperature}}" class="timeAndTemp {{index == selectedIndex ? 'whitecolor' : ''}}">{{ item.timeDesc }}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- DIY 模式 -->
+      <view class="titleBox" wx:if="{{(!versionInfo || (versionInfo && !versionInfo.otaVersion)) && diyModeList && diyModeList.length > 0}}">
+        <text class="title">{{ Language.unusual }}</text>
+      </view>
+      <view class="box_item flex_row_flexStart" wx:if="{{(!versionInfo || (versionInfo && !versionInfo.otaVersion)) && diyModeList && diyModeList.length > 0}}">
+        <view class="modeItem flex_row_flexStart {{index + NUM == selectedIndex ? 'bluebackground' : ''}}" wx:for="{{diyModeList}}" data-index="{{index}}" data-bool="{{true}}" bindtap="selecteItem">
+          <view class="grayCircle flex_row_center {{index + NUM == selectedIndex ? 'blueCicle' : ''}}">
+            <image class="imgItem" src="{{index + NUM == selectedIndex ? diyModeList[index].activeImgSrc : diyModeList[index].imgSrc}}" data-cur-mode="{{diyModeList[index]}}" binderror="reloadImg"/>
+          </view>
+          <view class="modeInform flex_column_spaceAround">
+            <text class="modeName {{index + NUM == selectedIndex ? 'whitecolor' : ''}}">{{
+              diyModeList[index].text
+              }}</text>
+            <text wx:if="{{diyModeList[index].time || diyModeList[index].temperature}}" class="timeAndTemp {{index + NUM == selectedIndex ? 'whitecolor' : ''}}">{{ item.timeDesc }}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 云端模式 -->
+      <view wx:if="{{false && (versionInfo && versionInfo.otaVersion || cloudModeList.length > 0)}}">
+        <view class="titleBox">
+          <text class="title">云端模式</text>
+        </view>
+        <view class="box_item flex_row_flexStart">
+          <view class="modeItem flex_row_flexStart relative {{index + NUM == selectedIndex ? 'bluebackground' : ''}}" wx:for="{{cloudModeList}}" data-index="{{index}}" data-bool="{{true}}" bindtap="selecteItem">
+            <view class="grayCircle flex_row_center {{index + NUM == selectedIndex ? 'blueCicle' : ''}}">
+              <image class="imgItem" src="{{index + NUM == selectedIndex ? cloudModeList[index].activeImgSrc : cloudModeList[index].imgSrc}}" />
+              <!-- <text :class="[index + NUM == selectedIndex ? 'selectedCircle' : 'unSelectedCircle']">{{ item.name.slice(0, 1) }}</text> -->
+            </view>
+            <view class="modeInform flex_column_spaceAround">
+              <text class="modeName {{index + NUM == selectedIndex ? 'whitecolor' : ''}}">{{
+                cloudModeList[index].name
+                }}</text>
+              <text wx:if="{{cloudModeList[index].duration || cloudModeList[index].maxTemp}}" class="timeAndTemp {{index + NUM == selectedIndex ? 'whitecolor' : ''}}">{{ item.timeDesc }}</text>
+            </view>
+            <view class="cloudImgBox" wx:if="{{selectedOta.id && selectedOta.id == item.id}}">
+              <image class="cloudImg" src="{{index + NUM == selectedIndex ? icon.cloudImg_selected : icon.cloudImg_unselected}}"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部留白 100px -->
+      <view class="bottom_box"></view>
+    </scroller-view>
+
+    <!-- <view class="box_finish flex_row_center" bindtap="fun_finish" style="margin-bottom: {{isipx ? '116px' : '48px'}}">
+      <text class="text_finish">{{ Language.confirm2 }}</text>
+    </view> -->
+  </view>
+</view>

@@ -1,0 +1,12 @@
+<view class="container">
+    <vcControlRow propItemDic = "{{itemDic}}" propRowIndex = "{{0}}" bindbuttonTap = "ontap" propPaddingBottom = "{{paddingBottom}}"></vcControlRow>
+    <view wx:if="{{showExtended}}" animation='{{animationData}}'>
+        <view class = "extendViewStyle"></view>
+        <vcControlRow propItemDic = "{{subItemDic}}" propRowIndex = "{{1}}" propItemIconW = '22px' propItemIconH = '22px'
+        propPaddingTop = "{{22}}" propPaddingBottom = "{{14}}" propColor = "#fafafa"
+        bindbuttonTap = "ontap"></vcControlRow>
+    </view>
+    
+</view>
+
+<!-- propTopMargin = "{{22}}" propBottomMargin = "{{14}}" propColor = "#fafafa" -->

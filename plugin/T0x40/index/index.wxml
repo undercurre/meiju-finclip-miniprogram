@@ -1,0 +1,9 @@
+<view class="continer" style="padding-top: 164rpx; min-height: {{miniHeight}}rpx;">
+    <view class="top-mask" style="height: {{isIos ? 174 : 156}}rpx;"></view>
+    <plugin-navbar backTo="{{backTo}}" navBarName="{{deviceInfo.name}}" style="z-index: 999;"></plugin-navbar>
+    <view class="device-card">
+        <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" bindmodeChange="modeChange"></device-card>
+    </view>
+    <!-- <footer fromApp="{{fromApp}}" appParameter="{{appParameter}}"></footer> -->
+    <view class="blank"></view>
+</view>

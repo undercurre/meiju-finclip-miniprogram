@@ -1,0 +1,1 @@
+<view class="button" hover-class="hover" bindtap="clicked">分包加载test组件</view>

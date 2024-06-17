@@ -1,0 +1,41 @@
+<view class="content">
+  <view class="device">
+    <view class="info">
+      <view class="line">
+        <view class="label">家庭名称</view>
+        <view class="desc">{{homeGroup}}</view>
+      </view>
+      <view class="line">
+        <view class="label">设备名称</view>
+        <view class="desc">{{device}}</view>
+      </view>
+      <view class="line">
+        <view class="label">所在位置</view>
+        <view class="desc">{{room}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="fault">
+    <view class="info">
+      <view class="line">
+        <view class="label">故障时间</view>
+        <view class="desc">{{time}}</view>
+      </view>
+      <view class="line">
+        <view class="label">故障码</view>
+        <view class="desc">{{code}}</view>
+      </view>
+      <view class="line">
+        <view class="label">故障描述</view>
+        <view class="faultDesc">{{desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="btnBox">
+    <view class="btn">
+      <text bindtap="goRepair" class="repair-btn">一键报修</text>
+    </view>
+  </view>
+</view>

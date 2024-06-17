@@ -1,0 +1,63 @@
+<midea-notice-bar
+  isShow="{{noticeBar.isShow}}"
+  content="{{noticeBar.content}}"
+  type="{{noticeBar.type}}"
+  hasCloseBtn="{{noticeBar.hasCloseBtn}}"
+  bind:onClose="closeNoticeBar"
+></midea-notice-bar>
+<view class="container">
+  <!--活动悬浮球-->
+  <!--<active-float-dialog initData="{{ advertiseBarData }}"></active-float-dialog>-->
+
+  <!--灶头卡片区域-->
+  <view class="stove-card-wrapper">
+    <midea-stove-card
+      wx:for="{{stoveCardArr}}"
+      wx:key="index"
+      data-index="{{item.settingIndex}}"
+      model="{{item.cardInfo}}"
+      bind:onClickOptions="onClickEvent"
+    ></midea-stove-card>
+  </view>
+
+  <!--美居提示文案-->
+  <mx-footer bind:onLabelClicked="goToDownLoad"></mx-footer>
+  <!--<view class="openMeiJuAPpp center-flex click {{isBottomFixed?'bottom-fixed':''}}">-->
+  <!--</view>-->
+
+  <!--一键开机区域-->
+  <view class="footer-box" style="{{pageStyle.footerBox}}"></view>
+  <view class="footer-wrapper center-flex" style="{{pageStyle.footerWrapper}}">
+    <view class="btn-power click" data-index="powerOnAll" bindtap="onClickEvent">
+      <view class="icon-wrapper theme-color center-flex">
+        <image class="icon" src="{{iconUrl.power.white}}"></image>
+      </view>
+      <text class="label">一键开机</text>
+    </view>
+  </view>
+
+  <!--左右灶设置弹框-->
+  <vant-popup
+    bind:close="closeSettingModal"
+    show="{{settingModal.isShow}}"
+    position="bottom"
+    customStyle="{{popUpModalStyle}}"
+  >
+    <view  catch:touchmove="return false;">
+      <midea-stove-middle-setting
+        wx:if="{{settingModal.type==='middle'&&settingModal.isInit}}"
+        model="{{stoveMiddleSettingModel}}"
+        bind:onClickFooter="onClickEvent"
+      ></midea-stove-middle-setting>
+      <midea-stove-double-setting
+        wx:elif="{{settingModal.isInit}}"
+        model="{{stoveDoubleSettingModel}}"
+        bind:onClickFooter="onClickEvent"
+      ></midea-stove-double-setting>
+    </view>
+  </vant-popup>
+</view>
+<!-- 小木马加载中 -->
+<view class="hourseWarp" wx:if="{{!isInit}}">
+  <image class="swing" src="/assets/img/loading.png"></image>
+</view>

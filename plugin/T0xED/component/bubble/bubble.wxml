@@ -1,0 +1,8 @@
+<bottom-btn
+  bindbtnClicked="onSwitchChange"
+  checked="{{bubble}}"
+  disabled="{{bubbleDisable}}"
+  title="{{title}}"
+  onIcon="{{images.bubble}}"
+  offIcon="{{images.bubbleOff}}">
+</bottom-btn>

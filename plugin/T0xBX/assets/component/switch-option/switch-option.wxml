@@ -1,0 +1,8 @@
+<view class="switch-option underline">
+  <image wx:if="{{icon}}" class="option-icon" src="{{icon}}"></image>
+  <text class="option-text">{{label}}</text>
+  <switch 
+    checked="{{_checked}}"
+    color="#085CB9"
+    bindchange="switchChange" />
+</view>

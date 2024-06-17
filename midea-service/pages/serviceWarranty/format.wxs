@@ -1,0 +1,11 @@
+// 格式化名称长度
+var formatName = function (name) {
+  if (name.length > 20) {
+    return name.slice(0, 12) + '...'
+  }
+  return name
+}
+
+module.exports = {
+  formatName: formatName,
+}

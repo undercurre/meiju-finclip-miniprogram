@@ -1,0 +1,24 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "backgroundColor":"#f9f9f9",
+  "usingComponents": {
+    "offline": "../component/offline/offline",
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-switch": "/common-packages/plugin/component/new-vant/switch/index",
+    "c-picker":"/common-packages/plugin/component/picker/picker",
+    "van-action-sheet": "/common-packages/plugin/component/new-vant/action-sheet/index",
+    "filter-status": "../component/filter-status/filter-status",
+    "van-icon": "/common-packages/plugin/component/new-vant/icon/index",
+    "activity-wrapper": "/common-packages/plugin/component/activityWrapper/activity-wrapper"
+  },
+  "componentPlaceholder": {
+    "c-picker":"view",
+    "van-icon":"view",
+    "van-switch": "view",
+    "activity-wrapper": "view",
+    "van-action-sheet": "/pages/component/vant/popup/index"
+  }
+}

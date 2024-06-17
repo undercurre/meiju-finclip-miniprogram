@@ -1,0 +1,16 @@
+<view class="container  {{isphonex}}">
+    <view wx:if="{{!showError}}" class="device-state-layout">
+        <text class="cleanStateStyle">{{cleanStateText}}</text>
+        <vcBattery class="batteryStyle"
+                propBatteryImg = "{{chargeImgUrl}}"
+                propIsCharge = "{{isCharge}}"
+                propWidth = "{{quantityWidth}}"
+                propColor = "{{quantityColor}}"
+                propBattery="{{battery}}"
+                propIsM6 = "{{isM6}}">
+        </vcBattery>
+    </view>
+    <view class="device-state-image-layout">
+        <image class="imageStyle" src="{{stateImageUrl}}"></image>
+    </view>
+</view>

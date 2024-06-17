@@ -1,0 +1,76 @@
+.itemTimeZ{
+  display: flex;
+  flex:1;
+  padding:0px 30rpx 0 30rpx;
+}
+.titleTimeZ{
+  display: flex;
+  flex:1;
+  flex-direction: row;
+  margin-top: -20rpx;
+  margin-left: 30rpx;
+  height:50rpx;
+  background-color:#E5E5E8;
+  margin-bottom:40rpx;
+  
+}
+.leftView{
+  display: flex;
+  flex-direction: column;
+ 
+
+  
+}
+.roundVIew{
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 9rpx;
+  background: #C7C7CC;
+}
+.outRoundVIew{
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 9rpx;
+  background: #C7C7CC;
+}
+.leftLine{
+  display: flex;
+  flex: 1;
+  width: 2rpx;
+  margin-left: 7rpx;
+  padding-bottom: 12rpx;
+  background: #E5E5E8;
+}
+
+.rightContent{
+  display: flex;
+  flex:1;
+  flex-direction: row;
+  margin-top: -6rpx;
+  margin-left: 30rpx;
+  padding-bottom: 60rpx;
+
+}
+
+.curentTitle{
+  font-size: 24rpx;
+  line-height: 24rpx;
+  color:#FF0000;
+}
+.curentTime{
+  font-size: 32rpx;
+  line-height: 50rpx;
+  padding-right:60rpx;
+  color:#8A8A8F;
+}
+.outTitle{
+  font-size: 24rpx;
+  line-height: 24rpx;
+  color:#8A8A8F;
+} 
+.outTime{
+  font-size: 24rpx;
+  line-height: 24rpx;
+  padding-right:60rpx;
+  color:#8A8A8F;
+}

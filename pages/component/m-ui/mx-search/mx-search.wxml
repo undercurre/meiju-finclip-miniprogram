@@ -1,0 +1,27 @@
+<!--m-ui/m-search/m-search.wxml-->
+<!-- <text>m-ui/m-search/m-search.wxml</text> -->
+<view class="search-wrap">
+  <!-- 
+  <view class='select-input' bindtap="goSearch">
+    <view class="input-sec">
+      <view class="input-icon" style="background-image:url({{ spritePicture }});"></view>
+      <text class="input-text">请输入产品品类，如空调、洗衣机</text>
+    </view>
+  </view>
+  -->
+
+  <view class='search-input'>
+      <view class="input-sec">
+        <view class="input-icon" style="background-image:url({{spritePicture}})"></view>
+        <input class="input-text" type="text"	
+              confirm-type="search" focus="{{autoFocus}}" placeholder="{{placeholder}}" value="{{ defaultInput }}" placeholder-style="color:#8a8a8f;font-size:28rpx;" maxlength="20" 
+              bindinput="actionInput" 
+              bindconfirm="actionKeyboardSearch"
+              bindblur="actionBlur" />
+        <view class="del-icon-box" wx:if="{{ defaultInput }}" catchtap="delKeyWord">
+          <view class="del-icon" style="background-image:url({{spritePicture}})"></view>
+        </view>
+      </view>
+      <view wx:if="{{hasBtn}}" class="right-btn"  catchtap="btnClicked">{{btnText}}</view>
+    </view>
+</view>

@@ -1,0 +1,40 @@
+/* m-ui/m-blank/m-blank.wxss */
+
+.m-blank{
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 160rpx;
+  background-color: #F9F9F9;
+}
+.image-wrap{
+  width: 600rpx;
+  height: 500rpx;
+  /* 上外边距移动到行内style样式， 根据ui指示 按照有reason时上移 */
+  /* margin-top: 160rpx; */
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  /* background-color: saddlebrown; */
+}
+.blank-image{
+  width: 480rpx;
+  height: 400rpx;
+}
+
+.blank-desc{
+  font-size: 36rpx;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 36rpx;
+  margin-top: 48rpx;
+  font-weight: 400;
+}
+
+.btn-wrap{
+  margin-top: 44rpx;
+}

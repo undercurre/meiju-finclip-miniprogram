@@ -1,0 +1,46 @@
+<view
+  class="dialog-mask"
+  wx:if="{{ isShowDialog1 }}"
+  bindtap="actionDialogClose"
+  capture-catch:touchmove="preventdefault"
+></view>
+<view
+  class="dialog-container"
+  wx:if="{{ isShowDialog1 }}"
+  animation="{{animationData}}"
+  capture-catch:touchmove="preventdefault"
+>
+  <view
+    class="dialog-main"
+    style="background-image:url({{ imgUrl }}{{ hbBgMap[props.status]}});background-size:100% auto;"
+  >
+    <!-- <view class="">
+      <image src="{{ imgUrl }}{{ hbBgMap[props.awardStatus]}}" mode="widthFix"></image>
+    </view> -->
+    <!-- 状态 0 未领取 1已领取 2已发放,3发放失败 -->
+    <!-- 奖品类型：  0 实物奖品，1现金红包，2积分，3 虚拟券，4清洗券 -->
+    <block wx:if="{{ props.status != 3 }}">
+      <!-- <view class="dialog-title" wx:if="{{ props.type == '1' || props.type == '4' }}">恭喜您获得</view> -->
+      <view class="dialog-money-title">
+        <text class="dialog-money-title-item1">{{props.value}}</text>
+        <text class="dialog-money-title-item2">元</text>
+      </view>
+    </block>
+    <block wx:if="{{props.status == 3}}">
+      <view class="dialog-money-title">
+        <text class="dialog-money-title-item1">领取失败</text>
+      </view>
+    </block>
+    <block wx:if="{{props.status == 1 || props.status == 2}}">
+      <view class="dialog-card-status">
+        <view class="dialog-card-success">红包领取成功</view>
+        <view>现金金额将发送进您的微信帐号</view>
+        <view>请前往账单查询</view>
+      </view>
+    </block>
+    <view class="dialog-card-text" wx:if="{{props.status == 3}}">{{props.awardRecordRemark}}</view>
+    <view class="dialog-close" bindtap="actionDialogClose">
+      <image src="{{ imgUrl }}close.png"></image>
+    </view>
+  </view>
+</view>

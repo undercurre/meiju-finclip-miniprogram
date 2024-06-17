@@ -1,0 +1,94 @@
+<view class="container-box">
+  <view class="padding-inner">
+    <!-- 头部固定区域 -->
+    <view class="fixed-header">
+      <view class="commonHeight left-check-box" bindtap="showAddressPopup">
+        <view class="address-check line-1">{{addressArea ? addressArea : '请选择位置'}}</view>
+        <image class="commonHeight jiantou" src="../../assets/img/ic_xiala.png"></image>
+      </view>
+      <view class="commonHeight right-c">附近“<text class="import-content">{{prodName}}</text>”网点</view>
+    </view>
+    <block>
+      <block wx:if="{{ systemAuthLocation }}">
+        <!-- 滑动区域 -->
+        <scroll-view wx:if="{{ hasAuthLocation }}" scroll-y="{{true}}" style="height: {{ scrollHeight }}px">
+          <view class="sit-address" wx:if="{{ loadFlag && sortedBranchList.length }}">
+            <block wx:for="{{sortedBranchList}}" wx:key="index" wx:for-item="item">
+              <view class="one-item-box" catchtap="toMap" data-index="{{ index }}">
+                <view class="left-title-content">
+                  <view class="top-title line-1">
+                    <text wx:if="{{ sortedBranchList.length > 1 }}">{{index+1}}.</text>{{ item.unitName }}
+                  </view>
+                  <view class="center-content">业务范围：{{ item.businessScope ? item.businessScope : ''}}</view>
+                  <view class="bottom-content">
+                    <view class="b-left" wx:if="{{item.distanceDesc}}">{{item.distanceDesc}}</view>
+                    <view class="b-right">{{item.unitAddress}}</view>
+                  </view>
+                </view>
+                <view class="right-phone-map">
+                  <view
+                    class="right-l"
+                    catchtap="makePhoneCall"
+                    data-phone="{{ item.deliverTel }}"
+                    wx-if="{{ item.deliverTel }}"
+                  >
+                    <block wx-if="{{ item.deliverTel }}">
+                      <view
+                        class="r-l-icon"
+                        style="background:url('{{imgBurl+co}}') no-repeat -511rpx -319rpx;background-size:800rpx auto;"
+                      >
+                      </view>
+                      <view class="r-l-icon-l">电话</view>
+                    </block>
+                  </view>
+                  <view class="right-r" catchtap="goMapNavi" data-item="{{ item }}">
+                    <view
+                      class="r-l-icon"
+                      style="background:url('{{imgBurl+co}}') no-repeat  -441rpx -319rpx;background-size:800rpx auto;"
+                    >
+                    </view>
+                    <view class="r-l-icon-l">到这去</view>
+                  </view>
+                </view>
+              </view>
+            </block>
+          </view>
+          <view class="no-distance" wx:if="{{ loadFlag && !sortedBranchList.length }}">
+            <image class="top-bg" src="{{imgBurl}}/mainContent/images/scene/img_empty.png"></image>
+            <view class="t-content0 mt48">抱歉，亲查询的网点不存在</view>
+            <view class="t-content0">您可以拨打24小时服务热线咨询</view>
+            <view class="btn-box" wx:if="{{emptyNetPhone}}">
+              <text>{{ emptyNetPhone }}</text>
+              <view class="btn-box-cilck" catchtap="makePhoneCall" data-phone="{{ emptyNetPhone }}"></view>
+            </view>
+          </view>
+        </scroll-view>
+        <!-- 没有位置 -->
+        <view class="no-distance" wx:if="{{ loadFlag && !hasAuthLocation }}">
+          <image class="top-bg" src="{{imgBurl}}/mideaServices/images/img_no_location@1x.png"></image>
+          <view class="n-title">无法获取地址</view>
+          <view class="t-content">请允许程序获取你的位置信息，你的位置信息</view>
+          <view class="t-content">将用于发现附近的网点</view>
+          <view class="btn-boxs" catchtap="toSetting">去设置</view>
+        </view>
+      </block>
+      <!-- 没开系统定位权限 -->
+      <block wx:else>
+        <view class="no-distance">
+          <image class="top-bg" src="{{imgBurl}}/mideaServices/images/img_no_location@1x.png"></image>
+          <view class="n-title">无法获取地址</view>
+          <view class="t-content no-system-auth">请到手机设置中开启定位服务，并允许微信获取你的位置信息</view>
+        </view>
+      </block>
+    </block>
+    <!-- 地区弹框 -->
+    <view-address-popup
+      id="addressPopup"
+      isShowAdressPopup="{{ isShowAdressPopup }}"
+      addressMaxCount="{{ addressMaxCount }}"
+      bind:dialogClose="onDialogClose"
+      bind:getRegion="onGetRegion"
+    >
+    </view-address-popup>
+  </view>
+</view>

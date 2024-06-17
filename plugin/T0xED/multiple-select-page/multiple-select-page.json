@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "van-cell": "/pages/component/vant/cell/index",
+    "navbar": "../component/navbar/navbar",
+    "c-picker":"/common-packages/plugin/component/picker/picker"
+  },
+  "componentPlaceholder": {
+    "c-picker": "view"
+  }
+}

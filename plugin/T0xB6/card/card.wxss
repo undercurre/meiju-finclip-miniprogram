@@ -1,0 +1,572 @@
+.row-fs{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.row-sb{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.row-sa{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.container {
+    /* background-color: #F9F9F9; */
+    background: #fff;
+    border-radius: 10rpx;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.header-floor{
+    position: absolute;
+    height: 128rpx;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    padding: 0 20rpx;
+    background: #ffffff;
+    border-top-left-radius: 10rpx;
+    border-top-right-radius: 10rpx;
+}
+.scroll-floor{
+    height: 100%;
+}
+.scroller-flex-floor{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.blank{
+  height: 128rpx;
+}
+.center-floor{
+    /* padding-top: 190rpx; */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 406rpx;
+}
+.device-icon{
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 20rpx;
+}
+.device-name{
+    font: bold 32rpx normal;
+}
+.device-room{
+    margin-top: 4rpx;
+    font-size: 26rpx;
+    color: #666;
+}
+.footer-floor{
+    padding-bottom: 10rpx;
+}
+.button-floor {
+    margin-top: 0rpx;
+    padding: 0 30rpx 30rpx;
+    background: #fff;
+}
+.grey-triangle{
+    position: absolute;
+    width: 35rpx;
+    height: 20rpx;
+    top: -19rpx;
+}
+.grey-triangle.tri-wind{
+    /* left: calc(37.5% - 17.5rpx); */
+    left: 36.25%;
+    /* left: calc(50% - 17rpx); */
+}
+.sub-button-floor{
+    position: relative;
+    border-top: 1rpx solid #EBEBEC;
+    padding: 30rpx 10rpx;
+    background: #FAFAFA;
+}
+.mode-floor{
+    padding: 30rpx;
+}
+.wind-speed-floor{
+    padding: 30rpx 100rpx
+}
+
+/* clock */
+.clock-panel {
+    position: relative;
+    width: 686rpx;
+    height: 474rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+}
+.scale {
+    width: 2rpx;
+    height: 30rpx;
+    background-color: #ddd;
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    margin-left: -1px;
+    transform-origin: bottom;
+    z-index: 1;
+    /* transform: rotate(0deg) translateY(-250px); */
+}
+.eq-power-on .scale {
+    background-color: #627BFF;
+}
+.circle {
+    width: 320rpx;
+    height: 320rpx;
+    border-radius: 50%;
+    border: 2rpx solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+}
+
+.circle-progress-bar {
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 470rpx;
+    height: 470rpx;
+}
+.center-content{
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align:center;
+    width:400rpx;
+    height:400rpx;
+    border-radius: 50%;
+    /* box-shadow: 0 0 15px 6px #5D75F6; */
+    box-shadow: 0 0 15px 0 #E6EAEF;
+}
+.center-content-on{
+    box-shadow: -0 0 4px 3px rgba(98, 123, 255, .5);
+}
+.center-content-left{
+    box-shadow: -3px 0 7px 3px rgba(98, 123, 255, .5);
+}
+.center-content-right{
+    box-shadow: 3px 0 7px 3px rgba(98, 123, 255, .5);
+}
+.center-content-off{
+    box-shadow: 0 0 15px 6px #e6eaef;
+}
+.center-desc {
+    position: absolute;
+    bottom: 85rpx;
+    left: 0rpx;
+    width: 400rpx;
+    text-align: center;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 0;
+    line-height: 12px;
+}
+.descText {
+    font-size: 24rpx;
+    text-align: center;
+    color: #666;
+}
+.appliance-gear-name {
+    font-family: PingFangSC-Regular;
+    font-size: 30px;
+    color: #000000;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 40px;
+    width: 100%;
+}
+.appliance-off{
+    font-family: PingFangSC-Regular;
+    font-size: 36px;
+    color: #000000;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 40px;
+    width: 100%;
+}
+.temp-btn{
+    font-size: 32px;
+    width: 32px;
+    text-align: center;
+    padding: 20px 8px;
+    color: #5D75F6;
+}
+.appliance-temp{
+    font-family: Roboto-Regular;
+    flex: 1;
+    font-size: 72px;
+    color: #000000;
+    letter-spacing: 0;
+    text-align: center;
+}
+.temperature-desc{
+    margin: 10rpx 0 84rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #8A8A8F ;
+    letter-spacing: 0;
+    text-align: center;
+}
+.temperature-desc-value{
+    font-family: Roboto-Regular;
+    font-size: 16px;
+    letter-spacing: 0;
+    margin-left: 5rpx;    
+}
+
+/* 2.0版本 */
+.newContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #F9F9F9;
+}
+
+.deviceB6Area {
+flex: 1;
+height: 220rpx;
+border-radius: 16rpx;
+background-color: white;
+display: flex;
+flex-direction: column;
+margin-top: 16rpx;
+position: relative;
+}
+.deviceB6TitleArea {
+height: 80rpx;
+display: flex;
+flex-direction: row;
+align-items: center;
+margin-top: 20rpx;
+}
+.deviceB6Image {
+width: 48rpx;
+height: 48rpx;
+border-radius: 40rpx;
+background-color: #29C3FF;
+margin-right: 20rpx;
+margin-left: 32rpx;
+}
+.deviceB6Title {
+font-size: 32rpx;
+font-family: PingFang SC;
+}
+.deviceB6Content {
+border: 1px solid #29C3FF;
+color: #29C3FF;
+width: 100rpx;
+margin-left: 20rpx;
+margin-right: 20rpx;
+border-radius: 40rpx;
+text-align: center;
+font-size: 28rpx;
+font-family: PingFang SC;
+line-height: 28rpx;
+font-weight: 400;
+padding-top: 8rpx;
+padding-bottom: 8rpx;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.deviceB6ContentMax {
+border: 1px solid #29C3FF;
+color: #29C3FF;
+width: 132rpx;
+margin-left: 20rpx;
+border-radius: 40rpx;
+text-align: center;
+font-size: 28rpx;
+font-family: PingFang SC;
+line-height: 28rpx;
+font-weight: 400;
+padding-top: 8rpx;
+padding-bottom: 8rpx;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.deviceB6Contents {
+border: 1px solid #29C3FF;
+color: #29C3FF;
+width: 100rpx;
+margin-left: 20rpx;
+border-radius: 40rpx;
+text-align: center;
+font-size: 28rpx;
+font-family: PingFang SC;
+line-height: 28rpx;
+font-weight: 400;
+padding-top: 8rpx;
+padding-bottom: 8rpx;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.deviceB6ContentClose {
+border: 1px solid #7C879B;
+color: #7C879B;
+width: 72rpx;
+margin-left: 20rpx;
+border-radius: 40rpx;
+text-align: center;
+font-size: 28rpx;
+font-family: PingFang SC;
+line-height: 28rpx;
+padding-top: 8rpx;
+padding-bottom: 8rpx;
+font-weight: 400;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.deviceB6SliderArea {
+height: 180rpx;
+display: flex;
+flex-direction: column;
+border-bottom: 1rpx solid #F2F2F2;
+justify-content: center;
+align-items: center;
+}
+.deviceB6SliderAreas {
+height: 180rpx;
+display: flex;
+flex-direction: column;
+border-bottom: 1rpx solid #F2F2F2;
+justify-content: center;
+align-items: center;
+margin-left: 10rpx;
+}
+.deviceB6Slider {
+width: 90%;
+height: 30rpx;
+}
+.deviceB6SliderTitleArea {
+width: 92%;
+display:flex;
+flex-direction:row;
+}
+.deviceB6SliderTitleLeft {
+flex: 1;
+font-size: 18rpx;
+font-family: PingFang SC;
+color: #8A8A8F;
+text-align: left;
+}
+.deviceB6SliderTitleCenter {
+flex: 2;
+font-size: 18rpx;
+font-family: PingFang SC;
+color: #8A8A8F;
+text-align: center;
+}
+.deviceB6SliderTitleRight {
+flex: 1;
+font-size: 18rpx;
+font-family: PingFang SC;
+color: #8A8A8F;
+text-align: right;
+}
+.deviceB6LineArea {
+position: relative;
+height: 160rpx;
+display: flex;
+align-items:center;
+flex-direction: row;
+border-bottom: 1rpx solid #F2F2F2;
+}
+.deviceB6LineImage {
+width: 64rpx;
+height: 64rpx;
+border-radius:60rpx;
+background-color:#29C3FF;
+margin-left: 32rpx;
+margin-right: 40rpx;
+}
+.deviceB6LineText {
+font-family: PingFang SC;
+font-size: 32rpx;
+}
+.cellDesc{
+font-family: PingFang SC;
+font-size: 32rpx;
+color: #666666;
+}
+.deviceB6LineTurnOnArea {
+flex: 1;
+height: 48rpx;
+display:flex;
+justify-content: flex-end;
+margin-right: 38rpx;
+}
+.switch {
+    background-color:#29C3FF;
+}
+
+.active-dialog {
+    width: 60rpx;
+    height: 60rpx;
+    position: absolute;
+    right: 0;
+    z-index: 9999;    /* 协议更新时 遮罩层需要覆盖浮动窗口 */
+  }
+  .close {
+    width: 30rpx;
+    height: 30rpx;
+    position: absolute;
+    right: 16rpx;
+    z-index: 100000;
+  }
+  .active-dialog-main {
+    width: 120rpx;
+    height: 120rpx;
+    position: absolute;
+    right: 16rpx;
+    z-index: 100000;
+  }
+
+  .newHeadArea {
+    height: 600rpx;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .newHeadCanvas {
+    width: 490rpx;
+    height: 490rpx;
+    position:absolute;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    z-index: 1;
+  }
+  .newCanvasArea {
+    position:absolute;
+    z-index: 1;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 100%; 
+    height: 750rpx; */
+    width: 600rpx;
+    height: 560rpx;
+    flex-direction: column;
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+  }
+  .cavasText {
+    font-size: 30rpx;
+    font-family: PingFang SC;
+  }
+  .cavasTextOther {
+    font-size: 60rpx;
+    font-family: PingFang SC;
+  }
+  .canvasTime {
+    font-size: 180rpx;
+    font-family: PingFang SC;
+    line-height:160rpx;
+  }
+  .canvasNormal {
+    font-size: 80rpx;
+    font-family: PingFang SC;
+  }
+  .newStateArea {
+    height: 160rpx;
+    background-color: white;
+    border-radius: 16rpx;
+    padding-left: 32rpx;
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+  .newControlArea {
+    flex: 1;
+    display:flex;
+    justify-content: flex-end;
+    margin-right: 38rpx;
+  }
+  .newControlImage {
+    width: 96rpx;
+    height: 96rpx;
+    background-color: #29C3FF;
+    border-radius: 48rpx;
+    opacity: 0.5;
+  }
+  .newControlNormalImage {
+    width: 96rpx;
+    height: 96rpx;
+    background-color: #29C3FF;
+    border-radius: 48rpx;
+  }
+  .newControlImages {
+    width: 96rpx;
+    height: 96rpx;
+    background-color: #7C879B;
+    border-radius: 48rpx;
+  }
+  .newHotCleanArea {
+    margin-top: 20rpx;
+    background-color: white;
+    border-radius: 16rpx;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .cleanArea {
+    display: flex;
+    flex-direction: row;
+    height: 176rpx;
+    background: #fff;
+    margin-top: 16rpx;
+    margin-bottom: 16rpx;
+    border-radius: 6px;
+  }
+  .cleanTitleArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cleanTitle {
+    color: #333;
+    font-size: 30rpx;
+    margin-left: 40rpx;
+  }
+  .cleanScale {
+    font-size: 44rpx;
+    color: #333;
+    margin-left: 40rpx;
+  }
+  .cleanProgress {
+    width: 160rpx;
+    margin-left: 40rpx;
+  }

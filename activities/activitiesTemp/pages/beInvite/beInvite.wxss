@@ -1,0 +1,54 @@
+/* activities/activitiesTemplates/pages/beInvite.wxss */
+@import '../common.wxss';
+
+.wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 750rpx;
+}
+.container {
+  /* background:#B63436 ; */
+}
+
+.container-item {
+  position: relative;
+}
+
+.bottomBtn-container {
+  width: 750rpx;
+  height: 400rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #b63436;
+  z-index: -99;
+}
+
+.button {
+  font-family: PingFangSC-Medium;
+  /* position: absolute; */
+  height: 88rpx;
+  font-size: 36rpx;
+  color: #ff664f;
+  border-radius: 44rpx;
+  line-height: 88rpx;
+  background-image: linear-gradient(-180deg, #ffffff 0%, #ffdbac 100%);
+}
+.acceptInviteBtn {
+  width: 310rpx;
+  margin-right: -20rpx;
+}
+.joinBtn {
+  width: 310rpx;
+}
+
+.nickWrap {
+  font-size: 28rpx;
+  color: #c7c7c7;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

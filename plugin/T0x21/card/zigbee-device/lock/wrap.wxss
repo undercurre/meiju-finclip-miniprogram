@@ -1,0 +1,252 @@
+.doorLock-img {
+  width: 186rpx;
+  height: 391rpx;
+  transform: translate(25%, 0);
+}
+
+.temPassword-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300rpx;
+  height: 400rpx;
+  transform: translate(-50%, -50%);
+}
+
+.container {
+  text-align: center;
+  position: relative;
+}
+
+.flex-floor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.center-floor {
+  position: relative;
+}
+
+.blank-floor {
+  height: 128rpx;
+}
+
+.footer-floor {
+  /* padding:0 44rpx; *//* padding: 10rpx 0; */
+}
+
+.button-floor {
+  padding-bottom: 22rpx;
+  text-align: center;
+  background: #fff;
+}
+
+.button-floor-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.button-icons {
+  position: relative;
+  height: 120rpx;
+  width: 120rpx;
+  border-radius: 50%;
+  background-color: #eaeefe;
+}
+
+.button-img {
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* .mycanvas{
+  width:476rpx;
+  height:476rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+} */
+
+.button-text {
+  font-size: 24rpx;
+  color: #232323;
+}
+
+.bg-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 72rpx;
+  color: #000;
+}
+
+.lock-flex {
+  height: 78%;
+  padding-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.lock-cover {
+  height: 78%;
+  padding-top: 32rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lock-temPassword {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 666;
+  height: 60%;
+  width: 100%;
+  background-color: #fff;
+  font-size: 20rpx;
+  color: #666;
+}
+
+.lock-temPassword-top {
+  height: 15%;
+  width: 100%;
+  font-size: 28rpx;
+  line-height: 78rpx;
+  color: #000;
+  text-align: center;
+  border-bottom: 2rpx solid #e5e5e8;
+}
+
+.lock-temPassword-top-text {
+  color: #000;
+  font-size: 28rpx;
+  font-weight: 300;
+}
+
+.lock-temPassword-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 70%;
+  width: 100%;
+}
+
+.temPasswordPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70%;
+  width: 100%;
+}
+
+.temPasswordPage-row {
+  position: absolute;
+  top: 21rpx;
+  left: -60rpx;
+  width: 40rpx;
+  height: 2rpx;
+  background-color: #666;
+}
+
+.temPasswordPage-bottom {
+  display: flex;
+  flex-direction: row;
+  height: 15%;
+  width: 100%;
+  font-size: 32rpx;
+  border-top: 2rpx solid #e5e5e8;
+}
+
+.temPasswordPage-bottom-border {
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  border-right: 2rpx solid #e5e5e8;
+}
+
+.share-flex {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.share-flex-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+}
+
+.share-flex-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90rpx;
+  height: 90rpx;
+}
+
+.share-img {
+  width: 90rpx;
+  height: 90rpx;
+  background-color: #fff;
+}
+
+.copy-img {
+  width: 90rpx;
+  height: 90rpx;
+  background-color: #fff;
+}
+
+.share-flex-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+}
+
+.share-text {
+  color: #666;
+  font-size: 20rpx;
+}
+
+.countdown {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.countdown-flex {
+  position: relative;
+  height: 44rpx;
+  text-align: center;
+}
+
+.countdown-text {
+  color: #666;
+  font-size: 32rpx;
+  line-height: 44rpx;
+}
+
+.countdown-width {
+  position: absolute;
+  top: 21rpx;
+  left: 60rpx;
+  width: 40rpx;
+  height: 2rpx;
+  background-color: #666;
+}

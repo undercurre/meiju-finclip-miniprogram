@@ -1,0 +1,6 @@
+<!--midea-service/components/address-item/address-item.wxml-->
+<view wx:if="{{show}}" class="container">
+  <view class="toast">
+    <text class="label">{{text}}</text>
+  </view>
+</view>

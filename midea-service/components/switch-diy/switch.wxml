@@ -1,0 +1,7 @@
+<view class="switch-container common {{isClicked?'isSelected':'notSelected'}}" catchtap="click">
+  <view class="switch-bar">
+    <view class="dot-box">
+      <view class="switch-icon {{isClicked?'blackDot':'whiteDot'}}" animation="{{animationData}}"></view>
+    </view>
+  </view>
+</view>

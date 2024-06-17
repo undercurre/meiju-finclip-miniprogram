@@ -1,0 +1,9 @@
+//价格强制保留两位小数
+function some(arr, value) {
+  return arr.some(function (item) {
+    return item === value;
+  });
+}
+module.exports = {
+  some: some,
+};

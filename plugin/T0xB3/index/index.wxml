@@ -1,0 +1,15 @@
+<view class="{{deviceInfoStatus == '1' ? 'mainContainer' : 'offLineContainer'}}" style="background-color: transparent;">
+    <nav-bar navBarName="{{deviceInfo.name || '消毒柜'}}" bgColor="#F9F9F9" hasEmpty="{{false}}"></nav-bar>
+    <view style="padding-top:{{statusNavBarHeight}}px;background-color:#fff;margin-bottom: 20rpx;" bindtap="goBack"></view>
+    <scroll-view style="flex: 1; width: 100%;">
+        <view class="device-newCard">
+            <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" bindmodeChange="modeChange"></device-card>
+        </view>
+        <view wx:if="{{fromApp}}" class="bottom-box">
+            <button class="openMeiJuAPpp" style="display:inline-block;" open-type="launchApp" app-parameter="{{appParameter}}" binderror="launchAppError">
+                <text class="blue">打开美居App</text>
+            </button>
+            <text>解锁更多功能</text>
+        </view>
+    </scroll-view>
+</view>

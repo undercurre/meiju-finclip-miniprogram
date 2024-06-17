@@ -1,0 +1,22 @@
+<!--m-ui/m-dialog/m-dialog.wxml-->
+<!-- <view class="dialog-wrap">
+  <m-mask show="{{true}}"></m-mask>
+  <view>
+
+  </view>
+</view> -->
+
+<view class="active-dialog" wx:if="{{ show }}">
+  <mx-mask show="{{true}}"></mx-mask>
+  <view class="active-main">
+    <view class="top_article"> 
+      <view class="common-title">{{title}}</view>
+      <view class="common-content" style="text-align: {{textAlign}}">{{content}}</view> 
+    </view>
+    <view class="common-btn">
+      <view wx:if="{{single}}"  class="only" data-type="single" bindtap='btnCkicked'>{{singleLabel}}</view>
+      <text  wx:if="{{!single}}" class="btn" data-type="cancel" bindtap='btnCkicked'>{{cancelLabel}}</text> 
+      <text  wx:if="{{!single}}" class="btn" data-type="confirm" bindtap='btnCkicked'>{{confirmLabel}}</text>
+    </view>
+  </view> 
+</view>

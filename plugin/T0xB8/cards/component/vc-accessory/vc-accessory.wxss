@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 80rpx;
+}
+.accessory-status-wrap {
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-end; */
+  align-items: center;
+  justify-content: center;
+  height: 80rpx;
+}
+.staus-text {
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  line-height: 32rpx;
+  height: 32rpx;
+  color: #333333;
+}
+.staus-unit {
+  font-family: PingFangSC-Medium;
+  font-size: 24rpx;
+  color: #333333;
+  letter-spacing: 0;
+}
+.accessory-name {
+  margin-top: 14rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  line-height: 24rpx;
+  color: #8A8A8F;
+}
+.accessory-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 80rpx;
+}
+
+.accessory-icon {
+  height: 32rpx;
+  width: 32rpx;
+  margin-left: 8rpx;
+}

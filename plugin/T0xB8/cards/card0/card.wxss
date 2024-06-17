@@ -1,0 +1,98 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.scroll-floor {
+    height: 100%;
+    background: #F1F7FD;
+}
+
+.scroller-flex-floor1 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    -webkit-display: flex;
+    -webkit-flex-direction: column;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+}
+
+.cleanStateStyle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.infoStyle {
+    /* position:relative; */
+    top: 20px;
+}
+
+.end-margin {
+    height: 138rpx;
+}
+
+.top-margin {
+    height: 15px;
+}
+
+.error-layout {
+    position: absolute;
+    width: 100%;
+    margin-top: 1vh;
+    z-index: 999;
+}
+
+.device-state-image-layout {
+    height: 260px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 3;
+}
+
+.activity-img {
+    width: 16vw;
+    height: 16vw;
+    position: fixed;
+    right: 5vw;
+    top: 14vh;
+    z-index: 999;
+}
+
+.close-activity-img {
+    position: fixed;
+    right: 3vw;
+    top: 14vh;
+    z-index: 999; 
+    width: 5vw;
+    height: 5vw;
+}
+
+.imageStyle {
+    width: 238px;
+    height: 238px;
+}
+.debug-panel{
+    position: absolute;
+    z-index: 9999;
+    top: 65px;
+    left: 15px;
+    font-size: 12px;
+}
+.mop-clean-forbidden{
+    position: absolute;
+    z-index: 99999;
+    background-color: transparent;
+    width: 100%;
+    height: 30vh;
+}

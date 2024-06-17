@@ -1,0 +1,98 @@
+/* activities/activitiesTemp/pages/rankList/rankList.wxss */
+@import '../common.wxss';
+.container-item {
+  position: relative;
+}
+.container-main {
+  box-sizing: border-box;
+  width: 686rpx;
+  border-top: 2rpx solid #eee;
+}
+
+.container-main-rank {
+  box-sizing: border-box;
+  background-color: #fff;
+  height: 100%;
+  border-bottom-left-radius: 20rpx;
+  border-bottom-right-radius: 20rpx;
+  overflow: hidden;
+}
+
+.container-rank-scroll {
+  height: 100%;
+  box-sizing: border-box;
+}
+.rnak-box {
+  padding-bottom: 60rpx;
+  box-sizing: border-box;
+}
+.rank-out {
+  box-sizing: border-box;
+  padding: 0 30rpx;
+}
+
+.rank-item {
+  width: 100%;
+  height: 123rpx;
+  border-top: 2rpx solid #eee;
+}
+
+.rank-out:first-of-type .rank-item {
+  border: none;
+}
+
+.item-left {
+  width: 83rpx;
+  height: 75rpx;
+  line-height: 75rpx;
+  text-align: center;
+  font-size: 36rpx;
+  font-family: PingFangSC-Semibold;
+  color: #7c7c7c;
+  margin-left: -7rpx;
+}
+
+.item-middle {
+  margin-left: 33rpx;
+  margin-right: 30rpx;
+  flex: 1;
+}
+.item-right {
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #1d1d1d;
+  font-weight: bold;
+  white-space: nowrap;
+  width: 120rpx;
+}
+
+.rank-img {
+  width: 83rpx;
+  height: 75rpx;
+}
+
+.user-img {
+  width: 62rpx;
+  height: 62rpx;
+  border-radius: 50%;
+}
+
+.user-name {
+  margin-left: 20rpx;
+  max-width: 288rpx;
+  height: 62rpx;
+  line-height: 62rpx;
+  font-family: PingFangSC-Semibold;
+  font-size: 32rpx;
+  color: #1d1d1d;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: bold;
+}
+.last-style {
+  width: 100%;
+  height: 73rpx;
+  font-size: 24rpx;
+  color: #7c7c7c;
+}

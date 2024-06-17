@@ -1,0 +1,31 @@
+/* activities/activitiesTemp/pages/components/marquee.wxss */
+
+.marquee_container {
+  position: relative;
+  width: 100%;
+  /* margin-top: 80rpx; */
+}
+
+.marquee_text {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.item {
+  display: inline;
+  margin-left: 22rpx;
+  margin-right: 22rpx;
+  padding: 14rpx 40rpx;
+  line-height: 52rpx;
+  /* opacity: 0.43; */
+  /* background: #E1D3C2; */
+  background: rgba(241, 211, 194, 0.43);
+  color: #e83c00;
+  border-radius: 52rpx;
+}
+.item:first-child {
+  margin-left: 0;
+}
+.item:last-child {
+  margin-right: 0;
+}

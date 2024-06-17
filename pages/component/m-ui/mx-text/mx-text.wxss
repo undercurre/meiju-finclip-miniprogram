@@ -1,0 +1,7 @@
+/* m-ui/m-text/m-text.wxss */
+.m-text{
+  font-size: 28rpx;
+  color: #666666;
+  margin-left: 32rpx;
+  line-height: 72rpx;
+}

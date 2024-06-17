@@ -1,0 +1,89 @@
+.scan-code_content{
+  padding: 0 32rpx 32rpx 32rpx;
+  color: #999999;
+}
+.scan-code_content .title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.scan-code_content .title_txt {
+  color: #999999;
+  margin-right: 10rpx;
+}
+.scan-code_content .title_icon{
+  display: block;
+  width: 20rpx;
+  height: 20rpx
+}
+
+.scan-code_container{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-overflow: -o-ellipsis-lastline;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  background: #F9F9F9;
+  border-radius: 8rpx;
+  margin-top: 16rpx;
+}
+
+.title_tip{
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 400;
+  margin-top: 24rpx;
+}
+
+.scan-code_container .scan_code_list {
+  width: 100%;
+}
+
+.scan-code_container  .scan_code_boxs {
+  /* height: 606rpx; */
+  width: 690rpx;
+  border-radius: 24rpx;
+  z-index: 9;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  margin-bottom: 24rpx;
+}
+
+.scan-code_container  .box-in {
+  width: 100%;
+  height: 100%;
+}
+
+.scan-code_container  .code_item {
+  width: 230rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.scan-code_container  .icon-img {
+  width: 160rpx;
+  height: 160rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  /* background: #ddd; */
+}
+
+.scan-code_container  .small-name {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 28rpx;
+  font-weight: 400;
+  height: 28rpx;
+  width: 160rpx;
+}

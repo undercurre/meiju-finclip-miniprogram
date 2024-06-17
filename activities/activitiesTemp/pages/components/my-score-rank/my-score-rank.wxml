@@ -1,0 +1,53 @@
+<wxs src="../../common.wxs" module="c1"></wxs>
+<view
+  class="my-container bg-normal"
+  style="height:{{ props.height }}rpx;background-image:url({{ !isLogon ? nologinSetting.url :''}});"
+>
+  <view class="common-main" wx:key="id" wx:for="{{ props.basicList }}" wx:for-item="basicItem">
+    <block wx:if="{{isLogon}}">
+      <!-- custom 0通用 ;1. 道具数 2.排名数 3.我的积分 4.查看榜单详情 5. 登录按钮 -->
+      <view
+        wx:if="{{ basicItem.custom == 1 || basicItem.custom == 2}}"
+        class="common-target common-row common-center font bg-normal"
+        data-item="{{ basicItem }}"
+        style="{{c1.getBIStyle(basicItem)}}"
+      >
+        <text>{{ basicItem.custom == 1 ? myTotalScore : myScoreRank}}</text>
+      </view>
+      <view
+        wx:if="{{basicItem.custom == 3 || basicItem.custom == 4}}"
+        class="common-target bg-normal"
+        data-item="{{ basicItem }}"
+        bindtap="actionContainer"
+        style="{{c1.getBIStyle(basicItem)}}"
+      ></view>
+    </block>
+    <block wx:else>
+      <!-- 未登录 -->
+      <button
+        wx:if="{{ basicItem.custom == 5 }}"
+        hover-class="none"
+        bindtap="actionGetphonenumber"
+        data-item="{{ basicItem }}"
+        class="common-target button-common bg-normal"
+        style="{{c1.getBIStyle(basicItem)}}"
+      ></button>
+    </block>
+    <!-- custom : 0 通用组件 -->
+    <!-- target: 0、无交互；1、关闭；2、活动内页面；3、分享；4、美的美居；5、链接；6、定制功能；7、弹窗 -->
+    <block wx:if="{{ basicItem.custom == 0 }}">
+      <hotzone
+        props="{{ basicItem }}"
+        selectContainer="{{ props }}"
+        commonData="{{ commonData }}"
+        options="{{ options }}"
+        bind:actionHotzoneDialog="actionHotzoneDialog"
+        bind:actionHotzoneCustom="actionHotzoneCustom"
+        bind:actionLaunchAppError="actionLaunchAppError"
+        bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+        bind:actionGetHotzonePhonenumber="actionGetHotzonePhonenumber"
+        isLogon="{{ isLogon }}"
+      ></hotzone>
+    </block>
+  </view>
+</view>

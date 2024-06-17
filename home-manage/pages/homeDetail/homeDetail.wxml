@@ -1,0 +1,115 @@
+<!--home-manage/pages/homeDetail/homeDetail.wxml-->
+<privacy-popup></privacy-popup>
+<view class="detail-container">
+  <mx-cell-group inset>
+    <mx-cell center imageSize="32" is-link="{{ roleId!=1003 }}" title="家庭名称" bindtap="familyNameClick">
+      <view class="family-name">{{ name }}</view>
+    </mx-cell>
+    <mx-cell center imageSize="32" is-link title="房间与设备" border="{{ false }}" bindtap="goToRoomList" />
+  </mx-cell-group>
+  <view class="member-container">
+    <view class="member-head" bindtap="goToMemberManage">
+      <text>家庭成员</text>
+      <mx-icon classPrefix="mx-iconfont" name="right" size="13px" color="#c7c7c7" />
+    </view>
+    <view class="avatar-container">
+      <view wx:for="{{ memberList }}" wx:key="uid" class="avatar" wx:if="{{index<6}}">
+        <view class="avatar-box">
+          <!-- <image src="{{ item.headImgUrl }}" /> -->
+          <mx-image round fit="cover" plate="{{plate}}" src="{{ item.headImgUrl }}"></mx-image>
+          <text wx:if="{{ item.roleId==1002 }}">管理员</text>
+          <text wx:if="{{ item.roleId==1001 }}">创建者</text>
+        </view>
+        <text>{{ item.nickname }}</text>
+      </view>
+      <view class="avatar" wx:if="{{ memberList.length>6 }}">
+        <!-- <image src="{{ moreIcon }}"/> -->
+        <!-- <view
+          class="add-icon"
+          style="background-image: url({{moreIcon}})">
+        </view> -->
+        <!-- <mx-button bindtap="goToMemberManage" color="#F9F9F9" icon="plus" class="add-icon" /> -->
+        <button bindtap="goToMemberManage" class="add-icon" style="background-image: url({{moreIcon}})"></button>
+        <text>更多成员</text>
+      </view>
+      <view class="avatar" bindtap="clickInviteBtn" wx:if="{{ roleId!=1003 }}">
+        <button class="add-icon" style="background-image: url({{addIcon}})" open-type="share"></button>
+        <!-- <button class="add-icon" src="{{ addIcon }}"/> -->
+        <text>邀请家人</text>
+      </view>
+    </view>
+  </view>
+  <view class="delete-btn-container" bindtap="showDeleteDialog" data-option="delete" wx:if="{{ roleId==1001 }}">
+    <mx-button
+      type="primary"
+      size="large"
+      round
+      block
+      plain
+      color="{{publicColor}}"
+      custom-style="background-color: transparent;"
+      >删除家庭</mx-button
+    >
+  </view>
+  <view class="delete-btn-container" bindtap="showDeleteDialog" data-option="exit" wx:else>
+    <mx-button
+      type="primary"
+      size="large"
+      round
+      block
+      plain
+      color="{{publicColor}}"
+      custom-style="background-color: transparent;"
+      >退出家庭</mx-button
+    >
+  </view>
+  <mx-dialog
+    z-index="10001"
+    title="{{ dialogTitle }}"
+    message=" {{ dialogMessage }}"
+    show="{{ dialogShow }}"
+    show-cancel-button
+    bind:close="onClose"
+    bind:cancel="cancelDialog"
+    cancelButtonColor="{{publicColor}}"
+    confirmButtonColor="{{publicColor}}"
+    scale="1"
+    bind:confirm="confirm"
+    messageAlign="{{dialogMessageAlign}}"
+  >
+  </mx-dialog>
+  <mx-dialog
+    z-index="10001"
+    use-slot
+    title="家庭名称"
+    show="{{ familyDialogShow }}"
+    show-cancel-button
+    bind:cancel="cancleEdit"
+    cancelButtonColor="{{publicColor}}"
+    confirmButtonColor="{{publicColor}}"
+    confirmButtonText="保存"
+    scale="1"
+    bind:confirm="confirmEdit"
+    autoClose="{{ false }}"
+  >
+    <view class="dialog-input">
+      <view class="field-container">
+        <mx-field
+          custom-style="padding: 3px 8px; background: #F9F9F9;border: 1px solid #EEEEEE;font-size:12px"
+          value="{{ name }}"
+          maxlength="{{15}}"
+          type="text"
+          clearable
+          placeholder="请输入家庭名称"
+          border="{{ false }}"
+          bind:input="onChange"
+          input-class="input-class"
+          errorMessage="{{errorMessage}}"
+          error-color="{{errorColor}}"
+          adjust-position="{{false}}"
+          focus="{{autoFocus}}"
+        ></mx-field>
+      </view>
+    </view>
+  </mx-dialog>
+</view>

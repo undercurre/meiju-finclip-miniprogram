@@ -1,0 +1,38 @@
+function likeImgStatus(item) {
+  var status =
+    item.userOperation.length > 0 &&
+    item.userOperation[0].operationType &&
+    item.userOperation[0].operationType == 'like' &&
+    item.userOperation[0].operation == true
+  return status
+}
+
+function likeCountClass(item) {
+  var isLikedClass =
+    item.userOperation.length > 0 &&
+    item.userOperation[0].operationType &&
+    item.userOperation[0].operationType == 'like' &&
+    item.userOperation[0].operation == true
+      ? 'liked'
+      : ''
+  var likeCountClass = 'number ' + isLikedClass
+  return likeCountClass
+}
+
+function discussPeopleHeader(item) {
+  var avator = item.userInfo.headPortrait
+    ? item.userInfo.headPortrait
+    : 'https://fcmms.midea.com/ccrm-sit/userHeadImg/20190909/27bf8944-5621-42c1-8030-16f9fe5fcca1.jpg'
+  return avator
+}
+function deletHtml(str){
+  var reg = getRegExp("<[^>]+>", "g");
+  var result = str.replace(reg, '');
+  return result
+}
+module.exports = {
+  likeImgStatus: likeImgStatus,
+  likeCountClass: likeCountClass,
+  discussPeopleHeader: discussPeopleHeader,
+  deletHtml: deletHtml
+}

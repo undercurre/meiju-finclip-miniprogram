@@ -1,0 +1,22 @@
+{
+  "navigationBarTitleText": "壁挂炉",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "backgroundColor":"#f9f9f9",
+
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-switch": "/common-packages/plugin/component/new-vant/switch/index",
+    "van-popup": "/pages/component/vant/popup/index",
+    "c-picker": "/common-packages/plugin/component/picker/picker",
+    "active-dialog": "/plugin/T0xB7/activeDialog/active-dialog"
+  },
+  "componentPlaceholder": {
+    "c-picker": "view",
+    "van-switch": "view",
+    "active-dialog": "view"
+  }
+}
+
+

@@ -1,0 +1,52 @@
+<view class="flex flex_column align_center">
+  <van-cell title="定时零冷水" label="智能控制启动零冷水循环" custom-class="cell" title-class="cell-title" label-class="cell-label" border="{{false}}">
+    <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+      <image src="{{images.aiColdWater}}" class="cell-img" />
+    </view>
+    <van-switch checked="{{isAiColdWaterSwitch}}" slot="right-icon" active-color="{{iconColor}}"
+      bind:change="updateButton" size="40rpx" />
+  </van-cell>
+  <text class="text" wx:if="{{isAiColdWaterSwitch}}">AI零冷水启动中，将持续学习您的用水习惯，智能启动零冷水，减少用水前等待。</text>
+  <text class="text" wx:else>开启后，可以根据您的用水习惯，智能开启零冷水，减少用水前等待。</text>
+  <block wx:if="{{isAiColdWaterSwitch}}">
+    <view style="opacity: {{studyDays>0?0.5:1}}">
+      <van-cell title="AI启动" label="学习用户习惯，自动开启零冷水" custom-class="{{tabType? 'check-cell':'cell'}}" border="{{false}}" bindtap="showSmart" title-class="cell-title" label-class="cell-label">
+        <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+          <image src="{{images.ai}}" class="cell-img" />
+        </view>
+      </van-cell>
+    </view>
+    <van-cell title="自定义" label="自定义零冷水启动时间"  custom-class="{{!tabType? 'check-cell':'cell'}}" title-class="cell-title" label-class="cell-label" border="{{false}}" bindtap="showSelf">
+      <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+        <image src="{{images.diy}}" class="cell-img" />
+      </view>
+    </van-cell>
+  </block>
+
+  <block wx:if="{{isAiColdWaterSwitch}}">
+    <view class="list-container">
+      <view class="tab2" wx:if="{{tabType==0 || isOnTimeAppoint}}">
+        <view class="tab2-left">
+          <text class="left-title">{{tabType==1?'AI启动时间':'定时启动时间'}}</text>
+        </view>
+        <view class="tab2-right" wx:if="{{tabType==0}}">
+          <text bindtap="changeSwitch" class="right-edit" bindtap="changeSwitch">{{isSwitch?'编辑':'完成'}}</text>
+        </view>
+      </view>
+
+      <!-- 此处写 AI 启动时间的组件及样式 -->
+      <view class="list-container" wx:if="{{isOnTimeAppoint&&tabType==1}}">
+        <step-flow class="step-flow" timeWidth="{{true}}" list="{{orderList}}"></step-flow>
+      </view>
+
+      <text class="no-appoint" wx:elif="{{!isOnTimeAppoint&&tabType==1}}">近7天用水较少，今天将不自动启动零冷水</text>
+
+      <!-- 定时启动时间 -->
+      <view class="list-container" wx:elif="{{tabType==0}}">
+        <device-water isSwitch="{{isSwitch}}" YYLuaData="{{YYLuaData}}" iconColor="{{iconColor}}"
+          applianceData="{{applianceData}}" appData="{{status}}"
+          setting="{{setting}}" bindupdateDeviceAppointList="sendQueryYYLuaData" />
+      </view>
+    </view>
+  </block>
+</view>

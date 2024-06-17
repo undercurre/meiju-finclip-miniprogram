@@ -1,0 +1,24 @@
+<!--midea-service/components/address-item/address-item.wxml-->
+<view class="container">
+  <view class="address-items">
+    <view class="top-bar">
+      <text class="address"
+        >{{itemData.provinceName}}{{itemData.cityName}}{{itemData.countyName}}{{itemData.streetName}}{{itemData.addr}}
+      </text>
+      <view class="modifyTab" catchtap="modifyAddr">
+        <image class="modify"  src="../../assets/img/ic_edit.png"></image>
+      </view>
+    </view>
+    <!-- <view class="modify"></view> -->
+    <view class="user-info">{{itemData.contactName}} {{itemData.antianaphylaxisMobile}}</view>
+    <view class="line"></view>
+    <view class="bottom-bar">
+      <view catchtap="setDefaultAddr">
+        <text>默认地址</text>
+        <image wx:if="{{itemData.defaultAddr}}" class="defaultIcon" src="../../assets/img/btn_select.png"></image>
+        <image wx:else class="defaultIcon" src="../../assets/img/btn_unselect.png"></image>
+      </view>
+      <view catchtap="delAddr" class="deleteTab">删除</view>
+    </view>
+  </view>
+</view>

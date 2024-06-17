@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "AI定时零冷水",
+  "backgroundColor":"#f9f9f9",
+  "usingComponents": {
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-switch": "/common-packages/plugin/component/new-vant/switch/index",
+    "device-water": "../component/device-water/deivce-water",
+    "step-flow": "../component/step-flow/step-flow"
+  },
+  "componentPlaceholder": {
+    "van-switch": "view"
+  }
+}

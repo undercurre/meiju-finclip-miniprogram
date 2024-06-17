@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "保修政策",
+  "usingComponents": {
+    "date-picker-scroll": "../../components/date-picker-scroll/date-picker-scroll"
+  }
+}

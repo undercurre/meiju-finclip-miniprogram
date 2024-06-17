@@ -1,0 +1,8 @@
+/* toshiba公共样式文件 */
+#toshiba .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f01a1a;
+    box-sizing: border-box;
+}

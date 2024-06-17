@@ -1,0 +1,37 @@
+@import '../../m-ui/assets/common.wxss';
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* 一行一个按钮 */
+.button-size-1 {
+  width: 550rpx;
+  height: 88rpx;
+  font-size: 32rpx;
+  border-radius: 200rpx;
+}
+/* 一行两个按钮 */
+.button-size-2 {
+  width: 300rpx;
+  height: 88rpx;
+  font-size: 32rpx;
+  border-radius: 60rpx;
+}
+/* 一行三个按钮 */
+.button-size-3 {
+  width: 188rpx;
+  height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
+}
+/* 一行四个按钮 */
+.button-size-4 {
+  width: 140rpx;
+  height: 72rpx;
+  font-size: 28rpx;
+  border-radius: 36rpx;
+}
+.button {
+  
+}

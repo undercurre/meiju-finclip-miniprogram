@@ -1,0 +1,7 @@
+<!--plugin/component/c-popup/popup.wxml-->
+<view style="position: relative;" wx:if='{{isShow}}'>
+    <view class='mask_layer' style="height:{{height}}px;z-index: {{zindex}}" wx:if="{{showdom}}" catchtap="onlayer" catchtouchmove="stop"/>
+    <view class='box' style="background-color:{{background}};height:{{boxheight}};z-index: {{zindex + 1}}" wx:if="{{showdom}}" animation="{{animationData}}" catchtouchmove="stop">
+      <slot />
+    </view>
+</view>

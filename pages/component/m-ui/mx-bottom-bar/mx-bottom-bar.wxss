@@ -1,0 +1,47 @@
+/* m-ui/mx-bottom-bar/mx-bottom-bar.wxss */
+.bottom-bar-wrap{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #FFFFFF;
+  box-shadow: 0 -1rpx 5rpx 0 rgba(0,0,0,0.05);
+}
+
+.bottom-bar{
+  width: 750rpx;
+  height: 168rpx;
+  /* background-color: tomato; */
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottom-item{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.forbidden{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(255,255,255,0.3);
+  /* background-color: #999999; */
+}
+
+.bottom-icon{
+  width: 96rpx;
+  height: 96rpx;
+  /* background-color: #267aff; */
+  border-radius: 50%;
+}
+
+.describe{
+  font-size: 24rpx;
+  margin-top: 16rpx;
+}

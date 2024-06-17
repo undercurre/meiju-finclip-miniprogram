@@ -1,0 +1,9 @@
+<!--m-ui/m-mask/mask.wxml-->
+<!-- <text>m-ui/m-mask/mask.wxml</text> -->
+<view
+  class="mask"
+  wx:if="{{show}}"
+  style="background-color:{{bgColor=='white'?'rgba(255, 255, 255, 0.6)':'rgba(0, 0, 0, 0.4)'}};z-index:{{ZIndex}}"
+  catchtap="onclicked"
+>
+</view>

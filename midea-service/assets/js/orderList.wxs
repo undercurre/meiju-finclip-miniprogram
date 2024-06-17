@@ -1,0 +1,22 @@
+function format(m, n) {
+  var str = false
+  if (m.serviceUserDemandVOs.length > 1 || (m.serviceUserDemandVOs.length == 1 && n.productAmount > 1)) {
+    str = true
+  }
+  return str
+}
+
+function formatCode(m, n, a, b, c, d) {
+  var str = false
+  if ((m == 'maintenance' || m == 'upkeep') && n.prodCode == a && b[c]['brandCode'] == d) {
+    str = true
+  }
+  // wx:if="{{ (fromPage == 'maintenance' || fromPage == 'upkeep') &&
+  // prodItem.prodCode == selectedProdCode
+  // && brandList[currentIndex]['brandCode'] == selectedBrandCode }}"
+  return str
+}
+module.exports = {
+  formatLengths: format,
+  fCode: formatCode,
+}

@@ -1,0 +1,13 @@
+<!--m-ui/m-card/m-card.wxml-->
+<view class="m-card">
+  <view class="card-item" bindtap="cardClicked">
+    <!-- <image class='icon'  src="../../assets/image/home-decorate.png"></image> -->
+    <view class="content">
+      <view class="title"> {{ title }}</view>
+      <view wx:if="{{subTitle}}" class="vertical-line"></view>
+      <view class="title">{{subTitle}}</view>
+    </view>
+    <slot></slot>
+    <image class='icon' catchtap="imgClicked" src="{{imgSrc}}"></image>
+  </view>
+</view>

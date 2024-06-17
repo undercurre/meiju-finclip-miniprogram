@@ -1,0 +1,11 @@
+<!--change-room/pages/changeRoom/changeRoom.wxml-->
+<view class="changeRoomWarp">
+  <view class="content">
+    <view wx:for="{{roomList}}" class="list" data-roomId ="{{item.roomId}}"bindtap="changeRoom">
+      <view class="roomName">
+        {{item.name}}
+      </view>
+      <image src="{{chooseIco}}" class="chooseIco" wx:if="{{roomId==item.roomId}}"></image>
+    </view>
+  </view>
+</view>

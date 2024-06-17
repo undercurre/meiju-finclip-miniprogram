@@ -1,0 +1,21 @@
+<wxs src="./repeat-circle.wxs" module="tools" />
+<view class="container">
+  <text class="title">重复周期</text>
+  <view class="content">
+    <view class="loop flex align_center justify_around">
+      <view wx:for="{{loopList}}" wx:key="index"
+        class="{{loopIndex===index?'active':''}} loop-item flex align_center justify_center" data-index="{{index}}"
+        bindtap="handleLoopItemClick">
+        <text class="loop-item-text {{loopIndex===index?'text-active':''}}">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="weekday flex align_center justify_around" wx:if="{{loopIndex===4}}">
+      <view wx:for="{{weekdayList}}" wx:key="index"
+        class="{{tools.some(weekdaySelectList,index)?'active':''}} weekday-item flex align_center justify_center"
+        data-index="{{index}}" bindtap="handleWeekDayItemClick">
+        <text class="weekday-item-text {{tools.some(weekdaySelectList,index)?'text-active':''}}">{{item.day}}</text>
+      </view>
+    </view>
+  </view>
+</view>

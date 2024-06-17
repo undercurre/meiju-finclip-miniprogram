@@ -1,0 +1,639 @@
+
+.box {
+  overflow: hidden;
+  height: 100vh;
+  background-image: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%);
+}
+
+.color-bg {
+  height: 100vh;
+  background-image: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%);
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.home-inner-box {
+  box-sizing: border-box;
+}
+
+/*隐藏滚动条*/
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.device-list {
+  width: 100%;
+  z-index: 1;
+  padding: 0rpx 28rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+}
+.no-support-device-list {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+}
+
+.name {
+  display: inline-block;
+  height: 28rpx;
+  font-size: 26rpx;
+  color: #000000;
+  line-height: 28rpx;
+  font-weight: 500;
+  max-width: 234rpx;
+  display: -webkit-box; 
+  -webkit-line-clamp: 1; 
+  -webkit-box-orient: vertical; 
+  overflow: hidden;   
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+.roomName{
+  display: inline-block;
+  height: 24rpx;
+  line-height: 24rpx;
+  font-size: 22rpx;
+  color: #8A8A8F;
+  display: flex;
+  flex-direction: row;
+}
+
+.onlineStatus {
+  position: relative;
+  display: inline-block;
+  height: 24rpx;
+  line-height: 24rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.onlineStatus-sup-app {
+  position: relative;
+  display: inline-block;
+  height: 24rpx;
+  line-height: 24rpx;
+}
+.onlineStatus-click {
+  position: absolute;
+  left: -10rpx;
+  right: -10rpx;
+  top: -10rpx;
+  bottom: -10rpx;
+}
+
+.device-type-round {
+  width: 12rpx;
+  height: 12rpx;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 15rpx;
+  vertical-align: middle;
+}
+
+.onlineStatus-text {
+  display: inline-block;
+  font-size: 22rpx;
+  color: #8A8A8F;
+  font-weight: 400;
+}
+
+.device-card {
+  position: relative;
+  /* padding: 24rpx 26rpx 18rpx; */
+  box-sizing: border-box;
+  width: 336rpx;
+  height: 220rpx;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 24rpx;
+  margin-bottom: 20rpx;
+  background: #ffffff;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  /* z-index: 9; */
+}
+
+.device-icon {
+  width: 96rpx;
+  height: 96rpx;
+  display: inline-flex;
+  margin-bottom: 16rpx;
+  margin-left: 26rpx;
+  margin-top: 20rpx;
+}
+
+.noDeviceWarp {
+  position: relative;
+}
+
+.adWarp {
+  position: absolute;
+  bottom: 32rpx;
+  left: 50%;
+  margin-left: -343rpx;
+  width: 686rpx;
+  height: 180rpx;
+}
+
+.cardlist-add-device {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 26rpx;
+  /* width: 100%;
+  height: 100%; */
+}
+
+.cardlist-add-device .top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.device-card-add-icon {
+  /* margin-left: 38rpx; */
+  margin-right: 14rpx;
+  width: 36rpx;
+  height: 36rpx;
+  background-size: 100% 100%;
+}
+
+.home-tab {
+  padding: 0rpx 32rpx 36rpx 32rpx;
+  font-size: 32rpx;
+  color: #666666;
+  font-weight: 400;
+  line-height: 32rpx;
+  display: flex;
+}
+
+.home-tab-section {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 16rpx;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.device-tab {
+  position: relative;
+}
+.device-tab-click {
+  position: absolute;
+  top: -10rpx;
+  left: 0;
+  bottom: -10rpx;
+  right: -20rpx;
+}
+
+.scene-tab {
+  margin-left: 64rpx;
+  position: relative;
+}
+
+.tab-active {
+  color: #000000;
+  font-weight: 500;
+}
+
+.home-tab-line {
+  width: 32rpx;
+  height: 4rpx;
+  background-color: #000000;
+  border-radius: 2rpx;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s ease;
+}
+
+/* 不支持设备列表wxss */
+.clearfix:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.no-support-device {
+  margin-top: 50rpx;
+  padding: 0rpx 28rpx 0 28rpx;
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
+/* .no-support-device .device-card:nth-child(2n) {
+  margin-left: 23rpx;
+} */
+.no-support-devices-title {
+  position: relative;
+  margin-bottom: 36rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #7b7b80;
+  line-height: 28rpx;
+  font-weight: 400;
+}
+.no-support-devices-title-click {
+  position: absolute;
+  top: -10rpx;
+  left: 0;
+  right: -10rpx;
+  bottom: -10rpx;
+}
+
+.no-sup-device-icon-triangle {
+  margin-left: 15rpx;
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.sup-app-text {
+  font-family: PingFangSC-Regular;
+  font-size: 20rpx;
+  color: #ff9500;
+  line-height: 20rpx;
+  font-weight: 400;
+  margin-top: 18rpx;
+}
+
+.sup-app-text0 {
+  line-height: 28rpx;
+  height: 28rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 14rpx;
+}
+
+.left-checks {
+  font-family: PingFangSC-Regular;
+  font-size: 22rpx;
+  color: #666666;
+  font-weight: 400;
+}
+
+.right-icon {
+  width: 28rpx;
+  height: 28rpx;
+}
+
+/* 未登录 */
+.myHomeDes {
+  font-family: PingFangSC-Medium;
+  font-size: 40rpx;
+  color: #333333;
+  line-height: 40rpx;
+  font-weight: 500;
+  margin: 54rpx 0 36rpx 32rpx;
+}
+
+.addDeviceDes {
+  margin: 100rpx 0 24rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 30rpx;
+  color: #333333;
+  line-height: 30rpx;
+  height: 30rpx;
+  font-weight: 500;
+}
+
+.showContent {
+  position: relative;
+  /* z-index: 99; */
+}
+
+button {
+  border: none;
+}
+
+button::after {
+  border: none;
+}
+
+.btn-hover {
+  background-color: #f4f8ff;
+  box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn-grey-hover {
+  background-color: #e2e6ed;
+  box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.bindNow {
+  display: inline-block;
+  font-size: 22rpx;
+  color: #267AFF;
+  font-weight: 400;
+}
+
+.bind-desc{
+  height: 24rpx;
+  line-height: 24rpx;
+  margin-top: 12rpx;
+  margin-left: 26rpx;
+}
+
+.bindNow button {
+  background: #0078ff;
+  border-radius: 30px;
+  width: 128rpx;
+  height: 48rpx;
+  font-size: 20rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  line-height: 48rpx;
+  font-weight: 500;
+  padding: 0rpx;
+  margin: 0rpx;
+}
+
+.device-check{
+  margin-top: 12rpx;
+  margin-left: 26rpx;
+  font-size: 22rpx;
+  color: #FF9500;
+  height: 24rpx;
+  line-height: 24rpx;
+  font-weight: 400;
+}
+
+.delCard {
+  background-size: 100% 100%;
+  width: 24rpx;
+  height: 24rpx;
+  position: absolute;
+  right: 24rpx;
+  top: 20rpx;
+}
+.delCard-click {
+  position: absolute;
+  top: -6rpx;
+  left: -6rpx;
+  right: -6rpx;
+  bottom: -6rpx;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 36rpx;
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.device-desc {
+  height: 28rpx;
+  line-height: 28rpx;
+  margin-top: 12rpx;
+  margin-left: 26rpx;
+  display: flex;
+  flex-direction: row;
+}
+.device-desc-name {
+  position: relative;
+}
+
+.device-name-content{
+  position: relative;
+  font-size: 26rpx;
+  color: #000000;
+  height: 28rpx;
+  margin-left: 26rpx;
+  line-height: 28rpx;
+  font-weight: 500;
+}
+.name-click {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  bottom: -10rpx;
+  left: -10rpx;
+}
+
+/* 修改设备名字弹框 */
+.editApplianceNameWarp {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editContent {
+  width: 540rpx;
+  height: 322rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 26rpx;
+  text-align: center;
+}
+
+.editApplianceName {
+  height: 45rpx;
+  margin: 42rpx 0 20rpx 0;
+  font-weight: 500;
+  font-size: 32rpx;
+}
+
+.editApplianceNameInput {
+  height: 64rpx;
+  background: #ffffff;
+  /* border: 1px solid #9F9F9F; */
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 26rpx;
+  font-weight: 400;
+  padding-left: 10rpx;
+  position: relative;
+  z-index: 9;
+  width: 412rpx;
+}
+
+.editApplianceNameInputWarp {
+  position: relative;
+  width: 466rpx;
+  margin: 26rpx auto 0;
+  background: #ffffff;
+}
+
+.cleatEditIco-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 99;
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.cleatEditIco {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.editApplianceNameTips {
+  font-family: PingFangSC-Regular;
+  width: 476rpx;
+  text-align: left;
+  font-size: 24rpx;
+  color: #FF8225;
+  font-weight: 400;
+  height: 33rpx;
+  margin: 12rpx auto 20rpx auto;
+}
+
+.editApplianceNameBtns {
+  display: flex;
+  height: 85rpx;
+  line-height: 85rpx;
+  border-top: 1px solid #c8c7cc;
+}
+
+.editApplianceNameCancaleBtn,
+.editApplianceNameSaveBtn {
+  flex: 1;
+  font-size: 34rpx;
+  color: #267aff;
+  font-weight: 400;
+}
+
+.editApplianceNameCancaleBtn {
+  border-bottom-left-radius: 26rpx;
+  border-right: 1px solid #c8c7cc;
+}
+
+.editApplianceNameSaveBtn {
+  border-bottom-right-radius: 26rpx;
+}
+
+.editApplianceNameSaveGreyBtn {
+  opacity: 0.3;
+  flex: 1;
+  font-size: 34rpx;
+  color: #267aff;
+  font-weight: 400;
+}
+
+.blueMask {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #267aff;
+  border-radius: 24rpx;
+  z-index: 99;
+  opacity: 0;
+  animation: blueAnimation 0.66s ease-in;
+}
+
+.upAni {
+  animation: allAnimation 0.66s ease-in;
+}
+
+@keyframes allAnimation {
+  43% {
+    scale: 0.94;
+  }
+
+  77% {
+    scale: 1.04;
+  }
+
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes blueAnimation {
+  43% {
+    opacity: 0.1;
+  }
+
+  77% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.no-can-add-btn {
+  color: #666666;
+}
+.no-sup-add {
+  width: 90%;
+  margin: 15rpx auto 0rpx;
+  font-size: 20rpx;
+  color: #b2b2b2;
+  text-align: center;
+  line-height: 36rpx;
+  font-weight: 400;
+}
+
+.locationOpenNotice {
+  padding: 0rpx 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.bluetoothOpenNotice {
+  padding: 0rpx 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.bluetoothIcon {
+  width: 36rpx;
+  height: 36rpx;
+  position: absolute;
+  top: 0;
+  right: 26rpx;
+}
+
+.roomName_title{
+  display: inline-block;
+  max-width: 210rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.roomName_title-sup-app{
+  display: inline-block;
+  max-width: 140rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.roomName_line{
+  display: inline-block;
+  padding: 0 7rpx;
+  display: flex;
+  flex-direction: row;
+}

@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "隐私保护指引",
+  "usingComponents": {
+    "privacy-popup": "/pages/component/privacyPopup/privacyPopup"
+  }
+}

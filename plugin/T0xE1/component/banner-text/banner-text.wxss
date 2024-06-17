@@ -1,0 +1,122 @@
+.text_time {
+  opacity: 1;
+  font-family: PingFangSC-Regular;
+  font-size: 160rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 144rpx;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.standy {
+  height: 144rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.orderTime {
+  opacity: 1;
+  width: 278rpx;
+  height: 144rpx;
+  font-family: PingFangSC-Regular;
+  /* font-size: 104rpx; */
+  font-size: 94rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 144rpx;
+}
+.style_offline {
+  opacity: 0.3;
+  font-family: PingFangSC-Medium;
+  font-size: 80rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 144rpx;
+}
+.opacity_3 {
+  opacity: 0.3;
+}
+.text_temperature {
+  opacity: 1;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24rpx;
+}
+.text_time_smallMinutes {
+  opacity: 1;
+  font-family: PingFangSC-Regular;
+  font-size: 120rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 144rpx;
+}
+.text_smallMinutes {
+  opacity: 1;
+  font-family: PingFangSC-Medium;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 28rpx;
+}
+.text_smallHour {
+  opacity: 1;
+  font-family: PingFangSC-Medium;
+  font-size: 28rpx;
+  color: #000000;
+  margin-top: 30rpx;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 28rpx;
+}
+.text_time_smallHour {
+  opacity: 1;
+  font-family: PingFangSC-Regular;
+  font-size: 120rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 144rpx;
+}
+.flex_row_center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.text_about {
+  opacity: 1;
+  /* width: 96rpx; */
+  height: 24rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24rpx;
+}
+.BannerPanelDetail {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.h1 {
+  font-size: 80rpx;
+  line-height: 120rpx;
+  color: #464c5b;
+}

@@ -1,0 +1,228 @@
+
+.row-fs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.row-sb {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: #fff;
+    border-radius: 10rpx;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.header-floor {
+    position: absolute;
+    height: 128rpx;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    padding: 0 20rpx;
+    background: #fff;
+    border-top-left-radius: 10rpx;
+    border-top-right-radius: 10rpx;
+}
+
+.flex-floor {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.device-icon {
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 20rpx;
+}
+
+.device-name {
+    font: bold 32rpx normal;
+}
+
+.device-room {
+    margin-top: 4rpx;
+    font-size: 26rpx;
+    color: #666;
+}
+
+.blank-floor{
+    height: 128rpx;
+}
+
+.circle-progress-bar {
+    position: relative;
+    margin: 96rpx auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 470rpx;
+    height: 470rpx;
+}
+
+.center-content-wrapper {
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 400rpx;
+    height: 400rpx;
+    border-radius: 50%;
+    box-shadow: 0 0 15px 0 #E6EAEF;
+}
+
+.center-content-wrapper.power-off {
+    box-shadow: 0 0 15px 0 #E6EAEF;
+}
+
+.center-content {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.center-desc {
+    position: absolute;
+    bottom: 85rpx;
+    left: 0rpx;
+    width: 400rpx;
+    text-align: center;
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #666;
+    letter-spacing: 0;
+    line-height: 24rpx;
+}
+
+.heat-temp {
+    color: #ffac1c;
+    font-size: 64rpx;
+    padding: 40rpx;
+    width: 60rpx;
+}
+
+.appliance-temp {
+    position: relative;
+    font-family: Roboto-Regular;
+    font-size: 144rpx;
+    color: #000;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.appliance-temp-unit {
+    position: absolute;
+    top: 22rpx;
+    right: -50rpx;
+    text-align: left;
+    font-size: 50rpx;
+}
+
+.appliance-off {
+    font-family: PingFangSC-Regular;
+    font-size: 72rpx;
+    color: #000;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 80rpx;
+}
+
+.temperature-desc {
+    /* margin: 10rpx 0 84rpx; */
+    margin-top:10rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #8a8a8f;
+    letter-spacing: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.temperature-off {
+    color: #000000;
+    opacity: 0.3;
+}
+
+.temperature-label {
+  height: 34rpx;
+}
+
+.temperature-unit {
+    font-family: Roboto-Regular;
+    font-size: 32rpx;
+    margin-left:4rpx;
+}
+
+.footer-floor {
+  padding:0 44rpx;
+    padding-bottom: 10rpx;
+}
+
+.button-floor {
+  padding-bottom: 30rpx;
+    text-align: center;
+    background: #fff;
+}
+
+.circleBar {
+    position: absolute;
+    top: 0rpx;
+    left: 0rpx;
+    width: 400rpx;
+    height: 400rpx;
+}
+
+/* 弹窗 */
+.section{
+margin-left:15.8%;
+  margin-right:15.5%;
+}
+.iconHeat{
+  color:#FFAA10;
+}
+
+.button-icons{
+  position:relative;
+  height:120rpx;
+  width:120rpx;
+  border-radius:50%;
+}
+.button-img{
+  width:120rpx;
+  height:120rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.button-text{
+  font-size:24rpx;
+  color:#232323;
+}
+.zhetian{
+  width:120rpx;
+  height:120rpx;
+  border-radius:50%;
+  position: absolute;
+  z-index:666;
+  opacity: 0.7;
+  background:#F2F2F2;
+}

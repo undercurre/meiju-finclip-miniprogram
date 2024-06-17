@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "plugin-navbar": "/plugin/T0xDA/component/plugin-navbar/plugin-navbar",
+    "device-card": "/plugin/T0xDA/card/card",
+    "mbutton": "/pages/component/mbutton/mbutton"
+  }
+}

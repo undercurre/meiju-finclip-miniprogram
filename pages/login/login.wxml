@@ -1,0 +1,105 @@
+<privacy-popup></privacy-popup>
+<view class="login-main">
+  <navbar></navbar>
+  <view style="height: {{statusBarHeight}}px;"></view>
+  <view class="topBac" style="margin-top: {{statusBarHeight}}px;">
+    <image src="{{topBacImg}}" class="topBacImg"></image>
+  </view>
+  <view class="login-logo" style="margin-top:{{logoTop}}rpx" wx:if="{{logoTop}}">
+    <image src="{{loginLogoSrc}}"></image>
+  </view>
+
+  <view class="content">
+    <view class="agreeIcoWarp" catchtap="changeAgree">
+      <image class="agree-icon" src="{{agreeFlag ? loginBtnOn : loginBtnOff}}"></image>
+    </view>
+    <view class="des">
+      <text>我已阅读并同意</text>
+      <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《美的美居隐私协议》</text>
+      <text class="blue-text" bindtap="goPrivacy" data-type="register">《软件许可及用户服务协议》</text>
+      <text
+        class="blue-text"
+        bindtap="goPrivacy"
+        data-type="collected_userinfo"
+        data-prodtype="collected_userinfo_weixin_lite"
+        >《已收集个人信息清单》</text
+      >
+      <text
+        class="blue-text"
+        bindtap="goPrivacy"
+        data-type="shared_userinfo"
+        open-type="getPhoneNumber"
+        data-prodtype="shared_userinfo_weixin_lite"
+        >《与第三方共享个人信息清单》</text
+      >
+      <text>和</text>
+      <text class="blue-text" bindtap="goPrivacy" data-type="per_list" data-prodtype="per_list_weixin_lite"
+        >《美的美居权限列表》</text
+      >
+    </view>
+  </view>
+  <view class="login-section">
+    <mx-cell-group custom-class="login-cell-group">
+      <mx-field
+        custom-style="border: 1px solid #eeeeee;z-index:1000;"
+        bind:input="handlePhoneNumberInput"
+        maxlength="{{11}}"
+        pattern="light"
+        shape="round"
+        value="{{ phoneNumber }}"
+        placeholder="请输入手机号码"
+        border="{{ false }}"
+        clearable
+      />
+
+      <mx-field
+        custom-style="border: 1px solid #eeeeee;margin-top:32rpx;z-index:1000;"
+        bind:input="handleVercodeInput"
+        maxlength="{{6}}"
+        pattern="light"
+        shape="round"
+        use-button-slot
+        value="{{ vercode }}"
+        placeholder="请输入验证码"
+        border="{{ false }}"
+        clearable
+        ><mx-button
+          disabled="{{verCodeDisabled}}"
+          slot="button"
+          size="small"
+          type="text"
+          text-color="#267AFF"
+          bindclick="getSmsCode"
+          custom-class="login-vercode-button"
+          >{{verCodeDes}}</mx-button
+        ></mx-field
+      >
+    </mx-cell-group>
+    <mx-button
+      disabled="{{loginDisabled}}"
+      wx:if="{{!agreeFlag}}"
+      custom-class="login-btn"
+      hover-class="loginBtnHover"
+      bindclick="agreeToast"
+    >
+      登录
+    </mx-button>
+    <mx-button
+      disabled="{{loginDisabled}}"
+      wx:if="{{agreeFlag}}"
+      custom-class="login-btn"
+      hover-class="loginBtnHover"
+      bindclick="onClickLogin"
+    >
+      <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='加载中'}}" /> {{loginBtnDes}}
+    </mx-button>
+  </view>
+</view>
+<mx-dedialog
+  show="{{ registerDialogShow }}"
+  title="帐号已注销"
+  content="该帐号已注销，请重新注册后再进行登录"
+  confirmLabel="重新注册登录"
+  textAlign="left"
+  bind:onButtonClicked="reristerLogin"
+></mx-dedialog>

@@ -1,0 +1,5 @@
+<view class="custom" style="padding-top:{{statusBarHeight}}px;height:{{navBarHeight}}px;background-color:{{bgColor}};">
+    <image class="nav_logo" src="{{backImg}}" bindtap="clickBack" />
+    <text class="nav-title">{{navBarName}}</text>
+</view>
+<view wx:if="{{hasEmpty}}" style="padding-top:{{statusNavBarHeight}}px;"></view>

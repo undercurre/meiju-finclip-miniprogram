@@ -1,0 +1,31 @@
+<view class="selector-product">
+  <view
+    class="selector-mask"
+    catchtouchmove="hideSelector"
+    catchtap="hideSelector"
+    hidden="{{!isShow}}"
+    style="opacity: {{isShow ? '1' : '0'}}"
+  ></view>
+  <view class="inline-calendar-content" style="bottom: {{isShow ? '0' : '-500px'}}">
+    <view class="time_title">{{titleText}}</view>
+    <view class="time-reduce">{{subTitleText}}</view>
+    <picker-view
+      indicator-style="height:73rpx;line-height:73rpx;"
+      style="width: 100%; height: 362rpx"
+      value="{{value}}"
+      bindchange="bindChange"
+    >
+      <picker-view-column>
+        <view wx:for="{{dateArray}}" wx:key="index" style="line-height: 73rpx; text-align: center">{{item}} </view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{serviceTimeArr}}" wx:key="index" style="line-height: 73rpx; text-align: center"> {{item}}</view>
+      </picker-view-column>
+    </picker-view>
+    <view style="height: 16rpx; background: #f9f9f9"> </view>
+    <view class="btn-group" style="padding-bottom: {{ isIphoneX ? '60' : '30' }}rpx">
+      <button class="btn-cancel" catch:tap="hideSelector">{{cancelText}}</button>
+      <button class="btn-primary" catch:tap="onSelectItem">{{confirmText}}</button>
+    </view>
+  </view>
+</view>

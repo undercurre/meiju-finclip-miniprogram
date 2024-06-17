@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "view-address-popup": "../../components/view-address-popup/view-address-popup",
+    "sure-center-dialog": "../../../../pages/component/sure-center-dialog/sure-center-dialog"
+  }
+}

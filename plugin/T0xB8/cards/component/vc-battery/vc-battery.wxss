@@ -1,0 +1,27 @@
+.container{
+    position: relative;
+    display: flex;
+}
+.icon{
+    display: flex;
+    align-items: center;
+}
+.value{
+    margin-left: 1vw;
+    color: #4F6487;
+    font-size: 12px;
+}
+.battertStyle{
+    position: relative;
+    width: 28px;
+    height: 30px;
+}
+.chargeStateStyle{
+    position: relative;
+    left:10px;
+}
+.electric-quantity{
+    height: 8px;
+    position: absolute;
+    margin-left: 4px;
+}

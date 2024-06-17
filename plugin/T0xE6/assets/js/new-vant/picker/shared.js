@@ -1,0 +1,1 @@
+export const pickerProps={title:String,loading:Boolean,showToolbar:Boolean,cancelButtonText:{type:String,value:"\u53D6\u6D88"},confirmButtonText:{type:String,value:"\u786E\u8BA4"},visibleItemCount:{type:Number,value:6},itemHeight:{type:Number,value:44}};

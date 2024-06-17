@@ -1,0 +1,9 @@
+<!--midea-replace-repair/pages/result/result.wxml-->
+<view class="container-wrap">
+  <image class="sucess-img" src="./assets/img/img_success@2x.png"></image>
+  <view class="sucess-title">领取成功</view>
+  <view class="sucess-describe">365天换新机卡领取成功，可到美居App—卡包中查看及申请相关服务</view>
+  <view class="submit-btn-wrap" bindtap="goHome">
+    <text class="submit-btn">返回首页</text>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+module.exports = {
+  formatTelNumber: function (number) {
+    if (!number) return ''
+    return number.substring(0, 3) + '****' + number.substring(7)
+  },
+}

@@ -1,0 +1,30 @@
+<view class="step-stage-container" wx:if="{{deviceStatus > -2}}">
+  <view class="step-desc" wx:if="{{deviceStatus != 0 || (deviceStatus == 0 && inKeep)}}">{{curStep}}</view>
+  <view class="desc" wx:if="{{deviceStatus == 1}}">{{curMode.desc}}</view>
+  <view class="sillence-step" wx:if="{{deviceStatus == 1}}">
+    <block wx:for="{{statusArray}}" wx:for-item="item" wx:key="index">
+      <text wx:if="{{index}}" style="margin-inline: 10rpx;">·</text>
+      <text>{{item.name}}</text>
+    </block>
+  </view>
+  <view class="sillence-step" wx:if="{{deviceStatus == 2}}">
+    <text>{{status.order_left_hour}}小时{{status.order_left_min}}分后启动{{curMode.name}}</text>
+  </view>
+  <view class="keepStopTip" wx:if="{{deviceStatus == 5 || (deviceStatus == 0 && inKeep)}}">
+  <view>预计结束时间</view>
+  <view>{{keepStopTip}}</view>
+  </view>
+  <view class="keepStopTip" wx:if="{{deviceStatus == 6}}">
+  <view>预计结束时间</view>
+  <view>{{dryStopTip}}</view>
+  </view>
+  <view class="procedure-bar" wx:if="{{deviceStatus == 3}}">
+    <block wx:for="{{statusArray}}" wx:for-item="item" wx:key="index">
+      <view wx:if="{{index}}" class="line" style="background-color: {{item.value <= currentStatus ? '#29C3FF' : '#666666'}}"></view>
+      <view class="procedure-item">
+        <view class="rhombus" style="background-color: {{item.value <= currentStatus ? '#29C3FF' : '#666666'}};"></view>
+        <text style="margin-top: 10rpx;color: {{item.value <= currentStatus ? '#29C3FF' : '#666666'}}; white-space: nowrap;">{{item.name}}</text>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,17 @@
+{
+  "component": true,
+  "backgroundColor":"#f9f9f9",
+  "usingComponents": {
+    "offline": "../component/offline/offline",
+    "status-bar": "../component/status-bar/status-bar",
+    "temp-set": "../component/temp-set/temp-set",
+    "banner-panel": "../component/banner-panel/banner-pannel",
+    "cold-water-master": "../component/cold-water-master/cold-water-master",
+    "ai-cold-water": "../component/ai-cold-water/ai-cold-water",
+    "filter-info": "../component/filter-info/filter-info",
+    "activity-wrapper": "/common-packages/plugin/component/activityWrapper/activity-wrapper"
+  },
+  "componentPlaceholder": {
+    "activity-wrapper": "view"
+  }
+}

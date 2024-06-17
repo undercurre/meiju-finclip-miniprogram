@@ -1,0 +1,6 @@
+<privacy-popup
+  from-privacy="{{fromPrivacy}}"
+  inner-show="{{showPrivacy}}"
+  bind:handleAgree="handleAgree"
+  bind:handleDisagree="handleDisagree"
+></privacy-popup>

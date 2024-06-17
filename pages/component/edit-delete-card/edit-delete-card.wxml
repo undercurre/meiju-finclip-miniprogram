@@ -1,0 +1,18 @@
+<!--pages/component/edit-delete-card/edit-delete-card.wxml-->
+<view class="{{editFlag?'topWarp':'bottomWarp'}}" style="{{positionStyle}}">
+  <view
+    wx:for="{{editList}}"
+    wx:key="funName"
+    class="editItem"
+    catchtap="triggerEventFun"
+    data-item="{{device}}"
+    data-support="{{support}}"
+    data-funname="{{item.funName}}"
+  >
+    <view class="editIcoWarp">
+      <image src="{{item.ico}}" class="editIco"></image>
+    </view>
+    <view class="editDes">{{item.name}}</view>
+  </view>
+</view>
+<view class="{{editFlag?'editTopTrangle':'editBottonTrangle'}}"></view>

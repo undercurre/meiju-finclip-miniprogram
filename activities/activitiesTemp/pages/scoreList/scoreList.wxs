@@ -1,0 +1,14 @@
+/* eslint-disable */
+var getStyle = function (scoreList, pageSetting) {
+  var str = ''
+  if (scoreList.length <= 0) {
+    str += 'background-color:' + pageSetting.backgroundColor + ';'
+  }
+  if (scoreList.length <= 0) {
+    str += 'background-image:url(' + pageSetting.background + ');'
+  }
+  return str
+}
+module.exports = {
+  getStyle: getStyle,
+}

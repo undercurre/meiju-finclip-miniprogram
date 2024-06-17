@@ -1,0 +1,24 @@
+.checkBox {
+  width: 100%;
+  height: 310rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f9f9f9;
+}
+.one-item,
+.oneItem {
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background: #fff;
+}
+.one-item:nth-child(1) {
+  border-bottom: 1rpx solid #f2f2f2;
+}
+.mt5 {
+  margin-top: 16rpx;
+  color: #666666;
+}

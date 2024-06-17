@@ -1,0 +1,57 @@
+<privacy-popup></privacy-popup>
+<view>
+  <view class="content-empty" wx:if="{{ isLoaded && serviceChargeTypesList.length <= 0 }}">
+    <image class="empty-img" src="./assets/img/default_ic_nobranch@3x.png" />
+    <text class="empty-desc">抱歉 {{ '\n' }}没有找到相关的收费标准</text>
+  </view>
+
+  <view class="location" wx:if="{{ serviceChargeTypesList.length != 0 }}">
+    <view class="showLocation" bindtap="selectLocation">
+      <view wx:if="{{location.city!=''}}" class="currentLocation">
+        <view class="provinceShow" style="max-width: {{provinceWidth}}rpx;">{{location.province}}</view>
+        <view class="cityShow">{{location.city}}</view>
+      </view>
+      <view wx:else class="currentLocation">手动选择地址</view>
+      <image class="selectIcon" src="{{imgUrl + '/ic_zhankai@2x.png'}}"></image>
+    </view>
+    <view class="retry" data-name="autoLocation" bindtap="autoLocation">
+      <image class="locationIcon" src="{{imgUrl + '/ic_dingwei@3x.png'}}"></image>
+      <view class="retryLocation">重新定位</view>
+    </view>
+  </view>
+
+  <scroll-view class="content" scroll-y="{{true}}">
+    <view
+      class="sub-line {{ index<serviceChargeTypesList.length-1?'bot-bor':'' }}"
+      wx:for="{{serviceChargeTypesList}}"
+      wx:for-item="item"
+      wx:for-index="index"
+      wx:key="index"
+      data-index="{{ index }}"
+      bindtap="gotoDetail"
+      data-name="{{item.codeName}}"
+    >
+      <view class="sub-line-align">
+        <text class="custom-font">{{ item.codeName }}</text>
+      </view>
+      <image class="img-arrow" src="{{imgUrl + 'right_arrow@3x.png'}}" />
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 选择位置弹框 -->
+<view-address-popup
+  id="addressPopup"
+  isShowAdressPopup="{{ isShowAdressPopup }}"
+  addressMaxCount="{{ addressMaxCount }}"
+  bind:dialogClose="onDialogClose"
+  bind:getRegion="onGetRegion"
+></view-address-popup>
+
+<sure-center-dialog
+  isShowSureDialog="{{ isSureDialog }}"
+  bind:makeSure="makeSure"
+  title="{{ dialogMixinsTitle }}"
+  content="{{ dialogMixinsContent }}"
+  dialogMixinsBtns="{{ dialogMixinsBtns }}"
+></sure-center-dialog>

@@ -1,0 +1,9 @@
+<view class="active-dialog" wx:if="{{ show&&selectData.contentUrl }}" animation="{{adAnimationData}}">
+  <!-- <view class="active-mask"></view> -->
+  <view class="active-dialog-main" style="background-image:url({{ selectData.contentUrl }});background-size:100% 100%;">
+    <view class="active-dialog-main-click" catchtap="floatDialogGO" data-item="{{ selectData }}"></view>
+    <view class="close" style="background-image:url({{ imgUrl }}float-close.png);background-size:100% 100%;">
+      <view class="close-click" catchtap="closeFloatDialog"></view>
+    </view>
+  </view>
+</view>

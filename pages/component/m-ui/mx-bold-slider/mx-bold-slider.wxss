@@ -1,0 +1,24 @@
+/* m-ui/mx-bold-slider/mx-bold-slider.wxss */
+.container{
+  /* width: 686rpx; */
+  width: 100%;
+}
+.component-slider {width: 622rpx;position: relative;margin: 0rpx auto 0rpx;}
+/* 盒子 */
+/* .slider-box { width: 88%;margin: 0 auto;position: absolute;left: 50%; top: 50%;transform: translate(-50%, -50%);} */
+.slider-box { width: 100%;margin: 0 auto;position: absolute;left: 50%; top: 50%;transform: translate(-50%, -50%);}
+/* 未选中区线 */
+.slider-line{ width: 100%;height: 40rpx;background-color:#f2f2f2;margin: 0 auto;position: absolute; left: 50%;top: 50%;transform: translate(-50%, -50%);border-radius: 40rpx;}
+/* 选中区线 */
+.slider-line-active{position: absolute;left: 0;top: 50%;transform: translate(0, -50%); height: 40rpx;background: #267aff;border-radius: 40rpx; z-index: 999;}
+/* slider按钮 */
+.slider-btn{position: absolute; width: 24rpx;height: 24rpx; background: #ffffff;border-radius: 12rpx; transform: translate(-40%, -50%);
+z-index: 9999;}
+/* 显示的数字 */
+.slider-number { width: 100%;position: absolute;bottom: -10rpx;}
+.slider-number text{position: absolute; top: 0;font-size: 24rpx;color: #999999;transition: all 0.3s;}
+/* 当前选中的数字 */
+.slider-number text.active {font-size: 32rpx;color: #5B96F6;transition: all 0.3s;
+}
+/* slider组件设置透明 */
+slider{opacity:0;}

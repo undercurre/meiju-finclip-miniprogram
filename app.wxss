@@ -1,0 +1,26 @@
+/**app.wxss**/
+@import 'assets/css/weui.wxss';
+@import 'assets/css/meiju.wxss';
+@import 'assets/css/toshiba.wxss';
+/* @import 'assets/css/colmo.wxss'; */
+.shadow {
+  position: fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#ff0000;
+  z-index:9999;
+  opacity: 0.5;
+}
+.text-overflow2 {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap:break-word;
+}
+

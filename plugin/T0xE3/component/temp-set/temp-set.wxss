@@ -1,0 +1,38 @@
+.cell-group {
+  width: 686rpx !important;
+  border-radius: 16rpx;
+  margin-top: 16rpx;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+  border-radius: 16rpx;
+}
+
+.cell-value {
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #000000 !important;
+  font-weight: 400;
+  padding-bottom: 10rpx;
+}
+.cell-title {
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #000000;
+  font-weight: 400;
+}
+.cell-img-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 32rpx;
+  margin-right: 32rpx;
+}
+
+.cell-img-wrap .cell-img {
+  width: 64rpx;
+  height: 64rpx;
+}

@@ -1,0 +1,8 @@
+<view wx:if="{{fromApp}}" class="bottom-box">
+  <button class="openMeiJuAPpp" style="display:inline-block;" open-type="launchApp" app-parameter="{{appParameter}}"
+    binderror="launchAppError">
+    <text class="blue">打开美居App</text>
+  </button>
+  <text>解锁更多功能</text>
+</view>
+<view wx:if="{{!fromApp}}" class="openMeiJuAPpp">更多功能尽在美的美居App</view>

@@ -1,0 +1,13 @@
+<!--m-ui/mx-button-card/mx-button-card.wxml-->
+  <view class="item">
+    <view class="card-header">
+      <!-- <image src="{{icon}}" class="mode-icon"></image> -->
+      <view class="label">{{label}}</view>
+      <view class="vertical-line"></view>
+      <view class="bg-white-text">{{btnList[index]}}</view>
+    </view>
+    <view class="button-wrap">
+      <view wx:if="{{forbidden}}" class="forbidden-mask"></view>
+      <view  class="panel-button {{index==idx? 'button-class':''}}"  wx:for="{{btnList}}" wx:for-index="idx" data-item="{{item}}" data-index="{{idx}}" bindtap="btnClick" >{{item}}</view>
+    </view>
+  </view>

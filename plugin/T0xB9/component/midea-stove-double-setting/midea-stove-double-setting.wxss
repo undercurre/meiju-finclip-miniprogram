@@ -1,0 +1,264 @@
+/* plugin/T0xB9/component/midea-stove-double-setting/midea-stove-double-setting.wxss */
+@import '../../assets/css/common.wxss';
+
+/*标题*/
+.title-wrapper {
+  text-align: center;
+  padding-top: 50rpx;
+  padding-bottom: 36rpx;
+}
+.title-wrapper .title {
+  font-size: 36rpx;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #000000;
+  line-height: 44rpx;
+}
+
+/*灶头卡片*/
+.stove-card-wrapper {
+  padding: 15rpx;
+}
+.stove-card-option {
+  margin: 0 15rpx;
+  flex: 1;
+  border-radius: 1rem;
+  padding: 20rpx;
+  /*height: 265rpx;*/
+}
+
+/*灶头信息*/
+.stove-info-wrapper {
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666666;
+  line-height: 37rpx;
+}
+.stove-info-wrapper .stove-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #000000;
+  line-height: 45rpx;
+}
+.stove-info-wrapper .text-interval {
+  height: 36rpx;
+}
+.stove-info-wrapper .set-work-time-label {
+  height: 37rpx;
+  overflow: visible;
+}
+
+/*灶头开关*/
+.stove-power-wrapper {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 100%;
+}
+.stove-power-wrapper .icon {
+  width: 50%;
+  height: 50%;
+}
+
+/*底部区域*/
+.footer-wrapper {
+  margin-top: 30rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.stove-value {
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.stove-value .value {
+  font-size: 60rpx;
+  line-height: 60rpx;
+}
+.stove-value .unit {
+  font-size: 32rpx;
+  margin-left: 5rpx;
+  margin-bottom: 2rpx;
+}
+.stove-label {
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 40rpx;
+  border-radius: 2rem;
+  padding: 0 20rpx;
+  margin-top: 10rpx;
+}
+.stove-box {
+  height: 40rpx;
+  margin-bottom: 10rpx;
+}
+.footer-wrapper .close-text {
+  font-size: 60rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #c7c7cc;
+  line-height: 110rpx;
+}
+
+/*功率或温度选项*/
+.stove-options-wrapper {
+  margin: 15rpx 30rpx;
+}
+.stove-options-wrapper .text {
+  font-size: 32rpx;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #8a8a8f;
+  line-height: 48rpx;
+}
+.stove-options-wrapper .active {
+  color: #fdaa10;
+}
+.stove-options-wrapper .line {
+  font-size: 26rpx;
+  color: #c7c7cc;
+  margin: 0 10rpx;
+}
+
+/*功率调节选项*/
+.tips-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 20rpx 30rpx;
+}
+.tips-wrapper .icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 20rpx;
+}
+.tips-wrapper .tips {
+  flex: 1;
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  line-height: 40rpx;
+  white-space: break-spaces;
+  word-break: break-word;
+}
+
+/*灶头基本功能*/
+.power-options-wrapper {
+  margin: 0 15rpx;
+}
+.stove-options-item {
+  margin: 0 15rpx;
+  flex: 1;
+}
+.stove-options-item .icon {
+  width: 64rpx;
+  height: 64rpx;
+  background-color: #f2f2f2;
+  border-radius: 100%;
+}
+.stove-options-item .label {
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+  line-height: 37rpx;
+  margin-top: 10rpx;
+}
+
+/*功率调节滑块*/
+.power-slider-wrapper {
+  margin: 40rpx 0;
+}
+
+/*烹饪时间与温度选项*/
+.temperature-time-setting-wrapper .wrapper {
+  position: relative;
+}
+.temperature-time-setting-wrapper .wrapper .line {
+  width: 100%;
+  height: 2rpx;
+  background-color: #c7c7cc;
+}
+.work-time-wrapper {
+  border-top: 1px solid #c7c7cc;
+  padding: 30rpx 0;
+  margin: 0 30rpx;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  line-height: 32rpx;
+}
+.work-time-wrapper .value {
+  color: #666666;
+}
+.work-time-wrapper .icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+.disabled-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffff;
+  opacity: 0.7;
+}
+
+/*底部按钮*/
+.button-wrapper {
+  border-top: 14rpx solid #f2f2f2;
+}
+.button-item {
+  padding: 30rpx;
+  flex: 1;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  box-sizing: border-box;
+}
+.button-item:first-child {
+  border-right: 1rpx solid #f2f2f2;
+}
+
+/*烹饪时间弹框*/
+.modal-wrapper {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  background: #fff;
+  padding-top: 40rpx;
+}
+.modal-wrapper .header {
+  /*padding: 0 30rpx;*/
+  position: relative;
+}
+.modal-wrapper .header .center {
+  font-size: 34rpx;
+  font-weight: 600;
+  text-align: center;
+}
+.modal-wrapper .button-wrapper {
+  border-top: 15rpx solid #eee;
+}
+.modal-wrapper .button-wrapper .button {
+  border: none;
+  border-radius: unset;
+  padding: 25rpx 0;
+  font-size: 34rpx;
+  border-right: 2rpx solid #eee;
+  flex: 1;
+  text-align: center;
+  color: #000;
+}
+.modal-wrapper .button-wrapper .button:last-child {
+  border-right: unset;
+}

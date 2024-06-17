@@ -1,0 +1,24 @@
+<!-- <import src="../../templates/template.wxml"></import> -->
+<wxs src="../../common.wxs" module="c1"></wxs>
+<view class="common-container">
+  <view class="common-main" wx:for="{{ props.basicList }}" wx:key="id" wx:for-item="basicItem">
+    <!-- 通用组件：custom : 0
+    target:   0、无交互；1、关闭；2、活动内页面；3、分享；4、美的美居；5、链接；6、定制功能；7、弹窗 -->
+    <!-- <template is="hotzone" data="{{ basicItem }}"></template> -->
+    <hotzone
+      props="{{ basicItem }}"
+      selectContainer="{{ props }}"
+      commonData="{{ commonData }}"
+      options="{{ options }}"
+      bind:actionHotzoneDialog="actionHotzoneDialog"
+      bind:actionHotzoneCustom="actionHotzoneCustom"
+      bind:actionLaunchAppError="actionLaunchAppError"
+      bind:actionGetHotzonePhonenumber="actionGetHotzonePhonenumber"
+      wx:if="{{basicItem.type==2}}"
+      isLogon="{{ isLogon }}"
+    ></hotzone>
+    <view class="common-target" style="{{c1.getStyle(basicItem)}}" wx:if="{{basicItem.type==3}}">
+      <image mode="widthFix" src="{{basicItem.basicImgUrl}}" style="width: 100%; height: auto"></image>
+    </view>
+  </view>
+</view>

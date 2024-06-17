@@ -1,0 +1,9 @@
+<block wx:if="{{noDevice}}">
+  <view class="no-device">
+    <image class="empty-logo" src="{{img.noDevice}}"></image>
+    <view class="no-device-title">{{notice}}</view>
+  </view>
+</block>
+<block wx:else>
+  <trojan-horse isShowHorse="{{isHourse}}" />
+</block>

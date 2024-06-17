@@ -1,0 +1,259 @@
+<wxs src="../../wxs/base.wxs" module="tools" />
+<!-- 长内容弹框 -->
+<longToast id="longToast" isLongToast="{{isLongToast}}" longText="{{longToastContent}}"></longToast>
+<view class="appointment-cells">
+  <!-- 收费标准 -->
+  <view class="money-box">
+    <view class="left-yellow">
+      <view
+        class="one-icon one-icon0"
+        style="background:url('{{imgBaseUrl+common}}') no-repeat  -100rpx -224rpx;background-size:800rpx auto;"
+      >
+      </view>
+      <view class="ye-content">保养服务产生的人工、耗材费用将由您承担</view>
+    </view>
+    <view class="box-inbox" catchtap="goToServiceCharge">
+      <view class="money-content">收费标准</view>
+      <view
+        class="img"
+        style="background:url('{{imgBaseUrl+common}}') no-repeat  -180rpx -228rpx;background-size:800rpx auto;"
+      >
+      </view>
+    </view>
+  </view>
+  <view class="top_box" data-selectedProduct="{{selectedProduct}}">
+    <!-- 维修产品 -->
+    <view class="appoint-p-row">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -660rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">保养产品</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text" catchtap="showBrandPicker">
+        <!-- <view class="middle-text warnTips" wx:if="{{selectedProductNames ==='请选择' && showWarnTips}}">
+        {{selectedProductNames}}</view> -->
+        <view class="middle-text {{selectedProductNames? '':'is-gray'}}">{{selectedProductNames || '请选择'}} </view>
+        <view
+          class="iconfont icon-arrowdown icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!-- 使用场所 -->
+    <view class="appoint-p-row" wx:if="{{isIncludeU99}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -730rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">使用场所</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text" catchtap="openPlace">
+        <view class="middle-text {{placeStatu.name?'':'is-gray'}}">{{placeStatu.name || '请选择'}}</view>
+        <view
+          class="icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!-- 保养类型 -->
+    <view class="appoint-p-row  {{excludedFault.length>0?'appoint-p-row0':''}}" wx:if="{{fault}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -590rpx -98rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">保养类型</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text">
+        <view class="middle-text {{fault?'':'is-gray'}}">{{fault || '请选择'}}</view>
+        <view class="iconfont icon-arrowdown icon-arrow-bottom"> </view>
+      </view>
+    </view>
+    <!--假性故障-->
+    <view class="bad-notice" catchtap="showFlFault" wx:if="{{excludedFault.length>0}}">
+      <view class="flex-box">
+        <view
+          class="icon-left"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -107rpx -229rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="notice">{{excludedFault[0].faultServiceDesc}}</text>
+      </view>
+      <view class="flex-box">
+        <text>可能原因</text>
+        <view
+          class="iconfont-right view-box"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -180rpx -228rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+      <view class="fixed-arc"></view>
+    </view>
+
+    <!-- 期望时间 -->
+    <view class="appoint-p-row" wx:if="{{isNeedServeTime}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -590rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">期望服务时间</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text" catch:tap="showCalendarPicker">
+        <view class="middle-text {{displayServiceDate?'':'is-gray'}}">{{displayServiceDate || '请选择'}} </view>
+        <view
+          class="iconfont icon-arrowdown icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+    <!-- 服务地址 -->
+    <view class="appoint-p-row appoint-p-row0 {{userAddress ? 'contact-p-row' : ''}}">
+      <view class="left-text">
+        <view
+          class="one-icon"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -380rpx -30rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <text class="text-content">服务地址</text>
+        <text class="icon-require">*</text>
+      </view>
+      <view class="right-text right-text0" catchtap="showAddressPicker">
+        <block class="" wx:if="{{!userAddress}}">
+          <view class="middle-text {{userAddress ? '' : 'is-gray'}}"> 请选择 </view>
+        </block>
+        <block class="" wx:else>
+          <view class="middle-text">
+            <view class="inner-rows"
+              >{{userAddress.receiverName}} {{tools.formatTelNumber(userAddress.receiverMobile)}}
+            </view>
+            <view class="inner-rows">
+              {{userAddress.provinceName}}{{userAddress.cityName}}{{userAddress.countyName}}{{userAddress.streetName}}
+            </view>
+            <view class="inner-rows">{{userAddress.addr}}{{userAddress.addValue || ''}}</view>
+          </view>
+        </block>
+        <view
+          class="iconfont icon-arrowdown icon-arrow-bottom"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -40rpx -334rpx;background-size:800rpx auto;"
+        >
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="two-box">
+    <view class="section-tips"> 以下为选填信息，有助于更好更快地为您服务 </view>
+    <view class="form-item prod-base-item">
+      <input
+        type="text"
+        placeholder="请输⼊型号或扫描机身条码"
+        class="product-model"
+        placeholder-class="product-model-hd place-holder"
+        data-key="productSnCode"
+        value="{{code}}"
+        maxlength="60"
+        bindblur="inputBlurHandler"
+      />
+      <view
+        class="ms-icon-scan"
+        style="background:url('{{imgBaseUrl+common}}') no-repeat  -520rpx -98rpx;background-size:800rpx auto;"
+        catchtap="codeScanHandler"
+      ></view>
+    </view>
+
+    <!-- 备注信息 -->
+    <view class="textarea-wrapper">
+      <view class="textarea">
+        <textarea
+          value="{{memoValue}}"
+          placeholder="其他备注信息"
+          placeholder-style="line-height:22px;color:#C8C7CC"
+          maxlength="120"
+          cursor-spacing="50"
+          show-confirm-bar="{{false}}"
+          bindinput="inputBindHandler"
+          fixed="{{true}}"
+        ></textarea>
+        <view class="total">
+          <text>{{curCount}}</text>/
+          <text>120</text>
+          <text></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 时间选择器 -->
+  <timerCalendar
+    bind:select="selectDate"
+    bindhide="hideCalendar"
+    is-show="{{showCalendarPickerFlag}}"
+    cancel-text="{{calendarConf.cancelText}}"
+    confirm-text="{{calendarConf.confirmText}}"
+    select-type="CSS"
+    cannotServiceTimeObj="{{calendarConf.cannotServiceTimeObj}}"
+    fromPage="{{toFromPage}}"
+  ></timerCalendar>
+
+  <!-- 使用场所  -->
+  <usePlace id="usePlace" show="{{placePicker}}" bind:sendPlace="getPlace"></usePlace>
+
+  <!-- 居中知道了弹框 -->
+  <centerDialog
+    id="popup"
+    title="{{topTitle}}"
+    content="{{secondTitle}}"
+    btnz_only="{{btnText}}"
+    bind:success="makeSure"
+    isShowDialog="{{isDialogs}}"
+  ></centerDialog>
+
+  <!-- 居中可以取消确定弹框 -->
+  <cancle-sure-dialog
+    id="popups"
+    title="{{oneTitle}}"
+    content="{{twoTitle}}"
+    cancleTxet="{{cancleTxet}}"
+    sureText="{{sureText}}"
+    bind:cancles="cancleBtn"
+    bind:sureBtn="needSure"
+    isShowDialog="{{isCenters}}"
+  >
+  </cancle-sure-dialog>
+
+  <!-- 选择视频还是图片的底部弹框  -->
+  <choseImgVideo id="choseImgVideo" imgShow="{{choseImgVideoPicker}}" bind:checkPicker="clickPhoto"></choseImgVideo>
+
+  <!-- 可能原因弹框 -->
+  <!-- <assume-fault isShow="{{showFlFaultFlag}}" bind:getCanReson="clickDauflt" bindhide="hideSelector"
+    bindplayVideo="playVideo" flFault="{{excludedFault}}">
+  </assume-fault> -->
+
+  <!--一键注册下单-->
+  <!--同一账号某段时间内下单过多，需要验证下手机号-->
+  <phone-validator
+    phone="{{userInfo.mobile}}"
+    is-show="{{showValidatorFlag}}"
+    bindcancel="hideValidatorHandler"
+    bindsuccess="validateSuccessHandler"
+  ></phone-validator>
+
+  <view class="footer" catch:tap="checkData">
+    <button disabled="{{!isDataReady}}">提交</button>
+  </view>
+</view>

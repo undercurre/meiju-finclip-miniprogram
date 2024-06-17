@@ -1,0 +1,92 @@
+<wxs src="../wxs/utils.wxs" module="utils" />
+
+<mx-popup
+  show="{{ show }}"
+  position="bottom"
+  round="{{ round }}"
+  z-index="{{ zIndex }}"
+  overlay="{{ overlay }}"
+  custom-class="mx-action-sheet"
+  safe-area-inset-bottom="{{ safeAreaInsetBottom }}"
+  close-on-click-overlay="{{ closeOnClickOverlay }}"
+  bind:close="onClickOverlay"
+>
+  <view wx:if="{{ title }}" class="mx-action-sheet__header">
+    {{ title }}
+    <mx-icon name="cross" custom-class="mx-action-sheet__close" bind:click="onClose" />
+  </view>
+  <view wx:if="{{ description }}" class="mx-action-sheet__description mx-hairline--bottom"> {{ description }} </view>
+  <view wx:if="{{ actions && actions.length }}">
+    <!-- button外包一层view，防止actions动态变化，导致渲染时button被打散 -->
+    <button
+      wx:for="{{ actions }}"
+      wx:key="index"
+      open-type="{{ item.disabled || item.loading || (canIUseGetUserProfile && item.openType === 'getUserInfo') ? '' : item.openType }}"
+      style="{{ item.color ? 'color: ' + item.color : '' }}"
+      class="{{ utils.bem('action-sheet__item', { disabled: item.disabled || item.loading }) }} {{ item.className || '' }}"
+      hover-class="mx-action-sheet__item--hover"
+      data-index="{{ index }}"
+      bindtap="{{ item.disabled || item.loading ? '' : 'onSelect' }}"
+      bindgetuserinfo="onGetUserInfo"
+      bindcontact="onContact"
+      bindgetphonenumber="onGetPhoneNumber"
+      binderror="onError"
+      bindlaunchapp="onLaunchApp"
+      bindopensetting="onOpenSetting"
+      lang="{{ lang }}"
+      session-from="{{ sessionFrom }}"
+      send-message-title="{{ sendMessageTitle }}"
+      send-message-path="{{ sendMessagePath }}"
+      send-message-img="{{ sendMessageImg }}"
+      show-message-card="{{ showMessageCard }}"
+      app-parameter="{{ appParameter }}"
+    >
+      <block wx:if="{{ !item.loading }}">
+        {{ item.name }}
+        <view wx:if="{{ item.subname }}" class="mx-action-sheet__subname">{{ item.subname }}</view>
+      </block>
+      <mx-loading wx:else custom-class="mx-action-sheet__loading" size="22px" />
+    </button>
+  </view>
+  <slot />
+  <view wx:if="{{ cancelText || confirmText}}" class="mx-common-btn">
+    <view class="mx-action-sheet__gap" />
+    <view
+      wx:if="{{ cancelText &&  !confirmText}}"
+      class="mx-action-sheet__cancel"
+      hover-class="mx-action-sheet__cancel--hover"
+      hover-stay-time="70"
+      bind:tap="onCancel"
+    >
+      {{ cancelText }}
+    </view>
+    <view
+      wx:if="{{ !cancelText &&  confirmText}}"
+      class="mx-action-sheet__cancel"
+      hover-class="mx-action-sheet__cancel--hover"
+      hover-stay-time="70"
+      bind:tap="onConfirm"
+    >
+      {{ confirmText }}
+    </view>
+
+    <view
+      wx:if="{{ cancelText &&  confirmText}}"
+      class="mx-action-sheet__cancel_double"
+      hover-class="mx-action-sheet__cancel--hover"
+      hover-stay-time="70"
+      bind:tap="onCancel"
+    >
+      {{ cancelText }}
+    </view>
+    <view
+      wx:if="{{ cancelText &&  confirmText}}"
+      class="mx-action-sheet__cancel_double"
+      hover-class="mx-action-sheet__cancel--hover"
+      hover-stay-time="70"
+      bind:tap="onConfirm"
+    >
+      {{ confirmText }}
+    </view>
+  </view>
+</mx-popup>

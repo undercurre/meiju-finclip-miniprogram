@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "van-circle": "/common-packages/plugin/component/new-vant/circle/index"
+  },
+  "componentPlaceholder": {
+    "van-circle": "view"
+  }
+}

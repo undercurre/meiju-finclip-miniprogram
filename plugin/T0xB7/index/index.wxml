@@ -1,0 +1,9 @@
+<!--T0xAC//index/index.wxml-->
+<view class="mainContainer">
+    <!-- <plugin-navbar backTo="{{backTo}}"></plugin-navbar> -->
+    <view class="device-newCard">
+        <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"
+            bindmodeChange="modeChange" bindmyevent="onMyEvent"></device-card>
+    </view>
+    <!-- <footer fromApp="{{fromApp}}" appParameter="{{appParameter}}"></footer> -->
+</view>

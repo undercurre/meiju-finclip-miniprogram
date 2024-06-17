@@ -1,0 +1,16 @@
+{
+  "component": true,
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "van-cell": "/pages/component/vant/cell/index",
+    "banner-panel": "../component/banner-panel/banner-pannel",
+    "van-popup": "./assets/js/new-vant/popup/index",
+    "van-datetime-picker": "./assets/js/new-vant/datetime-picker/index",
+    "c-picker": "../../../common-packages/plugin/component/picker/picker",
+    "active-dialog": "../../../common-packages/plugin/component/activityWrapper/activity-wrapper"
+  },
+  "componentPlaceholder": {
+    "c-picker": "view",
+    "active-dialog": "view"
+  }
+}

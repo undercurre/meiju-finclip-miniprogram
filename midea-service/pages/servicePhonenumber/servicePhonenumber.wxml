@@ -1,0 +1,22 @@
+<!-- midea-service//pages/servicePhonenumber/servicePhonenumber.wxml -->
+<view class="container">
+  <view class="service-phone-time" bindtap="toOnlineService">
+    <image src="{{baseImgUrl}}/mideaServices/images/help_ic_service@3x.png" class="service-phone-time-icon" />
+    <view>在线客服</view>
+    <image src="{{baseImgUrl}}/mideaServices/images/ic_next@3x.png" class="arrow-icon" />
+  </view>
+  <view class="service-phone-list-title">热线电话</view>
+  <view class="service-phone-list-content">
+    <view
+      wx:for="{{ servicePhoneList }}"
+      class="service-phone-list-content-item"
+      wx:key="index"
+      data-item="{{ item }}"
+      bindtap="makePhone"
+    >
+      <view class="brand">{{ item.title }}</view>
+      <view class="phone">{{ item.phone }}</view>
+      <image src="{{baseImgUrl}}/mideaServices/images/ic_next@3x.png" class="arrow-icon" />
+    </view>
+  </view>
+</view>

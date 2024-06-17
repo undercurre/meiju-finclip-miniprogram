@@ -1,0 +1,17 @@
+/*
+ * @desc: 文本组件
+ * @author: zhucc22
+ * @Date: 2022-05-30 10:29:07
+ */
+/* eslint-disable */
+var style = require('../common/style.wxs');
+//var utils = require('../common/utils.wxs');
+function customTextStyle(data) {
+  //var styles = utils.extend(data.styles,data.layouts)
+  return style(data);
+}
+
+
+module.exports = {
+  customTextStyle: customTextStyle,
+};

@@ -1,0 +1,377 @@
+/* plugin/T0xDB/pages/save-water/save-water-main/save-water-main.wxss */
+page {
+  height: 100vh;
+  width: 100vw;
+}
+
+.wrapper {
+  height: 100%;
+  background: linear-gradient(180deg, #a4e5ff, #f3f3f3);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.water-wrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 40rpx;
+}
+.small-water-wrapper {
+  position: absolute;
+  z-index: 9;
+  transform: scale(0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: waterShaking 3s infinite;
+}
+@keyframes waterShaking {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 20rpx);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+.water-click {
+  animation: waterClick 1.5s ease;
+}
+@keyframes waterClick {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  75% {
+    opacity: 0.1;
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+}
+
+.small-water-image {
+  width: 72rpx;
+  height: 102rpx;
+}
+
+.small-water-num {
+  font-size: 24rpx;
+  margin-top: -56rpx;
+  text-align: center;
+}
+.small-water-desc {
+  font-size: 26rpx;
+  margin-top: 24rpx;
+  text-align: center;
+}
+.big-water-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 364rpx;
+  height: 520rpx;
+}
+.big-water-image {
+  width: 364rpx;
+  height: 520rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.big-water-animation {
+  animation: waterScale 1s ease;
+}
+@keyframes waterScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1, 0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.total-title {
+  font-size: 28rpx;
+  margin-top: 100rpx;
+  color: #202020;
+  z-index: 1;
+}
+.total-count {
+  font-size: 72rpx;
+  color: #121111;
+  z-index: 1;
+}
+.rule-btn {
+  position: absolute;
+  bottom: 40rpx;
+  font-size: 24rpx;
+  color: #6e6e6e;
+}
+
+.main-page-bg-wrapper {
+  margin-top: 40rpx;
+  width: 750rpx;
+  height: 158rpx;
+}
+.main-page-bg {
+  width: 750rpx;
+  height: 158rpx;
+}
+
+.sign-in-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 24rpx;
+  margin-left: 32rpx;
+  margin-right: 32rpx;
+  padding: 32rpx;
+}
+.sign-in-title-wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+.sign-in-title {
+  font-size: 28rpx;
+  color: #000000;
+  margin-right: 16rpx;
+  line-height: 36rpx;
+}
+.sign-in-tips {
+  font-size: 20rpx;
+  color: #8a8a8f;
+}
+.sign-in-steps {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 20rpx;
+}
+.step-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.step-image-wrapper {
+  width: 58rpx;
+  height: 78rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.step-image {
+  width: 58rpx;
+  height: 78rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.step-water-count {
+  font-size: 16rpx;
+  color: #1a1a1a;
+  z-index: 1;
+  margin-top: 6rpx;
+}
+.step-day-item {
+  display: flex;
+  margin-left: 4rpx;
+}
+.day-text {
+  font-size: 18rpx;
+  color: #666666;
+  line-height: 20rpx;
+}
+.day-count {
+  font-size: 24rpx;
+  color: #000000;
+  line-height: 16rpx;
+  font-weight: 500;
+}
+.step-line {
+  position: absolute;
+  top: 40rpx;
+  left: 48rpx;
+  width: 100%;
+  height: 2rpx;
+  background: linear-gradient(to right, #e5e5e8, #e5e5e8 4rpx, transparent 4rpx, transparent);
+  background-size: 8rpx 100%;
+}
+.sign-in-btn {
+  height: 76rpx;
+  background: #29c3ff;
+  border-radius: 46rpx;
+  font-size: 32rpx;
+  color: #ffffff;
+  text-align: center;
+  vertical-align: center;
+  line-height: 76rpx;
+  font-weight: 500;
+  margin-top: 32rpx;
+}
+.disabled {
+  opacity: 0.35;
+}
+.goods-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 32rpx;
+}
+.goods-top-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.goods-top-left {
+  display: flex;
+  align-items: flex-end;
+}
+.goods-title {
+  font-size: 28rpx;
+  color: #000000;
+  font-weight: 500;
+}
+.goods-title-tips {
+  font-size: 20rpx;
+  color: #8a8a8f;
+  line-height: 40rpx;
+  margin-left: 10rpx;
+}
+.goods-top-right {
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 20rpx;
+  color: #666666;
+  border: 2rpx solid rgba(193, 193, 196, 0.27);
+  padding: 0 20rpx;
+  border-radius: 22rpx;
+}
+.goods-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  margin-bottom: 16rpx;
+}
+.goods-item {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  width: 334rpx;
+}
+.goods-image {
+  width: 334rpx;
+  height: 250rpx;
+}
+.goods-name {
+  font-size: 28rpx;
+  color: #000000;
+  font-weight: 500;
+  margin-left: 14rpx;
+  margin-top: 20rpx;
+}
+.discount-info {
+  display: flex;
+  background-color: #fe765c;
+  border-radius: 8rpx;
+  align-self: start;
+  height: 32rpx;
+  align-items: center;
+  margin-top: 14rpx;
+  margin-left: 14rpx;
+}
+.discount-water {
+  background-color: #ffffff;
+  color: #fe765c;
+  font-size: 18rpx;
+  padding: 0 10rpx;
+  margin-left: 2rpx;
+  border-radius: 8rpx;
+  height: 28rpx;
+}
+.discount-coupon {
+  color: #ffffff;
+  font-size: 18rpx;
+  padding: 0 16rpx;
+}
+.money-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-left: 14rpx;
+  margin-bottom: 20rpx;
+}
+.money-title {
+  font-size: 20rpx;
+  color: #8a8a8f;
+  line-height: 46rpx;
+}
+.money-unit {
+  color: #ff0e18;
+  font-size: 20rpx;
+  line-height: 46rpx;
+}
+.money-count {
+  color: #ff0e18;
+  font-size: 32rpx;
+  line-height: 56rpx;
+}
+.money-origin {
+  color: #8a8a8f;
+  font-size: 20rpx;
+  line-height: 46rpx;
+  margin-left: 12rpx;
+  text-decoration: line-through;
+}
+
+.empty-list {
+  width: 100%;
+  font-size: 26rpx;
+  color: #8a8a8f;
+  margin-top: 100rpx;
+  text-align: center;
+  font-weight: 400;
+}
+
+.dialog-index--van-dialog__confirm {
+  color: #29c3ff !important;
+}
+.double-water-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 40rpx;
+}
+.double-water-container {
+  width: 480rpx;
+  height: 456rpx;
+  position: relative;
+}
+.double-water {
+  width: 480rpx;
+  height: 456rpx;
+}
+.multiple-text {
+  position: absolute;
+  top: 260rpx;
+  left: 290rpx;
+  color: #000000;
+  font-size: 48rpx;
+  font-weight: 500;
+}

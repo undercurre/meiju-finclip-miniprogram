@@ -1,0 +1,35 @@
+.container {
+  text-align: center;
+  position: relative;
+}
+.main-img,
+.cover {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+.cover {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.1);
+}
+.triangle {
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: -20rpx;
+}
+.desc {
+  margin-top: 4rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #232323;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 12px;
+}
+.container-disabled {
+  opacity: 0.4;
+}

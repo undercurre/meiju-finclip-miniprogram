@@ -1,0 +1,73 @@
+<view class="container">
+  <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+  <cardHeader bindtap="" image="{{icons.header}}" title="{{applianceData.name}}" desc="{{applianceData.roomName}}" />
+  <!-- 内容区域：分为中部和底部两个区域，使用flex布局，底部区域固定在card底部 -->
+  <block wx:if="{{isInit}}">
+    <view class="flex-floor" wx:if="{{applianceData.onlineStatus == 1 && isQueryOffLine != true}}">
+      <!-- 布局占位用，不可删除 -->
+      <view class="blank-floor"></view>
+      <!-- 中部区域: 设备温度 -->
+      <view class="center-floor">
+        <circleProgressBar id="circleProgressBar" class="circle-progress-bar" min='{{minTemp}}' minDesc='{{minTemp}}°c' max='{{maxTemp}}' maxDesc="{{maxTemp}}°c" completedColor="{{arrayIndex==2?'#FFBB00':'#627BFF'}}" incompletedColor="#E5E5E8">
+          <block wx:if="{{status.power_state == 'on'}}">
+            <view class="center-content-wrapper">
+              <view class="center-content">
+                <text id="tempMinus" class="heat-temp" bindtap="temperatureChange" bindlongpress="temperatureQuickChange" bindtouchend="temperatureQuickChangeEnd" style="font-size:26px;color:{{arrayIndex == 2 ? '' : '#5D75F6'}};">–</text>
+                <view class="appliance-temp">{{status.temp_set || '00'}}
+                  <text class="appliance-temp-unit">°C</text>
+                </view>
+                <text id="tempPlus" class="heat-temp" bindtap="temperatureChange" bindlongpress="temperatureQuickChange" bindtouchend="temperatureQuickChangeEnd" style="color:{{arrayIndex == 2 ? '' : '#5D75F6'}};">+</text>
+              </view>
+            </view>
+          </block>
+          <block wx:else class="center-content">
+            <view class="center-content-wrapper power-off">
+              <view class="center-content">
+                <text class="appliance-off">关机</text>
+              </view>
+            </view>
+          </block>
+        </circleProgressBar>
+        <view wx:if="{{status.power_state == 'on'}}" class="temperature-desc {{status.power_state == 'on'?'':'temperature-off'}}">
+          <text class="temperature-label">当前水温 {{status.cur_temp || '--'}}°c</text>
+          <!-- <text class="temperature-unit">{{status.cur_temp}}°c</text> -->
+        </view>
+        <view wx:if="{{status.power_state == 'off'}}" class="temperature-desc">
+          <text class="temperature-label"></text>
+          <text class="temperature-unit"></text>
+        </view>
+      </view>
+      <!-- 底部区域: 电源 -->
+      <view class="footer-floor">
+        <view class="button-floor row-sb">
+          <view>
+            <view class="button-icons" bindtap="powerToggle" style="background:{{status.power_state === 'on' ?'#F2F2F2':'#EAEEFE'}};">
+              <image class="button-img" src="{{status.power_state === 'off' ? icons.switch_power.on.img : icons.switch_power.off.img}}"/>
+            </view>
+            <text wx:if="{{status.power_state === 'on'}}" class="button-text">{{icons.switch_power.on.desc}}</text>
+            <text  wx:else class="button-text">{{icons.switch_power.off.desc}}</text>
+          </view>
+          <view class="section">
+            <picker mode="selector" bindchange="bindPickerChange" disabled="{{status.power_state=='on'?false:true}}" value="{{arrayIndex}}" range="{{array}}">
+              <view class="button-icons" style="background:{{(arrayIndex===2 && status.power_state === 'on') ? '#FFF2DB':'#EAEEFE'}};">
+                <image class="button-img" src="{{status.power_state == 'on' ? arrayIcon_on[arrayIndex] : arrayIcon_off[arrayIndex]}}"/>
+                <view wx:if="{{status.power_state === 'off'}}" class="zhetian" />
+              </view>
+              <text class="button-text" style="color:{{status.power_state == 'off' ? '#C7C7CC' : '#000000'}}">模式</text>
+            </picker>
+          </view>
+           <view>
+            <view class="button-icons" bindtap="qheat" style="background:{{(status.pre_heat ==='on' && status.power_state === 'on') ? '#EAEEFE':'#F2F2F2'}};">
+              <image class="button-img" src="{{(status.pre_heat ==='on' && status.power_state === 'on') ? icons.fure.on : icons.fure.off}}"/>
+              <view wx:if="{{status.power_state === 'off'}}" class="zhetian" />
+            </view> 
+            <text class="button-text" style="color:{{status.power_state == 'off' ? '#C7C7CC' : '#000000'}}">{{icons.fure.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else>
+      <offline></offline>
+    </view>
+  </block>
+</view>

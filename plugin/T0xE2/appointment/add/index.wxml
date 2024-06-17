@@ -1,0 +1,23 @@
+<view class="add-sub">
+  <van-cell title="预设温度" is-link value="{{multiArray[0][tempIndex]}}℃" custom-class="cell" title-style="cell-title"  value-class="cell-value" bindtap="openTempPicker" />
+  <van-cell title="{{start_str}}" is-link value="{{task.startTime || '12:00'}}" custom-class="cell" title-style="cell-title"  value-class="cell-value"bindtap="openStartTimePicker" />
+  <van-cell title="{{end_str}}" is-link value="{{task.endTime || '12:00'}}" custom-class="cell" title-style="cell-title"  value-class="cell-value"bindtap="openEndTimePicker" />
+
+  <view style="margin-top: 30rpx;">
+    <repeat-circle default-loop="{{defaultLoopIndex}}" default-weekday="{{defaultWeekdaySelectList}}"
+      bindloopitemclick='onLoopItemClick' bindweekdayitemclick='onWeekdayItemClick' />
+  </view>
+
+  <view class="flex flex_column align_center" style="margin-top: 48rpx;">
+    <view class="btn btn--primary flex align_center justify_center" bindtap="beforeSave">
+      <text class="btn-text">保存</text>
+    </view>
+  </view>
+
+  <!-- 时间picker -->
+  <c-picker show="{{isShowTimePicker}}" mode="multiSelector" range="{{endTimeMultiArray}}" value="{{ timeType=='end'? endTimeMultiIndex : startTimeMultiIndex }}" unit="{{multiUnit}}" bind:change="onPickerChange" bind:confirm="onConfirm" bind:cancel="onCancel" bind:afterleave="onCancel"/>
+
+
+  <!-- 温度picker -->
+  <c-picker show="{{isShowTemPicker}}" mode="multiSelector" range="{{multiArray}}" value="{{ multiIndex }}" unit="℃"  bind:change="onTemPickerChange" bind:confirm="onTemPickerConfirm" bind:cancel="closeTemPicker" bind:afterleave="closeTemPicker"/>
+</view>

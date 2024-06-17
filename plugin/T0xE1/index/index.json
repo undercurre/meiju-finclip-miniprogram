@@ -1,0 +1,17 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "洗碗机",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "plugin-navbar": "/pages/component/plugin-navbar/plugin-navbar",
+    "navbar": "../../../common-packages/plugin/component/navbar/navbar",
+    "device-card": "/plugin/T0xE1/card/card",
+    "mbutton": "/pages/component/mbutton/mbutton",
+    "van-tabs": "../assets/js/new-vant/tabs/index",
+    "van-tab": "../assets/js/new-vant/tab/index"
+  },
+  "componentPlaceholder": {
+    "navbar": "view"
+  }
+}

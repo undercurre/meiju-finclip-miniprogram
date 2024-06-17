@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "dof-switch": "/pages/component/dof-switch/dof-switch",
+    "active-dialog": "/plugin/T0xB7/activeDialog/active-dialog",
+    "mx-service": "/miniprogram_npm/m-services/index/index"
+  },
+  "componentPlaceholder": {
+    "active-dialog": "view"
+  }
+}

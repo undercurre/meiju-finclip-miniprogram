@@ -1,0 +1,64 @@
+.container{
+    text-align: center;
+    position: relative;
+    height:80%;display:flex;flex-direction:column;justify-content:center;align-items:center;
+}
+.flex-floor {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.center-floor{
+  position:relative;
+}
+.doorLock-img{
+  width:186rpx;
+  height:391rpx;
+  transform: translate(25%,0);
+}
+.button-floor {
+  padding-bottom: 22rpx;
+  text-align: center;
+  background: #fff;
+}
+.button-floor-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.button-icons{
+  position:relative;
+  height:120rpx;
+  width:120rpx;
+  border-radius:50%;
+}
+.button-img{
+  width:120rpx;
+  height:120rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.button-text{
+  font-size:24rpx;
+  color:#232323;
+}
+.bg-img{
+  position:absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size:144rpx;
+  color:#000000;
+  display:flex;flex-direction:column;
+}
+.center-text { font-size:24rpx; color:#666666;}
+.center-text-desc { color: #999999; margin-top: 12rpx; }
+
+.text-int-2 { font-size: 126rpx; }
+.text-int-3 { font-size: 106rpx; }
+.text-int-4 { font-size: 96rpx; }
+.text-deci { font-size: 54rpx; }

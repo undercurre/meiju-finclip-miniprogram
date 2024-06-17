@@ -1,0 +1,7 @@
+<van-cell title="{{title}}" label="{{desc}}" custom-class="cell" custom-class="{{cellStyle}}" border="{{border}}">
+  <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+    <image src="{{images.washTea}}" class="cell-img" />
+  </view>
+  <van-switch checked="{{washTea}}" slot="right-icon" active-color="{{iconColor}}"
+    bind:change="onSwitchChange" size="40rpx" disabled="{{washTeaDisable}}" />
+</van-cell>

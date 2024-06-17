@@ -1,0 +1,11 @@
+<!--plugin/component/c-picker/picker.wxml-->
+<view>
+  <slot bindtap="onClick"></slot>
+
+  <c-pick show="{{isShow}}" mode="{{mode}}" range="{{range}}" range-key="{{rangeKey}}" 
+    value="{{value}}" unit="{{unit}}" left-btn-text="{{leftBtnText}}" 
+    right-btn-text="{{rightBtnText}}" success-type="{{successType}}" close="{{close}}"
+    bind:change="onChange" bind:pickerStart="onStart" bind:pickerEnd="onEnd"
+    bind:afterleave="onAfterLeave"
+    bind:confirm="onConfirm" bind:cancel="onCancel"></c-pick>
+</view>

@@ -1,0 +1,7 @@
+{
+    "component": true,
+    "usingComponents": {
+        "vcIconButton": "../../component/vc-iconbutton/vc-iconbutton"
+        
+      }
+}

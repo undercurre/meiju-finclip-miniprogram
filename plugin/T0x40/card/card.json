@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "cardHeader": "/pages/component/card-header/card-header",
+    "status-panel": "/plugin/T0x40/components/status-panel/status-panel",
+    "power-panel": "/plugin/T0x40/components/power-panel/power-panel",
+    "cell-list": "/plugin/T0x40/components/cell-list/cell-list"
+  }
+}

@@ -1,0 +1,14 @@
+/*
+ * @desc: 扩展方法
+ * @author: zhucc22
+ * @Date: 2023-11-02 14:15:56
+ */
+function pxToRpx(px) {
+  if (!px) return
+  px = px.replace('px', '')
+  var rpxGet = Math.round(px * 2) + 'rpx'
+  return rpxGet
+}
+module.exports = {
+  pxToRpx: pxToRpx,
+}

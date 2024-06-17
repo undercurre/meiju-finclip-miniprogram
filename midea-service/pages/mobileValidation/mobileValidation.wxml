@@ -1,0 +1,39 @@
+<view class="phone-validator">
+  <!-- <view class="com-mask"></view> -->
+  <view class="com-container">
+    <view class="top">
+      <view class="title">
+        <text>验证身份</text>
+      </view>
+      <view class="title0"> <text>我们已发送一条验证码至</text><text class="info-label">{{ phoneNum }}</text> </view>
+    </view>
+    <view class="middle">
+      <view class="inputs">
+        <input
+          class="msg-code"
+          type="tel"
+          placeholder="请输入短信中的验证码"
+          value="{{msgCode}}"
+          data-key="msgCode"
+          bindinput="bindInputHandler"
+          maxlength="9"
+        />
+        <view class="box">
+          <view class="box-border"> </view>
+          <view class="box-text">
+            <view wx:if="{{timeLeave >=59}}" class="{{isClick?'active':'common'}}" catchtap="sendCodeHandler"
+              >{{tipsContent}}</view
+            >
+            <view wx:else class="isGone">重新获取({{timeLeave}}s)</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="btns">
+      <button class="btn-confirm" catchtap="confirmHandler" disabled="{{disabled}}">提交</button>
+    </view>
+  </view>
+</view>
+
+<!-- 长内容弹框 -->
+<longToast id="longToast" isLongToast="{{isLongToast}}" longText="{{longToastContent}}"></longToast>

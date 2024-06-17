@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "自定义时间",
+  "navigationBarBackgroundColor": "#FFF",
+  "navigationBarTextStyle": "black",
+  "backgroundColor":"#f9f9f9",
+  "usingComponents": {
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-switch": "/common-packages/plugin/component/new-vant/switch/index",
+    "van-swipe-cell": "/common-packages/plugin/component/new-vant/swipe-cell/index"
+  },
+  "componentPlaceholder": {
+    "van-swipe-cell": "view",
+    "van-switch": "view"
+  }
+}

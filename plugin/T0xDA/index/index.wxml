@@ -1,0 +1,20 @@
+<view class="continer" style="padding-top:{{statusBarHeight+40}}px; position:fixed; width: 100%;height:100vh">
+  <plugin-navbar title="{{displayName}}" backTo="{{backTo}}"></plugin-navbar>
+  <!-- <view class="device-card"> -->
+  <device-card
+    wx:if="{{isInit}}"
+    style="width: 100%; height: 100%"
+    class="component{{deviceInfo.applianceCode}}"
+    applianceData="{{deviceInfo}}"
+    bindmodeChange="modeChange"
+  ></device-card>
+  <!-- </view> -->
+  <!-- <view wx:if="{{fromApp}}" class="bottom-box">
+        <button class="openMeiJuAPpp" style="display:inline-block;" open-type="launchApp"
+            app-parameter="{{appParameter}}" binderror="launchAppError" bindtap="test">
+            <text class="blue">打开美居App</text>
+        </button>
+        <text>解锁更多功能</text>
+    </view>
+    <view wx:if="{{!fromApp}}" class="openMeiJuAPpp">更多功能尽在美的美居App</view> -->
+</view>

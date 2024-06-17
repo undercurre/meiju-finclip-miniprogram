@@ -1,0 +1,23 @@
+<!--plugin/T0xDB/pages/save-water/save-water-list/save-water-list.wxml-->
+<view class="wrapper">
+  <view class="goods-list">
+    <view wx:for="{{productInfoList}}" wx:key="index" class="goods-item" data-id="{{item.idProductInfo}}" bindtap="clickGoodsItem">
+      <image src="{{item.smallProductImg}}" class="goods-image"></image>
+      <view class="goods-name">{{item.productName}}</view>
+      <view class="discount-info">
+        <view class="discount-water">{{item.maxRequiredDrip}}g水滴</view>
+        <view class="discount-coupon">抵￥{{item.maxCouponDenomination}}</view>
+      </view>
+      <view class="money-wrapper">
+        <view class="money-title">最低到手价：</view>
+        <view class="money-unit">￥</view>
+        <view class="money-count">{{item.minProductPrice}}</view>
+        <view class="money-origin">￥{{item.productPrice}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="bottom-wrapper">
+    <view class="bottom-tips">- 到底了 -</view>
+    <view class="bottom-tips" bindtap="clickHistory">查看兑换记录 ></view>
+  </view>
+</view>

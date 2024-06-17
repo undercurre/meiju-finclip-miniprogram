@@ -1,0 +1,79 @@
+{
+  "name": "project-midea-meiju-lite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "lint": "prettier --config .prettierrc.js --write && eslint --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "installAll": "npm install",
+    "dev": "sh autoDev.sh",
+    "quick": "sh autoQuickDev.sh",
+    "compile": "node compile/auto/autoConstructSit.js",
+    "combine": "node combineAppjson.js",
+    "copy": "node compile/copyFile.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.midea.com/IT-MobileDivision/MideaLite/MeijuLite/midea-meiju-lite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-wxml": "^0.6.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.2.6",
+    "miniprogram-ci": "^1.9.8",
+    "prettier": "^2.5.1",
+    "fs-extra": "^11.1.1",
+    "simple-git": "^3.19.1",
+    "@m-distributionNetwork/sdk": "1.10.1",
+    "@m-distributionNetwork/addDevice": "1.10.19",
+    "@m-distributionNetwork/scanDevices": "1.0.3",
+    "@m-distributionNetwork/selectDevices": "1.0.7",
+    "@m-distributionNetwork/userGuide": "1.0.1",
+    "@meijuLite/T0x4E": "1.1.5",
+    "@meijuLite/T0x38": "1.0.5",
+    "@meijuLite/T0xAC": "1.0.54",
+    "@meijuLite/T0x13": "2.2.2",
+    "@meijuLite/T0xFA": "1.0.3",
+    "@meijuLite/T0xFB": "1.0.1",
+    "@meijuLite/T0xFC": "1.0.7",
+    "@meijuLite/T0xFD": "1.0.6",
+    "@meijuLite/T0x33": "1.0.5",
+    "@meijuLite/T0x32": "1.0.3",
+    "@meijuLite/T0xE8": "1.0.1",
+    "@meijuLite/T0xE9": "1.0.2",
+    "@meijuLite/T0xCA": "1.0.4",
+    "@meijuLite/T0xC0": "1.0.1",
+    "@meijuLite/T0xEA": "1.0.3",
+    "@meijuLite/T0xEB": "1.0.2",
+    "@meijuLite/T0xEC": "1.0.1",
+    "@meijuLite/T0xE7": "1.0.4",
+    "@meijuLite/T0xF1": "1.0.1",
+    "@meijuLite/T0x15": "1.0.0",
+    "@meijuLite/T0x3D": "1.0.0",
+    "@meijuLite/T0xE6A": "1.0.2"
+
+  },
+  "dependencies": {
+    "@datarangers/sdk-mp": "^2.9.0",
+    "m-miniCommonSDK": "1.0.12",
+    "m-performance": "^1.0.0",
+    "m-services": "1.0.18",
+    "m-ui": "^2.0.27",
+    "m-track": "^1.0.0",
+    "m-utilsdk": "1.0.9",
+    "m-ble-crypto": "1.0.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --config .prettierrc.js --write",
+      "eslint --fix"
+    ]
+  }
+}

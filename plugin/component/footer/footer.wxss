@@ -1,0 +1,17 @@
+.bottom-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.openMeiJuAPpp {
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.blue {
+  color: #267AFF;
+}

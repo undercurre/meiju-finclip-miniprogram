@@ -1,0 +1,26 @@
+/*
+ * @desc: 文本组件
+ * @author: zhucc22
+ * @Date: 2022-05-30 10:29:07
+ */
+/* eslint-disable */
+var style = require('../common/style.wxs');
+var utils = require('../common/utils.wxs');
+
+function customTextStyle(data) {
+  return style(data);
+}
+function customImageStyle(data) {
+  if (!data) return;
+  return style([
+    {
+      width: utils.pxToRpx(data.width),
+      height: utils.pxToRpx(data.height)
+    }]);
+}
+
+
+module.exports = {
+  customTextStyle: customTextStyle,
+  customImageStyle: customImageStyle,
+};

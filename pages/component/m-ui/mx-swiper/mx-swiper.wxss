@@ -1,0 +1,31 @@
+/* m-ui/m-swiper/m-swiper.wxss */
+@import '../assets/common.wxss';
+
+.container {
+  width: 686rpx;
+}
+
+.advertise-wrap{
+  width: 686rpx;
+  height: 180rpx;
+  margin-left: 32rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.advertise{
+  width: 686rpx;
+  height: 180rpx;
+}
+
+.swiperItem{
+  width: 686rpx;
+  height: 180rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+.device-mall{
+  width: 686rpx;
+  height: 180rpx;
+  border-radius: 24rpx;
+}

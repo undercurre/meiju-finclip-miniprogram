@@ -1,0 +1,314 @@
+/* plugin/T0x9C/card/card.wxss */
+.container {
+  width: 100%;
+  position: relative;
+  background-color: #F9F9F9;
+}
+
+.switch {
+	width: 96rpx;
+	height: 48rpx;
+	background-color: #29C3FF;
+	border-radius: 24rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.card {
+  width: 330rpx;
+  height: 360rpx;
+  border-radius: 16rpx;
+  background-color: #ffffff;
+  margin-top: 24rpx;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+}
+.cardMargin {
+  margin-right: 24rpx;
+}
+
+.maxText {
+  width: 80rpx;
+  font-size: 20rpx;
+  font-family: PingFang SC;
+  color: #8A8A8F;
+  text-align: left;
+}
+
+.normalText {
+  width: 100rpx;
+  font-size: 20rpx;
+  font-family: PingFang SC;
+  color: #8A8A8F;
+  text-align: right;
+}
+
+.deviceArea {
+  width: 100%;
+  height: 330rpx;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  display: flex;
+  justify-content: center;
+}
+.deviceAreaImage {
+  margin-top: 100rpx;
+}
+
+.deviceTotalArea {
+  flex: 1;
+  height: 160rpx;
+  border-radius: 16rpx;
+  background-color: white;
+  font-size: 36rpx;
+  display:flex;
+  align-items: center;
+  padding-left: 45rpx;
+  font-family: PingFangSC-Regular;
+  margin-top: 40rpx;
+}
+.deviceTotalControlArea {
+  flex: 1;
+  display:flex;
+  justify-content: flex-end;
+  margin-right: 38rpx;
+}
+.deviceTotalCloseImage {
+  width: 96rpx;
+  height: 96rpx;
+  background-color: #267AFF;
+  border-radius: 48rpx;
+}
+.deviceTotalOpenImage {
+  width: 96rpx;
+  height: 96rpx;
+  background-color: #7C879B;
+  border-radius: 48rpx;
+}
+
+.deviceB6Area {
+  flex: 1;
+  height: 360rpx;
+  border-radius: 16rpx;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16rpx;
+  position: relative;
+}
+.deviceB6TitleArea {
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20rpx;
+}
+.deviceB6Image {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 40rpx;
+  background-color: #29C3FF;
+  margin-right: 20rpx;
+  margin-left: 45rpx;
+}
+.deviceB6Title {
+  font-size: 32rpx;
+  font-family: PingFang SC;
+}
+.deviceB6Content {
+  border: 2rpx solid #29C3FF;
+  color: #29C3FF;
+  height: 40rpx;
+  min-width: 72rpx;
+  margin-left: 20rpx;
+  border-radius: 40rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  line-height: 40rpx;
+  padding-right: 10rpx;
+  padding-left: 10rpx;
+}
+.deviceB6Contents {
+  border: 1rpx solid #29C3FF;
+  color: #29C3FF;
+  width: 100rpx;
+  height: 40rpx;
+  margin-left: 20rpx;
+  border-radius: 40rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  line-height: 40rpx;
+}
+.deviceB6SliderArea {
+  height: 180rpx;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10rpx;
+  border-bottom: 1rpx solid #F2F2F2;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.deviceB6Slider {
+  width: 90%;
+  height: 30rpx;
+}
+.deviceB6SliderTitleArea {
+  width: 92%;
+  display:flex;
+  flex-direction:row;
+}
+.deviceB6SliderTitleLeft {
+  flex: 1;
+  font-size: 20rpx;
+  font-family: PingFang SC;
+  color: #8A8A8F;
+  text-align: left;
+}
+.deviceB6SliderTitleCenter {
+  flex: 2;
+  font-size: 20rpx;
+  font-family: PingFang SC;
+  color: #8A8A8F;
+  text-align: center;
+}
+.deviceB6SliderTitleRight {
+  flex: 1;
+  font-size: 20rpx;
+  font-family: PingFang SC;
+  color: #8A8A8F;
+  text-align: right;
+}
+.deviceB6LineArea {
+  height: 200rpx;
+  display: flex;
+  align-items:center;
+  flex-direction: row;
+  position: relative;
+}
+.deviceB6LineImage {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius:60rpx;
+  background-color:#29C3FF;
+  margin-left: 38rpx;
+  margin-right: 40rpx;
+}
+.deviceB6LineText {
+  font-family: PingFang SC;
+  font-size: 32rpx;
+}
+.deviceB6LineTurnOnArea {
+  flex: 1;
+  height: 48rpx;
+  display:flex;
+  justify-content: flex-end;
+  margin-right: 38rpx;
+}
+
+.deviceOtherArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.deviceOtherImageArea {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 48rpx;
+  margin-bottom: 24rpx;
+}
+.deviceOtherName {
+  margin-bottom: 20rpx;
+  font-family: PingFang SC;
+  font-size: 32rpx;
+}
+.deviceOtherState {
+  font-family: PingFang SC;
+  font-size: 24rpx;
+  color: #666666;
+}
+.deviceOtherB7 {
+  border: 2rpx solid #FFFFFF;
+  color: #FFFFFF;
+  width: 114rpx;
+  height: 44rpx;
+  border-radius: 40rpx;
+  text-align: center;
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  line-height: 44rpx;
+  margin-top: 32rpx;
+}
+.deviceOtherOpen {
+  border: 2rpx solid #267AFF;
+  color: #267AFF;
+  width: 114rpx;
+  height: 44rpx;
+  border-radius: 40rpx;
+  text-align: center;
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  line-height: 44rpx;
+  margin-top: 32rpx;
+}
+.deviceOtherOnlineName {
+  margin-bottom: 20rpx;
+  font-family: PingFang SC;
+  font-size: 32rpx;
+  color: #ffffff;
+}
+.deviceOtherOnlineState {
+  font-family: PingFang SC;
+  font-size: 24rpx;
+  color: #666666;
+  color: #ffffff;
+}
+.deviceOtherOnlineClose {
+  background-color: #ffffff;
+  width: 114rpx;
+  height: 44rpx;
+  border-radius: 40rpx;
+  text-align: center;
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  line-height: 44rpx;
+  margin-top: 32rpx;
+}
+
+
+.active-dialog {
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  right: 0;
+  z-index: 999;    /* 协议更新时 遮罩层需要覆盖浮动窗口 */
+}
+.close {
+  width: 30rpx;
+  height: 30rpx;
+  position: absolute;
+  right: 16rpx;
+  z-index: 100000;
+}
+.active-dialog-main {
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  right: 16rpx;
+  z-index: 100000;
+}
+
+.disabled-mask {
+  position: absolute;
+  left: 0;top: 0;
+  right: 0;bottom: 0;
+  background-color: rgba(255,255,255,.9);
+}

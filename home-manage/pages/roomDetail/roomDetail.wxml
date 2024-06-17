@@ -1,0 +1,87 @@
+<!--home-manage/pages/roomDetail/roomDetail.wxml-->
+<view class="main-container">
+  <mx-cell-group inset>
+    <mx-cell size="large" center imageSize="32" is-link="{{ roleId!=1003 }}" title="房间名称" bindtap="showEditDialog">
+      <view class="room-name">{{ roomName }}</view>
+    </mx-cell>
+  </mx-cell-group>
+  <view class="device-list-title" wx:if="{{roomDetail.applianceList.length}}">
+    <text>设备列表</text>
+  </view>
+  <mx-cell-group inset>
+    <mx-cell
+      wx:for="{{ roomDetail.applianceList }}"
+      wx:key="index"
+      wx:for-index="index"
+      wx:for-item="item"
+      size="large"
+      center
+      title="{{ item.name }}"
+    />
+  </mx-cell-group>
+  <view class="btn-container" bindtap="showDeleteDialog" wx:if="{{roleId==1001 || roleId==1002}}">
+    <mx-button type="primary" size="large" color="{{publicColor}}" round block plain>删除房间</mx-button>
+  </view>
+  <mx-dialog
+    z-index="10001"
+    title="删除房间"
+    message="确定删除该房间吗"
+    show="{{ deleteDialogShow }}"
+    show-cancel-button
+    bind:close="deleteCancle"
+    cancelButtonColor="{{publicColor}}"
+    confirmButtonColor="{{publicColor}}"
+    scale="1"
+    bind:confirm="deleteConfirm"
+    messageAlign="{{dialogMessageAlign}}"
+  >
+  </mx-dialog>
+  <mx-dialog
+    z-index="10001"
+    title="无法删除"
+    message="{{ deleteMessage }}"
+    show="{{ noDeleteDialogShow }}"
+    scale="1"
+    bind:confirm="noDeleteConfirm"
+    messageAlign="left"
+  >
+  </mx-dialog>
+  <mx-dialog
+    z-index="10001"
+    use-slot
+    title="房间名称"
+    show="{{ editDialogShow }}"
+    show-cancel-button
+    bind:cancel="cancleEdit"
+    cancelButtonColor="{{publicColor}}"
+    confirmButtonColor="{{publicColor}}"
+    confirmButtonText="保存"
+    scale="1"
+    bind:confirm="confirmEdit"
+    autoClose="{{ false }}"
+    top="40%"
+  >
+    <view class="dialog-input">
+      <view class="field-container">
+        <mx-field
+          custom-style="padding: 3px 8px; background: #F9F9F9;border: 1px solid #EEEEEE;font-size:12px"
+          value="{{ roomValue }}"
+          maxlength="{{15}}"
+          type="text"
+          clearable
+          placeholder="请输入房间名称"
+          border="{{ false }}"
+          bind:input="onChange"
+          input-class="input-class"
+          adjust-position="{{false}}"
+          focus="{{autoFocus}}"
+          errorMessage="{{errorMessage}}"
+          error-color="{{errorColor}}"
+        ></mx-field>
+      </view>
+      <!-- <view class="tips-container" wx:if="{{ tipsShow }}">
+        <text class="tips">{{ tips }}</text>
+      </view> -->
+    </view>
+  </mx-dialog>
+</view>

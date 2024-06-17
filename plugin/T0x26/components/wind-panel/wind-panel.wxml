@@ -1,0 +1,38 @@
+<view class="panel-block block-center" wx:if="{{isPanelEnable && isDeviceSupport}}" style="height: {{isAutoWindEnable ? 176 : 388}}rpx;">
+    <view class="inner-block" style="height: {{isAutoWindEnable ? 160 : 372}}rpx;">
+
+        <!-- 自动摆风栏 -->
+        <view class="icon-block" style="background-color: {{curThemeColor}};">
+            <image style="width: 64rpx; height: 64rpx;" src="{{panelIcon}}"></image>
+        </view>
+        <text class="wind-title">自动摆风</text>
+        <switch class="item-switch" 
+                bind:dofSwitchChanged="onAutoWindClick" 
+                checked="{{isAutoWindEnable}}" 
+                colorOn="{{curThemeColor}}">
+        </switch>
+
+        <!-- 风向栏 -->
+        <view class="dir-block" wx:if="{{!isAutoWindEnable}}">
+            <view class="line"></view>
+            <text class="dir-title">风向调节</text>
+            <view class="dir-value-block block-center" style="border: 1px solid {{curThemeColor}};">
+                <text class="dir-text" style="color: {{curThemeColor}};">{{curWindDirection > 120 ? '--' : curWindDirection}}°</text>
+            </view>
+
+            <text class="tag" style="left: 32rpx;">60°</text>
+            <text class="tag" style="right: 32rpx;">120°</text>
+
+            <slider class="slider-bar" 
+            bindchange="onSliderEnd" 
+            bindchanging="onSliderChange"
+            value="{{curWindDirection}}" 
+            min="60" max="120" step="1" 
+            block-size="20" 
+            backgroundColor= "#f2f2f2"
+            block-color="{{curThemeColor}}" 
+            activeColor="{{curThemeColor}}"
+            disabled="{{!isPanelEnable || isAutoWindEnable}}"/>
+        </view>
+    </view>
+</view>

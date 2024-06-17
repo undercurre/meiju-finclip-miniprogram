@@ -1,0 +1,45 @@
+<view class="active-dialog" wx:if="{{ show }}" catchtouchmove="{{true}}">
+  <mx-mask show="{{true}}" catchtouchmove="{{true}}" closable="{{true}}" bindonMaskClicked="MaskhideDialog"></mx-mask>
+  <view class="active-main" catchtouchmove="{{true}}">
+    <view class="active-popup-close">
+      <image class="close-icon" bindtap="CloseHideDialog" src="{{imgBaseUrl + closeImg}}"></image>
+    </view>
+    <view class="top_article">
+      <view class="common-title">{{title}}</view>
+      <view class="popup-guide-logImg">
+        <image class="image" mode="scaleToFill" src="{{imgBaseUrl + logoImg }}"></image>
+      </view>
+      <view class="commo-img">
+        <image wx:if="{{guideInfo.url}}" src="{{guideInfo.url}}"></image>
+        <image wx:else src="{{imgBaseUrl + customerImg}}"></image>
+      </view>
+      <view class="guide-name-contents">
+        <text class="title"> {{guideInfo.name}} </text>
+      </view>
+      <view class="common-content">{{contactMe}}</view>
+      <view class="common-wechat">
+        <view class="wechat-content">
+          <!-- <view class="icon">
+            <image src="{{ iconSrc }}" class="newImages"></image>
+          </view> -->
+          <cell
+            bindstartmessage="startmessage"
+            bindcompletemessage="completemessage"
+            plugid="{{guideInfo.plugid}}"
+            buttonStyle="{{guideInfo.buttonStyle}}"
+            bubbleColor="{{guideInfo.bubbleColor}}"
+            styleType="{{guideInfo.styleType}}"
+            isMask="{{guideInfo.isMask}}"
+            contactText="{{guideInfo.contactText}}"
+            buttonText="{{guideInfo.buttonText}}"
+            serviceText="{{guideInfo.serviceText}}"
+            paddingStyle="{{guideInfo.paddingStyle}}"
+            iconStyle="{{guideInfo.iconStyle}}"
+            avatorStyle="{{guideInfo.avatorStyle}}"
+            blockStyle="{{guideInfo.blockStyle}}"
+          />
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

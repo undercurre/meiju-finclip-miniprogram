@@ -1,0 +1,13 @@
+<!--plugin/T0xFB/component/media-switch/media-switch.wxml-->
+<view
+  class="switch-wrapper transition-default {{bindModel.selected?bindModel.isActive?'active':'un-active':''}}"
+  style="{{bindModel.style}}"
+  bindtap="switchSelected"
+>
+  <view class="switch-content">
+    <view
+      class="switch-dot transition-default {{bindModel.selected?bindModel.isActive?'active':'un-active':''}}"
+      style="{{bindModel.selected?'left:calc(100% - 30rpx);':'left:0;'}}"
+    ></view>
+  </view>
+</view>

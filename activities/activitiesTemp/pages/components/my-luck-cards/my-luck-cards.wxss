@@ -1,0 +1,170 @@
+@import '../../common.wxss';
+
+/* 复写shadow 用作cards的遮罩*/
+.shadow {
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.shadow2 {
+  background: rgba(0, 0, 0, 0);
+}
+
+.grid-desc {
+  position: relative;
+}
+
+.grid-item {
+  position: absolute;
+}
+
+.img-mask {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.luck-num {
+  position: absolute;
+  text-align: center;
+  color: #ffffff;
+  font-size: 28rpx;
+  z-index: 99;
+}
+
+.custom15 {
+  animation: lampbg4 1s infinite;
+  opacity: 0;
+}
+
+@keyframes lampbg4 {
+  0% {
+    opacity: 0;
+  }
+
+  49% {
+    opacity: 0;
+  }
+
+  51% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.card {
+  position: relative;
+}
+
+.cards-board {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  position: relative;
+}
+.cards-board-normal {
+  padding: 0 39rpx;
+}
+.cards-board-big {
+  padding: 0 42rpx;
+}
+.card-positive,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.card-positive,
+.card-back {
+  transition: 1s linear;
+  backface-visibility: hidden;
+  /* transition-delay: 0.5s; */
+}
+
+.card-item image {
+  width: 100%;
+  height: 100%;
+}
+
+.card-item.normal {
+  margin-bottom: 25rpx;
+  width: 207rpx;
+  height: 274rpx;
+}
+
+.card-item.big {
+  margin-bottom: 38rpx;
+  width: 314rpx;
+  height: 416rpx;
+}
+.cards-board-normal .card:nth-last-child(2) .card-item,
+.cards-board-normal .card:nth-last-child(3) .card-item,
+.cards-board-normal .card:nth-last-child(4) .card-item {
+  margin-bottom: 0;
+}
+.cards-board-big .card:nth-last-child(2) .card-item,
+.cards-board-big .card:nth-last-child(3) .card-item {
+  margin-bottom: 0;
+}
+
+.big .card-positive,
+.big .card-back {
+  width: 314rpx;
+  height: 416rpx;
+}
+
+.normal .card-positive,
+.normal .card-back {
+  width: 207rpx;
+  height: 274rpx;
+}
+
+.card-back {
+  transform: rotateY(0deg);
+  z-index: 11;
+}
+
+.card-rolate .card-back {
+  transform: rotateY(180deg);
+}
+
+.card-positive {
+  transform: rotateY(-180deg);
+  z-index: 10;
+}
+
+.card-rolate .card-positive {
+  transform: rotateY(0deg);
+}
+.dialog-close {
+  position: absolute;
+  left: 50%;
+  bottom: -110rpx;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  width: 56rpx;
+  height: 56rpx;
+  color: #fff;
+  border: 2rpx solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dialog-close image {
+  width: 100%;
+  height: 100%;
+}

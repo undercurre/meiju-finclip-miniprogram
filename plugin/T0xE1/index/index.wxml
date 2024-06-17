@@ -1,0 +1,25 @@
+<view class="content">
+    <navbar navBarName="{{deviceInfo.name || '洗碗机'}}" bgColor="#fff"></navbar>
+    <scroll-view style="flex: 1;">
+        <van-tabs wx:if="{{isInit && hasDrawerDevice}}" active="{{activeNum}}" color="black" sticky
+            tab-class="tab-style" bind:change="onTabsChange">
+            <van-tab title="上抽屉" custom-class="tab">
+                <view class="device-card">
+                    <device-card class="component{{deviceInfo.applianceCode+''+activeNum}}" activeNum="{{activeNum}}"
+                        applianceData="{{deviceInfo}}" />
+                </view>
+            </van-tab>
+            <van-tab title="下抽屉" custom-class="tab">
+                <view class="device-card">
+                    <device-card class="component{{deviceInfo.applianceCode+''+activeNum}}" activeNum="{{activeNum}}"
+                        applianceData="{{deviceInfo}}" />
+                </view>
+            </van-tab>
+        </van-tabs>
+
+        <view wx:if="{{isInit && !hasDrawerDevice}}" class="device-card">
+            <device-card class="component{{deviceInfo.applianceCode+''+activeNum}}" activeNum="{{activeNum}}"
+                applianceData="{{deviceInfo}}" bindmodeChange="modeChange" />
+        </view>
+    </scroll-view>
+</view>

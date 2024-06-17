@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: flex-start; */
+  align-items: center;
+  /* height: 128rpx;
+  padding: 10px 20px 10px 20px;
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0; */
+}
+
+.device-icon {
+  width: 56px;
+  height: 56px;
+  margin-right: 8px;
+}
+.device-info {
+  max-width: 160px;
+}
+.device-name {
+  font-size: 32rpx;
+  font-family: PingFangSC-Medium;
+  color: #000000;
+  line-height: 48rpx;
+  font-weight: 200;
+  /* width: 160px;
+    display: -webkit-box;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis; */
+}
+.device-room {
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 24rpx;
+  font-weight: 200;
+  margin-top: 12rpx;
+  /* width: 160px;
+    display: -webkit-box;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis; */
+}
+.activitysContent {
+  /* position: fixed; */
+  /* right: 5%; */
+  width: 64px;
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: auto;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #FCF3D8; */
+  border-radius: 50%;
+}
+.activitys-icon {
+  display: flex;
+  width: 64px;
+  height: 64px;
+}
+.activitys-desc {
+  font-size: 11px;
+  color: #666666;
+  line-height: 11px;
+  margin-top: 3px;
+}

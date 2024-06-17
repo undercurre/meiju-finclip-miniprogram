@@ -1,0 +1,49 @@
+<wxs src="./filter-status.wxs" module="tools" />
+<view class="filter-status">
+  <!-- 只有滤芯的情况 -->
+  <!-- <view class="filter-status-one-filter" wx:if="{{filterList.length===1&&type==='filter'}}">
+    <view style="height: 90rpx;">
+      <van-circle filterList="{{ filterList[0].circleVal }}" size="45" stroke-width="3" clockwise="{{false}}"
+        color="{{filterList[0].completedColor?filterList[0].completedColor:tools.getCircleColor(filterList[0].circleVal)}}"
+        layer-color="#F2F2F2">
+        <text class="circle-text">{{filterList[0].circleText}}</text>
+      </van-circle>
+    </view>
+
+    <view class="right">
+      <text class="title">一体滤芯</text>
+      <text class="label">{{filterList[0].remainDay}}天后换滤芯</text>
+    </view>
+  </view> -->
+
+  <!-- 不止有滤芯的情况 -->
+  <view class="filter-status-one-filter" wx:if="{{ filterList!= '' && filterList.length===1&&type!=='filter'}}">
+    <view style="height: 90rpx;">
+      <van-circle filterList="{{ filterList[0].circleVal }}" size="45" stroke-width="3" clockwise="{{false}}"
+        color="{{filterList[0].completedColor?filterList[0].completedColor:tools.getCircleColor(filterList[0].circleVal)}}"
+        layer-color="#F2F2F2">
+        <text class="circle-text">{{filterList[0].circleVal}}%</text>
+      </van-circle>
+    </view>
+
+    <view class="right">
+      <text class="title">{{filterList[0].name}}</text>
+      <text class="label">{{filterList[0].desc}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{filterList!= '' && filterList.length>=1}}" class="filter-status-filter"
+    style="width:100%;justify-content:flex-start;">
+    <view wx:for="{{filterList}}" wx:key="index" class="filter-status-filter-item"
+      style="width:33%;margin-bottom: 20rpx;" bindtap="showFilterInfo" data-item="{{item}}">
+      <view style="height: 90rpx;">
+        <van-circle value="{{ item.circleVal }}" size="45" stroke-width="3" clockwise="{{false}}"
+          color="{{item.completedColor?item.completedColor:tools.getCircleColor(item.circleVal)}}"
+          layer-color="#F2F2F2">
+          <text class="circle-text">{{item.circleText}}</text>
+        </van-circle>
+      </view>
+      <text class="filter-name">{{item.name}}</text>
+    </view>
+  </view>
+</view>

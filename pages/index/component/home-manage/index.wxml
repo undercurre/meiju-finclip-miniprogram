@@ -1,0 +1,51 @@
+<!-- 家庭管理 -->
+<wxs src="./assets/js/subutil.wxs" module="tools" />
+<block>
+  <view class="home-list">
+    <view bind:touchend="switchShowHomeList" class="familyBox">
+      <text class="active-home">{{homeList[currentHomeGroupIndex].name}}</text>
+      <view class="ico-warp" bindtap="clickDropdownFamily">
+        <image
+          animation="{{iconTriangleAnimationData}}"
+          id="iconTriangle"
+          class="icon-triangle"
+          src="{{baseImgUrl + 'ic_xiala.png'}}"
+        ></image>
+        <!-- <view class="red-dot home-manage-red-dot" wx:if="{{showHomeTitleRedDot}}"></view> -->
+      </view>
+    </view>
+    <view catchtap="goAddDeviceJia" class="add-device-icon">
+      <mx-icon name="add2" classPrefix="mx-iconfont"></mx-icon>
+    </view>
+  </view>
+  <view class="home-picker-cover" wx:if="{{showHomeList}}" bind:touchend="switchShowHomeList"></view>
+  <view class="home-picker-wrap">
+    <view class="home-picker" animation="{{homePickerAnimationData}}" bindtap="switchShowHomeList">
+      <scroll-view scroll-y class="home-picker-scroll">
+        <view
+          class="{{tools.filterHomePickerOptionsWrapper(bindex,currentHomeGroupIndex)}}"
+          style="{{bindex === 0 ? 'border-radius: 16rpx 16rpx 0 0' : ''}}"
+          wx:for="{{homeList}}"
+          wx:for-index="bindex"
+          wx:for-item="homeItem"
+          wx:key="homegroupId"
+          id="home{{homeItem.homegroupId}}"
+          data-homegroupid="{{homeItem.homegroupId}}"
+          data-bindex="{{bindex}}"
+          catchtap="changeHome"
+        >
+          <text
+            class="home-picker-options {{tools.pickerItemMaxWidth(homeItem.roleId)}} {{tools.pickItemActive(bindex,currentHomeGroupIndex)}}"
+            >{{tools.sub(homeItem.name)}}
+          </text>
+          <text class="home-picker-create" wx:if="{{homeItem.roleId==='1001'}}">创建</text>
+          <image wx:if="{{bindex === currentHomeGroupIndex}}" class="home-pick-select" src="{{selectIcon}}" />
+        </view>
+      </scroll-view>
+      <view class="home-manage" catchtap="gotoHomeManage">
+        <image class="icon-home-manage" mode="widthFix" src="{{baseImgUrl + 'ic_guanli.png'}}"></image>
+        家庭管理
+      </view>
+    </view>
+  </view>
+</block>

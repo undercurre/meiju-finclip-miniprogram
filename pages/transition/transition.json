@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "美的美居lite",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "trojan-horse": "/pages/component/trojan-horse/trojan-horse"
+  }
+}

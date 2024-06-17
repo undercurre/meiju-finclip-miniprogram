@@ -1,0 +1,31 @@
+.active-dialog {
+  width: 60rpx;
+  height: 60rpx;
+  position: fixed;
+  right: 0;
+  bottom: 25%;
+  /* z-index: 100000; */
+  z-index: 999; /* 协议更新时 遮罩层需要覆盖浮动窗口 */
+}
+.close {
+  width: 30rpx;
+  height: 30rpx;
+  position: fixed;
+  /* right: 45rpx; */
+  right: 32rpx;
+  /* bottom: 21%; */
+  bottom: 34%;
+  z-index: 100000;
+}
+.active-dialog-main {
+  width: 120rpx;
+  height: 120rpx;
+  position: fixed;
+  /* right: 0; */
+  right: 32rpx;
+  /* bottom: 25%; */
+  bottom: 28%;
+  z-index: 100000;
+  /* background-color: #267aff; */
+  /* border-radius:50%; */
+}

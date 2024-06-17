@@ -1,0 +1,65 @@
+/* home-manage/pages/memberManage/memberManage.wxss */
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  margin-top: 20rpx;
+}
+.member-container{
+  padding-bottom: calc(204rpx + var(--iphonex-fix-bottom));
+}
+.right-info {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+.right-info_name{
+  max-width: 344rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* overflow: hidden; */
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+  display: none;
+}
+.role {
+  background: #F2F2F2;
+  border-radius: 24rpx;
+  font-size: 20rpx;
+  color: #666666;
+  text-align: center;
+  margin-left: 20rpx;
+  padding: 12rpx 20rpx;
+  white-space: nowrap;
+}
+.avatar-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.avatar{
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  margin-right: 28rpx;
+}
+.btn-container{
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 80rpx 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  background-color: #f9f9f9;
+}
+
+.mx-cell__title_title{
+  overflow: auto!important
+}

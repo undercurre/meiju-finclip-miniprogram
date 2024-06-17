@@ -1,0 +1,50 @@
+.filter-status {
+  display: flex;
+}
+
+.filter-status-one-filter {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-left: 32rpx;
+}
+
+.filter-status .circle-text {
+  font-size: 24rpx;
+  line-height: 54rpx;
+  color: #333333;
+}
+
+.filter-status .right {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20rpx;
+}
+
+.right .title {
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.right .label {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.filter-status .filter-name {
+  font-size: 28rpx;
+  color: #333333;
+  margin-top: 12rpx;
+}
+
+.filter-status .filter-status-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-status-filter .filter-status-filter-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

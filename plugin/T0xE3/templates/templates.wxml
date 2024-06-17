@@ -1,0 +1,57 @@
+  <!-- 高温杀菌提醒 -->
+  <template name="GermicidalHint">
+    <germicidal-tips status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}"
+      cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}"
+      bindupdateStatus="updateStatus" />
+  </template>
+  <!-- 洗茶 -->
+  <template name="WashTea">
+    <wash-tea status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" bindupdateStatus="updateStatus" />
+  </template>
+  <!-- 定量设置 -->
+  <template name="MultipleQuantify">
+    <quantify-set status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+  </template>
+  <!-- 定量设置 -->
+  <template name="QuantifySet">
+    <quantify-set status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+  </template>
+  <!-- 温度设置 -->
+  <template name="MultipleTemp">
+    <temp-set status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+  </template>
+  <!-- 温度设置 -->
+  <template name="MultipleTemp4Level3">
+    <temp-set status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+  </template>
+  <!-- 温度设置 -->
+  <template name="TemperatureSet">
+    <temp-set status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" />
+  </template>
+  <!-- 保温功能 -->
+  <template name="KeepWarm">
+    <keep-warm status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" bindupdateStatus="updateStatus" />
+  </template>
+  <!-- 保温时长 -->
+  <template name="KeepWarmTime">
+    <keep-warm-time status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}"
+      cellStyle="{{cellStyle}}" iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}"
+      bindupdateStatus="updateStatus" />
+  </template>
+  <!-- 加热功能 -->
+  <template name="Heat">
+    <heat status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" bindupdateStatus="updateStatus" />
+  </template>
+  <!-- 微气泡 -->
+  <template name="Bubble">
+    <bubble status="{{status}}" setting="{{setting}}" applianceData="{{applianceData}}" cellStyle="{{cellStyle}}"
+      iconColor="{{iconColor}}" border="{{border}}" title="{{title}}" desc="{{desc}}" bindupdateStatus="updateStatus" />
+  </template>

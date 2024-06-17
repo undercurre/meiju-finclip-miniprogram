@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "view-no-reward-dialog": "../../components/view-no-reward-dialog/view-no-reward-dialog",
+    "hotzone": "../../components/hotzone/hotzone",
+    "marquee": "../../components/marquee/marquee",
+    "lottie-canvas": "../../components/lottie-canvas/lottie-canvas"
+  }
+}

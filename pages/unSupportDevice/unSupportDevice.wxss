@@ -1,0 +1,93 @@
+/* pages/unSupportDevice/unSupportDevice.wxss */
+
+.flex-cc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page {
+  flex: 1;
+  background-color: #f9f9f9;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.content {
+  margin-top: 192rpx;
+}
+
+.device-card {
+  display: flex;
+  align-items: center;
+}
+
+.device-icon {
+  width: 128rpx;
+  height: 128rpx;
+  margin-right: 18rpx;
+}
+
+.device-name {
+  font-size: 16px;
+  color: #000000;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.device-room {
+  margin-top: 12rpx;
+  font-size: 12px;
+  color: #666666;
+  line-height: 12px;
+  font-weight: 400;
+}
+
+.unSupport {
+}
+
+.unSupport-icon {
+  width: 340rpx;
+  height: 340rpx;
+}
+
+.unSupport-desc {
+  margin-top: 20px;
+  font-size: 28rpx;
+  color: #8a8a8f;
+  text-align: center;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.openMeiJuAPpp {
+  margin: auto;
+  margin-top: 25%;
+  width: 496rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: #267aff;
+  font-size: 32rpx;
+  color: #fff;
+  border-radius: 48rpx;
+}
+
+.no-open-app {
+  margin-top: 10rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #8a8a8f;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.wifiControl {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #267aff;
+  font-weight: 500;
+  text-align: center;
+  line-height: 32rpx;
+}

@@ -1,0 +1,11 @@
+<scroll-view class="{{deviceInfoStatus == '1' ? 'mainContainer' : 'offLineContainer'}}">
+    <view class="device-card">
+        <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"></device-card>
+    </view>
+    <view wx:if="{{fromApp}}" class="bottom-box">
+        <button class="openMeiJuAPpp" style="display:inline-block;" open-type="launchApp" app-parameter="{{appParameter}}" binderror="launchAppError" bindtap="test">
+            <text class="blue">打开美居App</text>
+        </button>
+        <text>解锁更多功能</text>
+    </view>
+</scroll-view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "选择发票",
+  "usingComponents": {
+    "centerDialog": "../../components/sure-center-dialog/sure-center-dialog"
+  }
+}

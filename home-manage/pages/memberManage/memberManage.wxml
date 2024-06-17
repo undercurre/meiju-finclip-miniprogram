@@ -1,0 +1,55 @@
+<!--home-manage/pages/memberManage/memberManage.wxml-->
+<privacy-popup></privacy-popup>
+<view class="main-container">
+  <view class="member-container">
+    <mx-cell-group inset>
+      <mx-cell
+        size="large"
+        imageSize="48"
+        center
+        wx:for="{{ memberList }}"
+        wx:key="index"
+        data-roleId="{{ item.roleId }}"
+        data-uid="{{ item.uid }}"
+        data-userId="{{ item.userId }}"
+        bindtap="showMemberAction"
+        is-link="{{roleId < item.roleId}}"
+      >
+        <view slot="icon" class="avatar-box">
+          <mx-image custom-class="avatar" round fit="cover" plate="{{plate}}" src="{{ item.headImgUrl }}"></mx-image>
+        </view>
+        <view slot="title">
+          <view class="right-info">
+            <view class="right-info_name">{{ item.nickname }} </view>
+            <view class="role">{{ roleNameList[item.roleId] }}</view>
+          </view>
+        </view>
+      </mx-cell>
+    </mx-cell-group>
+  </view>
+  <mx-action-sheet
+    bind:select="actionSelected"
+    bind:cancel="toggleActionSheet"
+    bind:close="toggleActionSheet"
+    show="{{ actionShow }}"
+    z-index="10001"
+    actions="{{ actions }}"
+    cancel-text="取消"
+  />
+  <mx-dialog
+    z-index="10001"
+    title="移除成员"
+    message="确定移除该家庭成员吗？"
+    show="{{ deleteDialogShow }}"
+    show-cancel-button
+    bind:close="deleteCancle"
+    cancelButtonColor="{{publicColor}}"
+    confirmButtonColor="{{publicColor}}"
+    scale="1"
+    bind:confirm="deleteConfirm"
+  >
+  </mx-dialog>
+  <view class="btn-container" bindtap="inviteMembers" wx:if="{{ roleId!=1003 }}">
+    <mx-button open-type="share" type="primary" size="large" color="{{publicColor}}" round block>邀请家人</mx-button>
+  </view>
+</view>

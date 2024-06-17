@@ -1,0 +1,32 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "normal-container": "../components/normal-container/normal-container",
+    "invite-register-container": "../components/invite-register-container/invite-register-container",
+    "join-family-container": "../components/join-family-container/join-family-container",
+    "rolling-sign-container": "../components/rolling-sign-container/rolling-sign-container",
+    "my-reward": "../components/my-reward/my-reward",
+    "face-invite": "../components/face-invite/face-invite",
+    "navbar": "../components/navbar/navbar",
+    "dialog": "../components/dialog/dialog",
+    "component-toast": "../components/toast/toast",
+    "component-invite": "../components/invite-panel/invite-panel",
+    "my-task": "../components/my-task/my-task",
+    "view-card-dialog": "../components/view-card-dialog/view-card-dialog",
+    "view-reward-dialog": "../components/view-reward-dialog/view-reward-dialog",
+    "view-money-dialog": "../components/view-money-dialog/view-money-dialog",
+    "my-luck-grid": "../components/my-luck-grid/my-luck-grid",
+    "my-luck-eggs": "../components/my-luck-eggs/my-luck-eggs",
+    "my-luck-scratch": "../components/my-luck-scratch/my-luck-scratch",
+    "my-luck-cards": "../components/my-luck-cards/my-luck-cards",
+    "tasks-register": "../components/tasks-register/tasks-register",
+    "my-score-rank": "../components/my-score-rank/my-score-rank",
+    "view-award-dialog": "../components/view-award-dialog/view-award-dialog",
+    "free-receive-container": "../components/free-receive-container/free-receive-container",
+    "basic": "/sub-package/common-package/components/captcha/captchaBasic/captchaBasic"
+  },
+  "componentPlaceholder": {
+    "basic": "view"
+  }
+}

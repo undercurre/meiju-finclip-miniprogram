@@ -1,0 +1,61 @@
+@import '../../common.wxss';
+.my-invite-container {
+  box-sizing: border-box;
+  width: 686rpx;
+  margin: 15rpx auto;
+}
+.my-invite-panel {
+  width: 686rpx;
+  height: 424rpx;
+  background-color: #d8d8d8;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+.title-container {
+  display: flex;
+  flex-direction: column;
+  height: 264rpx;
+  justify-content: center;
+  align-items: center;
+}
+.main-title {
+  color: #ffffff;
+  font-size: 49rpx;
+}
+.sub-title {
+  color: #ffffff;
+  font-size: 38rpx;
+}
+
+.bottom-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  height: 160rpx;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottomBtn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.inviteFriend {
+  font-family: PingFangSC-Semibold;
+  color: #ffffff;
+  font-size: 28rpx;
+  background-image: linear-gradient(-180deg, #82bcff 3%, #1c88ff 100%);
+  border-radius: 60rpx;
+  margin-right: 60rpx;
+}
+.inviteFaceToFace {
+  color: #ffffff;
+  font-size: 28rpx;
+  background-image: linear-gradient(-180deg, #ff884e 6%, #fb4a2d 98%);
+  border-radius: 60rpx;
+}
+.inviteRecordBtn {
+  font-size: 28rpx;
+  color: #7c7c7c;
+}

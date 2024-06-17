@@ -1,0 +1,508 @@
+<view class="newContainer">
+    <block wx:if="{{_applianceData.onlineStatus == 1}}">
+        <active-dialog type="B7" applianceCode="{{_applianceData.applianceCode}}" sn8="{{_applianceData.sn8}}"></active-dialog>
+        <view class="newHead">
+            <block wx:if="{{detailData.middle.name == '中灶'}}">
+                <view class="newHeadCard {{currentEquipment === 'left' ? 'newSelectCard' : ''}} newHeadLeftCard" bindtap="currentEquipmentToggle" data-id="left">左灶</view>
+                <view class="newHeadCard {{currentEquipment === 'middle' ? 'newSelectCard' : ''}}" bindtap="currentEquipmentToggle" data-id="middle">
+                    中灶
+                </view>
+                <view class="newHeadCard {{currentEquipment === 'right' ? 'newSelectCard' : ''}} newHeadRightCard" bindtap="currentEquipmentToggle" data-id="right">右灶</view>
+            </block>
+            <block wx:elif="{{detailData.left.isTime}}">
+                <!-- <view class="newHeadCard newSelectCard newHeadLeftCards" bindtap="currentEquipmentToggle" data-id="left">左灶</view> -->
+            </block>
+            <block wx:else>
+                <view class="newHeadCard {{currentEquipment === 'left' ? 'newSelectCard' : ''}} newHeadLeftCard" bindtap="currentEquipmentToggle" data-id="left">左灶</view>
+                <view class="newHeadCard {{currentEquipment === 'right' ? 'newSelectCard' : ''}} newHeadRightCard" bindtap="currentEquipmentToggle" data-id="right">右灶</view>
+            </block>
+        </view>
+        <block wx:if="{{currentEquipment === 'left'}}">
+            <block wx:if="{{equipmentData.fire === 'off' || equipmentData.left_power === 'off' || equipmentData.leftelec_power == 'off' || isFirstLoad }}">
+                <view class="newHeadArea">
+                    <view class="newHeadCanvas" style="background-image:url({{ images.off }});">
+                        <!-- <text wx:if="{{_applianceDataStatus.work_status_desc == 'error'}}" class="canvasNormal">故障中</text> -->
+                        <view class="canvasNormal">
+                            已关机
+                            <view style="font-size: 24rpx;color: #8A8A8F;">请手动在设备上开火</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="newStateArea">
+                    <text class="deviceB7Title">已关机</text>
+                    <view class="newControlArea">
+                        <image src="{{images.turnOn}}" class="newControlImages"></image>
+                    </view>
+                    <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+                </view>
+                <view class="newHotCleanArea">
+                    <block wx:for="{{detailData[currentEquipment].btns}}" wx:key="btns">
+                        <block wx:if="{{item === 'OrderBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.time}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                <view style="display: flex;flex-direction: column;">
+                                    <text class="deviceB7LineText">定时关火</text>
+                                    <text class="deviceB7LineDetailText">设置设备关火时间</text>
+                                </view>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <text wx:if="{{!!leftTargetTime}}" class="cellDesc">{{leftTargetTime}}</text>
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:elif="{{item === 'FixTempBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.time}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                <view style="display: flex;flex-direction: column;">
+                                    <text class="deviceB7LineText">定温</text>
+                                    <text class="deviceB7LineDetailText">设置设备运行温度</text>
+                                </view>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <text wx:if="{{!!equipmentData.left_target_temperature}}" class="cellDesc">{{equipmentData.left_target_temperature}}°C</text>
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                    </block>
+                    <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+                </view>
+            </block>
+            <block wx:else>
+                <view class="newHeadArea">
+                    <!-- <canvas id="lottie_demo" type="2d" class="newHeadCanvas"> -->
+                    <view class="newHeadCanvass" style="background-image:url('{{cardOnBg}}');"> 
+                        <block wx:if="{{equipmentData.delayPowerOff === 'on' || equipmentData.left_cookmode === 'order'}}">
+                            <view class="newCanvasArea">
+                                <text class="cavasText">火力</text>
+                                <text class="cavasText">
+                                    <text wx:if="{{equipmentData.left_cookmode === 'default' && equipmentData.left_gear > 8 && detailData.left.isTime}}" class="canvasTime">{{equipmentData.left_gear - 8}}</text>
+                                    <text wx:else class="canvasTime">{{equipmentData.left_gear}}</text>
+                                    <text style="position: absolute;color: black;font-size: 28rpx;">档</text>
+                                </text>
+                                <text class="cavasText">剩余关火时间</text>
+                                <text wx:if="{{equipment[currentEquipment].surplusHours > 0}}" class="cavasText">{{equipment[currentEquipment].surplusHours}}小时{{equipment[currentEquipment].surplusMinutes}}分钟</text>
+                                <text wx:elif="{{equipment[currentEquipment].delayPowerOffTime}}" class="cavasText">{{equipment[currentEquipment].delayPowerOffTime}}分钟</text>
+                                <text wx:else class="cavasText">{{restTime}}</text>
+                            </view>
+                        </block>
+                        <block wx:elif="{{equipmentData.left_cookmode === 'local_recipe'}}">
+                            <block wx:for="{{cookList}}" wx:key="cook">
+                                <block wx:if="{{equipmentData.left_recipe_id == item.code}}">
+                                    <view class="newCanvasArea">
+                                        <text class="cavasText">食谱</text>
+                                        <text wx:if="{{item.name.length >= 4}}" style="font-size: {{ 240 / item.name.length }}rpx;position: relative;">{{item.name}}</text>
+                                        <text wx:else style="font-size: 60rpx;position: relative;">{{item.name}}</text>
+                                        <text class="cavasText">剩余关火时间</text>
+                                        <text class="cavasText">{{recipeRestTime}}分钟</text>
+                                    </view>
+                                </block>
+                            </block>
+                        </block>
+                        <block wx:elif="{{equipmentData.left_cookmode === 'cloud_recipe'}}">
+                            <view class="newCanvasArea">
+                                <text style="color: black;font-size: 80rpx;">云食谱</text>
+                            </view>
+                        </block>
+                        <block wx:else>
+                            <block wx:if="{{ equipmentData.left_cookmode === 'keep_temperature'}}">
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">控温</text>
+                                    <text class="cavasText">
+                                        <text class="canvasTime" style="font-size: 135rpx;">{{equipment[currentEquipment].left_target_temperature}}</text>
+                                        <text style="position: absolute;color: black;font-size: 28rpx;">℃</text>
+                                    </text>
+                                    <text class="cavasText">已烹饪</text>
+                                    <text wx:if="{{equipment[currentEquipment].workHours > 0}}" class="cavasText">{{equipment[currentEquipment].workHours}}小时{{equipment[currentEquipment].workMinutes}}分钟</text>
+                                    <text wx:elif="{{equipment[currentEquipment].workHours == 0}}" class="cavasText">{{equipment[currentEquipment].workMinutes}}分钟</text>
+                                    <text wx:else class="cavasText">{{equipment[currentEquipment].workTime}}</text>
+                                </view>
+                            </block>
+                            <block wx:elif="{{equipmentData.left_cookmode === 'order_keep_temperature' }}">
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">定时定温</text>
+                                    <text class="cavasText">
+                                        <text class="canvasTime">{{equipment[currentEquipment].left_target_temperature}}</text>
+                                        <text style="position: absolute;color: black;font-size: 28rpx;">℃</text>
+                                    </text>
+                                    <text class="cavasText">剩余关火时间</text>
+                                    <text class="cavasText">{{restTime}}分钟</text>
+                                </view>
+                            </block>
+                            <block wx:elif="{{equipmentData.leftelec_cookmode === 'default' }}">
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">电磁炉</text>
+                                    <text class="cavasText">
+                                        <text class="canvasTimess">{{equipmentData.leftelec_efficiency}}</text>
+                                        <text style="color: black;font-size: 28rpx;">W</text>
+                                    </text>
+                                    <text class="cavasText">已烹饪</text>
+                                    <text class="cavasText">{{workTime}}</text>
+                                </view>
+                            </block>
+                            <block wx:elif="{{equipmentData.leftelec_cookmode === 'order' }}">
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">电磁炉</text>
+                                    <text class="cavasText">
+                                        <text class="canvasTimess">{{equipmentData.leftelec_efficiency}}</text>
+                                        <text style="color: black;font-size: 28rpx;">W</text>
+                                    </text>
+                                    <text class="cavasText">剩余关机时间</text>
+                                    <text class="cavasText">{{restTime}}</text>
+                                </view>
+                            </block>
+                            <block wx:elif="{{equipmentData.leftelec_mode === 'default' }}">
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">电磁炉</text>
+                                    <text class="cavasText">
+                                        <text class="canvasTimess">{{equipmentData.leftelec_efficiency}}</text>
+                                        <text style="color: black;font-size: 28rpx;">W</text>
+                                    </text>
+                                    <text class="cavasText">已烹饪</text>
+                                    <text class="cavasText">{{workTime}}</text>
+                                </view>
+                            </block>
+                            <block wx:else>
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">火力</text>
+                                    <text class="cavasText">
+                                        <text wx:if="{{equipmentData.left_cookmode === 'default' && equipmentData.left_gear > 8 && detailData.left.isTime}}" class="canvasTime">{{equipmentData.left_gear - 8}}</text>
+                                        <text wx:else class="canvasTime">{{equipmentData.left_gear}}</text>
+                                        <text style="position: absolute;color: black;font-size: 28rpx;">档</text>
+                                    </text>
+                                    <text class="cavasText">已烹饪</text>
+                                    <text wx:if="{{equipment[currentEquipment].workHours > 0}}" class="cavasText">{{equipment[currentEquipment].workHours}}小时{{equipment[currentEquipment].workMinutes}}分钟</text>
+                                    <text wx:elif="{{equipment[currentEquipment].workHours == 0}}" class="cavasText">{{equipment[currentEquipment].workMinutes}}分钟</text>
+                                    <text wx:else class="cavasText">{{equipment[currentEquipment].workTime}}</text>
+                                </view>
+                            </block>
+                        </block>
+                    </view>
+                    <!-- </canvas> -->
+                </view>
+                <view class="newStateArea">
+                    <text wx:if="{{detailData.left.isTime}}" class="deviceB7Title">{{detailData.left.name}}关火</text>
+                    <text wx:else class="deviceB7Title">左灶关火</text>
+                    <view class="newControlArea">
+                        <image src="{{images.turnOn}}" class="newControlImage" bindtap="powerOff"></image>
+                    </view>
+                </view>
+                <view class="newHotCleanArea">
+                    <block wx:for="{{detailData[currentEquipment].btns}}" wx:key="btns">
+                        <block wx:if="{{item === 'OrderBtn'}}">
+                            <block wx:if="{{equipment[currentEquipment].delayPowerOff === 'on' || ((equipmentData.left_cookmode === 'order' || equipmentData.left_cookmode === 'order_keep_temperature' || equipmentData.leftelec_cookmode === 'order')) }}">
+                                <view class="deviceB7LineArea" bindtap="delayPowerOffCancel">
+                                    <image src="{{images.time}}" style="background-color: #FFAA10;" class="deviceB7LineImage" ></image>
+                                    <view style="display: flex;flex-direction: column;">
+                                        <text class="deviceB7LineText">定时关火</text>
+                                        <text class="deviceB7LineDetailText">设置设备关火时间</text>
+                                    </view>
+                                    <view class="deviceB7LineTurnOnArea">
+                                        <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                            <text wx:if="{{!!leftTargetTime}}" class="cellDesc">{{leftTargetTime}}</text>
+                                            <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                        </view>
+                                    </view>
+                                </view>
+                            </block>
+                            <block wx:else>
+                                <c-picker mode="multiSelector" bindconfirm="delayPowerOffSubmit" value="{{multiIndex}}" range="{{multiArray}}">
+                                    <view class="deviceB7LineArea">
+                                        <image src="{{images.time}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                        <view style="display: flex;flex-direction: column;">
+                                            <text class="deviceB7LineText">定时关火</text>
+                                            <text class="deviceB7LineDetailText">设置设备关火时间</text>
+                                        </view>
+                                        <view class="deviceB7LineTurnOnArea">
+                                            <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                                <text wx:if="{{!!leftTargetTime}}" class="cellDesc">{{leftTargetTime}}</text>
+                                                <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </c-picker>
+                            </block>
+                        </block>
+                        <block wx:elif="{{item === 'FixTempBtn'}}">
+                            <view class="deviceB7LineArea" bindtap="clickToSetTemperature">
+                                <image wx:if="{{isCookmode == 'on'}}" src="{{images.templte}}" style="background-color: #FFAA10;" class="deviceB7LineImage" ></image>
+                                <image wx:else src="{{images.templte}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                <view style="display: flex;flex-direction: column;">
+                                    <text class="deviceB7LineText">定温</text>
+                                    <text class="deviceB7LineDetailText">设置设备运行温度</text>
+                                </view>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <text wx:if="{{!!equipmentData.left_target_temperature}}" class="cellDesc">{{equipmentData.left_target_temperature}}°C</text>
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                    </block>
+                </view>    
+            </block>
+        </block>
+        <block wx:elif="{{currentEquipment === 'right'}}">
+            <block wx:if="{{equipment[currentEquipment].fire === 'off' || equipmentData.right_power === 'off' || equipmentData.rightelec_power == 'off'}}">
+                <view class="newHeadArea">
+                    <view class="newHeadCanvas" style="background-image:url({{ images.off }});">
+                        <view class="canvasNormal">
+                            已关机
+                            <view style="font-size: 24rpx;color: #8A8A8F;">请手动在设备上开火</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="newStateArea">
+                    <text class="deviceB7Title">已关机</text>
+                    <view class="newControlArea">
+                        <image src="{{images.turnOn}}" class="newControlImages"></image>
+                    </view>
+                    <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+                </view>
+                <view wx:if="{{detailData[currentEquipment].btns.length == 1}}" class="newHotCleanAreas"></view> 
+                <view wx:else class="newHotCleanArea">
+                    <block wx:for="{{detailData[currentEquipment].btns}}" wx:key="btns">
+                        <block wx:if="{{item === 'OrderBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.time}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                <text class="deviceB7LineText">定时关火</text>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:elif="{{item === 'FixTempBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.templte}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                <text class="deviceB7LineText">定温</text>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                    </block>
+                    <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+                </view>                  
+            </block>
+            <block wx:else>
+                <view class="newHeadArea">
+                    <!-- <canvas id="lottie_demo" type="2d" class="newHeadCanvas"> -->
+                    <view class="newHeadCanvass" style="background-image:url('{{cardOnBg}}');">
+                        <block wx:if="{{equipment[currentEquipment].delayPowerOff === 'on' || equipment[currentEquipment].right_cookmode === 'order'}}">
+                            <view class="newCanvasArea">
+                                <text class="cavasText">火力</text>
+                                <!-- <text class="cavasText">
+                                    <text class="canvasTime">{{equipment[currentEquipment].right_gear}}</text>
+                                    <text style="position: absolute;color: black;font-size: 28rpx;">档</text>
+                                </text> -->
+                                <text class="cavasText" >
+                                    <text class="canvasTimes">工作中</text>
+                                </text>
+                                <text class="cavasText">剩余关火时间</text>
+                                <text wx:if="{{equipment[currentEquipment].surplusHours > 0}}" class="cavasText">{{equipment[currentEquipment].surplusHours}}小时{{equipment[currentEquipment].surplusMinutes}}分钟</text>
+                                <text wx:elif="{{equipment[currentEquipment].delayPowerOffTime}}" class="cavasText">{{equipment[currentEquipment].delayPowerOffTime}}分钟</text>
+                                <text wx:else class="cavasText">{{restTime}}分钟</text>
+                            </view>
+                        </block>
+                        <block wx:elif="{{equipmentData.right_cookmode === 'local_recipe'}}">
+                            <block wx:for="{{cookList}}" wx:key="cook">
+                                <block wx:if="{{equipmentData.right_recipe_id == item.code}}">
+                                    <view class="newCanvasArea">
+                                        <text class="cavasText">食谱</text>
+                                        <text wx:if="{{item.name.length >= 4}}" style="font-size: {{ 240 / item.name.length }}rpx;position: relative;">{{item.name}}</text>
+                                        <text wx:else style="font-size: 60rpx;position: relative;">{{item.name}}</text>
+                                        <text class="cavasText">剩余关火时间</text>
+                                        <text class="cavasText">{{rightRecipeRestTime}}分钟</text>
+                                    </view>
+                                </block>
+                            </block>
+                        </block>
+                        <block wx:elif="{{equipmentData.right_cookmode === 'cloud_recipe'}}">
+                            <view class="newCanvasArea">
+                                <text style="color: black;font-size: 80rpx;">云食谱</text>
+                            </view>
+                        </block>
+                        <block wx:else>
+                            <block wx:if="{{equipmentData.right_cookmode === 'keep_temperature'}}">
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">控温</text>
+                                    <text class="cavasText">
+                                        <text class="canvasTime" style="font-size: 135rpx;">{{equipmentData.right_target_temperature}}</text>
+                                        <text style="position: absolute;color: black;font-size: 28rpx;">℃</text>
+                                    </text>
+                                    <!-- <text class="cavasText">设定温度</text> -->
+                                </view>
+                            </block>
+                            <block wx:elif="{{ equipmentData.right_cookmode === 'order_keep_temperature'}}">
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">定时定温</text>
+                                    <text class="cavasText">
+                                        <text class="canvasTime">{{equipmentData.right_target_temperature}}</text>
+                                        <text style="position: absolute;color: black;font-size: 28rpx;">℃</text>
+                                    </text>
+                                    <text class="cavasText">剩余关火时间</text>
+                                    <text class="cavasText">{{rightRestTime}}分钟</text>
+                                </view>
+                            </block>
+                            <block wx:else>
+                                <view class="newCanvasArea">
+                                    <text class="cavasText">火力</text>
+                                    <!-- <text class="cavasText">
+                                        <text class="canvasTime">{{equipment[currentEquipment].right_gear}}</text>
+                                        <text style="position: absolute;color: black;font-size: 28rpx;">档</text>
+                                    </text> -->
+                                    <text class="cavasText" >
+                                        <text class="canvasTimes">工作中</text>
+                                    </text>
+                                    <text class="cavasText">已烹饪</text>
+                                    <text wx:if="{{equipment[currentEquipment].workHours > 0}}" class="cavasText">{{equipment[currentEquipment].workHours}}小时{{equipment[currentEquipment].workMinutes}}分钟</text>
+                                    <text wx:elif="{{equipment[currentEquipment].workHours == 0}}" class="cavasText">{{equipment[currentEquipment].workMinutes}}分钟</text>
+                                    <text wx:else class="cavasText">{{equipment[currentEquipment].workTime}}</text>
+                                </view>
+                            </block>
+                        </block>
+                    </view>
+                    <!-- </canvas> -->
+                </view>
+                <view wx:if="{{isRightAllBtn}}" class="newStateArea">
+                    <text class="deviceB7Title">全部关火</text>
+                    <view class="newControlArea" bindtap="allPowerOff">
+                        <image src="{{images.turnOn}}" class="newControlImage" bindtap="allPowerOff" bindtap="allPowerOff"></image>
+                    </view>
+                </view>
+                <view wx:else class="newStateArea">
+                    <text class="deviceB7Title">右灶关火</text>
+                    <view class="newControlArea" bindtap="powerOff">
+                        <image src="{{images.turnOn}}" class="newControlImage" bindtap="powerOff"></image>
+                    </view>
+                </view>
+                <view wx:if="{{detailData[currentEquipment].btns.length == 1}}" class="newHotCleanAreas"></view> 
+                <view wx:else class="newHotCleanArea">
+                    <block wx:for="{{detailData[currentEquipment].btns}}" wx:key="btns">
+                        <block wx:if="{{item === 'OrderBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.time}}" style="background-color: #FFAA10;" class="deviceB7LineImage" ></image>
+                                <view style="display: flex;flex-direction: column;">
+                                    <text class="deviceB7LineText">定时关火</text>
+                                    <text class="deviceB7LineDetailText">设置设备关火时间</text>
+                                </view>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <text wx:if="{{leftTargetTime!=null}}" class="cellDesc">{{leftTargetTime}}</text>
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:elif="{{item === 'FixTempBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.templte}}" style="background-color: #FFAA10;" class="deviceB7LineImage" ></image>
+                                <view style="display: flex;flex-direction: column;">
+                                    <text class="deviceB7LineText">定温</text>
+                                    <text class="deviceB7LineDetailText">设置设备运行温度</text>
+                                </view>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <text wx:if="{{!!equipmentData.left_target_temperature}}" class="cellDesc">{{equipmentData.left_target_temperature}}°C</text>
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                        
+                    </block>
+                </view>   
+            </block>
+        </block>
+        <block wx:else>
+            <block wx:if="{{equipment[currentEquipment].fire === 'off' || equipmentData.middle_power === 'off' || equipmentData.middleelec_power == 'off'}}">
+                <view class="newHeadArea">
+                    <view class="newHeadCanvas" style="background-image:url({{ images.off }});">
+                        <view class="canvasNormal">
+                            已关机
+                            <view style="font-size: 24rpx;color: #8A8A8F;">请手动在设备上开火</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="newStateArea">
+                    <text class="deviceB7Title">已关机</text>
+                    <view class="newControlArea">
+                        <image src="{{images.turnOn}}" class="newControlImages" bindtap="powerToggle"></image>
+                    </view>
+                    <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+                </view>
+                <view wx:if="{{detailData[currentEquipment].btns.length == 1}}" class="newHotCleanAreas"></view> 
+                <view wx:else class="newHotCleanArea">
+                    <block wx:for="{{detailData[currentEquipment].btns}}" wx:key="btns">
+                        <block wx:if="{{item === 'OrderBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.time}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                <text class="deviceB7LineText">定时关火</text>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:elif="{{item === 'FixTempBtn'}}">
+                            <view class="deviceB7LineArea">
+                                <image src="{{images.time}}" style="background-color: #7C879B;" class="deviceB7LineImage" ></image>
+                                <text class="deviceB7LineText">定温</text>
+                                <view class="deviceB7LineTurnOnArea">
+                                    <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;">
+                                        <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                    </block>
+                    <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+                </view>                     
+            </block>
+            <block wx:else>
+                <view class="newHeadArea">
+                    <!-- <canvas id="lottie_demo" type="2d" class="newHeadCanvas"> -->
+                    <view style="newHeadCanvass" style="background-image:url('{{cardOnBg}}');">
+                        <view class="newCanvasArea">
+                            <text class="cavasText">火力</text>
+                            <!-- <text wx:if="{{equipment[currentEquipment].middle_gear != undefined }}" class="cavasText">
+                                <text class="canvasTime">{{equipment[currentEquipment].middle_gear}}</text>
+                                <text style="position: absolute;color: black;font-size: 28rpx;">档</text>
+                            </text>
+                            <text wx:else class="cavasText" >
+                                <text class="canvasTimes">工作中</text>
+                            </text> -->
+                            <text class="cavasText" >
+                                <text class="canvasTimes">工作中</text>
+                            </text>
+                            <text class="cavasText">已烹饪</text>
+                            <text class="cavasText">{{equipment[currentEquipment].workTime}}</text>
+                        </view>
+                    </view>
+                    <!-- </canvas> -->
+                </view>
+                <view class="newStateArea">
+                    <text class="deviceB7Title">中灶关火</text>
+                    <view class="newControlArea">
+                        <image src="{{images.turnOn}}" class="newControlImage" bindtap="powerOff"></image>
+                    </view>
+                </view>
+                <view class="newHotCleanAreas"></view> 
+            </block>
+        </block>
+    </block>
+    <block wx:else>
+        <view style="height: 2000rpx;">
+            <offline></offline>
+        </view>
+    </block>
+</view>

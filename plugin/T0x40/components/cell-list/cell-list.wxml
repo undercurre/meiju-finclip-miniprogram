@@ -1,0 +1,23 @@
+<!--plugin/T0x40/components/cell-list/cell-list.wxml-->
+<view class="panel-block block-center" style="height: {{isOffLine? 0 : 176 * listShowCnt}}rpx;">
+    <view class="cell-block block-center" wx:for="{{functionList}}" wx:if="{{!isOffLine}}" wx:key="key">
+        <view class="cell-block-inner block-center" wx:if="{{item.isShow}}">
+            <view class="icon-block" style="background-color: {{curThemeColor}};">
+                <image class="icon-image" src="{{item.icon}}"></image>
+            </view>
+            <view class="title-block" style="top: {{item.tip==''? 64 : 40}}rpx;">
+                <text class="cell-title">{{item.functionName}}</text>
+            </view>
+            <view class="title-block" style="top: 96rpx;">
+                <text class="cell-tip">{{item.tip}}</text>
+            </view>
+
+            <switch class="item-switch" 
+                bind:dofSwitchChanged="onCellSwitchClick" 
+                checked="{{item.isSwitchOn}}" 
+                colorOn="{{curThemeColor}}" 
+                data-item="{{index}}">
+            </switch>
+        </view>
+    </view>
+</view>

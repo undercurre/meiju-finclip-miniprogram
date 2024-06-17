@@ -1,0 +1,6 @@
+<!--plugin/T0xD9/pages/insurance-regulations/insurance-regulations.wxml-->
+<view class="container">
+  <view class="content">
+    <rich-text class="content-rich-text" nodes="{{insuranceRegulations}}"></rich-text>
+  </view>
+</view>

@@ -1,0 +1,97 @@
+// import { api } from '../../../api'
+const tracks = {
+  path: 'midea-virtual-plugin/pages/new-plugin/new-plugin',
+  commonParams: {
+    page_id: 'new-plugin',
+    page_name: '小程序非智原生页面',
+  },
+  elementTracks: [],
+  methodTracks: [
+    {
+      method: 'enterAddOfficeWechat',
+      module: '服务',
+      page_id: 'pop_365_renew_add_office_wechat',
+      page_name: '365以换代修活动-添加企业微信弹窗',
+    },
+    {
+      method: 'enterRegisterInformation',
+      module: '服务',
+      page_id: 'page_365_renew_register_information',
+      page_name: '365以换代修活动-登记信息页面',
+    },
+    {
+      method: 'clickWechatContact',
+      module: '服务',
+      widget_id: 'click_contact',
+      widget_name: '联系我',
+      page_id: 'pop_365_renew_add_office_wechat',
+      page_name: '365以换代修活动-添加企业微信弹窗',
+    },
+    {
+      method: 'clickWechatClose',
+      module: '服务',
+      widget_id: 'click_close',
+      widget_name: '关闭',
+      page_id: 'pop_365_renew_add_office_wechat',
+      page_name: '365以换代修活动-添加企业微信弹窗',
+    },
+    {
+      method: 'clickWechatBlankClose',
+      module: '服务',
+      widget_id: 'click_blank_space',
+      widget_name: '点击其他空白区域',
+      page_id: 'pop_365_renew_add_office_wechat',
+      page_name: '365以换代修活动-添加企业微信弹窗',
+    },
+    {
+      method: 'clickSumbitInformation',
+      module: '服务',
+      widget_id: 'click_submit',
+      widget_name: '提交',
+      page_id: 'page_365_renew_register_information',
+      page_name: '365以换代修活动-登记信息页面',
+    },
+    {
+      method: 'clickInformationClose',
+      module: '服务',
+      widget_id: 'click_close',
+      widget_name: '关闭',
+      page_id: 'page_365_renew_register_information',
+      page_name: '365以换代修活动-登记信息页面',
+    },
+    {
+      method: 'clickScanCode',
+      module: '服务',
+      widget_id: 'click_scan',
+      widget_name: '扫码',
+      page_id: 'page_365_renew_register_information',
+      page_name: '365以换代修活动-登记信息页面',
+    },
+    {
+      method: 'clickChoosePic',
+      module: '服务',
+      widget_id: 'click_add_pic',
+      widget_name: '添加购买凭证',
+      page_id: 'page_365_renew_register_information',
+      page_name: '365以换代修活动-登记信息页面',
+    },
+    {
+      method: 'clickChooseDate',
+      module: '服务',
+      widget_id: 'click_choose_date',
+      widget_name: '选择购买时间',
+      page_id: 'page_365_renew_register_information',
+      page_name: '365以换代修活动-登记信息页面',
+    },
+    {
+      method: 'clickChooseAddress',
+      module: '服务',
+      widget_id: 'click_choose_address',
+      widget_name: '选择服务地址',
+      page_id: 'page_365_renew_register_information',
+      page_name: '365以换代修活动-登记信息页面',
+    },
+  ],
+}
+
+export default tracks

@@ -1,0 +1,48 @@
+<wxs src="./filter-page.wxs" module="tools" />
+<view class="flex flex_column align_center">
+  <!-- 自定义的导航栏 -->
+  <navbar navBarName="滤芯"></navbar>
+  <view style="width:750rpx;">
+    <midea-notice-bar isShow="{{!!hint}}" type="{{'error'}}" content="{{hint}}"></midea-notice-bar>
+  </view>
+  <view class="flex flex_column justify_center align_center filter-container">
+    <view class="flex filter-layout" wx:if="{{filterList.length}}" style="flex-direction: {{filterList.length < 3 ? 'column' : 'row'}};width: {{filterList.length<3?192:filterList.length<4?576:640}}rpx;height:{{filterList.length<2?192:filterList.length<3?384:filterList.length<4?192:filterList.length<5?184:130}}rpx;border-radius: {{filterList.length<4?96:filterList.length<5?92:65}}rpx;">
+      <view wx:for="{{filterList}}" wx:key="index" class="flex" data-idx="{{index}}" bindtap="changeTab">
+        <van-circle
+          class="circle-layout"
+          style="background-color:{{item.bgColor}};width:{{filterList.length < 5 ? filterList.length < 4 ? 64 : 60 : 40}}px;height:{{filterList.length < 5 ? filterList.length < 4 ? 64 : 60 : 40}}px;"
+          value="{{ item.percentage }}"
+          size="{{filterList.length < 5 ? filterList.length < 4 ? 64 : 60 : 40}}"
+          stroke-width="4"
+          clockwise="{{false}}"
+          lineCap="butt"
+          color="rgba(255,255,255,.6)"
+          layer-color="transparent">
+          <text style="color:{{item.textColor}};font-size: {{item.textSize}}rpx;">{{item.filterName}}</text>
+        </van-circle>
+      </view>
+    </view>
+  </view>
+  <view class="flex justify_between align_center">
+    <view class="flex flex_column justify_between align_center content-detail">
+      <view class="flex content-num">
+        <text class="content-num-val" style="color:{{txtColor}};">{{curPercentage}}</text>
+        <text class="content-num-unit" style="color:{{txtColor}};">%</text>
+      </view>
+      <text class="content-desc">剩余百分比</text>
+    </view>
+    <view class="content-line"></view>
+    <view class="flex flex_column justify_between align_center content-detail">
+      <view class="flex content-num">
+        <text class="content-num-val" style="color:{{txtColor}};font-size:{{rightValue=='已过期'?'48rpx':'64rpx'}}">{{rightValue}}</text>
+        <text class="content-num-unit" style="color:{{txtColor}};">{{rightUnit}}</text>
+      </view>
+      <text class="content-desc">{{rightDesc}}</text>
+    </view>
+  </view>
+  <text class="info">{{curInfo}}</text>
+  <view class="btn-layout">
+    <view class="btn1" bindtap="goBuy">购买{{deviceSetting && (deviceSetting.deviceKind===5 || deviceSetting.deviceKind===6)?'滤菌膜':'滤芯'}}</view>
+    <view wx:if="{{(deviceSetting && deviceSetting.filterRseset) || (deviceStatus.e_version && deviceStatus.e_version == 150)}}" class="btn2" bindtap="resetClick">{{deviceSetting && (deviceSetting.deviceKind===5 || deviceSetting.deviceKind===6)?'滤菌膜':'滤芯'}}复位</view>
+  </view>
+</view>

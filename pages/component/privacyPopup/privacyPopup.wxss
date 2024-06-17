@@ -1,0 +1,14 @@
+.privacy-dialog__bd{
+  padding:40rpx 48rpx 48rpx 48rpx ;
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #666666;
+  font-weight: 400;
+}
+.privacy-dialog__tips{
+  display: inline;
+}
+
+.privacy-dialog__tips_urltitile{
+  color: #FF8225
+}

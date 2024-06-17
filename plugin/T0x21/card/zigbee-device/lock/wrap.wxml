@@ -1,0 +1,107 @@
+<view class="flex-floor center-floor">
+
+  <!-- 主页面 -->
+  <view class="lock-flex" wx:if="{{!showCover}}">
+    <view>
+      <image class="doorLock-img" src="{{icons.doorLock}}"/>
+    </view>
+    <view class="container">
+      <text style="font-size: 24rpx;line-height: 24rpx;color:#8A8A8F;">{{logsArray[0].date}}   {{logsArray[1].desc}}</text>
+      <view style="padding-top:20rpx;">
+        <image bindtap="timerAxis" style="height:44rpx;width:44rpx;" src="{{icons.record_off}}"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 门锁记录详情 -->
+  <view class="lock-cover" wx:if="{{showCover}}">
+    <image bindtap="timerAxis" style="height:66rpx;width:66rpx;" src="{{icons.record_on}}"/>
+    <scroll-view bindscrolltolower="scrolltolower" scroll-y='true' style="height:80%;">
+      
+      <view wx:for="{{logsArray}}" wx:key="{{index}}">
+      <view wx:if="{{item.type == 'logTitle'}}" style="height:20rpx;"></view>
+        <timerAxis wx:if="{{item.type == 'logTitle'}}" isCurent="true" axisTime="{{item.date}}" titleStyle="true"/>
+        <timerAxis wx:elif="{{item.type == 'logFirst'}}" isShowLeftLine="{{logsArray[index+1].type != 'logTitle' && index !== logsArray.length-1}}" axisTime="{{item.desc}}"/>
+        <timerAxis wx:else isShowLeftLine="{{logsArray[index+1].type != 'logTitle' && index !== logsArray.length-1}}" axisTime="{{item.desc}}"/>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部 -->
+  <view class="button-floor button-floor-flex">
+    <view>
+      <view class="button-icons" bindtap="temPassword" >
+        <image class="button-img" src="{{icons.temPassword}}"/>
+      </view>
+      <text class="button-text">临时密码</text>
+    </view>
+  </view>
+
+  <!-- 临时密码弹窗 -->
+  <view class="lock-temPassword" wx:if="{{showTemPassword}}">
+    <view class="lock-temPassword-top">
+      <text class="lock-temPassword-top-text">临时密码</text>
+    </view>
+    <!-- 未生成临时密码页弹窗 -->
+    <view class="lock-temPassword-center" wx:if="{{!haveTemPassword}}">
+      <view>
+        <image style="width:140rpx;height:140rpx;" src="{{icons.temPassword_off}}"></image>
+      </view>
+      <view style="display:flex;flex-direction:column;text-align:center;">
+        <text style="color:#000000;font-size:32rpx;font-weight:300;padding-bottom:6rpx;">未生成临时密码</text>
+        <text>请点击下方“生成临时密码”生成</text>
+      </view>
+      <view style="display:flex;flex-direction:column;text-align:center;">
+        <text style="padding-bottom:6rpx;">1.生成新密码后，原临时密码均失效。</text>
+        <text>2.输入密码前请重新唤醒门锁。</text>
+      </view>
+    </view>
+    <!-- 已生成临时密码页弹窗 -->
+    <view class="temPasswordPage" wx:else>
+      <!-- 倒计时 -->
+      <view style="text-align:center;position:realtive;">
+        <view>
+          <text style="color:#000000;font-size:24rpx;">倒计时</text>
+        </view>
+        <view class="countdown" >
+          <view class="countdown-flex">
+            <view class="temPasswordPage-row"/>
+            <text class="countdown-text">{{minuteNum + ':'}}</text>
+          </view>
+          <view class="countdown-flex">
+            <text class="countdown-text">{{secondNum}}</text>
+            <view class="countdown-width"/>
+          </view>
+        </view>
+      </view>
+      <!-- 密码显示 -->
+      <view style="text-align:center;color:#000000;font-size:60rpx;">
+        <text wx:for="{{contents}}" wx:key="{{index}}" style="border-bottom:6rpx solid #979797;margin-right:40rpx;">{{item}}</text>
+        <text style="border-bottom:6rpx solid #979797;">#</text>
+      </view>
+      <!-- 转发分享 -->
+      <view class="share-flex">
+        <view class="share-flex-top">
+          <button class="share-flex-button" open-type="share" data-gid="{{wrapData.passcode +'#'}}" data-sharetype="{{'zlock'}}">
+            <image class="share-img" src="{{icons.wx_icon}}"/>
+          </button>
+          <text class="share-text">微信</text>
+        </view>
+          <view class="share-flex-bottom">
+            <image class="copy-img" bindtap="copy" src="{{icons.copy_icon}}"/>
+            <text class="share-text">复制</text>
+          </view>
+        </view>
+    </view>
+    <!-- 底部 -->
+    <view class="temPasswordPage-bottom">
+      <view class="temPasswordPage-bottom-border" bindtap="temPasswordOff" >
+        <text style="color:#666666;line-height:78rpx;">取消</text>
+      </view>
+      <view bindtap="temPasswordOn" data-gid="{{contents}}" style="width:50%;height:100%;text-align:center;">
+        <text style="color:#5D75F6;line-height:78rpx;">{{haveTemPassword ? '更换临时密码' : '生成临时密码'}}</text>
+      </view>
+    </view>
+  </view>
+
+</view>

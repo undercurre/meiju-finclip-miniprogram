@@ -1,0 +1,50 @@
+/* change-room/pages/changeRoom/changeRoom.wxss */
+.changeRoomWarp {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.content {
+  background: #fff;
+  margin-top: 32rpx;
+}
+
+.greyBar {
+  width: 100%;
+  height: 32rpx;
+}
+
+.list {
+  width: 100%;
+  height: 112rpx;
+  display: flex;
+  align-items: center;
+  width: 718rpx;
+  margin-left: 32rpx;
+  border-bottom: 1px solid #F2F2F2;
+  justify-content: space-between;
+}
+
+.list:last-child {
+  border-bottom: none;
+}
+
+.roomName {
+  font-family: PingFangSC-Medium;
+  font-size: 28rpx;
+  color: #000000;
+  letter-spacing: -0.78px;
+  font-weight: 500;
+}
+
+.chooseIco {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 32rpx;
+}

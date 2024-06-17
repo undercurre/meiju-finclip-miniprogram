@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "component": true,
+  "usingComponents": {
+    "van-circle": "/common-packages/plugin/component/new-vant/circle/index",
+    "midea-notice-bar": "../component/midea-notice-bar/midea-notice-bar",
+    "navbar": "../component/navbar/navbar"
+  },
+  "componentPlaceholder": {
+    "van-circle": "view"
+  }
+}

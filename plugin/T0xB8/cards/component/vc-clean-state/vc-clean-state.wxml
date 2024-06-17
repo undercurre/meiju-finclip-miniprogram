@@ -1,0 +1,10 @@
+<view class="container">
+    <image class = "imageStyle" src = "{{stateImageUrl}}"></image>
+    <text class = "cleanStateStyle">{{cleanStateText}}</text>
+    <vcBattery class="batteryStyle"
+               propBatteryImg = "{{chargeImgUrl}}"
+               propChargeImg = "{{propChargeImg}}"
+               propIsCharge = "{{isCharge}}"
+               >
+    </vcBattery>
+</view>

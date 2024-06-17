@@ -1,0 +1,23 @@
+<!--plugin/T0xB7/activityWrapper/activity-wrapper.wxml-->
+<view>
+  <view class="active-topper"></view>
+  <view class="active-dialog"></view>
+  <view class="active-dialog {{hide ? 'hide' : ''}}" style="{{activeStyle}}">
+    <view class="active-close" bindtap="clickToClose" wx:if="{{topActivity.iconLink && isShow}}">
+      <van-icon name="close" color="#8a8a8a"></van-icon>
+    </view>
+    <view class="active-dialog-main" data-url="{{topActivity.jumpLink}}" data-title="{{topActivity.title}}" style="background-image:url({{ topActivity.iconLink }});background-size:100% 100%;" bindtap="clickTop" wx:if="{{topActivity.iconLink && isShow}}"></view>
+  </view>
+  <slot></slot>
+  <view class="active-box" wx:if="{{activityList.length > 0}}">
+    <text class="activity-title">会员权益</text>
+    <view class="active-inner">
+      <block wx:for="{{activityList}}" wx:for-item="item" wx:key="index">
+        <view class="active-item" data-url="{{item.jumpLink}}" data-title="{{item.title}}" bindtap="clickToWebView">
+          <view class="active-item-img" style="background-image:url({{ item.iconLink }});background-size:100% 100%;"></view>
+          <view class="active-item-title">{{item.title}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

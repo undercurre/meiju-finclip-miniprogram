@@ -1,0 +1,6 @@
+<van-cell title="{{title}}" label="{{desc}}" value="{{isOn? '开启':'关闭'}}" custom-class="{{cellStyle}}" value-class="cell-value" title-class="cell-title" border="{{border}}" clickable="{{!disabled}}"
+  bind:click="onCellClick" is-link>
+  <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+    <image src="{{images.aiColdWater}}" class="cell-img" />
+  </view>
+</van-cell>

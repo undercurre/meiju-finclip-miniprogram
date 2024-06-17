@@ -1,0 +1,102 @@
+<view class="container">
+  <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+  <cardHeader bindtap="" image="{{icons.header}}" title="{{applianceData.name}}" desc="{{applianceData.roomName}}" />
+  <!-- 内容区域：分为中部和底部两个区域，使用flex布局，底部区域固定在card底部 -->
+  <block wx:if="{{isInit}}">
+    <view class="flex-floor" wx:if="{{applianceData.onlineStatus == 1 && isQueryOffLine != true}}">
+      <!-- 布局占位用，不可删除 -->
+      <view class="blank-floor"></view>
+      <!-- 中部区域 -->
+      <!-- 双向流界面展示 -->
+        <!-- 室内空气情况 -->
+        <view wx:if="{{mode_type}}" class="flex-floor-top" style="padding-bottom:10rpx;">
+          <view style="text-align:center;font-size:180rpx;padding-bottom:10rpx;">
+            <text wx:if="{{status.power == 'on'}}">{{arrayText[status.room_aqi_value] || '--'}}</text>
+            <text wx:else>关机</text>
+          </view>
+          <view style="text-align:center;font-size:32rpx;padding-bottom:10rpx;">
+            <text style="padding-right:30rpx;">温度:{{status.room_temp_value}}℃</text><text>湿度:{{status.humidity_value}}%</text>
+          </view>
+          <view style="text-align:center;font-size:32rpx;">
+            <text style="opacity:0.6;color:{{status.room_aqi_value == '2' ? '#E02020' : ''}}">甲醛:{{status.hcho_value}}mg/m³</text>
+          </view>
+        </view>
+        <!-- 室内pm、co2 -->
+        <view wx:if="{{mode_type}}" class="flex-floor-top" style="padding-bottom:10rpx;">
+          <view style="text-align:center;font-size:32rpx;padding-bottom:30rpx;">
+            <image src="{{icons.indoor}}" style="width:60rpx;height:60rpx;"/>
+            <text style="padding-left:10rpx;opacity:0.6;">室内</text>
+          </view>
+          <view style="display:flex;flex-direction:row;justify-content:center;">
+            <view style="display:flex;flex-direction:column;padding-right:10rpx;">
+              <text style="font-size:40rpx;padding-bottom:10rpx;color:{{status.pm25_value >= 75 ? '#E02020' : '#666666'}}"> {{status.pm25_value}} <text wx:if="{{status.pm25_value >= 75}}">↑</text><text wx:else>↓</text></text>
+              <text style="font-size:28rpx;color:'#666666'">PM2.5ug/m³</text>
+            </view>
+            <view style="display:flex;flex-direction:column;">
+              <text style="font-size:40rpx;padding-bottom:10rpx;color:{{status.co2_value >= 1000 ? '#E02020' : '#666666'}}">{{status.co2_value}} <text wx:if="{{status.co2_value >= 1000}}">↑</text><text wx:else>↓</text></text>
+              <text style="font-size:28rpx;color:'#666666'">CO2 ppm</text>
+            </view>
+          </view>
+        </view>
+      <!-- 单向流界面展示 -->
+        <view wx:if="{{!mode_type}}" class="unidirectional">
+          <view class="unidirectional_top">
+            <text wx:if="{{status.power == 'on'}}">{{unidirectional_flow[unidirectional_index] || '--'}}</text>
+            <text wx:else>关机</text>
+          </view>
+          <view class="unidirectional_bottom">
+            <image style="width:80rpx;height:80rpx;" src="{{status.power === 'on' ? icons.fan.on : icons.fan.off}}"></image>
+            <text style="font-size:40rpx;line-height:80rpx;padding-left:20rpx;">风速</text>
+          </view>
+        </view>
+      <!-- 底部区域 -->
+      <view class="footer-floor">
+        <view class="button-floor button-floor-flex">
+          <!-- 电源开关 -->
+          <view>
+            <view class="button-icons" bindtap="powerToggle" style="background:{{status.power === 'on' ?'#F2F2F2':'#EAEEFE'}};">
+              <image class="button-img" src="{{status.power === 'on' ? icons.switch_power.on.img : icons.switch_power.off.img}}"/>
+            </view>
+            <text wx:if="{{status.power === 'on'}}" class="button-text">{{icons.switch_power.on.desc}}</text>
+            <text wx:else class="button-text">{{icons.switch_power.off.desc}}</text>
+          </view>
+          <!-- 风速 -->
+          <view wx:if="{{mode_type}}" class="section">
+            <picker mode="selector" bindchange="windSpeedChange" disabled="{{status.power=='on'?false:true}}" value="{{status.fan_set}}" range="{{windSpeed}}">
+              <view style="line-height:120rpx;height:120rpx;font-weight:300;width:120rpx;border-radius:50%;background:{{status.power == 'off' ?'#F2F2F2':'#EAEEFE'}}; color:{{status.power == 'off' ? '#C7C7CC':'#4E69F7'}};" >
+                <text style="font-size:32rpx">{{windSpeed[status.fan_set]}}</text>
+              </view>
+              <text style="font-size:12px;color:#000000;opacity:{{status.power == 'off' ? 0.3 : 1}};">风速</text>
+            </picker>
+          </view>
+          <!-- 风速单向流 -->
+          <view wx:if="{{!mode_type}}" class="section">
+            <picker mode="selector" bindchange="unidirectional_flowChange" disabled="{{status.power=='on'?false:true}}" value="{{unidirectional_index}}" range="{{unidirectional_flow}}">
+              <view style="line-height:120rpx;height:120rpx;font-weight:300;width:120rpx;border-radius:50%;background:{{status.power == 'off' ?'#F2F2F2':'#EAEEFE'}}; color:{{status.power == 'off' ? '#C7C7CC':'#4E69F7'}};" >
+                <text style="font-size:32rpx">{{unidirectional_flow[unidirectional_index]}}</text>
+              </view>
+              <text style="font-size:12px;color:#000000;opacity:{{status.power == 'off' ? 0.3 : 1}};">风速</text>
+            </picker>
+          </view>
+          <!-- 节能 -->
+          <view class="section">
+            <view bindtap="ecoRequest" class="button-icons" style="background:{{(status.function_set_energy_save =='on'&& status.power === 'on') ? '#EAEEFE':'#F2F2F2'}};color:{{status.function_set_energy_save == 'on' ? '#5D75F6' : '#000000'}};">
+              <image class="button-img" style="opacity:{{status.power == 'off' ? 0.3 : 1}};" src="{{(status.function_set_energy_save == 'on' && status.power === 'on') ? icons.eco.on : icons.eco.off}}"/>
+            </view>
+            <text class="button-text" style="opacity:{{status.power == 'off' ? 0.3 : 1}};">{{icons.eco.desc}}</text>
+          </view>
+          <!-- 强净 -->
+          <view wx:if="{{mode_type}}">
+            <view bindtap="powerfulClear" class="button-icons" style="background:{{(status.function_set_ultimate ==='on' && status.power === 'on') ? '#EAEEFE':'#F2F2F2'}};color:{{status.function_set_ultimate === 'on' ? '#5D75F6' : '#000000'}};">
+              <image class="button-img" style="opacity:{{status.power == 'off' ? 0.3 : 1}};" src="{{(status.function_set_ultimate ==='on' && status.power === 'on') ? icons.powerfulClear.on : icons.powerfulClear.off}}"/>
+            </view>
+            <text class="button-text" style="opacity:{{status.power == 'off' ? 0.3 : 1}};">{{icons.powerfulClear.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else>
+      <offline></offline>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#FFF",
+  "navigationBarTextStyle": "black",
+  "backgroundColor":"#f9f9f9",
+  "usingComponents": {
+    "van-cell": "/pages/component/vant/cell/index",
+    "c-picker":"/common-packages/plugin/component/picker/picker",
+    "repeat-circle": "../../component/repeat-circle/repeat-circle"
+  },
+  "componentPlaceholder": {
+    "c-picker": "view"
+  }
+}

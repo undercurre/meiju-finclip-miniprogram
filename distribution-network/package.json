@@ -1,0 +1,10 @@
+{
+  "name": "@m-distributionNetwork/all",
+  "version": "1.0.0",
+  "description": "A dependency package for setting up WeChat Mini Program network connection.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

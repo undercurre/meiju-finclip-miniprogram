@@ -1,0 +1,8 @@
+<import src="../templates/template.wxml"></import>
+<wxs src="./index.wxs" module="computed" />
+
+<view style="{{ computed.customContainerStyle(styles) }}">
+  <view wx:for="{{ cardContainerItem.body }}" wx:key="id" wx:for-item="cardItem" wx:for-index="idx">
+    <template is="{{ cardItem.type }}" data="{{cardItem,deviceInfo}}"></template>
+  </view>
+</view>

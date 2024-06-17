@@ -1,0 +1,111 @@
+page {
+  background-color: #f9f9f9;
+}
+.order-main {
+  margin-top: 16rpx;
+  padding: 0 32rpx 32rpx;
+  font-size: 28rpx;
+  color: #000000;
+  background-color: #ffffff;
+}
+.progress-title {
+  padding: 32rpx 0;
+  border-bottom: 2rpx solid #f2f2f2;
+  display: flex;
+  position: relative;
+}
+.progress-title image {
+  display: block;
+  width: 96rpx;
+  height: 96rpx;
+  margin-right: 24rpx;
+}
+.title-img {
+  display: flex;
+  align-items: center;
+}
+.title-text {
+  line-height: 96rpx;
+  display: flex;
+  align-items: center;
+}
+.title-num {
+  color: #666666;
+}
+.title-btn {
+  width: 160rpx;
+  height: 56rpx;
+  font-size: 26rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border: 2rpx solid #c7c7cc;
+  border-radius: 48rpx;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.progress-content {
+  padding-top: 32rpx;
+}
+.progress-item {
+  display: flex;
+}
+.item-left {
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+}
+.item-status {
+  width: 485rpx;
+  font-size: 28rpx;
+  color: #666666;
+  display: flex;
+  align-items: center;
+  line-height: 40rpx;
+  padding: 16rpx 0;
+}
+.item-status.black {
+  color: #000000;
+}
+.item-time {
+  margin-bottom: 8rpx;
+}
+.item-middle {
+  position: relative;
+  width: 16rpx;
+  margin: 0 24rpx 0 26rpx;
+}
+.item-line {
+  width: 0;
+  height: 50%;
+  margin: 0 auto;
+  border-left: 2rpx dotted #e5e5e8;
+}
+.item-line.no-border {
+  border-color: #ffffff;
+}
+.item-dot {
+  margin: 0 auto;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.dot-green {
+  width: 16rpx;
+  height: 16rpx;
+  background-color: #00de51;
+}
+.dot-grey {
+  width: 12rpx;
+  height: 12rpx;
+  background-color: #c8c7cc;
+}
+.item-left-sec {
+  text-align: right;
+}

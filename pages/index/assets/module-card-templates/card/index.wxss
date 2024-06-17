@@ -1,0 +1,13 @@
+.card-container{
+  position: relative;
+  box-sizing: border-box;
+  width: 336rpx;
+  height: 220rpx;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 24rpx;
+  margin-bottom: 20rpx;
+  background: #ffffff;
+  /* background-color: #131111; */
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+}

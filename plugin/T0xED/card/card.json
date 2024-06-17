@@ -1,0 +1,26 @@
+{
+    "navigationStyle": "custom",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#F9F9F9",
+    "navigationBarTextStyle": "black",
+    "usingComponents": {
+      "filter-status": "../component/filter-status/filter-status",
+      "banner-panel": "../component/banner-panel/banneer-panel",
+      "germicidal-tips": "../component/germicidal-tips/germicidal-tips",
+      "wash-tea": "../component/wash-tea/wash-tea",
+      "quantify-set": "../component/quantify-set/quantify-set",
+      "temp-set": "../component/temp-set/temp-set",
+      "keep-warm": "../component/keep-warm/keep-warm",
+      "keep-warm-time": "../component/keep-warm-time/keep-warm-time",
+      "heat": "../component/heat/heat",
+      "bubble": "../component/bubble/bubble",
+      "wash": "../component/wash/wash",
+      "cloud-wash": "../component/cloud-wash/cloud-wash",
+      "germicidal": "../component/germicidal/germicidal",
+      "lock": "../component/lock/lock",
+      "activity-wrapper": "/common-packages/plugin/component/activityWrapper/activity-wrapper"
+    },
+    "componentPlaceholder": {
+      "activity-wrapper": "view"
+    }
+  }

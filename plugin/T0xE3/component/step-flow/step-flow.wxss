@@ -1,0 +1,72 @@
+.step-body {
+  margin-top: -52rpx;
+  margin-left: 32rpx;
+  flex-direction: column;
+  justify-content: center;
+}
+.step-row {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+}
+.step-flow {
+  position: relative;
+  width: 48rpx;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 18rpx;
+}
+.step-point {
+  width: 12rpx;
+  height: 12rpx;
+  margin-top: 6rpx;
+  background-color: #c7c7cc;
+  border-radius: 24rpx;
+}
+.step-line {
+  position: absolute;
+  top: 0rpx;
+  bottom: 0rpx;
+  left: 6rpx;
+  width: 2rpx;
+  border-left-color: #e5e5e8;
+  border-left-width: 2rpx;
+  border-left-style: solid;
+}
+.step-time {
+  width: 140rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8a8a8f;
+  padding-right: 18rpx;
+}
+.step-time-default{
+   width: 240rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8a8a8f;
+  padding-right: 18rpx;
+}
+.step-desc {
+  width: 500rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8a8a8f;
+}
+.step-desc-default{
+  width: 400rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8a8a8f;
+}
+.step-desc-single {
+  width: 640rpx;
+}
+.active-step-desc {
+  color: #000000;
+}

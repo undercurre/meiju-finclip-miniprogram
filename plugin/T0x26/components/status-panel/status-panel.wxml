@@ -1,0 +1,21 @@
+<view class="panel-block block-center" style="height: {{isOff ? '714' : '600'}}rpx;">
+    <view class="block-no-conn block-center">
+        <text class="text-no-conn" wx:if="{{!isBluetoothConnected}}">已WiFi连接</text>
+    </view>
+
+    <view class="off-bolck block-center" wx:if="{{(!isOffLine || isBluetoothConnected) && isOff && !isMainLightEnable && !isNightLightEnable}}">
+        <text class="text-off">已关机</text>
+    </view>
+
+    <view class="blue-tip-block block-center" wx:if="{{isBluetoothConnected}}">
+        <text class="text-blue">已连接手机蓝牙</text>
+    </view>
+
+    <view class="mode-block block-center" wx:if="{{(!isOffLine || isBluetoothConnected) && (!isOff || isMainLightEnable || isNightLightEnable)}}">
+        <image class="img-mode-bg" src="{{curModeBG}}"></image>
+        <text class="title-text">当前模式</text>
+        <text class="mode-text">{{curModeText}}</text>
+        <text class="sub-status-text">{{curSubStatusText}}</text>
+        <text class="deHum-text" wx:if="{{isDeHumidityOn}}">自动除湿中，倒计时{{curDehumidityTime}}分钟</text>
+    </view>
+</view>

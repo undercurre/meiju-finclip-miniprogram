@@ -1,0 +1,98 @@
+/* midea-service/pages/components/view-address-dialog/view-address-dialog.wxss */
+
+.overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  /* background-color: saddlebrown; */
+  background-color: transparent;
+}
+.bottom-popup {
+  position: fixed;
+  bottom: -624rpx;
+  left: 0;
+  width: 100%;
+  height: 624rpx;
+  background-color: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  overflow: hidden;
+  z-index: 1001;
+}
+.popop-header {
+  background-color: #ffffff;
+  width: 100%;
+  height: 104rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid #f2f2f2;
+  position: relative;
+}
+.popop-header .header-text {
+  /* padding-left: 32rpx; */
+  margin-left: 32rpx;
+  font-size: 28rpx;
+  color: #000000;
+  padding-bottom: 16rpx;
+  border-bottom: solid 4rpx #000000;
+}
+.selectArea {
+  width: calc(100vw - 70rpx);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.textShow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.header-text:last-child {
+  color: #000;
+}
+.popop-header .header-text.header-text-grey {
+  border-bottom: 4rpx solid #fff;
+  color: #8a8a8f;
+}
+.popop-header .right-cha {
+  position: absolute;
+  right: 32rpx;
+  top: 36rpx;
+  width: 32rpx;
+  height: 32rpx;
+}
+.right-cha{
+  width: 40rpx;
+  height: 40rpx;
+}
+.right-cha-click {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  bottom: -10rpx;
+  left: -10rpx;
+}
+.scroll-text {
+  margin: 0 32rpx;
+  height: 104rpx;
+  border-bottom: 1px solid #f2f2f2;
+  box-sizing: border-box;
+  font-size: 32rpx;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.loading {
+  position: absolute;
+  width: 48rpx;
+  height: 48rpx;
+  left: 50%;
+  top: 50%;
+  margin-left: -24rpx;
+  margin-top: -24rpx;
+  z-index: 999999;
+}

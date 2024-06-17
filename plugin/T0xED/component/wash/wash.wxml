@@ -1,0 +1,8 @@
+<bottom-btn
+  bindbtnClicked="onSwitchChange"
+  checked="{{wash}}"
+  disabled="{{washDisable}}"
+  title="{{title}}"
+  onIcon="{{images.wash}}"
+  offIcon="{{images.washOff}}">
+</bottom-btn>

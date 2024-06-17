@@ -1,0 +1,15 @@
+<view
+  class="container {{disabled ? 'container-disabled' : ''}}"
+  bindtap="buttonTap"
+  bindtouchstart="touchStart"
+  bindtouchend="touchEnd"
+>
+  <view>
+    <image class="main-img" src="{{buttonData.mainImg}}" style="width:{{mainImgSize}}; height: {{mainImgSize}}"></image>
+    <image wx:if="buttonData.triangleImg !== ''" class="triangle" src="{{buttonData.triangleImg}}"></image>
+    <view class="desc" style="font-size:{{buttonData.descStyle.fontSize}}; color:{{buttonData.descStyle.color}}"
+      >{{buttonData.desc}}
+    </view>
+  </view>
+  <view wx:if="{{showCover}}" class="cover" style="width:{{mainImgSize}}; height: {{mainImgSize}}"></view>
+</view>

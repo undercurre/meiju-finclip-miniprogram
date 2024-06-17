@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "cardHeader": "/pages/component/card-header/card-header"
+  }
+}

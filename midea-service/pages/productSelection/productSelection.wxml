@@ -1,0 +1,121 @@
+<wxs src="../../assets/js/orderList.wxs" module="cd"></wxs>
+<view class="product-select">
+  <view class="select-input" bindtap="goSearch" wx:if="{{ isShowSearchFlag }}">
+    <view class="input-sec">
+      <view class="input-icon" style="background-image:url({{ spritePicture }});"></view>
+      <text class="input-text">请输入产品品类，如空调、洗衣机</text>
+    </view>
+  </view>
+  <view class="main-content">
+    <view class="left-list">
+      <scroll-view scroll-y="{{true}}" style="height: {{ scrollHeight }}px">
+        <view style="padding-bottom: {{ bottomPadding }}rpx">
+          <view
+            class="left-item {{ currentIndex == index ? 'active-tag' : '' }}"
+            wx:for="{{ brandList }}"
+            wx:for-item="item"
+            wx:for-index="index"
+            wx:key="index"
+            data-index="{{ index }}"
+            bindtap="itemClicked"
+          >
+            <text>{{item.brandName}}</text>
+            <view class="active-line" wx:if="{{ currentIndex == index }}"></view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="right-list">
+      <scroll-view
+        style="height: {{ scrollHeight }}px"
+        scroll-into-view="{{ targetId }}"
+        scroll-y="{{true}}"
+        scroll-with-animation="{{true}}"
+      >
+        <view style="padding-bottom: {{ bottomPadding }}rpx">
+          <view
+            class="right-item"
+            wx:for="{{ productTypeDTOList }}"
+            wx:for-item="item"
+            wx:for-index="index"
+            wx:key="index"
+          >
+            <view class="item-prod">
+              <view class="prod-name">{{ item.userTypeName }}</view>
+              <view class="prod-list">
+                <view
+                  id="prod-item-{{ prodItem.prodCode }}"
+                  class="prod-item prod-item-{{ prodItem.prodCode }}"
+                  wx:for="{{ item.children }}"
+                  wx:for-item="prodItem"
+                  wx:for-index="prodIndex"
+                  wx:key="index"
+                  data-listindex="{{ index }}"
+                  data-index="{{ prodIndex }}"
+                  data-brandName="{{ prodItem.brandName }}"
+                  data-brandcode="{{ prodItem.brandCode }}"
+                  data-prodcode="{{ prodItem.prodCode }} "
+                  bindtap="prodClicked"
+                >
+                  <image src="{{ prodItem.imagePath }}" mode="aspectFit"></image>
+                  <text>{{ prodItem.prodName }}</text>
+                  <view
+                    class="icon-add icon-right-top"
+                    style="background-image:url({{ spritePicture }});"
+                    wx:if="{{ fromPage == 'install'}}"
+                  ></view>
+                  <view
+                    class="icon-had-selected icon-right-top"
+                    style="background-image:url({{ spritePicture }});"
+                    wx:if="{{cd.fCode(fromPage,prodItem,selectedProdCode,brandList,currentIndex,selectedBrandCode)}}"
+                  ></view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 维修时-选择自己设备 -->
+        <view wx:if="{{ fromPage == 'maintenance' && currentIndex == 0 }}" class="own-tips"
+          >-请通过品牌选择更多产品-</view
+        >
+      </scroll-view>
+    </view>
+  </view>
+  <!-- 安装页面才展示多项选择 -->
+  <view
+    class="select-section {{ isIphoneX ? 'iphonex-size' : ''}}"
+    wx:if="{{ isMultiMode }}"
+    style="padding-top: {{ selectedList.length ? '0' : '24' }}rpx"
+  >
+    <view class="select-main">
+      <block>
+        <view class="select-tip" wx:if="{{ !selectedList.length }}">选择需安装的产品</view>
+        <view class="select-list" data-productList="{{productList}}" data-myProductList="{{myProductList}}">
+          <view
+            class="select-item"
+            wx:for="{{ selectedList }}"
+            wx:for-item="item"
+            wx:for-index="index"
+            wx:key="index"
+            data-id="{{ item.prodCode }}"
+            bindtap="delSelected"
+          >
+            <view>{{ item.prodName }}</view>
+            <view class="icon-del" style="background-image:url({{ spritePicture }})"></view>
+          </view>
+        </view>
+      </block>
+      <view class="select-btn {{ selectedList.length ? 'had-selected' : 'not-selected' }}" bindtap="submitProduct">
+        <view class="btn-text">完成</view>
+        <view class="btn-num" wx:if="{{ selectedList.length }}">{{ selectedList.length }}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<sure-center-dialog
+  isShowSureDialog="{{ isSureDialog }}"
+  bind:makeSure="makeSure"
+  title="{{ dialogMixinsTitle }}"
+  content="{{ dialogMixinsContent }}"
+  dialogMixinsBtns="{{ dialogMixinsBtns }}"
+></sure-center-dialog>

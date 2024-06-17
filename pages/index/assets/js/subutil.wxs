@@ -1,0 +1,111 @@
+var sub = function (val) {
+  if (val.length == 0 || val == undefined) {
+    return
+  }
+  if (val.length > 15) {
+    return val.substring(0, 15) + '...'
+  } else {
+    return val
+  }
+}
+
+var formatText = function (val, len) {
+  if (val.length == 0 || val == undefined) {
+    return
+  }
+  if (val.length > len) {
+    return val.substring(0, len) + '...'
+  } else {
+    return val
+  }
+}
+
+//格式化展示名称 一行最多十个字 超出...展示
+var formatString = function (deviceName, room, index) {
+  if (!deviceName) return index == 0 ? deviceName : room
+  if (!room) return index == 0 ? deviceName : room
+  var nameLen = deviceName.length
+  var roomLen = room.length
+  if (nameLen + roomLen <= 10) return index == 0 ? deviceName : room
+  if (nameLen > 7 && roomLen > 3) {
+    deviceName = deviceName.substring(0, 6) + '...'
+    room = room.substring(0, 2) + '...'
+  } else if (nameLen > 7) {
+    deviceName = deviceName.substring(0, 6 + 3 - roomLen) + '...'
+  } else if (roomLen > 3) {
+    room = room.substring(0, 2) + '...'
+  }
+  return index == 0 ? deviceName : room
+}
+
+// 修改eslint超长部分
+var filterHomePickerOptionsWrapper = function (bindex, currentHomeGroupIndex) {
+  return bindex === currentHomeGroupIndex
+    ? 'home-picker-options-wrapper-active home-picker-options-wrapper'
+    : 'home-picker-options-wrapper'
+}
+
+var filterDeviceCardClass = function (supportEditIndex, index, showEditListPop) {
+  return supportEditIndex === index && showEditListPop ? 'device-card deviceCardChooseShadow' : 'device-card'
+}
+var filterHoverClass = function (showHover, device) {
+  return showHover
+    ? device.onlineStatus == '1' || device.bindType == 1 || device.bindType == 3
+      ? 'btn-hover'
+      : 'btn-grey-hover'
+    : 'none'
+}
+
+var filterOpacity = function (device) {
+  return device.onlineStatus == '1' ||
+    device.bindType == 1 ||
+    device.bindType == 3 ||
+    device.cardType == 'bluetooth' ||
+    device.cardType == 'localBlue'
+    ? '1'
+    : '0.3'
+}
+var filterDeviceImgOpacity = function (device) {
+  var lackImg = device.deviceImg.indexOf('img_lack') >= 0
+  if (device.deviceImg && !lackImg) {
+    return device.onlineStatus == '1' || device.bindType == 1 || device.bindType == 3 || device.cardType == 'bluetooth'
+      ? '1'
+      : '0.3'
+  } else {
+    return '1'
+  }
+}
+
+var UnDevice = function (unsupportEditIndex, index, showEditListPop) {
+  var bClass = ' bought-device0-' + index
+  var shadowName = unsupportEditIndex === index && showEditListPop ? 'deviceCardChooseShadow' : ''
+  return shadowName + ' device-card ' + bClass
+}
+
+var device = function (supportEditIndex, index, showEditListPop) {
+  var deviceName = supportEditIndex === index && showEditListPop ? 'device-card deviceCardChooseShadow' : 'device-card'
+  return deviceName
+}
+
+var background = function (device) {
+  return device.onlineStatus == '1' || device.bindType == 1 || device.bindType == 3 ? '#267AFF' : '#333333'
+}
+
+var getMaxWidth = function (device) {
+  return device.showBluetoothIcon ? '234rpx' : '284rpx'
+}
+
+module.exports = {
+  sub: sub,
+  formatText: formatText,
+  formatString: formatString,
+  filterHomePickerOptionsWrapper: filterHomePickerOptionsWrapper,
+  filterDeviceCardClass: filterDeviceCardClass,
+  filterHoverClass: filterHoverClass,
+  filterOpacity: filterOpacity,
+  UnDevice: UnDevice,
+  device: device,
+  background: background,
+  filterDeviceImgOpacity: filterDeviceImgOpacity,
+  getMaxWidth: getMaxWidth,
+}

@@ -1,0 +1,7 @@
+<view>
+  <view class="fail-home">
+    <image class="img-no-home" src="{{ imgNoHome }}" />
+    <view class="fail-text">家庭信息加载失败</view>
+    <view class="fail-btn" catchtap="initHomeInfo">重新加载</view>
+  </view>
+</view>

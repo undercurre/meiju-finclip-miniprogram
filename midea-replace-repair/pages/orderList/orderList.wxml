@@ -1,0 +1,49 @@
+<!--midea-replace-repair/pages/orderList/orderList.wxml-->
+<view class="conrainer-wrap">
+  <view wx:if="{{orderList&&orderList.length>0}}">
+    <!-- <view wx:for="i in 5" class="order-item"  bindtap="selcetOrder" > -->
+    <view
+      wx:for="{{orderList}}"
+      wx:key="*this"
+      wx:for-item="item"
+      class="order-item"
+      data-item="{{item}}"
+      bindtap="selcetOrder"
+    >
+      <view class="item-herder">
+        <image class="shop-icon" src="assets/img/ic_midea@2x.png"></image>
+        <view>{{item.shopName}}</view>
+        <view class="order-status">{{item.orderStatusName}}</view>
+      </view>
+      <view class="item-content">
+        <view class="product-img-wrap">
+          <image class="product-img" src="{{item.orderItems[0].productImgUrl}}"></image>
+        </view>
+        <view class="product-describe">
+          {{item.orderItems[0].cssProductSubtype?item.orderItems[0].cssProductSubtype:''}}
+          <text decode="{{true}}">&ensp;</text>{{item.orderItems[0].productType?item.orderItems[0].productType:''}}
+        </view>
+        <view class="single-price">￥{{item.orderItems[0].itemPrice}}</view>
+      </view>
+      <view class="item-bottom">
+        <view>购买时间：{{item.outerCreateTime}}</view>
+        <view>共 {{item.orderItems.length}} 件 合计：￥<text class="emphasizeText">{{item.totalAmount}}</text></view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{noOrder}}" class="no-order">
+    <image class="no-order-img" src="assets/img/no_order@2x.png"></image>
+    <view class="no-order-describe">暂无订单</view>
+  </view>
+</view>
+
+<!-- 居中知道了弹框 -->
+<centerDialog
+  id="popup"
+  title="温馨提示"
+  content="365天换新机权益仅针对在2021年1月1日以后购买的设备，此设备购买时间不符合要求"
+  btnz_only="我知道了"
+  bind:success="makeSure"
+  isShowDialog="{{isShowDialog}}"
+>
+</centerDialog>

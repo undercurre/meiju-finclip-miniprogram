@@ -1,0 +1,34 @@
+.intro {
+  margin: 30px;
+  text-align: center;
+}
+
+.pv {
+  height: 264rpx;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: center; */
+}
+
+.pvc {
+}
+
+.pvc-item {
+  /* text-align: center;
+  line-height: 88rpx; */
+  height: 88rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.unit {
+  position: absolute;
+  left: 385rpx;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  height: 28rpx;
+  top: 20rpx;
+}

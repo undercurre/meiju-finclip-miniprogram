@@ -1,0 +1,70 @@
+<view class="product-search">
+  <view style="margin-top:{{ statusBarHeight + 40 }}px">
+    <search-navbar bind:actionGoBack="actionGoBack"></search-navbar>
+    <view class="search-input">
+      <view class="input-sec">
+        <view class="input-icon" style="background-image:url({{spritePicture}})"></view>
+        <input
+          class="input-text"
+          type="text"
+          auto-focus
+          placeholder="请输入产品品类，如空调、洗衣机"
+          value="{{ searchKeyWord }}"
+          placeholder-style="color:#8a8a8f;font-size:28rpx;"
+          maxlength="20"
+          bindinput="actionInput"
+          bindblur="actionBlur"
+        />
+        <view class="del-icon-box" wx:if="{{ searchKeyWord }}" catchtap="delKeyWord">
+          <view class="del-icon" style="background-image:url({{spritePicture}})"></view>
+        </view>
+      </view>
+    </view>
+    <block>
+      <block wx:if="{{ convertedProductList.length }}">
+        <view class="search-list">
+          <scroll-view scroll-y="{{true}}" style="height: {{ scrollHeight }}px">
+            <view class="search-section" style="padding-bottom: {{ isIphoneX ? '60' : '0' }}rpx">
+              <view
+                class="search-item"
+                wx:for="{{ convertedProductList }}"
+                wx:for-item="item"
+                wx:for-index="index"
+                wx:key="index"
+                data-item="{{ item }}"
+                bindtap="prodClicked"
+              >
+                <rich-text nodes="{{ item.richHtml }}"></rich-text>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="search-record" wx:if="{{ historyList.length }}">
+          <view class="record-title">
+            <text style="font-weight: bold">历史记录</text>
+            <view class="icon-del" style="background-image:url({{spritePicture}})" bindtap="delHistory"></view>
+          </view>
+          <view class="record-list">
+            <view
+              class="record-item"
+              wx:for="{{ historyList }}"
+              wx:for-item="item"
+              wx:for-index="index"
+              wx:key="index"
+              data-item="{{ item }}"
+              bindtap="recordClicked"
+              >{{ item }}</view
+            >
+          </view>
+        </view>
+        <view class="search-result" wx:if="{{ searchKeyWord != '' }}">
+          <image src="{{ notFoundImg }}"></image>
+          <view>抱歉</view>
+          <view class="result-text">没有找到“{{ searchKeyWord }}”相关的产品</view>
+        </view>
+      </block>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,29 @@
+<!-- <view class="container" wx:if="{{show}}">
+    <text class = "areaTitleStyle">{{cleanAreaTitle}}</text>
+    <text class = "areaValStyle">{{areaVal + areaUnit}}</text>
+    <view class = "segStyle"></view>
+    <text class = "cleanTitleStyle">{{cleanTimeTitle}}</text>
+    <text class= "cleanValStyle">{{timeVal + timeUnit}}</text>
+</view>
+<view class="last-clean-container" wx:else>
+    <image class = "ic-last-clean" src = "{{stateImageUrl}}"></image>
+    <text class = "last-clean-title">{{lastCleanTitle}}</text>
+    <view class="last-clean-info">
+        <text class = "areaValStyle">{{areaVal + areaUnit}}</text>
+        <view class = "segStyle"></view>
+        <text class= "cleanValStyle">{{timeVal + timeUnit}}</text>
+    </view>
+    <image class = "ic-last-clean-close" src = "{{stateImageUrl}}"></image>
+</view> -->
+<view class="container {{showCleanInfo}}">
+    <text class="last-clean-title">{{lastCleanTitle}}</text>
+    <view class="last-clean-info">
+        <text class="cleanValStyle">{{timeVal}}</text>
+         <text class="time-unit">{{timeUnit}}</text>
+        <view class="segStyle"></view>
+        <text class="areaValStyle">{{areaVal}}</text>
+        <text class="area-unit">{{areaUnit}}</text>
+    </view>
+
+    <image wx:if="{{showClose}}"  class = "close-clean-info" src = "{{closeCleanUrl}}" bindtap="closeCleanInfo"></image>
+</view>

@@ -1,0 +1,37 @@
+<!--midea-service/pages/faultDescription/faultDescription.wxml-->
+<view class="container-box">
+  <view wx:if="{{list&&list.length>0}}">
+    <text class="remind-text">建议依次排查</text>
+    <view class="default-box">
+      <block wx:for="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view class="row-item-wrap">
+          <view class="item-list" bindtap="isShowPanel" data-item="{{item}}" data-index="{{index}}">
+            <view class="item-content">{{item.faultServiceDesc}}</view>
+            <image wx:if="{{item.showPanel}}" class="arrow-top" src="./assets/img/ic_more_right.png"></image>
+            <image wx:else class="arrow-bottom" src="./assets/img/ic_more_right.png"></image>
+          </view>
+        </view>
+        <view wx:if="{{item.showPanel}}" class="reson-panel">
+          <text class="title">解决方案描述：</text>
+          <view class="decribe">{{item.faultSolutionDesc}}</view>
+          <view
+            class="item-link-row"
+            wx:if="{{item.guidelineLink}}"
+            data-link="{{item.guidelineLink}}"
+            bindtap="openFaultGuide"
+          >
+            <text class="item-link">点此查看【故障排查指引】> </text>
+            <!-- <image class="item-link-icon" src="./assets/img/service_ic_next@3x.png" resize="contain"></image> -->
+          </view>
+          <view class="line"></view>
+          <text class="title">故障原因：</text>
+          <view class="decribe">{{item.faultReason}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view wx:else class="no-data-container">
+    <image class="no-data-icon" src="./assets/img/img_no_location@1x.png"></image>
+    <text class="no-data-text">这里什么都没有喔</text>
+  </view>
+</view>

@@ -1,0 +1,114 @@
+<!-- <import src="../../templates/template.wxml"></import> -->
+<wxs src="../../common.wxs" module="c1"></wxs>
+<view
+  class="common-container bg-normal"
+  style="height:{{ props.height }}rpx;background-image:url({{ currentBgSetting.url }});"
+>
+  <view class="common-main" wx:for="{{ props.basicList }}" wx:key="id" wx:for-item="basicItem">
+    <!-- 通用组件：custom : 0
+    target:   0、无交互；1、关闭；2、活动内页面；3、分享；4、美的美居；5、链接；6、定制功能；7、弹窗 -->
+    <!-- <template is="hotzone" data="{{ basicItem }}"></template> -->
+    <view wx:if="{{ basicItem.custom == '0' }}">
+      <hotzone
+        props="{{ basicItem }}"
+        selectContainer="{{ props }}"
+        commonData="{{ commonData }}"
+        options="{{ options }}"
+        bind:actionHotzoneDialog="actionHotzoneDialog"
+        bind:actionHotzoneCustom="actionHotzoneCustom"
+        bind:actionLaunchAppError="actionLaunchAppError"
+        bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+        bind:actionGetHotzonePhonenumber="actionGetHotzonePhonenumber"
+        isLogon="{{ isLogon }}"
+      ></hotzone>
+    </view>
+    <view wx:else>
+      <view wx:if="{{ !isLogon }}">
+        <button
+          hover-class="none"
+          data-item="{{ basicItem }}"
+          bindtap="actionGetphonenumber"
+          class="common-target button-common bg-normal"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+      </view>
+      <!-- custom 1 免费领取 -->
+      <view wx:elif="{{ basicItem.custom == 1&&props.data.freeToReceiveInfo.receiveStatus==0}}">
+        <!-- 校验步骤是APP版本（在APP内）--登录--是否领取周期--活动是否结束--是否在可领取周期内--是否需前往美居（美居外）--黑名单--库存 -->
+        <!-- 活动未开始或已结束 -->
+        <button
+          hover-class="none"
+          wx:if="{{ commonData.isActNormal == false }}"
+          bindtap="actionActStatus"
+          data-status="isActNormal"
+          class="common-target button-common bg-normal"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+        <!-- 领取周期未到 -->
+        <button
+          hover-class="none"
+          wx:elif="{{c1.isFreeActivityStatusTrue(props)}}"
+          class="common-target button-common bg-normal"
+          data-item="{{ basicItem }}"
+          data-selectcontainer="{{ props }}"
+          bindtap="actionContainer"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+        <!-- 用户是否符合参与活动条件 -->
+        <button
+          hover-class="none"
+          wx:elif="{{ commonData.isStatusUser == false }}"
+          bindtap="actionActStatus"
+          data-status="isStatusUser"
+          class="common-target button-common bg-normal"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+        <!-- 设置了参与渠道为跳转app -->
+        <button
+          hover-class="none"
+          data-item="{{ basicItem }}"
+          data-loadtype="{{ selectGameRule.min }}"
+          bindtap="actionLaunchApp"
+          class="common-target button-common bg-normal"
+          wx:elif="{{ selectGameRule.needLoad}}"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+        <!-- 黑名单校验 -->
+        <button
+          hover-class="none"
+          wx:elif="{{ commonData.isBlackUser == true}}"
+          bindtap="actionActStatus"
+          data-status="isBlackUser"
+          class="common-target button-common bg-normal"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+        <!-- 注销校验 -->
+        <button
+          hover-class="none"
+          wx:elif="{{ commonData.isLogoutUser == true}}"
+          bindtap="actionActStatus"
+          data-status="isLogoutUser"
+          class="common-target button-common bg-normal"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+        <button
+          hover-class="none"
+          wx:else
+          data-item="{{ basicItem }}"
+          data-selectcontainer="{{ props }}"
+          class="common-target button-common bg-normal"
+          bindtap="actionContainer"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+      </view>
+      <!-- props.data.freeToReceiveInfo.receiveStatus：1 已领取 -->
+      <view wx:elif="{{basicItem.custom==2&&props.data.freeToReceiveInfo.receiveStatus==1}}">
+        <button
+          hover-class="none"
+          class="common-target button-common bg-normal"
+          style="{{c1.getBIStyle(basicItem)}}"
+        ></button>
+      </view>
+    </view>
+  </view>
+</view>

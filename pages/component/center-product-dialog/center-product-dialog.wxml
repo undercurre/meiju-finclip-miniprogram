@@ -1,0 +1,41 @@
+<view class="active-dialog" wx:if="{{ isProduct }}">
+  <view class="active-mask"></view>
+  <view class="active-main">
+    <view class="inner-box">
+      <view class="padding-b" bindtap="confirmPopup">
+        <text class="left_text">附近有可添加的设备</text>
+        <image src="./assets/pop_ic_close@1x.png" class="right-chacha"></image>
+      </view>
+      <view class="animimate-box">
+        <view class="content-device {{productList.length < 3 ? 'content-device-center':'content-device-left'}}">
+          <view
+            class="content-device-item"
+            wx:for="{{productList}}"
+            wx:key="index"
+            wx:for-item="item"
+            bindtap="goNetwork"
+            data-item="{{ item }}"
+          >
+            <view class="device-item-img">
+              <image
+                src="{{item.deviceImg?item.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
+                class="device-img"
+                mode="widthFix"
+                binderror="bindInerror"
+                data-index="{{index}}"
+              ></image>
+              <view class="add-describe float-shadow" wx:if="{{ !(item.isSupport)}}">
+                <view>暂不支持添加</view>
+              </view>
+            </view>
+            <view class="p-name">{{item.deviceName}}</view>
+            <!-- <view class="p-name">{{item.RSSI}}</view> -->
+            <view style="opacity: {{item.isSameSn8Nearest?1:0}};" class="same-sn8-nearest">
+              <text class="same-sn8-nearest-text">同品类距离最近</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,50 @@
+<view
+  class="dialog-mask"
+  wx:if="{{ isShowDialog1 }}"
+  bindtap="actionDialogClose"
+  capture-catch:touchmove="preventdefault"
+></view>
+<view
+  class="dialog-container"
+  wx:if="{{ isShowDialog1 }}"
+  animation="{{animationData}}"
+  capture-catch:touchmove="preventdefault"
+>
+  <view class="dialog-main">
+    <view class="dialog-title">请确认收货地址</view>
+    <view class="dialog-sec">
+      <view class="send-item">
+        <view class="send-title">收货人</view>
+        <view class="send-desc">{{ userName }}</view>
+      </view>
+      <view class="send-item">
+        <view class="send-title">手机号码</view>
+        <view class="send-desc">{{ userMobile }}</view>
+      </view>
+      <view class="send-item">
+        <view class="send-title">详细地址</view>
+        <view class="send-desc">{{ userAddress }}</view>
+      </view>
+      <block wx:if="{{ !props.waybillNumber}}">
+        <view class="send-item">
+          <view class="send-title">发货状态</view>
+          <view class="send-desc text-orange">待发货</view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="send-item">
+          <view class="send-title">物流单号</view>
+          <view class="send-desc text-orange text-waybillNumber">{{ props.waybillNumber }}</view>
+          <view class="text-copy" bindtap="actionBtnCopy">复制</view>
+        </view>
+        <view class="send-item">
+          <view class="send-title">物流公司</view>
+          <view class="send-desc">{{ props.logistics }}</view>
+        </view>
+      </block>
+    </view>
+    <view class="dialog-btn">
+      <view class="dialog-btn-item" bindtap="actionDialogClose">知道了</view>
+    </view>
+  </view>
+</view>

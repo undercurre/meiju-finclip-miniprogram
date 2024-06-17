@@ -1,0 +1,18 @@
+<view>
+  <view style="padding-bottom: 200rpx;">
+    <van-swipe-cell wx:for="{{orderListShow}}" wx:key="index" right-width="{{ 80 }}" bind:open="onOpen">
+      <van-cell title="{{item.title}}" label="{{item.desc}}" custom-class="cell" title-class="cell-title" data-item="{{item}}"
+        is-link="{{!isSwitch}}" border="{{index+1!==orderListShow.length}}" bind:click="onCellClick">
+        <van-switch wx:if="{{isSwitch}}" checked="{{!!item.status}}" slot="right-icon" active-color="{{iconColor}}"
+          data-item="{{item}}" catchtap="onSwitchChange" size="40rpx" />
+      </van-cell>
+      <view wx:if="{{showDelete}}" slot="right" class="delete-btn flex align_center justify_center" data-item="{{item}}"
+        bindtap="deleteAppoint">
+        <text class="delete-btn-text">删除</text>
+      </view>
+    </van-swipe-cell>
+  </view>
+  <view class="add-button" style="padding-bottom:{{isIphoneX?'30rpx':'0'}}">
+    <text class="add-text" catchtap="addAppoint">添加预约</text>
+  </view>
+</view>

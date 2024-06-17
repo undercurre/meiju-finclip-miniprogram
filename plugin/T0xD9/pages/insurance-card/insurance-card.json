@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "延保服务",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "insurance-list": "/plugin/T0xD9/component/insurance-list/insurance-list"
+  }
+}

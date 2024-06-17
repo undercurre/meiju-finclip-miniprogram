@@ -1,0 +1,18 @@
+<view class="cell-block block-center" wx:if="{{!isOffLine || isBluetoothConnected}}">
+    <view class="item-block">
+        <text class="item-title">照明</text>
+        <switch class="item-switch" 
+                bind:dofSwitchChanged="onMainLightClick" 
+                checked="{{isMainLightEnable}}" 
+                colorOn="{{curThemeColor}}">
+        </switch>
+    </view>
+    <view class="item-block">
+        <text class="item-title">夜灯</text>
+        <switch class="item-switch" 
+                bind:dofSwitchChanged="onNightLightClick" 
+                checked="{{isNightLightEnable}}" 
+                colorOn="{{curThemeColor}}">
+        </switch>
+    </view>
+</view>

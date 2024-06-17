@@ -1,0 +1,8 @@
+<view class="tip-block" wx:if="{{!isUserClose && isInited && isUseBlueConnect && bindType == 3}}">
+    <image class="icon-notice" src="{{iconNotice}}"></image>
+    <text class="text-tip">为设备连接WiFi，即可远程控制。</text>
+    <view class="btn-conn" bindtap="onConnectClick">
+        <text class="text-conn">连接WiFi</text>
+    </view>
+    <image class="icon-close" src="{{iconClose}}" bindtap="onCloseClick"></image>
+</view>

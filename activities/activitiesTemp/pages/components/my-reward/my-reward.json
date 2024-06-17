@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "view-card-dialog": "../../components/view-card-dialog/view-card-dialog",
+    "view-money-dialog": "../../components/view-money-dialog/view-money-dialog",
+    "view-logistics-dialog": "../../components/view-logistics-dialog/view-logistics-dialog"
+  },
+  "componentPlaceholder": {}
+}

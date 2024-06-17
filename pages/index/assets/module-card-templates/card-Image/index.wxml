@@ -1,0 +1,5 @@
+<wxs src="./index.wxs" module="computed" />
+
+<view wx:if="{{!deviceItem.hidden}}" style="{{ computed.customTextStyle(styles) }}">
+  <image style="{{ computed.customImageStyle(cardItem.layouts)}}" src="{{deviceItem.image}}"></image>
+</view>

@@ -1,0 +1,323 @@
+.icon-require {
+  color: #fc4b4c;
+}
+
+.appointment-cells {
+  /* padding-top: 40px; */
+  width: 100%;
+}
+
+.section-tips {
+  padding: 32rpx 0rpx 24rpx 0rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular;
+  color: #999999;
+  background: #fff;
+  line-height: 40rpx;
+}
+
+.top_box {
+  widows: 100%;
+  margin-bottom: 16rpx;
+}
+
+.appoint-p-row {
+  position: relative;
+  display: flex;
+  /* padding: 20rpx 30rpx; */
+  padding-left: 32rpx;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+.pdd {
+  width: 718rpx;
+  height: 104rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.contact-p-row .left-text {
+  color: #333;
+}
+.one-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 24rpx;
+}
+
+.appoint-p-row .left-text {
+  position: relative;
+  min-width: 220rpx;
+  font-size: 32rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.left-text .text-contentt {
+  display: inline-block;
+  color: #0000;
+}
+.appoint-p-row .left-text text:nth-child(1) {
+  display: inline-block;
+  font-size: 32rpx;
+}
+.appoint-p-row .left-text .icon-require {
+  color: #fc4b4c;
+  vertical-align: middle;
+}
+
+.appoint-p-row .middle-text .inner-rows {
+  line-height: 40rpx;
+  word-break: break-all;
+}
+
+.appoint-p-row .right-text {
+  /* flex:1 auto; */
+  width: 390rpx;
+  display: flex;
+  flex-direction: row;
+  padding: 30rpx 30rpx 30rpx 0;
+  align-items: center;
+}
+.appoint-p-row .right-text0 {
+  width: 450rpx;
+}
+.appoint-p-row .p-input {
+  width: 100%;
+  padding-right: 5px;
+  border: none;
+  text-align: right;
+  color: #000;
+  font-size: 14px;
+}
+
+.switch-row-box {
+  margin-bottom: 16rpx;
+}
+
+.switch-row .right-text {
+  padding: 20rpx 20rpx 20rpx 0;
+}
+
+.right-text .use-place {
+  flex: 1;
+  position: relative;
+  text-align: right;
+  text-indent: 40px;
+  font-size: 15px;
+}
+
+.appoint-p-row .middle-text {
+  flex: 1 auto;
+  width: 100%;
+  text-align: right;
+  padding-right: 10rpx;
+  color: #666;
+  line-height: 44rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #666666;
+  font-weight: 400;
+}
+
+.appoint-p-row .middle-text.is-gray {
+  color: #ccc;
+}
+
+.appoint-p-row .use-place-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.appoint-p-row .icon-arrow-bottom {
+  width: 32rpx;
+  height: 32rpx;
+  color: #ccc;
+}
+
+.appoint-p-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 96rpx;
+  right: 0;
+  height: 1px;
+  background: #f2f2f2;
+}
+.appoint-p-row0::after {
+  background: #fff;
+}
+.text-area {
+  position: relative;
+  padding: 14px 15px;
+  background: #fff;
+  font-size: 14px;
+  height: 240rpx;
+}
+
+.text-area textarea {
+  display: block;
+  border: 0;
+  resize: none;
+  width: 100%;
+  color: #333;
+  font-size: 1em;
+  outline: 0;
+  height: 100%;
+  line-height: 20px;
+}
+
+.hidden-class {
+  height: 0;
+}
+
+.icon-circle {
+  position: absolute;
+  right: 40px;
+  top: 1px;
+  width: 20px;
+  height: 20px;
+}
+
+.form-item {
+  height: 72rpx;
+  padding: 0 22rpx 0 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #f6f6f6;
+  border-radius: 8rpx;
+  border: 1rpx solid rgb(221, 221, 221, 0.5);
+  box-sizing: border-box;
+  font-size: 28rpx;
+}
+
+.form-item input {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.footer {
+  /* display: flex; */
+  z-index: 9;
+  width: 686rpx;
+  padding: 0 32rpx;
+  padding-bottom: 60rpx;
+  height: 96rpx;
+  color: #fff;
+  font-size: 32rpx;
+  text-align: center;
+  /* box-sizing: border-box; */
+  /* background-color: #fff; */
+  font-family: PingFangSC-Medium;
+  margin-top: 48rpx;
+}
+
+.footer button {
+  width: 100%;
+  height: 92rpx;
+  line-height: 92rpx;
+  border-radius: 48rpx;
+  background-color: #267aff;
+  color: #fff;
+  letter-spacing: 4rpx;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+button::after {
+  border: none;
+}
+.tips-engineer {
+  position: absolute;
+  background: #fff1d8;
+  line-height: 30px;
+  top: -25px;
+  right: 15px;
+  padding: 0 6px;
+  font-size: 12px;
+  color: #ff9700;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  animation: updown ease-in-out 1.5s infinite alternate;
+}
+
+.tips-engineer::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  right: 7px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-top: 8px solid #fff1d8;
+}
+
+.form-item.form-inline-btns .btn {
+  width: 75px;
+  height: 25px;
+  line-height: 25px;
+  margin: 10px 10px 15px 0;
+  border: 1px solid #ccc;
+  text-align: center;
+  border-radius: 3px;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #666;
+}
+
+.form-item.form-inline-btns .active {
+  background: #318bf5;
+  color: #fff;
+  border-color: #318bf5;
+}
+.product-model {
+  width: 522rpx;
+  color: #000;
+}
+.form-item.prod-base-item .product-model-hd {
+  min-height: 22px;
+  max-height: 22px;
+  line-height: 22px;
+}
+
+.form-item.prod-base-item input {
+  flex: 1;
+  margin: 0;
+  min-height: 22px;
+  max-height: 22px;
+  height: 22px;
+  line-height: 22px;
+  color: #666;
+}
+
+.form-item.prod-base-item .ms-icon-scan {
+  width: 22px;
+  height: 22px;
+}
+
+/* 重置 input textarea 的[placeholder]样式*/
+.place-holder {
+  color: #ccc;
+}
+
+.appoint-p-row .middle-text.warnTips {
+  color: #ff9a03;
+}
+
+button[disabled] {
+  color: #fff !important;
+  background: rgb(38, 122, 255, 0.2) !important;
+  border-color: rgb(38, 122, 255, 0.2) !important;
+  border: none;
+}
+.right-text-pdd {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}

@@ -1,0 +1,112 @@
+<!--plugin/T0xB9/component/midea-stove-middle-setting/midea-stove-middle-setting.wxml-->
+<view class="component-wrapper">
+  <!--标题-->
+  <view class="title-wrapper">
+    <text class="title">烹饪调节</text>
+  </view>
+
+  <!--灶头信息-->
+  <view class="stove-card-info-wrapper start-flex">
+    <text class="title">中灶</text>
+    <text class="desc">支持玻璃、陶瓷锅加热烹饪</text>
+  </view>
+
+  <!--功能选项-->
+  <view class="options-wrapper">
+    <view class="options-function-wrapper space-flex">
+      <view
+        class="options-item center-flex"
+        wx:for="{{functionOptions}}"
+        wx:key="index"
+        data-index="functions"
+        data-item="{{item}}"
+        bindtap="onClickEvent"
+      >
+        <view class="icon-wrapper center-flex {{settingParams.workMode===item.code?'theme-color':''}}">
+          <image
+            class="icon"
+            src="{{settingParams.workMode===item.code?item.iconUrl.white:item.iconUrl.default}}"
+          ></image>
+        </view>
+        <text class="label">{{item.name}}</text>
+      </view>
+    </view>
+    <view class="options-setting-wrapper between-flex">
+      <view class="options-setting-active transition-default" style="{{pageStyle.optionsSettingActive}}"></view>
+      <view
+        wx:for="{{powerOptions}}"
+        class="options-setting-item {{item.value===settingParams.fireLevel?'active':''}}"
+        wx:key="index"
+        data-index="power"
+        data-item="{{item}}"
+        bindtap="onClickEvent"
+        >{{item.label}}</view
+      >
+    </view>
+  </view>
+
+  <!--烹饪时间-->
+  <view class="work-time-wrapper between-flex">
+    <text class="label">烹饪时间</text>
+    <view class="value-wrapper center-flex click" bindtap="showWorkTimeModal">
+      <text class="value">{{settingParams.setWorkTimeLabel}}</text>
+      <image class="icon" src="{{iconUrl.arrow.right}}"></image>
+    </view>
+  </view>
+
+  <!--底部按钮-->
+  <view class="button-wrapper center-flex">
+    <view class="button-item center-flex click" data-index="middleSettingCancel" bindtap="onClickEvent">
+      <text>取消</text>
+    </view>
+    <view class="button-item center-flex click" data-index="middleSettingConfirm" bindtap="onClickEvent">
+      <text>启动</text>
+    </view>
+  </view>
+
+  <!-- 烹饪时间弹框 -->
+  <vant-popup
+    bind:close="closeWorkTimeModal"
+    show="{{workTimeModal.isShow}}"
+    position="bottom"
+    customStyle="background:#fff;border-top-left-radius: 1rem;border-top-right-radius: 1rem;"
+  >
+    <view class="modal-wrapper">
+      <view class="header">
+        <view class="center">烹饪时间</view>
+      </view>
+      <view class="container">
+        <picker-view
+          indicator-style=""
+          value="{{workTimeData.value}}"
+          style="width: 100%; height: 200px"
+          bindchange="workTimePickerOnChange"
+          mask-style="background:transparent;"
+        >
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+          <picker-view-column>
+            <view
+              wx:for="{{workTimeData.hours}}"
+              class="center-flex {{workTimeData.value[1]==index?'picker-column-selected':'picker-column'}}"
+              wx:key="index"
+              >{{item}} 小时</view
+            >
+          </picker-view-column>
+          <picker-view-column>
+            <view
+              wx:for="{{workTimeData.minutes}}"
+              class="center-flex {{workTimeData.value[2]==index?'picker-column-selected':'picker-column'}}"
+              wx:key="index"
+              >{{item}} 分钟</view
+            >
+          </picker-view-column>
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+        </picker-view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeWorkTimeModal">取消</view>
+        <view class="button click" bindtap="confirmWorkTime">确认</view>
+      </view>
+    </view>
+  </vant-popup>
+</view>

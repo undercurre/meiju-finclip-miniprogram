@@ -1,0 +1,12 @@
+<view class="step-body">
+  <view class="step-row" wx:for="{{formattedList}}" wx:key="index">
+    <view class="step-line"></view>
+    <view class="step-flow">
+      <view class="step-point"></view>
+    </view>
+    <slot-content>
+      <text class="{{timeWidth?'step-time-default':'step-time'}}{{item.isActived&&'active-step-desc'}}">{{item.time}}</text>
+      <text class="{{timeWidth?'step-desc-default':'step-desc'}}{{!item.time?'step-desc-single':''}}{{item.isActived&&'active-step-desc'}}">{{item.content}}</text>
+    </slot-content>
+  </view>
+</view>

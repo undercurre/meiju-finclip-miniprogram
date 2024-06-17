@@ -1,0 +1,84 @@
+<!--plugin/T0x9C/card/card.wxml-->
+<view class="container">
+  <block wx:if="{{_applianceData.onlineStatus == 1}}">
+    <active-dialog type="9C" applianceCode="{{_applianceData.applianceCode}}" sn8="{{_applianceData.sn8}}"></active-dialog>
+
+    <active-float-dialog initData="{{ floatDialog.initData }}"></active-float-dialog>
+    <view class="deviceArea" style="background-image: url({{images.deviceBg}});">
+      <image mode="aspectFit" src="{{imageUrl}}"></image>
+    </view>
+    <!-- 设备总开关 -->
+    <view wx:if="{{allPowerCtrl}}" class="deviceTotalArea">
+      <block wx:if="{{totalStatus == 'on'}}">
+        <text>关闭</text>
+        <view class="deviceTotalControlArea" bindtap="closeModel" id="total">
+          <image src="{{images.turnOn}}" class="deviceTotalCloseImage"></image>
+        </view>
+      </block>
+      <block wx:else>
+        <text>开启</text>
+        <view class="deviceTotalControlArea" bindtap="startModel" id="total">
+          <image src="{{images.turnOn}}" class="deviceTotalOpenImage"></image>
+        </view>
+      </block>
+    </view>
+    <!-- 烟机模块 -->
+    <view wx:if="{{gear.length > 0}}" class="deviceB6Area">
+      <view class="deviceB6TitleArea">
+        <image src="{{images.yanJiDangWei}}" class="deviceB6Image"></image>
+        <text class="deviceB6Title">烟机档位</text>
+        <text class="{{ gearName == '静吸' ? 'deviceB6Contents' : 'deviceB6Content'}}">{{gearName}}</text>
+      </view>
+
+      <view class="deviceB6SliderArea">
+        <slider class="deviceB6Slider" bindchange="sliderChange" min="0" max="{{gear.length-1}}" step="1" activeColor='#29C3FF' block-color='#29C3FF' backgroundColor='#F2F2F2' block-size='{{20}}' value="{{sliderValue}}"></slider>
+        <view class="deviceB6SliderTitleArea">
+          <block wx:for="{{gear}}" wx:key="{{gearKey}}">
+            <text wx:if="{{index == 0}}" class="deviceB6SliderTitleLeft">{{gearName == '静吸'?'静吸':item.name}}</text>
+            <text wx:elif="{{index == gear.length -1}}" class="deviceB6SliderTitleRight">{{item.name}}</text>
+            <text wx:else class="deviceB6SliderTitleCenter">{{item.name}}</text>
+          </block>
+        </view>
+        <view class="disabled-mask" wx:if="{{gearName == '清洗'}}"></view>
+      </view>
+      <view class="deviceB6LineArea">
+        <image src="{{images.lightS}}" class="deviceB6LineImage">
+        </image>
+        <text class="deviceB6LineText">照明</text>
+        <view class="deviceB6LineTurnOnArea">
+          <dof-switch inner-class="{{enableStr == '0' ? '' : 'switch' }}" bind:dofSwitchChanged="dofSwitchChanged" checked="{{ enableStr == '0' ? false : true }}"></dof-switch>
+        </view>
+        <view class="disabled-mask" wx:if="{{gearName == '清洗'}}"></view>
+      </view>
+    </view>
+    <!-- 各功能模块 -->
+    <view class="deviceOtherArea">
+      <block wx:for="{{listData}}" wx:key="{{mainGear}}">
+        <view wx:if="{{item.status == 'power_off' || item.status == 'off' || item.status == 'order'}}" data-item="{{ item }}" class="card {{index % 2 == 0 ? 'cardMargin' : ''}}" bindtap="toastTips">
+          <view class="deviceOtherImageArea" style="background-color: {{item.bgColor}};">
+            <image src="{{item.iconImage}}" style="width: 100%;height: 100%;"></image>
+          </view>
+          <text class="deviceOtherName">{{item.name}}</text>
+          <text wx:if="{{item.status == 'order'}}" class="deviceOtherState">{{item.model}}</text>
+          <text wx:else class="deviceOtherState">未启动</text>
+          <text wx:if="{{item.type == 'b7_left' || item.type == 'b7_right'}}" class="deviceOtherB7">开启</text>
+          <text wx:else class="deviceOtherOpen" bindtap="startModel" id="{{item.type}}">开启</text>
+        </view>
+        <view wx:else class="card {{index % 2 == 0 ? 'cardMargin' : ''}}" style="background-image: url({{item.bgImage}});">
+          <view class="deviceOtherImageArea" style="background-color: {{item.bgColor}};">
+            <image src="{{item.iconImage}}" style="width: 100%;height: 100%;"></image>
+          </view>
+          <text class="deviceOtherOnlineName">{{item.name}}</text>
+          <text class="deviceOtherOnlineState">{{item.model}}</text>
+          <text class="deviceOtherOnlineClose" style="color: {{item.bgColor}};" bindtap="closeModel" id="{{item.type}}">关闭</text>
+        </view> 
+      </block>
+    </view>
+    <!-- 注释屏蔽设备与插件页 -->
+    <!-- <mx-service show-title title="设备与服务" version="WT_12345678" applianceData="{{_applianceData}}"></mx-service>   -->
+  </block>
+  <block wx:else>
+    <offline></offline>
+  </block>
+</view>
+

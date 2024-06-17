@@ -1,0 +1,7 @@
+{
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "df-switch": "/pages/component/dof-switch/dof-switch"
+  }
+}

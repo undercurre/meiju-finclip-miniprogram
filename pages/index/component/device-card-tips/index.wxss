@@ -1,0 +1,29 @@
+.tips-wrap {
+  position: absolute;
+  right: 32rpx;
+  top: 186rpx;
+  z-index: 9999;
+}
+.triangle {
+  position: absolute;
+  top: -10rpx;
+  right: 95rpx;
+  width: 0;
+  height: 0;
+  border-style:solid;
+  border-width: 0 15rpx 10rpx;
+  border-color: transparent transparent rgba(0,0,0,0.60);
+}
+.text {
+  width: 380rpx;
+  height: 72rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.60);
+  border-radius: 36rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+}

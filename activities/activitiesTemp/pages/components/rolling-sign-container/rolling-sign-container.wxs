@@ -1,0 +1,11 @@
+/* eslint-disable */
+var isTrue = function (signInfoItem) {
+  return signInfoItem.isShowConnectRight == 3
+    ? 'connect-right'
+    : signInfoItem.isShowConnectRight == 1
+    ? 'connect-left'
+    : 'connect-all'
+}
+module.exports = {
+  isTrue: isTrue,
+}

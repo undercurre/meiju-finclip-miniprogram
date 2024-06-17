@@ -1,0 +1,6 @@
+@import './baseui/animation.wxss';
+@import './baseui/main.wxss';
+/* @import './baseui/icon.wxss';  精简组件库 组件内部处理，暂拿掉 */
+@import './baseui/bg-color.wxss';
+@import './baseui/font-size.wxss';
+@import './baseui/text-color.wxss';

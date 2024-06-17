@@ -1,0 +1,18 @@
+function getColor(color) {
+  // $aqua:   #29C3FF;
+  // $yellow: #FFAA10;
+  // $tomato: #FE674A;
+  // $gray:   #7C879B;
+  // $colmo:  #C26033;
+  // $colmo-gray: rgba(255,255,255,.4);
+  if (color == "gray") return "#F2F2F2";
+  if (color == "tomato") return "#FE674A";
+  if (color == "yellow") return "#FFAA10";
+  if (color == "aqua") return "#29C3FF";
+  if (color == "colmo") return "#C26033";
+  if (color == "colmo-gray") return "#464646";
+  return color;
+}
+module.exports = {
+  getColor: getColor,
+};

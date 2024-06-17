@@ -1,0 +1,4 @@
+/* plugin/T0xB6/testBack/test-back.wxss */
+page {
+  background: #f4f4f4;
+}

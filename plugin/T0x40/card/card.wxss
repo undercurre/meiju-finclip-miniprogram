@@ -1,0 +1,23 @@
+.container {
+    width: 750rpx;
+    height: unset;
+}
+.hourseWarp{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #F9F9F9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    z-index: 89;
+}
+.swing {
+    margin: 0 auto;
+    width:128rpx;
+    height:128rpx;
+}

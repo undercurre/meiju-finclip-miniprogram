@@ -1,0 +1,232 @@
+.home-list {
+  position: relative;
+  z-index: 99;
+  box-sizing: border-box;
+  height: 104rpx;
+  display: flex;
+  align-items: center;
+  font-family: PingFangSC-Regular;
+  font-size: 40rpx;
+  color: #000;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+.familyBox {
+  display: flex;
+  align-items: center;
+}
+.active-home {
+  font-family: PingFangSC-Medium;
+  margin-left: 32rpx;
+  vertical-align: middle;
+  font-size: 40rpx;
+  color: #333333;
+  max-width: 440rpx;
+  display: -webkit-box;   /*必须结合的属性,将对象作为弹性伸缩盒子模型显示*/
+  -webkit-line-clamp: 1;  /*设置多少行*/
+  -webkit-box-orient: vertical; 
+  overflow: hidden;   
+  text-overflow: ellipsis; 
+}
+.ico-warp {
+  position: relative;
+}
+
+.icon-triangle {
+  margin-left: 10rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.home-manage-red-dot {
+  left: 0;
+  top: 0;
+}
+
+.home-picker-wrap {
+  position: absolute;
+  top: 76rpx;
+  left: 32rpx;
+  z-index: 99999;
+}
+
+.home-picker {
+  position: relative;
+  top: 16rpx;
+  /* left: 32rpx; */
+  bottom: 0rpx;
+  right: 0rpx;
+  z-index: 100;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  /* width: 392rpx; */
+  max-height: 612rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: #fff;
+}
+
+.home-picker-cover {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.08;
+  z-index: 99999;
+}
+
+.home-picker-scroll {
+  box-sizing: border-box;
+  background: #fff;
+  max-width: 100%;
+  max-height: 520rpx;
+  z-index: 100;
+  overflow: hidden !important;
+  border-radius: 16rpx 16rpx 0 0;
+}
+
+.home-picker-options-wrapper {
+  box-sizing: border-box;
+  padding: 6rpx 24rpx;
+  height: 96rpx;
+  border-bottom: 0.5px solid #f6f6f6;
+  font-size: 28rpx;
+  color: #000;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+
+.home-picker-options-wrapper-active {
+  color: #267aff;
+  /* background: #edf4ff; */
+}
+
+.home-picker-options {
+  display: inline-block;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #000;
+  height: 50rpx;
+  line-height: 50rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.home-active-select{
+  max-width: 248rpx;
+}
+
+.home-default-select{
+  max-width: 316rpx;
+}
+
+.inviteButton {
+  width: 46px;
+  height: 22px;
+  background: #d5e6ff;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: -5px;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.invite-text {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  height: 100%;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #267aff;
+  line-height: 44rpx;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.invite-button-active {
+  box-sizing: border-box;
+}
+
+.red-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #ff1d1d;
+  position: absolute;
+}
+
+.home-item-red-dot {
+  right: 0;
+  top: 0;
+}
+
+.home-manage {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: PingFangSC-Medium;
+  font-size: 28rpx;
+  color: #666666;
+  font-weight: 500;
+  background: #fff;
+  border-radius: 0 0 16rpx 16rpx;
+}
+
+.icon-home-manage {
+  display: block;
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 8rpx;
+}
+
+/*隐藏滚动条*/
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+button[class='inviteButton']::after {
+  border: 0;
+}
+
+.add-device-icon{
+  position: absolute;
+  right: 32rpx;
+}
+
+.home-picker-create{
+  margin-left: 16rpx;
+  padding: 12rpx;
+  background: #F2F2F2;
+  border-radius: 12px;
+  font-size: 10px;
+  color: #8A8A8F;
+  text-align: justify;
+  line-height: 10px;
+  font-weight: 500;
+}
+
+.home-picker-item-active{
+  color: #267aff;
+}
+
+.home-pick-select{
+ position: absolute;
+ right: 24rpx;
+ width: 32rpx;
+ height: 32rpx;
+}

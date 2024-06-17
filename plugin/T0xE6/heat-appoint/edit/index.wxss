@@ -1,0 +1,123 @@
+/* plugin/T0xE6/heat-appoint/edit/index.wxss */
+.app-wrapper {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.colmo-background {
+  background-color: #000000;
+}
+.colmo-color {
+  color: #ffffff;
+}
+.colmo-container {
+  background-color: #1a1a1a;
+}
+.week-cell {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 124rpx;
+  background-color: #ffffff;
+  font-size: 32rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+
+.title-text {
+  margin-left: 32rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  color: #8a8a8f;
+  font-size: 28rpx;
+  text-align: left;
+}
+
+.week-day {
+  font-family: PingFangSC-Medium;
+  background-color: #c7c7cc;
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 30rpx;
+  color: #fff;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.week-day-on {
+  background-color: #FFAA10;
+}
+
+.colmo-week-day {
+  background-color: #464646;
+  border-radius: 0rpx;
+  color: #8f8f8f;
+}
+
+.colmo-week-day-on {
+  color: #c26033;
+}
+
+.add-btn {
+  width: 686rpx;
+  height: 92rpx;
+  margin-top: 50rpx;
+  line-height: 100rpx;
+  border-radius: 50rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 32rpx;
+  position: relative;
+  transition: transform 0.2s;
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+.add-btn:active,
+.del-btn:active {
+  transform: translateX(-50%) scale(0.98);
+}
+
+.cell-arrow-icon {
+  font-size: 32rpx;
+  color: #FFAA10;
+}
+.cell-arrow-icon-colmo {
+  color: #c26033;
+}
+
+.repeat-cycle-list {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 124rpx;
+  background-color: #fff;
+}
+.repeat-cycle-list .item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #8a8a8f;
+  text-align: center;
+  font-weight: 400;
+  flex: none;
+  height: 80rpx;
+  border-radius: 36rpx;
+  border: 2rpx solid #c7c7cc;
+}
+.repeat-cycle-list .active-item {
+  border: none;
+  background-color: #FFAA10;
+  color: #ffffff;
+}

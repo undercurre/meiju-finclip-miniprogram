@@ -1,0 +1,22 @@
+<mx-dialog
+  z-index="999999"
+  use-slot
+  confirm-button-text="{{confirmButtonText}}"
+  cancel-button-text="{{cancelButtonText}}"
+  show="{{ innerShow }}"
+  show-cancel-button
+  autoClose="{{false}}"
+  confirm-button-open-type="agreePrivacyAuthorization"
+  bind:confirm="saveEditAppliancePop"
+  confirmButtonId="agree-btn"
+  bind:agreeprivacyauthorization="handleAgree"
+  bind:cancel="handleDisagree"
+>
+  <view class="privacy-dialog__bd">
+    <view class="privacy-dialog__tips">{{desc1}}</view>
+    <span class="privacy-dialog__tips privacy-dialog__tips_urltitile" bindtap="openPrivacyContract"
+      >{{privacyContractName}}</span
+    >
+    <view class="privacy-dialog__tips">{{desc2}}</view>
+  </view>
+</mx-dialog>

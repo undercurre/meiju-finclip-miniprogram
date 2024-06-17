@@ -1,0 +1,9 @@
+<bottom-btn
+  bindbtnClicked="onSwitchChange"
+  checked="{{germicidal}}"
+  disabled="{{germicidalDisable}}"
+  title="{{title}}"
+  onIcon="{{images.germicidal}}"
+  offIcon="{{images.germicidalOff}}"
+  checkedBg="#FFAA10">
+</bottom-btn>

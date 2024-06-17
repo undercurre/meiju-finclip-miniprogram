@@ -1,0 +1,53 @@
+@import "../../assets/css/public.wxss";
+.title {
+  font-size: 28rpx;
+  color: #8a8a8f;
+  padding-left: 32rpx;
+}
+
+.content {
+  background: #fff;
+  margin-top: 40rpx;
+}
+
+.loop {
+  padding: 24rpx 24rpx;
+}
+
+.loop-item {
+  width: 120rpx;
+  height: 72rpx;
+  background: #ffffff;
+  border: 2rpx solid #c7c7cc;
+  border-radius: 36rpx;
+}
+
+.loop-item-text {
+  font-size: 26rpx;
+  color: #8a8a8f;
+}
+
+.weekday {
+  padding: 30rpx 10rpx;
+}
+
+.weekday-item {
+  width: 56rpx;
+  height: 56rpx;
+  background: #c7c7cc;
+  border-radius: 100rpx;
+}
+
+.weekday-item-text {
+  font-size: 28rpx;
+  color: #ffffff;
+}
+
+.active {
+  background: #FFAA10;
+  border: none;
+}
+
+.text-active {
+  color: #ffffff;
+}

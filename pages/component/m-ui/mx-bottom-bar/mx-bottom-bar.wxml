@@ -1,0 +1,12 @@
+<!--m-ui/mx-bottom-bar/mx-bottom-bar.wxml-->
+<view class="bottom-bar-wrap">
+  <view class="bottom-bar">
+    <view wx:for="{{list}}" class="bottom-item" data-index="{{index}}" bindtap="{{!item.cover?'itemClicked':''}}">
+      <view wx:if="{{item.text}}" class="cir-text"></view>
+      <image class='bottom-icon' style="background-color:{{item.status?item.onColor:item.offColor}}" src="{{item.status?item.onIcon:item.offIcon}}"></image>
+      <text class="describe">{{item.describe}}</text>
+      <view wx:if="{{item.cover}}" class="forbidden"></view>
+    </view>
+  </view>
+  <view wx:if="{{isIphoneX}}" style="background-color:#ffffff;height:34rpx"></view>
+</view>

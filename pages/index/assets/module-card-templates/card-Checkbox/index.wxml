@@ -1,0 +1,22 @@
+<wxs src="./index.wxs" module="computed" />
+<wxs src="./../common/utils.wxs" module="utils" />
+
+<view wx:if="{{!deviceItem.hidden}}" catch:tap="onChangeDevice" style="{{ computed.customTextStyle(styles) }}">
+  <view
+    style="{{ computed.custombuttonStyle(cardItem.layouts) }}"
+    class="{{ deviceItem.selected ? styles.selectedBgIcon:styles.normalBgIcon}}"
+  >
+    <view
+      wx:if="{{!loading}}"
+      class="{{ deviceItem.selected ? styles.selectedIcon:styles.normalIcon}}"
+      style="width:calc({{ utils.pxToRpx(cardItem.layouts.width) }} * 2 / 3);height:calc({{ utils.pxToRpx(cardItem.layouts.height) }} * 2 / 3)"
+    ></view>
+    <mx-loading
+      wx:else
+      custom-class="power-loading"
+      size="calc({{ utils.pxToRpx(cardItem.layouts.width) }} * 3 / 5)"
+      color="rgba(255,255,255,0.85)"
+      type="spinner"
+    />
+  </view>
+</view>

@@ -1,0 +1,13 @@
+{
+    "component": true,
+    "usingComponents": {
+        "mbutton": "/pages/component/mbutton-plus/mbutton",
+        "offline": "/pages/component/offline/offline",
+        "cardHeader": "/pages/component/card-header/card-header",
+        "active-dialog": "/plugin/T0xB7/activeDialog/active-dialog",
+        "c-picker": "/common-packages/plugin/component/c-picker/picker"
+    },
+    "componentPlaceholder": {
+      "c-picker": "view"
+    }
+}   

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的地址",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "address-item": "../../components/address-item/address-item"
+  }
+}

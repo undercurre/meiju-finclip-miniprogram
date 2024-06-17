@@ -1,0 +1,163 @@
+<!-- 背景图 -->
+<image src="{{backImage}}" mode="aspectFill" class="background-image"/>
+<view class="container">
+  <block wx:if="{{applianceData.onlineStatus == 1}}">
+    <!-- 故障提示 -->
+    <mx-notice-bar
+      wx:if="{{showNotify}}"
+      class-prefix="mx-iconfont"
+      left-icon="tip"
+      color="#FF3B30  "
+      background="rgba(255,59,48,0.10)"
+      text="{{errorText}}"
+    />
+    <!-- 设备状态 -->
+    <view class="device-state-wrap">
+      <view  class="{{currentDeviceStateCode == 'error' ? 'device-err-state' : 'device-state-view'}}"></view>
+      <view class="device-state-text">{{currentDeviceState}}</view>
+    </view>
+    <!-- 设备图片 -->
+    <view class="device-image-wrap"> 
+        <image src="{{deviceIcon}}" mode="" class="device-image"/>
+    </view>
+    <!-- 配件状态 -->
+    <view class="accessory-status-wrap">
+      <!-- 这里本来可以用accessory-item 组件的，但是由于UI走查需要左边文字左对齐，右边文字右对齐，中间文字中间对齐，所有目前写的组件不支持 -->
+     
+
+      <accessory-item statusText="{{floorCleanerStatus ? '正常' : '不足'}}" 
+                      textColor="{{floorCleanerStatus ? '#333333' : '#FF3B30'}}"
+                      accessoryName="地板清洁液" 
+                      bindclickCurrentItem="showCleanerDesc" >
+                      </accessory-item>
+      <view class="vertical-line"></view>
+      <accessory-item statusText="{{dustBagInstallStatus ? (dustBagStatus ? '正常' : '需更换') : '未安装'}}" 
+                      textColor="{{dustBagInstallStatus ? (dustBagStatus ? '#333333' : '#FF3B30') : '#B35336'}}"
+                      accessoryName="集尘袋" 
+                      bindclickCurrentItem="showDustBagDesc">
+                      </accessory-item>
+      <view class="vertical-line"></view>
+      <accessory-item statusText="{{batteryPercent}}" isShowUnit="true" accessoryName="电池电量" ></accessory-item> 
+    </view>
+    <!-- 参数设置 -->
+    <view class="device-parameter-wrap">
+      <mx-tabcard use-check  
+            checked-color="#29C3FF "
+            checked-button-color="rgba(41,195,255,0.1)">
+            <view class="item">
+              <mx-small-card
+              bind:onCardClicked="onCardClicked"
+              bind:click-button="onCardClicked"
+              fontOver="{{false}}"
+              icon="{{currentSuction.icon}}"
+              label="{{currentSuction.type}}"
+              buttonText="{{currentSuction.title}}"
+              isShowCard="{{true}}"
+              ></mx-small-card>
+            </view>
+            <view class="item">
+              <mx-small-card
+              bind:onCardClicked="onCardClicked"
+              bind:click-button="onCardClicked"
+              fontOver="{{false}}"
+              icon="{{currentWater.icon}}"
+              label="{{currentWater.type}}"
+              buttonText="{{currentWater.title}}"
+              isShowCard="{{true}}"
+              ></mx-small-card>
+            </view>
+            <view class="item">
+              <mx-small-card
+              bind:onCardClicked="onCardClicked"
+              bind:click-button="onCardClicked"
+              fontOver="{{false}}"
+              icon="{{currentMopModePreference.icon}}"
+              label="{{currentMopModePreference.type}}"
+              buttonText="{{currentMopModePreference.title}}"
+              isShowCard="{{true}}"
+              ></mx-small-card>
+            </view>
+            <view class="item">
+              <mx-small-card
+              bind:onCardClicked="onCardClicked"
+              bind:click-button="onCardClicked"
+              fontOver="{{false}}"
+              icon="{{currentDustTimes.icon}}"
+              label="{{currentDustTimes.type}}"
+              buttonText="{{currentDustTimes.title}}"
+              isShowCard="{{true}}"
+              ></mx-small-card>
+            </view>
+      
+      </mx-tabcard>
+    </view>
+    <view class="device-control-wrap-placehold"></view>
+    <!-- 设备控制 -->
+    <view class="device-control-wrap">
+      <view class="device-control-function" catchtap="reChargeAction">
+        <image src="{{chargeBtnCanUse ? reChargeIcon : reChargeGrayIcon}}" class="device-control-image"/>
+      </view>
+      <view class="device-control-options_wrap" catchtap="cleanModePopupShow">
+          <image src="{{modeBtnCanUse ? controlBackIcon : controlBackGrayIcon}}"  class="device-control-back"/>
+          <view class="device-control-options-text" style="color: {{modeBtnCanUse ? '#FFFFFF' : 'rgba(102,102,102,0.3)'}}">{{currentMode.title}}</view>
+          <view class="device-control-line"></view>
+          <image src="{{modeBtnCanUse ? menuIcon : menuGrayIcon}}" mode="" class="device-control-options-imagge"/>
+      </view>
+      <view class="device-control-function device-control-function-right" catchtap="startAction">
+        <image src="{{workBtnCanUse ? startIcon : startGrayIcon}}" class="device-control-image"/>
+      </view>
+    </view>
+    <!-- 弹框 -->
+    <mx-popup show="{{ showPopup }}" bind:close="onClose" position="bottom" round="true" >
+      <view class="popup-wrap" style="height: {{boxHeight}}rpx;">
+        <!-- 弹出框标题 -->
+        <view class="popup-title">{{popupTitle}}</view>
+        <!-- 弹出框内容-模式设置 -->
+        <view class="mode-setting-wrap" wx:if="{{isModeSetting}}">
+          <view class="mode-setting-item" wx:for="{{modeList}}"  wx:key="index" data-item="{{item}}" bindtap="changeMode" style="background-color: {{currentMode.key == item.key ? '#29C3FF' : '#F9F9F9'}}">
+            <image src="{{currentMode.key == item.key  ? item.selectIcon : item.icon}}"  class="mode-setting-item-image"/>
+            <view class="mode-setting-item-text" style="color: {{currentMode.key == item.key  ? '#ffffff' : '#333333'}}">{{item.title}}</view>
+          </view>
+        </view>
+        <!-- 弹出框内容-参数设置 -->
+        <view class="paramter-setting-wrap" wx:else>
+          <vc-mode-setting wx:if="{{ currentMode.key != 'mop'}}" 
+                          title="吸力"
+                          list="{{suctionList}}"
+                          currentState="{{currentSuction}}"
+                          bind:selectCurrentItem="changeSuction"
+          ></vc-mode-setting>
+          <vc-mode-setting wx:if="{{currentMode.key != 'sweep'}}"
+                          title="拖地偏好"
+                          list="{{waterList}}"
+                          currentState="{{currentWater}}"
+                          bind:selectCurrentItem="changeWater"
+          ></vc-mode-setting>
+          <vc-mode-setting wx:if="{{ currentMode.key != 'sweep'}}" 
+                          title="拖布清洗模式"
+                          list="{{mopModePreferenceList}}"
+                          currentState="{{currentMopModePreference}}"
+                          bind:selectCurrentItem="changeMopModePreference"
+          ></vc-mode-setting>
+          <vc-mode-setting 
+                          title="集尘频率"
+                          list="{{dustTimesList}}"
+                          currentState="{{currentDustTimes}}"
+                          bind:selectCurrentItem="changeDustTimes"
+          ></vc-mode-setting>
+        </view>
+        <!-- 弹出框取消确定 -->
+        <view class="btn-wrap">
+          <view class="cancel-btn" bindtap="onClose">取消</view>
+          <view class="btn-line"></view>
+          <view class="sure-btn" bindtap="sureAction">{{sureBtnText}}</view>
+        </view>
+      </view>
+    </mx-popup>
+  </block>
+
+  <block wx:else>
+    <offline></offline>
+  </block>
+  
+</view>

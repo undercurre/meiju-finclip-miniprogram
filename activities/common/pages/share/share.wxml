@@ -1,0 +1,14 @@
+<!--activities/common/pages/share/share.wxml-->
+<view class="wrapper" style="background-image: url('{{imgUrl}}bg.jpg')">
+  <view class="overlay"></view>
+  <view class="share-wrapper">
+    <view class="item">
+      <button class="authorizeBut" open-type="share"></button>
+      <view>
+        <image class="img" src="{{imgUrl}}wx.png"></image>
+        <text>微信</text>
+      </view>
+    </view>
+    <view class="btn" bindtap="cancel">取消</view>
+  </view>
+</view>

@@ -1,0 +1,19 @@
+/* 字体大小 */
+.font-size72{
+    font-size: 144rpx;
+}
+.font-size36{
+    font-size: 72rpx;
+}
+.font-size20{
+    font-size: 40rpx;
+}
+.font-size16{
+    font-size: 32rpx;
+}
+.font-size14{
+    font-size: 28rpx;
+}
+.font-size12{
+    font-size: 24rpx;
+}

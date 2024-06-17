@@ -1,0 +1,43 @@
+<view class="container" style="height: {{pageHeight}}px;">
+  <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+  <block wx:if="{{applianceData.onlineStatus == 1}}">
+    <view class="error-layout" wx:if="{{showError}}">
+      <vcErrorAlert binderrorclose="onErrorClose" propErrorTitle="{{errorTitle}}" propErrorContent="{{errorContent}}" propErrorMsgList="{{errorMsgList}}"></vcErrorAlert>
+    </view>
+    <vcDeviceState bindwarning10="onPersent10Warning" bindwarning20="onPersent20Warning" propTitles="{{stateTitles}}" propDevStatus="{{devState}}" propStateImgs="{{stateImageUrls}}" propBatteryUrls="{{batteryImgUrls}}" propChargeImg="{{chargeImgUrl}}" propShowError="{{showError}}"></vcDeviceState>
+    <!-- <view class="debug-panel">
+      <view>work_status:{{val1}}</view>
+      <view>station_error_desc:{{val2}}</view>
+      <view>work_sub_type:{{val3}}</view>
+      <view>error_desc:{{val4}}</view>
+      <view>error_type:{{val5}}</view>
+      <view class="section__title">报障选择</view>
+      <picker bindchange="bindPickerChange" value="{{warn_index}}" range="{{warn_list}}" range-key="name">
+        <view class="picker">当前选择：{{warn_list[warn_index].name}}</view>
+      </picker>
+    </view>  -->
+    <!-- <scroll-view
+      scroll-y
+      class="scroll-floor"
+      scroll-top="{{scrollViewTop}}"
+      scroll-with-animation="{{true}}"
+    > -->
+    <view class="scroller-flex-floor">
+      <view style="height:{{midMargin + 'px'}}"></view>
+      <vcCleanInfo class="infoStyle" propDevStatus="{{devState}}"></vcCleanInfo>
+      <view class="mop-clean-forbidden" wx:if="{{is_mop_clean}}" bindtap="show_forbid_control_tip"></view>
+      <vcCleanSetting bindopenpanel="openPanel" data-fan="{{fanLevel}}" data-water="{{waterLevel}}" propFanLevel="{{fanLevel}}" propWaterLevel="{{waterLevel}}" propLatestReserveTime="{{latestReserveTime}}" propImgPath="{{localImag}}"></vcCleanSetting>
+      <vcControl propItemList="{{itemList}}" bindbuttonTap="onControlPanelTap" propDevStatus="{{devState}}" bindopenpanel="openPanel" propCleanMode="{{modeType}}" propParam="{{propParam}}"></vcControl>
+    </view>
+    <!-- </scroll-view> -->
+  </block>
+  <block wx:else>
+    <offline></offline>
+  </block>
+  <view class="errorStyle" wx:if="{{showError}}">
+    <vcErrorAlert binderrorclose="onErrorClose" propErrorTitle="{{errorTitle}}" propErrorContent="{{errorContent}}"></vcErrorAlert>
+  </view>
+  <mp-half-screen-dialog bindstartwork="startNewWork" bindtoggolpreference="doTempWork" bindbuttonTap="onControlPanelTap" show="{{panelShow}}" closabled="{{false}}" title="{{dialogTitle}}" buttons="{{buttons}}" suctionLevel="{{suctionLevel}}" waterLevel="{{waterLevel}}" modeType="{{modeType}}" suctionBtnList="{{suctionBtnList}}" waterBtnList="{{waterBtnList}}" cleanModeBtnList="{{cleanModeBtnList}}" devState="{{devState}}" panelType="{{panelType}}"></mp-half-screen-dialog>
+  <!-- <image wx:if="{{showActivity}}" class="activity-img" src="{{iconImg}}" bindtap="goToActivity"></image>
+  <image wx:if="{{showActivity}}" class="close-activity-img" src="{{closeIconImg}}" bindtap="closeActivity"></image> -->
+</view>

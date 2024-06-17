@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "van-icon": "/pages/component/vant/icon/index"
+  },
+  "componentPlaceholder": {
+    "van-icon": "view"
+  }
+}

@@ -1,0 +1,25 @@
+<!-- 第一排 -->
+<view class="container" style="align-items:flex-end;justify-content:{{endlist.length == 1? 'flex-start':'space-around'}};">
+  <view wx:for="{{endlist}}" wx:key="{{index}}" wx:if="{{index<2}}" class="switch-center" style="margin-left:{{endlist.length == 1 ? '4%':''}};background-color:{{item.event.OnOff == 1? '#E9EDFF' : '#F2F2F2'}};">
+    <view class="switch-center-view">
+      <image style="height:90rpx;width:90rpx;" src="{{item.event.OnOff == 1 ? icons.light_on : icons.light_off}}"/>
+      <text style="font-size:28rpx;color:#000000;opacity:{{!(item.event.OnOff == 1) && '0.4'}};">{{item.name || '灯'}}</text>
+      <text style="font-size:24rpx;color:#666666;" wx:if="{{item.event.OnOff == 1}}">on</text>
+      <text style="font-size:24rpx;color:#666666;opacity:0.4;" wx:else>off</text>
+      <switch color="#4E71F7" bindchange="powerToggle" data-gid="{{index}}" checked="{{item.event.OnOff == 1}}"></switch>
+    </view>
+  </view>
+</view>
+
+<!-- 第二排 -->
+<view class="container" style="align-items:center;justify-content:{{endlist.length == 3? 'flex-start':'space-around'}};">
+  <view wx:for="{{endlist}}" wx:key="{{index}}" wx:if="{{index>1}}" class="switch-center" style="margin-left:{{((endlist.length==3 && index==2) ? '4%':'')}};background-color:{{item.event.OnOff == 1? '#E9EDFF' : '#F2F2F2'}};">
+    <view class="switch-center-view">
+      <image style="height:90rpx;width:90rpx;" src="{{item.event.OnOff == 1 ? icons.light_on : icons.light_off}}"/>
+      <text style="font-size:28rpx;color:#000000;opacity:{{!(item.event.OnOff == 1) && '0.4'}};">{{item.name || '灯'}}</text>
+      <text style="font-size:24rpx;color:#666666;" wx:if="{{item.event.OnOff == 1}}">on</text>
+      <text style="font-size:24rpx;color:#666666;opacity:0.4;" wx:else>off</text>
+      <switch color="#4E71F7" bindchange="powerToggle" data-gid="{{index}}" checked="{{item.event.OnOff == 1}}"></switch>
+    </view>
+  </view>
+</view>

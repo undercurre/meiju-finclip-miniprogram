@@ -1,0 +1,35 @@
+<view class="continer flex flex_column align_center">
+    <block wx:if="{{applianceData.onlineStatus == 1}}">
+        <view class="container-box flex flex_column align_center">
+            <!-- 状态显示 -->
+            <banner-panel bind:clickTab="changeTab" status="{{status}}" applianceData="{{applianceData}}" setting="{{setting}}" color="{{color}}" />
+            <!-- 运行状态 -->
+            <!-- <status-bar deviceStatus="{{deviceStatus}}" iconColor="{{iconColor}}" bindpowerToggle="powerToggle" /> -->
+            <van-cell title="模式选择" label="设置设备当前运行模式" border="{{border}}" clickable="{{false}}" bind:click="navigateToModeSelect" is-link value="{{curModeName}}" custom-class="cell">
+                <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+                    <image src="{{images.modeSelect}}" binderror="loadMode" class="cell-img" />
+                </view>
+            </van-cell>
+            <view>
+                <van-cell title="预约" label="可以设置预约时间" border="{{true}}" clickable="{{false}}" bind:click="showOrderPicker" is-link value="{{orderTime}}" custom-class="cell" wx:if="{{confObj.orderBtn}}">
+                    <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+                        <image binderror="loadOrder" style="height: 48rpx;width: 48rpx;position: relative;left: 0;" src="{{images.order_temp}}" class="cell-img" />
+                    </view>
+                </van-cell>
+            </view>
+
+            <!-- <button style="color: black;" bindtap="test">Button</button> -->
+
+            <active-dialog active-style="top: 200rpx"></active-dialog>
+
+            <view style="position: absolute; top: 100%">
+                <c-picker show="{{showOrder}}" mode="multiSelector" range="{{orderArray}}" value="{{orderIndex}}" unit="{{orderUnit}}" bind:cancel="orderCancel" bind:afterleave="orderCancel" bind:confirm="orderPickerSubmit">
+                </c-picker>
+            </view>
+
+        </view>
+    </block>
+    <block wx:else>
+        <offline style="height: 100%; width: 100%;"></offline>
+    </block>
+</view>

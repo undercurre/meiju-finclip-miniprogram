@@ -1,0 +1,46 @@
+@import "../assets/css/public.wxss";
+@import "/assets/css/plugin.wxss";
+
+.openMeiJuApp {
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #267aff;
+  padding-top: 40rpx;
+  padding-bottom: 70rpx;
+}
+
+
+.device-newCard {
+  width: 686rpx;
+  height: calc(100% - 212rpx);
+  margin: 0rpx auto 72rpx;
+}
+
+.device-card {
+  width: 100%;
+  margin: 0;
+  height: 100%;
+  background-color: bisque;
+}
+
+.content {
+  background-color: #f9f9f9;
+  position: relative;
+  box-sizing: border-box;
+  display: flex; 
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab-style {
+  background: #f9f9f9;
+}

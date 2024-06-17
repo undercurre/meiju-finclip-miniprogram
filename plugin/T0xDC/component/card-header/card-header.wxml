@@ -1,0 +1,20 @@
+<view class="container">
+  <image class="device-icon" src="{{image}}"></image>
+  <view class="device-info">
+    <view>
+      <text class="device-name">{{title}}</text>
+    </view>
+    <view>
+      <text class="device-room">{{desc}}</text>
+    </view>
+  </view>
+  <block wx:for-items="{{activitys}}" wx:for-item="item" wx:key="*this">
+    <view wx:if="{{item.hide !== true}}" class="activitysContent" bindtap="activityClick" id="{{item.name}}">
+      <!-- <image class="activitys-icon" src="{{item.icon}}"></image> -->
+      <image
+        class="activitys-icon"
+        src="{{'http://ismart.zhinengxiyifang.cn/midea_json_new/activity/' + item.icon}}"
+      ></image>
+    </view>
+  </block>
+</view>

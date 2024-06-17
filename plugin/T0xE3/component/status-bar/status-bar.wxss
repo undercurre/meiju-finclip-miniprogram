@@ -1,0 +1,25 @@
+@import "../../assets/css/public.wxss";
+.cell {
+  margin-top: 80rpx;
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+  border-radius: 16rpx;
+}
+.cell-title {
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #000000;
+  font-weight: 400;
+}
+.power-img-wrap {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 48rpx;
+}
+
+.power-img-wrap .power-img {
+  width: 96rpx;
+  height: 96rpx;
+}

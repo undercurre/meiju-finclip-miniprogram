@@ -1,0 +1,223 @@
+<!--plugin/T0xB9/component/midea-stove-double-setting/midea-stove-double-setting.wxml-->
+<view class="component-wrapper">
+  <!--标题-->
+  <view class="title-wrapper">
+    <text class="title">烹饪调节</text>
+  </view>
+
+  <!--灶头卡片-->
+  <view class="stove-card-wrapper between-flex">
+    <view
+      wx:for="{{stoveOptions}}"
+      wx:for-item="stoveItem"
+      wx:key="index"
+      class="stove-card-option"
+      style="background-color: {{stoveItem.themeColor.stoveCardBgColor}};"
+    >
+      <!--头部区域-->
+      <view class="header-wrapper between-flex">
+        <!--灶头信息-->
+        <view class="stove-info-wrapper">
+          <view class="text">
+            <text class="stove-name">{{stoveItem.stoveName}}</text>
+            <text wx:if="{{stoveItem.settingParams.isRunning}}"> | 待机</text>
+          </view>
+          <view class="text set-work-time-label" wx:if="{{stoveItem.settingParams.isRunning}}">
+            <view wx:if="{{stoveItem.settingParams.setWorkTime.minutes===0}}">
+              <text>烹饪时间: {{stoveItem.settingParams.setWorkTimeLabel}}</text>
+            </view>
+            <view wx:else>
+              <view>烹饪时间: </view>
+              <view>{{stoveItem.settingParams.setWorkTimeLabel}}</view>
+            </view>
+          </view>
+          <view class="text-interval" wx:else></view>
+        </view>
+        <!--灶头开关-->
+        <view
+          class="stove-power-wrapper center-flex"
+          style="background-color: {{stoveItem.themeColor.stoveCardPowerColor}};"
+          data-index="powerSwitch"
+          data-stove-item="{{stoveItem}}"
+          bindtap="onClickEvent"
+        >
+          <image class="icon" src="{{iconUrl.power.white}}"></image>
+        </view>
+      </view>
+      <!--底部区域-->
+      <view class="footer-wrapper" wx:if="{{stoveItem.settingParams.isRunning}}">
+        <view wx:if="{{stoveItem.settingParams.isTemperature}}" class="stove-box"></view>
+        <view
+          wx:if="{{stoveItem.settingParams.isTemperature}}"
+          class="stove-value"
+          style="color: {{stoveItem.themeColor.default}};"
+        >
+          <view class="value">{{stoveItem.settingParams.temperature}}</view> <view class="unit">℃</view>
+        </view>
+        <view wx:if="{{!stoveItem.settingParams.isTemperature&&!bindModel.maxPower}}" class="stove-box"></view>
+        <view
+          wx:if="{{!stoveItem.settingParams.isTemperature}}"
+          class="stove-value"
+          style="color: {{stoveItem.themeColor.default}};"
+        >
+          <view class="value">{{stoveItem.settingParams.fireLevel}}</view> <view class="unit">档</view>
+        </view>
+        <view
+          wx:if="{{!stoveItem.settingParams.isTemperature&&bindModel.maxPower}}"
+          class="stove-label"
+          style="background-color: {{stoveItem.themeColor.labelBgColor}};"
+        >
+          {{stoveItem.settingParams.fireLabel}}
+        </view>
+      </view>
+      <view class="footer-wrapper" wx:else>
+        <text class="close-text">已关机</text>
+      </view>
+    </view>
+  </view>
+
+  <!--功率或温度选项-->
+  <view class="stove-options-wrapper" wx:if="{{hasTemperature}}">
+    <text
+      class="text {{selectedOptionsIndex===0?'active':''}}"
+      data-index="selectOptionsIndex"
+      data-value="0"
+      bindtap="onClickEvent"
+      >功率调节</text
+    >
+    <text class="line"> | </text>
+    <text
+      class="text {{selectedOptionsIndex===1?'active':''}}"
+      data-index="selectOptionsIndex"
+      data-value="1"
+      bindtap="onClickEvent"
+      >温度调节</text
+    >
+  </view>
+
+  <!--功率调节选项-->
+  <view wx:if="{{selectedOptionsIndex===0}}" class="power-setting-wrapper">
+    <view class="tips-wrapper">
+      <image class="icon" src="{{iconUrl.warn}}"></image>
+      <text class="tips">{{bindModel.powerTipsText}}</text>
+    </view>
+    <!--灶头基本功能-->
+    <view class="power-options-wrapper between-flex">
+      <view wx:for="{{stoveOptions}}" wx:for-item="stoveItem" wx:key="index" class="stove-options-item space-flex">
+        <view
+          wx:if="{{stoveItem.powerOptions&&stoveItem.powerOptions.length>0}}"
+          wx:for="{{stoveItem.powerOptions}}"
+          wx:key="index"
+          class="column-center-flex {{stoveItem.settingParams.workMode===item.code?'active':''}}"
+          data-index="selectWorkMode"
+          data-stove-item="{{stoveItem}}"
+          data-value="{{item.code}}"
+          bindtap="onClickEvent"
+        >
+          <image
+            class="icon"
+            style="{{stoveItem.settingParams.isRunning?'background-color:'+item.bgColor+';':''}}"
+            src="{{stoveItem.settingParams.isRunning?item.iconUrl.workMode:item.iconUrl.disabled}}"
+          ></image>
+          <text class="label">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+    <!--功率调节滑块-->
+    <view class="power-slider-wrapper">
+      <midea-slider-bold
+        model="{{powerDoubleSlider}}"
+        bind:onMoving="powerSliderOnMoving"
+        bind:onChange="powerSliderOnChange"
+      ></midea-slider-bold>
+    </view>
+  </view>
+
+  <!--烹饪时间与温度选项-->
+  <view class="temperature-time-setting-wrapper">
+    <view class="wrapper" wx:for="{{stoveOptions}}" wx:for-item="stoveItem" wx:key="index">
+      <view class="mlr-30">
+        <view class="mtb-30" wx:if="{{selectedOptionsIndex===1}}">
+          <midea-slider-bold
+            model="{{temperatureSlider[index]}}"
+            bind:onMoving="temperatureSliderOnMoving"
+            bind:onChange="temperatureSliderOnChange"
+          ></midea-slider-bold>
+        </view>
+        <view class="work-time-wrapper between-flex">
+          <text class="label">{{stoveItem.stoveName}}烹饪时间</text>
+          <view
+            class="value-wrapper center-flex click"
+            data-index="showWorkTimeModal"
+            data-value="{{index}}"
+            data-stove-item="{{stoveItem}}"
+            bindtap="onClickEvent"
+          >
+            <text class="value">{{stoveItem.settingParams.setWorkTimeLabel}}</text>
+            <image class="icon" src="{{iconUrl.arrow.right}}"></image>
+          </view>
+        </view>
+      </view>
+      <view class="line" wx:if="{{index===0&&selectedOptionsIndex===1}}"></view>
+      <view class="disabled-mask" wx:if="{{!stoveItem.settingParams.isRunning||stoveItem.settingParams.disabled}}"></view>
+    </view>
+  </view>
+
+  <!--底部按钮-->
+  <view class="button-wrapper center-flex">
+    <view class="button-item center-flex click" data-index="doubleSettingCancel" bindtap="onClickEvent">
+      <text>取消</text>
+    </view>
+    <view class="button-item center-flex click" data-index="doubleSettingConfirm" bindtap="onClickEvent">
+      <text>启动</text>
+    </view>
+  </view>
+
+  <!-- 烹饪时间弹框 -->
+  <vant-popup
+    bind:close="closeWorkTimeModal"
+    show="{{workTimeModal.isShow}}"
+    position="bottom"
+    customStyle="background:#fff;border-top-left-radius: 1rem;border-top-right-radius: 1rem;"
+  >
+    <view class="modal-wrapper">
+      <view class="header">
+        <view class="center">烹饪时间</view>
+      </view>
+      <view class="container">
+        <picker-view
+          indicator-style=""
+          value="{{workTimeData.value}}"
+          style="width: 100%; height: 200px"
+          bindchange="workTimePickerOnChange"
+          mask-style="background:transparent;"
+        >
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+          <picker-view-column>
+            <view
+              wx:for="{{workTimeData.hours}}"
+              class="center-flex {{workTimeData.value[1]==index?'picker-column-selected':'picker-column'}}"
+              wx:key="index"
+              >{{item}} 小时</view
+            >
+          </picker-view-column>
+          <!--<picker-view-column style="flex: 0 0 75px">小时</picker-view-column>-->
+
+          <picker-view-column>
+            <view
+              wx:for="{{workTimeData.minutes}}"
+              class="center-flex {{workTimeData.value[2]==index?'picker-column-selected':'picker-column'}}"
+              wx:key="index"
+              >{{item}} 分钟</view
+            >
+          </picker-view-column>
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+        </picker-view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeWorkTimeModal">取消</view>
+        <view class="button click" bindtap="confirmWorkTime">确认</view>
+      </view>
+    </view>
+  </vant-popup>
+</view>

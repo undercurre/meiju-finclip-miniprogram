@@ -1,0 +1,5 @@
+<view class="networkless">
+  <image class="networkless-img" src="{{ networklessImg }}" />
+  <view class="networkless-text">{{noticeTitle}}</view>
+  <view class="networkless-btn" bind:tap="reloadPage">重试</view>
+</view>

@@ -1,0 +1,51 @@
+/* midea-replace-repair/pages/result/result.wxss */
+.container-wrap {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.sucess-img {
+  width: 200rpx;
+  height: 200rpx;
+  margin-top: 164rpx; /* ui 340-herader176 = 164 */
+}
+
+.sucess-title {
+  font-family: PingFangSC-Medium;
+  font-size: 40rpx;
+  color: #000000;
+  font-weight: 500;
+  margin-top: 60rpx;
+  margin-bottom: 16rpx;
+}
+.sucess-describe {
+  font-family: PingFangSC-Regular;
+  width: 560rpx;
+  font-size: 28rpx;
+  color: #666666;
+  letter-spacing: -0.68px;
+  text-align: center;
+  line-height: 48rpx;
+  font-weight: 400;
+}
+
+.submit-btn-wrap {
+  width: 686rpx;
+  height: 92rpx;
+  margin-top: auto;
+  margin-bottom: 120rpx;
+}
+.submit-btn {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: #267aff;
+  color: #fff;
+  text-align: center;
+  line-height: 92rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 400;
+}

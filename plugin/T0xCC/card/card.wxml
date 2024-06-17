@@ -1,0 +1,72 @@
+<view class="container">
+  <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+  <cardHeader bindtap="" image="{{icons.header}}" title="{{applianceData.name}}" desc="{{applianceData.roomName}}" />
+  <!-- 内容区域：分为中部和底部两个区域，使用flex布局，底部区域固定在card底部 -->
+  <block wx:if="{{isInit}}">
+    <view class="flex-floor" wx:if="{{applianceData.onlineStatus == 1 && isQueryOffLine != true}}">
+      <!-- 布局占位用，不可删除 -->
+      <view class="blank-floor"></view>
+      <!-- 中部区域: 设备温度 -->
+      <view class="center-floor">
+        <circleProgressBar id="circleProgressBar" class="circle-progress-bar" min='{{minTemp}}' minDesc='{{minTemp}}°c' max='{{maxTemp}}' maxDesc="{{maxTemp}}°c" completedColor="{{arrayIndex==3?'#FFBB00':'#627BFF'}}" incompletedColor="#E5E5E8">
+          <block wx:if="{{status.power == 'on'}}">
+            <view class="center-content-wrapper">
+              <view class="center-content">
+                <text id="tempMinus" class="heat-temp" bindtap="temperatureChange" bindlongpress="temperatureQuickChange" bindtouchend="temperatureQuickChangeEnd" style="font-size:26px;color:{{status.mode == 'heat' ? '' : '#5D75F6'}};">–</text>
+                <view class="appliance-temp">{{status.temperature}}
+                  <text class="appliance-temp-unit">°C</text>
+                </view>
+                <text id="tempPlus" class="heat-temp" bindtap="temperatureChange" bindlongpress="temperatureQuickChange" bindtouchend="temperatureQuickChangeEnd" style="color:{{status.mode == 'heat' ? '' : '#5D75F6'}};">+</text>
+              </view>
+              <view class="center-desc">
+                <text>{{array[arrayIndex]}}</text>
+              </view>
+            </view>
+          </block>
+          <block wx:else class="center-content">
+            <view class="center-content-wrapper power-off">
+              <view class="center-content">
+                <text class="appliance-off">关机</text>
+              </view>
+            </view>
+          </block>
+        </circleProgressBar>
+        <view class="temperature-desc {{status.power == 'on'?'':'temperature-off'}}">
+          <text class="temperature-label">室内温度 </text>
+          <text class="temperature-unit">{{status.indoor_temperature}}°c</text>
+        </view>
+      </view>
+      <!-- 底部区域: 电源 -->
+      <view class="footer-floor">
+        <view class="button-floor row-sb">
+          <mbutton style="height:170rpx;" buttonData="{{status.power=='on' ? icons.powerStyles.on : icons.powerStyles.off}}" bindbuttonTap="powerToggle" />
+
+          <view class="section">
+            <picker mode="selector" bindchange="bindPickerChange" disabled="{{status.power=='on'?false:true}}" value="{{index}}" range="{{array}}">
+              <view class="button-icons" style="background:{{(arrayIndex==3 && status.power === 'on') ? '#FFF2DB':'#EAEEFE'}};">
+                <image class="button-img" src="{{status.power == 'on' ? arrayIcon_on[arrayIndex] : arrayIcon_off[arrayIndex]}}" style="width:{{arrayIndex ==4 ? '70rpx' : ''}};height:{{arrayIndex ==4 ? '70rpx' : ''}};" />
+                <view wx:if="{{status.power === 'off'}}" class="zhetian" />
+              </view>
+              <text class="button-text" style="color:{{status.power == 'off' ? '#C7C7CC' : '#000000'}}">模式</text>
+            </picker>
+          </view>
+
+          <view>
+            <picker mode="selector" bindchange="windSpeedChange" disabled="{{status.power=='on'?false:true}}" value="{{index}}" range="{{windSpeed}}">
+              <view wx:if="{{status.power == 'on'}}" style="padding:0;height:120rpx;width:120rpx;background:{{arrayIndex==3?'#FFF2DB':'#EAEEFE'}};border-radius:50%;">
+                <text style="font-weight:500;font-size:32rpx;line-height:120rpx;color:{{arrayIndex==3?'#F5A623  ':'#4E69F7'}}">{{windSpeed[windSpeedIndex]}}</text>
+              </view>
+              <view wx:if="{{status.power == 'off'}}" style="padding:0;height:120rpx;width:120rpx;background:#F2F2F2;border-radius:50%;">
+                <text style="font-weight:500;font-size:32rpx;line-height:120rpx;color:#C7C7CC;">{{windSpeed[windSpeedIndex]}}</text>
+              </view>
+              <text style="font-size:12px;color:{{status.power == 'off' ? '#C7C7CC' : '#000000'}}">风速</text>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else>
+      <offline></offline>
+    </view>
+  </block>
+</view>

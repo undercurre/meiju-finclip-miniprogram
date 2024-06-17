@@ -1,0 +1,15 @@
+<!--plugin/T0x9C/index/index.wxml-->
+<view class="{{deviceInfoStatus == '1' ? 'mainContainer' : 'offLineContainer'}}">
+    <view class="device-newCard">
+        <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"
+            bindmodeChange="modeChange"></device-card>
+    </view>
+    <!-- <view wx:if="{{fromApp}}" class="bottom-box">
+        <button class="openMeiJuAPpp" style="display:inline-block;" open-type="launchApp"
+            app-parameter="{{appParameter}}" binderror="launchAppError" bindtap="test">
+            <text class="blue">打开美居App</text>
+        </button>
+        <text>解锁更多功能</text>
+    </view>
+    <view wx:if="{{!fromApp}}" class="openMeiJuApp" bindtap="clickToDownload">下载美的美居App，体验更多功能</view> -->
+</view>

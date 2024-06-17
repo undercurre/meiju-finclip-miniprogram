@@ -1,0 +1,16 @@
+<view class="dialog" wx:if="{{true}}">
+  <canvas
+    wx:if="{{isCanvas}}"
+    canvas-id="back-canvas"
+    style="width: {{width}}rpx;height: {{height}}rpx;;background:transparent;z-index: 10; "
+    bindtouchstart="touchStart"
+    bindtouchmove="touchMove"
+    bindtouchend="touchEnd"
+    disable-scroll="{{true}}"
+  ></canvas>
+  <image
+    wx:else
+    src="{{scratch.imageResource}}"
+    style="width: {{width}}rpx;height: {{height}}rpx;;background:transparent;z-index: 10; "
+  ></image>
+</view>

@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "vant-popup": "/pages/component/vant/popup/index"
+  }
+}

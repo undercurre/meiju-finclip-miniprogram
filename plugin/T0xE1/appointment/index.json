@@ -1,0 +1,14 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "c-picker": "../../../common-packages/plugin/component/picker/picker",
+    "van-cell": "../../../pages/component/vant/cell/index",
+    "navbar": "../../../common-packages/plugin/component/navbar/navbar",
+    "van-switch": "/pages/component/vant/switch/index"
+  },
+  "navigationBarTitleText": "预约洗碗",
+  "componentPlaceholder": {
+    "c-picker": "view",
+    "navbar": "view"
+  }
+}

@@ -1,0 +1,163 @@
+<wxs src="../../assets/js/orderList.wxs" module="computed"></wxs>
+<view class="order-list">
+  <block wx:if="{{ isLoaded }}">
+    <view class="order-main" wx:if="{{ formattedOrderList.length }}">
+      <view
+        class="order-item"
+        bindtap="goDetail"
+        wx:for="{{ formattedOrderList }}"
+        wx:for-item="item"
+        wx:for-index="index"
+        wx:key="index"
+        data-index="{{ index }}"
+        data-id="{{ item.serviceOrderNo }}"
+        data-code="{{ item.serviceSubTypeCode }}"
+        data-serviceOrderNo="{{item.serviceOrderNo}}"
+        data-interfaceSource="{{item.interfaceSource}}"
+        data-orgCode="{{item.orgCode}}"
+      >
+        <view class="item-title">
+          <image
+            src="{{ item.interfaceSourceIcon }}"
+            data-index="{{ index }}"
+            binderror="imgError"
+            class="titie-icon"
+          ></image>
+          <!-- <view class="top-source">美的美居接入</view> -->
+          <view class="top-source"
+            >{{ item.interfaceSourceDesc == '美的美居APP'?'美的美居':item.originSystem }}接入</view
+          >
+          <view class="order-status {{ item.calcServiceOrderStatus == '3' ? 'grey' : 'orange' }}">
+            {{ item.calcServiceOrderStatus == 5 ? '' : item.statusDesc }}
+          </view>
+        </view>
+        <!-- <block wx:if="{{item.serviceUserDemandVOs.length ==1}}">
+          <view class="item-content">
+            <view class="content-left {{ !item.imgFailFlag ? 'success' : '' }}">
+              <image src="{{ item.productImgUrl }}" class="content-img" mode="aspectFit" binderror="bindImgError"
+                data-index="{{ index }}" wx:if="{{  !item.imgFailFlag }}"></image>
+              <view class="error-img" style="background-image:url({{ ImgMideaLogonIcon }})" wx:else></view>
+            </view>
+            <view class="content-right">
+              <view class="content-title">{{ item.orderDesc }}</view>
+              <text>{{ item.requireServiceDate }}</text>
+            </view>
+          </view>
+        </block> -->
+        <block wx:if="{{item.serviceUserDemandVOs.length >0}}">
+          <view class="item-content0">
+            <block wx:for="{{ item.serviceUserDemandVOs }}" wx:for-item="newItem" wx:for-index="idx" wx:key="idx">
+              <block wx:if="{{idx<3}}">
+                <view class="block-box">
+                  <view
+                    class="content-left {{ !item.imgFailFlag ? 'success' : '' }}"
+                    style="background-image:url({{ ImgMideaLogonIcon }}) no-repeat "
+                  >
+                    <image
+                      src="{{ newItem.productImgUrl }}"
+                      class="content-img"
+                      mode="aspectFit"
+                      binderror="bindImgError"
+                      data-index="{{ index }}"
+                      wx:if="{{  !item.imgFailFlag }}"
+                    ></image>
+                    <view class="error-img" style="background-image:url({{ ImgMideaLogonIcon }})" wx:else></view>
+                  </view>
+                  <view class="content-right">
+                    <view class="content-title">{{ item.serviceSubTypeName}}{{newItem.prodName }}</view>
+                  </view>
+                  <view class="num-right">
+                    <text wx:if="{{computed.formatLengths(item,newItem)}}">
+                      X{{newItem.productAmount?newItem.productAmount:1}}</text
+                    >
+                  </view>
+                </view>
+              </block>
+            </block>
+            <view class="time-num-box">
+              <text class="left-y-m-d">{{ item.requireServiceDate }}</text>
+              <view class="right-icon-box">
+                <text class="r-content">共{{item.totalCount}}件</text>
+                <!-- <text class="r-row"
+                style="background:url('{{imgBaseUrl+common}}') no-repeat  -34rpx -336rpx;background-size:800rpx auto;">
+                </text> -->
+                <image class="r-row" src="../../assets/img/ic_more_black.png" alt=""></image>
+              </view>
+            </view>
+          </view>
+        </block>
+        <view class="item-btn">
+          <view
+            wx:if="{{ item.isAbleToAddSupplyInfo }}"
+            data-index="{{ index }}"
+            data-name="{{item.serviceSubTypeName}}"
+            data-code="{{item.serviceSubTypeCode}}"
+            data-serviceOrderNo="{{item.serviceOrderNo}}"
+            data-interfaceSource="{{item.interfaceSource}}"
+            data-orgCode="{{item.orgCode}}"
+            catchtap="goToOrderSupplyInfo"
+            >补充信息
+          </view>
+          <view
+            wx:if="{{ item.isChangeFlag == 'Y' }}"
+            data-index="{{ index }}"
+            data-name="{{item.serviceSubTypeName}}"
+            catchtap="showCalendarPicker"
+            >改约时间
+          </view>
+          <view
+            wx:if="{{ item.isAbleToCancel }}"
+            data-index="{{ index }}"
+            data-name="{{item.serviceSubTypeName}}"
+            data-code="{{item.serviceSubTypeCode}}"
+            data-serviceOrderNo="{{item.serviceOrderNo}}"
+            data-interfaceSource="{{item.interfaceSource}}"
+            data-orgCode="{{item.orgCode}}"
+            catchtap="cancelOrderAction"
+            >取消工单</view
+          >
+          <view
+            wx:if="{{ item.isAbleToRenew }}"
+            data-index="{{ index }}"
+            data-name="{{item.serviceSubTypeName}}"
+            data-code="{{item.serviceSubTypeCode}}"
+            data-serviceOrderNo="{{item.serviceOrderNo}}"
+            data-interfaceSource="{{item.interfaceSource}}"
+            data-orgCode="{{item.orgCode}}"
+            catchtap="renewOrder"
+            >重新报单</view
+          >
+          <!-- <view wx:if="{{ item.allowCallbackWX == 'Y' && phoneNumber == item.servCustomerMobilephone1 }}"
+            catchtap="goToCallback" class="primary-action">评价</view> -->
+          <view
+            wx:if="{{ item.isAbleToCallService }}"
+            data-index="{{ index }}"
+            data-name="{{item.serviceSubTypeName}}"
+            catchtap="callService"
+            >联系网点</view
+          >
+          <view wx:if="{{ item.isIdentify }}">在线鉴定</view>
+        </view>
+        <!-- 已完成icon -->
+        <view class="had-finish" wx:if="{{ item.calcServiceOrderStatus == 5 }}">
+          <image src="{{ ImgServiceFinish }}"></image>
+        </view>
+      </view>
+    </view>
+    <view class="order-empty" wx:if="{{ !orderList.length }}">
+      <image src="{{ imgNoBook }}"></image>
+      <text>最近三个月您还没有预约过安装维修保养服务哦~</text>
+    </view>
+  </block>
+  <!-- 时间选择器 -->
+  <timerCalendar
+    bind:select="selectDate"
+    is-show="{{showCalendarPickerFlag}}"
+    cancel-text="{{calendarConf.cancelText}}"
+    confirm-text="{{calendarConf.confirmText}}"
+    title-text="{{calendarConf.title}}"
+    sub-title-text="{{restTimeOfSubTitle}}"
+    select-type="CSS"
+    cannotServiceTimeObj="{{calendarConf.cannotServiceTimeObj}}"
+  ></timerCalendar>
+</view>

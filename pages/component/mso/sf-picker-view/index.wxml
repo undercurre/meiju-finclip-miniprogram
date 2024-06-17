@@ -1,0 +1,10 @@
+<view>
+  <picker-view indicator-style="height: 88rpx;" class="pv" value="{{value}}" bindchange="bindChange">
+    <picker-view-column class="pvc">
+      <view wx:for="{{years}}" class="pvc-item" wx:key="{{index}}">
+        {{item}}
+        <text wx:if="{{year === item}}" class="unit">{{unit}}</text>
+      </view>
+    </picker-view-column>
+  </picker-view>
+</view>

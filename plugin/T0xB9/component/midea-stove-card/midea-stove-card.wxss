@@ -1,0 +1,226 @@
+/* plugin/T0xB9/component/midea-stove-card/midea-stove-card.wxss */
+@import '../../assets/css/common.wxss';
+
+.disabled-text {
+  color: #c7c7cc !important;
+}
+.icon-shrink .icon {
+  height: 40% !important;
+}
+.icon-p-l .icon {
+  padding-left: 5rpx !important;
+}
+
+.disabled-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 0;
+}
+
+.card-wrapper {
+  margin-bottom: 20rpx;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-wrapper {
+  padding: 30rpx 32rpx;
+  position: relative;
+  z-index: 1;
+}
+.stove-name-wrapper {
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  line-height: 45rpx;
+  width: 100%;
+}
+.stove-name {
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+}
+.stove-name-wrapper .line {
+  margin: 0 10rpx;
+  z-index: 1;
+}
+.stove-name-wrapper .stove-status-label {
+  color: #232323;
+}
+.stove-info-wrapper {
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666666;
+  line-height: 37rpx;
+}
+.stove-value-wrapper {
+  font-size: 48rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #232323;
+  line-height: 68rpx;
+}
+
+/*工作中背景*/
+.working-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+.working-bg .image {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}
+.working-bg .image.running {
+  opacity: 0.3;
+}
+
+/*故障中区域*/
+.error-wrapper {
+  flex: 1;
+  position: relative;
+}
+.error-wrapper .stove-name {
+  width: 100%;
+}
+.error-wrapper .error-title {
+  font-size: 60rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  line-height: 100rpx;
+}
+.error-wrapper .error-content-wrapper {
+  width: 80%;
+  height: 134rpx;
+}
+.error-wrapper .error-content {
+  width: 100%;
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666666;
+  line-height: 40rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  word-break: break-word;
+}
+.error-wrapper .footer-wrapper {
+  width: 100%;
+  text-align: right;
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #ffaa10;
+  line-height: 40rpx;
+  margin-top: 30rpx;
+}
+
+/*工作中区域*/
+.working-wrapper {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.working-wrapper .stove-name {
+  flex: 1;
+  width: 100%;
+}
+.working-wrapper .work-time-title {
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  line-height: 40rpx;
+}
+.work-time-wrapper {
+  font-size: 60rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  line-height: 84rpx;
+}
+.work-time-wrapper .disabled {
+  opacity: 0.3;
+}
+.work-time-wrapper .flash-dot {
+  position: relative;
+  top: -5rpx;
+  margin: 0 10rpx;
+  animation-name: flash-fade;
+  animation-duration: 0.8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+}
+@keyframes flash-fade {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+.work-setting-wrapper {
+  background-color: #fff3de;
+  border-radius: 2rem;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #ffaa10;
+  line-height: 40rpx;
+  margin-top: 15rpx;
+}
+.work-setting-wrapper .line {
+  width: 1px;
+  height: 16rpx;
+  background: #fea910;
+  margin: 5rpx 15rpx;
+}
+
+.line {
+  border-top: 1rpx solid #f2f2f2;
+}
+
+/*功能选项*/
+.options-wrapper {
+  padding: 25rpx 70rpx;
+  z-index: 1;
+}
+.options-item-box {
+  position: relative;
+}
+.options-item-wrapper {
+  width: 64rpx;
+  height: 64rpx;
+  background-color: #fff3de;
+  border-radius: 100%;
+}
+.options-item-wrapper.primary {
+  background-color: #ffaa10;
+  z-index: 1;
+}
+.options-item-wrapper .icon {
+  /*width: 50%;*/
+  height: 50%;
+}

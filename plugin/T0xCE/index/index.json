@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "plugin-navbar": "/pages/component/plugin-navbar/plugin-navbar",
+    "device-card": "/plugin/T0xCE/card/card",
+    "mbutton": "/pages/component/mbutton/mbutton",
+    "footer": "/plugin/component/footer/footer"
+  }
+}

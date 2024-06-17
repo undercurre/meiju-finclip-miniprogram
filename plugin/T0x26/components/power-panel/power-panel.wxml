@@ -1,0 +1,72 @@
+<view class="panel-block block-center" 
+    style="height: {{(isOffLine && !isBluetoothConnected) ? 184 : (isOff ? (isSelectingMode? 424 : 184) : 440)}}rpx;">
+    
+    <!-- 开关栏 -->
+    <view class="power-panel" style="opacity: {{isOffLine && !isBluetoothConnected? 0.5 : 1}};">
+        <view class="text-block">
+            <text class="power-text">{{curModeText}}</text>
+            <view class="line" wx:if="{{!isOff && (!isOffLine || isBluetoothConnected)}}"></view>
+            <text class="power-text" wx:if="{{!isOff && (!isOffLine || isBluetoothConnected)}}">运行中</text>
+        </view>
+        <view class="onOff-btn" 
+            style="background-color: {{isOff || (isOffLine && !isBluetoothConnected)? '#7C879B' : curThemeColor}};" 
+            bindtap="onPowerClick">
+            <image class="power-image" src="{{iconPower}}"></image>
+        </view>
+    </view>
+
+    <!-- 开机选择模式 --> 
+    <view class="select-block block-center" wx:if="{{isOff && isSelectingMode}}">
+        <text class="title-text">请选择模式</text>
+        <view class="select-mode-block block-center" style="top: 106rpx;">
+            <view class="select-item-block block-center" wx:for="{{modeList}}" wx:key="key"
+                bindtap="onSelectModeClick" data-item="{{index}}">
+                <view class="item-icon" style="background-color: #f2f2f2;">
+                    <image class="item-image" src="{{item.iconOff}}"></image>
+                </view>
+                <text class="item-text">{{item.modeName}}</text>
+            </view>
+        </view>
+        <view class="cancel-btn block-center" bindtap="onSelectCancelClick">
+            <text class="cancel-text">取消</text>
+        </view>
+    </view>
+
+    <!-- 模式栏 -->
+    <view class="mode-block" wx:if="{{!isOff && (!isOffLine || isBluetoothConnected)}}">
+        <view class="select-mode-block block-center" style="top: 50rpx;">
+            <view class="select-item-block block-center" wx:for="{{modeList}}" wx:key="key"
+                bindtap="onSelectModeClick" data-item="{{index}}">
+                <view class="item-icon" style="background-color: {{item.isOn? curThemeColor : '#f2f2f2'}}">
+                    <image class="item-image" src="{{item.isOn? item.iconOn : item.iconOff}}"></image>
+                </view>
+                <text class="item-text">{{item.modeName}}</text>
+            </view>
+        </view>
+    </view>
+
+    <!-- 取暖档位选择 -->
+    <popup show="{{isShowPopup}}" bind:close="closePopup" position="bottom" custom-style="border-radius: 32rpx">
+        <view class="heat-gear-block">
+            <view class="gear-item-block" 
+            style="background-color: {{item.isSelected? '#E5E5E8' : '#F9F9F9'}};" 
+            wx:for="{{heatGearList}}" wx:key="key" 
+            bindtap="onHeatGearClick" data-item="{{index}}">
+                <view class="gear-item-icon-block">
+                    <image class="gear-item-icon" src="{{item.icon}}"></image>
+                </view>
+                
+                <view class="title-block" style="top: {{item.tip==''? 64 : 40}}rpx;">
+                    <text class="cell-title">{{item.gearName}}</text>
+                </view>
+                <view class="title-block" style="top: 96rpx;">
+                    <text class="cell-tip">{{item.tip}}</text>
+                </view>
+            </view>
+
+            <view class="cancel-popup-btn block-center" bindtap="closePopup">
+                <text class="cancel-text">取消</text>
+            </view>
+        </view>
+    </popup>
+</view>

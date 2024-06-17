@@ -1,0 +1,64 @@
+/* 主色/品牌 功能色/特殊场景 */
+.main-color0 {
+    color:#267AFF;
+}
+.main-color1 {
+    color:#FF8225;
+}
+.main-color2 {
+    color:#25CF42;
+}
+.main-color3 {
+    color:#FF3B30;
+}
+
+/* 辅助色 */
+.sub-color0 {
+    color:#995EFC;
+}
+.sub-color1 {
+    color:#6575FF;
+}
+.sub-color2 {
+    color:#29C3FF;
+}
+.sub-color3 {
+    color:#00CBB8;
+}
+.sub-color4 {
+    color:#FFAA10;
+}
+.sub-color5 {
+    color:#FF8225;
+}
+.sub-color6 {
+    color:#FF6A4C;
+}
+.sub-color7 {
+    color:#7C879B;
+}
+/* 黑灰色 */
+.black-color0 {
+    color:#000000;
+}
+.black-color1 {
+    color:#232323;
+}
+.black-color2 {
+    color:#666666;
+}
+.black-color3 {
+    color:#8A8A8F;
+}
+.black-color4 {
+    color:#C7C7C7;
+}
+.black-color5 {
+    color:#F2F2F2;
+}
+.black-color6 {
+    color:#F9F9F9;
+}
+.black-color7 {
+    color:#FFFFFF;
+}

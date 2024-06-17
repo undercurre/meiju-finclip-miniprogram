@@ -1,0 +1,37 @@
+{
+    "subpackages": [
+        {
+            "name": "scan-devices",
+            "root": "distribution-network/scan-devices",
+            "pages": [
+              "pages/qrcode-guide/qrcode-guide",
+              "pages/scan-device/scan-device",
+              "pages/scan-help/scan-help",
+              "pages/wetChat-middlePage/wetChat-middlePage"
+            ]
+          },
+          {
+            "name": "select-devices",
+            "root": "distribution-network/select-devices",
+            "pages": [
+              "pages/select-device/select-device",
+              "pages/search-device/search-device",
+              "pages/select-model/select-model"
+            ]
+          },
+          {
+            "name": "user-gudie",
+            "root": "distribution-network/user-gudie",
+            "pages": [
+              "pages/frequency-guide/frequency-guide",
+              "pages/location-guide/location-guide",
+              "pages/blue-guide/blue-guide"
+            ]
+          },
+          {
+            "name": "asyncSubpackages",
+            "root": "distribution-network/assets/asyncSubpackages",
+            "pages": []
+          }
+    ]
+}

@@ -1,0 +1,2 @@
+import{imgBaseUrl}from"../../../../api";const newPre=imgBaseUrl.url+"/plugin/0xE6/",imgs={statusOffImage:"E6_new/poweredOff.png",
+running:"E6_new/running.png",heating:"E6_new/heating.png",powerOn:"E6_new/powerOn.png",temSet:"E6_new/temSet@2.png",appointOn:"E6_new/appointOn@2x.png",temMode:"E6_new/temMode.png",coldWaterSingle:"E6_new/coldWaterSingle.png",errorImg:"E6_new/warning@2x.png"};let rs={};Object.keys(imgs).forEach(key=>{rs[key]=newPre+imgs[key]});export default rs;export{newPre};

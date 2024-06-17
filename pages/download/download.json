@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "navbar": "/pages/download/components/navbar/navbar",
+    "center-product-dialog": "/pages/component/center-product-dialog/center-product-dialog",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index"
+  }
+}

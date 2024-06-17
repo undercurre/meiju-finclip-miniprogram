@@ -1,0 +1,119 @@
+/* m-ui/m-row/m-row.wxss */
+
+.row {
+  position: relative;   /* dealwith */
+  width: 100vw;
+  height: 92rpx;
+  margin: 0 auto;
+  background-color: #fff;
+  padding-bottom: 1rpx;
+  overflow: hidden;
+}
+.row-item {
+  width: 100%;
+  /* height: 100%; */
+  height: 91rpx;    /*显示border*/
+  display: flex;
+  justify-content:flex-start;
+  align-items: center;
+  /* background:#fff; */
+  margin-left: 32rpx;
+  /* border-bottom: 1rpx solid #eee; */
+}
+
+.row-item-border::after{
+  content: '';
+  width: 100%;
+  border-top: 1rpx solid #f2f2f2;
+  transform: scaleY(0.5);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.icon {
+  width: 40rpx;
+  height: 40rpx;
+  /* display: flex; */
+  /* margin-left: 32rpx; */
+  overflow: hidden;
+  margin-right: 16rpx;
+  align-items: center;
+}
+/* .icon image {
+  width: 40rpx;
+  height: 40rpx;
+} */
+.icon .newImages {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.content {
+  /* width: 550rpx; */
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.title{
+  line-clamp: 1;
+  overflow: hidden;
+  text-align: justify;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
+.arrow-right {
+  width: 20rpx;
+  height: 32rpx;
+  display: flex;
+  margin-right: 62rpx;  /* 32+32 加上左侧margin*/
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  width: 100%;
+  height: 100%;
+}
+
+
+.only-content-wrap{
+  width: 100%;
+  /* height: 100%; */
+  height: 91rpx;    /*显示border*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:#fff;
+  border-bottom: 1rpx solid #eee;
+}
+
+/* button row 行按钮 解决建议反馈、分享等需求 */
+.row-btn {
+  position: absolute;
+  top: 0;
+  width: 100% !important;
+  height: 91rpx;
+  z-index: 100;
+  border-radius: 0;
+  border:none;
+  /* background-color: #267afe; */
+  background-color: transparent;
+}
+
+/* 防止出现原生button的边框样式 */
+button::after{
+  border: none;
+}
+
+.radiusTop{
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+.radiusBottom{
+  border-bottom-left-radius: 16rpx;
+  border-bottom-right-radius: 16rpx;
+}

@@ -1,0 +1,49 @@
+<view class="container" style="height:{{size}}{{sizeUnit}};width:{{size}}{{sizeUnit}};">
+  <!-- 背景 -->
+  <view
+    class="circle-background"
+    style="height:{{size}}{{sizeUnit}};width:{{size}}{{sizeUnit}};background-color:{{incompletedColor}}"
+  ></view>
+  <!-- 第一段进度条90° -->
+  <view
+    class="circle-progress part1"
+    wx:if="{{pregressPercentage>0}}"
+    style="height:{{size/2}}{{sizeUnit}};width:{{size/2}}{{sizeUnit}};background-color:{{completedColor}};border-radius:{{size/2}}px 0 0 0;transform:rotate({{part1RotateGo}}deg)"
+  ></view>
+  <!-- 第二段进度条180° -->
+  <view
+    class="circle-progress part2"
+    wx:if="{{pregressPercentage>1/3}}"
+    style="height:{{size/2}}{{sizeUnit}};width:{{size}}{{sizeUnit}};background-color:{{completedColor}};border-radius:{{size/2}}px {{size/2}}px 0 0;transform:rotate({{part2RotateGo}}deg)"
+  ></view>
+  <!-- 第三段进度条180° -->
+  <view
+    class="circle-progress part3"
+    wx:if="{{pregressPercentage>2/3}}"
+    style="height:{{size/2}}{{sizeUnit}};width:{{size}}{{sizeUnit}};background-color:{{completedColor}};border-radius:{{size/2}}px {{size/2}}px 0 0;transform:rotate({{part3RotateGo}}deg)"
+  ></view>
+  <!-- 中间圆形覆盖物 -->
+  <view class="circle-center-cover-wrapper" style="height:{{size}}{{sizeUnit}};width:{{size}}{{sizeUnit}};">
+    <view
+      class="circle-center-cover"
+      style="height:{{size - thickness*2}}{{sizeUnit}};width:{{size - thickness*2}}{{sizeUnit}};background-color:{{bgColor}};"
+    ></view>
+  </view>
+  <!-- 底部扇形覆盖物 -->
+  <view
+    class="circle-bottom-cover"
+    style="left:{{size/2}}{{sizeUnit}};top:{{size/2}}{{sizeUnit}};height:{{size/2+4}}{{sizeUnit}};width:{{size/2+4}}{{sizeUnit}};background-color:{{bgColor}};"
+  ></view>
+  <view class="desc min-desc" style="left: {{minDescPos.x-20}}{{sizeUnit}};top:{{minDescPos.y+10}}{{sizeUnit}};"
+    >{{minDesc}}</view
+  >
+  <view class="desc max-desc" style="left: {{maxDescPos.x-60}}{{sizeUnit}};top:{{maxDescPos.y+10}}{{sizeUnit}};"
+    >{{maxDesc}}</view
+  >
+  <view
+    class="slot-content"
+    style="left:{{thickness/2}}{{sizeUnit}};top:{{thickness/2}}{{sizeUnit}};height:{{size - thickness}}{{sizeUnit}};width:{{size - thickness}}{{sizeUnit}};"
+  >
+    <slot />
+  </view>
+</view>

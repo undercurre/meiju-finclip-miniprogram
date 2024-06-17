@@ -1,0 +1,16 @@
+{
+    "component": true,
+    "usingComponents": {
+        "mbutton": "/pages/component/mbutton-plus/mbutton",
+        "offline": "/pages/component/offline/offline",
+        "cardHeader": "/pages/component/card-header/card-header",
+        "circleProgressBar": "/pages/component/circle-progress-bar/circle-progress-bar",
+        "dof-switch": "/pages/component/dof-switch/dof-switch",
+        "c-picker": "/common-packages/plugin/component/c-picker/picker",
+        "active-dialog": "/plugin/T0xB7/activeDialog/active-dialog"
+    },
+    "componentPlaceholder": {
+      "active-dialog": "view",
+      "c-picker": "view"
+    }
+}   

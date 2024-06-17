@@ -1,0 +1,126 @@
+.block-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.panel-block{
+    width: 750rpx;
+    height: 700rpx;
+    flex-direction: column;
+    position: relative;
+}
+.block-no-conn{
+    width: 750rpx;
+    height: 60rpx;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.text-no-conn{
+    opacity: 0.6;
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #000000;
+    font-weight: 400;
+}
+.block-conn-btn{
+    width: 444rpx;
+    height: 444rpx;
+    border-radius: 222rpx;
+    background-color: #EBEBEB;
+    position: relative;
+}
+.img-bluetooth{
+    width: 100rpx;
+    height: 172rpx;
+    position: absolute;
+    left: 172rpx;
+    top: 110rpx;
+}
+.text-click-conn{
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #464646;
+    font-weight: 400;
+    margin-top: 220rpx;
+}
+.block-connectting{
+    width: 500rpx;
+    height: 500rpx;
+    position: relative;
+    flex-direction: column;
+}
+.img-connectting{
+    width: 500rpx;
+    height: 500rpx;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.text-connectting{
+    font-family: PingFangSC-Regular;
+    font-size: 76rpx;
+    color: #464646;
+    font-weight: 400;
+}
+.text-tip{
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #464646;
+    font-weight: 400;
+    margin-top: 10rpx;
+}
+.dialog-block{
+    width: 540rpx;
+    height: 336rpx;
+    background-color: #ffffff;
+    position: relative;
+}
+.btn-block{
+    width: 269rpx;
+    height: 102rpx;
+    position: absolute;
+    bottom: 0;
+    border: 1rpx solid #C8C7CC;
+}
+.btn-text{
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #267AFF;
+}
+.text-block{
+    width: 540rpx;
+    height: 240rpx;
+    position: absolute;
+    left: 0;
+    top: 0;
+    flex-direction: column;
+}
+.text-title{
+    font-family: PingFangSC-Medium;
+    font-size: 34rpx;
+    color: #000000;
+    text-align: center;
+    font-weight: 600;
+}
+.text-content{
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #111111;
+    font-weight: 400;
+    margin-top: 10rpx;
+}
+.off-bolck{
+    width: 750rpx;
+    position:absolute;
+    left: 0;
+    top: 242rpx;
+    flex-direction: column;
+}
+.text-off{
+    opacity: 0.4;
+    font-family: PingFangSC-Medium;
+    font-size: 96rpx;
+    color: #000000;
+    font-weight: 500;
+}

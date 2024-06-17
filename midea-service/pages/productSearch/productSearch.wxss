@@ -1,0 +1,108 @@
+.search-input {
+  height: 72rpx;
+  padding: 24rpx 32rpx;
+}
+.input-sec {
+  position: relative;
+  height: 72rpx;
+  background: #f6f6f6;
+  border-radius: 36rpx;
+  padding-right: 88rpx;
+}
+.input-text {
+  font-size: 28rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  color: #000000;
+  padding-left: 56rpx;
+  font-weight: bold; /* kkk add */
+}
+.input-icon {
+  width: 32rpx;
+  height: 32rpx;
+  position: absolute;
+  left: 16rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  background: no-repeat no-repeat -314rpx -166rpx;
+  background-size: 800rpx auto;
+}
+.del-icon-box {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: 88rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+}
+.del-icon {
+  width: 36rpx;
+  height: 36rpx;
+  background: no-repeat no-repeat -384rpx -166rpx;
+  background-size: 800rpx auto;
+  margin: 0 auto;
+}
+.search-record {
+  padding: 38rpx 0 0 32rpx;
+}
+.record-title {
+  position: relative;
+  font-size: 28rpx;
+  color: #000000;
+  margin-bottom: 24rpx;
+}
+.record-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.record-item {
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 24rpx;
+  text-align: center;
+  margin: 0 24rpx 24rpx 0;
+  font-size: 24rpx;
+  color: #666666;
+  border-radius: 48rpx;
+  background-color: #f6f6f6;
+}
+.search-result {
+  font-size: 28rpx;
+  color: #8a8a8f;
+  text-align: center;
+  padding: 0 20rpx 40rpx;
+}
+.search-result image {
+  display: block;
+  width: 480rpx;
+  height: 400rpx;
+  margin: 0 auto 44rpx;
+}
+.result-text {
+  margin-top: 6rpx;
+  line-height: 1.5;
+}
+.search-list {
+  padding-left: 32rpx;
+}
+.search-item {
+  line-height: 104rpx;
+  font-size: 28rpx;
+  border-bottom: 2rpx solid #f2f2f2;
+}
+.search-item:nth-last-child(1) {
+  border-bottom: 0;
+}
+.icon-del {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  right: 32rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  background: no-repeat no-repeat -30rpx -30rpx;
+  background-size: 800rpx auto;
+}

@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "c-popup": "../c-popup/popup"
+  },
+  "componentPlaceholder": {
+    "c-popup": "view"
+  }
+}

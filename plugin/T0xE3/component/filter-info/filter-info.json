@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "backgroundColor":"#f9f9f9",
+  "usingComponents": {
+    "filter-status": "../filter-status/filter-status",
+    "van-action-sheet": "/common-packages/plugin/component/new-vant/action-sheet/index"
+  },
+  "componentPlaceholder": {
+    "van-action-sheet": "view"
+  }
+}

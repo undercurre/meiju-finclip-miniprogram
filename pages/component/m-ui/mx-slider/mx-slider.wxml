@@ -1,0 +1,15 @@
+<!--m-ui/m-slider/m-slider.wxml-->
+<view class="m-slider">
+  <slider
+    backgroundColor="#F2F2F2"
+    activeColor="#267aff"
+    block-size="20"
+    block-color="{{blockColor}}"
+    show-value="{{showValue}}"
+    bindchange="sliderChange" 
+    left-icon="cancel" 
+    min="{{min}}"
+    max="{{max}}"
+    value="{{value}}"
+    right-icon="success_no_circle"/>
+</view>

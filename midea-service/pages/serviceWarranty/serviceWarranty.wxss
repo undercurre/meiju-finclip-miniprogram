@@ -1,0 +1,151 @@
+.page {
+  background-color: #f6f6f6;
+  font-family: PingFangSC-Regular;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.flex-r {
+  display: flex;
+  align-items: center;
+}
+
+.item {
+  margin-top: 16rpx;
+  background-color: #fff;
+}
+
+.input {
+  padding: 24rpx 32rpx;
+  position: relative;
+}
+
+.form-item {
+  height: 72rpx;
+  padding: 0 22rpx 0 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #f6f6f6;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+}
+
+.form-item input {
+  width: 100%;
+}
+
+.product-model {
+  width: 522rpx;
+  /* color: #000; */
+}
+
+.form-item.prod-base-item input {
+  flex: 1;
+  margin: 0;
+  height: 72rpx;
+  line-height: 72rpx;
+  color: #000000;
+}
+
+.form-item.prod-base-item .ms-icon-scan {
+  width: 22px;
+  height: 22px;
+}
+
+.input1 {
+  position: relative;
+}
+
+.input-scan,
+.input-type {
+  height: 72rpx;
+  padding: 0rpx 24rpx;
+  border-radius: 8rpx;
+  margin: auto;
+  background-color: #f6f6f6;
+}
+
+.input-type {
+  margin-top: 16rpx;
+}
+
+.placeholder {
+  /* margin-left: 24rpx; */
+  font-size: 28rpx;
+  color: #c7c7cc;
+  font-weight: 400;
+}
+
+.form-item.form-inline-btns:after {
+  display: none;
+}
+
+.scan-img {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  right: 0rpx;
+  top: 0rpx;
+  z-index: 10000;
+}
+
+.shop-product-time {
+  height: 104rpx;
+  padding: 0rpx 32rpx;
+  margin-top: 16rpx;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  justify-content: space-between;
+}
+
+.left {
+  width: 40%;
+  font-size: 32rpx;
+  color: #000000;
+  line-height: 32rpx;
+  font-weight: 400;
+}
+
+.right {
+  text-align: right;
+  width: 48%;
+  font-size: 28rpx;
+  color: #c7c7cc;
+  text-align: right;
+  line-height: 104rpx;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.icon-arrow-bottom {
+  width: 32rpx;
+  height: 32rpx;
+  color: #ccc;
+}
+
+.result {
+  padding: 24rpx 32rpx;
+}
+
+.result .title {
+  font-size: 32rpx;
+  color: #000000;
+  line-height: 32rpx;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.result .desc {
+  margin-top: 32rpx;
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 40rpx;
+  font-weight: 400;
+}

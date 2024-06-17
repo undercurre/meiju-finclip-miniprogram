@@ -1,0 +1,54 @@
+<!--midea-service//pages/serviceMachineSearch/serviceMachineSearch.wxml-->
+<view class="page">
+  <view style="margin-top:{{ statusBarHeight + 40 }}px">
+    <search-navbar bind:actionGoBack="actionGoBack"></search-navbar>
+    <view class="search">
+      <view class="content">
+        <view
+          class="search-ic"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -304rpx -160rpx;background-size:800rpx auto;"
+        >
+        </view>
+        <input
+          type="text"
+          value="{{value}}"
+          class="search-input"
+          focus
+          placeholder-class="placeholder"
+          placeholder="请输入型号"
+          bindinput="search"
+        />
+        <view
+          wx:if="{{value}}"
+          class="reset"
+          style="background:url('{{imgBaseUrl+common}}') no-repeat  -384rpx -160rpx;background-size:800rpx auto;"
+          catchtap="reset"
+        ></view>
+      </view>
+    </view>
+    <block>
+      <view class="model-list" wx:if="{{ productList.length }}">
+        <scroll-view
+          scroll-y="{{true}}"
+          style="height:{{ scrollHeight }}px"
+          bindscrolltolower="loadmore"
+          lower-threshold="200"
+        >
+          <view style="padding-bottom: {{ isIphoneX ? '60' : '0' }}rpx">
+            <view wx:for="{{productList}}" wx:key="index" class="model {{index<productList.length-1?'bor-bottom':''}}">
+              <view class="product-text" data-item="{{item}}" bindtap="selectItem">{{item.productModel}}</view>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+      <view
+        class="null"
+        wx:if="{{productList.length==0 && isNull && value!=''}}"
+        style="margin-top:{{ statusBarHeight + 40 }}px"
+      >
+        <image class="null-img" src="{{imgBaseUrl}}/mideaServices/images/img_no_result@1x.png"></image>
+        <text class="null-desc">抱歉 没有找到“{{value}}”相关的产品</text>
+      </view>
+    </block>
+  </view>
+</view>

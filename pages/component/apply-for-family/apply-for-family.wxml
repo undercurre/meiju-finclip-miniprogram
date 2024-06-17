@@ -1,0 +1,23 @@
+<view class="active-dialog" wx:if="{{ isShow }}">
+  <view class="active-mask"></view>
+  <view class="active-main">
+    <view class="active-top">
+      <view class="active-img">
+        <image src="{{ baseImgUrl }}img_otherfamily@2x.png"></image>
+      </view>
+      <view class="active-title">此设备已被添加到其他家庭</view>
+      <view class="active-content"> 您暂无设备使用权限，申请加入设备家庭？ </view>
+    </view>
+    <view class="active-buttons">
+      <view class="btns-common" bindtap="resetDevice">重置设备</view>
+      <view class="divition"></view>
+      <view class="btns-common" bindtap="applyJoin">申请加入</view>
+    </view>
+  </view>
+  <view
+    class="close"
+    bindtap="closeDialog"
+    style="background: url({{ baseImgUrl }}home_ic_closepop@2x.png) no-repeat;background-size:100% 100%;"
+  >
+  </view>
+</view>

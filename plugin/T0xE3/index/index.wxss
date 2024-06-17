@@ -1,0 +1,35 @@
+/* plugin/T0x9C/index/index.wxss */
+@import "/assets/css/plugin.wxss";
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #F9F9F9;
+  box-sizing: border-box;
+  padding-bottom: 30rpx;
+  min-height: 100vh;
+  /* padding-top: 50rpx; */
+}
+.offLineContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #F9F9F9;
+  box-sizing: border-box;
+  padding-bottom: 100rpx;
+  /* padding-top: 50rpx; */
+  height: 100vh;
+}
+.openMeiJuApp {
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #267AFF;
+  padding-top: 40rpx;
+  padding-bottom: 70rpx;
+}
+
+.device-newCard {
+  width: 686rpx;
+  height: calc(100% - 212rpx);
+  margin: 0rpx auto 72rpx;
+}

@@ -1,0 +1,3 @@
+<view>
+  <text class="layout beforeDuration {{animationCounte%2 && 'left-animate'}} {{animationCounte%2 && afterDuration}}"></text>
+</view>

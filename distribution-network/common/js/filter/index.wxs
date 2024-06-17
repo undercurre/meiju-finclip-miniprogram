@@ -1,0 +1,7 @@
+var addGuideStrFormat = function (str) {
+  return str.replace('美的美居', 'COLMO小程序').replace('美居', 'COLMO小程序')
+}
+
+module.exports = {
+  addGuideStrFormat: addGuideStrFormat
+}

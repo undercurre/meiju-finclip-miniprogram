@@ -1,0 +1,5 @@
+<van-cell title="{{title}}" label="{{desc}}" custom-class="{{cellStyle}}" border="{{border}}" is-link  bind:click="onCellClick">
+  <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+    <image src="{{images.quantify}}" class="cell-img" />
+  </view>
+</van-cell>

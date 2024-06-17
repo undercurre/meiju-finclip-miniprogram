@@ -1,0 +1,6 @@
+<view class="image-container" wx:if="{{ isShowComponentImage }}">
+  <!-- <view class="dialog-mask" ></view> -->
+  <view class="image-main">
+    <image src="{{ props.bgUrl }}" mode="widthFix" bindload="bindload"></image>
+  </view>
+</view>

@@ -1,0 +1,2294 @@
+/* Colmo小程序公共样式文件 
+为不影响原有样式，这些类名添加了2 如：link-btn2 ，page2
+*/
+
+page{
+    background-color: #1A1A1F;
+  }
+#colmo .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #1A1A1F;
+    box-sizing: border-box;
+}
+
+#colmo .theme-bg-color {
+    background-color: #1A1A1F;
+    color:#fff;
+}
+
+#colmo .special-bg-color {
+    background-color: #AF6437;
+}
+
+#colmo .theme-font-color{
+    color: #ffffff !important;
+}
+
+#colmo .special-font-color{
+    color: #AF6437;
+}
+
+#colmo .gray-font-color{
+    color: rgba(255,255,255,0.60);
+}
+
+#colmo .no-device-img{
+    padding-top: 40rpx;
+}
+
+#colmo .no-device-img > .search-device {
+    width: 460rpx;
+    height: 460rpx;
+}
+
+#colmo .device-not-open-img {
+    width: 400rpx;
+    height: 248rpx;
+}
+
+#colmo .scan-device-title{
+    font-family: PingFangSC-Medium;
+    font-size: 48rpx;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 48rpx;
+    font-weight: 500;
+    margin-left:48rpx;
+    left:-26rpx;
+    color:#ffffff;
+}
+
+#colmo .colmo-nearest-img{
+    width:204rpx;
+    height:40rpx;
+}
+
+#colmo .continue-search-right {
+    /* padding-top:40rpx; */
+}
+
+#colmo .tip {
+    display:block;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    color:#fff;
+}
+
+#colmo .scan-look-guide{
+    width: 296rpx;
+    height: 80rpx;
+    margin-top: 15px;
+    line-height: 40px;
+    background: #AF6437;
+    text-align: center;
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    font-weight: 500;
+}
+
+#colmo .num-guide {
+    width: 36rpx;
+    height: 36rpx;
+    line-height: 36rpx;
+    text-align: center;
+    margin-right: 16rpx;
+    margin-top: 10rpx;
+    border-radius: 50%;
+    color: #fff;
+    background: #AF6437;
+    font-size: 24rpx;
+    flex-shrink: 0;
+}
+
+  #colmo .check-finish{
+    margin-bottom: 0rpx;
+}
+
+#colmo .finish-sel{
+    color: #666666;
+    margin-bottom: 32rpx;
+    display: flex;
+    align-items: center;
+}
+
+#colmo .add-guide-img-box {
+    position: relative;
+    width: 654rpx;
+    height: 368rpx;
+    margin: 40rpx auto;
+    background-color: #e5e5e8;
+  }
+
+  #colmo .add-guide-img {
+    width: 654rpx;
+    height: 368rpx;
+    display: block;
+  }
+
+  #colmo .retry-guide{
+    width: 91.5%;
+    height: 92rpx;
+    margin: auto;
+    line-height: 92rpx;
+    text-align: center;
+    background: #AF6437;
+    color: #fff;
+    position: absolute;
+    bottom: 48rpx;
+    margin-bottom: 48rpx;
+  }
+
+#colmo .retry-btn {
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #AF6437;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+#colmo .retry-img{
+    display: inline-block;
+    height: 28rpx;
+    width: 28rpx;
+    margin-left:8rpx;
+}
+
+#colmo .search-device{
+    width: 400rpx !important;
+    height: 400rpx !important;
+}
+
+#colmo .searchIng-text{
+    margin-top:40rpx;
+    font-family: PingFangSC-Medium;
+    font-size: 28rpx;
+    color: rgba(255,255,255,0.60);
+    width:384rpx;
+    text-align: center;
+}
+#colmo .continue-search-right .search-help{
+    text-align: center;
+}
+#colmo .search-help {
+    font-family: PingFangSC-Medium;
+    font-size: 24rpx;
+    color: #AF6437;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 16rpx;
+    width:384rpx;
+    display:flex;
+    justify-content: center;
+  }
+
+  #colmo .continue-search {
+    font-size: 28rpx;
+    color: #000000;
+    text-align: center;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40rpx;
+    padding-bottom: 92rpx;
+}
+
+#colmo .header-item {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    font-size: 24rpx;
+    color: #ffffff;
+    height: 200rpx;
+    align-items: center;
+    /* margin-bottom: 68rpx; */
+    /* box-shadow: 0 2rpx 10rpx 0 rgba(0, 0, 0, 0.1); */
+    /* padding-bottom: 68rpx; */
+}
+
+#colmo .scan-hint{
+    position: absolute;
+    top: -48rpx;
+    left: 33rpx;
+    width: 436rpx;
+    height: 56rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    border-radius: 0px;
+    letter-spacing: 0;
+    line-height: 56rpx;
+    font-weight: 400;
+    color: #FFFFFF99;
+    background-color: #313135;
+}
+
+#colmo .scan-hint::after {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 16rpx;
+    border-color: #313135 transparent transparent transparent;
+    border-style: solid;
+    bottom: -30rpx;
+    left: 142rpx;
+  }
+
+#colmo .scan-hint > text{
+    color: #AF6437;
+    text-decoration: underline;
+}
+
+#colmo .header-img {
+    width: 56rpx;
+    height: 56rpx !important;
+    display: block;
+    margin: 42rpx auto 20rpx;
+    margin-top:40rpx;
+    margin-bottom: 8rpx;
+}
+
+#colmo .scan-tab{
+    font-size: 32rpx;
+}
+
+#colmo .head-item-line {
+    width: 2rpx;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#colmo .head-item-line > .head-item-line-small{
+    width: 2rpx;
+    height: 124rpx;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 254, 254, 0.2) 48%, rgba(255, 255, 255, 0) 100%);
+}
+#colmo .bg-tabbar {
+    background: linear-gradient(180deg, #202026 0%, #1A1A1F 100%);
+}
+
+#colmo .has-device{
+    font-size: 28rpx;
+    color: rgba(255, 255, 255, 0.6);
+    padding-left: 48rpx;
+}
+
+#colmo .continue-search-img {
+    width: 160rpx;
+    height: 160rpx;
+}
+
+#colmo .main-has-device{
+    padding: 40rpx 0;
+    padding-top: 0rpx;
+}
+
+#colmo .scrollView {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* padding-top: 32rpx; */
+}
+
+#colmo .content-device{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 48rpx;
+}
+
+#colmo .scan-content-device-item{
+    width:204rpx;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 32rpx 0 0 0;
+    position: relative;
+    /* background-image: url(https://pic.mdcdn.cn/h5/img/colmomini/card_bg.png);
+    background-repeat: no-repeat; */
+    background-size: 100%;
+}
+
+#colmo .not-support-tip{
+    width: 96rpx;
+    background: #AF6437;
+    position: absolute;
+    top: 2rpx;
+    right: 0rpx;
+    font-size: 20rpx;
+    color: #FFFFFF;
+    text-align: center;
+    height: 44rpx;
+    line-height: 44rpx;
+    border-bottom-left-radius: 15rpx;
+    border-top-right-radius: 15rpx;
+}
+
+#colmo .overflow-ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#colmo .same-sn8-nearest{
+    width: 85%;
+    height: 50rpx;
+    background: rgba(255,255,255,0);
+    border-radius: 0rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 22rpx;
+    color: #AF6437;
+    text-align: center;
+    line-height: 50rpx;
+    font-weight: 400;
+    position: absolute;
+    bottom: 45rpx;
+    left:0rpx;
+}
+
+#colmo .scan-device-item-img{
+    width:204rpx;
+    height: 168rpx;
+    position: relative;
+    margin: 0rpx auto 8rpx auto;
+    background-image: url(https://www.smartmidea.net/projects/sit/meiju-lite-assets/shareImg/colmo/addDeviceAboutImg/img_cardbg@2x.png);
+    background-repeat: no-repeat;
+    /* background-position:21px 15px;  */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15rpx;
+}
+#colmo .select-input{
+    /* background: #1A1A1F; */
+    background: rgb(32,32,38);
+}
+
+#colmo .search-input{
+    background: rgb(32,32,38);
+}
+
+#colmo .device-describe{
+    width: 84%;
+    font-size: 28rpx;
+    color: #FFFFFF;
+    text-align: center;
+    /* padding-bottom: 20rpx; */
+}
+
+#colmo .input-sec{
+    position: relative;
+    background: #28282E;
+    height: 72rpx;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+}
+#colmo .input-text{
+    display: block;
+    font-size: 32rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    color: #FFFFFF;
+    font-weight: 400;
+    flex:1;
+}
+
+#colmo .content-item{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    padding: 24rpx 32rpx;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+}
+
+#colmo .item-desc {
+    width: 534rpx;
+    font-size: 32rpx;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#colmo .desc-detail{
+    margin-top: 8rpx;
+    line-height: 44rpx;
+    font-size: 28rpx;
+    color: rgba(255,255,255,0.40);
+}
+
+#colmo .search-page{
+    height: 100vh;
+    background: #1A1A1F;
+}
+
+#colmo .product-search{
+    display: flex;
+    flex-direction: column;
+    background: #202026;
+}
+
+#colmo .search-list{
+    background: #1A1A1F;
+}
+
+#colmo .search-nav-header{
+    height: 71rpx;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    line-height: 71rpx;
+    font-size: 18px;
+    white-space: nowrap;
+    position: fixed;
+    top: 44rpx;
+    left: 0;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    background-color: #202026;
+}
+
+#colmo .search-result {
+    font-size: 28rpx;
+    color: #8a8a8f;
+    text-align: center;
+    padding: 0 20rpx 40rpx;
+    background:#1A1A1F;
+}
+
+#colmo .left-text{
+    font-size: 28rpx;
+    color: #ffffff;
+    position: absolute;
+    left: 32rpx;
+    top: 0;
+}
+
+/* inputWifiInfo页面 */
+#colmo .wifi-container{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #1A1A1F;
+    box-sizing: border-box;
+}
+#colmo .c4-wifi,#colmo .c6-wifi{
+    width:654rpx;
+    height: 46px;
+    box-sizing: border-box;
+    margin: auto;
+    text-align: left;
+    /* border: 1rpx solid #c7c7cc; */
+    padding-left: 20px;
+    margin-bottom: 8px;
+    position: relative;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    background-color: #28282E;
+}
+
+#colmo .c4-wifi {
+    /* padding-right: 80px; */
+    margin-bottom: 24rpx;
+    color:#fff;
+  }
+  
+  #colmo .c6-wifi {
+    padding-right: 40px;
+}
+#colmo .wifi-guide-img{
+    display: block;
+    width: auto;
+    height: 366rpx;
+    margin: 32rpx 48rpx 56rpx; 
+}
+#colmo .wifi-tip{
+    margin-top: 16rpx;
+    line-height: 36rpxpx;
+}
+#colmo .wifi-title{
+    font-family: PingFangSC-Medium;
+    font-size: 48rpx;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 48rpx;
+    font-weight: 500;
+    margin-left: 48rpx;
+    color: #ffffff;
+    padding-top: 64rpx;
+}
+
+#colmo .checkOp{
+    color: #AF6437;
+}
+#colmo .why {
+    width: 32rpx;
+    height: 32rpx;
+    margin-left: 10rpx;
+    vertical-align: middle;
+}
+#colmo .wifi-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0rpx 32rpx;
+    height: 104rpx;
+    line-height: 104rpx;
+    font-size: 32rpx;
+}
+
+#colmo .wifi-item .left {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#colmo .routing {
+    width: 654rpx;
+    height: 366rpx;
+    display: block;
+    margin: auto;
+    margin-top: 32rpx;
+}
+
+#colmo .input-area {
+    margin-top: 72rpx;
+    position: relative;
+  }
+
+#colmo .locationOpenNotice {
+    padding: 0rpx 40rpx;
+    margin-bottom: 40rpx;
+    color:#fff;
+  }
+  
+  #colmo .bluetoothOpenNotice {
+    padding: 0rpx 40rpx;
+    margin-bottom: 40rpx;
+    color:#fff;
+}
+
+#colmo .look-guide {
+    display: inline-block;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #AF6437;
+    letter-spacing: 0;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+#colmo .wifi-num{
+    width: 36rpx;
+    height: 36rpx;
+    line-height: 36rpx;
+    text-align: center;
+    margin-top: 12rpx;
+    margin-right: 16rpx;
+    border-radius: 50%;
+    color: #fff;
+    background-color: rgba(255,255,255,0.10);
+    font-size: 24rpx;
+}
+
+#colmo .go-link-wifi {
+    padding: 20rpx 0rpx;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #1A1A1F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+#colmo .bottom-button-wifi{
+    padding: 32rpx 0rpx;
+    width: 100%;
+    /* position: fixed; */
+    bottom: 0;
+    left: 0;
+    background-color: #1A1A1F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#colmo  .bottom-button-wifi-showPic{
+    padding: 32rpx 0rpx;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #1A1A1F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#colmo .mx-popup{
+    background-color: #28282E !important;
+    border-radius: 0 !important;
+    color:#ffffff !important;
+    font-size: 14px !important;
+}
+
+#colmo .mx-hairline--top{ 
+    /* 内容背景颜色 */
+    background-color: #28282E !important;
+}
+
+#colmo .mx-button--default{
+    /* 按钮背景颜色 */
+    background-color: #28282E !important;
+    width: 100% !important;
+}
+
+#colmo .mx-hairline--right:after{
+    border-right-width:1px !important;
+    border-top-color: rgba(255,255,255,0.08) !important;
+    border-right-color: rgba(255,255,255,0.08) !important;
+    border-bottom-color: rgb(242, 242, 242) !important;
+    border-left-color: rgb(242, 242, 242) !important;
+}
+#colmo .mx-hairline--top:after{
+    border-top-width:1px !important;
+    border-top-color: rgba(255,255,255,0.08) !important;
+}
+
+#colmo .mx-popup > .custom-class .mx-scale-enter-to .mx-scale-enter-active .enter-to-class .enter-active-class .mx-popup .mx-popup--center .mx-popup--safe {
+    padding-left:0 !important;
+    padding-right:0 !important;
+}
+#colmo .mx-dialog__header{
+    color:#fff;
+}
+#colmo .mx-dialog__message-text{
+    /* color:rgba(255,255,255,0.60); */
+    /* color:#666363; */
+    color:#ffffff;
+}
+
+#colmo #mx-cancleLink .mx-dialog__message-text, #colmo #mx-psw .mx-dialog__message-text{
+    color:rgba(255,255,255,0.60);
+}
+
+#colmo .mx-dialog__header--isolated{
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    font-weight: bolder !important;
+}
+
+#colmo .title {
+    font-family: PingFangSC-Medium;
+    font-size: 48rpx;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 48rpx;
+    font-weight: 500;
+    margin-left:48rpx;
+    color:#ffffff;
+}
+
+#colmo .guide-img{
+    display: block;
+    width: auto;
+    height: 366rpx;
+    margin: 40rpx 48rpx 56rpx; 
+}
+
+#colmo .desc-list {
+    padding-bottom: 150rpx;
+    margin: 0 48rpx 0;
+    font-weight: 400;
+}
+
+#colmo .text-nolcation {
+    width: 95%;
+    font-size: 32rpx;
+    font-weight: 400;
+    font-size: 32rpx;
+
+}
+
+#colmo .link-wifi,#colmo .link-wifi-next {
+    width: 654rpx;
+    background: #AF6437;
+    height: 88rpx;
+
+    line-height: 88rpx;
+    font-size: 32rpx;
+    font-weight: 400;
+    color: #FFFFFF;
+    text-align: center;
+    margin-top:32rpx;
+}
+#colmo .link-wifi-next {
+    margin-top:0rpx;
+    line-height: 58rpx !important;
+    border-radius: 0rpx !important;
+}
+
+
+#colmo .ios-up-version{
+    margin: 24rpx auto 0rpx;
+    color: #AF6437;
+    text-align: center;
+    font-weight: 400;
+    font-size: 32rpx;
+}
+
+#colmo .switch-wifi-btn2 {
+    width: 686rpx;
+    background-color: #AF6437;
+    height: 88rpx;
+    margin: 32rpx 0;
+    line-height: 88rpx;
+    font-size: 32rpx;
+    font-weight: 400;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+#colmo .switch-wifi-btn,
+#colmo .link-btn {
+  width: 91.5%;
+  height: 42px;
+  margin: auto;
+  line-height: 42px;
+  background: #AF6437;
+  text-align-last: center;
+  font-size: 16px;
+  color: #fff;
+}
+
+#colmo .c1{
+    font-size: 46rpx;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 64rpx;
+    margin-top: 32rpx;
+    margin-left: 48rpx;
+}
+
+/* #colmo .tip{
+    margin-top: 16rpx;
+    line-height: 36rpx;
+} */
+
+#colmo .c2{
+    font-family: PingFangSC-Medium;
+    font-size: 32rpx;
+    color: rgba(255,255,255,0.60);
+    font-weight: 400;
+    line-height: 22px;
+    vertical-align: middle;
+    /* margin: 3px; */
+    margin-left: 48rpx;
+}
+
+#colmo .input-wifi {
+    text-align: left;
+    /* margin-left: 48rpx; */
+}
+
+#colmo .c4,
+#colmo .c6 {
+  width: 91.5%;
+  height: 46px;
+  box-sizing: border-box;
+  margin: auto;
+  text-align: left;
+  /* border: 1rpx solid #c7c7cc; */
+  padding-left: 20px;
+  margin-bottom: 8px;
+  position: relative;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  background-color: #28282E;
+}
+
+#colmo .c4 {
+  padding-right: 80px;
+  color:#fff;
+}
+
+#colmo .c6 {
+  padding-right: 40px;
+}
+
+#colmo .tip-text {
+    text-align: left;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #E13A44;
+    vertical-align: top;
+    margin-left: 10rpx;
+}
+
+/* 选择wifi */
+#colmo .frame {
+    background-color: #28282E;
+    /* background: #fff; */
+    width: 100%;
+    padding-bottom: 100rpx;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    /* border-top-left-radius: 20rpx;
+    border-top-right-radius: 20rpx; */
+    z-index: 3;
+    color:#ffffff;
+}
+
+#colmo .wifi-list-title{
+    height: 108rpx;
+    width: 100%;
+    line-height: 108rpx;
+    text-align: center;
+    position: relative;
+    border-bottom: 2rpx solid rgba(255,255,255,0.08);
+}
+
+#colmo .blue {
+    color:  #AF6437FF;
+    font-size: 28rpx;
+}
+
+#colmo .dialog-content {
+    padding-bottom: 40rpx;
+    font-size: 32rpx;
+}
+
+/* 配网指引页 */
+#colmo .addGuide-title{
+    font-family: PingFangSC-Medium;
+    font-size: 48rpx;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 48rpx;
+    font-weight: 500;
+    margin-left:48rpx;
+    color:#ffffff;
+    margin-top:32rpx;
+}
+
+#colmo .check-addGuide-title{
+    font-family: PingFangSC-Regular;
+    font-size: 36rpx;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 52rpx;
+    font-weight: 400;
+}
+#colmo .check-addGuide{
+    width:100%;
+    color:#AF6437;
+}
+
+#colmo .check-addGuide-content{
+    color: rgba(255,255,255,0.60);
+    width:100%;
+}
+
+#colmo .check-addGuide::after {
+    content: '';
+    display: inline-block;
+    width: 12rpx;
+    height: 15rpx;
+    margin-left: 8rpx;
+    border-top: solid 3rpx #AF6437;
+    border-right: solid 3rpx #AF6437;
+    transform: rotate(45deg);
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #AF6437;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #AF6437;
+}
+
+#colmo .desc-list-guide{
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 30rpx;
+    /* margin-top: 20rpx; */
+    /* padding: 0 4%; */
+    /* align-items: center; */
+    margin-left:48rpx;
+    position: relative;
+    top: -28rpx;
+    width:654rpx;
+}
+
+#colmo .addGuide-thick{
+    font-weight: 600;
+    margin-top:32rpx;
+}
+
+#colmo .addGuide-mode5-img{
+    width: 654rpx;
+    height: 384rpx;
+    display: block;
+    border-radius: 0rpx;
+    margin: 40rpx auto;
+    margin-top:32rpx;
+    margin-bottom: 48rpx;
+}
+
+#colmo .addGuide-r{
+    display: flex;
+    margin-bottom: 30rpx;
+    /* align-items: top; */
+}
+
+#colmo .sel {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 8rpx;
+}
+
+#colmo .sel-text{
+    height: 36rpx;
+    line-height: 36rpx;
+    font-size: 28rpx;
+    color: rgba(255,255,255,0.40);
+}
+#colmo .blue2 {
+    color:  #AF6437FF;
+    font-size: 28rpx;
+}
+#colmo .open-plugin,
+#colmo .link-btn2{
+  width: 91.5%;
+  height: 92rpx;
+  margin: auto;
+  line-height: 92rpx;
+  text-align: center;
+  background: #AF6437;
+  color: #fff;
+}
+
+#colmo .add-guide-btn{
+    background: rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.40);
+}
+
+#colmo .link-btn2{
+    /* margin-bottom: 0rpx; */
+}
+
+#colmo .addGuide-no-device {
+    display: block;
+    /* margin: 93rpx auto 32rpx; */
+    width: 400rpx;
+    height: 200rpx;
+    margin:0 auto;
+    margin-top:120rpx;
+}
+
+#colmo .descList{
+    margin-top: 116rpx;
+    margin-left: 52rpx;
+    margin-right: 52rpx;
+    font-family: PingFangSC-Medium;
+    font-size: 32rpx;
+    color: rgba(255,255,255,0.60);
+    letter-spacing: 0;
+    line-height: 30px;
+    font-weight: 500;
+}
+
+#colmo .add_guide_right_icon{
+    width:32rpx !important;
+    height:32rpx !important;
+}
+
+#colmo .add-guide-desc {
+    margin: 0rpx 48rpx 0;
+    width: auto;
+    font-size: 32rpx;
+    line-height: 48rpx;
+    color: rgba(255,255,255,0.60);
+}
+
+#colmo .add-guide-desc-content{
+    
+    margin: 0rpx 48rpx 0;
+    width: auto;
+    font-size: 28rpx;
+    line-height: 48rpx;
+    color: rgba(255,255,255,0.60);
+}
+
+#colmo .near-guide-desc {
+    margin: 0rpx 48rpx 0;
+    width: auto;
+    font-size: 32rpx;
+    line-height: 48rpx;
+    color: #FFF;
+}
+
+#colmo .orange-display-txt {
+    color: #F2AA46;
+    font-size: 28rpx;
+    font-weight: 500;
+}
+
+#colmo .guide-skip{
+    position: absolute;
+    width:100%;
+    bottom:108rpx;
+    text-align: center;
+}
+
+#colmo .guide-skip .guide-skip-text {
+    font-size: 32rpx !important;
+    line-height: 48rpx;
+    font-weight: 400;
+}
+
+
+
+#colmo .retry {
+    width: 91.5%;
+    height: 92rpx;
+    margin: auto;
+    line-height: 92rpx;
+    text-align: center;
+    background: #AF6437;
+    color: #fff;
+    position: absolute;
+    bottom: 48rpx;
+}
+
+#colmo .switch-set {
+    text-align: center;
+    padding-bottom: 80rpx;
+    font-size: 28rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#ffffff;
+}
+
+#colmo .switch-set .blue-text {
+    color: #AF6437;
+}
+
+
+/* AP联网页 */
+#colmo .ap-title{
+    font-family: PingFangSC-Medium;
+    font-size: 48rpx;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 48rpx;
+    font-weight: 500;
+    margin-left: 48rpx;
+    color: #ffffff;
+    width:100%;
+    margin-top:32rpx;
+    margin-bottom: 32rpx;
+}
+#colmo .guide-gif {
+    margin: auto;
+    width:100%;
+}
+
+#colmo .ap-img {
+    display: block;
+    width: 654rpx;
+    height: 384rpx;
+    margin-bottom: 48rpx;
+    position: relative;
+    margin-left:48rpx;
+    
+}
+
+#colmo .andriod-guide{
+    display: block;
+    width: 654rpx;
+    height: 384rpx;
+    margin: auto;
+    margin-bottom: 48rpx;
+    position: relative;
+    background-color: rgba(38,122,255,0.10);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+#colmo .gif-size {
+    display: block;
+    width: 654rpx;
+    height: 384rpx;
+    position: relative;
+}
+
+#colmo .step-four-text {
+    position: absolute;
+    left: 30rpx;
+    top: 100rpx;
+    font-size: 24rpx;
+    color:#28282E;
+}
+
+#colmo .info {
+    padding-left: 100rpx;
+    margin-top:24rpx;
+    margin-bottom: 16rpx;
+}
+
+#colmo .detail-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80rpx;
+    font-family: PingFangSC-Medium;
+    font-size: 28rpx;
+    color: #AF6437;
+    letter-spacing: 0;
+    line-height: 28rpx;
+    font-weight: 500;
+}
+#colmo .detail-title-text{
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #AF6437;
+    letter-spacing: 0;
+    text-align: right;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+#colmo .ios-desc{
+    width:654rpx;
+    padding-left:48rpx;
+    font-size: 32rpx;
+    color: #fff;
+    letter-spacing: 0;
+    line-height: 56rpx;
+    font-weight: 400;
+}
+
+#colmo .page2 {
+    font-family: PingFangSC-Medium;
+    height: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    color: #ffffff99;
+    background-color: #1A1A1F;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow: hidden;
+}
+
+#colmo .pad{
+    height: 44rpx;
+    font-size: 28rpx;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 44rpx;
+    color: rgba(255,255,255,0.60);
+}
+#colmo .bottom-button{
+    padding: 32rpx 0rpx;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #1A1A1F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#colmo .wifi-img {
+    margin-top: 5rpx;
+    /* margin-right: 24rpx; */
+}
+
+#colmo .wifi-name,#colmo .psw-name {
+    font-size: 36rpx;
+    color: #FFB857;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 52rpx;
+    font-weight: 400;
+}
+
+#colmo .sn4 {
+    font-size: 36rpx;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 52rpx;
+    font-weight: 400;
+    color: rgba(255,255,255,0.60);
+    margin-right: 14rpx;
+  }
+
+#colmo .wifi-img,
+#colmo .psw-img {
+  display: inline-block;
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 24rpx;
+}
+
+#colmo .searching-img{
+    width: 104rpx;
+    height: 104rpx;
+}
+
+#colmo .searching-text-no-found {
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: rgba(255,255,255,0.60);
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 44rpx;
+    font-weight: 400;
+    margin-top:42rpx;
+}
+
+#colmo .linkAp-step {
+    padding-bottom: 100rpx;
+  }
+
+#colmo .detail-stepes {
+    width: 656rpx;
+    background: #28282E;
+    margin:0 auto;
+    margin: 48rpx auto 228rpx;
+    overflow: hidden;
+}
+
+#colmo .detail-step {
+    height: 216rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+ }
+
+ #colmo .detail-img {
+    display: block;
+    width: 300rpx;
+    height: 176rpx;
+}
+
+#colmo .detail-text{
+    display: block;
+    width: 158px;
+    font-family: PingFangSC-Semibold;
+    font-size: 28rpx;
+    color:  #FFFFFF;
+    letter-spacing: 0;
+    line-height: 36rpx;
+    margin: 0 auto;
+    margin-left:16rpx;
+}
+
+#colmo .detail-text2{
+    display: flex;
+    width: 316rpx;
+    font-family: PingFangSC-Semibold;
+    font-size: 28rpx;
+    color:  #FFFFFF;
+    letter-spacing: 0;
+    line-height: 36rpx;
+    margin: 0 auto;
+    margin-left:16rpx;
+}
+
+#colmo .step-num{
+    background-color: rgba(255,255,255,0.10);
+    min-width:36rpx;
+    min-height:36rpx;
+    padding:0rpx 11rpx;
+    padding-bottom: 2rpx;
+    border-radius:50%;
+    line-height: 32rpx;
+    text-align: center;
+    font-size: 24rpx;
+    margin-right: 16rpx;
+}
+
+#colmo .step-andriod-text {
+    position: absolute;
+    left: 30rpx;
+    top: 115rpx;
+    font-size: 24rpx;
+    color:#28282E;
+}
+
+#colmo .line{
+    width: 624rpx;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-left: 16rpx;
+}
+
+
+
+
+
+#colmo .andriod-line {
+    /* border: 1px solid rgba(255,255,255,0.30);
+    width: 594rpx;
+    margin-left: 31rpx;
+    background-color: rgba(255,255,255,0.30); */
+    width: 642rpx;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-left:16rpx;
+}
+
+#colmo .copy{
+    width: 88rpx;
+    height: 44rpx;
+    background:  rgba(255,255,255,0.10);
+    border-radius: 22rpx;
+    font-size: 24rpx;
+    margin-left: 24rpx;
+    color:  rgba(255,255,255,0.80);
+    letter-spacing: 0;
+    text-align: center;
+    align-items: center;
+    line-height: 40rpx;
+    font-weight: 400;
+}
+
+#colmo .no-found-frame{
+    background:#28282E;
+    border-radius: 0;
+}
+
+#colmo .no-found-wifi {
+    font-size: 32rpx;
+    margin: 0rpx 0 0rpx 0;
+    color: #AF6437;
+    text-align: center;
+    line-height: 32rpx;
+    font-weight: 500;
+  }
+
+#colmo .no-found-step{
+    color:#FFFFFF;
+}
+#colmo .wifiView{
+    height: 360rpx;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f6f6f6;
+    margin-top: 32rpx;
+    border-radius: 0;
+}
+
+#colmo .no-found-btn{
+    color:#AF6437;
+}
+
+#colmo .no-found-title-text{
+    color: #FFFFFF;
+    border-bottom: 1px solid  rgba(255,255,255,0.08);
+    padding-bottom: 20rpx;
+    font-size: 32rpx;
+}
+
+#colmo .wifiImg{
+    width:654rpx;
+    height: 350rpx;
+    /* margin-left: 48rpx; */
+    margin-top:22rpx;
+}
+
+#colmo .step-text{
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: rgba(255,255,255,0.60);
+    line-height: 48rpx;
+    font-weight: 400;
+}
+
+/* 配网进度页 */
+#colmo .phone-img{
+    width: 160rpx;
+    height: 160rpx;
+}
+
+#colmo .link-device-img {
+    max-width: 222rpx;
+    max-height: 228rpx;
+  }
+#colmo .blue-tooth-img {
+    width:144rpx;
+    height: 48rpx;
+}
+#colmo .link-device-title{
+    width: 100%;
+    text-align: left;
+    font-family: PingFangSC-Medium;
+    font-size: 48rpx;
+    color: #fff;
+    letter-spacing: 0;
+    margin-top: 44rpx;
+    line-height: 24px;
+    font-weight: 500;
+    padding-left:50rpx;
+}
+
+#colmo .link-device-flow {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 600rpx;
+    height:600rpx;
+    margin:0 auto;
+    transform-style: preserve-3d;
+}
+
+#colmo .link-device-flow::after{
+    content: '';
+    position: absolute;
+    width: 600rpx;
+    height: 600rpx;
+    top: 0rpx;
+    left: 0rpx;
+    background-image: url(//pic.mdcdn.cn/h5/img/colmomini/icon_spread.gif);
+    background-size: 100%;
+    transform: translateZ(-1px);
+}
+#colmo .timing-desc {
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #666666;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 36rpx;
+    font-weight: 400;
+    background: #1A1A1F;
+    padding-bottom: 188rpx;
+}
+
+#colmo .link-device-progress-list{
+    height: 224rpx;
+    margin-top:48rpx;
+    padding-bottom: 196rpx;
+    background: #1A1A1F;
+}
+
+#colmo .link-device-step-desc{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-bottom:24rpx; */
+}
+
+#colmo .link-step{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom:24rpx;
+}
+
+#colmo .app-name{
+    font-family: PingFangSC-Medium;
+    font-size: 36rpx;
+    color: #fff;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 40rpx;
+}
+
+#colmo .retry3{
+    display: flex;
+    justify-content: center;
+    margin-top: 64rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #8A8A8F;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 40rpx;
+    font-weight: 400;
+}
+
+#colmo .link-device-thick{
+    font-weight: 400;
+    color: rgba(255,255,255,0.60);
+    font-size: 32rpx;
+}
+
+#colmo .mx-notice-link-device{
+    width:700rpx;
+}
+
+#colmo .step-img {
+    display: inline-block;
+    width: 38rpx;
+    height: 38rpx;
+    margin-right: 20rpx;
+}
+#colmo .step-img-loading {
+    display: inline-block;
+    width: 32rpx;
+    height: 32rpx;
+    margin-right: 20rpx;
+}
+
+#colmo .dialog-main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 540rpx;
+    background: #28282E;
+    border-radius: 0px;
+    transform: translate(-50%, -50%);
+    padding: 34rpx 0 48rpx;
+    padding-bottom: 0px;
+    padding-top:40rpx;
+}
+
+#colmo .dialog-main-title{
+    font-family: PingFangSC-Regular;
+    font-size: 36rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 52rpx;
+    font-weight: 400;
+    padding-bottom: 32rpx;
+}
+
+#colmo .dialog-main-desc{
+    font-family: PingFangSC-Medium;
+    font-size: 28rpx;
+    line-height: 44rpx;
+    text-align: left;
+    color: rgba(255,255,255,0.60);
+    margin-left: 34rpx;
+}
+#colmo .dialog-main-input {
+    margin: 16rpx auto 0;
+    padding: 0 32rpx;
+    box-sizing: border-box;
+    width: 476rpx;
+    height: 68rpx;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: rgba(255,255,255,0.40);
+    letter-spacing: 0;
+    line-height: 68rpx;
+    padding-bottom:0px;
+}
+
+#colmo .dialog-main-input.psw {
+    margin: 16rpx auto 0;
+    color: #fff;
+    margin-bottom: 48rpx;
+}
+
+#colmo .dialog-main-confirm {
+    /* margin: 48rpx auto 0; */
+    border-top:1px solid  rgba(255,255,255,0.08);
+    width: 100%;
+    height: 88rpx;
+    background: #28282E;
+    font-family: PingFangSC-Medium;
+    font-size: 32rpx;
+    color: #AF6437;
+    letter-spacing: 0;
+    text-align: center;
+    font-weight: bold;
+    line-height: 84rpx;
+}
+
+/* 联网成功页 */
+#colmo .addsuccess-container{
+    display: flex;
+    flex-direction: column;
+    background-color: #1A1A1F;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+#colmo .success-img {
+    width: 400rpx;
+    height: 200rpx;
+    margin: auto;
+    margin-top: 80rpx;
+    margin-bottom: 24rpx;
+}
+#colmo .addsuccess-page{
+    width:654rpx;
+    height: 100%;
+    overflow: auto;
+    margin: auto;
+}
+
+#colmo .addSuccess-title {
+    font-family: PingFangSC-Medium;
+    font-size: 28rpx;
+    letter-spacing: 0;
+    line-height: 48rpx;
+    font-weight: 500;
+    color: rgba(255,255,255,0.60);
+}
+
+#colmo .room-list {
+    display: flex;
+    align-content: space-between;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+#colmo .room-name {
+    width:144rpx;
+    display: inline-block;
+    height: 60rpx;
+    box-sizing: border-box;
+    line-height: 60rpx;
+    /* margin-right: 19rpx; */
+    margin-bottom: 24rpx;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 28rpx;
+    margin-right:26rpx;
+}
+
+#colmo .room-name:nth-child(4n+4){
+    margin-right: 0;
+}
+
+#colmo .active {
+    background: #AF6437;
+    color: #fff;
+    font-size: 28rpx;
+}
+
+
+#colmo .weui-actionsheet{
+    background-color: #28282E;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding-bottom: 72rpx;
+}
+
+#colmo .weui-actionsheet__title{
+    background:  #28282E;
+    color:#fff;
+    font-size: 32rpx;
+    height:100rpx;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 32rpx;
+}
+
+#colmo .weui-actionsheet__menu {
+    background:  #28282E;
+    max-height: 648rpx !important;
+    margin-bottom: 16rpx;
+}
+
+#colmo .weui-actionsheet__cell2{
+    background:  rgba(56,56,64,0.60);
+    color:#fff;
+    width:654rpx;
+    margin:0 32rpx;
+    font-size: 32rpx;
+    justify-content: start;
+    margin-bottom: 16rpx;
+    position: relative;
+    height: 112rpx;
+    display: flex;
+    align-items: center;
+    padding-left:32rpx;
+}
+#colmo .weui-actionsheet__action{
+    background:  #28282E;
+    color:#fff;
+    margin:8px auto;
+}
+
+#colmo .weui-actionsheet__action .weui-actionsheet__cell {
+    justify-content: center;
+}
+
+#colmo .weui-actionsheet__title-text{
+    font-size: 32rpx;
+}
+
+#colmo .selectedItem{
+    color:#fff;
+}
+
+#colmo .before-one-room{
+    width: 280rpx;
+    height: 112rpx;
+    position:absolute;
+    right:0;
+}
+#colmo .default {
+    /* background: rgba(255,255,255,0.2);
+    color: #fff; */
+    background: rgba(255,255,255,0);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 28rpx;
+}
+
+#colmo .save {
+    width: 92.5%;
+    height: 92rpx;
+    margin: auto;
+    line-height: 92rpx;
+    text-align: center;
+    background: #AF6437;
+    color: #fff;
+    font-size: 32rpx;
+}
+#colmo .get-room-fail {
+    text-align: center;
+  }
+  
+#colmo .try-get-room {
+    color: #AF6437;
+}
+
+#colmo .input {
+    height: 92rpx;
+    position: relative;
+    padding: 0rpx 40rpx;
+    margin-top: 16rpx;
+    margin-bottom: 48rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    letter-spacing: 0;
+    line-height: 92rpx;
+    background:#28282E;
+    color:#fff;
+}
+
+/* 超时页面 authTimeout*/
+#colmo .retry2{
+    width: 91.5%;
+    height: 92rpx;
+    margin: auto;
+    margin-top: 40vh;
+    line-height: 92rpx;
+    text-align: center;
+    background: #AF6437;
+    color: #FFF;
+}
+
+/*选型页面select*/
+
+
+#colmo .left-list{
+    width: 160rpx;
+    background-color: #28282E;
+}
+
+
+#colmo .select-left-item{
+    position: relative;
+    font-size: 24rpx;
+    color: rgba(255,255,255,0.40);
+    height: 144rpx;
+    text-align: center;
+    line-height: 144rpx;
+    font-weight: 500;
+    background-color:  #28282E;
+}
+
+#colmo .active-tag {
+    font-size: 28rpx;
+    color: #fff;
+    background-color: #1A1A1F;
+}
+
+#colmo .right-item{
+    padding-left: 24rpx;
+    padding-top:24rpx;
+    padding-right: 24rpx;
+}
+#colmo .right-item:nth-last-child(1) {
+    padding-bottom: 0rpx;
+  }
+
+#colmo .prod-list{
+    padding-left: 0rpx;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+#colmo .prod-item{
+    width:168rpx;
+    position: relative;
+    word-wrap: break-word;
+    font-size: 24rpx;
+    color: #000000;
+    text-align: center;
+    padding-top: 10rpx;
+    margin: 0 0rpx 48rpx 0;
+    margin-right:16rpx;
+}
+
+#colmo .prod-item:nth-child(3n+3) {
+    margin-right: 0;
+}
+
+#colmo .prod-img-box{
+    width:168rpx;
+    height:168rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #28282E;
+    margin-bottom: 24rpx;
+}
+
+#colmo .select-prod-name{
+    font-size: 28rpx;
+}
+
+#colmo .active-line {
+    width: 4rpx;
+    height: 144rpx;
+    border-radius: 4rpx;
+    background-color: #AF6437;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#colmo .right-list {
+    width: 590rpx;
+    overflow-y: auto;
+}
+
+#colmo .prod-name{
+    font-size: 28rpx;
+    color: rgba(255,255,255,0.60);
+    /* padding-top: 40rpx; */
+    font-weight: bold;
+    margin-bottom: 24rpx;
+}
+
+/*邀请家人页*/
+#colmo .invite-text{
+    font-size: 48rpx;
+    font-weight: 500;
+    margin-top: 84rpx;
+    text-align: left;
+    margin-left:48rpx;
+    font-weight: 500;
+}
+#colmo .invite-tips{
+    font-size: 16px;
+    color:  rgba(255,255,255,0.60);
+    margin-top: 16rpx;
+    text-align: left;
+    margin-left:48rpx;
+    font-weight: 400;
+}
+
+#colmo .invite-img {
+    display: block;
+    width: 654rpx;
+    height: 420rpx;
+    margin: 40rpx auto 0;
+}
+#colmo .invite-btn{
+    background: #AF6437;
+    color: #ffffff;
+    height: 92rpx;
+    line-height: 92rpx !important;
+    border-radius: 0rpx;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#colmo .skip-btn{
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.2);
+    margin-top: 24rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+    border-radius: 0rpx;
+}
+
+#colmo .btn-block{
+    margin-bottom: 48rpx;
+    padding: 0 32rpx;
+}
+
+/**
+联网失败页 link-fail
+*/
+#colmo .link-fail-container{
+    background-color: #1A1A1F;
+    height: 100vh;
+    padding-bottom: 200rpx !important;
+}
+
+#colmo .fail-device-img{
+    width: 162rpx;
+    height: 168rpx;
+}
+
+
+#colmo .fail-link-flow{
+    width: 100%;
+    margin: 112rpx auto 48rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+#colmo .psw-input {
+    width: 85%;
+    height: 46px;
+    line-height: 46px; 
+    color:#fff;
+}
+#colmo .desc-list-fail {
+    margin: auto;
+    margin-top: 120rpx;
+    width: 91.5%;
+    align-items: center;
+}
+
+#colmo .q-mark {
+    width: 32rpx;
+    height: 32rpx;
+    margin-left: 8rpx;
+    background-color: #C7C7CC;
+    border-radius: 50%;
+    color: #FFF;
+    text-align: center;
+    line-height: 32rpx;
+    padding: 0 10rpx;
+}
+
+#colmo .link-fail-r{
+    display: flex;
+    align-items: flex-start;
+    line-height: 64rpx;
+    margin-bottom:32rpx;
+}
+
+#colmo .tip-list-fail{
+    width: 100%;
+    margin: 24rpx auto 48rpx;
+    font-size: 24rpx;
+    color: #666666;
+    text-align: left;
+    line-height: 1.4;
+    vertical-align: top;
+}
+
+#colmo .tip-fail{
+    display:block;
+    width: 100%;
+    margin: auto;
+    text-align: left;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: rgba(255,255,255,0.40);
+    margin-bottom: 16rpx;
+}
+
+#colmo .num-fail{
+    width: 36rpx;
+    height: 36rpx;
+    line-height: 36rpx;
+    text-align: center;
+    margin-top: 16rpx;
+    margin-right: 16rpx;
+    border-radius: 50%;
+    color: #fff;
+    background: #AF6437;
+    font-size: 24rpx;
+}
+
+#colmo .confirm, #colmo .cancel {
+    /* flex: 0.9; */
+    height: 92rpx;
+    border-radius: 48rpx;
+    line-height: 92rpx;
+    font-size: 32rpx;
+    text-align: center;
+    font-weight: 500;
+    width:164px !important;
+}
+
+#colmo .cancel {
+    background-color: #1A1A1F;
+    color: #fff;
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius: 0;
+    margin-right:30rpx;
+}
+
+#colmo .ping-net {
+    color: #AF6437;
+    letter-spacing: 0;
+    font-weight: 500;
+}
+
+#colmo .fail-phone-img {
+    width: 120rpx;
+    height: 120rpx
+}
+
+#colmo .fail-blue-tooth-img {
+    width:118rpx;
+    height: 54rpx;
+    margin: 0px 32rpx;
+}
+
+#colmo .switch-wifi {
+    z-index: 100;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #AF6437;
+    line-height: 24px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+#colmo .confirm {
+    background: #AF6437;
+    color: #FFFFFF;
+    flex: 0.9;
+    width: 686rpx;
+    background: #AF6437;
+    border-radius: 0;
+    height: 92rpx;
+    line-height: 92rpx;
+    font-size: 32rpx;
+    text-align: center;
+    font-weight: 500;
+    color:#fff;
+}
+
+#colmo .bottom-button2{
+    height: 200rpx;
+    width: 100%;
+    position: fixed;
+    bottom: 0rpx;
+    left: 0;
+    background-color: #1A1A1F;
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    justify-content: center;
+    padding-left: 4.5%;
+    padding-right: 4.5%;
+    box-sizing: border-box;
+    /* padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom); */
+}
+
+#colmo .c4-2,
+#colmo .c6-2 {
+  height: 46px;
+  box-sizing: border-box;
+  margin: auto;
+  text-align: left;
+  /* border: 1rpx solid #c7c7cc; */
+  padding-left: 20px;
+  margin-bottom: 8px;
+  position: relative;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  background-color: #28282E;
+}
+
+#colmo .c4-2 {
+  padding-right: 80px;
+  color:#fff;
+  margin-bottom:24rpx;
+}
+
+#colmo .c6-2 {
+  padding-right: 40px;
+}
+
+#colmo .back{
+    color: #ffffff;
+}
+
+/*搜索不到设备页 scan-help*/
+#colmo .help-text{
+    width: 622rpx;
+    margin: 60rpx auto;
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #fff;
+    letter-spacing: -0.78px;
+    line-height: 56rpx;
+    font-weight: 400;
+}
+
+
+#colmo .del-icon-box {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    width: 88rpx;
+    height: 72rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#colmo .colmo-search{
+    width:36rpx;
+    height: 36rpx;
+    margin-left:20rpx;
+    margin-right: 16rpx;
+}
+
+#colmo .input-text-model{
+    font-size: 32rpx;
+    line-height: 48rpx;
+    color: rgba(255,255,255,0.25);
+    font-weight: 400;
+}
+
+/* 后确权页面 */
+#colmo .after-guide-desc{
+    margin-left: 48rpx;
+    margin-top: 16rpx;
+    width: 91.5%;
+    font-size: 32rpx;
+    color: rgba(255,255,255,0.60);
+}
+
+#colmo .after-mode5-img{
+    width: 654rpx;
+    height: 384rpx;
+    display: block;
+    border-radius: 0rpx;
+    margin: 40rpx auto;
+    margin-top: 32rpx;
+    margin-bottom: 56rpx;
+}
+
+#colmo .after-desc-list {
+    padding-bottom: 150rpx;
+    margin: 0 48rpx 0;
+    font-weight: 400;
+    position: relative;
+    top: -53rpx;
+}
+
+/* scan-help */
+#colmo .head-img {
+    width: 400rpx;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 256rpx;
+}
+#colmo .head-img image {
+    width: 100%;
+}
+
+#colmo .help-text{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: rgba(255,255,255,0.60);
+    letter-spacing: 0;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+/* 操作超时 */
+#colmo .authTimeout-title{
+    font-size: 48rpx;
+    color: #FFFFFF;
+    line-height: 64rpx;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 32rpx;
+    font-weight: 600;
+}
+
+#colmo .authTimeout-desc {
+    margin-top: 30rpx;
+    align-items: center;
+    color: rgba(255,255,255,0.60);
+    font-size: 32rpx;
+    line-height: 48px;
+    font-weight: 400;
+}

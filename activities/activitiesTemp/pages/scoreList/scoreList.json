@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "积分记录",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navbar": "../components/navbar/navbar"
+  }
+}

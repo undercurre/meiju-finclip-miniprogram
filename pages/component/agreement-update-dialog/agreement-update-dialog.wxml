@@ -1,0 +1,25 @@
+<view class="argreement-dialog" wx:if="{{ agreementDialogShow }}">
+  <view class="argreement-dialog-mask"></view>
+  <view class="dialog">
+    <view class="dialog-title">用户协议与隐私协议更新</view>
+    <view class="dialog-content">
+      <view class="head-text"><text>为了更好地提供服务，我们更新了软件许可及用户服务协议和隐私条款。</text></view>
+      <view class="remind"><text class="remind-text"> 点击同意以确认：</text></view>
+      <view class="link"><text bindtap="gotoAgree" data-type="privacy">美的美居隐私协议</text></view>
+      <view class="link"><text bindtap="gotoAgree" data-type="register">软件许可及用户服务协议</text></view>
+    </view>
+
+    <view slot="footer">
+      <view class="btnWrap" wx:if="{{btnArr && btnArr.length}}">
+        <view class="dialog__btn {{item.className}} {{item.extClass}}"
+          ><navigator open-type="exit" target="miniProgram"
+            ><view bindtap="exitMiniProgram" data-index="{{index}}">{{btnArr[0].text}}</view></navigator
+          ></view
+        >
+        <view class="dialog__btn {{item.className}} {{item.extClass}}" catchtap="agreeLatest" data-index="{{index}}"
+          >{{btnArr[1].text}}</view
+        >
+      </view>
+    </view>
+  </view>
+</view>

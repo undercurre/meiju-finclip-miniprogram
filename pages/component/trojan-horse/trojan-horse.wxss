@@ -1,0 +1,39 @@
+.containers0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%);
+}
+.swing {
+  margin: 0 auto;
+  width: 128rpx;
+  height: 128rpx;
+  /* animation: move 4s infinite alternate;
+  -webkit-animation: move 4s  infinite alternate; */
+  transform-origin: bottom;
+  -webkit-transform-origin: bottom;
+}
+
+@keyframes move {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

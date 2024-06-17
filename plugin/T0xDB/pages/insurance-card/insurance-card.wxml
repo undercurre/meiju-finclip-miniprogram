@@ -1,0 +1,132 @@
+<!--plugin/T0xDB/pages/insurance-card/insurance-card.wxml-->
+<view class="container">
+  <swiper
+    class="swiper"
+    indicator-dots="{{indicatorDots}}"
+    autoplay="{{autoplay}}"
+    interval="{{interval}}"
+    duration="{{duration}}"
+    circular="{{true}}"
+  >
+    <block wx:for="{{backgroundImgs}}" wx:key="*this">
+      <swiper-item>
+        <image src="{{item}}" class="swiperImage" mode="aspectFill"></image>
+      </swiper-item>
+    </block>
+  </swiper>
+  <view wx:if="{{!showHistory && (isInputMood)}}" class="insurance-fetch-content-all">
+    <view class="secure-code">
+      <text class="secure-code-title">激活码</text>
+      <input
+        class="secure-code-input"
+        maxlength="11"
+        type="number"
+        password="{{true}}"
+        confirm-type="next"
+        placeholder="输入有效激活码"
+        placeholder-style="color:#C7C7CC"
+        bindinput="settingSecurecode"
+        bindconfirm="inputSecurecode"
+      />
+    </view>
+    <view class="gap-line"></view>
+
+    <!-- <view class="mobile-phone">
+      <text class="secure-code-title">手机号码</text>
+      <input
+        class="secure-code-input"
+        maxlength="11"
+        type="number"
+        password="true"
+        confirm-type="done"
+        placeholder="输入手机号码"
+        placeholder-style="color:#C7C7CC"
+        bindinput="settingPhone"
+        bindconfirm="inputPhone"
+      />
+    </view>
+    <view class="gap-line"></view> -->
+
+    <button class="get-insurance-btn" style="color: #ffffff" bindtap="getInsuranceBtnClick">领取</button>
+    <view class="description-text">
+      <view class="description-text-click">
+        <button
+          style="background-color: transparent; border: none; width: 55px; height: 20px; font-size: 12px !important"
+          plain="{{true}}"
+          bindtap="descriptionTextClick"
+        >
+          <view class="description-text-btn-title">查看</view>
+        </button>
+      </view>
+
+      <view class="description-text-rich-text">
+        <rich-text class="description-text-rich-text-content" nodes="{{descriptionText}}"></rich-text>
+      </view>
+    </view>
+    <view class="content-shrink" bindtap="contentShrinkClick">
+      <image
+        class="content-btn"
+        src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/btn_insurance_up.png"
+      ></image>
+    </view>
+  </view>
+  <view wx:elif="{{showHistory && isInputMood}}" class="insurance-fetch-content-basic">
+    <view class="secure-code">
+      <text class="secure-code-title">激活码</text>
+      <input
+        class="secure-code-input"
+        maxlength="11"
+        type="number"
+        password="{{true}}"
+        confirm-type="next"
+        placeholder="输入有效激活码"
+        placeholder-style="color:#C7C7CC"
+        bindinput="settingSecurecode"
+        bindconfirm="inputSecurecode"
+      />
+    </view>
+    <view class="gap-line"></view>
+
+    <!-- <view class="mobile-phone">
+      <text class="secure-code-title">手机号码</text>
+      <input
+        class="secure-code-input"
+        maxlength="11"
+        type="number"
+        password="true"
+        confirm-type="done"
+        placeholder="输入手机号码"
+        placeholder-style="color:#C7C7CC"
+        bindinput="settingPhone"
+        bindconfirm="inputPhone"
+      />
+    </view>
+    <view class="gap-line"></view> -->
+
+    <button class="get-insurance-btn" style="color: #ffffff" bindtap="getInsuranceBtnClick">领取</button>
+    <view class="description-text">
+      <view class="description-text-click">
+        <button
+          style="background-color: transparent; border: none; width: 55px; height: 20px; font-size: 12px !important"
+          plain="{{true}}"
+          bindtap="descriptionTextClick"
+        >
+          <view class="description-text-btn-title">查看</view>
+        </button>
+      </view>
+
+      <view class="description-text-rich-text">
+        <rich-text class="description-text-rich-text-content" nodes="{{descriptionShortText}}"></rich-text>
+      </view>
+    </view>
+    <view class="content-shrink" bindtap="contentStreatchClick">
+      <image
+        class="content-btn"
+        src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/btn_insurance_down.png"
+      ></image>
+    </view>
+  </view>
+  <view wx:if="{{showHistory}}" class="history-content">
+    <insurance-list dataSource="{{insuranceCardListData}}"></insurance-list>
+  </view>
+</view>

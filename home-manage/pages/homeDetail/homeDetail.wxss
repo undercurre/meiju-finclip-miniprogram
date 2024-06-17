@@ -1,0 +1,134 @@
+/* home-manage/pages/homeDetail/homeDetail.wxss */
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.detail-container{
+  margin-top: 20rpx;
+}
+.family-name{
+  width: 280rpx;
+  color: #999;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.member-container{
+  margin: 20rpx 32rpx 0;
+  background-color: #fff;
+  border-radius: 32rpx;
+  overflow: hidden;
+  padding: 0 32rpx;
+}
+.member-head{
+  padding: 40rpx 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.member-head text{
+  font-size: 32rpx;
+  font-weight: 500;
+  line-height: 1;
+}
+.avatar-container{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding-top: 32rpx;
+  padding-bottom: 48rpx;
+}
+.avatar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120rpx;
+  margin-left: 46rpx;
+  overflow: hidden;
+}
+.avatar:nth-child(4n+1){
+  margin-left: 0;
+}
+.avatar:nth-child(n+5){
+  margin-top: 40rpx;
+}
+.avatar image{
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+.avatar text{
+  width: 100%;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #999;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.avatar-box {
+  position: relative;
+  height: 120rpx;
+}
+.avatar-box text {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  font-size: 18rpx;
+  margin: 0 0 0 -46rpx;
+  background-color: rgba(0, 0, 0, .7);
+  color: #fff;
+  width: 92rpx;
+  line-height: 32rpx;
+  border-radius: 18rpx;
+  border: 1px solid #fff;
+}
+.add-icon{
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #f2f2f2;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: 48rpx 48rpx;
+  background-position: center center;
+  background-color: #F9F9F9;
+  outline: 0;
+}
+button::after{
+  border: none;
+}
+.Ico{
+  width: 24rpx;
+  height: 24rpx;
+}
+.delete-btn-container{
+  position: fixed;
+  bottom: calc(32rpx + var(--iphonex-fix-bottom));
+  left: 32rpx;
+  right: 32rpx;
+}
+.dialog-input{
+  padding:32rpx 30rpx 20rpx;
+}
+.input-class{
+  font-size: 24rpx;
+}
+.field-container{
+  padding-bottom: 12rpx;
+}
+.tips-container{
+  line-height: 1;
+}
+.tips{
+  font-size: 20rpx;
+  line-height: 20rpx;
+  color: #FF8225;
+}

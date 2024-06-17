@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-button": "/pages/component/m-ui/mx-button/mx-button"
+  }
+}

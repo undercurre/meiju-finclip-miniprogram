@@ -1,0 +1,15 @@
+/* T0xAC//index/index.wxss */
+@import "/assets/css/plugin.wxss";
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #F9F9F9;
+  box-sizing: border-box;
+  padding-bottom: 100rpx;
+  padding-top: 50rpx;
+}
+.device-newCard {
+  width: 686rpx;
+  height: calc(100% + 212rpx);
+  margin: 0rpx auto 72rpx;
+}

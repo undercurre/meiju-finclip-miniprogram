@@ -1,0 +1,64 @@
+/* 主色/品牌 功能色/特殊场景 */
+.main-bg0 {
+    background:#267AFF;
+}
+.main-bg1 {
+    background:#FF8225;
+}
+.main-bg2 {
+    background:#25CF42;
+}
+.main-bg3 {
+    background:#FF3B30;
+}
+
+/* 辅助色 */
+.sub-bg0 {
+    background:#995EFC;
+}
+.sub-bg1 {
+    background:#6575FF;
+}
+.sub-bg2 {
+    background:#29C3FF;
+}
+.sub-bg3 {
+    background:#00CBB8;
+}
+.sub-bg4 {
+    background:#FFAA10;
+}
+.sub-bg5 {
+    background:#FF8225;
+}
+.sub-bg6 {
+    background:#FF6A4C;
+}
+.sub-bg7 {
+    background:#7C879B;
+}
+/* 黑灰色 */
+.black-bg0 {
+    background:#000000;
+}
+.black-bg1 {
+    background:#232323;
+}
+.black-bg2 {
+    background:#666666;
+}
+.black-bg3 {
+    background:#8A8A8F;
+}
+.black-bg4 {
+    background:#C7C7C7;
+}
+.black-bg5 {
+    background:#F2F2F2;
+}
+.black-bg6 {
+    background:#F9F9F9;
+}
+.black-bg7 {
+    background:#FFFFFF;
+}

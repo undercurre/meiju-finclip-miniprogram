@@ -1,0 +1,123 @@
+<!--midea-service/pages/addAddress/addAddress.wxml-->
+<!--index.wxml-->
+<view class="shadow" wx:if="{{ isLoading }}"></view>
+<view class="whole">
+  <view class="form">
+    <!-- input获取的时候会闪烁一下   后续可以换成textarea -->
+    <!-- 或者placeholder用text显示 -->
+    <view class="form-list">
+      <text>{{user.text}}</text>
+      <text wx:if="{{!form.name && !input1}}" class="input-place" bindtap="placeHo" data-id="1"
+        >{{user.placeHolder}}</text
+      >
+      <input
+        wx:else
+        value="{{form.name}}"
+        focus="{{input1}}"
+        data-id="name|1"
+        bindblur="inputBlur"
+        maxlength="15"
+        bindinput="inputInput"
+      />
+    </view>
+    <view class="form-list">
+      <text>{{phone.text}}</text>
+      <text wx:if="{{!form.phone && !input2}}" class="input-place" bindtap="placeHo" data-id="2"
+        >{{phone.placeHolder}}</text
+      >
+      <input
+        wx:elif="{{isModifyMode&&antianaphylaxis }}"
+        type="number"
+        minlength="11"
+        maxlength="11"
+        value="{{form.mobile}}"
+        bindfocus="antiMobileClicked"
+      />
+      <input
+        wx:else
+        minlength="11"
+        maxlength="11"
+        type="number"
+        value="{{form.phone}}"
+        focus="{{input2}}"
+        data-id="phone|2"
+        bindblur="inputBlur"
+        bindinput="inputInput"
+      />
+    </view>
+    <view class="form-list">
+      <text>{{chooseArea.text}}</text>
+      <text wx:if="{{form.region.length==0}}" class="input-place" bindtap="showAddressPopup"
+        >{{chooseArea.placeHolder}}</text
+      >
+      <!-- 只传region不传code的时候 -->
+      <!-- <text wx:else class="form-region"
+      bindtap="showAddressPopup">{{form.region[0]+' '+form.region[1]+' '+form.region[2]+' '+form.region[3]}}</text> -->
+      <span wx:else class="form-region" bindtap="showAddressPopup">
+        {{form.region['provinceName']+' '+form.region['cityName']+' '+form.region['countyName']+' '
+        +form.region['streetName']}}
+      </span>
+      <view class="arrowTab">
+        <view class="arrow-click" wx:if="{{form.region.length==0}}" bindtap="showAddressPopup"></view>
+        <image class="arrow" wx:if="{{form.region.length==0}}" src="./assets/img/arrow-right.png"></image>
+      </view>
+    </view>
+    <view class="form-list">
+      <text>{{address.text}}</text>
+      <block wx:if="{{!form.address && !input4}}">
+        <textarea
+          class="textarea"
+          maxlength="50"
+          auto-height
+          value="{{form.address}}"
+          bindtap="placeHo"
+          bindblur="setAddress"
+          data-id="4"
+          placeholder="请输入详细地址"
+        ></textarea>
+      </block>
+      <block wx:else>
+        <textarea
+          class="textarea"
+          maxlength="50"
+          auto-height
+          value="{{form.address}}"
+          bindinput="inputInput"
+          focus="{{input4}}"
+          data-id="address|4"
+          placeholder="请输入详细地址"
+        ></textarea>
+      </block>
+      <!-- <cover-view>
+        <cover-image
+          class="clearAddrIcon"
+          wx:if="{{form.address.length != 0 && !isShowAdressPopup}}"
+          src="./assets/img/search_ic_close.png"
+          catchtap="clearAddr"
+        ></cover-image>
+      </cover-view> -->
+      <image
+        class="clearAddrIcon"
+        wx:if="{{form.address.length != 0 && !isShowAdressPopup}}"
+        src="./assets/img/search_ic_close.png"
+        catchtap="clearAddr"
+      ></image>
+    </view>
+    <view class="form-list">
+      <text>{{isDefaultAddr.text}}</text>
+      <switch color="#267aff" checked="{{ form.defaultAddr }}" bindchange="switchChange" />
+    </view>
+  </view>
+  <view wx:if="{{isModifyMode}}" class="del-wrap">
+    <text bindtap="delAddress" class="del-text">删除当前地址</text>
+  </view>
+  <button class="form-dis-submit" wx:if="{{disabled}}" style="width: 686rpx; border-radius: 46rpx">保存</button>
+  <button class="form-submit" wx:else style="width: 686rpx; border-radius: 46rpx" bindtap="save">保存</button>
+  <view-address-popup
+    id="addressPopup"
+    isShowAdressPopup="{{ isShowAdressPopup }}"
+    regionList="{{ form.region }}"
+    bind:dialogClose="onDialogClose"
+    bind:getRegion="onGetRegion"
+  ></view-address-popup>
+</view>

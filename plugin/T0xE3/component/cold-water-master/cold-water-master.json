@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-switch": "/common-packages/plugin/component/new-vant/switch/index"
+  },
+  "componentPlaceholder": {
+    "van-switch": "view"
+  }
+}

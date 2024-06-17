@@ -1,0 +1,14 @@
+@import '../common/common.wxss';
+.card-check-box{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-radius: 100%;
+ width: 100%;
+ height: 100%;
+}
+.power-loading{
+  width: 24px;
+  height: 24px;
+  /* margin: 10rpx; */
+}

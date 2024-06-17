@@ -1,0 +1,45 @@
+/* m-ui/m-card/m-card.wxss */
+.m-card{
+  width: 100vw;
+}
+.card-item {
+  width: 686rpx;
+  height: 160rpx;
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+  margin: auto;
+  background-color: #FFFFFF;
+  /* background-color: lightgreen; */
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  /* width: 540rpx; */
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.title {
+  color: #000;
+  font-size: 32rpx;
+  /* font-weight: bold; */
+}
+.vertical-line{
+  width: 4rpx;
+  height: 16rpx;
+  background-color: #DDDDDD;
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+}
+.icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  margin-right: 32rpx;
+  /* border-radius: 50%; */
+}

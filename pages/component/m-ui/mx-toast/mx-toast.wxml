@@ -1,0 +1,5 @@
+<view wx:if="{{show}}" class="container">
+  <view class="toast">
+    <text class="label">{{text}}</text>
+  </view>
+</view>

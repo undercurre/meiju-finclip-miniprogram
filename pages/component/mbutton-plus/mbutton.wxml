@@ -1,0 +1,8 @@
+<mbutton
+  disabled="{{disabled}}"
+  bindbuttonTap="buttonTap"
+  mainImgSize="{{mainImgSize}}"
+  hasCover="{{hasCover}}"
+  buttonData="{{localData}}"
+>
+</mbutton>

@@ -1,0 +1,87 @@
+/* plugin/T0xB7/activityWrapper/activity-wrapper.wxss */
+
+.active-topper {
+  position: fixed;
+  top: 0rpx;
+  right: 0rpx;
+  width: 750rpx;
+  height: 150rpx;
+  /* background-color: rgba(0, 0, 0, 0.1); */
+  /* background-color: transparent; */
+}
+.active-dialog {
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 100rpx;
+  right: 25rpx;
+  /* background-color: rgba(0, 0, 0, 0.4); */
+  z-index: 9999;    /* 协议更新时 遮罩层需要覆盖浮动窗口 */
+  transition: right 0.5s;
+}
+.hide {
+  right: -60rpx;
+}
+.active-close {
+  width: 45rpx;
+  height: 45rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: -4rpx;
+  z-index: 100005;
+  /* background-color: #666; */
+}
+.active-dialog-main {
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  z-index: 100000;
+}
+
+.active-box {
+  padding-top: 32rpx;
+  margin: 20rpx 32rpx;
+  width: 686rpx;
+  min-height: 96rpx;
+  background-color: white;
+  border-radius: 16rpx;
+}
+
+.activity-title {
+  font-size: 32rpx;
+  color: #333333;
+  margin-left: 32rpx;
+}
+
+.active-inner {
+  padding: 32rpx 0rpx;
+  width: 686rpx;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex: 1;
+}
+
+.active-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.active-item-img {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.active-item-title {
+  padding-top: 16rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #000000;
+  line-height: 12px;
+  font-weight: 400;
+}

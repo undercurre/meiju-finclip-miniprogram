@@ -1,0 +1,105 @@
+<wxs src="./banneer-panel.wxs" module="tools" />
+<!-- 状态显示 -->
+<view>
+  <view class="banner-panel">
+    <!-- 离线 -->
+    <view wx:if="{{statusNum == 0}}" class="offline-box">
+      <text class="offline-text">已离线</text>
+    </view>
+    <!-- 故障 -->
+    <view wx:elif="{{statusNum == 1}}" class="offline-box">
+      <image class="error-img" src="{{images.warning}}"></image>
+      <text class="error-text">{{errorsTxt}}</text>
+    </view>
+    <!-- 管线机 -->
+    <block wx:elif="{{deviceSetting && deviceSetting.deviceKind==7}}">
+      <view class="gu">
+        <view class="gu-top">
+          <text class="gu-top-text {{statusNum == 5 ? 'opacity0' : 'opacity1'}}">今日饮水量</text>
+        </view>
+        <view class="gu-tit">
+          <text class="gu-tit-text">{{statusNum == 5 ? germicidalLeftTime : todayWater}}</text>
+          <text class="{{platform == 'ios'? 'text3': 'text1'}}">{{statusNum == 5 ? '分' : '升'}}</text>
+        </view>
+        <view class="gu-desc {{statusNum > -1 ? 'opacity1' : 'opacity0'}}" style="background-color:{{runBgColor}};">
+          <text class="gu-desc-text" style="color:{{runTxtColor}};">{{statusTxt}}</text>
+        </view>
+      </view>
+    </block>
+    <!-- 茶吧机 -->
+    <block wx:elif="{{deviceSetting && deviceSetting.deviceKind==6}}">
+      <view class="ba">
+        <view class="ba-top">
+          <text class="ba-top-text">{{(statusNum == 3 && deviceSetting.currentTemShow) ? '当前温度' : '今日饮水量'}}</text>
+        </view>
+        <view class="ba-tit">
+          <text class="ba-tit-text">{{(statusNum == 3 && deviceSetting.currentTemShow) ? currentTemperature : todayWater}}</text>
+          <text class="{{platform == 'ios'? 'text4': 'text2'}}" wx:if="{{statusNum == 3 && deviceSetting.currentTemShow}}">℃</text>
+          <text class="{{platform == 'ios'? 'text3': 'text1'}}" wx:else>升</text>
+        </view>
+        <view class="ba-desc {{statusNum > -1 ? 'opacity1' : 'opacity0'}}" style="background-color:{{runBgColor}}">
+          <text class="ba-desc-text" style="color:{{runTxtColor}};">{{statusTxt}}</text>
+        </view>
+      </view>
+    </block>
+    <!-- 饮水机 -->
+    <block wx:elif="{{deviceSetting && deviceSetting.deviceKind==5}}">
+      <view class="yin">
+        <view class="yin-top">
+          <text class="yin-top-text {{statusNum == 5 ? 'opacity0' : 'opacity1'}}">今日饮水量</text>
+        </view>
+        <view class="yin-tit">
+          <text class="yin-tit-text">{{statusNum == 5 ? germicidalLeftTime : todayWater}}</text>
+          <text class="{{platform == 'ios'? 'text3': 'text1'}}">{{statusNum == 5 ? '分' : '升'}}</text>
+        </view>
+        <view class="yin-desc {{statusNum > -1 ? 'opacity1' : 'opacity0'}}" style="background-color:{{runBgColor}};">
+          <text class="yin-desc-text" style="color:{{runTxtColor}};">{{statusTxt}}</text>
+        </view>
+      </view>
+    </block>
+    <!-- 软水机 -->
+    <block wx:elif="{{deviceSetting && (deviceSetting.deviceKind==9 || deviceSetting.deviceKind==10)}}">
+      <view class="up8">
+        <view class="up8-thirdfloor">
+          <text class="up8-thirdfloor-text">{{'系统状态: ' + statusTxt + '(' + velocity + ' L/min)'}}</text>
+        </view>
+        <!-- 软水机 -->
+        <view class="up8-firstfloor" wx:if="{{statusNum == 13 || statusNum == 14}}">
+          <text class="up8-firstfloor-text">{{ remainTime }}</text>
+          <text class="{{platform == 'ios'? 'text3': 'text1'}}">分钟</text>
+        </view>
+        <view class="up8-firstfloor" wx:else>
+          <text class="up8-firstfloor-text">{{ waterCount }}</text>
+          <text class="{{platform == 'ios'? 'text3': 'text1'}}">L</text>
+        </view>
+
+        <view class="up8-secondfloor">
+          <!-- 软水机 -->
+          <text wx:if="{{deviceSetting.deviceKind==9}}" class="up8-secondfloor-text">{{statusNum == 13 ? '再生剩余时间' : '剩余软水量'}}</text>
+          <!-- 中央净水器 CWJ-C133 -->
+          <text wx:if="{{deviceSetting.deviceKind==10}}" class="up8-secondfloor-text">{{statusNum == 14 ? '当前清洗剩余时间' : '今日用水量'}}</text>
+        </view>
+      </view>
+    </block>
+    <!-- 净水 净饮 -->
+    <block wx:else>
+      <view class="fil {{deviceSetting?'opacity1':'opacity0'}}">
+        <view class="fil-top">
+          <text class="fil-top-text {{statusNum == 5 ? 'opacity0':'opacity1'}}">{{hasInTDS ? '进水TDS值为'+inTDS : hasOutTDS === false ? '今日用水量' : ''}}</text>
+        </view>
+        <view class="{{ statusNum == 5 ? 'fil-tit2' : 'fil-tit1'}}" wx:if="{{hasOutTDS===true}}">
+          <text class="fil-text">{{ statusNum == 5 ? germicidalLeftTime : outTDS}}</text>
+          <text class="{{platform == 'ios'? 'text3': 'text1'}}">{{ statusNum == 5 ? '分' : 'TDS'}}</text>
+        </view>
+        <view class="fil-tit2" wx:elif="{{hasOutTDS===false}}">
+          <text class="fil-text">{{ statusNum == 5 ? germicidalLeftTime :  todayWater}}</text>
+          <text class="{{platform == 'ios'? 'text3': 'text1'}}">{{ statusNum == 5 ? '分' : '升'}}</text>
+        </view>
+        <view class="fil-desc {{statusNum > -1 ? 'opacity1' : 'opacity0'}}" style="background-color:{{runBgColor}};width: {{statusNum == 4 ?'230rpx':'auto'}};">
+          <text class="fil-desc-text" style="color:{{runTxtColor}};">{{washTxt ? washTxt : statusTxt}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+  <text class="tips {{statusNum !== 1?'opacity1':'opacity0'}}" style="color:{{statusNum==3 || statusNum==5 ? tools.getColor('yellow') : tools.getColor('aqua')}};">Tips: {{curTip}}</text>
+</view>

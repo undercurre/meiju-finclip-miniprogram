@@ -1,0 +1,15 @@
+.bottom-item{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bottom-icon{
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+}
+.describe{
+  font-size: 24rpx;
+  margin-top: 16rpx;
+}

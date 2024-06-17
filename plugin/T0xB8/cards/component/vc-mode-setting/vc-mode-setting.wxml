@@ -1,0 +1,15 @@
+
+<view class="mode-setting-container" style="margin-bottom: {{bottom}};">
+  <view class="mode-title">{{title}}</view>
+  <view class="mode-list-wrap">
+    <view class="mode-item" 
+          wx:for="{{list}}"
+          wx:key="index"
+          catchtap="selectCurrent"
+          data-item="{{item}}"
+          style="background-color: {{currentMode.key == item.key ? activeBackColor : inactiveBackColor}};">
+      <image src="{{currentMode.key == item.key ? item.selectIcon : item.icon}}" mode="" class="mode-icon"/>
+      <view  class="mode-name" style="color:{{currentMode.key == item.key ? activeColor : inactiveColor}}">{{item.title}}</view>
+    </view>
+  </view>
+</view>

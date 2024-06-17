@@ -1,0 +1,10 @@
+<view>
+  <picker-view class="picker-view" indicator-class="indicator-style" value="{{valueIndex}}" bindchange="bindChange">
+    <picker-view-column class="picker-view-column">
+      <view class="picker-view-column-item" wx:for="{{mapValues}}" wx:key="index">
+        <text class="item-label{{valueIndex[0] == index ? ' blue' : ''}}">{{item.label}}</text>
+        <text wx:if="{{unit && (valueIndex[0] == index)}}" class="item-unit">{{unit}}</text>
+      </view>
+    </picker-view-column>
+  </picker-view>
+</view>

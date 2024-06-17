@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "房间与设备",
+  "usingComponents": {
+    "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index",
+    "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
+    "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-field": "/miniprogram_npm/m-ui/mx-field/index"
+  }
+}

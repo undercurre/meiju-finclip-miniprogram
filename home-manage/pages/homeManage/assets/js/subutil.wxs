@@ -1,0 +1,8 @@
+var checkHasFamilyPermission = function (roleId) {
+  var hasPermissionList = ['1001', '1002'] // 1001 - 创建者 1002 - 管理员
+  return hasPermissionList.indexOf(roleId) >= 0
+}
+
+module.exports = {
+  checkHasFamilyPermission: checkHasFamilyPermission
+}

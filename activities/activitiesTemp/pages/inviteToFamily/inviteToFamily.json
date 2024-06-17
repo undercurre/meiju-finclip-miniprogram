@@ -1,0 +1,19 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navbar": "../components/navbar/navbar",
+    "my-reward": "../components/my-reward/my-reward",
+    "normal-container": "../components/normal-container/normal-container",
+    "invite-register-container": "../components/invite-register-container/invite-register-container",
+    "join-family-container": "../components/join-family-container/join-family-container",
+    "dialog": "../components/dialog/dialog",
+    "component-toast": "../components/toast/toast",
+    "component-invite": "../components/invite-panel/invite-panel",
+    "view-card-dialog": "../components/view-card-dialog/view-card-dialog",
+    "basic": "/sub-package/common-package/components/captcha/captchaBasic/captchaBasic"
+  },
+  "componentPlaceholder": {
+    "basic": "view"
+  }
+}

@@ -1,0 +1,26 @@
+.container {
+  text-align: center;
+  position: relative;
+  /* padding-top: 16rpx; */
+  display: flex;
+  flex-direction: row;
+  height:50%;
+}
+
+.switch-center {
+  width: 294rpx;
+  height: 350rpx;
+  border-radius: 20rpx;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-around; */
+  justify-content: center;
+}
+
+.switch-center-view {
+  display: flex;
+  padding: 40rpx 0;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}

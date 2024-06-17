@@ -1,0 +1,108 @@
+<!-- plugin/T0xE2/index/index.wxml -->
+<offline wx:if="{{deviceInfo.onlineStatus == 0}}" />
+
+<scroll-view wx:elif="{{isInitFinish}}" class="index-page flex flex_column align_center">
+  <!-- 采暖/卫浴 tab 切换 -->
+  <view class="tabs-header">
+    <view class="tab-item {{ tabSelect == 0 ? 'active' : '' }}" data-tab="0" bindtap="bindHeatBathChange">
+      采暖
+    </view>
+    <view class="tab-item {{ tabSelect == 1 ? 'active' : '' }}" data-tab="1" bindtap="bindHeatBathChange">
+      卫浴
+    </view>
+  </view>
+  <!-- 活动弹窗 -->
+  <activity-wrapper>
+    <view>
+      <!-- lottie UI -->
+      <view class="lottie-wrap">
+        <!-- 关机状态 -->
+        <image wx:if="{{statusOff[tabSelect]}}" class="offline-bg-img" src="{{images.statusOffImage}}"></image>
+        <!-- 工作状态 -->
+        <image wx:elif="{{statusHeating[tabSelect]}}" class="heating-bg-img" src="{{images.heating}}" />
+        <image wx:else class="running-bg-img" src="{{images.running}}" />
+        <!-- 状态圆圈Banner详情文字 -->
+        <view class="content-wrap">
+          <!-- 离线 -->
+          <view wx:if="{{heatStatus == 7}}" class="status-off-box">
+            <text>已离线</text>
+          </view>
+          <!-- 故障 -->
+          <view wx:elif="{{heatStatus == 6}}" class="status-off-box">
+            <image class="error-img" src="{{images.errorImg}}"></image>
+            <text class="error-text">{{errorContent}}</text>
+          </view>
+          <!-- 关机 -->
+          <view wx:elif="{{heatStatus == 5}}" class="status-off-box">
+            <text>已关机</text>
+          </view>
+          <view wx:elif="{{tabSelect == 0 && heatStatus == 4}}" class="status-off-box">
+            <text>采暖关</text>
+          </view>
+          <view wx:else class="online-box" style="margin-top:{{ tabSelect == 1 ? (setting.hasBathOutWaterTemp? '0': '32rpx') : '0' }}">
+            <text class="gray">设置温度</text>
+            <view class="tem-wrap">
+              <text class="tem">{{ curSetTemp[tabSelect] || '--' }}</text>
+              <text class="degree">℃</text>
+            </view>
+            <view class="status-wrap" wx:if="{{(tabSelect == 0 && heatStatus < 2) || (tabSelect == 1 && bathStatus == 1 || heatStatus == 8)}}">
+              <!-- 实际温度 -->
+              <view class="center-wrapper" wx:if="{{tabSelect == 0 || (tabSelect == 1 && setting.hasBathOutWaterTemp)}}">
+                <text class="status-title">实际温度</text>
+                <text class="status-value">{{ outWaterTemp[tabSelect] || '--' }}℃</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- cell list -->
+      <view class="cell-list" style="margin-top: {{!statusOff[tabSelect] ? '80rpx' : '0'}}">
+        <!-- 开关机 -->
+        <van-cell title="{{powerCellText}}" custom-class="power-cell" title-class="title-text" border="{{false}}">
+          <image bindtap="togglePower" slot="right-icon" class="power-cell-right-icon" src="{{images.powerOn}}" style="background-color:{{!(tabSelect == 1 ? bathStatus >= 5 : heatStatus >= 5) ? '#FFAA10' : '#7C879B'}};opacity:{{!(bathStatus == 6 || heatStatus == 6) ? 1 : 0.5}};" />
+        </van-cell>
+        <!-- 温度设置 -->
+        <view class="cell-group" wx:if="{{hasTempSetting}}" style="opacity:{{!disabledStatus ? 1 : 0.5}};">
+          <van-cell title="设置温度{{tempSettingCellAddTitle}}" value="{{tempSettingValue}}" label="{{tempSettingCellLabel}}" custom-class="cell" value-class="cell-value-temp" border="{{false}}" title-class="title-text" bind:click="onCellClick" is-link>
+            <image slot="icon" src="{{images.temSet}}" class="cell-icon" style="background: {{!disabledStatus ? '#FFAA10' : '#7C879B'}}" />
+          </van-cell>
+        </view>
+        <view class="cell-group" style="opacity: {{!disabledStatus ? 1 : 0.5}};">
+          <!-- 采暖预约 -->
+          <van-cell wx:if="{{hasHeatAppointType}}" title="采暖预约" value="" label="{{'预定时段内自动加热'}}" custom-class="cell" value-class="cell-value" title-class="title-text" border="{{false}}" bindclick="navigateToHeatAppoint" is-link>
+            <image slot="icon" src="{{images.appointOn}}" class="cell-icon" style="background:{{!disabledStatus ? '#FFAA10' : '#7C879B'}}" />
+          </van-cell>
+          <!-- 采暖/卫浴模式 -->
+          <van-cell wx:if="{{tabSelect == 0 && modeList.length}}" title="{{tabSelect == 0 ? '采暖' : '卫浴'}}模式" value="{{currentModeName}}" label="{{'设置设备当前运行模式'}}" custom-class="cell" value-class="cell-value" title-class="title-text" border="{{false}}" bind:click="openModePopup" is-link>
+            <view class="cell-icon p" slot="icon" style="background:{{!disabledStatus ? '#FFAA10' : '#7C879B'}}">
+              P
+            </view>
+          </van-cell>
+          <!-- 单次零冷水开关 -->
+          <van-cell wx:if="{{hasWaterMaster}}" title="单次零冷水" value="{{''}}" label="{{'启动零冷水1次'}}" custom-class="cell" value-class="cell-value" title-class="title-text" border="{{false}}">
+            <image slot="icon" src="{{images.coldWaterSingle}}" class="cell-icon" style="background:{{!disabledStatus ? '#FFAA10' : '#7C879B'}}" />
+            <van-switch slot="right-icon" size="40rpx" checked="{{coldWaterSwitch}}" active-color="{{!disabledStatus ? '#FFAA10' : '#7C879B'}}" disabled="{{disabledStatus}}" bindchange="switchColdWater" />
+          </van-cell>
+        </view>
+      </view>
+    </view> 
+  </activity-wrapper>
+  <!-- 活动弹窗 -->
+
+  <!-- 模式选择 -->
+  <van-popup round show="{{isShowModePicker}}" position="bottom" bindclose="closeModePicker">
+    <view class="mode-title">选择模式</view>
+    <scroll-view class="mode-list" show-scrollbar="{{false}}" scroll-y>
+      <!-- item.isSelected ? '#EAEAEC' : '#F6F6F6' -->
+      <van-cell custom-class="cell {{ item.isSelected && 'active-cell' }}" wx:for="{{modeList}}" wx:key="pic" title="{{item.title}}" title-class="title-text" label="{{item.desc}}" data-item="{{item}}" bind:click="selectMode">
+        <image slot="icon" src="{{item.pic}}" class="cell-icon" style="background-color: #ffaa10" />
+      </van-cell>
+    </scroll-view>
+    <view class="mode-cancel" bindtap="closeModePicker">取消</view>
+  </van-popup>
+
+  <!-- 弹框温度调节 -->
+  <c-picker show="{{showTemPicker}}" mode="multiSelector" range="{{tempSettingRangeArr}}" value="{{ tempSettingPickerIndex }}" unit="℃" bind:confirm="bindTempSettingPickerChange" bind:cancel="handleCancel"/>
+
+</scroll-view>
+

@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "device-card": "/plugin/T0xED/card/card",
+    "midea-notice-bar": "../component/midea-notice-bar/midea-notice-bar",
+    "mx-footer": "/pages/component/m-ui/mx-footer/mx-footer",
+    "offline": "/pages/component/offline/offline",
+    "navbar": "../component/navbar/navbar"
+  },
+  "componentPlaceholder": {
+  }
+}

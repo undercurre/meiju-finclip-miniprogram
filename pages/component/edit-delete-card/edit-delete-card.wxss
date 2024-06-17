@@ -1,0 +1,80 @@
+/* pages/component/edit-delete-card/edit-delete-card.wxss */
+
+.topWarp,
+.unsupportEditTopWarp,
+.bottomWarp,
+.unsupportEditBottomWarp {
+  position: absolute;
+  width: 216rpx;
+  height: auto;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 24rpx;
+  left: 50%;
+  margin-left: -108rpx;
+  opacity: 1;
+  z-index: 1000000;
+}
+.unsupportEditTopWarp {
+  top: -174rpx;
+}
+.topWarp {
+  animation: inAnimation 0.2s ease-in;
+  transform-origin: 50% 100%;
+}
+.bottomWarp {
+  animation: inAnimation 0.2s ease-in;
+  transform-origin: 50% 0;
+}
+.unsupportEditBottomWarp {
+  bottom: -174rpx;
+}
+.editItem {
+  display: flex;
+  align-items: center;
+}
+.editIcoWarp {
+  flex: 1;
+  text-align: center;
+}
+.editIco {
+  width: 32rpx;
+  height: 32rpx;
+}
+.editItem:nth-last-child(1) .editDes {
+  border-bottom: none;
+}
+.editDes {
+  border-bottom: 1px solid #4d4d4d;
+  height: 83rpx;
+  line-height: 83rpx;
+  width: 140rpx;
+  font-size: 24rpx;
+}
+.editTopTrangle,
+.editBottonTrangle {
+  width: 0;
+  height: 0;
+  border-left: 12rpx solid transparent;
+  border-right: 12rpx solid transparent;
+  position: absolute;
+  left: 50%;
+  margin-left: -12rpx;
+}
+.editTopTrangle {
+  border-top: 8rpx solid rgba(0, 0, 0, 0.8);
+  top: -9rpx;
+}
+.editBottonTrangle {
+  border-bottom: 8rpx solid rgba(0, 0, 0, 0.8);
+  bottom: -9rpx;
+}
+@keyframes inAnimation {
+  0% {
+    scale: 0;
+  }
+
+  100% {
+    scale: 1;
+  }
+}

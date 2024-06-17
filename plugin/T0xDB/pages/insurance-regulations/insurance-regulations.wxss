@@ -1,0 +1,14 @@
+/* plugin/T0xDB/pages/insurance-regulations/insurance-regulations.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+.content {
+  margin: 20px 5% 78px 5%;
+}
+.content-rich-text {
+  color: #333333;
+  font-size: 12px;
+}

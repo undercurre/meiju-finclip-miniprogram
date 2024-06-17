@@ -1,0 +1,32 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "disableScroll": true,
+  "usingComponents": {
+    "plugin-navbar": "/pages/component/plugin-navbar/plugin-navbar",
+    "mbutton": "/pages/component/mbutton/mbutton",
+    "offline": "/pages/component/offline/offline",
+    "cardHeader": "/pages/component/card-header/card-header",
+    "circleProgressBar": "/pages/component/circle-progress-bar/circle-progress-bar",
+    "circleButtonImage": "/pages/component/circle-button-image/circle-button-image",
+    "popup": "/pages/component/vant/popup/index",
+    "collapse": "/pages/component/vant/collapse/index",
+    "collapse-item": "/pages/component/vant/collapse-item/index",
+    "hms": "/plugin/T0xBX/assets/component/hms/index",
+    "sf-picker-view": "/plugin/T0xBX/assets/component/picker-view/picker-view",
+    "count-down": "/plugin/T0xBX/assets/component/countdown/countdown",
+    "switch-cell": "/pages/component/vant/switch-cell/index",
+    "action-sheet": "/pages/component/vant/action-sheet/index",
+    "cell": "/pages/component/vant/cell/index",
+    "loading": "/pages/component/mso/loading/loading",
+    "page-header": "/pages/component/mso/page-header/page-header",
+    "orange-button": "/plugin/T0xBX/assets/component/orange-button/orange-button",
+    "reservation-popup": "/plugin/T0xBX/assets/component/popup/index",
+    "nav-bar": "/plugin/T0xBX/assets/component/nav-bar/index",
+    "switch-option": "/plugin/T0xBX/assets/component/switch-option/switch-option",
+    "slider-option": "/plugin/T0xBX/assets/component/slider-option/slider-option",
+    "mx-footer": "/pages/component/m-ui/mx-footer/mx-footer"
+  }
+}

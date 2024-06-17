@@ -1,0 +1,56 @@
+.switch-container {
+  overflow: hidden;
+  width: 96rpx;
+  height: 48rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+.switch-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  border-radius: 20px;
+  height: 6px;
+}
+.common {
+  border-radius: 24rpx;
+  width: 96rpx;
+  height: 48rpx;
+}
+.isSelected {
+  background-color: #267aff;
+  border: 4rpx solid #267aff;
+  box-sizing: border-box;
+}
+.notSelected {
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 4rpx solid #8a8a8f;
+}
+
+.dot-box {
+  width: 36rpx;
+  height: 36rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.switch-icon {
+  width: 16rpx;
+  height: 16rpx;
+  z-index: 9;
+  background: #8a8a8f;
+  border-radius: 50%;
+}
+.blackDot {
+  background: #fff;
+}
+.whiteDot {
+  background: #8a8a8f;
+}

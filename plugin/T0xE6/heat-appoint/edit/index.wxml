@@ -1,0 +1,43 @@
+<!--plugin/T0xE6/heat-appoint/edit/index.wxml-->
+<view class="app-wrapper">
+
+  <!-- 设置采暖温度/模式 -->
+  <text class="title-text">设置采暖温度{{ setting.heatAppointType == 'mode' ?"/模式" : ""}}</text>
+  <!-- <picker wx:if="{{setting.heatAppointType == 'mode'}}" range="{{['采暖温度', '采暖模式']}}" value="{{task.actionType == 'mode' ? 1 : 0}}" bindchange="bindActionTypeChange">
+    <van-cell title="设置类型" value="{{task.actionType == 'mode' ? '采暖模式' : '采暖温度'}}" is-link />
+  </picker>
+  <picker wx:if="{{task.actionType == 'mode'}}" range="{{modeActionTypeRange}}" value="{{modeActionTypeRangeIndex}}" bindchange="bindModeActionTypeChange" range-key="name">
+    <van-cell title="采暖模式" value="{{modeName}}" is-link />
+  </picker> -->
+
+  <van-cell title="采暖温度" value="{{task.temp ? (task.temp  + '℃') : ''}}" is-link bindtap="openTempPicker"/>
+
+  <!-- 设置预约时间 -->
+  <text class="title-text">设置预约时间</text>
+  <van-cell title="开始时间" label="" value="{{task.startTime}}" is-link bindtap="openStartTimePicker"/>
+
+  <van-cell title="结束时间" label="" value="{{endTimeDay + ' ' + endTime }}" is-link bindtap="openEndTimePicker"/>
+
+  <text class="title-text">重复周期</text>
+  <!-- 预约重复选项 -->
+  <view class="repeat-cycle-list">
+    <view wx:for="{{['仅一次', '每天','工作日','周末','自定义']}}" class="item {{ repetitionIndex == index && 'active-item' }}" data-index="{{index}}" bindtap="bindRepeatListClick" wx:key="index">{{item}}</view>
+  </view>
+
+  <view class="week-cell" wx:if="{{repetitionIndex == 4}}">
+    <text wx:for="{{week}}" wx:key="index" class="week-day {{item.isOn ? 'week-day-on' : ''}}" data-index="{{index}}" bindtap="bindWeekItemClick">{{ item.day }}</text>
+  </view>
+
+  <view class="add-btn" style="background-color: #FFAA10;" bindtap="beforeSave">保存</view>
+
+
+
+
+  <!-- 时间picker -->
+  <c-picker show="{{isShowTimePicker}}" mode="multiSelector" range="{{ timeType=='end'? endTimeMultiArray : startTimeMultiArray}}" value="{{ timeType=='end'? endTimeMultiIndex : startTimeMultiIndex }}" unit="{{ timeType=='end'? endMultiUnit : startMultiUnit}}"  bind:change="onPickerChange" bind:confirm="onConfirm" bind:cancel="onCancel" bind:afterleave="onCancel"/>
+
+
+  <!-- 温度picker -->
+  <c-picker show="{{isShowTemPicker}}" mode="multiSelector" range="{{multiArray}}" value="{{ multiIndex }}" unit="℃" bind:confirm="onTemPickerConfirm" bind:cancel="closeTemPicker" bind:afterleave="closeTemPicker"/>
+</view>
+

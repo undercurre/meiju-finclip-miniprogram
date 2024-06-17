@@ -1,0 +1,2 @@
+<canvas id="lottieCanvas" class="canvas" type="2d"
+  style="width:{{width}}rpx;height:{{height}}rpx"></canvas>

@@ -1,0 +1,51 @@
+/* plugin/T0xFB/component/media-notice-bar/media-notice-bar.wxss */
+@import "../../assets/css/common.wxss";
+.notice-bar-wrapper {
+  position: fixed;
+  width: 750rpx ;
+  padding: 15rpx 30rpx;
+  box-sizing: border-box;
+  z-index: 98;
+}
+.container {
+  flex: 1;
+  /*width: calc(100% - 60rpx);*/
+  max-width: 100%;
+}
+.icon {
+  width: 35rpx;
+  height: 35rpx;
+  margin-right: 20rpx;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.text {
+  font-size: 26rpx;
+  width: calc(100% - 60rpx);
+  overflow-x: auto;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.extra-wrapper {
+  margin-left: 20rpx;
+}
+.btn-close {
+  width: 30rpx;
+  height: 30rpx;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.error {
+  background: rgba(255, 59, 48, 0.1);
+  color: #ff3b30;
+}
+.warn {
+  background: rgba(255, 170, 16, 0.1);
+  color: #ffaa10;
+}
+.blueInfo {
+  background: rgba(41, 195, 255, 0.1);
+  color: #fff;
+}

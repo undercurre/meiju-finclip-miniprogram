@@ -1,0 +1,38 @@
+.pv {
+  height: 200rpx;
+}
+.picker-view {
+  padding-right: 20rpx;
+  padding-left: 20rpx;
+}
+.picker-view .picker-view-column {
+  height: 290rpx;
+}
+.picker-view .picker-view-column .picker-view-column-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.picker-view .picker-view-column .picker-view-column-item .item-label {
+  font-size: 36rpx;
+}
+.picker-view .picker-view-column .picker-view-column-item .item-unit {
+  font-size: 26rpx;
+  color: rgba(102, 102, 102);
+  line-height: 34rpx;
+  height: 34rpx;
+  margin-left: 20rpx;
+}
+.indicator-style {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  line-height: 100rpx;
+  height: 100rpx;
+  border-color: #fff;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+.blue {
+  color: #007dff;
+}

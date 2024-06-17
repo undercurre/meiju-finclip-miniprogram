@@ -1,0 +1,37 @@
+.container{
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 686rpx;
+  height: 72rpx;
+  margin-left: 32rpx;
+  /* background-color: #f9f9f9; */
+  bottom: 200rpx;
+  z-index: 9999999;
+}
+.toast{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 72rpx;
+  padding-left:32rpx;
+  padding-right:32rpx;
+  background-color: #000000;
+  border-radius: 36rpx;
+  max-width: 400rpx;
+}
+
+.label{
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

@@ -1,0 +1,15 @@
+<!--pages/component/advertise-bar/advertise-bar.wxml-->
+<!-- 首页登录后无设备时的广告位 -->
+<view wx:if="{{show}}" class="{{isAndroid?'advertise-wrap-android':'advertise-wrap'}} {{isNewIphone?'newIphone':''}}">
+  <swiper class="advertise" indicator-dots="{{true}}" autoplay="{{true}}">
+    <swiper-item
+      class="swiperItem"
+      wx:for="{{selectData}}"
+      catchtap="advertiseBarLink"
+      data-item="{{ item }}"
+      wx:key="{{index}}"
+    >
+      <image class="device-mall" src="{{item.contentUrl}}"></image>
+    </swiper-item>
+  </swiper>
+</view>

@@ -1,0 +1,124 @@
+/* midea-replace-repair/pages/orderList/orderList.wxss */
+.conrainer-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.order-item {
+  display: flex;
+  flex-direction: column;
+  /* width: 686rpx; */
+  /* height: 376rox; */
+  width: 646rpx;
+  height: 312rpx;
+  margin-top: 32rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 16rpx;
+  justify-content: space-around;
+  background-color: #ffffff;
+}
+.item-herder {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 24rpx;
+  height: 32rpx;
+}
+.shop-icon {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  margin-right: 10rpx;
+}
+.order-status {
+  margin-left: auto;
+  color: #ff9500;
+}
+
+.item-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.product-img-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 160rpx;
+  height: 160rpx;
+  background: #ffffff;
+  border: 1rpx solid #e5e5e8;
+  border-radius: 8px;
+}
+.product-img {
+  width: 100rpx;
+  height: 90rpx;
+}
+.product-describe {
+  width: 312rpx;
+  height: 96rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #000000;
+  line-height: 48rpx;
+  font-weight: 500;
+  max-lines: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* white-space: nowrap; */
+  word-wrap: break-word;
+  white-space: normal;
+  word-break: break-all;
+}
+.single-price {
+  font-size: 24rpx;
+  margin-top: 4rpx;
+}
+.item-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 24rpx;
+}
+
+.no-order {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+.no-order-img {
+  width: 480rpx;
+  height: 400rpx;
+  margin-top: -500rpx;
+}
+.no-order-describe {
+  font-size: 28rpx;
+  color: #666666;
+  margin-top: 48rpx;
+}
+
+.dialog-content {
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #000000;
+  letter-spacing: -0.67px;
+  font-weight: 400;
+}
+.define-dialog-btn {
+  color: #000000 !important;
+}
+.emphasizeText {
+  font-size: 32rpx;
+  font-weight: bold;
+}

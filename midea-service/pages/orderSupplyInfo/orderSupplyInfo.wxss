@@ -1,0 +1,67 @@
+page {
+  background-color: #f9f9f9;
+}
+.order-main {
+  margin-top: 16rpx;
+  padding-bottom: 80rpx;
+}
+.order-list {
+  padding: 32rpx;
+  font-size: 28rpx;
+  color: #666666;
+  background-color: #ffffff;
+}
+.list-content {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 24rpx;
+}
+.item-season {
+  margin-top: 24rpx;
+  padding: 12rpx 24rpx;
+  line-height: 32rpx;
+  border-radius: 44rpx;
+  background-color: #f6f6f6;
+  text-align: left;
+  margin-right: 16rpx;
+}
+.order-edit {
+  margin-top: 16rpx;
+  padding: 32rpx;
+  background-color: #ffffff;
+  position: relative;
+}
+.edit-num {
+  position: absolute;
+  right: 32rpx;
+  bottom: 32rpx;
+  font-size: 28rpx;
+  color: #8a8a8f;
+}
+.order-text {
+  height: 588rpx;
+  line-height: 1.5;
+  width: 100%;
+  font-size: 28rpx;
+}
+.order-submit {
+  margin-top: 48rpx;
+  padding: 0 32rpx;
+}
+.order-submit view {
+  font-size: 32rpx;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 48rpx;
+  line-height: 92rpx;
+}
+.btn-green {
+  background: #267aff;
+}
+.btn-gray {
+  background: #cfdffa;
+}
+.item-season.selected {
+  background-color: #e9f1fe;
+  color: #267aff;
+}

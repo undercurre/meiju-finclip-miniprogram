@@ -1,0 +1,17 @@
+<!--plugin/T0xE2/index/index.wxml-->
+<view style="width:750rpx;overflow: hidden;position: relative;">
+    <!-- 自定义的导航栏 -->
+    <navbar navBarName="{{navTitle}}" hasEmpty="{{false}}" bgColor="#f9f9f9"></navbar>
+
+    <midea-notice-bar isShow="{{tipsStatusNum>-1}}" type="{{tipsStatusNum == 0 ? 'error' : 'warn'}}" content="{{tipsStatusTxt}}"></midea-notice-bar>
+
+    <scroll-view class="{{deviceInfoStatus == '1' && statusNum !== 0 ? 'mainContainer' : 'offLineContainer'}}">
+        <view class="device-newCard" wx:if="{{deviceInfoStatus == '1' && statusNum !== 0}}">
+            <device-card></device-card>
+        </view>
+        <view wx:if="{{deviceInfoStatus == '0' || statusNum == 0}}">
+          <offline></offline>
+        </view>
+        <mx-footer wx:if="{{deviceInfoStatus=='1' && statusNum !== 0}}" bindonLabelClicked="clickToDownload"></mx-footer>
+    </scroll-view>
+</view>

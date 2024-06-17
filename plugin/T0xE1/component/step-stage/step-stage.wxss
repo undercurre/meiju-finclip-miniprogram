@@ -1,0 +1,113 @@
+.step-stage-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: auto;
+  margin-bottom: 30rpx;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.desc{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 12px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.step-desc {
+  font-family: PingFangSC-Medium;
+  font-size: 16px;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 16px;
+  font-weight: 500;
+  background-color: #e6e3e3 ;
+  width: 230rpx;
+  height: 60rpx;
+  border-radius: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10rpx;
+  box-sizing: border-box;
+}
+
+.sillence-step {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 430rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+}
+
+.sillence-step text {
+  color: #666666;
+}
+
+.procedure-bar {
+  margin-top: 40rpx;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 460rpx;
+  height: 100rpx;
+}
+
+.keepStopTip{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: PingFangSC-Medium;
+  font-size: 12px;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.rhombus {
+  width: 16rpx;
+  height: 16rpx;
+  transform: rotateZ(45deg) skew(11deg, 11deg);
+  background-color: #272727;
+  margin-bottom: 5px;
+}
+
+.procedure-item {
+  width: 70rpx;
+  height: 70rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #272727;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 12px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.line {
+  position: relative;
+  top: 7rpx;
+  left: 28rpx;
+  height: 4rpx;
+  width: 120rpx;
+  margin-left: -56rpx;
+}

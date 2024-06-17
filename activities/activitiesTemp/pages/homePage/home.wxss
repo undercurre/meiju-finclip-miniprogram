@@ -1,0 +1,27 @@
+/* activities/activitiesTemplates/pages/InviteToFamily/InviteToFamily.wxss */
+@import '../common.wxss';
+page {
+}
+.page-inner {
+  height: auto;
+}
+.page-inner-hidden {
+  overflow: hidden;
+}
+.container {
+  min-height: 100vh;
+}
+.container-item {
+  position: relative;
+}
+.btn {
+  width: 400rpx;
+  height: 72rpx;
+  text-align: center;
+  margin-top: 40rpx;
+  line-height: 72rpx;
+  font-size: 36rpx;
+  color: #ff664f;
+  border-radius: 72rpx;
+  background-image: linear-gradient(-180deg, #ffffff 0%, #ffdbac 100%);
+}

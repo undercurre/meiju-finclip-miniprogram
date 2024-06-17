@@ -1,0 +1,8 @@
+<view class="switch-wrap">
+  <view wx:if="{{disabled}}" class="disabled-mask"></view>
+  <view class="{{ checkedFlag ? 'switch-open inner-class' : 'switch' }}" 
+    style="background: {{ checkedFlag? color :'#FFFFFF' }};" 
+    bindtap="changeHandler">
+    <view class="switch-grey-dot" animation="{{animation}}"></view>
+  </view>
+</view>

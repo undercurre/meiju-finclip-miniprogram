@@ -1,0 +1,20 @@
+<van-popup
+  show="{{ show }}"
+  overlay="{{ overlay }}"
+  position="bottom"
+  custom-style="height:310rpx"
+  bind:close="onClose"
+  round
+  z-index="100000"
+  bind:click-overlay="onClose"
+>
+  <view class="checkBox0" style="padding-bottom: {{ isIphoneX ? '60' : '0' }}rpx">
+    <block wx:for="{{list}}" wx:for-item="item" wx:key="index">
+      <view class="one-item" catchtap="toCheck" data-value="{{item.value}}" data-name="{{item.name}}"
+        >{{item.name}}
+        <view></view>
+      </view>
+    </block>
+    <view class="oneItem mt5" bindtap="onClose"> 取消 </view>
+  </view>
+</van-popup>

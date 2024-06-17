@@ -1,0 +1,90 @@
+.block-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.panel-block{
+    width: 750rpx;
+}
+.inner-block{
+    width: 686rpx;
+    border-radius: 16rpx;
+    background-color: #ffffff;
+    position: relative;
+}
+.line{
+    width: 616rpx;
+    height: 1px;
+    background-color: #F2F2F2;
+    position: absolute;
+    left: 40rpx;
+    top: 0;
+}
+.icon-block{
+    width: 64rpx;
+    height: 64rpx;
+    border-radius: 32rpx;
+    position: absolute;
+    left: 32rpx;
+    top: 48rpx;
+}
+.wind-title{
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #000000;
+    line-height: 34rpx;
+    font-weight: 400;
+    position: absolute;
+    left: 128rpx;
+    top: 60rpx;
+}
+.item-switch{
+    position: absolute;
+    top: 56rpx;
+    right: 32rpx;
+}
+.dir-title{
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #000000;
+    line-height: 34rpx;
+    font-weight: 400;
+    position: absolute;
+    left: 32rpx;
+    top: 48rpx;
+}
+.dir-value-block{
+    width: 100rpx;
+    height: 40rpx;
+    border-radius: 20rpx;
+    position: absolute;
+    left: 182rpx;
+    top: 46rpx;
+}
+.dir-text{
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    font-weight: 400;
+}
+.tag{
+    font-family: PingFangSC-Regular;
+    font-size: 20rpx;
+    color: #8A8A8F;
+    font-weight: 400;
+    position: absolute;
+    bottom: 36rpx;
+}
+.slider-bar{
+    width: 584rpx;
+    height: 40rpx;
+    position: absolute;
+    left: 16rpx;
+    bottom: 50rpx;
+}
+.dir-block{
+    width: 686rpx;
+    height: 212rpx;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}

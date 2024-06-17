@@ -1,0 +1,44 @@
+<view class="order-progress">
+  <view class="order-main">
+    <view class="progress-title">
+      <view class="title-img">
+        <image src="{{ formattedOrder.productImgUrl }}" mode="widthFix"></image>
+      </view>
+      <view class="title-text">
+        <text class="title-num">订单号：</text>
+        <text>{{ formattedOrder.serviceOrderNo }}</text>
+      </view>
+      <view class="title-btn" bindtap="urgeOrder" wx:if="{{ formattedOrder.isAbleToUrgeOrder }}">催办</view>
+    </view>
+    <view class="progress-content">
+      <view
+        class="progress-item"
+        wx:for="{{ formatProgressList }}"
+        wx:for-item="item"
+        wx:for-index="index"
+        wx:key="index"
+      >
+        <view class="item-left">
+          <view class="item-left-sec">
+            <view class="item-time">{{ item.processTimeFormatDay }}</view>
+            <view>{{ item.processTimeFormatSecond }}</view>
+          </view>
+        </view>
+        <view class="item-middle">
+          <view class="item-line {{ index == 0 ? 'no-border' : ''}}"></view>
+          <view class="item-dot {{ index == 0 ? 'dot-green' : 'dot-grey'}}"></view>
+          <view class="item-line {{ index == formatProgressList.length - 1 ? 'no-border' : ''}}"></view>
+        </view>
+        <view class="item-status {{ index == 0  ? 'black' : ''}}">{{ item.processDesc }}</view>
+      </view>
+    </view>
+  </view>
+  <mp-actionSheet
+    show="{{ showUrgeAction }}"
+    actions="{{ urgeOrderItems }}"
+    cancel-text="取消"
+    bind:cancel="urgeActioClose"
+    bind:close="urgeActioClose"
+    bind:select="urgeActioSelect"
+  />
+</view>

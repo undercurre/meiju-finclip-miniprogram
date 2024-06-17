@@ -1,0 +1,18 @@
+<view class="slider-option underline">
+  <view class="switch-option">
+    <image wx:if="{{icon}}" class="option-icon" src="{{icon}}"></image>
+    <text class="option-text">{{label}}</text>
+</view>
+  <view class="slider-container">
+    <slider
+    block-size="20"
+    activeColor="#085CB9"
+    block-color="#085CB9"
+    backgroundColor="#F2F2F2"
+    value="{{_value}}"
+    bindchange="sliderChange" min="{{min}}" max="{{max}}" step="{{step}}"/>
+  </view>
+  <view class="slider-scale">
+    <text wx:for="{{mapValues}}" wx:key="index" class="scale-text">{{item.label}}{{unit}}</text>
+  </view>
+</view>

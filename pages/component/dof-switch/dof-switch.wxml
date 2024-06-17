@@ -1,0 +1,3 @@
+<view class="{{ checkedFlag ? 'switch-blue inner-class' : 'switch' }}" bindtap="changeHandler">
+  <view class="switch-grey-dot" animation="{{animation}}"></view>
+</view>

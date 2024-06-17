@@ -1,0 +1,33 @@
+<view class="order-supply">
+  <view class="order-main">
+    <view class="order-list" wx:if="{{ serviceSubTypeCode=='1010' && fastSelectList.length }}">
+      <view class="list-title">快捷选择（可多选）</view>
+      <view class="list-content">
+        <view
+          class="item-season {{ item.selected ? 'selected' : '' }}"
+          wx:for="{{ fastSelectList }}"
+          wx:for-item="item"
+          wx:for-index="index"
+          wx:key="index"
+          data-index="{{ index }}"
+          bindtap="selectReasonItem"
+          >{{ item.text }}</view
+        >
+      </view>
+    </view>
+    <view class="order-edit">
+      <text class="edit-num">{{ inputValue.length }}/120</text>
+      <textarea
+        class="order-text"
+        maxlength="120"
+        placeholder="在此填写您需要告知服务人员的补充信息"
+        value="{{ inputValue }}"
+        bindinput="inputAction"
+        disable-default-padding="{{ disableDefaultPadding }}"
+      />
+    </view>
+    <view class="order-submit">
+      <view bindtap="submitSupplyInfo" class="{{ btnActive ? 'btn-green' : 'btn-gray' }}">提交</view>
+    </view>
+  </view>
+</view>

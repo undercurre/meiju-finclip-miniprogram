@@ -1,0 +1,41 @@
+<view class="container">
+  <connect-tip wx:if="{{!isDeviceOnline}}"
+    devInfo="{{applianceData}}" 
+    BTConnectMac="{{deviceMacConnect}}" 
+    bind:disconnectBT="blueToothDisconnect"></connect-tip>
+
+  <bluetooth-connect wx:if="{{!isDeviceOnline && BlueToothStatus != 2}}" 
+    isConnectBlue="{{BlueToothStatus == 2}}" 
+    bind:connectBT="blueToothConnect" 
+    devInfo="{{applianceData}}"
+    bTStatus="{{BlueToothStatus}}"></bluetooth-connect>
+
+  <status-panel deviceStatus="{{status}}" 
+    deviceIsOnline="{{isDeviceOnline}}" 
+    isConnectBlue="{{BlueToothStatus == 2}}" 
+    wx:if="{{isDeviceOnline || BlueToothStatus == 2}}"></status-panel>
+
+  <power-panel deviceStatus="{{status}}" 
+    deviceIsOnline="{{isDeviceOnline}}" 
+    isConnectBlue="{{BlueToothStatus == 2}}" 
+    bind:sendControlJson="controlDevice"></power-panel>
+
+  <light-cell deviceStatus="{{status}}" 
+    deviceIsOnline="{{isDeviceOnline}}" 
+    isConnectBlue="{{BlueToothStatus == 2}}" 
+    bind:sendControlJson="controlDevice"></light-cell>
+
+  <wind-panel deviceStatus="{{status}}" 
+    deviceIsOnline="{{isDeviceOnline}}" 
+    isConnectBlue="{{BlueToothStatus == 2}}" 
+    devInfo="{{applianceData}}"
+    bind:sendControlJson="controlDevice"></wind-panel>
+
+  <cell-list deviceStatus="{{status}}" 
+    deviceIsOnline="{{isDeviceOnline}}" 
+    isConnectBlue="{{BlueToothStatus == 2}}" 
+    devInfo="{{applianceData}}"
+    bind:sendControlJson="controlDevice"></cell-list>
+     <!-- 注释屏蔽设备与插件页 -->
+    <!-- <mx-service custom-class="custom-service-class" applianceData="{{applianceData}}"></mx-service>   -->
+</view>

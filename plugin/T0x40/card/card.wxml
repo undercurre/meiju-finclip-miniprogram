@@ -1,0 +1,8 @@
+<view class="container" wx:if="{{isInit}}">
+  <status-panel deviceStatus="{{status}}" deviceIsOnline="{{isDeviceOnline}}"></status-panel>
+  <power-panel deviceStatus="{{status}}" deviceIsOnline="{{isDeviceOnline}}" bind:sendControlJson="controlDevice"></power-panel>
+  <cell-list deviceStatus="{{status}}" deviceIsOnline="{{isDeviceOnline}}" bind:sendControlJson="controlDevice"></cell-list>
+</view>
+<view class="hourseWarp" wx:else>
+    <image class="swing" src='/assets/img/loading.png'></image>
+</view>

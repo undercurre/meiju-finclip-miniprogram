@@ -1,0 +1,111 @@
+@import '../../common.wxss';
+.bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: translateX(-50%);
+}
+.rolling-content {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* width: 350rpx; */
+}
+.rolling-item {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 41rpx;
+  margin-bottom: 50rpx;
+  /* border:2rpx solid #ff0000; */
+  /* margin: 5rpx; */
+}
+.rolling-item-day {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-size: 100% 100%;
+}
+.rolling-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  color: #7c7c7c;
+  margin: 20rpx auto 20rpx;
+}
+.arrow {
+  width: 23rpx;
+  height: 13rpx;
+  margin-left: 10rpx;
+}
+.rolling-status-wait {
+  font-size: 24rpx;
+  color: #1d1d1d;
+  width: 100%;
+  text-align: center;
+}
+.rolling-status-other {
+  font-size: 24rpx;
+  color: #7c7c7c;
+  width: 100%;
+  text-align: center;
+}
+.rolling-notice {
+  font-size: 28rpx;
+  color: #7c7c7c;
+  padding-right: 10rpx;
+}
+.connect {
+  position: absolute;
+
+  z-index: 1;
+  top: 50%;
+
+  transform: translateY(-50%);
+  height: 4rpx;
+  background: #fec96a;
+}
+
+.connect-all {
+  left: 0;
+  width: 100%;
+}
+.connect-right {
+  width: 50%;
+  right: 0;
+}
+.connect-left {
+  width: 50%;
+  left: 0;
+}
+.sign-other {
+  color: #7c7c7c;
+}
+.sign-wait {
+  color: #1d1d1d;
+}
+.sign-center {
+  position: relative;
+  margin: 0 auto;
+}
+switch {
+  /* width: 82rpx !important;
+  height: 40rpx !important; */
+  /* width: 80rpx !important;
+  height: 36rpx !important; */
+  transform: scale(0.8) !important;
+}
+/*白色样式（false的样式）*/
+.wx-switch-input::before {
+  width: 80rpx !important;
+  height: 36rpx !important;
+}
+/*绿色样式（true的样式）*/
+.wx-switch-input::after {
+  width: 40rpx !important;
+  height: 36rpx !important;
+}
+/*swtich样式end*/

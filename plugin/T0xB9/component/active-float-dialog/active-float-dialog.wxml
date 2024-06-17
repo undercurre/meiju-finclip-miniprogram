@@ -1,0 +1,14 @@
+<view class="active-dialog" wx:if="{{ show&&selectData.contentUrl }}">
+  <!-- <view class="active-mask"></view> -->
+  <view
+    catchtap="floatDialogGO"
+    data-item="{{ selectData }}"
+    class="active-dialog-main"
+    style="background-image:url({{ selectData.contentUrl }});background-size:100% 100%;"
+  ></view>
+  <view
+    catchtap="closeFloatDialog"
+    class="close"
+    style="background-image:url({{ imgUrl }}float-close.png);background-size:100% 100%;"
+  ></view>
+</view>

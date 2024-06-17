@@ -1,0 +1,6 @@
+<van-cell title="{{title}}" value="{{rightText}}" custom-class="{{cellStyle}}" border="{{border}}" is-link  bind:click="onCellClick">
+  <view class="cell-img-wrap flex align_center justify_center" style="background:{{iconColor}};" slot="icon">
+    <image src="{{images.keepWarm}}" class="cell-img" />
+  </view>
+</van-cell>
+<c-picker show="{{showPicker}}" range="{{pickerRange}}" value="{{pickerValue}}" unit="{{pickerUnit}}" bind:confirm="onConfirm" bind:cancel="onCancel"></c-picker>

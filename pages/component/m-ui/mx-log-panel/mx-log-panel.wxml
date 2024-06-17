@@ -1,0 +1,36 @@
+<!--m-ui/mx-log-panel/mx-log-panel.wxml-->
+<view class="log-panel-wrap">
+ <view wx:if="{{list.length < 4}}" class="log-panel" style="height:168rpx">
+   <view class="item" wx:for="{{list}}">
+    <view><text class="title">{{item.title}}</text><text class="unit">{{item.unit}}</text></view>
+    <view class="describe">{{item.describe}}</view>
+   </view>
+ </view>
+
+ <view wx:elif="{{list.length == 4}}" style="position:relative">
+    <view  class="log-panel"  style="flex-wrap: wrap; height:338rpx">
+      <view class="item-four" wx:for="{{list}}" style="width:342rpx">
+        <view>
+          <text class="title">{{item.title}}</text>
+          <text wx:if="{{item.unit}}" class="unit">{{item.unit}}</text>
+        </view>
+        <view class="describe">{{item.describe}}</view>
+      </view>
+    </view>
+    <view class="horizontal-border"></view>
+ </view>
+
+ <view wx:else style="position:relative">
+    <view  class="log-panel"  style="flex-wrap: wrap; height:338rpx">
+      <view class="item-other" wx:for="{{list}}" style="width:228rpx">
+        <view>
+          <text class="title">{{item.title}}</text>
+          <text wx:if="{{item.unit}}" class="unit">{{item.unit}}</text>
+        </view>
+        <view class="describe">{{item.describe}}</view>
+      </view>
+    </view>
+    <view class="horizontal-border-six"></view>
+ </view>
+
+</view>

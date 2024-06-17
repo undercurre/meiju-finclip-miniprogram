@@ -1,0 +1,257 @@
+<view class="newContainer">
+    <block wx:if="{{_applianceData.onlineStatus == 1}}">
+        <block wx:if="{{isPowerOn}}">
+            <view class="newHeadArea">
+                <!-- <canvas id="lottie_demo" type="2d" class="newHeadCanvas"> -->
+                <view class="newCanvasArea" style="background-image:url('{{cardOnBg}}');">
+                    <block wx:if="{{_applianceDataStatus.work_status_desc == 'power_off_delay'}}">
+                        <block wx:if="{{electronic_control_version == 2}}">
+                            <block wx:if="{{ _applianceDataStatus.remaining_time && _applianceDataStatus.remaining_time != 0 }}">
+                                <text class="cavasText">延时中</text>
+                                <text class="cavasText">
+                                    <text class="canvasTime">{{_applianceDataStatus.remaining_time}}</text>
+                                    <text style="position: absolute;">分</text>
+                                </text>
+                                <text class="cavasText">后关机</text>
+                            </block>
+                            <block wx:else>
+                                <text class="cavasTextOther"></text>
+                            </block>
+                        </block>
+                        <block wx:else>
+                            <text class="cavasTextOther">延时关机中</text>
+                        </block>
+                    </block>
+                    <block wx:else>
+                        <text wx:if="{{_applianceDataStatus.work_status_desc == 'hotclean'}}" class="canvasNormal">清洗</text>
+                        <text wx:elif="{{_applianceDataStatus.work_status_desc == 'clean'}}" class="canvasNormal">清洁中</text>
+                        <text wx:elif="{{_applianceDataStatus.work_status_desc == 'vvvf_gear'}}" class="canvasNormal">巡航中</text>
+                        <text wx:elif="{{_applianceDataStatus.work_status == 21 || _applianceDataStatus.gear == 35 || _applianceDataStatus.work_status_desc == 'aidry'}}" class="canvasNormal">干洗中</text>
+                        <text wx:elif="{{_applianceDataStatus.work_status_desc == 'working'}}" class="canvasNormal">运行中</text>
+                        <text wx:else class="canvasNormal"></text>
+                    </block>
+                </view>
+                <!-- </canvas> -->
+            </view>
+            <view class="newStateArea">
+                <block wx:if="{{_applianceDataStatus.work_status_desc == 'power_off_delay' }}">
+                    <text class="deviceB6Title">立即关机</text>
+                </block>
+                <block wx:else>
+                    <text wx:if="{{_applianceDataStatus.work_status_desc == 'hotclean'}}" class="deviceB6Title">清洗</text>
+                    <text wx:elif="{{_applianceDataStatus.work_status_desc == 'clean'}}" class="deviceB6Title">清洁中</text>
+                    <text wx:elif="{{_applianceDataStatus.work_status == 21 || _applianceDataStatus.gear == 35 || _applianceDataStatus.work_status_desc == 'aidry'}}" class="deviceB6Title">干洗中</text>
+                    <text wx:else class="deviceB6Title">关机</text>
+                </block>
+                <view wx:if="{{_applianceDataStatus.work_status_desc == 'clean'}}" class="newControlArea">
+                    <image src="{{images.power}}" class="newControlImage"></image>
+                </view>
+                <view wx:else class="newControlArea">
+                    <image src="{{images.power}}" class="newControlNormalImage" bindtap="powerToggle"></image>
+                </view>
+            </view>
+            <view wx:if="{{_applianceDataStatus.work_status_desc == 'hotclean' || _applianceDataStatus.work_status_desc == 'clean' || _applianceDataStatus.work_status_desc == 'aidry' || _applianceDataStatus.work_status == 21}}" class="deviceB6Area">
+                <view class="deviceB6TitleArea">
+                    <image src="{{images.gearIcon}}" class="deviceB6Image" style="background-color: #7C879B;"></image>
+                    <text class="deviceB6Title">档位</text>
+                    <view class="deviceB6Content" style="border: 1rpx solid #7C879B;color: #7C879B;">关</view>
+                </view>
+                <view class="deviceB6SliderAreas">
+                    <slider class="deviceB6Slider" bindchange="sliderChange" min="0" max="{{gear.item.length-1}}" step="1" activeColor='#7C879B' block-color='#7C879B' backgroundColor='#F2F2F2' block-size='{{20}}' value="0"></slider>
+                    <view class="deviceB6SliderTitleArea">
+                    <block wx:for="{{gear.item}}" wx:key="{{gearKey}}">
+                        <text wx:if="{{index == 0}}" class="deviceB6SliderTitleLeft">{{item.name}}</text>
+                        <text wx:elif="{{index == gear.item.length -1}}" class="deviceB6SliderTitleRight">{{item.name}}</text>
+                        <text wx:else class="deviceB6SliderTitleCenter">{{item.name}}</text>
+                    </block>
+                    </view>
+                </view>
+                <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+            </view>
+            <view wx:else class="deviceB6Area">
+                <view class="deviceB6TitleArea">
+                    <image src="{{images.gearIcon}}" class="deviceB6Image"></image>
+                    <text class="deviceB6Title">档位</text>
+                    <view wx:if="{{ gear.items[gear.index].name.length == 4 }}" class="deviceB6ContentMax">{{gear.items[gear.index].name}}</view>
+                    <view wx:else class="{{ gearName == '静吸' ? 'deviceB6Contents' : 'deviceB6Content'}}">{{gear.items[gear.index].name}}</view>
+                </view>
+                <view class="deviceB6SliderArea">
+                    <slider class="deviceB6Slider" bindchange="sliderChange" min="0" max="{{gear.items.length-1}}" step="1" activeColor='#29C3FF' block-color='#29C3FF' backgroundColor='#F2F2F2' block-size='{{20}}' value="{{gear.index}}"></slider>
+                    <view class="deviceB6SliderTitleArea">
+                    <block wx:for="{{gear.items}}" wx:key="gearKey">
+                        <text wx:if="{{index == 0}}" class="deviceB6SliderTitleLeft">{{item.name}}</text>
+                        <text wx:elif="{{index == gear.items.length -1}}" class="deviceB6SliderTitleRight">{{item.name}}</text>
+                        <text wx:else class="deviceB6SliderTitleCenter">{{item.name}}</text>
+                    </block>
+                    </view>
+                </view>
+            </view>
+            <!-- 清洁管家 -->
+            <view class="cleanArea">
+                <view class="cleanTitleArea" bindtap="clickToStewardServe" id="0">
+                    <text class="cleanTitle">风机洁净度</text>
+                    <text class="cleanScale">{{fengJiNum}}%</text>
+                    <progress class="cleanProgress" percent="{{fengJiNum}}" border-radius='0' stroke-width='2' activeColor='{{fanColor}}' backgroundColor="{{ fengJiNum == 0 ? bgColorBad : fengJiNum > 20 ? bgColorGood : bgColorSoso }}"></progress>
+                </view>
+                <view class="cleanTitleArea" bindtap="clickToStewardServe" id="1">
+                    <text class="cleanTitle">油盒洁净度</text>
+                    <text class="cleanScale">{{youHeNum}}%</text>
+                    <progress class="cleanProgress" percent="{{youHeNum}}" border-radius='0' stroke-width='2' activeColor='{{oilColor}}' backgroundColor="{{ youHeNum == 0 ? bgColorBad : youHeNum > 20 ? bgColorGood : bgColorSoso }}"></progress>
+                </view>
+                <view class="cleanTitleArea" bindtap="clickToStewardServe" id="2">
+                    <text class="cleanTitle">滤网洁净度</text>
+                    <text class="cleanScale">{{lvWangNum}}%</text>
+                    <progress class="cleanProgress" percent="{{lvWangNum}}" border-radius='0' stroke-width='2' activeColor='{{netColor}}' backgroundColor="{{ lvWangNum == 0 ? bgColorBad : (lvWangNum > 20 ? bgColorGood : bgColorSoso) }}"></progress>
+                </view>
+            </view>
+            <view wx:if="{{_applianceDataStatus.work_status_desc == 'hotclean' || _applianceDataStatus.work_status_desc == 'clean'}}" class="newHotCleanArea">
+                <block wx:for="{{funcList}}" wx:key="otherFuncList">
+                    <view class="deviceB6LineArea">
+                        <image src="{{item.type}}" style="background-color: #7C879B;" class="deviceB6LineImage" ></image>
+                        <text class="deviceB6LineText">{{item.name}}</text>
+                        <view class="deviceB6LineTurnOnArea" wx:if="{{item.name == '照明'}}">
+                            <dof-switch inner-class="{{light.mode == 'off' ? '' : 'switch' }}" checked="{{light.mode == 'off' ? false : true }}"></dof-switch>
+                        </view>
+                        <view wx:else class="deviceB6LineTurnOnArea">
+                            <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;" >
+                                <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+            </view>
+            <view wx:elif="{{_applianceDataStatus.work_status_desc == 'aidry' || _applianceDataStatus.work_status == 21 }}" class="newHotCleanArea">
+                <block wx:for="{{funcList}}" wx:key="otherFuncList">
+                    <view class="deviceB6LineArea">
+                        <view wx:if="{{item.name == '照明'}}" style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+                        <image wx:if="{{item.name == '照明'}}" src="{{item.type}}" style="background-color: #7C879B;" class="deviceB6LineImage" ></image>
+                        <image wx:else src="{{item.type}}" class="deviceB6LineImage" ></image>
+                        <text class="deviceB6LineText">{{item.name}}</text>
+                        <view class="deviceB6LineTurnOnArea" wx:if="{{item.name == '照明'}}">
+                            <dof-switch inner-class="{{light.mode == 'off' ? '' : 'switch' }}" checked="{{light.mode == 'off' ? false : true }}"></dof-switch>
+                        </view>
+                        <view class="deviceB6LineTurnOnArea" wx:elif="{{item.name == '智感干洗'}}">
+                            <dof-switch inner-class="{{isAidry.mode == 'off' ? '' : 'switch' }}" checked="{{isAidry.mode == 'off' ? false : true }}" bind:dofSwitchChanged="zhiganToggle"></dof-switch>
+                        </view>
+                        <view wx:else class="deviceB6LineTurnOnArea" bindtap="clickToStewardServe" id="{{item.desc}}">
+                            <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;" >
+                                <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+            <view wx:else style="margin-top: 20rpx;background-color: white;border-radius: 16rpx;display: flex;flex-direction: column;">
+                <block wx:for="{{funcList}}" wx:key="funcKey">
+                    <view class="deviceB6LineArea">
+                        <image src="{{item.type}}" class="deviceB6LineImage" ></image>
+                        <text class="deviceB6LineText">{{item.name}}</text>
+                        <view class="deviceB6LineTurnOnArea" wx:if="{{item.name == '照明'}}">
+                            <dof-switch wx:if="{{_applianceDataStatus.work_status_desc == 'aidry'}}" inner-class="{{light.mode == 'off' ? '' : 'switch' }}" checked="{{light.mode == 'off' ? false : true }}"></dof-switch>
+                            <dof-switch wx:else inner-class="{{light.mode == 'off' ? '' : 'switch' }}" bind:dofSwitchChanged="lightToggle" checked="{{light.mode == 'off' ? false : true }}"></dof-switch>
+                        </view>
+                        <view class="deviceB6LineTurnOnArea" wx:elif="{{item.name == '智感干洗'}}">
+                            <dof-switch inner-class="{{isAidry.mode == 'off' ? '' : 'switch' }}" checked="{{isAidry.mode == 'off' ? false : true }}" bind:dofSwitchChanged="zhiganToggle"></dof-switch>
+                        </view>
+                        <c-picker wx:elif="{{item.name == '延时关机'}}" class="deviceB6LineTurnOnArea" bindconfirm="delayPowerOffSubmit" value="{{multiIndex[0]}}" range="{{multiArray}}" unit="" disabled="{{electronicControlVersion === 1}}">
+                            <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;" >
+                                <text class="cellDesc">{{_applianceDataStatus.destination_time }}分钟</text>
+                                <image style="width: 12rpx;height: 20rpx;margin-left: 20rpx;" src="{{images.arrow}}"></image>
+                            </view>
+                        </c-picker>
+                        <view wx:else class="deviceB6LineTurnOnArea" bindtap="clickToStewardServe" id="{{item.desc}}">
+                            <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;" >
+                                <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </block>
+        <block wx:else>
+            <view class="newHeadArea">
+                <view class="newHeadCanvas" style="background-image:url({{ images.close }});">
+                    <text wx:if="{{_applianceDataStatus.work_status_desc == 'error'}}" class="canvasNormal">故障中</text>
+                    <text wx:else class="canvasNormal">已关机</text>
+                </view>
+            </view>
+            <view class="newStateArea">
+                <text wx:if="{{_applianceDataStatus.work_status_desc == 'error'}}" class="deviceB6Title">故障中</text>
+                <text wx:else class="deviceB6Title">开机</text>
+                <view class="newControlArea">
+                    <image src="{{images.power}}" class="newControlImages" bindtap="powerToggle"></image>
+                </view>
+            </view>
+            <view class="deviceB6Area">
+                <view class="deviceB6TitleArea">
+                    <image src="{{images.gearIcon}}" class="deviceB6Image" style="background-color: #7C879B;"></image>
+                    <text class="deviceB6Title">档位</text>
+                    <view class="deviceB6ContentClose">关</view>
+                </view>
+                <view class="deviceB6SliderAreas">
+                    <slider class="deviceB6Slider" bindchange="sliderChange" min="0" max="{{gear.item.length-1}}" step="1" activeColor='#7C879B' block-color='#7C879B' backgroundColor='#F2F2F2' block-size='{{20}}' value="0"></slider>
+                    <view class="deviceB6SliderTitleArea">
+                    <block wx:for="{{gear.item}}" wx:key="gearKey">
+                        <text wx:if="{{index == 0}}" class="deviceB6SliderTitleLeft">{{item.name}}</text>
+                        <text wx:elif="{{index == gear.item.length -1}}" class="deviceB6SliderTitleRight">{{item.name}}</text>
+                        <text wx:else class="deviceB6SliderTitleCenter">{{item.name}}</text>
+                    </block>
+                    </view>
+                </view>
+                <view style="position: absolute;width: 100%;height: 100%;background-color: #FFFFFF;top: 0;left: 0;right: 0;bottom: 0;opacity: 0.7;"></view>
+            </view>
+            <!-- 清洁管家 -->
+            <view class="cleanArea">
+            <view class="cleanTitleArea" bindtap="clickToStewardServe" id="0">
+                <text class="cleanTitle">风机洁净度</text>
+                <text class="cleanScale">{{fengJiNum}}%</text>
+                <progress class="cleanProgress" percent="{{fengJiNum}}" border-radius='0' stroke-width='2' activeColor='{{fanColor}}' backgroundColor="#EBFAFF"></progress>
+            </view>
+            <view class="cleanTitleArea" bindtap="clickToStewardServe" id="1">
+                <text class="cleanTitle">油盒洁净度</text>
+                <text class="cleanScale">{{youHeNum}}%</text>
+                <progress class="cleanProgress" percent="{{youHeNum}}" border-radius='0' stroke-width='2' activeColor='{{oilColor}}' backgroundColor="#EBFAFF"></progress>
+            </view>
+            <view class="cleanTitleArea" bindtap="clickToStewardServe" id="2">
+                <text class="cleanTitle">滤网洁净度</text>
+                <text class="cleanScale">{{lvWangNum}}%</text>
+                <progress class="cleanProgress" percent="{{lvWangNum}}" border-radius='0' stroke-width='2' activeColor='{{netColor}}' backgroundColor="#EBFAFF"></progress>
+            </view>
+            </view>      
+            <view class="newHotCleanArea">
+                <block wx:for="{{funcList}}" wx:key="otherFuncList">
+                    <view class="deviceB6LineArea">
+                        <image src="{{item.type}}" style="background-color: #7C879B;" class="deviceB6LineImage" ></image>
+                        <text class="deviceB6LineText">{{item.name}}</text>
+                        <view class="deviceB6LineTurnOnArea" wx:if="{{item.name == '照明'}}">
+                            <dof-switch wx:if="{{_applianceDataStatus.work_status_desc == 'aidry'}}" inner-class="{{light.mode == 'off' ? '' : 'switch' }}" checked="{{light.mode == 'off' ? false : true }}"></dof-switch>
+                            <dof-switch wx:else inner-class="{{light.mode == 'off' ? '' : 'switch' }}" bind:dofSwitchChanged="lightToggle" checked="{{light.mode == 'off' ? false : true }}"></dof-switch>
+                        </view>
+                        <view class="deviceB6LineTurnOnArea" wx:elif="{{item.name == '智感干洗'}}">
+                            <dof-switch inner-class="{{isAidry.mode == 'off' ? '' : 'switch' }}" checked="{{isAidry.mode == 'off' ? false : true }}" bind:dofSwitchChanged="zhiganToggle"></dof-switch>
+                        </view>
+                        <c-picker wx:elif="{{item.name == '延时关机'}}" class="deviceB6LineTurnOnArea" bindconfirm="delayPowerOffSubmit" value="{{multiIndex[0]}}" range="{{multiArray}}" unit="" disabled="{{electronicControlVersion === 1}}">
+                            <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;" >
+                                <text class="cellDesc">{{_applianceDataStatus.destination_time }}分钟</text>
+                                <image style="width: 12rpx;height: 20rpx;margin-left: 20rpx;" src="{{images.arrow}}"></image>
+                            </view>
+                        </c-picker>
+                        <view wx:else class="deviceB6LineTurnOnArea" bindtap="clickToStewardServe" id="{{item.desc}}">
+                            <view style="width: 300rpx;display:flex;justify-content: flex-end;align-items:center;height:100%;" >
+                                <image style="width: 12rpx;height: 20rpx;" src="{{images.arrow}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </block>
+    </block>
+    <block wx:else>
+        <view class="container">
+            <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
+            <cardHeader image="{{images.header}}" title="{{applianceData.name}}" desc="{{applianceData.roomName}}" />
+            <offline></offline>
+        </view>
+    </block>
+</view>

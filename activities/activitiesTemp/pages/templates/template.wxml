@@ -1,0 +1,339 @@
+<!-- 通用容器 -->
+<template name="normal">
+  <normal-container
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionActStatus="actionActStatus"
+    options="{{ options }}"
+    gameRule="{{ gameRule }}"
+  ></normal-container>
+</template>
+<!-- 我的奖励容器 -->
+<template name="my-reward">
+  <my-reward
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    bind:actionGoRewardList="actionGoRewardList"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionGoAddress="actionGoAddress"
+    bind:actionReceive="actionReceive"
+    bind:actionCheckCharge="actionCheckCharge"
+  ></my-reward>
+</template>
+<!-- 邀请注册激活容器 -->
+<template name="invite-register">
+  <invite-register-container
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionInvite="actionInvite"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionInviteShare="actionInviteShare"
+    bind:actionAcceptInvite="actionAcceptInvite"
+    bind:actionJoinIn="actionJoinIn"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionActStatus="actionActStatus"
+    bind:actionContainer="actionContainer"
+    bind:actionOpenFaceToFace="actionOpenFaceToFace"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+  ></invite-register-container>
+</template>
+<!-- 邀请加入家庭容器 -->
+<template name="join-family">
+  <join-family-container
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionInvite="actionInvite"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionInviteShare="actionInviteShare"
+    bind:actionAcceptInvite="actionAcceptInvite"
+    bind:actionJoinIn="actionJoinIn"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionActStatus="actionActStatus"
+    bind:actionOpenFaceToFace="actionOpenFaceToFace"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionContainer="actionContainer"
+  ></join-family-container>
+</template>
+<!-- 连续签到容器 -->
+<template name="calendar-rolling-sign">
+  <rolling-sign-container
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionInvite="actionInvite"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionInviteShare="actionInviteShare"
+    bind:actionAcceptInvite="actionAcceptInvite"
+    bind:actionJoinIn="actionJoinIn"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionActStatus="actionActStatus"
+    bind:actionOpenFaceToFace="actionOpenFaceToFace"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionContainer="actionContainer"
+  ></rolling-sign-container>
+</template>
+<!-- 面对面邀请组件 -->
+<template name="face-invite">
+  <face-invite
+    props="{{ selectData }}"
+    options="{{ options }}"
+    userInfo="{{ userInfo }}"
+    pageSetting="{{ pageSetting }}"
+    isShowFace="{{ isShowFace }}"
+    bind:closeFaceModal="actionHideFaceModal"
+  ></face-invite>
+</template>
+<!-- 弹框组件 -->
+<template name="dialog">
+  <dialog
+    isShowDialog="{{ isShowDialog }}"
+    options="{{ options }}"
+    bind:actionDialogClose="actionDialogClose"
+    bind:actionDialogBtn="actionDialogBtn"
+    bind:actionLaunchAppDialogError="actionLaunchAppDialogError"
+    bind:actionLaunchAppDialogSuccess="actionLaunchAppDialogSuccess"
+    props="{{ selectData }}"
+  ></dialog>
+</template>
+<!-- toast组件 -->
+<template name="toast">
+  <component-toast
+    isShowToast="{{ isShowToast }}"
+    duration="{{ toastDuration }}"
+    bind:actionToastClose="actionToastClose"
+    props="{{ selectData }}"
+  ></component-toast>
+</template>
+<!-- 热区组件 -->
+<!-- <template name="hotzone">
+  <component-hotzone
+    props="{{ basicItem }}"
+  ></component-hotzone>
+</template> -->
+<!-- 邀请好友组件 -->
+<template name="invite">
+  <component-invite isShowToast="{{ isShowToast }}" duration="{{ toastDuration }}"></component-invite>
+</template>
+<!-- 任务盒子容器 -->
+<template name="my-task">
+  <my-task
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionGoRewardList="actionGoRewardList"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionActStatus="actionActStatus"
+    bind:actionContainer="actionContainer"
+  ></my-task>
+</template>
+<!-- 卡券弹窗组件 -->
+<template name="card-dialog">
+  <dialog
+    isShowCardDialog="{{ isShowCardDialog }}"
+    options="{{ options }}"
+    bind:actionDialogClose="actionDialogClose"
+    bind:actionDialogBtn="actionDialogBtn"
+    bind:actionLaunchAppDialogError="actionLaunchAppDialogError"
+    bind:actionLaunchAppDialogSuccess="actionLaunchAppDialogSuccess"
+    props="{{ selectData }}"
+  ></dialog>
+</template>
+<!-- 红包弹窗组件 -->
+<template name="money-dialog">
+  <view-money-dialog
+    isShowCardDialog="{{ isShowMoneyDialog }}"
+    options="{{ options }}"
+    bind:actionDialogClose="actionDialogClose"
+    bind:actionDialogBtn="actionDialogBtn"
+    bind:actionLaunchAppDialogError="actionLaunchAppDialogError"
+    bind:actionLaunchAppDialogSuccess="actionLaunchAppDialogSuccess"
+    props="{{ selectData }}"
+  ></view-money-dialog>
+</template>
+<!-- 九宫格组件 -->
+<template name="my-luck-grid">
+  <my-luck-grid
+    id="my-luck-grid"
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionActStatus="actionActStatus"
+    bind:actionShowToast="actionShowToast"
+    bind:actionContainer="actionContainer"
+    bind:actionFullShadow="actionFullShadow"
+    bind:captchaOpen="captchaOpen"
+  ></my-luck-grid>
+</template>
+<!-- 扭蛋组件 -->
+<template name="my-luck-eggs">
+  <my-luck-eggs
+    id="my-luck-eggs"
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionActStatus="actionActStatus"
+    bind:actionShowToast="actionShowToast"
+    bind:actionContainer="actionContainer"
+    bind:actionFullShadow="actionFullShadow"
+    bind:captchaOpen="captchaOpen"
+  ></my-luck-eggs>
+</template>
+<!-- 刮刮乐组件 -->
+<template name="my-luck-scratch">
+  <my-luck-scratch
+    id="my-luck-scratch"
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionActStatus="actionActStatus"
+    bind:actionShowToast="actionShowToast"
+    bind:actionContainer="actionContainer"
+    bind:actionFullShadow="actionFullShadow"
+    bind:captchaOpen="captchaOpen"
+  ></my-luck-scratch>
+</template>
+<!-- 扭蛋组件 -->
+<template name="my-luck-cards">
+  <my-luck-cards
+    id="my-luck-cards"
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionActStatus="actionActStatus"
+    bind:actionShowToast="actionShowToast"
+    bind:actionContainer="actionContainer"
+    bind:actionFullShadow="actionFullShadow"
+    bind:captchaOpen="captchaOpen"
+  ></my-luck-cards>
+</template>
+<!-- 任务盒子-新用户注册组件 -->
+<template name="tasks-register">
+  <tasks-register
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionContainer="actionContainer"
+  ></tasks-register>
+</template>
+<!-- 道具排行玩法 -->
+<template name="my-score-rank">
+  <my-score-rank
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    pageSetting="{{ pageSetting }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionContainer="actionContainer"
+  ></my-score-rank>
+</template>
+<!-- 免费领取 -->
+<template name="free-receive-container">
+  <free-receive-container
+    props="{{ containerItem }}"
+    isLogon="{{ isLogon }}"
+    commonData="{{ commonData }}"
+    options="{{ options }}"
+    gameRule="{{ gameRule }}"
+    bind:actionHotzoneDialog="actionHotzoneDialog"
+    bind:actionHotzoneCustom="actionHotzoneCustom"
+    bind:actionInvite="actionInvite"
+    bind:actionLaunchAppError="actionLaunchAppError"
+    bind:actionLaunchAppSuccess="actionLaunchAppSuccess"
+    bind:actionInviteShare="actionInviteShare"
+    bind:actionAcceptInvite="actionAcceptInvite"
+    bind:actionJoinIn="actionJoinIn"
+    bind:actionGetphonenumber="actionGetphonenumber"
+    bind:actionActStatus="actionActStatus"
+    bind:actionContainer="actionContainer"
+    bind:actionOpenFaceToFace="actionOpenFaceToFace"
+    bind:actionLaunchAppDialog="actionLaunchAppDialog"
+  ></free-receive-container>
+</template>

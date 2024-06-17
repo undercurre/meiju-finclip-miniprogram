@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "offline": "/pages/component/offline/offline",
+    "cardHeader": "/pages/component/card-header/card-header",
+    "zigbeeSwitch": "./zigbee-device/switch/wrap",
+    "zigbeeSocket": "./zigbee-device/socket/wrap",
+    "zigbeeLock": "./zigbee-device/lock/wrap"
+  }
+}

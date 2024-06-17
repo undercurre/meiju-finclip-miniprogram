@@ -1,0 +1,151 @@
+/* eslint-disable */
+
+var getStyle = function (object) {
+  var str = ''
+  if (object.background) {
+    str += 'background-image:url(' + object.background + ');'
+  }
+  if (object.backgroundColor) {
+    str += 'background-color:' + object.backgroundColor + ';'
+  }
+  if (object.height) {
+    str += 'height:' + object.height + 'rpx;'
+  }
+  if (object.width) {
+    str += 'width:' + object.width + 'rpx;'
+  }
+  if (object.positionX) {
+    str += 'left:' + object.positionX + 'rpx;'
+  }
+  if (object.positionY) {
+    str += 'top:' + object.positionY + 'rpx;'
+  }
+  if (object.positionZ) {
+    str += 'z-index:' + object.positionZ + ';'
+  }
+  if (object.marginLeft) {
+    str += 'padding-left:' + object.marginLeft + 'rpx;'
+  }
+  if (object.marginRight) {
+    str += 'padding-right:' + object.marginRight + 'rpx;'
+  }
+  if (object.marginTop) {
+    str += 'padding-top:' + object.marginTop + 'rpx;'
+  }
+  if (object.marginBottom) {
+    str += 'padding-bottom:' + object.marginBottom + 'rpx;'
+  }
+  return str
+}
+var getBIStyle = function (object) {
+  var str = ''
+  if (object.basicImgUrl) {
+    str += 'background-image:url(' + object.basicImgUrl + ');'
+  }
+  if (object.height) {
+    str += 'height:' + object.height + 'rpx;'
+  }
+  if (object.width) {
+    str += 'width:' + object.width + 'rpx;'
+  }
+  if (object.positionX) {
+    str += 'left:' + object.positionX + 'rpx;'
+  }
+  if (object.positionY) {
+    str += 'top:' + object.positionY + 'rpx;'
+  }
+  if (object.positionZ) {
+    str += 'z-index:' + object.positionZ + ';'
+  }
+  if (object.marginLeft) {
+    str += 'padding-left:' + object.marginLeft + 'rpx;'
+  }
+  if (object.marginRight) {
+    str += 'padding-right:' + object.marginRight + 'rpx;'
+  }
+  if (object.marginTop) {
+    str += 'padding-top:' + object.marginTop + 'rpx;'
+  }
+  if (object.marginBottom) {
+    str += 'padding-bottom:' + object.marginBottom + 'rpx;'
+  }
+  return str
+}
+var contactStyle = function (object, arrStr) {
+  var cStr = ''
+  var strArr = arrStr.split(',')
+  for (var i = 0; i < strArr.length; i++) {
+    cStr += getRollStyle(object, strArr[i])
+  }
+  return cStr
+}
+var getRollStyle = function (object, item) {
+  var str = ''
+  if (item == 'bg') {
+    str += 'background-image:url(' + object.background + ');'
+  }
+  if (item == 'bbg') {
+    str += 'background-image:url(' + object.basicImgUrl + ');'
+  }
+  if (item == 'img') {
+    str += 'background-image:url(' + object.imgUrl + ');'
+  }
+  if (item == 'bc') {
+    str += 'background-color:' + object.backgroundColor + ';'
+  }
+  if (item == 'he') {
+    str += 'height:' + object.height + 'rpx;'
+  }
+  if (item == 'wi') {
+    str += 'width:' + object.width + 'rpx;'
+  }
+  if (item == 'x') {
+    str += 'left:' + object.positionX + 'rpx;'
+  }
+  if (item == 'y') {
+    str += 'top:' + object.positionY + 'rpx;'
+  }
+  if (item == 'z') {
+    str += 'z-index:' + object.positionZ + ';'
+  }
+  if (item == 'ml') {
+    str += 'margin-left:' + object.marginLeft + 'rpx;'
+  }
+  if (item == 'mr') {
+    str += 'margin-right:' + object.marginRight + 'rpx;'
+  }
+  if (item == 'mt') {
+    str += 'margin-top:' + object.marginTop + 'rpx;'
+  }
+  if (item == 'mb') {
+    str += 'margin-bottom:' + object.marginBottom + 'rpx;'
+  }
+  if (item == 'pl') {
+    str += 'padding-left:' + object.marginLeft + 'rpx;'
+  }
+  if (item == 'pr') {
+    str += 'padding-right:' + object.marginRight + 'rpx;'
+  }
+  if (item == 'pt') {
+    str += 'padding-top:' + object.marginTop + 'rpx;'
+  }
+  if (item == 'pb') {
+    str += 'padding-bottom:' + object.marginBottom + 'rpx;'
+  }
+  // console.log('eeeee',str)
+  return str
+}
+var isFreeActivityStatusTrue = function (props) {
+  if (props.data.freeToReceiveInfo.freeActivityStatus == 0 || props.data.freeToReceiveInfo.freeActivityStatus == 2) {
+    return true
+  } else {
+    return false
+  }
+}
+module.exports = {
+  getStyle: getStyle,
+  getRollStyle: getRollStyle,
+  contactStyle: contactStyle,
+  getBIStyle: getBIStyle,
+  isFreeActivityStatusTrue: isFreeActivityStatusTrue,
+}

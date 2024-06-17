@@ -1,0 +1,15 @@
+<!--m-ui/mx-smalllcard/mx-smalllcard.wxml-->
+<view class="container" bindtap="cardClicked" data-icon="{{icon}}" data-label="{{label}}" data-describe="{{describe}}" >
+  <view wx:if="{{type=='normal'}}" class="normal-card">
+    <view class="normal-left-wrap">
+      <view class="label">{{label}}</view>
+      <view class="describe">{{describe}}</view>
+    </view>
+    <image class="icon" src="{{icon}}"></image>
+  </view>
+  <view wx:else class="mini-card">
+    <image class="icon" src="{{icon}}"></image>
+    <view class="label" style="margin-top:16rpx">{{label}}</view>
+    <view class="describe" wx:if="{{describe}}">{{describe}}</view>
+  </view>
+</view>

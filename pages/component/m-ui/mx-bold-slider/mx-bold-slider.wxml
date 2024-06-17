@@ -1,0 +1,36 @@
+<!--m-ui/mx-bold-slider/mx-bold-slider.wxml-->
+<view class="container">
+  <!-- <text>slider组件自定义: {{value}}</text> -->
+  <view class="component-slider">
+    <!-- 覆盖slider组件盒子 -->
+    <view class="slider-box">
+      <!-- 选中区线 -->
+      <!-- <view class="slider-line-active" style="width: {{value==0?8:(value-min)*(102/(max-min))-1 }}%;"></view> -->
+      <!-- 新算法 add by hairong -->
+      <view class="slider-line-active" style="width: {{value==0?6:(value-min)/(max-min)*100 }}%;"></view>
+      <!-- 拖动按钮 -->
+      <!-- <view class="slider-btn" style="margin-left: {{value==0?4:(value-min)*(102/(max-min))-5 }}%;" ></view> -->
+      <!-- 新算法 add by hairong -->
+      <view class="slider-btn" style="margin-left: {{value==0?3:(value-min)/(max-min)*100-4 }}%;" ></view>
+      <!-- 未选中区线 -->
+      <view class="slider-line"></view>
+      <!-- 显示数字 -->
+      <view class="slider-number" wx:if="{{hasMark}}">
+        <!-- 最小限制大于等于0 -->
+        <block  wx:if="{{min>=0}}" >
+          <block wx:for="{{max+1}}" wx:key="index" >
+            <text class="{{value==item?'active':''}}" style="left:{{ (item-min)*(100/(max-min))-2 }}%" >{{item}}</text>
+          </block>
+        </block>
+        <!-- 最小限制小于0 -->
+        <block wx:else>
+          <block wx:for="{{(max-min)+1}}" wx:key="index">
+            <text class="{{value==(item+min)?'active':''}}" style="left:{{ (item)*(102/(max-min))-2 }}%" >{{item+min}}</text>
+          </block>
+        </block>
+      </view>
+    </view>
+    <!-- slider组件 -->
+    <slider block-size="28" bindchange="sliderchange" bindchanging="sliderchanging" min="{{min}}" max="{{max}}" value="{{value}}" />
+  </view>
+</view>

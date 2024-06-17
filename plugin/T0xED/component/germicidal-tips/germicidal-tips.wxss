@@ -1,0 +1,45 @@
+@import "../../assets/css/public.wxss";
+.top-cell {
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+  margin-top: 0;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+
+.bottom-cell {
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+  margin-top: 0;
+  border-bottom-left-radius: 16rpx;
+  border-bottom-right-radius: 16rpx;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  width: 686rpx !important;
+  height: 144rpx;
+}
+
+.cell-value {
+  font-size: 32rpx;
+  color: #666666;
+}
+
+.cell-img-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 32rpx;
+  background: #25c4fb;
+  margin-right: 32rpx;
+}
+
+.cell-img-wrap .cell-img {
+  width: 64rpx;
+  height: 64rpx;
+}

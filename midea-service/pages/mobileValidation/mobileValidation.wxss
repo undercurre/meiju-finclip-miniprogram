@@ -1,0 +1,193 @@
+.phone-validator {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-validator .com-mask {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.phone-validator .com-container {
+  padding: 41rpx 32rpx 0 32rpx;
+  background: #fff;
+}
+
+.top {
+  width: 100%;
+}
+
+.phone-validator .com-container .top .title {
+  font-family: PingFangSC-Medium;
+  font-size: 48rpx;
+  color: #000000;
+  letter-spacing: -1.33rpx;
+  font-weight: 500;
+  height: 67rpx;
+  line-height: 67rpx;
+}
+
+.title0 {
+  height: 40rpx;
+  line-height: 40rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #666666;
+  letter-spacing: -0.78rpx;
+  font-weight: 400;
+  padding-top: 95rpx;
+  padding-bottom: 36rpx;
+}
+
+.phone-validator .com-container .top .title .modify-text {
+  float: right;
+  color: #318bf5;
+}
+
+.phone-validator .com-container .top .tips {
+  display: flex;
+  padding: 7px 5px 7px 19px;
+  margin-bottom: 10px;
+  background: #fff7de;
+  font-size: 12px;
+  color: #ff9a03;
+  font-family: 'PingFangSC-Regular';
+}
+
+.phone-validator .com-container .top .tips .text {
+  flex: 1;
+  line-height: 19px;
+  text-indent: 4px;
+}
+
+.phone-validator .com-container .top .tips .icon {
+  width: 16px;
+  height: 19px;
+}
+
+.phone-validator .com-container .top .tips .btn-close {
+  width: 16px;
+  height: 19px;
+}
+
+.phone-validator .com-container .middle {
+  width: 100%;
+  height: 108rpx;
+}
+
+.phone-validator .com-container .middle .inputs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 108rpx;
+  border-bottom: 1rpx solid #ececec;
+}
+
+.phone-validator .com-container .middle .inputs .box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 40rpx;
+  line-height: 40rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #000000;
+  letter-spacing: -0.78rpx;
+  font-weight: 400;
+}
+
+.box .box-border {
+  height: 28rpx;
+  width: 2rpx;
+  background: #ececec;
+  margin-right: 24rpx;
+}
+
+.box .box-text {
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.active {
+  color: #000;
+  font-weight: 400;
+}
+
+.common {
+  color: #267aff;
+  font-weight: 500;
+}
+
+.isGone {
+  color: #999999;
+}
+
+.phone-validator .com-container .middle .inputs input {
+  width: 400rpx;
+  padding: 30rpx 0;
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.phone-validator .com-container .middle .inputs input.phone {
+  width: 140px;
+}
+
+.phone-validator .com-container .btns {
+  display: flex;
+  /* border-top: 1px solid #efefef; */
+  margin-top: 203rpx;
+}
+
+.phone-validator .com-container .btns button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 92rpx;
+  line-height: 92rpx;
+  background-color: transparent;
+  font-size: 14px;
+  border-radius: 46rpx;
+  text-align: center;
+}
+
+.phone-validator .com-container .btns button.btn-confirm {
+  color: #fff;
+  background: #318bf5;
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.phone-validator .com-container .btns button:after {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+button::after {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+button[disabled] {
+  color: #fff !important;
+  background: rgb(38, 122, 255, 0.2) !important;
+  border-color: rgb(38, 122, 255, 0.2) !important;
+  border: none;
+}

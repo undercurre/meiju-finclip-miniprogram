@@ -1,0 +1,6 @@
+function getCircleColor(circleVal) {
+  return circleVal >= 60 ? '#29C3FF' : circleVal >= 30 ? '#FFAA10' : '#FF3B30'
+}
+module.exports = {
+  getCircleColor: getCircleColor,
+}

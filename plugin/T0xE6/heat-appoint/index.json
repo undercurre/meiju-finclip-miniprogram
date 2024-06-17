@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "采暖预约",
+  "backgroundColor":"#f9f9f9",
+  "usingComponents": {
+    "van-switch": "/common-packages/plugin/component/new-vant/switch/index",
+    "van-cell": "/pages/component/vant/cell/index",
+    "van-swipe-cell": "/common-packages/plugin/component/new-vant/swipe-cell/index"
+  },
+  "componentPlaceholder": {
+    "van-switch": "view",
+    "van-swipe-cell": "view"
+  }
+}

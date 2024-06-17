@@ -1,0 +1,11 @@
+<view class="cell-group flex flex_column align_center">
+  <van-cell title="设置温度" value="{{temCellRightText}}" custom-class="cell" value-class="cell-value" title-class="cell-title" border="{{false}}" bind:click="onCellClick" is-link center>
+    <view class="cell-img-wrap flex align_center justify_center" slot="icon"
+      style="background:{{iconColor}}">
+      <image src="{{images.temSet}}" class="cell-img" />
+    </view>
+  </van-cell>
+
+  <!-- 弹框温度调节 -->
+  <c-picker show="{{show}}" mode="multiSelector" range="{{multiArray}}" value="{{ multiIndex }}" unit="℃" bind:confirm="handleConfirm" bind:cancel="handleCancel"/>
+</view>

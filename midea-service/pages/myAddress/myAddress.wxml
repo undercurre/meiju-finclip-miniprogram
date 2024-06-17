@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="addrWrap" wx:if="{{addressList.length}}">
+    <block wx:for="{{addressList}}" wx:key="index" wx:for-item="item">
+      <address-item
+        itemData="{{item}}"
+        catchtap="selectAddress"
+        data-item="{{item}}"
+        bind:setDefaultAddr="setDefaultAddress"
+        bindmodifyAddr="modifyAddress"
+        binddelAddr="delAddress"
+      >
+      </address-item>
+    </block>
+    <view class="addAddress" bindtap="toAddAddress">
+      <text class="add-btn">添加地址</text>
+    </view>
+  </view>
+  <view wx:else class="noAddr">
+    <image class="noAddrImg" src="./assets/img/img_no_location@1x.png"></image>
+    <text class="noAddrText">还没有地址</text>
+  </view>
+  <view wx:if="{{addressList.length<1}}" class="addAddressBtn" bindtap="toAddAddress">
+    <text class="add-btn">添加地址</text>
+  </view>
+</view>

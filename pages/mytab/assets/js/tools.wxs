@@ -1,0 +1,17 @@
+var filterMyListClass = function (index, pageListData) {
+  var defaultClass = 'my-item '
+  var radiusTop = index % 2 !== 0 || index === 0 ? 'radiusTop ' : ''
+  var radiusBottom = index % 2 === 0 || index + 1 === pageListData.length ? 'radiusBottom ' : ''
+  return defaultClass + radiusTop + radiusBottom
+}
+var filterMyItemWrapClass = function (index, pageListData) {
+  var defaultClass = 'my-item-wrap '
+  var radiusTop = index % 2 !== 0 || index === 0 ? 'radiusTop ' : ''
+  var radiusBottom = index % 2 === 0 || index + 1 === pageListData.length ? 'radiusBottom ' : ''
+  return defaultClass + radiusTop + radiusBottom
+}
+
+module.exports = {
+  filterMyListClass: filterMyListClass,
+  filterMyItemWrapClass: filterMyItemWrapClass,
+}

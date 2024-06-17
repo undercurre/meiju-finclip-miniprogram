@@ -1,0 +1,82 @@
+const mockData = {
+  luaGet: {
+    "code": 0,
+    "msg": null,
+    "data": {
+      "cmd_type": "cmd_query_common",
+      "control_fan_speed": 255,
+      "digit_display_switch": "on",
+      "eco": "off",
+      "error_code": "0",
+      "error_from_machine_style": "error_from_inside_machine",
+      "evaporator_entrance_temperature": "103",
+      "evaporator_exit_temperature": "103",
+      "exhaust": "off",
+      "fan_speed_level_type": "fan_speed_level_seven",
+      "indoor_temperature": "25",
+      "is_support_mode_auto": "nonsupport_mode_auto",
+      "mode": "cool",
+      "mode_priority": "priority_auto",
+      "out_machine_type": "export_small_multi_split",
+      "power": "on",
+      "power_off_time_value": "0",
+      "power_on_time_value": "0",
+      "ptc": "off",
+      "ptc_setting": "ptc_setting_auto",
+      "sleep_switch": "off",
+      "small_temperature": "0",
+      "support_decimals": "on",
+      "temperature": "26",
+      "temperature_unit": "celsius",
+      "version": "8",
+      "wind_speed": "middle",
+      "wind_swing_lr": "off",
+      "wind_swing_lr_site": "swing_lr_no_site",
+      "wind_swing_ud": "off",
+      "wind_swing_ud_site": "swing_ud_no_site",
+    }
+  },
+
+  luaControl: {
+    "code": 0,
+    "msg": null,
+    "data": {
+      status: {
+        "cmd_type": "cmd_query_common",
+        "control_fan_speed": 255,
+        "digit_display_switch": "on",
+        "eco": "off",
+        "error_code": "0",
+        "error_from_machine_style": "error_from_inside_machine",
+        "evaporator_entrance_temperature": "103",
+        "evaporator_exit_temperature": "103",
+        "exhaust": "off",
+        "fan_speed_level_type": "fan_speed_level_seven",
+        "indoor_temperature": "25",
+        "is_support_mode_auto": "nonsupport_mode_auto",
+        "mode": "cool",
+        "mode_priority": "priority_auto",
+        "out_machine_type": "export_small_multi_split",
+        "power": "on",
+        "power_off_time_value": "0",
+        "power_on_time_value": "0",
+        "ptc": "off",
+        "ptc_setting": "ptc_setting_auto",
+        "sleep_switch": "off",
+        "small_temperature": "0",
+        "support_decimals": "on",
+        "temperature": "26",
+        "temperature_unit": "celsius",
+        "version": "8",
+        "wind_speed": "middle",
+        "wind_swing_lr": "off",
+        "wind_swing_lr_site": "swing_lr_no_site",
+        "wind_swing_ud": "off",
+        "wind_swing_ud_site": "swing_ud_no_site",
+      }
+    }
+  }
+}
+export {
+  mockData
+}
