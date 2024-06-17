@@ -1,0 +1,17 @@
+#sf
+.idea
+.DS_Store
+.vscode/
+project.config.json
+project.private.config.json
+node_modules
+package-lock.json
+plugin/T0xBX/assets/js/config
+miniprogram_npm/
+src/modules/module_plugin/
+distribution-network/assets/sdk/
+distribution-network/addDevice/
+distribution-network/scan-devices/
+distribution-network/select-devices/
+distribution-network/user-gudie/
+projectmaps/
