@@ -27,6 +27,12 @@ Component({
   },
   // 组件的初始数据
   data: {
+    categoryArray: [],
+    categoryModes: { 0: []},
+    pickerCategoryNamesArray: [],
+    pickerModeNamesArray: [],
+    pickerCategoryModeIndex: [0, 0],
+    selectedMode: {},
     applianceStatus: {
       power: '',
     },
@@ -98,6 +104,7 @@ Component({
     renderRemainTimeId: null,
     runningAnimationTimerId: null,
     isQueryOffLine: false,
+    configActivitysAll: {},
     configActivitys: [],
     runningAnimationValue: 0,
     modes: [],
@@ -111,7 +118,10 @@ Component({
     pickerNameValue: [],
     needHorse: true,
     saveWaterImage: '',
-    project_no: 0
+    project_no: 0,
+    configs: {},
+    statistics: {},
+    retryStatisticsCount: 0
   },
   // 组件的方法列表
   methods: {
@@ -163,24 +173,6 @@ Component({
       this.rangersBurialPointClick('plugin_page_view', param)
       // end 添加字节埋点：进入插件页
     },
-    loadActivitys() {
-      let fileName =
-        environment === 'sit' || environment === 'dev' ? 'ActivityListMeijuLiteSit' : 'ActivityListMeijuLitePro'
-      let resourceUri = '/xyj/midea_json_new/' + 'activity/' + fileName + '.json?time=' + Date.parse(new Date())
-      requestService
-        .request(resourceUri, {}, 'GET')
-        .then((res) => {})
-        .catch((err) => {
-          if (err.statusCode === 200 && err.data && err.data.activityList) {
-            this.setData(
-              {
-                configActivitys: err.data.activityList,
-              },
-              () => {}
-            )
-          }
-        })
-    },
     rotateAnimate: function (n) {
       this.animationData.rotate(0).step({ duration: 1 })
       this.setData({
@@ -193,6 +185,87 @@ Component({
         })
       }, 50)
     },
+    clickToWebView() {
+      var urlEnv = 'pro'
+      if (environment === 'sit' || environment === 'dev') {
+        urlEnv = 'sit'
+      }
+      var targetUrl = this.data.statistics.url;
+      if (targetUrl) {
+        targetUrl += `?&env=${urlEnv}&applianceId=${this.data.applianceData.applianceCode}&deviceType=DC&deviceSubType=${this.data.project_no}&userId=${app.globalData.userData.iotUserId}&deviceSn8=${this.data.applianceData.sn8}&loginState=true`;
+        let encodeLink = encodeURIComponent(targetUrl)
+        let currUrl = `../../../pages/webView/webView?webViewUrl=${encodeLink}`
+        wx.navigateTo({
+          url: currUrl,
+        })
+      }
+    },
+    getCategoryNames() {
+      let arr = ['常用程序'];
+      if (this.data.categoryArray && this.data.categoryArray.length > 0) {
+        arr = [];
+        for (let i in this.data.categoryArray) {
+          let category = this.data.categoryArray[i];
+          arr.push(category.title);
+        }
+      }
+      return arr;
+    },
+    getModesInCategory(index = 0, onlyNamesArr = false) {
+      if (this.data.categoryModes && this.data.categoryModes[index]) {
+        let tempArrModes = this.data.categoryModes[index];
+        if (onlyNamesArr) {
+          let names = [];
+          for (let i in tempArrModes) {
+            let mode = tempArrModes[i];
+            names.push(mode.modeName);
+          }
+          return names;
+        }
+        return tempArrModes;
+      }
+      return [];
+    },
+    refreshCategoryModeIndex(modeValue) {
+      this.data.pickerModeNamesArray = this.getModesInCategory(0, true);
+      if (modeValue >= 0 && this.data.categoryModes) {
+        for (let i in Object.keys(this.data.categoryModes)) {
+          let modesArr = this.getModesInCategory(i);
+          for (let j in modesArr) {
+            let tempMode = modesArr[j];
+            if (tempMode && tempMode.value === modeValue) {
+              if (this.data.pickerCategoryModeIndex && parseInt(this.data.pickerCategoryModeIndex[0]) !== i) {
+                this.data.pickerModeNamesArray = this.getModesInCategory(i, true);
+              }
+              this.data.pickerCategoryModeIndex = [i, j];
+              this.setData({
+                pickerCategoryModeIndex: this.data.pickerCategoryModeIndex,
+                pickerModeNamesArray: this.data.pickerModeNamesArray
+              })
+              return;
+            }
+          }
+        }
+      } else {
+        this.setData({
+          pickerCategoryModeIndex: [0, 0],
+          pickerModeNamesArray: this.data.pickerModeNamesArray
+        })
+      }
+      return;
+    },
+    getPickerSelectedModeInfo() {
+      let modeInfo = {};
+      if (this.data.pickerCategoryModeIndex && this.data.pickerCategoryModeIndex[0] >= 0 && this.data.pickerCategoryModeIndex[1] >= 0) {
+        let categoryIndex = this.data.pickerCategoryModeIndex[0];
+        let modeIndex = this.data.pickerCategoryModeIndex[1];
+        let modesArr = this.getModesInCategory(categoryIndex);
+        if (modesArr && modeIndex < modesArr.length) {
+          modeInfo = modesArr[modeIndex];
+        }
+      }
+      return modeInfo;
+    },
     initCard() {
       let self = this
       //初始化卡片页
@@ -202,12 +275,9 @@ Component({
         })
         this.init()
 
-        // this.setData({
-        //   configActivitys: this.data.configActivitys
-        // });
-
         this.getActivityConfig()
           .then((res) => {
+            this.data.configActivitysAll = res.data;
             this.data.configActivitys = res.data.activityList
             this.setData({
               configActivitys: res.data.activityList,
@@ -228,25 +298,77 @@ Component({
     },
     initDeviceJson(res) {
       if (res && res.data) {
-        this.setData({
-          deviceConfig: res.data,
-        })
-        for (var i in res.data.paramData) {
-          let mode = res.data.paramData[i]
-          if (mode && mode.modeName) {
+        this.data.deviceConfig = res.data;
+        this.data.modes = [];
+        this.data.modeNames = [];
+        this.data.categoryModes = {};
+        this.data.categoryArray = [];
+        this.data.pickerCategoryNamesArray = [];
+        this.data.pickerModeNamesArray = [];
+        let arrCycles = res.data.paramData;
+        if (res.data.cycleShop) {
+          arrCycles = [...arrCycles, ...res.data.cycleShop];
+        }
+        for (var i in arrCycles) {
+          let mode = arrCycles[i]
+          if (mode && mode.modeName && mode.isCloudCycle !== true && mode.isCopyed !== true) {
             this.data.modes.push(mode)
             this.data.modeNames.push(mode.modeName)
+            let modeCateIndex = 0;
+            if (mode.categoryCode && parseInt(mode.categoryCode) >= 0) {
+              modeCateIndex = parseInt(mode.categoryCode);
+            }
+            let cycleArray = [];
+            if (this.data.categoryModes[modeCateIndex] && this.data.categoryModes[modeCateIndex].length) {
+              cycleArray = this.data.categoryModes[modeCateIndex];
+            }
+            cycleArray.push(mode);
+            this.data.categoryModes[modeCateIndex] = cycleArray;
+            if (!this.data.isAutoInput) {
+              for (var j in mode.paramArray) {
+                let param = mode.paramArray[j]
+                if (param && (param.commandName === 'detergent' || param.commandName === 'softener')) {
+                  this.data.isAutoInput = true
+                  this.setData({
+                    'applianceData.isAutoInput': true,
+                  })
+                }
+              }
+            }
           }
         }
+        this.data.pickerModeNamesArray = this.getModesInCategory(0, true);
+        if (this.data.deviceConfig && this.data.deviceConfig.cycleCategory) {
+          for (let code in this.data.deviceConfig.cycleCategory) {
+            let category = this.data.deviceConfig.cycleCategory[code];
+            if (this.data.categoryModes[code] && this.data.categoryModes[code].length > 0) {
+              this.data.categoryArray.push(category);
+            }
+          }
+        } else {
+          this.data.categoryArray = [{
+            "categoryCode": "0",
+            "title": "常用程序"
+          }];
+        }
+        this.data.pickerCategoryNamesArray = this.getCategoryNames();
+        this.setData({
+          deviceConfig: res.data,
+          categoryArray: this.data.categoryArray,
+          categoryModes: this.data.categoryModes,
+          modesArrayInCategory: this.data.modesArrayInCategory,
+          modes: this.data.modes,
+          modeNames: this.data.modeNames,
+          pickerModeNamesArray: this.data.pickerModeNamesArray,
+          pickerCategoryNamesArray: this.data.pickerCategoryNamesArray
+        })
         if (this.checkNotShowMode()) {
           this.setData({
-            notShowMode: true,
+            notShowMode: true
           })
-        } else {
-          this.setData({
-            modes: this.data.modes,
-            modeNames: this.data.modeNames,
-          })
+        }
+        if (this.data.deviceConfig.supportEnergyUsage) {
+          this.getStatisticsInfo('energyUseage');
         }
       }
     },
@@ -266,7 +388,6 @@ Component({
     //*****固定方法，供外界调用****
 
     getActivityConfig() {
-      // let configFileUrl = 'https://ismart.zhinengxiyifang.cn/midea_json_new/activity/ActivityListMeijuLitePro.json'
       let configFileUrl =
         'https://ismart.zhinengxiyifang.cn/midea_json_new/activity/ActivityListMeijuLiteRelease.json' +
         '?time=' +
@@ -294,11 +415,11 @@ Component({
       })
     },
     loadJsonConfig() {
-      let jsonFileUrl =
-        'https://ismart.zhinengxiyifang.cn/midea_json_new/DC/0000.dc.' +
-        this.data.project_no +
-        '.json?time=' +
-        Date.parse(new Date())
+      let baseURL = 'https://ismart.zhinengxiyifang.cn/midea_json_new/';
+      if (environment === 'sit' || environment === 'dev') {
+        baseURL = 'https://ismart.zhinengxiyifang.cn/midea_json_new_sit/';
+      }
+      let jsonFileUrl = baseURL + 'DC/0000.dc.' + this.data.project_no + '.json?time=' + Date.parse(new Date());
       let header = {}
       header['Content-Type'] = 'application/json'
       return new Promise((resolve, reject) => {
@@ -314,6 +435,23 @@ Component({
           },
         })
       })
+    },
+    getStatisticsInfo(type) {
+      if (this.data.configActivitysAll && this.data.configActivitysAll[type]) {
+        this.data.statistics = this.data.configActivitysAll[type];
+        this.setData({
+          statistics: this.data.statistics
+        })
+        return
+      } else {
+        this.data.retryStatisticsCount++;
+        if (this.data.retryStatisticsCount > 2) {
+          return;
+        }
+        setTimeout(() => {
+          this.getStatisticsInfo(type);
+        }, 2000)
+      }
     },
     async getSaveWaterImage() {
       let saveWater = this.data.configActivitys.find((item) => {
@@ -354,17 +492,6 @@ Component({
       })
     },
     gotoMall() {
-      if (this.data.applianceData.isAutoInput === true) {
-        openSubscribeModal(
-          modelIds[2],
-          this.data.applianceData.name,
-          this.data.applianceData.sn,
-          [templateIds[22][0], templateIds[8][0]],
-          this.data.applianceData.sn8,
-          this.data.applianceData.type,
-          this.data.applianceData.applianceCode
-        )
-      }
       const currentUid =
         app.globalData.userData && app.globalData.userData.uid && app.globalData.isLogon
           ? app.globalData.userData.uid
@@ -385,55 +512,49 @@ Component({
       }
       judgeWayToMiniProgram(appId, path, extra, this.data.shangchen__envVersion)
     },
-    gotoPW() {
+    gotoEnergy() {
       this.clickToWebView()
       return
     },
     computeStatus() {
-      if (this.data.applianceStatus && this.data.deviceConfig && this.data.deviceConfig.paramData) {
+      if (this.data.applianceStatus && this.data.deviceConfig) {
         let result = luaToStatus(this.data.applianceStatus)
-        let currentMode = this.data.deviceConfig.paramData.find((mode) => {
-          return mode.value === result.wash_mode
+        let currentMode = this.data.modes.find((mode) => {
+          return mode.value === result.wash_mode;
         })
-        if (!currentMode) {
-          this.data.modeNameShown = '云程序'
-          this.data.modeIndex = 0
-          this.data.pickerNameValue[0] = 0
+        if (currentMode) {
+          this.data.selectedMode = currentMode;
           this.setData({
-            modeNameShown: '云程序',
-            modeIndex: 0,
-            pickerNameValue: this.data.pickerNameValue,
+            selectedMode: currentMode,
+            modeNameShown: currentMode.modeName
           })
         } else {
-          if (
-            this.data.modes &&
-            (!this.data.modeNameShown ||
-              this.data.modeNameShown === '云程序' ||
-              (this.data.modes[this.data.modeIndex] &&
-                currentMode.value !== this.data.modes[this.data.modeIndex].value))
-          ) {
-            let index = this.data.modeNames.indexOf(currentMode.modeName)
-            this.data.modeNameShown = currentMode.modeName
-            this.data.modeIndex = index > -1 ? index : 0
-            this.data.pickerNameValue[0] = this.data.modeIndex
+          this.data.selectedMode = { value: -1, name: '云程序'}
+          if (this.data.modeNameShown !== '云程序') {
+            this.data.modeNameShown = '云程序'
             this.setData({
-              modeNameShown: this.data.modeNameShown,
-              modeIndex: this.data.modeIndex,
-              pickerNameValue: this.data.pickerNameValue,
+              selectedMode: this.data.selectedMode,
+              modeNameShown: '云程序',
             })
           }
         }
       }
     },
     modeToggle() {
-      let applianceStatus = this.data.applianceStatus
+      let applianceStatus = this.data.applianceStatus;
+      if (this.data.selectedMode && this.data.selectedMode.value >= 0) {
+        this.refreshCategoryModeIndex(this.data.selectedMode.value);
+      } else {
+        this.refreshCategoryModeIndex(-1);
+      }
       if (
         applianceStatus.power == 'on' &&
         applianceStatus.running_status !== 'start' &&
         applianceStatus.running_status !== 'pause' &&
         applianceStatus.running_status !== 'fault' &&
         applianceStatus.running_status !== 'delay' &&
-        applianceStatus.running_status !== 'end'
+        applianceStatus.running_status !== 'end' && 
+        applianceStatus.baby_lock !== 1
       ) {
         this.isShowModePicker = true
         this.setData({
@@ -442,8 +563,11 @@ Component({
       } else {
         if (
           applianceStatus.power == 'on' &&
-          this.data.deviceConfig.canChangeCycleOnPause &&
-          applianceStatus.running_status === 'pause'
+          (this.data.deviceConfig.canChangeCycleOnPause && applianceStatus.running_status === 'pause' ||
+          this.data.deviceConfig.canChangeCycleOnPause && applianceStatus.running_status === 'delay_pause' ||
+          this.data.deviceConfig.supportChangeCycleAfterFinish && applianceStatus.running_status === 'end') &&
+          applianceStatus.running_status !== 'fault' &&
+          applianceStatus.baby_lock !== 1
         ) {
           this.isShowModePicker = true
           this.setData({
@@ -455,37 +579,33 @@ Component({
       }
     },
     closeModePop() {
-      this.data.isShowModePicker = false
       this.setData({
-        isShowModePicker: false,
+        isShowModePicker: false
+      }, ()=> {
+        this.data.isShowModePicker = false;
       })
-      setTimeout(() => {
-        this.setData({
-          pickerNameValue: this.data.pickerNameValue,
-        })
-      }, 500)
     },
     confirmModePop() {
-      if (this.data.selectModeIndex === -1) {
-        return
-      }
-      this.data.isShowModePicker = false
-      this.setData({
-        isShowModePicker: false,
-      })
-      if (this.data.selectModeIndex > -1 && this.data.selectModeIndex != this.data.modeIndex) {
-        var mode = this.data.modes[this.data.selectModeIndex]
-        this.changeMode(mode)
-        this.data.selectModeIndex = -1
+      this.closeModePop();
+      let modeInfo = this.getPickerSelectedModeInfo();
+      if (modeInfo && modeInfo.value >= 0) {
+        setTimeout(() => {
+          this.changeMode(modeInfo);
+        }, 500);
       }
     },
-    selectModeChange(e) {
-      if (e && e.detail && e.detail.value) {
-        var result = e.detail.value[0]
-        if (this.data.selectModeIndex != result) {
-          if (result >= 0 && result < this.data.modes.length && this.data.modes[result]) {
-            this.data.selectModeIndex = result
-          }
+    pickerChange(e) {
+      if (e.detail.value && e.detail.value[0] >= 0) {
+        let indexCategory = e.detail.value[0];
+        if (parseInt(this.data.pickerCategoryModeIndex[0]) !== indexCategory) {
+          this.data.pickerModeNamesArray = this.getModesInCategory(indexCategory, true);
+          this.data.pickerCategoryModeIndex = [indexCategory, 0];
+          this.setData({
+            pickerCategoryModeIndex: this.data.pickerCategoryModeIndex,
+            pickerModeNamesArray: this.data.pickerModeNamesArray
+          })
+        } else {
+          this.data.pickerCategoryModeIndex = e.detail.value;
         }
       }
     },
@@ -552,11 +672,7 @@ Component({
       //渲染暂停按钮
       let applianceStatus = this.data.applianceStatus
       let running_status2 = {}
-      if (
-        applianceStatus.power == 'on' &&
-        applianceStatus.running_status == 'start' &&
-        applianceStatus.baby_lock !== 1
-      ) {
+      if (applianceStatus.power == 'on' && applianceStatus.running_status == 'start') {
         running_status2 = {
           mainImg: this.data.pauseImg.on,
           desc: '暂停',
@@ -581,7 +697,8 @@ Component({
         applianceStatus.running_status !== 'pause' &&
         applianceStatus.running_status !== 'fault' &&
         applianceStatus.running_status !== 'delay' &&
-        applianceStatus.running_status !== 'end'
+        applianceStatus.running_status !== 'end' && 
+        applianceStatus.baby_lock !== 1
       ) {
         running_status3 = {
           mainImg: this.data.modeImg.on,
@@ -589,8 +706,9 @@ Component({
         }
       } else {
         if (
-          this.data.deviceConfig.canChangeCycleOnPause &&
-          applianceStatus.running_status === 'pause' &&
+          applianceStatus.power == 'on' &&
+          (this.data.deviceConfig.canChangeCycleOnPause && applianceStatus.running_status === 'pause' ||
+          this.data.deviceConfig.supportChangeCycleAfterFinish && applianceStatus.running_status === 'end') &&
           applianceStatus.running_status !== 'fault' &&
           applianceStatus.baby_lock !== 1
         ) {
@@ -749,11 +867,13 @@ Component({
         power == 'off' &&
         (this.data.applianceStatus.running_status === 'start' ||
           this.data.applianceStatus.running_status === 'pause' ||
-          this.data.applianceStatus.running_status === 'delay')
+          this.data.applianceStatus.running_status === 'delay' || 
+          this.data.applianceStatus.running_status === 'delay_pause'|| 
+          this.data.applianceStatus.running_status === 'fault')
       ) {
         wx.showModal({
           title: '确认提示',
-          content: '是否确认关机？',
+          content: '设备正在运行，是否确定关机？',
           success(res) {
             if (res.confirm) {
               self.controlPower(power)
@@ -782,7 +902,8 @@ Component({
         this.data.applianceStatus.power == 'on' &&
         (this.data.applianceStatus.running_status == 'idle' ||
           this.data.applianceStatus.running_status == 'standby' ||
-          this.data.applianceStatus.running_status == 'pause')
+          this.data.applianceStatus.running_status == 'pause' ||
+          this.data.applianceStatus.running_status == 'delay_pause')
       ) {
         control_status = 'start'
         let reqId = getReqId()
@@ -840,7 +961,7 @@ Component({
     pauseToggle() {
       if (this.data.applianceStatus.running_status === 'start' && this.data.applianceStatus.baby_lock === 1) {
         wx.showToast({
-          title: '请先关闭童锁',
+          title: '童锁已开启',
           icon: 'none',
         })
         return

@@ -717,7 +717,7 @@ module.exports = Behavior({
       //todo:yoram 暂时屏蔽掉该功能
       // if (addDeviceSDK.isCanWb01BindBLeAfterWifi(addDeviceInfo.type, addDeviceInfo.sn8)) {
       //   //需要wb01直连后配网判断
-      //   app.addDeviceInfo.mode = 30
+      //   app.addDeviceInfo.mode = 'WB01_bluetooth_connection'
       //   wx.navigateTo({
       //     url: addGuide,
       //   })
@@ -758,7 +758,7 @@ module.exports = Behavior({
         wx.navigateTo({
           url: inputWifiInfo,
         })
-      } else if (mode == 5 || mode == 9 || mode == 10 || mode == 20 || mode == 100) {
+      } else if (mode == 5 || mode == 9 || mode == 10 || mode == 'air_conditioning_bluetooth_connection' || mode == 100) {
         wx.navigateTo({
           url: addGuide,
         })

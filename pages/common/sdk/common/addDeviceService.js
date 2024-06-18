@@ -24,10 +24,10 @@ const modeList = {
   8: 'NB - IOT',
   9: 'Msmart - lite协议',
   10: '本地蓝牙直连',
-  20: '家用协议直连',
-  21: '家用协议配网',
-  30: 'msmart 直连', //小程序自定义
-  31: 'msmart 直连后做wifi绑定', //小程序自定义
+  'air_conditioning_bluetooth_connection': '家用协议直连',
+  'air_conditioning_bluetooth_connection_network': '家用协议配网',
+  'WB01_bluetooth_connection': 'msmart 直连', //小程序自定义
+  'WB01_bluetooth_connection_network': 'msmart 直连后做wifi绑定', //小程序自定义
   100: '动态二维码(触屏配网)',
   101: 'zebee网关 + 手机蓝牙',
   102: '蓝牙网关 + 手机蓝牙',
@@ -38,10 +38,10 @@ const modeList = {
 }
 
 //目前小程序支持的配网模式
-const supportAddDeviceMode = [0, 3, 5, 9, 10, 20, 21, 30, 31, 100]
+const supportAddDeviceMode = [0, 3, 5, 9, 10, 'air_conditioning_bluetooth_connection', 'air_conditioning_bluetooth_connection_network', 'WB01_bluetooth_connection', 'WB01_bluetooth_connection_network', 100]
 
 //需要小程序授权使用蓝牙的配网模式
-const bluetoothAuthModes = [3, 5, 20, 21, 30, 31] //蓝牙配网涉及的mode
+const bluetoothAuthModes = [3, 5, 'air_conditioning_bluetooth_connection', 'air_conditioning_bluetooth_connection_network', 'WB01_bluetooth_connection', 'WB01_bluetooth_connection_network'] //蓝牙配网涉及的mode
 
 //已知的小程序配网入口
 const addDeviceFm = {
@@ -431,16 +431,16 @@ const addDeviceService = {
     if (mode == 5) {
       return moduleType ? 3 : 1
     }
-    if (mode == 20) {
+    if (mode == 'air_conditioning_bluetooth_connection') {
       return 3 //combo 蓝牙
     }
-    if (mode == 21) {
+    if (mode == 'air_conditioning_bluetooth_connection_network') {
       return 2 //遥控器 后配网
     }
-    if (mode == 30) {
+    if (mode == 'WB01_bluetooth_connection') {
       return 3 //遥控器 后配网
     }
-    if (mode == 31) {
+    if (mode == 'WB01_bluetooth_connection_network') {
       return 2 //遥控器 后配网
     }
     return null

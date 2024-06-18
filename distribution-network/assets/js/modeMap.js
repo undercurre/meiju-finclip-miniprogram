@@ -11,8 +11,10 @@ const modeList = {
   9: 'Msmart - lite协议',
   10: '本地蓝牙直连',
   17: '数字遥控器配网',
-  20: '家用协议直连',
-  21: '家用协议配网',
+  'air_conditioning_bluetooth_connection': '家用协议直连',
+  'air_conditioning_bluetooth_connection_network': '家用协议配网',
+  'WB01_bluetooth_connection': 'msmart 直连', //小程序自定义
+  'WB01_bluetooth_connection_network': 'msmart 直连后做wifi绑定', //小程序自定义
   100: '动态二维码(触屏配网)',
   101: 'zebee网关 + 手机蓝牙',
   102: '蓝牙网关 + 手机蓝牙',

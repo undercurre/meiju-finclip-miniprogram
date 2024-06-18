@@ -100,16 +100,19 @@
                   </view>
                 </view>
               </block>
-              <block wx:if="{{!noPW}}">
+              <block wx:if="{{!noPW && statistics && statistics.title}}">
+                <view class="footer-view-gapline"></view>
                 <view class="footer-view-item">
                   <view class="footer-view-content" bindtap="gotoPW">
-                    <image class="viewIconLeft" src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_pw.png"></image>
+                    <image class="viewIconLeft" src="{{statistics.icon}}"></image>
                     <view class="view-descs">
-                      <text class="">水电统计</text>
+                      <text class="">{{statistics.title}}</text>
                     </view>
                   </view>
                   <image class="viewIconRight" src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_arrowright.png"></image>
                 </view>
+              </block>
+              <block>
                 <view class="footer-view-gapline"></view>
                 <view class="footer-view-item">
                   <view class="footer-view-content" bindtap="gotoMall">
@@ -136,18 +139,26 @@
       <image src="http://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/close.png" style="width: 32rpx; height: 32rpx; position: absolute; top: 0; right: 0;" bindtap="clickCloseWater"></image>
     </view>
   </movable-view>
+
   <vant-popup show="{{isShowModePicker}}" position="bottom" bind:click-overlay="closeModePop" customStyle="background:#fff;border-top-left-radius: 10px;border-top-right-radius: 10px;">
     <view class="modal-wrapper">
       <view class="pop-title">选择模式</view>
       <view class="pickerViewContent">
-        <picker-view indicator-style="" value="{{pickerNameValue}}" style="width: 100%; height: 200px;" bindchange="selectModeChange" immediate-change="true">
+        <picker-view indicator-style="" style="width: 100%; height: 200px;" bindchange="pickerChange" immediate-change="true" value="{{pickerCategoryModeIndex}}">
           <picker-view-column>
-            <view class="center-flex-row" wx:for="{{modeNames}}" wx:key="index">{{item}}</view>
+            <view wx:for="{{pickerCategoryNamesArray}}" wx:for-item="itemCategory" wx:key="pickerCategoryNamesArray" class="picker-view-item" style="line-height: 72rpx;text-align: center;">
+              <view>{{itemCategory}}</view>
+            </view>
+          </picker-view-column>
+          <picker-view-column>
+            <view wx:for="{{pickerModeNamesArray}}" wx:for-item="itemMode" wx:key="pickerModeNamesArray" class="picker-view-item" style="line-height: 72rpx;text-align: center;">
+              <view>{{itemMode}}</view>
+            </view>
           </picker-view-column>
         </picker-view>
       </view>
       <view class="pop-footer">
-        <view class="pop-button" bindtap="closeModePop">取消</view>
+        <view class="pop-button" style="color: #828282;" bindtap="closeModePop">取消</view>
         <view class="pop-button" bindtap="confirmModePop">确认</view>
       </view>
     </view>

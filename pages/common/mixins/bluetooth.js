@@ -698,7 +698,7 @@ module.exports = Behavior({
       console.log('getDeviceMode====', category, sn8)
       if (addDeviceSDK.isBlueAfterLinlNetAc(category, sn8)) {
         //走直连后配网
-        return 20
+        return 'air_conditioning_bluetooth_connection'
       }
       return moduleType == '1' ? 3 : 5
     },
@@ -1119,6 +1119,12 @@ module.exports = Behavior({
     //获取配网指引
     getAddDeviceGuide(fm = 'scanCode', deviceInfo = {}) {
       let { mode, type, sn8, enterprise, ssid, productId, tsn, sn } = deviceInfo
+      let isModeType = false
+      let modeType = ''
+      if(mode == 'air_conditioning_bluetooth_connection'|| mode == 'air_conditioning_bluetooth_connection_network' || mode == 'WB01_bluetooth_connection_network'){
+        modeType = 3
+        isModeType = true
+      }
       return new Promise((resolve, reject) => {
         if (fm == 'autoFound') {
           let reqData = {
@@ -1128,7 +1134,7 @@ module.exports = Behavior({
             enterpriseCode: enterprise,
             category: type.includes('0x') ? type.substr(2, 2) : type,
             code: sn8,
-            mode: mode + '',
+            mode: isModeType?modeType + '':mode + '',
             queryType: 2,
           }
           console.log('自发现请求确权指引', reqData)
@@ -1542,7 +1548,7 @@ module.exports = Behavior({
       // 结束判断全局的密钥有没有，有就跳过，没有就重新拉取
       if (addDeviceSDK.isCanWb01BindBLeAfterWifi(addDeviceInfo.type, addDeviceInfo.sn8)) {
         //需要wb01直连后配网判断
-        app.addDeviceInfo.mode = 30
+        app.addDeviceInfo.mode = 'WB01_bluetooth_connection'
         wx.navigateTo({
           url: addGuide,
         })
@@ -1552,7 +1558,7 @@ module.exports = Behavior({
         wx.navigateTo({
           url: inputWifiInfo,
         })
-      } else if (mode == 5 || mode == 9 || mode == 10 || mode == 20 || mode == 100 || mode == 103) {
+      } else if (mode == 5 || mode == 9 || mode == 10 || mode == 'air_conditioning_bluetooth_connection' || mode == 100 || mode == 103) {
         wx.navigateTo({
           url: addGuide,
         })

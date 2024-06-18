@@ -6,8 +6,8 @@ const brand = {
     singleBlue: true, // 单蓝牙（厨房秤），mode == 5
     'NB-IOT': true, // NB-IOT，mode == 8
     localBlue: true, // 本地蓝牙直连，mode == 9 || mode == 10
-    matchNetAfterDirectConn_AC: true, // 先蓝牙直连后WiFi绑定-家用模组，mode == 20 || mode == 21
-    matchNetAfterDirectConn_WB01: true, // 先蓝牙直连后WiFi绑定-WB01模组，mode == 30 || mode == 31
+    matchNetAfterDirectConn_AC: true, // 先蓝牙直连后WiFi绑定-家用模组，mode == 'air_conditioning_bluetooth_connection' || mode == 'air_conditioning_bluetooth_connection_network'
+    matchNetAfterDirectConn_WB01: true, // 先蓝牙直连后WiFi绑定-WB01模组，mode == 'WB01_bluetooth_connection' || mode == 'WB01_bluetooth_connection_network'
     dynamicQRcode: true, // mode == 100
     supportPluginFlag: true, // 判断插件页逻辑
     bigScreenBind: true, //大屏绑定 mode == 103

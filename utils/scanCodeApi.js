@@ -669,7 +669,7 @@ function isScanCodeGuide(scanCodeRes) {
 }
 
 //获取扫描的二维码链接参数
-function getUrlParamy(result) {
+export function getUrlParamy(result) {
   const map = ['mode', 'type', 'tsn', 'type', 'v', 'SSID', 'dsn', 'ssid']
   if (
     (result.includes('//qrcode.midea.com') && result.includes('mode') && result.includes('type')) ||
