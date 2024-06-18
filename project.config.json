@@ -1,0 +1,132 @@
+{
+  "description": "项目配置文件，详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "setting": {
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "urlCheck": true,
+    "scopeDataCheck": false,
+    "coverView": true,
+    "es6": true,
+    "postcss": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "autoAudits": false,
+    "newFeature": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "useIsolateContext": true,
+    "nodeModules": false,
+    "enhance": true,
+    "useMultiFrameRuntime": true,
+    "showShadowRootInWxmlPanel": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "./package.json",
+        "miniprogramNpmDistDir": "./miniprogram/"
+      }
+    ],
+    "enableEngineNative": false,
+    "minifyWXSS": true,
+    "showES6CompileOption": false,
+    "minifyWXML": true,
+    "useStaticServer": true,
+    "checkInvalidKey": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "ignoreUploadUnusedFiles": true,
+    "ignoreDevUnusedFiles": true,
+    "localPlugins": false,
+    "condition": false
+  },
+  "compileType": "miniprogram",
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "libVersion": "2.22.0",
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "compile",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/@colmoLite",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/@meijuLite",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/@toshibaLite",
+        "type": "folder"
+      },
+      {
+        "value": "/projectmaps",
+        "type": "folder"
+      }
+    ],
+    "include": [
+      {
+        "value": "utils",
+        "type": "folder"
+      },
+      {
+        "value": "globalCommon",
+        "type": "folder"
+      },
+      {
+        "value": "plugin",
+        "type": "folder"
+      },
+      {
+        "value": "distribution-network",
+        "type": "folder"
+      },
+      {
+        "value": "common-packages",
+        "type": "folder"
+      },
+      {
+        "value": "activities",
+        "type": "folder"
+      },
+      {
+        "value": "midea-replace-repair",
+        "type": "folder"
+      },
+      {
+        "value": "midea-service",
+        "type": "folder"
+      },
+      {
+        "value": "sub-package",
+        "type": "folder"
+      },
+      {
+        "value": "pages/common",
+        "type": "folder"
+      },
+      {
+        "value": "pages/component",
+        "type": "folder"
+      },
+      {
+        "value": "track",
+        "type": "folder"
+      }
+    ]
+  },
+  "appid": "wxb12ff482a3185e46",
+  "projectname": "midea-meiju-lite"
+}
