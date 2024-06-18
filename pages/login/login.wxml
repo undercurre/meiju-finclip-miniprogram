@@ -42,6 +42,8 @@
     <mx-cell-group custom-class="login-cell-group">
       <mx-field
         custom-style="border: 1px solid #eeeeee;z-index:1000;"
+        mx-iconfont="mx-icon"
+        left-icon="manager"
         bind:input="handlePhoneNumberInput"
         maxlength="{{11}}"
         pattern="light"
@@ -51,42 +53,61 @@
         border="{{ false }}"
         clearable
       />
-
-      <mx-field
-        custom-style="border: 1px solid #eeeeee;margin-top:32rpx;z-index:1000;"
-        bind:input="handleVercodeInput"
-        maxlength="{{6}}"
-        pattern="light"
-        shape="round"
-        use-button-slot
-        value="{{ vercode }}"
-        placeholder="请输入验证码"
-        border="{{ false }}"
-        clearable
-        ><mx-button
-          disabled="{{verCodeDisabled}}"
-          slot="button"
-          size="small"
-          type="text"
-          text-color="#267AFF"
-          bindclick="getSmsCode"
-          custom-class="login-vercode-button"
-          >{{verCodeDes}}</mx-button
-        ></mx-field
+      <mx-transition
+        show="{{ imgCodeInputshow }}"
+        name="{{ transitionName }}"
+        duration="{{ duration }}"
+        custom-class="vercode-Input__container"
       >
+        <mx-field
+          custom-style="border: 1px solid #eeeeee;margin-top:32rpx;z-index:1000;"
+          mx-iconfont="mx-icon"
+          left-icon="photo"
+          bind:input="handleImgcodeInput"
+          pattern="light"
+          shape="round"
+          use-button-slot
+          value="{{ verImgcode }}"
+          placeholder="请输入图形验证码"
+          border="{{ false }}"
+          clearable
+          ><image bindtap="getImgCode" class="imgcodever" slot="button" src="{{imgcode}}"></image
+        ></mx-field>
+      </mx-transition>
+      <mx-transition
+        show="{{ verCodeInputshow }}"
+        name="{{ transitionName }}"
+        duration="{{ duration }}"
+        custom-class="vercode-Input__container"
+      >
+        <mx-field
+          custom-style="border: 1px solid #eeeeee;margin-top:32rpx;z-index:1000;"
+          mx-iconfont="mx-icon"
+          left-icon="setting"
+          bind:input="handleVercodeInput"
+          maxlength="{{6}}"
+          pattern="light"
+          shape="round"
+          use-button-slot
+          value="{{ vercode }}"
+          placeholder="请输入验证码"
+          border="{{ false }}"
+          clearable
+          ><mx-button
+            disabled="{{verCodeDisabled}}"
+            slot="button"
+            size="small"
+            type="text"
+            text-color="#267AFF"
+            bindclick="getSmsCode"
+            custom-class="login-vercode-button"
+            >{{verCodeDes}}</mx-button
+          ></mx-field
+        >
+      </mx-transition>
     </mx-cell-group>
     <mx-button
-      disabled="{{loginDisabled}}"
-      wx:if="{{!agreeFlag}}"
-      custom-class="login-btn"
-      hover-class="loginBtnHover"
-      bindclick="agreeToast"
-    >
-      登录
-    </mx-button>
-    <mx-button
-      disabled="{{loginDisabled}}"
-      wx:if="{{agreeFlag}}"
+      disabled="{{loginDisabled && verCodeDisabled}}"
       custom-class="login-btn"
       hover-class="loginBtnHover"
       bindclick="onClickLogin"
@@ -95,6 +116,27 @@
     </mx-button>
   </view>
 </view>
+
+<mx-dialog
+  use-slot
+  title="{{privacyTitle}}"
+  show="{{ privacyShow }}"
+  show-cancel-button
+  confirm-button-text="{{confirmButtonText}}"
+  cancel-button-text="{{cancelButtonText}}"
+  bind:confirm="onConfirm"
+  bind:cancel="onClose"
+>
+  <view class="dialog-demo-input">
+    <view class="privacy-des">
+      <text>为保护您的合法权益，清先阅读并同意一下协议</text>
+      <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text>
+      <text>和</text>
+      <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户协议》</text>
+    </view>
+  </view>
+</mx-dialog>
+
 <mx-dedialog
   show="{{ registerDialogShow }}"
   title="帐号已注销"

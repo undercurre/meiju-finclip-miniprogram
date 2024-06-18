@@ -293,6 +293,8 @@ const loginMethods = {
       let data = {
         data: {
           appKey: '46579c15',
+          imgCode: params.imgCode,
+          randomToken: params.randomToken,
           deviceId: params.phoneNumber,
         },
         iotData: {
@@ -380,7 +382,7 @@ const loginMethods = {
             return
           }
           if (noPromptCode.indexOf(err.data.code) === -1) {
-            showToast('程序员小哥哥植发去了，请稍后重试')
+            showToast(err.data.msg)
           }
           reject(err)
         })

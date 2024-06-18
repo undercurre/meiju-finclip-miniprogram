@@ -80,20 +80,16 @@ var api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/mobile/login`,
     api: '/mj/user/mobile/login',
   },
+  //获取图片验证码
+  getImgCode: {
+    url: `${domain[`${environment}`]}/mj/user/autoLogin`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/getImgCode`,
+    api: '/mj/user/autoLogin',
+  },
   autoLogin: {
     url: `${domain[`${environment}`]}/mj/user/autoLogin`,
     masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/autoLogin`,
     api: '/mj/user/autoLogin',
-  },
-  getSmsCode: {
-    url: `${domain[`${environment}`]}/mj/user/h5/getSmsCode/fission`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/h5/getSmsCode/fission`,
-    api: '/mj/user/h5/getSmsCode/fission',
-  },
-  h5login: {
-    url: `${domain[`${environment}`]}/mj/user/h5/mobile/login/fission`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/h5/mobile/login/fission`,
-    api: '/mj/user/h5/mobile/login/fission',
   },
   mobileVerify: {
     url: `${domain[`${environment}`]}/muc/v5/app/mj/user/mobileVerify`,

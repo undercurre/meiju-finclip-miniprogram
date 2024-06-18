@@ -27,17 +27,30 @@ Page({
     agreeFlag: false,
     titleResult: [],
     topBacImg: baseImgApi.url + 'denglu_img_bk@2x.png',
-    loginBtnDes: '登录',
+    loginBtnDes: '获取验证码',
     loadingIco: baseImgApi.url + 'loading.png',
     logoTop: '',
     registerDialogShow: false,
     fms: 2,
     phoneNumber: '',
     vercode: '',
+    imgcode: '',
+    verImgcode: '',
+    randomToken: '',
     showVercode: false,
     verCodeDisabled: true,
     loginDisabled: true,
     verCodeDes: '获取验证码',
+    privacyShow: false, //用户协议和隐私协议
+    verCodeInputshow: false, //验证码输入框
+    imgCodeInputshow: false, //图形验证码输入框
+    privacyTitle: '服务协议和隐私保护',
+    confirmButtonText: '同意',
+    cancelButtonText: '不同意',
+    isLogin: false,
+    duration: 300,
+    transitionName: 'fade-up',
+    timer: null,
   },
   setLoginLogoTop() {
     let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 290) / 1624
@@ -101,6 +114,17 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {},
+  //同意服务和隐私协议
+  onConfirm() {
+    this.setData({
+      agreeFlag: true,
+    })
+    if (this.data.isLogin) {
+      this.loginTemp()
+    } else {
+      this.getSmsCode()
+    }
+  },
   changeAgree() {
     this.setData({
       agreeFlag: !this.data.agreeFlag,
@@ -225,38 +249,87 @@ Page({
       })
     }
   },
-  // 更新验证码变量的值
-  handleVercodeInput(val) {
-    if (val.detail.length == 6) {
+  //更新图形验证码输入框
+  handleImgcodeInput(val) {
+    if (val.detail.length > 1) {
       this.setData({
-        vercode: val.detail,
+        verImgcode: val.detail,
         loginDisabled: false,
       })
+      // this.loginTemp()
     } else {
       this.setData({
         loginDisabled: true,
       })
     }
   },
+  // 更新验证码变量的值
+  handleVercodeInput(val) {
+    let vallen = []
+    console.log('验证码--->', val)
+    if (val.detail.length == 6) {
+      vallen.push(val.timeStamp)
+      if (val.length > 1) {
+        return
+      }
+      this.setData({
+        vercode: val.detail,
+        loginDisabled: false,
+        isLogin: true,
+      })
+      this.onClickLogin()
+    } else {
+      this.setData({
+        loginDisabled: true,
+        isLogin: false,
+      })
+    }
+  },
   //获取验证码
   getSmsCode() {
+    this.requestSmsCode()
+  },
+  //发送验证码请求
+  requestSmsCode() {
     loginMethods
-      .loginSmCode({ phoneNumber: this.data.phoneNumber })
+      .loginSmCode({
+        phoneNumber: this.data.phoneNumber,
+        imgCode: this.data.verImgcode,
+        randomToken: this.data.randomToken,
+      })
       .then(() => {
         let time = 60
         this.setTime(time)
         this.setData({
+          vercode: '',
+          randomToken: '',
+          verCodeInputshow: true, //显示验证码输入框
           verCodeDisabled: true,
+          loginBtnDes: '登录',
         })
       })
       .catch((error) => {
+        console.log(error)
+        if (error.data.code == 65011) {
+          this.setData({
+            imgCodeInputshow: true, //显示图形验证码输入框
+            imgcode: error.data.data.imgCode,
+            randomToken: error.data.data.randomToken,
+          })
+          return
+        }
         showToast(error.data.msg)
       })
+  },
+  //刷新图形验证码
+  getImgCode() {
+    this.requestSmsCode()
   },
   //验证码倒计时
   setTime(time) {
     //let that = this
-    setTimeout(() => {
+    if (this.data.timer) clearInterval(this.data.timer)
+    this.data.timer = setTimeout(() => {
       if (time > 1) {
         time--
         // 返回文案
@@ -277,7 +350,17 @@ Page({
   },
   //登陆交互逻辑
   onClickLogin() {
-    this.loginTemp()
+    if (!this.data.agreeFlag) {
+      this.setData({
+        privacyShow: true,
+      })
+      return
+    }
+    if (this.data.isLogin) {
+      this.loginTemp()
+    } else {
+      this.getSmsCode()
+    }
   },
   // 检查openid情况
   checkAndGetOpenId() {

@@ -117,3 +117,13 @@ button::after {
 .login-section{
   --cell-line-height:56rpx
 }
+.privacy-des{
+  padding: 16rpx 32rpx;
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #666666;
+}
+.imgcodever{
+  width: 120rpx;
+  height: 40rpx;
+}

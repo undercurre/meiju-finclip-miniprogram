@@ -6,6 +6,8 @@
     "mx-field": "/miniprogram_npm/m-ui/mx-field/index",
     "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index",
     "mx-button" :"/miniprogram_npm/m-ui/mx-button/index",
+    "mx-transition":"/miniprogram_npm/m-ui/mx-transition/index",
+    "mx-image":"/miniprogram_npm/m-ui/mx-image/index",
     "navbar": "/pages/download/components/navbar/navbar"
   }
 }

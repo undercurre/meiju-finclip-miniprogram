@@ -217,9 +217,9 @@ App({
     } catch (error) {
       console.log(error)
     }
-    Performance_Track.getPerformanceData()
+    //Performance_Track.getPerformanceData()
     this.$$Rangers = $$Rangers
-    CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日志
+    //CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日志
     //多云协议
     // if (!wx.getStorageSync('userRegion') && !wx.getStorageSync('cloudGlobalModule')) {
     this.initCloudData() //20230605屏蔽多云的入口调用，20230612打开多云入口
