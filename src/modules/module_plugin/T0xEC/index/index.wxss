@@ -1,0 +1,10 @@
+/* T0xAC//index/index.wxss */
+@import "/assets/css/plugin.wxss";
+.navbar-title{
+    width: 380rpx;
+    overflow: hidden;
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}

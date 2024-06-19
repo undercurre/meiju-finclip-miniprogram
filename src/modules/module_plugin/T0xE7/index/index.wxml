@@ -1,0 +1,26 @@
+<!--电磁炉-->
+<view class="continer">
+	<!-- <plugin-navbar backTo="{{backTo}}">
+        <view class="transition-default navbar-title" style="opacity:{{isShowTitle?'1':'0'}};">{{title}}</view>
+    </plugin-navbar> -->
+	<mx-nav-bar title="{{title}}" bind:click-left="onClickLeft" bgColor="#F9F9F9" />
+	<view class="device-card">
+		<device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" />
+	</view>
+	<view wx:if="{{fromApp}}" class="bottom-box">
+		<button
+		 class="openMeiJuAPpp"
+		 style="display:inline-block;"
+		 open-type="launchApp"
+		 app-parameter="{{appParameter}}"
+		 binderror="launchAppError"
+		 bindtap="test"
+		>
+			<text class="blue">打开美居App</text>
+		</button>
+		<text>解锁更多功能</text>
+	</view>
+	<!--<view wx:if="{{!fromApp}}" class="openMeiJuAPpp">更多功能尽在美的美居App</view>-->
+</view>
+<midea-toast id="media-toast" />
+

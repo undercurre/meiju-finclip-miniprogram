@@ -1,0 +1,12 @@
+<!-- 电蒸锅 -->
+<view class="continer">
+  <view class="header-fixed">
+    <mx-nav-bar title="{{title}}"
+                bgColor="#FFFFFF"
+                show-bg="{{isHideNavBg}}"
+                bind:click-left="onClickLeft"
+                title-class="title-class"/>
+  </view>
+  <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" />
+</view>
+<midea-toast id="media-toast" />

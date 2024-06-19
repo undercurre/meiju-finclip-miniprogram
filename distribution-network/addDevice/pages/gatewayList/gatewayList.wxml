@@ -1,0 +1,57 @@
+<!--addDevice//pages/gatewayList/gatewayList.wxml-->
+<view id="{{brand}}">
+
+  <input-wifi-header pdLeft="0" bind:clickCancel="onClickBack" buttonColor="{{ brandConfig.backButtonColor }}"></input-wifi-header>
+  
+  <view class="scan-device-title" style="margin-top:{{ navTop+16 }}px">
+    <text class="">选择搭配的网关</text>
+  </view>
+
+  <view class="scan-device-label" hover-class="none" hover-stop-propagation="false">
+    <text class="sel-text" wx:if="{{ gatewayList.length }}">"{{ familyInfo.name }}"家庭下有{{ gatewayList.length }}个网关可选择：</text>
+  </view>
+
+  <view class="gatewayList-container">
+    <mx-radio-group value="{{ currentRadio }}">
+      <mx-cell-group border="{{false}}">
+        <mx-cell
+          wx:for="{{ gatewayList }}"
+          wx:key="index"
+          custom-class="gatewayList-cell"
+          title="{{ item.name }}"
+          label="{{ item.labelText }}"
+          icon="{{ item.deviceImg }}"
+          imageSize="66"
+          size="large"
+          center="{{ true }}"
+          border="{{ false }}"
+          data-name="{{ item.applianceCode }}"
+          data-item="{{ item }}"
+          disabled="{{ item.isLabelShow }}"
+          bind:click="onHandleClickItem"
+          use-label-slot>
+          <view wx:if="{{ item.isLabelShow }}" slot="label">
+            <view class="gatewayList-cell-label">
+               <text class="cell-text-left">{{item.labelText}}</text>
+               <text class="cell-text-right" catch:tap="onLabelClick" wx:if="{{ item.labelClickText }}" data-item="{{ item }}" data-type="{{ item.clickType }}" style="color:{{ brandConfig.mainColor }}">{{ item.labelClickText }}</text>
+            </view>
+          </view>
+          <mx-radio icon-size="20" slot="right-icon" name="{{ item.applianceCode }}" checked-color="{{ brandConfig.mainColor }}" disabled="{{ item.isLabelShow }}"/>
+        </mx-cell>
+      </mx-cell-group>
+    </mx-radio-group>
+  </view>
+
+  <view class="bottom-button">
+    <view class="save" style="opacity:{{ currentRadio !== -1 ? 1 : 0.2 }}" bindtap="onNextStep">下一步</view>
+  </view>
+
+  <!-- 重新联网弹窗 -->
+  <mx-dialog id="mx-reLink" show="{{ishowLinkDialog}}" showCancelButton="{{ true }}" cancelButtonColor="{{dialogStyle.cancelButtonColor}}" confirmButtonColor="{{dialogStyle.cancelButtonColor5}}" title="{{titleContent}}" message="{{messageContent}}" cancel-button-text="取消" confirm-button-text="立即连网" bind:confirm="onToRelink" bind:cancel="">
+  </mx-dialog>
+
+  <!-- 重新确权弹窗 -->
+  <mx-dialog id="mx-reCheck" confirmButtonText="好的" show="{{ishowCheckDialog}}" showCancelButton="{{ false }}" confirmButtonColor="{{dialogStyle.cancelButtonColor5}}" title="{{titleContent}}" message="{{messageContent}}" bind:confirm="onReCheckCallBackFn">
+  </mx-dialog>
+
+</view>

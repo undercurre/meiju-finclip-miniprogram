@@ -1,0 +1,51 @@
+<!--src/modules/module_plugin/T0xE6/paths/timeSet.wxml-->
+<view class="container">
+
+  <view style="height: 100%; overflow: hidden;">
+    <view style="margin-top: 30rpx;position: relative;">
+      <image bindtap="showShortcutTips" bindtap="showShortcutTips" style="width: 21px;height: 21px;margin-left: 5px;position: absolute;z-index: 1;left: 193rpx;top: 42rpx;" src="../../assets/images/question@2x.png" mode="" />
+      <mx-cell center title="功能总开关" size="large" label="需开启该开关，功能才能生效" border="{{ false }}">
+        <mx-switch checked="{{ status.cold_water_appoint_master == 'on' }}" active-color="#FFAA11" catchtap="allTimerSwitchDisabled" bind:change="timerSwitch" slot="right-icon"></mx-switch>
+      </mx-cell>
+    </view>
+    <view wx:if="{{timerList.length > 0}}" class="demo-swipe-radius">
+      <mx-swipe-cell id="{{'swipeCell'+index}}" wx:for="{{timerList}}" wx:key="index" custom-class="demo-swipe-cell-radius" right-width="{{ 80 }}" left-width="{{ 0 }}">
+        <view wx:if="{{status.cold_water_appoint_master == 'off' && item.power == '1'}}" class="usable-tag flex-c j-c-center al-center">
+          <text class="usable-tag-text">未生效</text>
+        </view>
+        <mx-cell-group custom-class="" border="{{ false }}">
+          <mx-cell catchtap="goToTimeDetail" data-item="{{item}}" label="{{item.repeatText}}" custom-class="" size="large" center imageSize="32" title="{{item.startTime + '-' + item.endTime}}" border="{{ false }}">
+            <mx-switch catchtap="()=>{}" data-item="{{item}}" checked="{{ item.power == 1 }}" active-color="#FFAA11" bind:change="onTimerSwitchChange" slot="right-icon"></mx-switch>
+          </mx-cell>
+        </mx-cell-group>
+        <view slot="right">
+          <view class="demo-swipe-cell-operate">
+            <mx-button color="#FF3B30" data-item="{{item}}" custom-class="mx-swipe-cell__large" bindtap="deleteTimer">删除</mx-button>
+          </view>
+        </view>
+      </mx-swipe-cell>
+    </view>
+    <view wx:else class="flex-c j-c-center al-center" style="width: 100%;height: 70%;">
+      <image style="width: 480rpx; height: 320rpx;" src="../../assets/images/no_task.png" mode="" />
+      <view style="font-family: PingFangSC, PingFang SC;font-weight: 400;font-size: 28rpx;color: #8A8A8F;line-height: 36rpx;text-align: center;font-style: normal;">未设置</view>
+    </view>
+  </view>
+  <view class="fixed-btn flex-r j-c-center al-center" bindtap="goToTimeDetail" data-item="">
+    <text class="btn-text">添加定时</text>
+  </view>
+
+
+  <mx-popup custom-class="prevent-default" show="{{ showTips }}" round bind:close="hidePopup" catchtap="preventDefault">
+    <view class="demo-center prevent-default" catchtouchmove="{{true}}">
+      <view class="demo-center-title flex-c j-c-center al-center" style="height: 60px;">功能介绍</view>
+      <view class="flex-c j-c-center">
+        <view class="flex-r">
+          <text class="tips-text">长时间启动定时零冷水功能有可能影响采暖体验，建议定时零冷水设定时间不超过2小时</text>
+        </view>       
+      </view>
+    </view>
+    <view class="tips-btn flex-c j-c-center al-center" style="margin-top: 70rpx;" bindtap="hidePopup" catchtouchmove="{{true}}">
+      <text class="tips-btn-text">我知道了</text>
+    </view>
+  </mx-popup>
+</view>

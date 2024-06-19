@@ -1,0 +1,9 @@
+{
+  "subpackages": [
+    {
+      "name": "T0xC0",
+      "root": "plugin/T0xC0",
+      "pages": ["index/index"]
+    }
+  ]
+}

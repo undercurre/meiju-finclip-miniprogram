@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index",
+    "mx-notice-bar": "/miniprogram_npm/m-ui/mx-notice-bar/index",
+    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index",
+    "mx-checkbox": "/miniprogram_npm/m-ui/mx-checkbox/index",
+    "mx-checkbox-group": "/miniprogram_npm/m-ui/mx-checkbox-group/index"
+  }
+}

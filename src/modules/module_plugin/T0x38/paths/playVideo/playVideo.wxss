@@ -1,0 +1,82 @@
+/* plugin/T0x38/paths/playVideo/playVideo.wxss */
+page {
+  background-color: #0F0F24;
+}
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  background-color: #0F0F24;
+
+}
+.video-container {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  background-image: linear-gradient(180deg, rgba(0,0,0,0.00) 77%, #060606 100%);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.video-wrap {
+  height: 100%;
+  width: 100%;
+}
+.video{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.play-icon {
+  width: 144rpx;
+  height: 144rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  /* background-color: #c3c3c7; */
+  border-radius: 144rpx;
+}
+.slider {
+  border-radius: 4px;
+  position: absolute;
+  top: 78%;
+  /* left: 32rpx; */
+}
+wx-slider .wx-slider-handle-wrapper {
+  height: 16rpx;
+  width: 686rpx;
+}
+.video-des {
+  display: flex;
+  position: absolute;
+  top: 90%;
+  left: 36rpx;
+}
+.video-title {
+  height: 44rpx;
+  line-height: 44rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 32rpx;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+.video-category {
+  margin-left: 40rpx;
+  box-sizing: border-box;
+  padding: 6rpx 32rpx;
+  width: fit-content;
+  height: 48rpx;
+  background: rgba(255,255,255,0.15);
+  border-radius: 24rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  line-height: 36rpx;
+  font-weight: 500;
+}
+
+
+

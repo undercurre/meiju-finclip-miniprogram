@@ -1,0 +1,39 @@
+.container{
+  width: 100%;
+  padding: 0 32rpx;
+}
+page {
+  background: #151617;
+}
+
+#colmo .save {
+  background-color: #B35336;
+}
+
+/* 禁用透明度 */
+.mx-cell--disabled {
+  opacity: 1 !important;
+}
+.mx-cell--disabled .mx-icon {
+  opacity: 0.4;
+}
+.mx-cell--disabled .mx-cell__title_title {
+  opacity: 0.4;
+}
+.mx-cell--disabled .cell-text-left {
+  opacity: 0.4;
+}
+.mx-cell--disabled .mx-radio {
+  opacity: 0.4;
+}
+.mx-cell--disabled .mx-radio__icon--disabled {
+  background-color: transparent;
+}
+.bottom-button {
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 32rpx) !important;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 32rpx) !important;
+  background: #151617 !important;
+}
+.mx-cell.gatewayList-cell {
+  padding: 0;
+}

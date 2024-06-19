@@ -1,0 +1,19 @@
+<!--distribution-network/scan-devices/pages/scan-help/scan-help.wxml-->
+<view id="{{brand}}">
+<view class="help-container">
+  <view class="help-title">搜索不到设备</view>
+  <view class="head-img">
+    <image src="{{ noResultImg }}" mode="widthFix"></image>
+  </view>
+  <view class="help-text">
+    <view class="help-text-recode">
+      <view class="num-help">1</view>
+      <view class="help-content">请确保设备接通电源并处于工作状态；</view>
+    </view>
+    <view class="help-text-recode">
+      <view class="num-help">2</view>
+      <view class="help-content">若仍无法发现设备，可能设备已退出可被扫描的状态，请通过扫码添加或按型号添加。</view>
+    </view>
+  </view>
+</view>
+</view>

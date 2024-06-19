@@ -1,0 +1,16 @@
+{
+  "subpackages": [{
+    "name": "T0xAC",
+    "root": "plugin/T0xAC",
+    "pages": [
+      "index/index",      
+      "aboutMac/aboutMac",
+      "saveModePage/saveModePage",    
+      "funSpace/funSpace",
+      "electric/electric",
+      "filterClean/filterClean",
+      "timerSet/timerSet",
+      "timeSetDetail/timeSetDetail"
+    ]
+  }]
+}

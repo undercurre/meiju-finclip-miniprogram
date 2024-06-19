@@ -1,0 +1,41 @@
+<view class="container" style="display: flex;flex-direction: column;align-items: center;">
+  <view class="tips-contain"> 建议开启蓝牙连接密码，防止空调被陌生人控制 </view>
+
+  <view class="cell-tips tips-color" style="display: flex;align-items: center;"><text>开启后，其他人首次蓝牙连接空调时需输入密码</text></view>
+  <view class="flex-class cell">
+    <view class="flex-class cell-info">
+      <view class="title" style="padding-left: 25rpx;">蓝牙连接密码</view>
+    </view>
+    <view class="switch-contain">
+      <mx-switch checked="{{safeModeSwitch}}" bind:change="onPswSwitch"></mx-switch>
+    </view>
+  </view>
+  <!-- <view class="flex-class cell" style="justify-content: space-between;padding: 0 33rpx;margin-top: 20rpx;">
+    <view class="flex-class cell-info">
+      <view class="title">密码锁</view>
+    </view>
+    <view class="switch-contain">
+      12345678
+    </view>
+  </view> -->
+  <view class="password-container" wx:if="{{showPswSet}}" catchtap="catchScreenTap">
+    <view class="input-contain">
+      <view class="input-title"> 请输入安全密码 </view>
+      <view class="input">
+        <input class="password-input" maxlength="6" password focus="{{pswInputFocus}}" hold-keyboard="{{pswInputFocus}}" model:value="{{password}}" type="number" placeholder="" style="text-align: center" />
+      </view>
+      <view class="button-group">
+        <view catchtap="cancelPsw" class="btn-password-confirm">取消</view>
+        <view catchtap="confirmPsw" class="btn-password-confirm" style="border-left: 1px solid lightgray;">确定</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cell-tips tips-color" style="margin-top: 40rpx;">如忘记密码，可点击下方“解除密码”，扫描空调机身二维码即可解除</view>
+  <view class="flex-class cell" catchtap="goScanQr">
+    <view class="flex-class cell-info">
+      <view class="title" style="padding-left: 25rpx;">解除密码</view>
+    </view>
+    <image style="width: 20rpx;height: 22rpx;padding-right: 25rpx;" src="../assets/t0ac/ic_next@2x.png" />
+  </view>
+</view>

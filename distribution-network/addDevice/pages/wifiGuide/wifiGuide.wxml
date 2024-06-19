@@ -1,0 +1,57 @@
+<!--distribution-network/addDevice/pages/wifiGuide/wifiGuide.wxml-->
+<view class="page" id="{{brand}}">
+    <view class="wifiGuide-container">
+        <scroll-view
+            scroll-y="{{true}}"
+            style="height:{{contentHeight * 2}}rpx;"
+        >
+            <view class="wifiGuide-check-text-box">
+                <view class="wifiGuide-check-text">
+                    <view>
+                        检测到您当前使用的系统是 
+                    </view>
+                    <view class="wifiGuide-phoneBrand" bindtap="chosePhoneBrand">{{brandTypeName}}</view> 
+                    <image class="wifiguide-img" bindtap="chosePhoneBrand" src="{{phoneBrandGuideImg}}"></image>
+                </view>
+            </view>
+            <view class="wifiGuide-des-box">
+                <view class="wifiGuide-des">
+                    <view class="wifiGuide-des-one">
+                        <text >1、<text>{{desList[phoneBrand][0]}}</text></text>
+                        <view>
+                            <image mode="widthFix" class="wifiGuide-step-img" src="{{wifiGuideStepImg1}}"></image>
+                        </view>
+                    </view>
+                    <view class="wifiGuide-des-two">
+                        <text >2、<text>{{desList[phoneBrand][1]}}</text></text>
+                        <view>
+                            <image mode="widthFix" class="wifiGuide-step-img" src="{{wifiGuideStepImg2}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="wifiGuide-illustrate">
+                    由于系统版本差异，可能部分系统不支持二维码分享WiFi密码。
+                </view>
+            </view>
+
+        </scroll-view>
+    </view>
+
+    <view class="wifiGuide-btn-box">
+        <view class="wifiGuide-btn" bindtap="scanCode">
+            <mx-button size="large" square text-color="rgba(255,255,255,0.80)" color="#B35336" wx:if="{{brand == 'colmo'}}">扫描二维码</mx-button>
+            <mx-button size="large" round text-color="{{btnColor[brand].color}}" color="{{btnColor[brand].bgColor}}" wx:else>扫描二维码</mx-button>
+        </view>
+    </view>
+    <mx-picker
+        wx:if="{{clickShow}}"
+        bind:confirm="confirmChange"
+        bind:cancel="toggleActionSheet"
+        bind:close="toggleActionSheet"
+        description="请选择系统"
+        show="{{ showPicker }}"
+        columns="{{ phoneBrandType }}"
+        default-index="{{ defaultIndex }}"
+    />
+    <mx-dialog id="mx-dialog"></mx-dialog>
+</view>

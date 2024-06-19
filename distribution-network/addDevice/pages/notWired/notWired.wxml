@@ -1,0 +1,24 @@
+<view class="page" style="padding-top:{{statusBarHeight+40}}px">
+  <view class="section-header">
+    <input-wifi-header pdLeft="0" buttonColor="{{brandConfig.backButtonColor}}"></input-wifi-header>
+  </view>
+    
+  <view class="section-content">
+    <image class="no-network" src="{{ sub_icon_no_network }}"></image>
+    <view class="title">未检测到网线接入</view>
+    <view class="desc-list">
+      <view class="r">
+        <view class="num" style="background:{{ brandConfig.mainColor }}">1</view>
+        <view class="text">请确保家庭WiFi与密码填写正确</view>
+      </view>
+      <view class="r">
+        <view class="num" style="background:{{ brandConfig.mainColor }}">2</view>
+        <view class="text">若仍无法检测通过，可使用无线网络进行连接</view>
+      </view>
+    </view>
+  </view>
+  <view class="section-footer">
+    <view class="foot-btn" bindtap="onChangeNetWorking" wx:if="{{ isShowWifiNetworking }}">尝试无线网络连接</view>
+    <view class="foot-btn" bindtap="retryFn" style="background:{{ brandConfig.mainColor }}">重试</view>
+  </view>
+</view>

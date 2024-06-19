@@ -1,0 +1,10 @@
+.device-card {
+  width: 750rpx;
+  margin: 0 auto;
+  height: calc(100% - 212rpx);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}

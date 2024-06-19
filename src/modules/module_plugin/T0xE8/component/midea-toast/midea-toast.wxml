@@ -1,0 +1,5 @@
+<!--plugin/T0xFB/component/media-toast/media-toast.wxml-->
+<view class="toast-wrapper transition-default {{isShow?'fade-in':'fade-out'}}">
+    <view wx:for="{{content}}" wx:for-item="item"
+        data-item="{{item}}" wx:key="code" class="toast-text">{{item}}</view>
+</view>

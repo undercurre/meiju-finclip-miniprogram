@@ -1,0 +1,11 @@
+<view class="container">
+  <view>
+    <view class="li_" wx:for="{{modalBtn}}" wx:key="" wx:for-item="items" wx:if="{{items && items.explain != '' && ((!isKitchen) || (isKitchen && items.key!='ElectricHeat'))}}">
+      <view class="text_">
+        <image src="{{items.normalImg.cool}}"></image>
+        <view>{{items.normalText}}</view>
+      </view>
+      <view class="content_">{{items.explain}}</view>
+    </view>
+  </view>
+</view>

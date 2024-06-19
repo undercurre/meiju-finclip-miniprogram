@@ -1,0 +1,13 @@
+<!--src/modules/module_plugin/T0xE6/components/datePicker.wxml-->
+<view class="container">
+  <view class="repetition-wrap flex-r j-sp-between al-center">
+    <view class="flex-c jc-center al-center margin-lr {{item.selected ? 'repeat-item-select' : 'repetion-item'}}" wx:for="{{timesItem}}" wx:key="index" bindtap="repeatClick" data-item="{{item}}">
+      <text class="repetion-text {{item.selected ? 'repetion-text-select-color' : ''}}">{{item.title}}</text>
+    </view>
+  </view>
+  <view style="opacity: {{!timesItem[4].selected ? '.3' : '1'}};" class="day-wrap flex-r j-sp-between al-center">
+    <view data-item="{{item}}" bindtap="dayItemClick" class="day-item flex-c jc-center al-center {{item.selected ? 'item-select-bg' : ''}}" wx:for="{{dayItem}}" wx:key="index">
+      <text class="day-text">{{item.title}}</text>
+    </view>
+  </view>
+</view>

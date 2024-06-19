@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="main-box">
+    <view class="icon">
+      <image src="{{imageDoamin + 'plugin/0xAC/'+ (dustFullTime ? 'tips_warn.png' : 'tips_suc.png')}}"></image>
+    </view>
+    <view class="main-text" wx:if="{{!dustFullTime}}">
+      <view class="title">您的滤网无需清洗</view>
+      <view class="tips">可持续关注滤网实际使用状态</view>
+    </view>
+    <view class="main-text" wx:else>
+      <view class="title">您的滤网需要清洗</view>
+      <view class="tips">清洗完成后请按 [滤网复位] 按键</view>
+    </view>
+  </view>
+  <view class="bottom-button">
+    <view bindtap="doReset" class="common-btn {{!dustFullTime ? 'disabled' : ''}}">滤网复位</view>
+  </view>
+</view>

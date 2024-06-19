@@ -1,0 +1,18 @@
+{
+  "subpackages": [
+    {
+      "name": "T0x38",
+      "root": "plugin/T0x38",
+      "pages": [
+        "index/index",
+        "paths/material/material",
+        "paths/publishQuestion/publishQuestion",
+        "paths/questionDetail/questionDetail",
+        "paths/questionList/questionList",
+        "paths/buyMaterial/buyMaterial",
+        "paths/video/video",
+        "paths/playVideo/playVideo"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+/* T0xAC//index/index.wxss */
+@import "/assets/css/plugin.wxss";
+.navbar-title{
+    width: 380rpx;
+    overflow: hidden;
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+.continer {
+    height: auto !important;
+}
+.header-fixed{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+.title-class {
+  max-width: 340rpx !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

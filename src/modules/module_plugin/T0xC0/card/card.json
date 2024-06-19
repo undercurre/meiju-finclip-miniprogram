@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "circleButtonImage":"../component/circle-button-image/circle-button-image"
+  },
+  "component": true
+}

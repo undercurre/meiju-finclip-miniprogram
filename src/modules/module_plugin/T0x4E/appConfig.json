@@ -1,0 +1,11 @@
+{
+    "subpackages": [
+        {
+            "name": "T0x4E",
+            "root": "plugin/T0x4E",
+            "pages": [
+              "index/index"
+            ]
+        }
+    ]
+}

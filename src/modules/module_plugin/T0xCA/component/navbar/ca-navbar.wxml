@@ -1,0 +1,12 @@
+<view style="height: {{statusNavBarHeight}}px;" class="header-new">
+    <view class="header row-start-container" style="margin-top:{{statusBarHeight+ 6}}px;width: {{windowWidth}}px;">
+        <view class="row-center-container nav-title-container">
+            <view bindtap="clickBack" wx:if="{{showView == 1}}" class="row-start-container" style="width: 50px;height: 70rpx;">
+                <image class="back" src="../img/ic_back.png"></image>
+            </view>
+            <text class="nav-title" style="width:{{windowWidth-(windowWidth-menuLeft)*2}}px;text-align: center;text-overflow: ellipsis;overflow: hidden;position: absolute;left: {{windowWidth-menuLeft}}px;">{{navTitle}}</text>
+            <!-- <view wx:if="{{showView == 1}}" style="width: 50px;height: 70rpx;"> -->
+            <!-- </view> -->
+        </view>
+    </view>
+</view>

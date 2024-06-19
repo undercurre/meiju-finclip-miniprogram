@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "子设备支持的网关",
+  "usingComponents": {
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index"
+  }
+}

@@ -1,0 +1,135 @@
+<image wx:if="{{isInit}}" mode="widthFix" class="home-bg" src="{{bgImage.url_bg}}"></image>
+<view wx:if="{{isInit}}" class="main-info-layer">
+  <view class="notice-bar">
+    <mx-notice-bar
+      wx:if="{{noticeBar.isShow}}"
+      class-prefix="mx-iconfont"
+      background="rgba(255,59,48,0.10)"
+      color="#FF3B30"
+      text="{{noticeBar.content}}"
+      mode="closeable"
+      left-icon="tip"
+      bind:close="closeNoticeBar"
+    ></mx-notice-bar>
+  </view>
+  <view wx:if="{{!noticeBar.isShow}}" class="device-status">
+    <view class="status-pot" style="background: {{deviceInfo.isOnline ? '#25CF42' : '#7C879B'}};"></view>
+    <view class="status-text">{{ deviceInfo.isOnline ? deviceInfo.workText : "离线中" }}</view>
+  </view>
+  <view class="device-img-layer">
+    <image mode="widthFix" class="device-img" src="{{bgImage.url_device_offLine}}"></image>
+    <view class="device-status-rect" style="background: {{deviceInfo.deviceStatusBg}};"></view>
+  </view>
+</view>
+<view wx:if="{{isInit}}" class="container">
+  <!--启动区域-->
+  <view wx:if="{{deviceInfo.isRunning}}" class="work-info-layer">
+    <view class="work-info-name">{{deviceInfo.currentFunction.name}}</view>
+    <view class="work-info-detail">
+      <view class="work-info-type">{{deviceInfo.currentFunction.timeType}}</view>
+      <view class="work-info-time">{{deviceInfo.currentFunction.remainWorkTime}}</view>
+      <view class="work-info-desc">{{deviceInfo.currentFunction.descText}}</view>
+    </view>
+  </view>
+
+  <!--功能区域-->
+  <!-- tab -->
+  <view class="tab-layer {{(deviceInfo.isOnline && !deviceInfo.isRunning )?'':'disabled'}}">
+    <view
+      wx:for="{{tabList}}"
+      wx:for-item="item"
+      wx:for-index="index"
+      wx:key="value"
+      data-item="{{item}}"
+      class="tab-item {{activeTabIndex == index ? 'activeTab': 'deactiveTab'}}"
+      bindtap="checkTab"
+    >
+      <text>{{item.label}}</text>
+      <!-- <view wx:if="{{activeTabIndex == index}}" class="active-line"></view> -->
+    </view>
+  </view>
+
+  <view class="control-layer {{(deviceInfo.isOnline && !deviceInfo.isRunning )?'':'disabled'}}">
+    <view
+      wx:for="{{configList}}"
+      wx:for-item="item"
+      data-item="{{item}}"
+      wx:key="code"
+      class="control-item"
+      bindtap="onClickFunction"
+    >
+      <image mode="widthFix" class="control-item-img" src="{{item.appletsIconUrl1}}"></image>
+      <view class="control-item-name">{{item.name}}</view>
+      <view class="control-item-detail">
+        <view wx:if="{{item.setWorkTime}}" class="control-item-text">{{item.setWorkTime + item.unit}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!--参数设置对话框-->
+  <mx-popup bind:close="closeSettingModal" show="{{settingModal.isShow}}" position="bottom" round="true">
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="header">
+        <view class="center">{{selectedFunction.name}}</view>
+      </view>
+      <view class="modal-content">
+        <!-- 口感 -->
+        <midea-btns
+          class="margin-btm_16"
+          wx:if="{{selectedFunction.hasTaste}}"
+          model="{{tasteModal}}"
+          bind:onChange="tasteSetting"
+        ></midea-btns>
+        <!-- 工作时间选择 -->
+        <midea-time
+          class="margin-btm_16"
+          wx:if="{{selectedFunction.hasWorkTime}}"
+          model="{{workTimeModal}}"
+          bind:onChange="workTimeSetting"
+        ></midea-time>
+        <midea-appoint
+          class="margin-btm_16"
+          wx:if="{{selectedFunction.hasAppoint}}"
+          model="{{appointModal}}"
+          bind:onChange="appointSetting"
+          bind:setAppointSwitch="setAppointSwitch"
+        ></midea-appoint>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeSettingModal">取消</view>
+        <view class="button click" bindtap="startWork">启动</view>
+      </view>
+    </view>
+  </mx-popup>
+
+  <!-- 预约中调节参数 -->
+  <midea-appoint
+    class="margin-btm_16"
+    wx:if="{{deviceInfo.workStatus == 'schedule'}}"
+    model="{{appointModal}}"
+    bind:onChange="appointSetting"
+  ></midea-appoint>
+</view>
+<!-- 底部控制 -->
+<view wx:if="{{deviceInfo.isRunning}}" class="bottom-bar">
+  <view
+    wx:for="{{bottomBtns}}"
+    wx:for-item="item"
+    data-item="{{item}}"
+    wx:key="code"
+    wx:if="{{item.isShow}}"
+    class="bottom-btn-item"
+    bindtap="ctrlWork"
+  >
+    <view class="bottom-round">
+      <image mode="widthFix" class="bottom-rect" src="{{item.iconSrc}}"></image>
+    </view>
+    <text class="bottom-text">{{item.label}}</text>
+  </view>
+</view>
+
+<view class="cover-header" style="height: {{statusBarHeight + 40}}px; opacity: {{isInit ? 1 : 0}};"></view>
+<!-- 小木马加载中 -->
+<view class="hourseWarp" wx:if="{{!isInit}}">
+  <image class="swing" src="http://ce-cdn.oss-cn-hangzhou.aliyuncs.com/ccs/icon/meiju-lite/common/loading.png"></image>
+</view>

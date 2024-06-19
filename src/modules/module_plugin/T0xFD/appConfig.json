@@ -1,0 +1,9 @@
+{
+  "subpackages": [
+    {
+      "name": "T0xFD",
+      "root": "plugin/T0xFD",
+      "pages": ["index/index"]
+    }
+  ]
+}

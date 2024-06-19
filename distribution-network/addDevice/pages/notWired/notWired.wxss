@@ -1,0 +1,75 @@
+/* addDevice//pages/notFound/notFound.wxss */
+.page {
+  font-family: PingFangSC-Medium;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.section-content {
+  flex: 1;
+  color: #fff;
+}
+
+.no-network {
+  display: block;
+  width: 416rpx;
+  height: 208rpx;
+  margin: 32rpx auto 64rpx;
+}
+
+.title {
+  font-family: PingFangSC-Semibold;
+  font-size: 48rpx;
+  color: rgba(255,255,255,0.80);
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 48rpx;
+  font-weight: 600;
+  margin-bottom: 64rpx;
+}
+
+.desc-list {
+  padding: 0 48rpx;
+}
+
+.r {
+  display: flex;
+  margin-bottom: 32rpx;
+}
+
+.num {
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  margin-right: 24rpx;
+  margin-top: 6rpx;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24rpx;
+  flex-shrink: 0;
+}
+
+.text {
+  font-size: 32rpx;
+}
+
+.section-footer {
+  padding: 0 32rpx;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.foot-btn {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: rgba(255,255,255,0.80);
+  background: #292C30;
+}
+.foot-btn {
+  margin-bottom: 32rpx;
+}

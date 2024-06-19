@@ -1,0 +1,81 @@
+/* sub-package/sda-cloud-menu/pages/list/list.wxss */
+::-webkit-scrollbar {
+  width: 0rpx;
+  height: 0rpx;
+  background-color: transparent;
+}
+
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.row{
+  width: 100%;
+  box-sizing: border-box;
+}
+.flex-1{
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+
+/*分类列表*/
+.category-list-wrapper{
+  height: 100%;
+  overflow-y: auto;
+  width: 160rpx;
+  box-sizing: border-box;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.category-item{
+  height: 89rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #4A4A4A;
+  font-size: 26rpx;
+  width: 100%;
+  padding: 0 5rpx;
+  box-sizing: border-box;
+}
+.category-item.active{
+  background: #F4F4F4;
+  border-left: 6rpx solid #F07625;
+  color: #F07625;
+}
+
+/*食谱列表*/
+.menu-list-wrapper{
+  /*height: 100%;*/
+  /*overflow-y: auto;*/
+  background-color: #F4F4F4;
+  display: grid;
+  justify-content: start;
+  align-content: start;
+  grid-template-columns: auto auto;
+  padding: 6rpx 22rpx;
+}
+.menu-list-outer{
+  height: 100%;
+  background-color: #F4F4F4;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+.footer-interval{
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: #F4F4F4;
+}
+

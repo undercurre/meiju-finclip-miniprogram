@@ -1,0 +1,470 @@
+<mx-notice-bar
+  wx:if="{{noticeBar.isShow}}"
+  class-prefix="mx-iconfont"
+  background="rgba(255,59,48,0.10)"
+  color="#FF3B30"
+  text="{{noticeBar.content}}"
+  mode="closeable"
+  left-icon="tip"
+  bind:close="closeNoticeBar"
+></mx-notice-bar>
+<view class="container" wx:if="{{isInit}}">
+  <!-- 设备信息 -->
+  <view
+    class="btn-main-wrapper"
+    style="background-image:url('{{deviceInfo.isOnline?(deviceInfo.isRunning?bgImage.url3:bgImage.url1):bgImage.url1}}');"
+  >
+    <view class="device-status" wx:if="{{!deviceInfo.isOnline}}">设备离线</view>
+    <view class="device-status-hosting" wx:elif="{{!deviceInfo.isRunning&&deviceInfo.hosting === 'on'}}">
+      <view>智能托管中</view>
+    </view>
+    <view class="device-status" wx:elif="{{!deviceInfo.isRunning}}">已关机</view>
+    <view class="device-info" wx:else>
+      <view class="label">PM2.5参考值</view>
+      <view
+        class="value"
+        style="{{deviceInfo.pm25==65535||propertiesData.isJustShowPm25Level?'padding-left: 0;'+(propertiesData.isJustShowPm25Level?'color:'+themeColor[themeStyle]+';font-size:120rpx;':'font-size:32rpx;'):'padding-left: 50rpx;font-size: 120rpx;'}}"
+      >
+        <view>
+          {{deviceInfo.pm25==65535||propertiesData.isJustShowPm25Level?deviceInfo.pm25Label:deviceInfo.pm25}}
+        </view>
+        <view
+          class="bridge center-flex"
+          style="background-color:{{themeColor[themeStyle]}}; z-index:0"
+          wx:if="{{deviceInfo.pm25!=65535&&!propertiesData.isJustShowPm25Level}}"
+        >
+          <text>{{deviceInfo.pm25Label||'--'}}</text>
+        </view>
+      </view>
+      <!-- 甲醛 -->
+      <view class="decs-wrapper" wx:if="{{deviceInfo.hcho||deviceInfo.hcho==0}}">
+        <view class="label" wx:if="{{propertiesData.hcho}}">甲醛未超标</view>
+        <view class="value" wx:if="{{propertiesData.hcho}}"> 甲醛HCHO {{deviceInfo.hcho}}mg/m³ </view>
+      </view>
+      <!-- 异味指数 -->
+      <view class="decs-wrapper" wx:elif="{{deviceInfo.smellTvoc||deviceInfo.smellTvoc==0}}">
+        <view class="label">异味指数(VOC) {{deviceInfo.smellTvocLabel}}</view>
+        <!-- <view class="value">异味值 {{deviceInfo.smellTvoc}}mg/m³</view> -->
+      </view>
+      <view class="decs-wrapper" wx:else>
+        <view class="label">室内空气质量 {{deviceInfo.pm25Label}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 控制区域 -->
+  <view class="controller-wrapper">
+    <!-- 电源开关 -->
+    <midea-card height="{{cardNormalHeight}}" wx:if="{{configList['power']}}">
+      <view slot="leftWrapper" class="{{deviceInfo.isOnline?'':'disabled'}}">
+        <text wx:if="{{!deviceInfo.isRunning}}">开机</text>
+        <view class="device-running-status center-flex" wx:else>
+          <view>
+            {{deviceInfo.hosting === 'on'|| (hostWhenOffDisable&&deviceInfo.mode ===
+            'auto')?'智能托管':deviceInfo.modeLabel}}
+          </view>
+          <view class="divider"></view>
+          <text>运行中</text>
+        </view>
+      </view>
+      <view slot="rightWrapper" class="{{deviceInfo.isOnline?'':'disabled'}}">
+        <view
+          data-index="power"
+          bindtap="onClickController"
+          class="transition-default btn-switch center-flex circle-button"
+          style="background-color:{{themeColor[themeStyle]}};"
+        >
+          <image mode="widthFix" class="icon" src="{{iconUrl.power.url1}}"></image>
+        </view>
+      </view>
+    </midea-card>
+    <!-- 模式与定时 -->
+    <view class="row" wx:if="{{deviceInfo.lock!=='on'}}">
+      <!-- 模式 -->
+      <midea-card
+        wx:if="{{configList['mode']&&configList['mode'].length>0}}"
+        class="item"
+        data-index="showMode"
+        bindtap="onClickController"
+        model="{{deviceInfo.hosting === 'on'|| (hostWhenOffDisable&&deviceInfo.mode === 'auto')? hostingBtn :modeBtn}}"
+        height="{{cardNormalHeight}}"
+      >
+        <view slot="leftWrapper">
+          <view
+            class="center-flex circle-button transition-default {{!deviceInfo.isRunning?'disabled':''}}"
+            style="background-color:{{themeColor[themeStyle]}};"
+          >
+            <image
+              mode="widthFix"
+              class="icon transition-default"
+              src="{{deviceInfo.hosting === 'on'|| (hostWhenOffDisable&&deviceInfo.mode === 'auto')?iconUrl.noneMode:iconUrl.mode.url1}}"
+            ></image>
+          </view>
+        </view>
+      </midea-card>
+      <!-- 定时 -->
+      <midea-card
+        wx:if="{{configList['timing']&&configList['timing'].length>0}}"
+        class="item"
+        data-index="showTiming"
+        bindtap="onClickController"
+        height="{{cardNormalHeight}}"
+      >
+        <view slot="leftWrapper">
+          <view
+            class="click center-flex circle-button transition-default {{!deviceInfo.isOnline?'disabled':''}}"
+            style="background-color:{{themeColor[themeStyle]}};"
+          >
+            <image mode="widthFix" class="icon transition-default" src="{{iconUrl.clock.url1}}"></image>
+          </view>
+        </view>
+        <view slot="rightWrapper" class="{{deviceInfo.isOnline?'':'disabled'}}">
+          <view class="timed-shutdown-status">
+            <text>{{deviceInfo.isRunning ? '定时关机' : '定时开机'}}</text>
+            <view
+              class="timed-shutdown-label"
+              wx:if="{{deviceInfo.schedule}}"
+              style="color:{{themeColor[themeStyle]}};"
+            >
+              {{deviceInfo.schedule.hours}}:{{deviceInfo.schedule.minutes}}
+            </view>
+          </view>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 档位控制 -->
+    <view
+      class="row gear-control-wrapper"
+      wx:if="{{configList['gear']&&configList['gear'].length>0&&bindModeGearConfig.list.length>0&&deviceInfo.lock!=='on'}}"
+    >
+      <midea-card class="item">
+        <view class="center-wrapper {{deviceInfo.isRunning?'':'disabled'}}" slot="centerWrapper">
+          <view class="header start-flex">
+            <view
+              class="transition-default icon-wrapper center-flex"
+              style="background-color:{{themeColor[themeStyle]}};"
+            >
+              <image mode="widthFix" class="icon" src="{{iconUrl.gear.url1}}"></image>
+            </view>
+            <view class="transition-default label">风速</view>
+            <view
+              class="transition-default value"
+              style="color:{{themeColor[themeStyle]}};border-color:{{themeColor[themeStyle]}};"
+            >
+              {{bindModeGearConfig.label}}
+            </view>
+          </view>
+          <midea-slider
+            wx:if="{{bindModeGearConfig.isShowSlider}}"
+            model="{{gearSlider}}"
+            disabled="{{!deviceInfo.isRunning}}"
+            bind:onMoving="moveGearValue"
+            bind:onChange="changeGearValue"
+          ></midea-slider>
+          <view wx:else class="button-wrapper between-flex transition-default">
+            <view
+              wx:for="{{bindModeGearConfig.list}}"
+              wx:key="index"
+              data-index="gear"
+              data-value="{{item.value}}"
+              bindtap="onClickController"
+              class="button"
+              style="{{item.value===bindModeGearConfig.value?'background-color:'+themeColor[themeStyle]+';border-color:'+themeColor[themeStyle]+';color:#fff;':''}}"
+            >
+              {{item.label}}
+            </view>
+          </view>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 智能托管 -->
+    <view class="row" wx:if="{{configList['hostingOnOff']&&deviceInfo.lock!=='on'}}">
+      <midea-card class="item child-lock-wrapper" height="100">
+        <view
+          slot="centerWrapper"
+          class="between-flex transition-default {{!deviceInfo.isOnline||(!deviceInfo.isRunning&&hostWhenOffDisable)?'disabled':''}}"
+        >
+          <view class="left-wrapper-column">
+            <view
+              class="transition-default icon-wrapper center-flex"
+              style="background-color:{{themeColor[themeStyle]}};"
+            >
+              <image mode="widthFix" class="icon" src="{{iconUrl.hosting.url1}}"></image>
+            </view>
+            <view class="left-wrapper-column-text">
+              <view class="label">智能托管</view>
+              <view class="label-desc">机器自动运行</view>
+            </view>
+          </view>
+          <view class="right-wrapper">
+            <midea-switch
+              model="{{hostingOnOffSwitch}}"
+              bind:onChange="switchHostingOnOff"
+              color="{{themeColor[themeStyle]}}"
+            ></midea-switch>
+          </view>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 恒湿 -->
+    <view
+      class="row gear-control-wrapper"
+      wx:if="{{configList['humidify']&&configList['humidify'].length>0&&bindHumidifyConfig.list.length>0&&deviceInfo.lock!=='on'}}"
+    >
+      <midea-card class="item" bindtap="onClickHumidify">
+        <view class="center-wrapper {{!deviceInfo.isRunning?'disabled':''}}" slot="centerWrapper">
+          <view class="header start-flex">
+            <view
+              class="transition-default icon-wrapper center-flex"
+              style="background-color:{{themeColor[themeStyle]}};"
+            >
+              <image mode="widthFix" class="icon" src="{{iconUrl.humidify.url1}}"></image>
+            </view>
+            <view class="transition-default label">恒湿</view>
+          </view>
+          <view class="button-wrapper between-flex transition-default">
+            <view
+              wx:for="{{bindHumidifyConfig.list}}"
+              wx:key="index"
+              data-index="humidify"
+              data-value="{{item.value}}"
+              bindtap="onClickController"
+              class="button"
+              style="{{item.value===bindHumidifyConfig.value?'background-color:'+themeColor[themeStyle]+';border-color:'+themeColor[themeStyle]+';color:#fff;':''}}"
+            >
+              {{item.label}}
+            </view>
+          </view>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 亮度 -->
+    <view
+      class="row gear-control-wrapper"
+      wx:if="{{configList['brightLed']&&configList['brightLed'].length>0&&bindBrightLedConfig.list.length>0&&deviceInfo.lock!=='on'}}"
+    >
+      <midea-card class="item">
+        <view class="center-wrapper {{deviceInfo.isRunning?'':'disabled'}}" slot="centerWrapper">
+          <view class="header start-flex">
+            <view
+              class="transition-default icon-wrapper center-flex"
+              style="background-color:{{themeColor[themeStyle]}};"
+            >
+              <image mode="widthFix" class="icon" src="{{iconUrl.brightLed.url1}}"></image>
+            </view>
+            <view class="transition-default label">亮度</view>
+          </view>
+          <view class="button-wrapper between-flex transition-default">
+            <view
+              wx:for="{{bindBrightLedConfig.list}}"
+              wx:key="index"
+              data-index="brightLed"
+              data-value="{{item.value}}"
+              bindtap="onClickController"
+              class="button"
+              style="{{item.value===bindBrightLedConfig.value?'background-color:'+themeColor[themeStyle]+';border-color:'+themeColor[themeStyle]+';color:#fff;':''}}"
+            >
+              {{item.label}}
+            </view>
+          </view>
+        </view>
+        <!-- 睡眠模式下，半亮和全亮，可以设置氛围灯；熄灭隐藏氛围灯 -->
+        <view
+          class="center-wrapper {{deviceInfo.isRunning?'':'disabled'}}"
+          slot="centerWrapper"
+          style="margin-top: 30rpx"
+          wx:if="{{configList['light_bind']&&configList['light_bind'].length>0&&bindLightColorConfig.list.length>0&&deviceInfo.lock!=='on'&&deviceInfo.mode === 'sleep'&&(deviceInfo.bright === 0||deviceInfo.bright === 6)}}"
+        >
+          <view class="header start-flex">
+            <view
+              class="transition-default icon-wrapper center-flex"
+              style="background-color:{{themeColor[themeStyle]}};"
+            >
+              <image mode="widthFix" class="icon" src="{{iconUrl.lightColor.url1}}"></image>
+            </view>
+            <view class="transition-default label">氛围灯</view>
+          </view>
+          <view class="button-wrapper between-flex transition-default">
+            <view
+              wx:for="{{bindLightColorConfig.list}}"
+              wx:key="index"
+              data-index="light_bind"
+              data-value="{{item.value}}"
+              bindtap="onClickController"
+              class="button"
+              style="{{item.value===bindLightColorConfig.value?'background-color:'+themeColor[themeStyle]+';border-color:'+themeColor[themeStyle]+';color:#fff;':''}}"
+            >
+              {{item.label}}
+            </view>
+          </view>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 净离子与声音 -->
+    <view class="row" wx:if="{{deviceInfo.lock!=='on'}}">
+      <!-- 净离子 -->
+      <midea-card
+        class="item child-lock-wrapper {{deviceInfo.isRunning?'':'disabled'}}"
+        wx:if="{{configList['waterions']&&configList['waterions'].length>0}}"
+        height="100"
+      >
+        <view slot="leftWrapper" class="left-wrapper">
+          <view class="transition-default img-wrapper center-flex" style="background-color:{{themeColor[themeStyle]}};">
+            <image mode="widthFix" class="icon" src="{{iconUrl.waterions.url1}}"></image>
+          </view>
+          <view class="label">净离子</view>
+        </view>
+        <view slot="rightWrapper" class="{{deviceInfo.isOnline?'':'disabled'}}">
+          <midea-switch
+            model="{{waterionsSwitch}}"
+            bind:onChange="switchWaterions"
+            color="{{themeColor[themeStyle]}}"
+          ></midea-switch>
+        </view>
+      </midea-card>
+      <!-- 声音 -->
+      <midea-card
+        class="item child-lock-wrapper {{deviceInfo.isRunning?'':'disabled'}}"
+        wx:if="{{configList['voiceOnOff']&&configList['voiceOnOff'].length>0}}"
+        height="100"
+      >
+        <view slot="leftWrapper" class="left-wrapper">
+          <view class="transition-default img-wrapper center-flex" style="background-color:{{themeColor[themeStyle]}};">
+            <image mode="widthFix" class="icon" src="{{iconUrl.voiceOnOff.url1}}"></image>
+          </view>
+          <view class="label">声音</view>
+        </view>
+        <view slot="rightWrapper" class="{{deviceInfo.isOnline?'':'disabled'}}">
+          <midea-switch
+            model="{{voiceOnOffSwitch}}"
+            bind:onChange="switchVoiceOnOff"
+            color="{{themeColor[themeStyle]}}"
+          ></midea-switch>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 负离子 -->
+    <view class="row" wx:if="{{configList['anion']&&deviceInfo.lock!=='on'}}">
+      <midea-card class="item child-lock-wrapper" height="100">
+        <view slot="centerWrapper" class="between-flex transition-default {{deviceInfo.isOnline?'':'disabled'}}">
+          <view class="header start-flex">
+            <view
+              class="transition-default icon-wrapper center-flex"
+              style="background-color:{{themeColor[themeStyle]}};"
+            >
+              <image mode="widthFix" class="icon" src="{{iconUrl.anion.url1}}"></image>
+            </view>
+            <view class="label">负离子</view>
+            <!-- <view class="transition-default value">已关闭</view> -->
+          </view>
+          <view class="right-wrapper">
+            <midea-switch
+              model="{{anionSwitch}}"
+              bind:onChange="switchAnion"
+              color="{{themeColor[themeStyle]}}"
+            ></midea-switch>
+          </view>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 童锁开关 -->
+    <view wx:if="{{configList['childLock']}}" class="row">
+      <midea-card class="item child-lock-wrapper" height="100">
+        <view slot="centerWrapper" class="between-flex transition-default {{deviceInfo.isOnline?'':'disabled'}}">
+          <view class="header start-flex">
+            <view
+              class="transition-default icon-wrapper center-flex"
+              style="background-color:{{themeColor[themeStyle]}};"
+            >
+              <image mode="widthFix" class="icon" src="{{iconUrl.childLock.url1}}"></image>
+            </view>
+            <view class="label">童锁</view>
+            <view
+              wx:if="{{deviceInfo.lockLabel}}"
+              class="transition-default value"
+              style="color:{{themeColor[themeStyle]}};border-color:{{themeColor[themeStyle]}};"
+            >
+              {{deviceInfo.lockLabel}}
+            </view>
+          </view>
+          <view class="right-wrapper">
+            <midea-switch
+              model="{{childLockSwitch}}"
+              bind:onChange="switchChildLock"
+              color="{{themeColor[themeStyle]}}"
+            ></midea-switch>
+          </view>
+        </view>
+      </midea-card>
+    </view>
+    <!-- 占位区域 -->
+    <view style="height: 130rpx" wx:if="{{statusDeepFilterPercent<=20}}"></view>
+  </view>
+  <mx-footer></mx-footer>
+  <!-- 模式选择对话框 -->
+  <mx-popup bind:close="closeModeModal" show="{{pageComponentVisible.isShowSelectMode}}" position="bottom" round="true">
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="modal-container">
+        <view class="options-wrapper">
+          <view
+            wx:for="{{configList['mode'][0].list}}"
+            wx:key="index"
+            class="options-item click"
+            style="{{item.value===deviceInfo.mode?'border-color:'+themeColor[themeStyle]+';':''}}"
+            data-index="mode"
+            data-item="{{item}}"
+            data-value="{{item.value}}"
+            bindtap="onClickController"
+          >
+            <view class="left start-flex">
+              <view class="icon-wrapper center-flex">
+                <image class="icon" mode="widthFix" src="{{item.icon.url2}}"></image>
+              </view>
+              <view class="label">{{item.label}}模式</view>
+            </view>
+          </view>
+          <view view class="space"></view>
+        </view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeModeModal">取消</view>
+      </view>
+    </view>
+  </mx-popup>
+  <!-- 定时关机对话框 -->
+  <mx-popup
+    bind:close="closeTimingModal"
+    show="{{pageComponentVisible.isShowTimedShutdown}}"
+    position="bottom"
+    round="true"
+  >
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="header">
+        <view class="left click" wx:if="{{deviceInfo.schedule}}" bindtap="deleteScheduleTime"> 删除定时 </view>
+        <view class="center">{{deviceInfo.isRunning?'定时关机':'定时开机'}}</view>
+      </view>
+      <view class="modal-container">
+        <picker-view
+          indicator-style="height: 50px;"
+          style="width: 100%; height: 200px"
+          value="{{timedShutdownPicker.selectedValue}}"
+          immediate-change="true"
+          bindchange="pickOnChange"
+        >
+          <picker-view-column>
+            <view wx:for="{{timedShutdownPicker.columns}}" wx:key="index" style="line-height: 50px; text-align: center">
+              {{item.value}} 小时
+            </view>
+          </picker-view-column>
+        </picker-view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeTimingModal">取消</view>
+        <view class="button click" bindtap="confirmScheduleTime">确认</view>
+      </view>
+    </view>
+  </mx-popup>
+</view>
+<!-- 小木马加载中 -->
+<view class="hourseWarp" wx:else>
+  <image class="swing" src="http://ce-cdn.oss-cn-hangzhou.aliyuncs.com/ccs/icon/meiju-lite/common/loading.png"></image>
+</view>

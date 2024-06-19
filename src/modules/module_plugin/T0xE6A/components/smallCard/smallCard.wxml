@@ -1,0 +1,10 @@
+<!--src/modules/module_plugin/T0xE6/components/smallCard/smallCard.wxml-->
+<view style="position: relative;" class="item flex flex-c jc-center al-center">
+  <image style="width: 64rpx; height: 64rpx;" src="{{icon}}" mode="" />
+  <view class="text-wrap flex flex-c jc-center al-center">
+    <text class="title">{{titleText}}</text>
+    <!-- <text class="detail">{{detailText}}</text> -->
+  </view>
+  <!-- <mx-button custom-class="custom-button-class" catchtap="onButtonClick" class="mx-card-button" wx:if="{{checked}}" size="small" text-color="{{'#FFAA10'}}" color="{{'rgba(255, 170, 17, .1)'}}">{{buttonText}}</mx-button> -->
+  <image wx:if="{{checked}}" style="position: absolute; top: 0; right: 0; width: 64rpx; height: 64rpx;" src="../../assets/images/tick.png" mode=""/>
+</view>

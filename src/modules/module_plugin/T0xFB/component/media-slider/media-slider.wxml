@@ -1,0 +1,20 @@
+<!-- plugin/T0xFB/component/media-slider/media-slider.wxml -->
+<view class="slider-wrapper {{bindModel.disabled?'disabled':''}}">
+    <view class="start-flex">
+        <image mode="widthFix" src="{{icon.reduce}}" class="icon btn-reduce {{bindModel.disabled?'':'click'}} {{bindModel.isActiveCold?'active-cold':'active-warm'}}" data-index="reduce" bindtap="changeSliderValue"></image>
+        <view class="slider-process-wrapper">
+            <view class="slider-process-box" bindtap="selectProcess">
+                <view class="slider-process">
+                    <view class="slider-active-process {{bindModel.isActiveCold?'active-cold':'active-warm'}} {{bindModel.isDragging?'':'slider-transition'}}" style="width: {{bindModel.process+'%'}};"></view>
+                    <view class="slider-drag {{bindModel.isDragging?'':'slider-transition'}} {{bindModel.isActiveCold?'active-cold':'active-warm'}}" bindtouchstart="sliderTouchStart" bindtouchmove="sliderTouchMove" bindtouchend="sliderTouchEnd" style="left: {{bindModel.process+'%'}};"></view>
+                </view>
+            </view>
+        </view>
+        <image mode="widthFix" class="icon btn-add {{bindModel.disabled?'':'click'}} {{bindModel.isActiveCold?'active-cold':'active-warm'}}" src="{{icon.add}}" data-index="add" bindtap="changeSliderValue"></image>
+    </view>
+    <view class="slider-value-wrapper between-flex">
+        <view class="slider-value-item" wx:key="index" wx:for="{{bindModel.valueArray}}">
+            {{item.label}}
+        </view>
+    </view>
+</view>

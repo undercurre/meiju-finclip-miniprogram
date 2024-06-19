@@ -1,0 +1,57 @@
+<!-- sub-package/sda-cloud-menu/pages/list/list.wxml -->
+<view class="wrapper" wx:if="{{isInit}}">
+  <view class="row">
+    <!-- 导航栏 -->
+    <mx-nav-bar title="{{title}}" bind:click-left="onClickBack" />
+    <!-- 搜索 -->
+    <mx-search placeholder="请输入食材/食谱名等关键字"
+               bind:change="onChangeSearchValue"
+               bind:clear="onClearSearchValue"></mx-search>
+    <!-- 分类标签 -->
+    <mx-tabs type="button" animated
+             swipe-threshold="{{4}}"
+             wx:if="{{!isSearching||isAll}}"
+             active="{{ selectedTabsIndex }}"
+             bind:change="onChangeTabs">
+      <mx-tab wx:for="{{menuTabs}}"
+              wx:key="index"
+              data-item="item"
+              title="{{item.name}}"></mx-tab>
+    </mx-tabs>
+  </view>
+  <view class="flex-1 container">
+    <!--分类列表-->
+    <view class="category-list-wrapper"
+          wx:if="{{!isSearching&&!isAll}}">
+      <view wx:for="{{menuSubTabs}}"
+            wx:key="index"
+            data-index="{{index}}"
+            data-item="{{item}}"
+            class="category-item {{index===selectedSubTabsIndex?'active':''}}"
+            bindtap="onChangeSubTabs">
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+    <!-- 食谱列表 -->
+    <scroll-view  class="menu-list-outer row" scroll-y="true"
+                  scroll-top="{{recipeScrollTop}}"
+                  bindscrolltolower="onLoadMoreRecipes">
+      <view class="menu-list-wrapper row"
+            wx:if="{{menuList&&menuList.length>0}}"
+            animation="{{menuListAnimation}}">
+          <menu-item wx:for="{{menuList}}"
+                     wx:key="index"
+                     titleStyle="{{titleStyle}}"
+                     imageStyle="{{imageStyle}}"
+                     infoWrapperStyle="{{infoWrapperStyle}}"
+                     descStyle="{{descStyle}}"
+                     model="{{item}}"
+                     bind:onClickEvent="onClickMenuItem"></menu-item>
+      </view>
+      <view class="footer-interval"></view>
+    </scroll-view>
+  </view>
+</view>
+<view wx:else>
+  <trojan-horse isShowHorse="{{true}}"></trojan-horse>
+</view>

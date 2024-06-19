@@ -1,0 +1,18 @@
+<!--plugin/T0xB8/cards/X9/paths/publishQuestion/publishQuestion.wxml-->
+<view style="background: #F1F7FD;height:100vh;width:100%;overflow: hidden; position: relative;">
+    <plugin-navbar  show-bg="true" bind:click-left="onClickLeft" title="{{navBarName}}"></plugin-navbar>
+    <!-- 背景图 -->
+    <image src="{{backImage}}" mode="aspectFill" class="background-image"/>
+    <view class="container">
+      <view class="main-wrap">
+        <view class="user">
+          <image src="{{user.icon}}" mode="" class="user-icon"/>
+          <view class="user-role">{{user.role}}</view>
+        </view>
+        <view class="notice">产品相关问题和玩法，问问我或使用过的扫友吧！</view>
+        <view class="btn-wrap">
+          <view >我要提问</view>
+        </view>
+      </view>
+    </view>
+</view>

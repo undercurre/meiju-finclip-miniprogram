@@ -1,0 +1,41 @@
+<!--plugin/T0xAC/electric/electric.wxml-->
+<view class="wrapper">
+  <view class="row-row-content">
+    <view style="margin: 10px 0;" wx:for="{{timingArray}}" wx:key="index" data-item="{{item}}">
+      <mx-row>
+        <mx-col span="24">
+          <mx-panel padding="0" height="120r" custom-class="d-flex jc-center al-center flex-c">
+            <view class="cell d-flex jc-space-between al-center">
+              <view class="cell-title">
+                {{item.title}}
+              </view>
+              <mx-switch active-color="{{'#267aff'}}" checked="{{ item.selected }}" bind:change="switchTimer" data-item="{{item}}"></mx-switch>
+            </view>
+            <!-- <view class="divider-line"></view>
+            <view class="cell d-flex flex-r jc-space-between al-center" bindtap="itemClick" data-item="{{item}}">
+              <view class="cell-title">
+                {{item.detailTitle}}
+              </view>
+              <view class="d-flex flex-r al-center">
+                <text class="set-text" style="margin-right: 20rpx;">未设置</text>
+                <image style="width: 20rpx;height: 22rpx;" src="../assets/t0ac/ic_next@2x.png" />
+              </view>
+            </view> -->
+          </mx-panel>
+        </mx-col>
+      </mx-row>
+    </view>
+
+    <view class="func-desc">
+      <view class="desc-title cell-title">功能说明:</view>
+      <view class="d-flex flex-c ">
+        <view class="func-detail">
+          1.小程序可同步线控器定时任务，仅提供关闭定时任务操作；如需设置本地任务，请在线控器进行编辑；         
+        </view>
+        <view class="func-detail">
+          2.线控器仅可设置单个定时开关任务；如需设置多个定时，请在美居App插件-定时设置页添加多段预约；
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

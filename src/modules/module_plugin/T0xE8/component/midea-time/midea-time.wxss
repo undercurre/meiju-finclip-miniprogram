@@ -1,0 +1,98 @@
+.time-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 686rpx;
+    height: 160rpx;
+    padding: 0 32rpx;
+    box-sizing: border-box;
+    background: #F9F9F9;
+    border-radius: 32rpx;
+}
+.left-detail {
+    display: flex;
+    align-items: center;
+}
+.time-img {
+    width: 48rpx;
+    height: 48rpx;
+    margin-right: 20rpx;
+}
+.time-title {
+    font-size: 32rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 32rpx;
+}
+.right-setting {
+    display: flex;
+    align-items: center;
+    height: 80rpx;
+}
+.current-time {
+    font-size: 32rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #666666;
+    margin-right: 12rpx;
+}
+.right-arrow {
+    width: 24rpx;
+    height: 24rpx;
+}
+
+/* 时间pick */
+.modal-title {
+    height: 120rpx;
+    font-size: 36rpx;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #000000;
+    line-height: 120rpx;
+    text-align: center;
+}
+.picker-layer {
+    display: flex;
+}
+.pick-item {
+    line-height: 68rpx;
+    text-align: right;
+    padding-right: 14rpx;
+    box-sizing: border-box;
+}
+.pick-unit {
+    line-height: 68rpx;
+    text-align: left;
+}
+.stop-touch {
+    position: absolute;
+    height: 68rpx;
+    line-height: 68rpx;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.pick-unit-right {
+    line-height: 68rpx;
+    text-align: left;
+    margin-left: -100rpx;
+}
+.modal-btns {
+    display: flex;
+    align-items: center;
+    border-top: 15rpx solid #eee;
+}
+.btns-item{
+    border: none;
+    border-radius: unset;
+    padding: 25rpx 0;
+    font-size: 34rpx;
+    border-right: 2rpx solid #eee;
+    flex: 1;
+    text-align: center;
+    color: #000;
+}
+.btns-item:last-child{
+    border-right: unset;
+}

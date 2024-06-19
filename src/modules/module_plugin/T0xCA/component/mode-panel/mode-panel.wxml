@@ -1,0 +1,21 @@
+<!--src/modules/module_plugin/T0xCA/component/mode-panel/mode-panel.wxml-->
+<view class="column-start-container mode-panel" wx:if="{{modeCount>0}}">
+  <view class="row-start-container" style="width: 100%;" bindtap="extendModeAction">
+    <view class="work-mode-text">工作模式</view>
+    <view class="work-mode-extend-text" wx:if="{{modeCount>4}}">{{isExtend?'收起':'展开全部'}}</view>
+    <image class="work-mode-arrow-img" src="{{isExtend?iconServiceUrl+'arrow_up.png':iconServiceUrl+'arrow_down.png'}}" wx:if="{{modeCount>4}}"></image>
+  </view>
+  <view class="card-for-item">
+    <!-- 4个模式内 -->
+    <view class="{{isExtend?'extend-content':'close-content'}}">
+      <mx-row>
+        <mx-col wx:for="{{modeList}}" wx:key="{{index}}" span="6">
+          <view>
+            <mx-tabbar-item custom-class="custom-card-class" wx:if="{{item.isShow}}" data-index="{{index}}" data-isAlwaysLight="{{item.isAlwaysLight}}" data-luaKey="{{item.luaKey}}" checked="{{item.isOpen}}" icon="{{iconServiceUrl+item.icon}}" activeIcon="{{iconServiceUrl+item.activeIcon}}" bind:change="onModeChangeAction">{{item.modeName}}</mx-tabbar-item>
+          </view>
+        </mx-col>
+      </mx-row>
+    </view>
+  </view>
+  <mx-divider class="margin-bottom"></mx-divider>
+</view>

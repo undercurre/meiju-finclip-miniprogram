@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "input-wifi-header": "/distribution-network/addDevice/pages/component/input-wifi-header/input-wifi-header",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index"
+  }
+}

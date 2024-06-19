@@ -1,0 +1,16 @@
+<view class="btns-container">
+    <view class="btns-detail">
+        <text class="btns-title">{{bindModel.title}}</text>
+        <text class="btns-line">|</text>
+        <text class="btns-value">{{bindModel.currentTarget.text}}</text>
+    </view>
+    <view class="btns-list">
+        <view wx:for="{{bindModel.options}}"
+            wx:for-item="item"
+            wx:key="code"
+            bindtap="checkBtn"
+            data-item="{{item}}" class="btns-item {{activeIndex == item.value ? 'active-btn' : 'deactive-btn'}}">
+            <text>{{item.text}}</text>
+        </view>
+    </view>
+</view>

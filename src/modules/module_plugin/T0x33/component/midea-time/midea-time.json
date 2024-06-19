@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index"
+  }
+}

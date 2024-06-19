@@ -1,0 +1,13 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "device-card": "../card/card",
+    "midea-toast": "../component/midea-toast/midea-toast",
+    "midea-notice-bar": "../component/midea-notice-bar/midea-notice-bar",
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index",
+    "mx-nav": "/miniprogram_npm/m-ui/mx-nav/index"
+  }
+}

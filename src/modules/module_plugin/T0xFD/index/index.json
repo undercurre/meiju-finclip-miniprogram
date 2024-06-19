@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "backgroundColorBottom":"#F9F9F9",
+  "backgroundColorTop": "#d5e2f5",
+  "usingComponents": {
+    "device-card": "../card/card",
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index"
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "navigationBarTitleText":"如何找回WiFi密码",
+    "usingComponents": {
+      "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
+      "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+      "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
+      "mx-picker": "/miniprogram_npm/m-ui/mx-picker/index"
+    }
+  }

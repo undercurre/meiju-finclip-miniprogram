@@ -1,0 +1,10 @@
+<view class="continer" style="padding-top:{{statusBarHeight+40}}px">
+    <plugin-navbar backTo="{{backTo}}" isInit="{{isInit}}">
+        <view class="transition-default navbar-title" style="opacity:{{isShowTitle?'1':'0'}};">{{title}}</view>
+    </plugin-navbar>
+  
+    <view class="device-card-new">
+        <device-card wx:if="{{isInit}}" class="flex-all component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"></device-card>
+    </view>
+</view>
+<midea-toast id="media-toast"></midea-toast>

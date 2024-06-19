@@ -1,0 +1,12 @@
+/* distribution-network/addDevice/pages/frequencyGuide/frequencyGuide.wxss */
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48rpx 0 100rpx;
+  background-color: #ffffff;
+}
+.guide {
+  width: 692rpx;
+  height: 3162rpx;
+}

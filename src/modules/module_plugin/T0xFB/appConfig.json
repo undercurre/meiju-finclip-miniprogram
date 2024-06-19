@@ -1,0 +1,9 @@
+{
+  "subpackages": [
+    {
+      "name": "T0xFB",
+      "root": "plugin/T0xFB",
+      "pages": ["index/index"]
+    }
+  ]
+}

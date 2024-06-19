@@ -1,0 +1,14 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "midea-toast": "../component/midea-toast/midea-toast",
+    "device-status-bar": "../component/device-status-bar/device-status-bar",
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index",
+    "mx-notice-bar": "/miniprogram_npm/m-ui/mx-notice-bar/index",
+    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index"
+  }
+}

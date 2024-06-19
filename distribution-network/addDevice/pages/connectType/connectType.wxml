@@ -1,0 +1,21 @@
+<view class="page container">
+  <text class="title">选择连网方式</text>
+  <view class="sub">请选择设备的网络连接方式</view>
+  <view class="wrapper" bindtap="goToInputWifiInfo">
+    <view class="inner_wrapper">
+      <image src="{{sub_icon_wifi}}" class="icon" />
+      <text class="desc">使用无线网络连网</text>
+    </view>
+    <image src="{{right_icon}}" class="right_icon" />
+  </view>
+  <view class="wrapper" bindtap="goToAddGuide">
+    <view class="inner_wrapper">
+      <image src="{{sub_icon_wlan}}" class="icon" />
+      <view class="text_wrapper">
+        <text class="desc">使用网线连网</text>
+        <text class="sub_desc">使用网线连网需插入网线并连接上路由器</text>
+      </view>
+    </view>
+    <image src="{{right_icon}}" class="right_icon" />
+  </view>
+</view>

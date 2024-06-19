@@ -1,0 +1,46 @@
+/* plugin/T0x32/component/page-module/page-module.wxss */
+.wrapper{
+  position: relative;
+}
+.disabled{
+  opacity: 0.4;
+}
+.disabled-mask{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: transparent;
+  /*background-color: rgba(242, 242, 242, 0.5);*/
+}
+.header{
+  margin-bottom: 20rpx;
+}
+.title{
+  font-size: 36rpx;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #333333;
+  line-height: 40rpx;
+}
+.title-list-wrapper{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.title-item{
+  margin-right: 50rpx;
+}
+.title-list-wrapper .active-line{
+  height: 4rpx;
+  width: 40rpx;
+  background-color: #FFAA10;
+  margin: 5rpx auto 0 auto;
+}
+.title-list-wrapper .unActive .title{
+  font-size: 32rpx;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  color: #8A8A8F;
+}

@@ -1,0 +1,14 @@
+/* plugin/T0x38/index/index.wxss */
+page{
+  background: #ffffff;
+  height: 100%;
+  width: 100%;
+  /* background-color: red; */
+}
+.t0xe6 {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  position: absolute;
+  overflow: hidden;  
+}

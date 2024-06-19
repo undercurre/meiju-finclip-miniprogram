@@ -1,0 +1,32 @@
+<import src="../templates/template.wxml"></import>
+<view class="main-container">
+  <!-- 头部header -->
+  <view class="header" style="top:{{statusBarHeight+ 6}}px">
+    <image class="back" src="{{backIcon}}" bindtap="clickBack"></image>
+    <!-- <van-tabs active="{{ active }}" bind:change="onChange" class="title">
+      <block wx:for="{{composeDeviceInfo.composeApplianceList}}" wx:key="id">
+        <van-tab title="{{item.name}}" name="{{item.type}}"></van-tab>
+      </block>
+    </van-tabs> -->
+    <mx-tabs active="{{ active }}" bind:change="onChange" class="title">
+      <block wx:for="{{composeDeviceInfo.composeApplianceList}}" wx:key="id">
+        <mx-tab title="{{item.name}}" name="{{item.type}}"></mx-tab>
+      </block>
+    </mx-tabs>
+  </view>
+  <view class="device-card">
+    <template wx:if="isCurInit && type" is="{{type}}" data="{{isCurInit, type, currentDeviceInfo}}"></template>
+    <!-- <db-card
+      wx:if="{{isCurInit && type == '0xDB'}}"
+      style="width: 100%; height: 100%"
+      class="component{{currentDeviceInfo.applianceCode}}"
+      applianceData="{{currentDeviceInfo}}"
+      bindmodeChange="modeChange">
+    </db-card>
+    <b8-card 
+      wx:if="{{isCurInit && type == '0xB8'}}"
+      class="component{{currentDeviceInfo.applianceCode}}"
+      applianceData="{{currentDeviceInfo}}">
+    </b8-card> -->
+  </view>
+</view>

@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "trojan-horse": "/pages/component/trojan-horse/trojan-horse",
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index",
+    "midea-toast": "../../component/midea-toast/midea-toast",
+    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index"
+  }
+}

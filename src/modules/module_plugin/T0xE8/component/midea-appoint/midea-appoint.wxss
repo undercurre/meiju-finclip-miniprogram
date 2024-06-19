@@ -1,0 +1,122 @@
+.appoint-container {
+    width: 686rpx;
+    box-sizing: border-box;
+    background: #F9F9F9;
+    border-radius: 32rpx;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+.deactive-h {
+    height: 130rpx;
+    margin-bottom: 80rpx;
+}
+.active-h {
+    height: 210rpx;
+    margin-bottom: 0;
+}
+.left-detail {
+    display: flex;
+    align-items: center;
+}
+.time-img {
+    width: 48rpx;
+    height: 48rpx;
+    margin-right: 20rpx;
+}
+.time-title {
+    font-size: 32rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 32rpx;
+}
+.appoint-card {
+    display: flex;
+    justify-content: space-between;
+    width: 622rpx;
+    margin: 0 auto;
+    align-items: center;
+    height: 130rpx;
+}
+.border-btm {
+    border-bottom: 2rpx solid #E5E5E8;
+}
+
+/* 展示信息层 */
+.expend-layer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80rpx;
+    padding: 0 32rpx;
+    font-size: 28rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #666666;
+    transition: all .3s;
+}
+.expend-arrow {
+    width: 24rpx;
+    height: 24rpx;
+}
+
+/* 时间pick */
+.picker-layer {
+    display: flex;
+}
+.modal-title {
+    height: 120rpx;
+    font-size: 36rpx;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #000000;
+    line-height: 120rpx;
+    text-align: center;
+}
+.pick-item {
+    line-height: 68rpx;
+    text-align: right;
+    padding-right: 35rpx;
+    box-sizing: border-box;
+}
+.pick-unit {
+    line-height: 68rpx;
+    text-align: left;
+}
+.pick-unit-pot {
+    height: 68rpx;
+    line-height: 68rpx;
+    width: 40rpx;
+    text-align: center;
+}
+.stop-touch {
+    position: absolute;
+    height: 68rpx;
+    line-height: 68rpx;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.pick-unit-right {
+    line-height: 68rpx;
+    text-align: left;
+    margin-left: -100rpx;
+}
+.modal-btns {
+    display: flex;
+    align-items: center;
+    border-top: 15rpx solid #eee;
+}
+.btns-item{
+    border: none;
+    border-radius: unset;
+    padding: 25rpx 0;
+    font-size: 34rpx;
+    border-right: 2rpx solid #eee;
+    flex: 1;
+    text-align: center;
+    color: #000;
+}
+.btns-item:last-child{
+    border-right: unset;
+}

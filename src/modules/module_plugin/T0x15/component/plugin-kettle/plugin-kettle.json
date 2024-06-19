@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "midea-switch": "../midea-switch/midea-switch",
+    "midea-slider": "../midea-slider/midea-slider",
+    "vant-popup": "/pages/component/vant/popup/index"
+  }
+}

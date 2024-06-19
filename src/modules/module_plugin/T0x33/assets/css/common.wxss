@@ -1,0 +1,80 @@
+.click:active {
+  opacity: 0.6;
+}
+.center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.start-flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.between-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.space-flex {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.end-flex {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.transition-default {
+  transition: all ease-in-out 0.3s;
+}
+.fade-out {
+  opacity: 0;
+}
+.fade-in {
+  opacity: 1;
+}
+.tar {
+  text-align: right;
+}
+.tal {
+  text-align: left;
+}
+.tac {
+  text-align: center;
+}
+.mt-64 {
+  margin-top: 64rpx;
+}
+.mb-10 {
+  margin-bottom: 10rpx;
+}
+/* 小木马 */
+.hourseWarp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.swing {
+  margin: 0 auto;
+  width: 128rpx;
+  height: 128rpx;
+}
+.absolute-wrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}

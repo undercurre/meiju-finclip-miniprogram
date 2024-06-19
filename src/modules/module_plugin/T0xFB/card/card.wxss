@@ -1,0 +1,415 @@
+/*2021-08-10 Ao*/
+@import '../assets/css/common.wxss';
+.container {
+  padding-bottom: 30rpx;
+  background-color: #f9f9f9;
+  position: relative;
+  overflow: hidden;
+}
+.container-modal-wrapper {
+  padding-bottom: 30rpx;
+  position: relative;
+  overflow: hidden;
+}
+.theme-color {
+  border-color: #ffaa10;
+  background-color: #ffaa10;
+  color: #ffffff;
+}
+.theme-color_cold {
+  background-color: #267aff;
+  border-color: #267aff;
+  color: #ffffff;
+}
+.button.theme-color_cold {
+  background-color: #267aff;
+  border-color: #267aff;
+  color: #ffffff;
+}
+.button.theme-color {
+  border-color: #ffaa10;
+  background-color: #ffaa10;
+  color: #ffffff;
+}
+.warm-text {
+  color: #ffaa10;
+}
+.cold-text {
+  color: #267aff;
+}
+/*禁用样式*/
+.disabled-color {
+  background-color: #7c879b;
+}
+.disabled,
+.disabled.circle-button,
+.disabled.disabled-color,
+.disabled.label {
+  opacity: 0.4;
+}
+.disabled .button.theme-color {
+  border-color: #7c879b;
+  background-color: #7c879b;
+}
+.disabled .button.theme-color_cold {
+  border-color: #7c879b;
+  background-color: #7c879b;
+}
+.disabled .button.active {
+  border-color: #7c879b;
+  background-color: #7c879b;
+}
+.disabled .icon-wrapper {
+  background-color: #7c879b;
+}
+
+.disabled.timed-shutdown-label {
+  color: #7c879b;
+  opacity: 1;
+}
+.openMeiJuAPpp {
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #999999;
+  letter-spacing: 0;
+  font-weight: 400;
+  margin-top: 80rpx;
+  /*margin-bottom: 140rpx;*/
+  padding-bottom: 110rpx;
+  text-align: center;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.openMeiJuAPpp .link {
+  color: #267aff;
+}
+.openMeiJuAPpp .icon {
+  width: 28rpx;
+  height: 28rpx;
+  margin-left: 10rpx;
+}
+.bottom-fixed {
+  margin: 0;
+  padding-bottom: 0;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 140rpx;
+}
+
+/*设备信息*/
+.btn-main-wrapper {
+  width: 550rpx;
+  height: 550rpx;
+  border-radius: 100%;
+  /*box-shadow: 0 0 50rpx 0 #000;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 120% 120%;
+}
+.btn-main-wrapper .device-status {
+  font-family: PingFangSC-Medium;
+  font-size: 60rpx;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 500;
+}
+.device-running-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.device-running-info .label {
+  color: #666;
+  font-size: 24rpx;
+  text-align: center;
+}
+.device-running-info .label .value {
+  font-size: 30rpx;
+}
+.device-running-info .temperature-value {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  line-height: 140rpx;
+  /* margin-bottom: 10rpx; */
+}
+.device-running-info .temperature-value.gear-value {
+  padding-left: 0;
+}
+.temperature-value .value {
+  font-size: 60rpx;
+  line-height: 140rpx;
+  font-family: PingFangSC-Medium;
+}
+.temperature-value .unit {
+  font-size: 40rpx;
+}
+
+.controller-wrapper {
+  padding: 30rpx;
+  box-sizing: border-box;
+  /* overflow-y: auto; */
+  position: relative;
+}
+.openMeiJuAPpp {
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #999999;
+  letter-spacing: 0;
+  font-weight: 400;
+  margin-top: 20rpx;
+  text-align: center;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+.openMeiJuAPpp .link {
+  color: #267aff;
+}
+.openMeiJuAPpp .icon {
+  width: 28rpx;
+  height: 28rpx;
+  margin-left: 10rpx;
+}
+.bottom-fixed {
+  margin: 0;
+  padding-bottom: 0;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 70rpx;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.row .item {
+  flex: 1;
+}
+.row .item:nth-of-type(even) {
+  margin-left: 20rpx;
+}
+.item .header {
+  margin-bottom: 20rpx;
+}
+.item .header .icon-wrapper {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 100%;
+}
+.item .header .icon {
+  width: 50%;
+}
+.item .header .label {
+  font-size: 32rpx;
+  margin-left: 15rpx;
+  margin-right: 20rpx;
+}
+.item .header .label-wrapper .theme-color {
+  font-size: 24rpx;
+  padding: 0 15rpx;
+  line-height: 28rpx;
+  border: 1px solid #ffaa10;
+  color: #ffaa10;
+  background-color: transparent;
+  border-radius: 2rem;
+}
+.item .header .label-wrapper .theme-color_cold {
+  font-size: 24rpx;
+  padding: 0 15rpx;
+  line-height: 28rpx;
+  border: 1px solid #267aff;
+  background-color: transparent;
+  color: #267aff;
+  border-radius: 2rem;
+}
+.item .header .label-wrapper .disabled {
+  opacity: 0.4;
+  font-size: 24rpx;
+  padding: 0 15rpx;
+  line-height: 28rpx;
+  border: 1px solid #7c879b;
+  color: #7c879b;
+  background-color: transparent;
+  border-radius: 2rem;
+}
+.button {
+  border: 2rpx solid #c7c7cc;
+  border-radius: 2rem;
+  padding: 10rpx 80rpx;
+  color: #666666;
+}
+.button.active {
+  border-color: #ffaa10;
+  background-color: #ffaa10;
+  color: #fff;
+}
+.circle-button {
+  padding: 0;
+  width: 70rpx;
+  height: 70rpx;
+  border: 0;
+  border-radius: 100%;
+}
+.circle-button .icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/*设备开关*/
+.device-running-status {
+  font-size: 32rpx;
+  line-height: 32rpx;
+}
+.device-running-status .divider {
+  width: 2rpx;
+  height: 16rpx;
+  background: #ddd;
+  margin: 0 16rpx;
+}
+.btn-switch {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 100%;
+  padding: 0;
+}
+.btn-switch .icon {
+  width: 40rpx;
+}
+
+/*定时开关*/
+.timed-shutdown-label {
+  font-size: 26rpx;
+  /* color: #FFAA10; */
+  text-align: right;
+}
+
+/*档位控制区域*/
+.gear-control-wrapper .button-wrapper {
+  flex-wrap: wrap;
+}
+.gear-control-wrapper .button {
+  text-align: center;
+  flex: 1;
+  margin: 10rpx;
+  padding: 10rpx 0;
+  min-width: 80rpx;
+}
+
+/*童锁开关*/
+.child-lock-wrapper .header {
+  margin-bottom: 0;
+}
+.child-lock-wrapper .header .icon-wrapper {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 100%;
+}
+.child-lock-wrapper .header .label {
+  margin-left: 30rpx;
+}
+.child-lock-wrapper .header .value {
+  margin-top: 8rpx;
+}
+.child-lock-wrapper .header .value.un-active {
+  border: 1px solid #7c879b;
+  color: #7c879b;
+}
+
+/*模式选择对话框*/
+.modal-wrapper {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  background: #ffffff;
+}
+.modal-wrapper .header {
+  margin-top: 60rpx;
+  margin-bottom: 60rpx;
+  position: relative;
+}
+.modal-wrapper .header .left {
+  position: absolute;
+  left: 64rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  color: orangered;
+  font-size: 32rpx;
+  line-height: 64rpx;
+}
+.modal-wrapper .header .right {
+  right: 80rpx;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.modal-wrapper .header .center {
+  font-size: 34rpx;
+  font-weight: 600;
+  text-align: center;
+}
+.modal-wrapper .options-wrapper .options-item {
+  padding: 20rpx 30rpx;
+  margin: 20rpx 30rpx;
+  border-radius: 32rpx;
+  background-color: #f9f9f9;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+}
+.space {
+  width: 1rpx;
+  height: 100%;
+  float: left;
+}
+.modal-wrapper .options-wrapper .options-item:last-child {
+  margin-bottom: 0;
+}
+.modal-wrapper .options-wrapper .options-item.active_cold {
+  border-color: #267aff;
+}
+.modal-wrapper .options-wrapper .options-item.active {
+  border-color: #ffaa10;
+}
+.modal-wrapper .options-item:last-child {
+  border-bottom: none;
+}
+.modal-wrapper .options-item .icon-wrapper {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 100%;
+}
+.options-item .icon-wrapper .icon {
+  width: 60%;
+}
+.modal-wrapper .options-item .label {
+  margin-left: 30rpx;
+}
+.modal-wrapper .button-wrapper {
+  border-top: 15rpx solid #eee;
+}
+.modal-wrapper .button-wrapper .button {
+  border: none;
+  border-radius: unset;
+  padding: 25rpx 0;
+  font-size: 34rpx;
+  border-right: 2rpx solid #eee;
+  flex: 1;
+  text-align: center;
+  color: #000;
+}
+.modal-wrapper .button-wrapper .button:last-child {
+  border-right: unset;
+}
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+}

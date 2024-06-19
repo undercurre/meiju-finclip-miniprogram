@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index",
+    "device-card0": "../cards/card0/card0"
+  }
+}

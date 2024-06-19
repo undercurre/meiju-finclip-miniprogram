@@ -1,0 +1,19 @@
+<!--plugin/T0x32/component/page-module/page-module.wxml-->
+<view class="wrapper">
+  <view class="disabled-mask" wx:if="{{disabled}}" bindtap="onClickDisabled"></view>
+  <view class="header">
+    <view class="title-list-wrapper {{disabled?'disabled':''}}"
+          wx:if="{{titleList.length>0}}">
+      <view wx:for="{{titleList}}"
+            wx:key="index"
+            class="title-item {{item.selected?'':'unActive'}}"
+            data-item="{{item}}"
+            bindtap="onChangeTitle">
+        <text class="title">{{item.text}}</text>
+        <view class="active-line" wx:if="{{item.selected}}"></view>
+      </view>
+    </view>
+    <text class="title {{disabled?'disabled':''}}" wx:else>{{title}}</text>
+  </view>
+  <slot></slot>
+</view>

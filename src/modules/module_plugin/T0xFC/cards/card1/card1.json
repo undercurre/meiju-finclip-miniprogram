@@ -1,0 +1,26 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-status": "/miniprogram_npm/m-ui/mx-status/index",
+    "mx-status-item": "/miniprogram_npm/m-ui/mx-status-item/index",
+    "mx-information": "/miniprogram_npm/m-ui/mx-information/index",
+    "mx-information-item": "/miniprogram_npm/m-ui/mx-information-item/index",
+    "mx-panel": "/miniprogram_npm/m-ui/mx-panel/index",
+    "mx-tabbar": "/miniprogram_npm/m-ui/mx-tabbar/index",
+    "mx-tabbar-button": "/miniprogram_npm/m-ui/mx-tabbar-button/index",
+    "mx-tabbar-item": "/miniprogram_npm/m-ui/mx-tabbar-item/index",
+    "mx-slider": "/miniprogram_npm/m-ui/mx-slider/index",
+    "mx-mark": "/miniprogram_npm/m-ui/mx-mark/mx-mark",
+    "mx-row": "/miniprogram_npm/m-ui/mx-row/index",
+    "mx-col": "/miniprogram_npm/m-ui/mx-col/index",
+    "mx-switch": "/miniprogram_npm/m-ui/mx-switch/index",
+    "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
+    "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index",
+    "mx-loading": "/miniprogram_npm/m-ui/mx-loading/index",
+    "mx-notice-bar": "/miniprogram_npm/m-ui/mx-notice-bar/index",
+    "mx-picker": "/miniprogram_npm/m-ui/mx-picker/index",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-toast": "/miniprogram_npm/m-ui/mx-toast/index",
+    "mx-action-sheet": "/miniprogram_npm/m-ui/mx-action-sheet/index"
+  }
+}

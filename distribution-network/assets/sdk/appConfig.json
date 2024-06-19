@@ -1,0 +1,9 @@
+{
+    "subpackages": [
+        {
+            "name": "sdk",
+            "root": "distribution-network/assets/sdk",
+            "pages": []
+        }
+    ]
+}

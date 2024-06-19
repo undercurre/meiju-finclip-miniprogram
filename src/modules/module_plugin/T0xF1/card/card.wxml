@@ -1,0 +1,394 @@
+<mx-notice-bar
+  wx:if="{{noticeBar.isShow}}"
+  class-prefix="mx-iconfont"
+  background="rgba(255,59,48,0.10)"
+  color="#FF3B30"
+  text="{{noticeBar.content}}"
+  mode="closeable"
+  left-icon="tip"
+  bind:close="closeNoticeBar"
+></mx-notice-bar>
+<view class="container" wx:if="{{isInit}}">
+  <!--2021-09-08 敖广骏-->
+  <!--设备信息-->
+  <view class="cup-type-box" wx:if="{{cupTypeBadge.isShow&&configList.length>1}}">
+    <view class="cup-type">{{cupTypeBadge.content}}</view>
+  </view>
+  <view
+    class="btn-main-wrapper"
+    style="background-image:url('{{deviceInfo.isOnline?(deviceInfo.isRunning?bgImage.url3:bgImage.url2):bgImage.url1}}');"
+  >
+    <view class="device-status" wx:if="{{!deviceInfo.isOnline}}">设备离线</view>
+    <view class="device-status" wx:elif="{{!deviceInfo.isRunning}}">待机中</view>
+    <view class="device-running-info" wx:else>
+      <view class="running-time">
+        <view class="label" wx:if="{{deviceInfo.workStatus==workStatus['appoint']}}">预约中</view>
+        <view class="label" wx:elif="{{deviceInfo.horseRaceLamp||deviceInfo.workStatus==workStatus['pause']}}"></view>
+        <view
+          class="label"
+          wx:elif="{{deviceInfo.workStatus==workStatus['working']&&deviceInfo.keepWarmCodeIndex===-1}}"
+          >约剩余</view
+        >
+        <view class="label" wx:elif="{{deviceInfo.workStatus==workStatus['keepWarm']||deviceInfo.keepWarmCodeIndex>-1}}"
+          >已保温</view
+        >
+        <view class="label" wx:elif="{{deviceInfo.workStatus==workStatus['finished']}}"></view>
+        <view class="label" wx:else>工作中</view>
+        <view class="value schedule-value" wx:if="{{deviceInfo.workStatus==workStatus['appoint']}}"
+          >{{deviceInfo.finishTime}}完成</view
+        >
+        <!--<view class="value schedule-value" wx:elif="{{deviceInfo.horseRaceLamp&&(deviceInfo.keepWarmCodeIndex>-1)}}">工作中</view>-->
+        <view class="value schedule-value" wx:elif="{{deviceInfo.horseRaceLamp}}">加热中</view>
+        <view class="value schedule-value" wx:elif="{{!deviceInfo.hasCountdown}}">等待中</view>
+        <view
+          class="value"
+          wx:elif="{{deviceInfo.workStatus==workStatus['working']&&deviceInfo.keepWarmCodeIndex===-1}}"
+        >
+          {{deviceInfo.currentTimeLabel.hour}}:{{deviceInfo.currentTimeLabel.minute}}{{deviceInfo.currentTimeLabel.second?':'+deviceInfo.currentTimeLabel.second:''}}
+        </view>
+        <view
+          class="value"
+          wx:elif="{{deviceInfo.workStatus==workStatus['keepWarm']||deviceInfo.keepWarmCodeIndex>-1}}"
+        >
+          {{deviceInfo.keepWarmTimeLabel.hour}}:{{deviceInfo.keepWarmTimeLabel.minute}}{{deviceInfo.keepWarmTimeLabel.second?':'+deviceInfo.keepWarmTimeLabel.second:''}}
+        </view>
+        <view class="value" wx:elif="{{deviceInfo.workStatus==workStatus['finished']}}">已完成</view>
+        <view class="value" wx:elif="{{deviceInfo.workStatus==workStatus['pause']}}">----</view>
+        <view class="value" wx:else>等待响应</view>
+      </view>
+      <view
+        class="detail-info center-flex"
+        wx:if="{{deviceInfo.workStatus!=workStatus['finished']&&deviceInfo.workStatus!=workStatus['keepWarm']&&!deviceInfo.horseRaceLamp&&deviceInfo.keepWarmCodeIndex===-1}}"
+      >
+        <view class="info-wrapper" wx:if="{{deviceInfo.mouthFeel!=0}}">
+          <view class="label">口感</view>
+          <view class="desc">{{deviceInfo.mouthFeelName}}</view>
+        </view>
+        <view class="line" wx:if="{{deviceInfo.mouthFeel!=0&&deviceInfo.setWorkTime}}"></view>
+        <view class="info-wrapper">
+          <view class="label" wx:if="{{deviceInfo.workStatus==workStatus['keepWarm']}}">保温时间</view>
+          <view class="label" wx:else>烹饪时间</view>
+          <view class="desc">约{{deviceInfo.setWorkTime||'-- 分钟'}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!--启动区域-->
+  <view class="device-status-wrapper" wx:if="{{deviceInfo.isRunning}}">
+    <midea-card height="100">
+      <view slot="centerWrapper" class="between-flex">
+        <view class="device-running-status center-flex">
+          <text>{{deviceInfo.currentFunction.name||'等待结束'}}</text>
+          <view class="divider"></view>
+          <text>{{deviceInfo.enabledCupLid?deviceInfo.workStatusName:'设备开盖，暂停中'}}</text>
+        </view>
+        <view class="button-wrapper center-flex">
+          <!--<view class="button center-flex click"-->
+          <!--      wx:if="{{deviceInfo.enabledCupLid}}"-->
+          <!--      bindtap="controlWork">-->
+          <!--    <image class="icon" src="{{iconUrl.power.url1}}" mode="widthFix"></image>-->
+          <!--</view>-->
+          <view class="button center-flex click" bindtap="stopWork">
+            <image class="icon" src="{{iconUrl.power.url1}}" mode="widthFix"></image>
+          </view>
+        </view>
+      </view>
+    </midea-card>
+  </view>
+  <!--功能区域-->
+  <view class="controller-wrapper" wx:if="{{configList&&configList.length>0}}">
+    <view class="header center-flex" wx:if="{{configList.length>1}}">
+      <view
+        wx:for="{{configList}}"
+        wx:key="index"
+        class="type-wrapper {{deviceInfo.isOnline&&index===selectedCupType?'active':''}}"
+        data-index="{{index}}"
+        bindtap="selectCubType"
+      >
+        <text class="text">{{item.cupTypeName}}</text>
+        <view
+          wx:if="{{index===selectedCupType}}"
+          class="active-line {{deviceInfo.isOnline?'theme-color':'disabled-color disabled'}}"
+        ></view>
+      </view>
+    </view>
+    <!--功能选项-->
+    <view class="options-scroller-wrapper">
+      <view
+        class="content-wrapper transition-default"
+        style="transform: translateX({{optionsWrapper.translateX}}rpx);{{optionsWrapper.height?'height:'+optionsWrapper.height+'px;':''}}"
+      >
+        <view
+          wx:for="{{configList}}"
+          wx:key="index"
+          class="box {{!deviceInfo.isRunning&&(item.cupType===deviceInfo.cupType) && deviceInfo.enabledCupLid?'':'disabled'}}"
+        >
+          <view
+            class="options-wrapper {{'options-'+index}} {{item.functions.length!==1?'grid-layout':''}} {{item.layoutClass}} "
+          >
+            <!--item.functions.length!=1?item.functions.length===2?'grid-layout-double':((item.function.length/2!==0||item.functions.length%6===0)&&item.functions.length<7?'grid-layout-third':'grid-layout-fourth'):''-->
+            <view
+              class="type-options-wrapper {{deviceInfo.cupType&&deviceInfo.isOnline?'':'disabled'}} {{item.functions.length===1?'single-row':''}}"
+              wx:for="{{item.functions}}"
+              wx:for-item="functionItem"
+              wx:key="code"
+              data-item="{{functionItem}}"
+              data-enabled="{{item.cupType===deviceInfo.cupType}}"
+              bindtap="onClickFunction"
+            >
+              <!--<view class="icon" style="background-image:url('{{deviceInfo.isOnline?(functionItem.appletsIconUrl2||iconUrl.test.url4):(functionItem.appletsIconUrl1||iconUrl.test.url3)}}');"></view>-->
+              <image
+                mode="widthFix"
+                class="icon"
+                src="{{deviceInfo.isOnline?(functionItem.appletsIconUrl2||iconUrl.test.url4):(functionItem.appletsIconUrl1||iconUrl.test.url3)}}"
+              ></image>
+              <view class="label">{{functionItem.name}}</view>
+              <view wx:if="{{functionItem.settingsData['workStatus']}}" class="desc"
+                >{{functionItem.cookTimeLabel||(functionItem.settingsData['workStatus'].properties.cookTime?functionItem.settingsData['workStatus'].properties.cookTime+'分钟':'自定义时间')}}</view
+              >
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <mx-footer></mx-footer>
+  <!--参数设置对话框-->
+  <mx-popup bind:close="closeSettingModal" show="{{settingModal.isShow}}" position="bottom" round="true">
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="header">
+        <view class="center">{{selectedFunction.name}}</view>
+        <view class="desc">{{selectedFunction.desc}}</view>
+      </view>
+      <view class="container">
+        <view class="options-wrapper">
+          <view class="options-item" wx:if="{{selectedFunction.settingsData['mouthFeel']}}">
+            <view class="header start-flex">
+              <view class="icon-wrapper center-flex">
+                <image mode="widthFix" class="icon" src="{{iconUrl.mouthfeel.url1}}"></image>
+              </view>
+              <view class="title">口感</view>
+            </view>
+            <view class="content space-flex">
+              <view
+                wx:for="{{selectedFunction.settingsData['mouthFeel'].properties.options}}"
+                wx:key="index"
+                class="button click {{settingParam.mouthFeel===item.value?'active':''}}"
+                data-value="{{item.value}}"
+                bindtap="selectMouthFeel"
+                >{{item.text}}</view
+              >
+            </view>
+          </view>
+          <view class="options-item" wx:if="{{selectedFunction.settingsData['waterAmountSelect']}}">
+            <view class="header between-flex">
+              <view class="center-flex">
+                <view class="icon-wrapper center-flex">
+                  <image mode="widthFix" class="icon" src="{{iconUrl.waterAmount.url1}}"></image>
+                </view>
+                <view class="title">
+                  <text>水量</text>
+                  <text class="fs-24"> {{waterAmountData.resultLabel}}</text>
+                </view>
+              </view>
+              <view class="extra-wrapper" wx:if="{{waterAmountConfig.isShowSelector}}" bindtap="showWaterAmountModal">
+                <view class="center-flex" wx:if="{{!waterAmountData.resultLabel}}">
+                  <text>请选择</text>
+                  <image class="icon-arrow" mode="widthFix" src="{{iconUrl.backImgBase}}"></image>
+                </view>
+                <view class="center-flex" wx:else> {{waterAmountData.resultLabel}} </view>
+              </view>
+            </view>
+            <view class="content" wx:if="{{waterAmountConfig.isShowSlider}}">
+              <midea-slider model="{{sliderWaterAmount}}" bind:onChange="sliderWaterAmountChange"></midea-slider>
+            </view>
+            <view
+              class="content space-flex"
+              wx:elif="{{!waterAmountConfig.isShowSlider&&!waterAmountConfig.isShowSelector}}"
+            >
+              <view
+                wx:for="{{selectedFunction.settingsData['waterAmountSelect'].properties.range}}"
+                wx:key="index"
+                class="button {{item.value==settingParam.waterAmount?'active':''}}"
+                data-value="{{item.value}}"
+                bindtap="selectWaterAmount"
+                >{{item.key}}</view
+              >
+            </view>
+          </view>
+          <view class="options-item" wx:if="{{selectedFunction.settingsData['blendSpeed']}}">
+            <view class="header start-flex">
+              <view class="icon-wrapper center-flex">
+                <image mode="widthFix" class="icon" src="{{iconUrl.fast.url1}}"></image>
+              </view>
+              <view class="title">搅拌速度</view>
+              <!--{{currentSpeed}}-->
+            </view>
+            <view class="content" wx:if="{{workSpeedConfig.isShowSlider}}">
+              <midea-slider model="{{workSpeedSlider}}" bind:onChange="sliderWorkSpeedChange"></midea-slider>
+            </view>
+            <view class="content space-flex" wx:else>
+              <view
+                wx:for="{{selectedFunction.settingsData['blendSpeed'].properties.options}}"
+                wx:key="index"
+                class="button {{item.value==settingParam.workSpeed?'active':''}}"
+                data-value="{{item.value}}"
+                bindtap="selectWorkSpeed"
+                >{{item.text}}</view
+              >
+            </view>
+          </view>
+          <view class="options-item space-flex" wx:if="{{selectedFunction.settingsData['blendDuration']}}">
+            <view class="icon-wrapper center-flex">
+              <image mode="widthFix" class="icon" src="{{iconUrl.clock.url1}}"></image>
+            </view>
+            <view class="text-wrapper">
+              <view class="label">搅拌时间</view>
+            </view>
+            <view class="extra-wrapper" bindtap="showWorkTimeModal">
+              <view class="center-flex" wx:if="{{!workTimeData.resultLabel}}">
+                <text>请选择</text>
+                <image class="icon-arrow" mode="widthFix" src="{{iconUrl.backImgBase}}"></image>
+              </view>
+              <view class="center-flex" wx:else> {{workTimeData.resultLabel}} </view>
+            </view>
+          </view>
+          <view class="options-item" wx:if="{{selectedFunction.settingsData['appointTime']}}">
+            <view class="space-flex">
+              <view class="icon-wrapper center-flex">
+                <image mode="widthFix" class="icon" src="{{iconUrl.clock.url1}}"></image>
+              </view>
+              <view class="text-wrapper">
+                <view class="label">预约</view>
+                <view class="desc">随心预设完成时间，美味饮品自动出炉</view>
+              </view>
+              <view class="extra-wrapper">
+                <midea-switch model="{{scheduleSwitch}}" bind:onChange="scheduleSwitchChange"></midea-switch>
+              </view>
+            </view>
+            <view class="divider" wx:if="{{scheduleData.resultLabel}}"></view>
+            <view class="between-flex desc-wrapper" wx:if="{{scheduleData.resultLabel}}">
+              <text class="label">烹饪完成时间</text>
+              <view class="value-wrapper center-flex" bindtap="showScheduleModal">
+                <text class="value">{{scheduleData.resultLabel}}</text>
+                <image class="icon-arrow" mode="widthFix" src="{{iconUrl.backImgBase}}"></image>
+              </view>
+            </view>
+          </view>
+          <view class="options-item space-flex" wx:if="{{selectedFunction.settingsData['setKeepWarmTime']}}">
+            <view class="icon-wrapper center-flex">
+              <image mode="widthFix" class="icon" src="{{iconUrl.temperature.url1}}"></image>
+            </view>
+            <view class="text-wrapper">
+              <view class="label">完成后保温</view>
+              <view class="desc">智能恒温，不错过暖胃美食</view>
+            </view>
+            <view class="extra-wrapper">
+              <midea-switch bind:onChange="switchKeepWarmChange"></midea-switch>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeSettingModal">取消</view>
+        <view class="button click" bindtap="startWork">开始烹饪</view>
+      </view>
+    </view>
+  </mx-popup>
+  <!--预约时间对话框-->
+  <mx-popup bind:close="closeScheduleModal" show="{{scheduleModal.isShow}}" position="bottom" round="true">
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="header">
+        <view class="center">预约完成</view>
+      </view>
+      <view class="container">
+        <picker-view
+          indicator-style=""
+          value="{{scheduleData.value}}"
+          style="width: 100%; height: 200px"
+          bindpickstart="scheduleDataOnStart"
+          bindpickend="scheduleDataOnEnd"
+          bindchange="pickOnChange"
+        >
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+          <picker-view-column>
+            <view class="tar center-flex" wx:for="{{scheduleData.day}}" wx:key="index">{{item}}</view>
+          </picker-view-column>
+          <picker-view-column>
+            <view class="tar center-flex" wx:for="{{scheduleData.hours}}" wx:key="index">{{item}} 时</view>
+          </picker-view-column>
+          <picker-view-column>
+            <view class="tar center-flex" wx:for="{{scheduleData.minutes}}" wx:key="index">{{item}} 分</view>
+          </picker-view-column>
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+        </picker-view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeScheduleModal">取消</view>
+        <view class="button click" bindtap="confirmSchedule">确认</view>
+      </view>
+    </view>
+  </mx-popup>
+  <!--工作时间对话框-->
+  <mx-popup bind:close="closeWorkTimeModal" show="{{workTimeData.isShow}}" position="bottom" round="true">
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="header">
+        <view class="center">工作时间</view>
+      </view>
+      <view class="container">
+        <picker-view
+          indicator-style=""
+          value="{{workTimeData.value}}"
+          style="width: 100%; height: 200px"
+          bindpickstart="workTimeDataOnStart"
+          bindpickend="workTimeDataOnEnd"
+          bindchange="workTimeOnChange"
+        >
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+          <!--<picker-view-column>-->
+          <!--    <view class="tar center-flex" wx:for="{{scheduleData.day}}" wx:key="index">{{item}}</view>-->
+          <!--</picker-view-column>-->
+          <picker-view-column>
+            <view class="tar center-flex" wx:for="{{workTimeData.minutes}}" wx:key="index">{{item}} 分</view>
+          </picker-view-column>
+          <picker-view-column>
+            <view class="tar center-flex" wx:for="{{workTimeData.seconds}}" wx:key="index">{{item}} 秒</view>
+          </picker-view-column>
+          <picker-view-column style="flex: 0 0 75px"></picker-view-column>
+        </picker-view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeWorkTimeModal">取消</view>
+        <view class="button click" bindtap="confirmWorkTime">确认</view>
+      </view>
+    </view>
+  </mx-popup>
+  <!--水量对话框-->
+  <mx-popup bind:close="closeWaterAmountModal" show="{{waterAmountData.isShow}}" position="bottom" round="true">
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="header">
+        <view class="center">水量选择</view>
+      </view>
+      <view class="container">
+        <picker-view
+          indicator-style=""
+          value="{{waterAmountData.value}}"
+          style="width: 100%; height: 200px"
+          bindchange="waterSelectorOnChange"
+        >
+          <picker-view-column>
+            <view class="tar center-flex" wx:for="{{waterAmountData.valueArray}}" wx:key="index">{{item.key}}</view>
+          </picker-view-column>
+        </picker-view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeWaterAmountModal">取消</view>
+        <view class="button click" bindtap="confirmWaterAmount">确认</view>
+      </view>
+    </view>
+  </mx-popup>
+</view>
+<!-- 小木马加载中 -->
+<view class="hourseWarp" wx:else>
+  <image class="swing" src="http://ce-cdn.oss-cn-hangzhou.aliyuncs.com/ccs/icon/meiju-lite/common/loading.png"></image>
+</view>

@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "device-status-bar": "../device-status-bar/device-status-bar"
+  }
+}

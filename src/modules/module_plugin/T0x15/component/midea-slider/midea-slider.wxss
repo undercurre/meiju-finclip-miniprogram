@@ -1,0 +1,94 @@
+/* plugin/T0xFC/component/media-slider/media-slider.wxss */
+@import "../../assets/css/common.wxss";
+
+/*禁用样式*/
+.disabled{
+    opacity: .4;
+}
+.disabled .icon,.disabled .slider-active-process,.disabled .slider-drag{
+    background: #7C879B;
+}
+
+.slider-transition{
+    transition: all ease-in-out .3s;
+}
+.icon{
+    width: 40rpx;
+    height: 40rpx;
+    background: #FFAA10;
+    border-radius: 100%;
+    color: #fff;
+    line-height: 40rpx;
+    text-align: center;
+    font-size: 32rpx;
+}
+.slider-wrapper{
+    overflow: hidden;
+    padding-top: 10rpx;
+}
+.slider-process-wrapper{
+    flex: 1;
+    margin: 0 40rpx;
+    padding: 15rpx 0;
+}
+.slider-process{
+    position: relative;
+    height: 10rpx;
+    background: #eee;
+    border-radius: 2rem;
+}
+.slider-active-process{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+    height: 10rpx;
+    background: #FFAA10;
+    border-radius: 2rem;
+}
+.slider-drag-wrapper{
+    padding: 10rpx;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.slider-drag{
+    border-radius: 100%;
+    width: 38rpx;
+    height: 38rpx;
+    border: 4rpx solid #fff;
+    background: #FFAA10;
+}
+.slider-drag-white{
+    background: #FFFFFF;
+    box-shadow: 0 0 5rpx 0 #ccc;
+}
+.slider-current-value{
+    position: absolute;
+    top: 60rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #FFAA10;
+    font-size: 26rpx;
+}
+.slider-value-item{
+    color: #999;
+    font-size: 24rpx;
+    flex: 1;
+    text-align: center;
+}
+.slider-value-item:first-child{
+    /*text-align: left;*/
+}
+.slider-value-item:last-child{
+    /*text-align: right;*/
+}
+.slider-value-wrapper{
+    width: 82%;
+    margin-top: 10rpx;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}

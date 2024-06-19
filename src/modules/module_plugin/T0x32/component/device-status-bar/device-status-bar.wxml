@@ -1,0 +1,17 @@
+<!--plugin/T0x32/component/device-status-bar/device-status-bar.wxml-->
+<view class="wrapper" bindtap="onClick">
+  <view class="status-wrapper">
+    <view class="dot" style="background-color:{{dotColor}};"></view>
+    <view class="status-text">{{text}}</view>
+  </view>
+  <view class="info-wrapper" wx:if="{{isShowInfo}}">
+    <view class="line"></view>
+    <view class="info-text-wrapper">
+      <text>{{infoTitle}}</text>
+      <text>{{infoDesc}}</text>
+    </view>
+  </view>
+  <image class="icon-arrow"
+         wx:if="{{enabledClick}}"
+         src="{{iconUrl.arrow}}"></image>
+</view>

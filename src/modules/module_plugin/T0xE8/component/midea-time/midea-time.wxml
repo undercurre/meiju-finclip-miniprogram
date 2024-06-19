@@ -1,0 +1,39 @@
+<view class="time-container">
+    <view class="left-detail">
+        <image mode="widthFix" class="time-img" src="https://www.smartmidea.net/projects/sit/meiju-lite-assets/plugin/0xE8/icon-time.png"></image>
+        <view class="time-title">烹饪时间</view>
+    </view>
+    <view class="right-setting" bindtap="goSetTime">
+        <view class="current-time">{{bindModel.currentText}}</view>
+        <image mode="widthFix" class="right-arrow" src="https://www.smartmidea.net/projects/sit/meiju-lite-assets/plugin/0x3F/right-arrow.png"></image>
+    </view>
+</view>
+<mx-popup bind:close="closeModal" show="{{isShowSetting}}" position="bottom" round="true">
+    <view class="modal-wrapper" catch:touchmove="noop">
+        <view class="modal-title">烹饪时间</view>
+        <view class="picker-layer">
+            <picker-view indicator-style="" value="{{currentHour}}" style="width: 50%; height: 213px;" bindchange="pickOnHour" immediate-change="true">
+                <picker-view-column>
+                    <view class="pick-item" wx:for="{{hours}}" wx:key="item">{{item}}</view>
+                </picker-view-column>
+                <picker-view-column catch:touchmove="noop">
+                    <view class="pick-unit"> </view>
+                </picker-view-column>
+                <view class="pick-unit stop-touch"> 小时</view>
+            </picker-view>
+            <picker-view indicator-style="" value="{{currentMinute}}" style="width: 50%; height: 213px;" bindchange="pickOnMinute" immediate-change="true">
+                <picker-view-column>
+                <view class="pick-item" wx:for="{{curMinutes}}" wx:key="item">{{item}}</view>
+                </picker-view-column>
+                <picker-view-column catch:touchmove="true">
+                    <view class="pick-unit"> </view>
+                </picker-view-column>
+                <view class="pick-unit stop-touch"> 分钟</view>
+            </picker-view>
+        </view>
+        <view class="modal-btns">
+          <view class="btns-item" bindtap="closeModal">取消</view>
+          <view class="btns-item" bindtap="save">保存</view>
+        </view>
+    </view>
+</mx-popup>

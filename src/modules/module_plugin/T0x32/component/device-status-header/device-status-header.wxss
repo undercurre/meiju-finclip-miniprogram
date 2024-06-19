@@ -1,0 +1,30 @@
+/* plugin/T0x32/component/device-status-header/device-status-header.wxss */
+.wrapper{
+  height: 750rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-top: 200rpx;
+  box-sizing: border-box;
+}
+.bg-image{
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.bar-wrapper{
+  z-index: 2;
+}
+.device-image{
+  display: block;
+  width: 360rpx;
+  height: 360rpx;
+  margin-top: 20rpx;
+  z-index: 2;
+}

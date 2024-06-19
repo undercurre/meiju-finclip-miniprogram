@@ -1,0 +1,89 @@
+<!--plugin/T0xB8/cards/X9/paths/material/material.wxml-->
+<view class="container">
+  <mx-nav-bar title="{{navBarName}}" 
+      show-bg="true" 
+      style="--nav-bar-title-text-color: #fff"
+      left-arrow-color="#fff"
+      bind:click-left="onClickLeft"></mx-nav-bar>
+  <view wx:for="{{list}}" wx:key="index" class="item" style="height: {{item.tip? '282rpx' : '220rpx'}};padding-bottom: {{item.tip? '102rpx' : '40rpx'}};">
+    <view class="left">
+      <!-- 图标 -->
+      <view class="item-icon-wrap">
+        <image src="{{item.pic}}" mode="" class="list-icon"/>
+      </view>
+      <!-- 描述 -->
+      <view class="des">
+        <view class="num" style="color: {{item.tip? '#E02020': '#0091FF'}}">
+          <view wx:if="{{item.unit == '￥'}}" class="unit">{{item.unit}}</view>
+          <view class="value">{{item.value}}</view>
+          <view wx:if="{{item.unit == '%'}}" class="unit">{{item.unit}}</view>
+        </view>
+        <view class="name">{{item.suppliesTypeDesc}}</view>
+        <view class="des-text">{{item.des}}</view>
+      </view>
+    </view>
+    <view wx:if="{{item.buyLink}}" class="right" bind:tap="goBuy" data-buyLink="{{item.buyLink}}">
+      <view class="right-text">去购买</view>
+      <view class="right-icon"></view>
+    </view>
+    <mx-notice-bar wx:if="{{item.tip}}"
+    class-prefix="mx-iconfont"
+    left-icon="tip"
+    background="rgba(255,59,48,0.1)"
+    text="{{'提示：'+item.suppliesTypeDesc+'寿命不足，请尽快更换'}}"
+    color="#FF3B30"
+    class="tip" />
+  </view>
+  <view class="reset-wrap">
+    <view class="note" >滤材更换后请手动重置</view>
+    <view class="btn" bind:tap="resetPopupShow">更换后重置</view>
+  </view>
+
+  <!-- 重置弹框 -->
+  <mx-popup         
+    show="{{ showResetPopup }}"
+    round
+    close-on-click-overlay
+    bind:close="onClose"
+    position="bottom"
+    custom-style="border-radius: 32rpx 32rpx 0px 0px;">
+    <view>
+      <view class="popup-title">请选择重置的滤材</view>
+      <mx-checkbox-group value="{{ result }}" bind:change="checkBoxChange">
+        <view class="checkbox-group">
+            <view wx:for="{{resetList}}" wx:key="index">
+              <view class="cell">
+                <view class="cell-title">{{item.suppliesTypeDesc}}</view>
+                <mx-checkbox name="{{item.suppliesType}}" icon-size="24px"/>
+              </view>
+              <view wx:if="{{index != resetList.length-1}}" class="checkbox-line"></view>
+            </view>          
+        </view>
+      </mx-checkbox-group>
+      <view class="popup-btn" bind:tap="reset">确定</view>
+    </view>
+  </mx-popup>
+  <!-- 维护保养弹框 -->
+  <mx-popup         
+    show="{{ showVideoPopup }}"
+    round
+    close-on-click-overlay
+    bind:close="onClose"
+    position="bottom"
+    custom-style="border-radius: 32rpx 32rpx 0px 0px;"
+    class="video-popup">
+    <view>
+      <view class="popup-title">维护保养 — 合集</view>
+      <image src="{{settingPopupCloseIcon}}" class="close-popup-icon" mode="" bind:tap="onClose"/>
+      <view wx:for="{{videoList}}" wx:key="index" class="video-cell {{index == 0?'cell-first':''}}" style="margin-bottom: {{index == videoList.length-1?'32rpx':'0'}}">
+        <view class="video-poster"></view>
+        <view class="video-cell-text">
+          <view class="video-cell-title">{{item.videoTitle}}</view>
+          <view class="video-cell-time">{{item.time}}</view>
+          <view class="video-cell-audience">{{item.audience}}人已观看</view>
+        </view>
+        <image src="{{knowMoreIcon}}" mode="" class="know-more" bind:tap="knowMore" data-item="{{item}}"/>
+      </view> 
+    </view>
+  </mx-popup>
+</view>

@@ -1,0 +1,30 @@
+<!--addDevice//pages/reLinkCombined/reLinkCombined.wxml-->
+<view id="{{brand}}">
+  <view class="page container recombine-con">
+    <link-device-header wx:if="{{!progressList[curStep].isFinish}}" bind:clickCancel="clickCancel" app-name='app-name'></link-device-header>
+    <view class="app-title" style="top:{{statusBarHeight+ 14}}px">设备联网</view>
+    <view class="combined-progress recombine">
+      <image class="combined-progress-device" src="{{deviceImg}}" mode=""/>
+      <view class="flex-c">
+        <text class="combined-progress-name overflow-ellipsis">{{deviceName}}</text>
+        <view class="flex-r align-c">
+          <image wx:if="{{!progressList[curStep].isFinish}}" class="combined-progress-icon" src="{{combinedLoading}}" mode=""/>
+          <mx-icon wx:else class="combined-icon" name="{{iconStyle.combinedSuccessName}}" color="{{iconStyle.combinedSuccessColor}}" size="16" />
+          <text class="combined-progress-step" style="color:{{brand=='colmo'?progressList[curStep].color:''}}">{{progressList[curStep].name}}</text>
+        </view>
+      </view>
+    </view>
+    <!-- <view>
+      <text class="special-font-color">测试倒计时：{{time}}s</text>
+    </view> -->
+    <!-- 放弃添加弹窗 -->
+    <mx-dialog id="mx-cancleLink" show="{{ishowCancleDialog}}" showCancelButton="true" cancelButtonColor="{{dialogStyle.cancelButtonColor}}" confirmButtonColor="{{dialogStyle.confirmButtonColor}}" title="{{titleContent}}" cancel-button-text="放弃添加" confirm-button-text="再等等" bind:confirm="clickWaitAminute" bind:cancel="discardAdd">
+    </mx-dialog>
+    <view wx:if="{{progressList[curStep].isFinish}}" class="bottom-btn" bindtap="clickFinish">
+      <text>完成</text>
+    </view>
+    <!-- 失败重试弹窗 -->
+    <mx-dialog id="mx-reCombine" show="{{ishowReDialog}}" showCancelButton="true" cancelButtonColor="{{dialogStyle.cancelButtonColor}}" confirmButtonColor="{{dialogStyle.confirmButtonColor}}" title="{{titleContent}}" cancel-button-text="取消" confirm-button-text="重试" bind:confirm="reCombine" bind:cancel="cancelCombined">
+    </mx-dialog>
+  </view>
+</view>

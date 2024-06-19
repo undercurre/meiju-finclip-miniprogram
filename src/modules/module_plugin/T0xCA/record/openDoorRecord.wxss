@@ -1,0 +1,56 @@
+@import "../card0/assets/css/common.wxss";
+@import "/assets/css/plugin.wxss";
+
+.container {
+  width: 100%;
+  height: 100%;
+  background: #F9F9F9;
+}
+
+page {
+  display: flex;
+  flex-direction: column;
+  background-color: #F9F9F9;
+}
+
+.page-box {
+  width: 100%;
+}
+
+.page-content {
+  width: 100%;
+}
+
+.reminder {
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
+  width:686rpx;
+  min-height: 146rpx;
+  background: rgba(255,170,16,0.10);
+  border-radius: 8px;
+}
+
+.reminder-box {
+  width:686rpx;
+  padding-top: 5rpx;
+  padding-bottom: 5rpx;
+  height:146rpx;
+}
+
+.reminder-box-content {
+  font-size: 26rpx;
+  color: #FFAA10;
+  line-height: 38rpx;
+  font-weight: 400;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+}
+
+.no-record-tips {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 42rpx;
+  font-weight: 400;
+}
+
+

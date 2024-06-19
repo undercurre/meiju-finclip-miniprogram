@@ -1,0 +1,14 @@
+{
+  "subpackages": [
+    {
+      "name": "T0x33",
+      "root": "plugin/T0x33",
+      "pages": [
+        "index/index",
+        "device-status/device-status",
+        "sda-cloud-menu/pages/detail/detail",
+        "sda-cloud-menu/pages/list/list"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+<view class="page" style="padding-top:{{statusBarHeight+40}}px">
+  <view class="section-header">
+    <input-wifi-header isCustomClick="{{ true }}" bind:clickCancel="handleBack" pdLeft="0" buttonColor="{{brandConfig.backButtonColor}}"></input-wifi-header>
+  </view>
+    
+  <view class="section-content">
+    <view class="title">请插入网线</view>
+    <image class="no-network" src="{{ sub_icon_guide_link }}"></image>
+    <view class="desc">请使用网线，将网关与路由器/网线插座进行连接</view>
+  </view>
+  <view class="section-footer">
+    <image class="search-icon" src="{{ isNetworkCable ? sub_icon_link_success : sub_icon_link_ing }}"></image>
+    <view class="search-text">{{ isNetworkCable ? '已检测通过' : '检测中...' }}</view>
+  </view>
+</view>

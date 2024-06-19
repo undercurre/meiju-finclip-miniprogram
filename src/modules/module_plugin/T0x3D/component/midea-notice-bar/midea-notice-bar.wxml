@@ -1,0 +1,10 @@
+<!--plugin/T0xFB/component/media-notice-bar/media-notice-bar.wxml-->
+<view wx:if="{{isInit}}" class="notice-bar-wrapper {{type}} {{isDisplay?'fade-in':'fade-out'}} between-flex" style="transition: all ease-in-out {{duration}}ms;">
+    <view class="container start-flex">
+        <view class="icon" style="background-image:url('{{icon}}');"></view>
+        <view class="text">{{content}}</view>
+    </view>
+    <view class="extra-wrapper" wx:if="{{hasCloseBtn}}">
+        <view class="btn-close click" style="background-image:url('{{closeIcon}}');" bindtap="close"></view>
+    </view>
+</view>

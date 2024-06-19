@@ -1,0 +1,18 @@
+{
+  "subpackages": [{
+    "name": "T0xCA",
+    "root": "plugin/T0xCA",
+    "pages": [
+      "index/index",
+      "card0/card0",
+      "record/openDoorRecord",
+      "report/monthReport",
+      "guide/index",
+      "guide/install/instruction",
+      "guide/install/InstallStep1",
+      "guide/install/InstallStep2",
+      "check/DevCheck",
+      "jump/toApp"
+    ]
+  }]
+}

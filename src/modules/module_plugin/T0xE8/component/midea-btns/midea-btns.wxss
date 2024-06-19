@@ -1,0 +1,48 @@
+.btns-container {
+    width: 686rpx;
+    padding: 48rpx 32rpx 32rpx;
+    box-sizing: border-box;
+    background: #F9F9F9;
+    border-radius: 32rpx;
+}
+.btns-detail {
+    display: flex;
+    align-items: center;
+    height: 32rpx;
+    font-size: 32rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 32rpx;
+}
+.btns-line {
+    color: #DDDDDD;
+    margin: 0 14rpx;
+}
+.btns-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32rpx;
+}
+.btns-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 186rpx;
+    height: 74rpx;
+    background: #F2F2F2;
+    border-radius: 48rpx;
+    font-size: 28rpx;
+    transition: all .3s;
+}
+.active-btn {
+    color: #FFFFFF;
+    background: #FF8225;
+    font-weight: 500;
+}
+.deactive-btn {
+    color: #666666;
+    background: #F2F2F2;
+    font-weight: 400;
+}

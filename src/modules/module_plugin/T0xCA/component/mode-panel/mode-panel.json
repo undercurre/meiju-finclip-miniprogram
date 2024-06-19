@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-tabbar-item": "/miniprogram_npm/m-ui/mx-tabbar-item/index",
+    "mx-collapse": "/miniprogram_npm/m-ui/mx-collapse/index",
+    "mx-collapse-item": "/miniprogram_npm/m-ui/mx-collapse-item/index",
+    "mx-row": "/miniprogram_npm/m-ui/mx-row/index",
+    "mx-col": "/miniprogram_npm/m-ui/mx-col/index",
+    "mx-divider": "/miniprogram_npm/m-ui/mx-divider/index"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "subpackages": [
+    {
+      "name": "T0xE8",
+      "root": "plugin/T0xE8",
+      "pages": ["index/index"]
+    }
+  ]
+}

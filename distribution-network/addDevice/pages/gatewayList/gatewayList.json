@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "input-wifi-header": "/distribution-network/addDevice/pages/component/input-wifi-header/input-wifi-header",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
+    "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
+    "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index",
+    "mx-radio": "/miniprogram_npm/m-ui/mx-radio/index",
+    "mx-radio-group": "/miniprogram_npm/m-ui/mx-radio-group/index"
+  }
+}

@@ -1,0 +1,276 @@
+/* plugin/T0xCA/card0/card0.wxss */
+@import "assets/css/common.wxss";
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.scroll-floor {
+  height: 100%;
+}
+
+.scroller-flex-floor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.blank-floor {
+  height: 128rpx;
+}
+
+.fix-view {
+  position: absolute;
+  top: 148rpx;
+}
+
+.circular-out-shadow {
+  box-shadow: 0pt 0pt 15pt 1pt rgba(38, 174, 255, 0.35);
+  width: 476rpx;
+  height: 476rpx;
+  position: absolute;
+  top: 40rpx;
+  border-radius: 238rpx;
+}
+
+.circular-in-shadow1 {
+  box-shadow: 0pt 0pt 30pt 3pt rgba(38, 174, 255, 0.7) inset;
+  width: 420rpx;
+  height: 420rpx;
+  position: absolute;
+  top: 28rpx;
+  left: 28rpx;
+  border-radius: 210rpx;
+}
+
+.circular-in-shadow66666 {
+  width: 420rpx;
+  height: 420rpx;
+  position: absolute;
+  top: 28rpx;
+  left: 28rpx;
+  border-radius: 210rpx;
+}
+
+.circular-in-shadow {
+  width: 420rpx;
+  height: 420rpx;
+  position: absolute;
+  top: 28rpx;
+  left: 28rpx;
+  border-radius: 210rpx;
+}
+
+/* AI云管家 */
+.ai-out-view {
+  height: 378rpx;
+  width: 686rpx;
+}
+
+.ai-out-content-view {
+  border-bottom-right-radius: 24rpx;
+  border-bottom-left-radius: 24rpx;
+  border-top-right-radius: 24rpx;
+  width: 686rpx;
+  height: 318rpx;
+  background: #FFFFFF;
+}
+
+.ai-content-top-radius {
+  border-top-right-radius: 24rpx;
+  height: 173rpx;
+  width: 686rpx;
+}
+
+.ai-content-bottom-radius {
+  border-bottom-right-radius: 24rpx;
+  border-bottom-left-radius: 24rpx;
+}
+
+.fridge-zone-type-box-1 {
+  width: 620rpx;
+  height: 620rpx;
+}
+
+.fridge-zone-type-box-2 {
+  width: 620rpx;
+  height: 620rpx;
+}
+
+.fridge-zone-type-box-3 {
+  width: 420rpx;
+  height: 420rpx;
+}
+
+.temperature-show-view {
+  width: 686rpx;
+  height: 560rpx;
+  position: relative;
+}
+
+.temperature-show-space {
+  width: 420rpx;
+  height: 230rpx;
+}
+
+.temperature-show-space-row {
+  height: 140rpx;
+  width: 420rpx
+}
+
+.temperature-show-space-column {
+  height: 140rpx;
+  width: 209rpx;
+}
+
+.temperature-show-space-column-content {
+  width: 209rpx;
+  height: 30rpx;
+}
+
+.temperature-show-font {
+  font-size: 24rpx;
+  color: #7C879B;
+  font-weight: 400;
+  margin-right: 40rpx;
+  height: 30rpx;
+}
+
+.temperature-show-font-n {
+  font-size: 24rpx;
+  color: #7C879B;
+  font-weight: 400;
+  height: 30rpx;
+}
+
+.temperature-show-font-value {
+  font-size: 62rpx;
+  color: #000000;
+  font-weight: 500;
+  margin-right: 30rpx;
+}
+
+.temperature-show-font-value-n {
+  font-size: 72rpx;
+  color: #000000;
+  font-weight: 500;
+}
+
+.temperature-show-font-bws {
+  font-size: 24rpx;
+  color: #7C879B;
+  font-weight: 400;
+  margin-left: 40rpx;
+  height: 30rpx;
+  width: 100rpx;
+}
+
+.halving-line {
+  height: 40rpx;
+  width: 2rpx;
+  background: #E5E5E8;
+}
+
+.halving-line-contain {
+  height: 116rpx;
+  width: 2rpx;
+  margin-top: 48rpx;
+}
+
+.temperature-content-desc {
+  color: rgba(138, 138, 144, 0.75);
+  font-size: 20rpx;
+  font-weight: 400;
+}
+
+.ai-out-item-title {
+  font-size: 24rpx;
+  color: #8A8A8F;
+  font-weight: 400;
+  margin-top: 4rpx;
+}
+
+.ai-opt-ctr-switch-open-in {
+  margin-right: 6rpx;
+  height: 36rpx;
+  width: 36rpx;
+  background: #FFFFFF;
+  border-radius: 18rpx;
+}
+
+.ai-opt-ctr-switch-open-out {
+  width: 96rpx;
+  height: 48rpx;
+  border-radius: 24rpx;
+  background: #267AFF;
+}
+
+.ai-opt-ctr-switch-close-in {
+  margin-left: 10rpx;
+  height: 20rpx;
+  width: 20rpx;
+  background: #8A8A8F;
+  border-radius: 50%
+}
+
+.ai-opt-ctr-switch-close-out {
+  width: 92rpx;
+  height: 44rpx;
+  border-radius: 24rpx;
+  border: 4rpx solid #8A8A8F;
+}
+
+.ai-opt-ctr-switch-tips {
+  color: #267AFF;
+  font-size: 28rpx;
+  font-weight: 400;
+  border: 1px solid #267AFF;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  height: 40rpx;
+  margin-left: 24rpx;
+  text-align: center;
+  border-radius: 20rpx;
+}
+
+.opt-font-title-desc {
+  font-size: 32rpx;
+  color: #000000;
+  font-weight: 400;
+}
+
+.container-common-width {
+  width: 622rpx;
+}
+
+.temperature-value {
+  font-size: 20rpx;
+  color: #8A8A8F;
+  font-weight: 400;
+}
+
+.animation-bg-view {
+  width: 480rpx;
+  height: 480rpx;
+  animation: donut-spin 7.0s linear infinite;
+}
+
+@keyframes donut-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animation-loading-view {
+  width: 25rpx;
+  height: 25rpx;
+  animation: donut-spin 0.5s ease infinite;
+}

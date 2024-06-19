@@ -1,0 +1,98 @@
+<!--distribution-network/addDevice/pages/gatewaySearch/gatewaySearch.wxml-->
+<view id="{{brand}}">
+  <input-wifi-header pdLeft="0" bind:clickCancel="clickBack" buttonColor="{{brandConfig.backButtonColor}}"></input-wifi-header>
+  <view wx:if="{{isCanAddDevice}}" class="gateway-search-container">
+    <view style="flex: 1">
+      <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue||!checkPermissionRes.isCanLocation}}">
+        <view style="margin-top: 180rpx;">
+          <image
+            wx:if="{{!checkPermissionRes.isCanLocation}}"
+            src="{{ permissionImg }}"
+            class="device-not-open-img"
+          ></image>
+          <image wx:else src="{{ permissionImg }}" class="device-not-open-img"></image>
+        </view>
+        <view class="device-not-open-describe">
+          <text class="tip">{{checkPermissionRes.permissionTextAll}}</text>
+        </view>
+        <view class="scan-look-guide" bindtap="goToGuide">
+          <text class="text">查看操作指引</text>
+        </view>
+        <view class="retry3">
+          <view>已开启？</view>
+          <view class="retry-btn" bindtap="retry">
+            <text>重新操作设备</text>
+            <image class="retry-img" src="{{reSearchIcon}}"></image>
+          </view>
+        </view>
+      </view>
+      <block wx:else>
+        <view class="main-no-device" wx:if="{{ devices.length == 0}}">
+          <view class="no-device-img">
+            <image class="search-device" src="{{scanImg}}"></image>
+          </view>
+          <view class="search">正在搜索</view>
+          <view class="searchIng-text" >{{ gatewayName }}搜索{{ subDeviceName }}中…</view>
+          <view class="delay-tips" wx:if="{{ showDelayTips }}">
+            <view class="delay-text">请注意将{{ subDeviceName }}靠近{{ gatewayName }}</view>
+            <view class="delay-text">若长时间未搜索到，可尝试 <text bindtap="handleGoBack" style="color:{{brandConfig.mainColor}}"> 重新操作设备</text></view>
+          </view>
+        </view>
+
+        <view class="device-wrap" wx:elif="{{ devices.length > 0}}">
+          <view style="margin-top:0" class="continue-search">
+            <image style="margin-top:{{navTop+4}}px" class="continue-search-img" src="{{ scanImg }}"></image>
+            <view class="continue-search-right">
+              <view class="searching-sub">正在搜索</view>
+            </view>
+          </view>
+          <view class="main-has-device">
+            <view class="has-device">{{ successNum ? successNum + '个设备绑定成功' : '' }}{{ successNum && failNum ? '，' : '' }}{{ failNum ? failNum + '个设备绑定失败' : '' }}</view>
+            <scroll-view scroll-y="{{true}}" class="device-list">
+              <view wx:for="{{ devices }}" wx:key="index" class="device-item">
+                <view class="item-left">
+                  <image class="device-icon" src="{{ item.deviceImg || dms_img_lack }}" />
+                </view>
+                <view class="item-center">
+                  <view class="item-center-mid">
+                    <view class="device-title">
+                      <text class="tag">{{ item.deviceNameStr }}</text>
+                      <text class="line-sub" wx:if="{{ item.deviceNameStr && item.roomNameStr }}"></text>
+                      <text class="tag">{{ item.roomNameStr }}</text>
+                    </view>
+                    <view wx:if="{{ item.errorCode == 0 }}" class="device-status success">
+                      <image src="{{ sub_icon_success }}" class="device-status-icon"></image>
+                      <text>联网成功</text>
+                    </view>
+                    <view wx:else class="device-status fail">
+                      <image src="{{ sub_icon_fail }}" class="device-status-icon"></image>
+                      <text>联网失败</text>
+                    </view>
+                  </view>
+                </view>
+                <view class="item-right" data-item="{{ item }}" wx:if="{{ item.errorCode == 0 }}" catch:tap="handleSetting">
+                  <text>设置</text>
+                  <mx-icon name="arrow" size="16" color="rgba(255,255,255,0.4)" />
+                </view>
+                <view class="item-right" data-item="{{ item }}" wx:else catch:tap="handleReason">
+                  <text>查看原因</text>
+                  <mx-icon name="arrow" size="16" color="rgba(255,255,255,0.4)" />
+                </view>
+              </view>
+            </scroll-view>
+          </view>
+          <view class="bottom-wrap-sub">
+            <view class="bottom-button-sub">
+              <view class="save-sub" bindtap="handleSuccess">完成</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!--  通用弹窗  -->
+  <mx-dialog id="mx-dialog" show="{{ishowDialogFlag}}" showCancelButton="{{ true }}" cancelButtonColor="{{dialogStyle.cancelButtonColor}}" confirmButtonColor="{{dialogStyle.cancelButtonColor5}}" title="{{dialogCommonData.titleContent}}" message="{{dialogCommonData.messageContent}}" cancel-button-text="{{ dialogCommonData.cancelText }}" confirm-button-text="{{dialogCommonData.confirmText}}" bind:confirm="handleConfirmDialog" bind:cancel="handleCancelDialog">
+  </mx-dialog>
+
+</view>

@@ -1,0 +1,31 @@
+/* plugin/T0xE9/component/midea-bread-ingredient/midea-bread-ingredient.wxss */
+.row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 38rpx;
+}
+.icon-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60rpx;
+  height: 60rpx;
+  background-color: #F9F9F9;
+  border-radius: 100%;
+}
+.icon{
+  width: 30rpx;
+  height: 30rpx;
+}
+.label{
+  flex: 1;
+  margin-left: 24rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 36rpx;
+  color: #000000;
+  letter-spacing: -0.31rpx;
+  text-align: left;
+  line-height: 40rpx;
+  font-weight: 400;
+}

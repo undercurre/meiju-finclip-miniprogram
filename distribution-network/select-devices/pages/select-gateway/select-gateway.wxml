@@ -1,0 +1,42 @@
+<view id='{{brand}}'>
+  <view class="product-select  container">
+    <block wx:if="{{ loadFlag }}">
+      <block wx:if="{{ productList.length }}">
+        <view class="main-content">
+          <scroll-view
+            scroll-y="{{true}}"
+            style="height: {{ scrollHeight }}px"
+            bindscrolltolower="loadMoreData"
+            lower-threshold="200"
+          >
+            <view class="content-list" style="padding-bottom: {{ isIphoneX ? '60' : '0' }}rpx">
+              <view
+                class="content-item"
+                wx:for="{{ productList }}"
+                wx:key="index"
+                wx:for-item="item"
+                wx:for-index="index"
+                data-img="{{ item.productImg }}"
+                data-category="{{ item.category }}"
+                data-id="{{ item.productId }}"
+                data-enterprise="{{ item.enterpriseCode }}"
+                data-code="{{ item.code }}"
+              >
+                <view class="left-section" wx:if="{{brand !== 'colmo'}}">
+                  <image src="{{ item.productImg }}" class="left-image" mode="aspectFit"></image>
+                </view>
+                <view class="item-desc">
+                  <view class="desc-section">
+                    <view>{{ item.productId }}</view>
+                    <view class="desc-detail">{{ item.productName }}</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+      </block>
+    </block>
+  </view>
+  <mx-dialog id="mx-dialog" />
+</view>

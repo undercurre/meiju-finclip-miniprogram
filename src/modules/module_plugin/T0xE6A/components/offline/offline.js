@@ -1,0 +1,666 @@
+
+import api from "../../api/api"
+let app = getApp()
+const environment = app.getGlobalConfig().environment
+const IMAGE_SERVER = environment == 'prod' ? 'https://www.smartmidea.net/projects/meiju-lite-assets/plugin/0x38/' : 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/plugin/0x38/'
+import configs from "../../configs/index"
+import { cloudDecrypt } from 'm-utilsdk/index'
+let key = app.globalData.userData.key
+const appKey = app.getGlobalConfig().appKey
+let {deviceConfig}=configs
+
+Component({
+  options: {
+    // styleIsolation: 'page-shared',//设置为share后，该组件的wxss文件可以影响到mui组件的样式
+  },
+  /**
+   * 组件的属性列表,applianceData:deviceInfo
+   */
+  properties: {
+    applianceData: {
+      type: Object,
+      value: function () {
+          return {
+          }
+      },
+  }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    height: 0,
+    deviceStatus: {},//设备状态
+    sn: null,
+    deviceIcon: `${IMAGE_SERVER}standby.png`,//设备自清洗图
+    deviceIconBackground: `${IMAGE_SERVER}rectangle.png`,//设备背景图
+    lightIcon: `${IMAGE_SERVER}lightning.png`,//充电的闪电图标
+    modeIcon: `${IMAGE_SERVER}self-cleaning.png`,//x9模式图标
+    waterIcon: `${IMAGE_SERVER}water.png`,//x9清扫水量图标
+    suctionIcon: `${IMAGE_SERVER}suction.png`,//x9速吸挡位图标
+    autoIcon: `${IMAGE_SERVER}auto_icon.png`,//x10自动图标
+    fixIcon: `${IMAGE_SERVER}point_icon.png`,//x10定点图标
+    questionIcon: `${IMAGE_SERVER}questions.png`,//产品问答图标
+    videoIcon: `${IMAGE_SERVER}video.png`,//视频问答
+    rightIcon: `${IMAGE_SERVER}right_arrow.png`,//右箭头图标
+    downIcon: `${IMAGE_SERVER}down_arrow.png`,//下箭头图标
+    settingPopupCloseIcon: `${IMAGE_SERVER}close.png`,//弹框右上角退出图标
+    setttingPopupTitle: "",//参数设置弹框标题
+    setttingPopupDes: false,//是否有参数设置弹框描述
+    setttingPopupDesText: "",//参数设置弹框描述内容
+    settingPopupDetail: ["",""],//参数设置弹框滑动条
+
+
+    x9SelfCleanModeList: deviceConfig.x9SelfCleanModeList,//X9系列自清洁模式
+    X9CurrentSelfMode: deviceConfig.x9SelfCleanModeList[0],//X9系列当前自清洁模式
+
+    suctionList: deviceConfig.suctionList,//X9速吸挡位
+    waterList: deviceConfig.waterList,//X9清扫水量
+    // currentSuction: deviceConfig.suctionList[2],//X9当前吸力
+    currentSuction:       {
+      value: "--",
+      type: "速吸挡位",
+      sliderValue: 1
+    },//X9当前吸力
+    // currentWater: deviceConfig.waterList[3],//X9当前水量
+    currentWater:       {
+      value: "--",
+      type: "清扫水量",
+      sliderValue: 0
+    },//X9当前水量
+    x10AutoWaterList: deviceConfig.x10AutoWaterList,//X10清扫水量
+    // x10AutoCurrentWater: deviceConfig.x10AutoWaterList[0],//X10当前自动模式水量
+    x10AutoCurrentWater:       {
+      value: "清扫水量 --",
+      type: "自动",
+      sliderValue: 0
+    },//X10当前自动模式水量
+    x10BrushSpeedList: deviceConfig.x10BrushSpeedList,//X10滚刷速度
+    x10CurrentBrushSpeed: deviceConfig.x10BrushSpeedList[0],//X10当前滚刷速度
+    x10FixedWaterList: deviceConfig.x10FixedWaterList,//X10定点水量调节
+    // x10CurrentFixedWater: deviceConfig.x10FixedWaterList[0],//X10当前定点水量
+    x10CurrentFixedWater: 
+    {
+      value: "清扫水量 --",
+      type: "定点",
+      sliderValue: 0
+    },//X10当前定点水量
+
+
+    testIndex: 0,//测试
+    deviceState: {},//设备基础状态信息
+    luaQueryInterval: undefined,//主动查询定时器
+    errorText:"",//故障文案
+    showNotify:false,//展示故障通知栏
+    cleanMin: "--",//清扫时长
+    rollingBrush: "--",//滚刷
+    haiPa: "--",//海帕
+    switchStatus: JSON.stringify({switchColor: '#8A8A8F',color: '#267AFF',selected: false,disabled: true}),//开关状态
+    showModePopup: false,//模式弹框
+    showSetttingPopup: false,//参数设置弹框
+
+
+    statusLeftText: '',//状态栏左侧标题栏文案
+    statusRightText: '',//状态栏右侧标题栏文案
+    deviceImages: {},//图片集
+    isX9: true,
+    imageHeight: '0',
+    imageWidth: '0',
+    isCharge: false,//是否在充电中
+    batteryPercent: 100,
+    imageMarginTop: 0,//图片顶部的距离
+    deviceWrapHeight: '710rpx',
+    setPopViewHeight: '358rpx',
+    popViewCellTitle: "",
+    isAuto: false,
+    auto_brush: 80,
+    sliderLength: 0,
+    currentSliderValue: 0,
+    x10SelfCleanList:[
+      {activeImage: `${IMAGE_SERVER}clenself_icon.png`, img: `${IMAGE_SERVER}clenself_icon_off.png`, text: '自清洁', tag: 1},
+      {activeImage: `${IMAGE_SERVER}clean_dry_icon.png`, img: `${IMAGE_SERVER}clean_dry_icon_off.png`, text: '自清洁+烘干', tag: 2},
+      {activeImage: `${IMAGE_SERVER}dry_icon.png`, img: `${IMAGE_SERVER}dry_icon_off.png`, text: '烘干', tag: 3},
+    ],
+    self_clean_mode: 0,//x10自清洁模式 :1自清洁 2自清洁加烘干 3烘干
+
+  },
+
+  lifetimes: {
+    //组件被加入时，查询状态并添加轮询定时器
+    attached() {
+      this.setData({
+        isX9: ['7500048J','7500048N'].indexOf(this.properties.applianceData.sn8) > -1 ? true : false,
+        deviceWrapHeight: ['7500048J','7500048N'].indexOf(this.properties.applianceData.sn8) > -1 ? '710rpx' : '646rpx'
+      })
+
+      let height = wx.getSystemInfoSync().statusBarHeight
+      this.setData({height})
+      let sn = cloudDecrypt(this.properties.applianceData.sn, key, appKey)
+      this.setData({sn})
+      this.queryMaterial()
+      let timer = setInterval(() => {
+        this.queryMaterial()
+      }, 5000);
+      this.setData({
+        luaQueryInterval: timer
+      })
+    },
+    //组件被移除时，清除轮询定时器
+    detached() {
+      if(this.data.luaQueryInterval != null) {
+        clearInterval(this.data.luaQueryInterval)
+      }
+    }
+  },
+
+ 
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    //页面跳转
+    toPages(e) {
+      let page = e.currentTarget.dataset.page
+      // console.log('encodeURIComponent(this.data.applianceData',encodeURIComponent(JSON.stringify(this.data.applianceData)));
+      wx.navigateTo({
+        url: '../paths/'+page+'/'+page + '?applianceData=' + encodeURIComponent(JSON.stringify(this.data.applianceData)),
+        fail: function(err) {
+          console.log(err);
+        }
+      })
+    },
+
+    //显示弹框
+    onShowPopup(e) {
+      this.setData({
+        showModePopup: e.currentTarget.dataset.popup == 'showModePopup' ? true : false,
+        showSetttingPopup: e.currentTarget.dataset.popup == 'showSetttingPopup' ? true : false
+      })
+      if(this.data.showSetttingPopup) {
+        switch(e.currentTarget.dataset.set) {
+          default: console.log(e.currentTarget.dataset.set);
+          case "water": 
+            this.setData({
+              setttingPopupTitle: "清扫水量调节",
+              setttingPopupDes: true,
+              setttingPopupDesText: "水量小水渍残留少，但清洁效果会减弱",
+              settingPopupDetail: ["最小","偏小","适中","偏大","最大"],
+              setPopViewHeight: '358rpx',
+              isAuto: false,
+              sliderLength: 4,
+              currentSliderValue: this.data.currentWater.sliderValue,
+
+            });
+            break;
+          case "suction": 
+            this.setData({
+              setttingPopupTitle: "速吸挡位调节",
+              setttingPopupDes: false,
+              settingPopupDetail: ["0","100%"],
+              setPopViewHeight: '358rpx',
+              isAuto: false,
+              sliderLength: 10,
+              currentSliderValue: this.data.currentSuction.sliderValue
+            })
+            break;
+          case "auto": 
+            this.setData({
+              setttingPopupTitle: "自动模式调节",
+              setttingPopupDesText: "水量小水渍残留少，但清洗效果会减弱",
+              setttingPopupDes: true,
+              popViewCellTitle: "清扫水量",
+              settingPopupDetail: ["小","大"],
+              setPopViewHeight: '640rpx',
+              isAuto: true,
+              sliderLength: 4,
+              currentSliderValue: this.data.x10AutoCurrentWater.sliderValue
+            })
+            break;
+          case "fixed": 
+            this.setData({
+              setttingPopupTitle: "定点模式调节",
+              setttingPopupDesText: "水量大去污能力好但残留水迹多，可根据您的使用环境进行调整，例如地板适用小水量",
+              setttingPopupDes: true,
+              popViewCellTitle: "清扫水量",
+              settingPopupDetail: ["小","中","大"],
+              setPopViewHeight: '400rpx',
+              isAuto: false,
+              sliderLength: 2,
+              currentSliderValue: this.data.x10CurrentFixedWater.sliderValue
+            })
+          break;
+        }
+      }
+    },
+    // 弹出层消失
+    onClose() {
+      this.setData({
+        showModePopup: false,
+        showSetttingPopup:false
+      })
+    },
+    //改变工作模式
+
+    //改变参数:获取进度条的值然后调用相关设置的函数（滚刷单独取值并设置）
+    onSetttingChange(e) {
+      console.log("当前滑动条数据:",e.detail);
+      if(this.data.setttingPopupTitle == '清扫水量调节') {
+        this.setData({
+          currentWater: this.data.waterList.find(i => i.sliderValue == e.detail),
+        })
+        this.waterLevelSet(e.detail)
+      }else if(this.data.setttingPopupTitle == '速吸挡位调节') {
+        this.setData({
+          currentSuction: this.data.suctionList.find(i => i.sliderValue == e.detail),
+        })
+        this.fastGearSet(e.detail * 10)
+      }else if(this.data.setttingPopupTitle == '自动模式调节') {
+        this.setData({
+          x10AutoCurrentWater: this.data.x10AutoWaterList.find(i => i.sliderValue == e.detail),
+        })
+        let param = {
+          'control_type': 'work_mode_param',
+          'auto_pump': 30 + e.detail * 10,
+        }
+        this.x10WaterChange(param)
+      }else if(this.data.setttingPopupTitle == '定点模式调节') {
+        this.setData({
+          x10CurrentFixedWater: this.data.x10FixedWaterList.find(i => i.sliderValue == e.detail),
+        })
+        let param = {
+          'control_type': 'work_mode_param',
+          'fixed_point_pump': 80 + e.detail * 20,
+        }
+        this.x10WaterChange(param)
+      }
+    },
+    //下载美居
+    downLoadApp() {
+      wx:wx.navigateTo({
+        url: '/pages/download/download',
+        fail: (res) => {console.log(res);},
+      })
+    },
+
+    // X9根据不同的状态设置图片不同的尺寸（主要是因为设计给的图尺寸不统一造成的）574
+    setX9ImageRect(status) {
+      if(['charging','charge_finish'].indexOf(status) > -1) {
+        this.setData({
+          imageHeight: '460rpx',
+          imageWidth: '460rpx',
+          isCharge: true,
+        })
+      }else if(['standby'].indexOf(status) > -1) {
+        this.setData({
+          imageHeight: '600rpx',
+          imageWidth: '703rpx',
+          isCharge: false,
+
+        })
+      }else if(['auto','fixed_point','fast'].indexOf(status) > -1) {
+        this.setData({
+          imageHeight: '670rpx',
+          imageWidth: '600rpx',
+          isCharge: false,
+
+        })
+      }else if(['upright','clean_status_check_step',''].indexOf(status) > -1) {
+        this.setData({
+          imageHeight: '622rpx',
+          imageWidth: '534rpx',
+          isCharge: false,
+
+        })
+      }else if(['clean_roll_brush_step','clean_pipeline_step','clean_smart_check_step','clean_deep_clean_step','baking_dry','brush_air_drying','clean_dry_finish','clean_finish_step'].indexOf(status) > -1) {
+        this.setData({
+          imageHeight: '640rpx',
+          imageWidth: '750rpx',
+          isCharge: false,
+
+        })
+      }else if(['clean_dry_shutdown_step','clean_shutdown_step','exception']) {
+        this.setData({
+          imageHeight: '560rpx',
+          imageWidth: '480rpx',
+          isCharge: false,
+
+        })
+      }else {
+        this.setData({
+          imageHeight: '600rpx',
+          imageWidth: '703rpx',
+          isCharge: false,
+
+        })
+      }
+    },
+
+    // X9水量电控信息转换为自定义参数
+    X9WaterLevelTransform(value) {
+      let tempValue = 2
+      if(value <= 35) {
+        tempValue = 0
+      }else if(value > 35 && value <= 45) {
+        tempValue = 1
+      }else if(value > 45 && value <= 55) {
+        tempValue = 2
+      }else if(value > 55 && value <= 65) {
+        tempValue = 3
+      }else if(value > 65){
+        tempValue = 4
+      }else {
+        tempValue = 2
+      }
+      console.log("tempValue:",tempValue);
+      this.setData({
+        currentWater: this.data.waterList.find(i => i.sliderValue == tempValue),
+      })
+    },
+    // X9档位电控信息转换为自定义参数
+    X9FastGearTransform(value) {
+      this.setData({
+        currentSuction: this.data.suctionList.find(i => i.sliderValue * 10 == value),
+      })
+    },
+
+
+    /**
+     * lua相关接口
+     */
+    queryCmds() {
+      this.queryDeviceStatus()
+      this.queryCleanMin()
+      this.queryMaterial()
+    },
+
+    // 设备基本状态查询
+    queryDeviceStatus() {
+      // console.log(121212);
+      let param = {
+        "query_type":"base"
+       }
+       api.luaQuery(this.properties.applianceData.applianceCode, param).then(res => {
+        console.log("查询设备基本状态:", res);
+        // 更新显示：状态栏、设备图片和电量
+        this.setData({
+          deviceState: res,
+          statusLeftText: deviceConfig.selfCleanStatusList.indexOf(res.work_mode) > -1 ? '自清洁' : deviceConfig.deviceStatus[res.work_mode],
+          statusRightText: deviceConfig.selfCleanStatusList.indexOf(res.work_mode) > -1 ? deviceConfig.deviceStatus[res.work_mode] : '电量' + res.battery_ratio + '%',
+          X9CurrentSelfMode: res.air_dry == 'on' ? this.data.x9SelfCleanModeList[0] : this.data.x9SelfCleanModeList[1],
+          deviceIcon: JSON.stringify(this.data.deviceImages) == '{}' ? `${IMAGE_SERVER}standby.png`  : this.data.deviceImages[res.work_mode].imgUrl,
+          batteryPercent: res.battery_ratio,
+
+        })
+        // 更新x9参数显示：水量、吸力
+        if(this.data.isX9) {
+          this.X9WaterLevelTransform(res.pump_value)
+          this.X9FastGearTransform(res.fast_gear)
+        }else {
+          //更新x10参数显示：自动、定点、滚刷速度、自清洁/烘干icon
+          this.setData({
+            self_clean_mode: res.self_clean_mode,
+            auto_brush: res.auto_brush ? res.auto_brush : 80,
+            x10AutoCurrentWater:  this.data.x10AutoWaterList.find(i => (i.sliderValue * 10 + 30) == res.auto_pump),
+            x10CurrentFixedWater:  this.data.x10FixedWaterList.find(i => (i.sliderValue * 20 + 80) == res.fixed_point_pump),
+          })
+          console.log("当前的数据是:",this.data.x10FixedWaterList);
+        }
+        // 更新参数弹框中进度条的值
+        if(this.data.setttingPopupTitle == '清扫水量调节') {
+          this.setData({
+            currentSliderValue: this.data.currentWater.sliderValue
+          })
+        }else if(this.data.setttingPopupTitle == '速吸挡位调节') {
+          this.setData({
+            currentSliderValue: this.data.currentSuction.sliderValue
+          })
+        }else if(this.data.setttingPopupTitle == '自动模式调节') {
+          this.setData({
+            currentSliderValue: this.data.x10AutoCurrentWater.sliderValue
+          })
+        }else if(this.data.setttingPopupTitle == '定点模式调节') {
+          this.setData({
+            currentSliderValue: this.data.x10CurrentFixedWater.sliderValue
+          })
+        }
+        if(this.data.isX9) {
+          //更新x9设备图片的宽高
+          this.setX9ImageRect(res.work_mode)
+          //更新开关
+          this.setData({switchStatus: JSON.stringify({color: '#267AFF',selected: deviceConfig.selfCleanStatusList.indexOf(res.work_mode) > -1 ?true: false})})
+        }else {
+          //更新x10：设备图片宽高
+          this.setData({
+            imageHeight: '644rpx',
+            imageWidth: '750rpx',
+            isCharge: ['charging','charge_finish'].indexOf(res.work_mode) > -1 ? true : false,
+          })
+        }
+        wx.hideLoading({
+          noConflict: true,
+        })
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      })
+    },
+    // x9打开自清洁
+    openOrCloseSelfClean(e) {
+      if(this.data.deviceState.plug_status != 'on') {
+        wx.showToast({
+          title: '请将设备放置在充电座后开启',
+          icon: 'none'
+        })
+        return
+      }
+      this.setData({switchStatus: JSON.stringify(e.detail)})
+      this.modelChange("self_clean",JSON.parse(this.data.switchStatus).selected ? 'on' : 'off')
+    },
+    //查询网络数据：清扫时长
+    queryCleanMin() {
+      const params = {
+        "applianceId": "",
+        "homeId": "",
+        "size": 7,
+        "sn": this.data.sn,
+        "uid": ""
+      }
+      api.queryDayClean(params).then(res => {
+        // console.log('今日清扫',res);
+        this.setData({cleanMin:res.result.todayDuration})
+      },err => console.log(err))
+    },
+    //查询网络数据：滤材
+    queryMaterial() {
+      const params = {
+        "applianceId": "",
+        "homeId": "",
+        "sn": this.data.sn,
+      }
+      api.queryMaterial(params).then(res => {
+        // console.log('滤材',res);
+        this.setData({
+          rollingBrush: res.result.suppliesDetailDtoList.find(i => i.suppliesType == 'brush').suppliesTimeLeftPercent,
+          haiPa: res.result.suppliesDetailDtoList.find(i => i.suppliesType == 'handset_hepa').suppliesTimeLeftPercent
+        })
+      },err => console.log(err))
+    },
+    // 模式切换
+    modelChange(work_model,type){
+    
+      wx.showLoading({title: "加载中"})
+      let param = {
+        "control_type": "work_mode",
+        "work_mode": work_model,
+        "work_mode_ctl_type": type
+      }
+      api.luaControl(this.properties.applianceData.applianceCode,param).then(res => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      })
+    
+    },
+
+
+    //X9系列需要设置打开自清洁的模式（仅自清洁或者自清洁+风干）
+    setCleanModeType(e) {
+      if(this.data.X9CurrentSelfMode.key == e.currentTarget.dataset.mode.key) {
+        this.onClose()
+        return
+      }
+      wx.showLoading({title: "加载中"})
+      let air_dry = e.currentTarget.dataset.mode.key == 'selfClean_and_wind' ? 'on' : 'off'
+      let param = {
+        "control_type": "brush_dry_set",
+        "air_dry": air_dry
+      }
+      console.log("param:",param);
+      api.luaControl(this.properties.applianceData.applianceCode,param).then(res => {
+        this.setData({X9CurrentSelfMode: e.currentTarget.dataset.mode})
+        this.onClose()
+        wx.hideLoading({
+          noConflict: true
+        })
+      }, err => {
+        this.onClose()
+        wx.hideLoading({
+          noConflict: true
+        })
+      })
+    },
+
+    // X9清扫水量设置
+    waterLevelSet(value) {
+      wx.showLoading({title: ""})
+      let pump_value = 50
+      switch (value) {
+        case 0:
+          pump_value = 30
+          break;
+        case 1:
+          pump_value = 40
+          break;
+        case 2:
+          pump_value = 50
+          break;
+        case 3:
+          pump_value = 60
+          break;
+        case 4:
+          pump_value = 70
+          break;
+        default:
+          pump_value = 50
+          break;
+      }
+      let param = {
+        "control_type":"pump",
+        "pump_mode": "set",
+        "pump_platform": "inboard_midea_app",
+        "pump_value": pump_value
+        }
+        console.log("水量设置参数:",param);
+        api.luaControl(this.properties.applianceData.applianceCode,param).then(res => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      })
+
+    },
+    // X9速吸档位设置
+    fastGearSet(value) {
+      wx.showLoading({title: ""})
+      let param = {
+        "control_type": "gear_set",
+        "fast_gear": value
+      }
+      api.luaControl(this.properties.applianceData.applianceCode,param).then(res => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      })
+  
+    },
+    // x10滚刷速度调试
+    autoBrushChange(e) {
+      wx.showLoading({title: ""})
+      let param = {
+        'control_type': 'work_mode_param',
+        'auto_brush': e.detail,
+      }
+      api.luaControl(this.properties.applianceData.applianceCode,param).then(res => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      })
+    },
+    // X10水量调节
+    x10WaterChange(param) {
+      wx.showLoading({title: ""})
+      api.luaControl(this.properties.applianceData.applianceCode,param).then(res => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+      })
+    },
+
+    // x10自清洁
+    x10ClickSelfClean(e) {
+      //目前在工作中，需先关闭再切换
+      if(this.data.self_clean_mode) {
+        //再次点击关闭
+        if(e.currentTarget.dataset.tag == this.data.self_clean_mode) {
+          if(e.currentTarget.dataset.tag == 1) {
+            this.modelChange('self_clean','off')
+          }else if(e.currentTarget.dataset.tag == 2) {
+            this.modelChange('self_clean_and_baking_dry','off')
+          }else if(e.currentTarget.dataset.tag == 3) {
+            this.modelChange('baking_dry','off')
+          }
+          this.setData({self_clean_mode: 0})
+        }else {
+          wx.showToast({
+            title: '请先关闭当前模式，再进行模式切换操作',
+            icon: 'none'
+          })
+        }
+      }else {
+        //目前未工作，直接切换
+        if(e.currentTarget.dataset.tag == 1) {
+          this.modelChange('self_clean','on')
+          this.setData({self_clean_mode: 1})
+        }else if(e.currentTarget.dataset.tag == 2) {
+          this.modelChange('self_clean_and_baking_dry','on')
+          this.setData({self_clean_mode: 2})
+        }else if(e.currentTarget.dataset.tag == 3) {
+          this.modelChange('baking_dry','on')
+          this.setData({self_clean_mode: 3})
+        }
+      }
+    
+    }
+  }
+})

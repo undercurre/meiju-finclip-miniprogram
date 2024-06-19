@@ -1,0 +1,36 @@
+{
+  "_from": "@meijuLite/T0xFD@1.0.5",
+  "_id": "@meijuLite/T0xFD@1.0.5",
+  "_inBundle": false,
+  "_integrity": "sha512-HCRGzZ0rrUKQBwJ5GS3ZL0mUgHLYYgZFYXtDVx27ffUbO1SpTBOAmkVFjWpTHQJh0TGaxLxdD5fUYYE3w/J2Fg==",
+  "_location": "/@meijuLite/T0xFD",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@meijuLite/T0xFD@1.0.5",
+    "name": "@meijuLite/T0xFD",
+    "escapedName": "@meijuLite%2fT0xFD",
+    "scope": "@meijuLite",
+    "rawSpec": "1.0.5",
+    "saveSpec": null,
+    "fetchSpec": "1.0.5"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "http://npm.midea.com:8090/repository/npm-public/@meijuLite/T0xFD/-/T0xFD-1.0.5.tgz",
+  "_shasum": "0b6c47f56bfa753795a71a668a0d535d6bb266e8",
+  "_spec": "@meijuLite/T0xFD@1.0.5",
+  "_where": "E:\\meijulite\\midea-meiju-lite",
+  "author": "",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "npm包改造\r #v1.0.1\r 修改index.json中device-card路径\r #v1.0.2\r 添加天气接口\r #v1.0.3\r X900LS上架",
+  "license": "ISC",
+  "name": "@meijuLite/T0xFD",
+  "scripts": {
+    "test": "echo\"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.6"
+}

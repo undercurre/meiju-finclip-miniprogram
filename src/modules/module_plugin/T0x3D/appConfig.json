@@ -1,0 +1,9 @@
+{
+  "subpackages": [
+    {
+      "name": "T0x3D",
+      "root": "plugin/T0x3D",
+      "pages": ["index/index"]
+    }
+  ]
+}

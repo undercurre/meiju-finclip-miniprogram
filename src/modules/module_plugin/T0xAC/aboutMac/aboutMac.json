@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "更多",
+  "usingComponents": {
+    "mx-row": "/miniprogram_npm/m-ui/mx-row/index",
+    "mx-col": "/miniprogram_npm/m-ui/mx-col/index",
+    "mx-panel": "/miniprogram_npm/m-ui/mx-panel/index",
+    "mx-service": "/miniprogram_npm/m-services/index/index"
+  }
+}

@@ -1,0 +1,170 @@
+<!-- <view class="overlay" catch:tap="tapOffline"></view> -->
+<view class="container" style="height: calc(100vh - {{46+height+'px'}});background-color: #8691A4">
+    <!-- 首页顶部信息展示 -->
+    <view class="device-base-wrap" style="height: {{deviceWrapHeight}};">
+      <view class="offline-text">已离线</view>
+    </view>
+    <!-- 配件状态 -->
+    <view class="accessory-status-wrap">
+     <view class="accessory-wrap accessory-wrap-clean" bind:tap="toPages" data-page="cleanRecord">
+      <view class="accessory-item">
+        <view class="accessory-num"> {{cleanMin}}<span class="accessory-unit"> min</span></view>
+        <view class="accessory-text">今日清扫</view>
+      </view>
+      <!-- <image src="{{rightIcon}}" mode="" class="right-icon"/> -->
+     </view>
+     <view class="vertical-line"></view>
+     <view class="accessory-wrap" bind:tap="toPages" data-page="material">
+      <view class="accessory-item">
+        <view class="accessory-num"> {{rollingBrush}}<span class="accessory-unit">%</span></view>
+        <view class="accessory-text">滚刷</view>
+      </view>
+      <image src="{{rightIcon}}" mode="" class="right-icon"/>
+     </view>
+     <view class="vertical-line"></view>
+     <view class="accessory-wrap" bind:tap="toPages" data-page="material">
+      <view class="accessory-item">
+        <view class="accessory-num"> {{haiPa}}<span class="accessory-unit">%</span></view>
+        <view class="accessory-text">海帕</view>
+      </view>
+      <image src="{{rightIcon}}" mode="" class="right-icon"/>
+     </view>
+    </view>
+    <!-- X9系列 -->
+    <block wx:if="{{isX9}}">
+      <!-- 自清洁+风干 -->
+      <view class="accessory-status-wrap">
+        <view class="mode-choice">
+          <image src="{{modeIcon}}" mode="" class="mode-icon"/>
+          <view class="mode-text" data-popup="showModePopup">{{X9CurrentSelfMode.title}}</view>
+          <image src="{{downIcon}}" class="down-icon" data-popup="showModePopup" style="{{showModePopup?'transform: rotate(180deg)':''}}"></image>
+        </view>
+        <midea-switch model="{{switchStatus}}" class="mode-switch"></midea-switch>
+      </view>
+      <!-- 参数设置 -->
+      <view class="device-setting-wrap">
+        <view class="device-setting" data-popup="showSetttingPopup" data-set="water">
+          <image src="{{waterIcon}}" mode="" class="setting-icon"/>
+          <view class="setting-item">
+            <view class="item-text">{{currentWater.type}}</view>
+            <view class="item-value">{{currentWater.value}}</view>
+          </view>
+        </view>
+        <view class="device-setting device-setting2" data-popup="showSetttingPopup" data-set="suction">
+          <image src="{{suctionIcon}}" mode="" class="setting-icon setting-icon"/>
+          <view class="setting-item">
+            <view class="item-text">{{currentSuction.type}}</view>
+            <view class="item-value">{{currentSuction.value}}</view>
+          </view>
+        </view>
+      </view> 
+    </block>
+    <!-- X10系列 -->
+    <block wx:else="">
+      <view class="device-setting-wrap">
+        <view class="x10-device-setting">
+          <view class="x10-setting-item" data-popup="showSetttingPopup" data-set="auto">
+            <view class="item-text">{{x10AutoCurrentWater.type}}</view>
+            <view class="item-value">{{x10AutoCurrentWater.value}}</view>
+          </view>
+          <image src="{{autoIcon}}" mode="" class="x10-setting-icon"/>
+        </view>
+        <view class="x10-device-setting">
+          <view class="x10-setting-item" data-popup="showSetttingPopup" data-set="fixed">
+            <view class="item-text">{{x10CurrentFixedWater.type}}</view>
+            <view class="item-value">{{x10CurrentFixedWater.value}}</view>
+          </view>
+          <image src="{{fixIcon}}" mode="" class="x10-setting-icon"/>
+        </view>
+      </view> 
+      <!-- 自清洁 -->
+      <view class="x10-clean-self-wrap">
+        <view class="x10-clean-self-title">自清洁 | 烘干</view>
+        <view class="x10-clean-self-item-wrap">
+          <view class="x10-clean-self-item" wx:for="{{x10SelfCleanList}}" wx:key="index" data-tag="{{item.tag}}">
+            <image src="{{self_clean_mode == item.tag ? item.activeImage : item.img}}" mode="" class="x10-clean-self-item-img"/>
+            <view class="x10-clean-self-item-text">{{item.text}}</view>
+          </view>
+        </view>
+      </view>
+      <!-- 自助力 -->
+      <view class="power-adjust-wrap">
+        <view class="power-adjust-title">轻松拖助力调节</view>
+        <mx-slider min="0" max="100" 
+        value="{{currentPower}}" 
+        step="25" custom-class="power-adjust-set" disabled inactive-color='#D8DBE1'/>
+        <view class="power-adjust-set-detail">
+          <span>灵敏</span>
+          <span>缓慢</span>
+        </view>
+      </view>
+    </block>
+
+
+    <!-- 热门推荐 -->
+    <view class="hot-title">热门推荐</view>
+    <view class="device-setting-wrap">
+      <!-- <view class="device-setting" bind:tap="toPages" data-page="questionList">
+        <image src="{{questionIcon}}" mode="" class="setting-icon"/>
+        <view class="setting-item">
+          <view class="item-text">产品问答</view>
+        </view>
+      </view> -->
+      <view class="device-setting device-setting2 only-video" bind:tap="toPages" data-page="video">
+        <image src="{{videoIcon}}" mode="" class="setting-icon"/>
+        <view class="setting-item">
+          <view class="item-text">视频指南</view>
+        </view>
+      </view>
+    </view> 
+    <!-- 下载app体验更多功能 -->
+    <view class="hot-title download-title" bind:tap="downLoadApp">下载美的美居APP，体验更多功能 ></view>
+
+    <!-- 模式弹框 -->
+    <mx-popup show="{{ showModePopup }}" bind:close="onClose" position="bottom" round close-on-click-overlay>
+      <view class="mode-popup" >
+        <view wx:for="{{x9SelfCleanModeList}}" class="modePopup-btn" wx:key="index" bind:tap="setCleanModeType" data-mode="{{item}}" style="color: {{X9CurrentSelfMode.key == item.key  ? '#267AFF' : '#000000'}};">{{item.title}}</view>
+        <view class="modePopup-cancel-btn" bind:tap="onClose">取消</view>
+      </view>
+    </mx-popup>
+    <!-- 参数设置弹框 -->
+    <mx-popup show="{{ showSetttingPopup }}" bind:close="onClose" position="bottom" round close-on-click-overlay >
+      <view class="Settting-popup" style="height: {{setPopViewHeight}};">
+        <!-- 弹出框标题 -->
+        <view class="setttingPopup-title">{{setttingPopupTitle}}</view>
+        <image src="{{settingPopupCloseIcon}}" class="close-popup-icon" mode="" bind:tap="onClose"/>
+        <!-- 参数设置标题 -->
+        <view class="settting-title" >{{popViewCellTitle}}</view>
+        <!-- 参数设置弹框描述 -->
+        <view class="setttingPopup-des" wx:if="{{setttingPopupDes}}">{{setttingPopupDesText}}</view>
+        <!-- 弹出框内容-参数设置 -->
+        <mx-slider min="0" max="{{sliderLength}}" 
+        value="{{currentSliderValue}}" 
+        step="1" bind:change="onSetttingChange" custom-class="setttingPopup-set"/>
+        <view class="settingPopup-detail">
+          <span wx:for="{{settingPopupDetail}}" wx:key="index">{{item}}</span>
+        </view>
+     
+
+        <block wx:if="{{isAuto}}">
+                 <!-- 弹出框标题 -->
+            <view class="line" style="width: 100%; height: 40rpx;" ></view>
+            <!-- 参数设置标题 -->
+            <view class="settting-title" >滚刷转速</view>
+            <!-- 参数设置弹框描述 -->
+            <view class="setttingPopup-des" >滚刷转速高清洁能力强，但寿命减短噪音大</view>
+            <!-- 弹出框内容-参数设置 -->
+            <mx-slider min="80" max="95" 
+            value="{{auto_brush}}" 
+            step="5" bind:change="autoBrushChange" custom-class="setttingPopup-set"/>
+            <view class="settingPopup-detail">
+              <span>舒适</span>
+              <span>强力</span>
+            </view>
+        </block>
+      </view>
+    </mx-popup>
+
+
+  
+</view>

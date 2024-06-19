@@ -1,0 +1,376 @@
+<mx-notice-bar
+  class-prefix="mx-iconfont"
+  wx:if="{{noticeBar.isShow}}"
+  left-icon="tip"
+  color="#FFAA10"
+  background="#FFF6E7"
+  text="{{noticeBar.content}}"
+/>
+
+<view class="container">
+  <!-- <image src="https://www.smartmidea.net/projects/meiju-lite-assets/mainContent/images/me_img_bk@2x.png" /> -->
+  <!-- 设备信息 -->
+  <view
+    class="device-info-wrapper"
+    style="height:{{deviceInfo.isRunning?':750rpx':'710rpx'}}; background-image:url('{{deviceInfo.isRunning&&!deviceInfo.air_dry_left_time?bgImage.running:deviceInfo.air_dry_left_time?bgImage.airDry:''}}');}}"
+  >
+    <!-- 设备状态 -->
+    <mx-status custom-class="status-position" wx:if="{{isInit}}">
+      <mx-status-item showStatus margin-right="16" status="{{statusObj.statusPoint}}" text="{{statusObj.statusText}}" />
+      <view class="divider" wx:if="{{hasTiming}}" />
+      <mx-status-item
+        margin-left="16"
+        appoint-text="{{statusObj.appointText}}"
+        appoint-describe="{{statusObj.appointDescribe}}"
+        type="appoint"
+        wx:if="{{hasTiming}}"
+      />
+    </mx-status>
+    <!-- 占位元素 -->
+    <view style="height: 34rpx" wx:if="{{!deviceInfo.isRunning}}"></view>
+    <image class="offLine-pic" src="{{bgImage.standbyCommon}}" wx:if="{{!deviceInfo.isRunning}}" />
+    <!-- 湿度信息展示 -->
+    <view class="banner-wrapper" wx:if="{{deviceInfo.isOnline&&deviceInfo.isRunning}}">
+      <view class="banner-text-wrapper">
+        <view class="banner-text" wx:if="{{deviceInfo.air_dry_left_time}}">{{deviceInfo.airDryLeftTime}}</view>
+        <view class="banner-text" wx:elif="{{deviceInfo.cur_humidity}}">
+          {{deviceInfo.cur_humidity?deviceInfo.cur_humidity:'--'}}
+        </view>
+        <view class="banner-mode-text" wx:else>{{deviceInfo.modeName?deviceInfo.modeName:'--'}}</view>
+        <view class="banner-unit" wx:if="{{deviceInfo.air_dry_left_time}}">min</view>
+        <view class="banner-unit" wx:elif="{{deviceInfo.cur_humidity}}">%RH</view>
+      </view>
+      <text class="banner-desc" wx:if="{{deviceInfo.air_dry_left_time}}">滤芯风干剩余时间</text>
+      <text class="banner-desc" wx:elif="{{deviceInfo.cur_humidity}}">室内湿度</text>
+      <text class="banner-desc" wx:else>当前模式</text>
+    </view>
+    <mx-information>
+      <mx-information-item
+        content="{{deviceInfo.cur_humidity}}"
+        show-devider
+        unit="%RH"
+        text="室内湿度"
+        wx:if="{{deviceInfo.cur_humidity&&(!deviceInfo.isRunning || deviceInfo.air_dry_left_time)}}"
+      />
+      <mx-information-item content="{{weatherObj.wetness||'--'}}" show-devider unit="%RH" text="室外湿度" />
+      <mx-information-item content="{{weatherObj.temperature||'--'}}" unit="°C" text="室外温度" />
+    </mx-information>
+  </view>
+  <!-- 湿度设置 -->
+  <mx-panel
+    wx:if="{{pageProductConfig.humidity.isShow}}"
+    padding="16"
+    custom-class="margin-bottom"
+    margin
+    disabled="{{deviceInfo.air_dry_left_time||!deviceInfo.isRunning}}"
+  >
+    <view class="card-header">
+      <view class="label">湿度设置</view>
+      <view class="vertical-line" />
+      <view class="bg-white-text">{{deviceInfo.humidityLabel||'--'}}</view>
+    </view>
+    <mx-slider
+      active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+      value="{{humidityObj.currentValue}}"
+      min="{{humidityObj.min}}"
+      max="{{humidityObj.max}}"
+      bind:change="onChangeHumidity"
+      custom-class="slider"
+    />
+    <view class="row-layout-slider-mark">
+      <mx-mark markList="{{humidityObj.humidityMarkList}}" />
+    </view>
+  </mx-panel>
+  <!-- 模式大于3个 -->
+  <view class="margin-bottom" wx:if="{{pageProductConfig.mode.valueArray.length>3}}">
+    <mx-cell-group inset>
+      <mx-cell
+        size="large"
+        is-link
+        center
+        icon="{{pageProductConfig.mode.iconUrl}}"
+        title="{{deviceInfo.modeName}}"
+        disabled="{{deviceInfo.air_dry_left_time||!deviceInfo.isRunning}}"
+        border="{{ false }}"
+        bind:click="showSelectModeModal"
+      />
+    </mx-cell-group>
+  </view>
+  <!-- 模式与档位 -->
+  <mx-panel
+    padding="16"
+    wx:if="{{deviceInfo.isRunning && (pageProductConfig.mode.valueArray.length <= 3 && pageProductConfig.mode.valueArray.length>1||(pageProductConfig.windGear.isShow && deviceStatus.wind_speed != null))}}"
+    custom-class="margin-bottom"
+    margin
+    disabled="{{deviceInfo.air_dry_left_time||!deviceInfo.isRunning}}"
+  >
+    <view
+      wx:if="{{pageProductConfig.mode.isShow&&pageProductConfig.mode.valueArray.length<=3&&pageProductConfig.mode.valueArray.length>1}}"
+    >
+      <view class="card-header">
+        <view class="label">模式</view>
+        <view class="vertical-line" />
+        <view class="bg-white-text">{{deviceInfo.modeName}}</view>
+      </view>
+      <mx-tabbar
+        active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+        active="{{deviceInfo.humidity_mode}}"
+        custom-class="tabbar-position"
+        safe-area-inset-bottom="{{ false }}"
+        border="{{false}}"
+        bind:change="onModeChange"
+      >
+        <mx-tabbar-button
+          value="{{item.label}}"
+          name="{{item.value}}"
+          wx:for="{{pageProductConfig.mode.valueArray}}"
+          wx:key="index"
+        />
+      </mx-tabbar>
+    </view>
+    <!-- 雾量档位 -->
+    <view wx:if="{{pageProductConfig.windGear.isShow&&deviceStatus.wind_speed != null}}">
+      <view class="card-header">
+        <view class="label">雾量档位</view>
+        <view class="vertical-line" />
+        <view class="bg-white-text">{{deviceInfo.windGearName||'--'}}</view>
+      </view>
+      <view wx:if="{{pageProductConfig.windGear.valueArray.length>4}}" class="slider-wrapper">
+        <mx-slider
+          active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+          min="1"
+          value="{{windGearObj.currentValue}}"
+          max="{{windGearObj.windGearMarkList.length}}"
+          bind:change="onWindGearChange"
+          custom-class="slider"
+        />
+        <view class="row-layout-slider-mark">
+          <mx-mark markList="{{windGearObj.windGearMarkList}}" />
+        </view>
+      </view>
+      <view wx:else>
+        <mx-tabbar
+          active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+          active="{{deviceInfo.wind_speed}}"
+          custom-class="tabbar-position"
+          safe-area-inset-bottom="{{ false }}"
+          border="{{false}}"
+          bind:change="onWindButtonChange"
+        >
+          <mx-tabbar-button
+            value="{{item.label}}"
+            name="{{item.value}}"
+            wx:for="{{pageProductConfig.windGear.valueArray}}"
+            wx:key="index"
+          />
+        </mx-tabbar>
+      </view>
+    </view>
+  </mx-panel>
+  <!-- 风速 -->
+  <mx-panel
+    padding="16"
+    margin
+    custom-class="margin-bottom"
+    wx:if="{{pageProductConfig.windSpeed.isShow}}"
+    disabled="{{deviceInfo.air_dry_left_time||!deviceInfo.isRunning}}"
+  >
+    <view class="card-header">
+      <view class="label">风速</view>
+      <view class="vertical-line" />
+      <view class="bg-white-text">{{deviceInfo.windSpeedName||'--'}}</view>
+    </view>
+    <mx-tabbar
+      active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+      active="{{deviceInfo.wind_gear}}"
+      custom-class="tabbar-position"
+      safe-area-inset-bottom="{{ false }}"
+      border="{{false}}"
+      bind:change="onWindSpeedChange"
+    >
+      <mx-tabbar-button
+        disabled="{{item.disabled}}"
+        value="{{item.label}}"
+        wx:for="{{pageProductConfig.windSpeed.valueArray}}"
+        wx:key="index"
+        disabled="{{item.disabled}}"
+        name="{{item.value}}"
+      />
+    </mx-tabbar>
+  </mx-panel>
+  <!-- 氛围灯 -->
+  <mx-panel
+    padding="16"
+    margin
+    custom-class="margin-bottom"
+    wx:if="{{pageProductConfig.brightLed.isShow && deviceInfo.isRunning}}"
+    disabled="{{deviceInfo.air_dry_left_time||!deviceInfo.isRunning}}"
+  >
+    <view class="card-header">
+      <view class="label">氛围灯</view>
+      <view class="vertical-line" />
+      <view class="bg-white-text">{{deviceInfo.brightLedLabel||'--'}}</view>
+    </view>
+    <mx-tabbar
+      active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+      active="{{deviceInfo.bright_led}}"
+      custom-class="tabbar-position"
+      safe-area-inset-bottom="{{ false }}"
+      border="{{false}}"
+      bind:change="onLightChange"
+    >
+      <mx-tabbar-button
+        value="{{item.label}}"
+        wx:for="{{pageProductConfig.brightLed.valueArray}}"
+        wx:key="index"
+        name="{{item.value}}"
+      />
+    </mx-tabbar>
+  </mx-panel>
+  <!-- 净离子和声音 -->
+  <view class="double-card-content" wx:if="{{subFunctionNum<=2&&subFunctionNum>0}}">
+    <view
+      class="main-wrapper {{!deviceInfo.isRunning || !!deviceInfo.air_dry_left_time?'disabled':''}}"
+      wx:if="{{pageProductConfig.displayOnOff.isShow}}"
+    >
+      <view class="left-wrapper">
+        <view class="function-name">屏幕显示</view>
+      </view>
+      <view class="right-wrapepr">
+        <mx-switch
+          active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+          checked="{{ switchDisplayOnOff.selected }}"
+          disabled="{{switchDisplayOnOff.disabled}}"
+          bind:change="switchDisplayOnOffChange"
+        />
+      </view>
+    </view>
+    <view
+      class="main-wrapper {{!deviceInfo.isRunning || !!deviceInfo.air_dry_left_time?'disabled':''}}"
+      wx:if="{{pageProductConfig.netIons.isShow}}"
+    >
+      <view class="left-wrapper">
+        <view class="function-name">净离子</view>
+        <view class="function-desc">强化杀菌</view>
+      </view>
+      <view class="right-wrapepr">
+        <mx-switch
+          active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+          checked="{{ switchNetIons.selected }}"
+          disabled="{{switchNetIons.disabled}}"
+          bind:change="switchNetIonsChange"
+        />
+      </view>
+    </view>
+    <view
+      class="main-wrapper {{!deviceInfo.isRunning || !!deviceInfo.air_dry_left_time?'disabled':''}}"
+      wx:if="{{pageProductConfig.buzzer.isShow}}"
+    >
+      <view class="left-wrapper">
+        <view class="function-name">声音</view>
+      </view>
+      <view class="right-wrapepr">
+        <mx-switch
+          active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+          checked="{{ switchBuzzer.selected }}"
+          disabled="{{switchBuzzer.disabled}}"
+          bind:change="switchBuzzerChange"
+        />
+      </view>
+    </view>
+  </view>
+  <!-- 湿帘风干 -->
+  <view class="double-card-content" wx:if="{{pageProductConfig.airDry.isShow}}">
+    <view class="main-wrapper {{!deviceInfo.isRunning || !!deviceInfo.air_dry_left_time?'disabled':''}}">
+      <view class="left-wrapper">
+        <view class="function-name">湿帘风干</view>
+        <view class="function-desc">关机后自动运行</view>
+      </view>
+      <view class="right-wrapepr">
+        <mx-switch
+          active-color="{{!deviceInfo.isRunning || deviceInfo.air_dry_left_time ?'#333333':'#267AFF'}}"
+          checked="{{ switchAirDry.selected }}"
+          disabled="{{switchAirDry.disabled}}"
+          bind:change="switchAirDryChange"
+        />
+      </view>
+    </view>
+  </view>
+  <mx-tabbar box-shadow placeholder border-radius custom-class="bottom-wrapper" disabled="{{!deviceInfo.isOnline}}">
+    <view class="operate-item-wrapper">
+      <view class="operate-item" bind:tap="onClickPower">
+        <view>
+          <image class="operate-icon bg-blue" src="{{iconUrl.powerOn}}" wx:if="{{deviceInfo.isRunning}}" />
+          <image class="operate-icon" src="{{iconUrl.powerOff}}" wx:else />
+        </view>
+        <view class="operate-item-text">开关</view>
+      </view>
+    </view>
+    <view class="operate-item-wrapper">
+      <view class="operate-item" bind:tap="onClickAppointment">
+        <view class="{{pageProductConfig.timing.disabled?'disabled':''}}">
+          <image class="operate-icon bg-blue" src="{{iconUrl.timerOn}}" wx:if="{{hasTiming && deviceInfo.isRunning}}" />
+          <image
+            class="operate-icon bg-light-blue"
+            src="{{iconUrl.timerOnOff}}"
+            wx:elif="{{hasTiming&&!deviceInfo.isRunning}}"
+          />
+          <image class="operate-icon" src="{{iconUrl.timerOff}}" wx:else />
+        </view>
+        <view class="operate-item-text">定时</view>
+      </view>
+    </view>
+  </mx-tabbar>
+  <!-- 定时关机对话框 -->
+  <mx-picker
+    bind:confirm="confirmOrderTime"
+    bind:cancel="closeTimingModal"
+    bind:close="closeTimingModal"
+    description="{{deviceInfo.isRunning?'定时关机':'定时开机'}}"
+    descript-margin="110"
+    select-description="小时后{{deviceInfo.isRunning?'关':'开'}}机"
+    default-index="{{ 0 }}"
+    show="{{ pageProductConfig.timing.isShowTimedShutdown }}"
+    columns="{{ pageProductConfig.timing.valueArray }}"
+    bind:change="timingPickerOnChange"
+  />
+  <!-- 模式选择对话框 -->
+  <mx-action-sheet
+    description="请选择模式"
+    show="{{ pageProductConfig.mode.isShowSelectMode }}"
+    cancel-text="取消"
+    z-index="10001"
+    bind:cancel="closeSelectModeModal"
+    bind:close="closeSelectModeModal"
+  >
+    <view class="modal-wrapper" catch:touchmove="noop">
+      <view class="container">
+        <view class="options-wrapper">
+          <view
+            wx:for="{{pageProductConfig.mode.valueArray}}"
+            wx:key="index"
+            class="options-item click {{item.value===deviceInfo.humidity_mode?'active':''}}"
+            data-index="selectMode"
+            data-value="{{item.value}}"
+            bindtap="onModalModeChange"
+          >
+            <view class="left start-flex">
+              <view class="icon-wrapper center-flex">
+                <image class="icon" mode="widthFix" src="{{item.iconUrl.url2}}" />
+              </view>
+              <view class="text-wrapper">
+                <view class="label">{{item.label}}</view>
+                <view class="desc" v-if="{{item.desc}}">{{item.desc}}</view>
+              </view>
+            </view>
+          </view>
+          <view view class="space"></view>
+        </view>
+      </view>
+    </view>
+  </mx-action-sheet>
+  <mx-dialog id="mx-dialog" />
+</view>
+<view class="hourseWarp" wx:if="{{!isInit}}">
+  <image class="swing" src="/assets/img/loading.png" />
+</view>

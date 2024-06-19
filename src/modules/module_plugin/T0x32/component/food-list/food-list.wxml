@@ -1,0 +1,23 @@
+<view class="pre-food-list">
+	<view class="pre-food-item"
+    wx:for="{{prefabMenu}}"
+    wx:for-item="functionItem"
+    wx:key="code"
+    data-item="{{functionItem}}">
+		<image mode="scaleToFill" class="pre-food-img" id="{{'cook.' + index}}" src="{{deviceInfo.isOnline?(functionItem.appletsIconUrl2||iconUrl.test.url4):(functionItem.appletsIconUrl1||iconUrl.test.url3)}}" bindtap="startCook"></image>
+		<text class="pre-food-name">{{functionItem.name}}</text>
+		<text class="pre-food-time">{{functionItem.expectedCookTime}}分钟</text>
+		<view class="pre-food-btns">
+			<view wx:if="{{functionItem.url}}" class="pre-food-btn mgr-left_10" id="{{'buy.' + index}}" bindtap="goToBuy">
+				<text >购买</text>
+			</view>
+			<view class="pre-food-btn {{btnClass}}" id="{{'cook.' + index}}" bindtap="startCook">
+        <!--<view class="disabled-mask" wx:if="{{!deviceInfo.isOnline}}"></view>-->
+				<text>启动</text>
+			</view>
+		</view>
+	</view>
+	<view wx:if="{{prefabMenu.length == 0}}" class="no-data">
+		<text>暂无预制菜数据</text>
+	</view>
+</view>

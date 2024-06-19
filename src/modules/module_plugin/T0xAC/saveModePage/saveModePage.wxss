@@ -1,0 +1,176 @@
+/* plugin/T0xAC/saveModePage.wxss */
+page {
+  height: 100;
+  width: 100%;
+}
+
+.tips-contain {
+  font-size: 32rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #000000;
+  height: 160rpx;
+  line-height: 150rpx;
+}
+
+.tips-color {
+  color: gray;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(247, 247, 247, 1);
+  /* background-color: aqua; */
+}
+
+.flex-class {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cell {
+  background-color: #ffffff;
+  margin: 10rpx 0;
+  width: 686rpx;
+  height: 160rpx;
+  border-radius: 32rpx;
+}
+
+.cell-info {
+  flex-direction: column;
+}
+
+.cell-tips {
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #8A8A8F;
+  line-height: 42rpx;
+  position: relative;
+  left: 8rpx;
+  width: 686rpx;
+  margin-bottom: 12rpx;
+}
+
+.switch-contain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx 25rpx 30rpx 0;
+}
+
+.password-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, .5);
+  font-size: 14px;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  z-index: 100;
+}
+
+.password-input {
+  /* margin-top: 40%;
+  margin-bottom: 50px; */
+  background-color: #ffffff;
+  height: 50rpx;
+  width: 100%;
+  border: 1px solid lightgray;
+  /* border-radius: 20rpx; */
+}
+
+.btn-password-confirm {
+  width: 136px;
+  font-weight: normal;
+  color: #2579fc;
+  background: transparent;
+  height: 70rpx;
+  font-size: 32rpx;
+}
+
+.tips {
+  position: relative;
+  top: -40rpx;
+  font-size: 24rpx;
+  color: lightgrey;
+}
+
+.save-detail {
+  padding: 10rpx 30rpx;
+  text-align: center;
+  font-size: 28rpx;
+  position: relative;
+  top: 60rpx;
+  color: #D662A6;
+}
+
+.input-contain {
+  width: 550rpx;
+  height: 320rpx;
+  background-color: rgb(232, 232, 232);
+  position: relative;
+  top: 200rpx;
+  border-radius: 23rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 90%;
+}
+
+.input-title {
+  /* margin-bottom: 100rpx; */
+  position: absolute;
+  top: 55rpx;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+}
+
+.btn-reset-confirm {
+  width: 686rpx;
+  height: 72px;
+  color: #2579fc;
+  background: white;
+  line-height: 72px;
+  font-weight: normal;
+}
+
+.reset-contain {
+  position: relative;
+  top: 13rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.reset-tips {
+  font-size: 25rpx;
+  color: gray;
+  margin: 5rpx;
+}
+
+.title {
+  font-size: 16px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+}

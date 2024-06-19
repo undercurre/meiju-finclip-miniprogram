@@ -1,0 +1,100 @@
+/* src/modules/module_plugin/T0xE6/components/datePicker.wxss */
+.container {
+  width: 100%;
+  height: 230rpx;
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flex-c {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-r {
+  display: flex;
+  flex-direction: row;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+.al-center {
+  align-items: center;
+}
+
+.j-sp-between {
+  justify-content: space-between;
+}
+
+.repetition-wrap {
+  width: 100%;
+  margin: 20rpx 0;
+}
+
+.repetion-item {
+  width: 120rpx;
+  height: 72rpx;
+  background: #FFFFFF;
+  border-radius: 36rpx;
+  border: 2rpx solid #C7C7CC;
+}
+
+.margin-lr {
+  margin: 0 5rpx;
+}
+
+.repetion-text {
+  width: 78rpx;
+  height: 26rpx;
+  font-family: PingFangSC, PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #8A8A8F;
+  line-height: 26rpx;
+  text-align: center;
+  font-style: normal;
+}
+
+.repetion-text-select-color {
+  color: #FFFFFF;
+}
+
+.day-item {
+  width: 56rpx;
+  height: 56rpx;
+  background: #C7C7CC;
+  border-radius: 28rpx;
+}
+
+.item-select-bg {
+  background: #FFAA10;
+}
+
+.repeat-item-select {
+  width: 120rpx;
+  height: 72rpx;
+  background: #FFAA10;
+  border-radius: 36rpx;
+}
+
+.day-text {
+  width: 28rpx;
+  height: 40rpx;
+  font-family: PingFangSC, PingFang SC;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #FFFFFF;
+  line-height: 40rpx;
+  text-align: center;
+  font-style: normal;
+}
+
+.day-wrap {
+  /* width: 100%; */
+  padding: 0 10rpx;
+  margin: 20rpx 0;
+}

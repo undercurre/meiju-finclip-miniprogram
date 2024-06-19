@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "电量统计",
+  "usingComponents": {
+    "tab-selected":"../components/tabSelector/tab-selector",
+    "time-selected":"../components/time-range-selector/TimeRangeSelector"
+  }
+}

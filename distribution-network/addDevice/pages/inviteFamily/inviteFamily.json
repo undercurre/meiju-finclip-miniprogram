@@ -1,0 +1,8 @@
+{
+    "navigationStyle": "custom",
+    "backgroundColor": "#FFF",
+    "usingComponents": {
+      "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index"
+    }
+  }
+  

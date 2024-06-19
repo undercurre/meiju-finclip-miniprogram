@@ -1,0 +1,35 @@
+/* plugin/T0xFB/component/media-card.wxss */
+@import "../../common/css/common.wxss";
+.card-wrapper{
+    padding: 20rpx 30rpx;
+    border-radius: 20rpx;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2rpx 30rpx 4rpx rgba(0,0,0,0.06);
+}
+.center-wrapper{
+    flex: 1;
+}
+.icon{
+    width: 100rpx;
+    display: block;
+}
+.disabled.card-wrapper{
+    background: rgba(255, 255, 255, 0.6);
+}
+.disabled.icon,.disabled .text{
+    opacity: .4;
+}
+.right-click-bar {
+    min-height: 96rpx;
+    min-width: 96rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.text{
+    font-size: 32rpx;
+    line-height: 32rpx;
+}

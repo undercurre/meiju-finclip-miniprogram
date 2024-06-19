@@ -1,0 +1,14 @@
+{
+  "subpackages": [
+    {
+      "name": "T0xE6A",
+      "root": "plugin/T0xE6A",
+      "pages": [
+        "index/index",
+        "paths/timeSet/timeSet",
+        "paths/aboutMac/aboutMac",
+        "paths/timeDetail/timeDetail"      
+      ]
+    }
+  ]
+}

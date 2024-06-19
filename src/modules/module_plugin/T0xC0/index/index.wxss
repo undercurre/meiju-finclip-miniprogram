@@ -1,0 +1,17 @@
+/* T0xAC//index/index.wxss */
+@import "/assets/css/plugin.wxss";
+.openMeiJuAPpp{
+    font-family: PingFangSC-Regular;
+    font-size: 26rpx;
+    color: #8A8A8F;
+    letter-spacing: 0;
+    font-weight: 400;
+    /*margin-top: 40rpx;*/
+    /*margin-bottom: 70rpx;*/
+    text-align: center;
+    margin: 0;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 70rpx;
+}

@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "定时设置",
+  "usingComponents": {
+    "mx-row": "/miniprogram_npm/m-ui/mx-row/index",
+    "mx-col": "/miniprogram_npm/m-ui/mx-col/index",
+    "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
+    "mx-panel": "/miniprogram_npm/m-ui/mx-panel/index",
+    "mx-switch": "/miniprogram_npm/m-ui/mx-switch/index",
+    "mx-slider": "/miniprogram_npm/m-ui/mx-slider/index",
+    "mx-stepper": "/miniprogram_npm/m-ui/mx-stepper/index",
+    "mx-mark": "/miniprogram_npm/m-ui/mx-mark/mx-mark",
+    "mx-button": "/miniprogram_npm/m-ui/mx-button/index"
+  }
+}

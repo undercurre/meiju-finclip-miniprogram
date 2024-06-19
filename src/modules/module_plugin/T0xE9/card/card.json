@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "midea-card": "../component/midea-card/midea-card",
+    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index",
+    "midea-slider": "../component/midea-slider/midea-slider",
+    "midea-switch": "../component/midea-switch/midea-switch",
+    "mx-footer": "/miniprogram_npm/m-ui/mx-footer/index",
+    "midea-bread-ingredient": "../component/midea-bread-ingredient/midea-bread-ingredient"
+  }
+}

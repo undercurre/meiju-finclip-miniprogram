@@ -1,0 +1,36 @@
+{
+  "_from": "@meijuLite/T0xFA@1.0.1",
+  "_id": "@meijuLite/T0xFA@1.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-sFlTXPhI9EKbogJgdYUwDiy0xnSFmt27DbK1bLFGS7G+laszEDFeGyDLklqroqDq7/WGYkTK4Abe2NZ43YrkLQ==",
+  "_location": "/@meijuLite/T0xFA",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@meijuLite/T0xFA@1.0.1",
+    "name": "@meijuLite/T0xFA",
+    "escapedName": "@meijuLite%2fT0xFA",
+    "scope": "@meijuLite",
+    "rawSpec": "1.0.1",
+    "saveSpec": null,
+    "fetchSpec": "1.0.1"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "http://npm.midea.com:8090/repository/npm-public/@meijuLite/T0xFA/-/T0xFA-1.0.1.tgz",
+  "_shasum": "0a32edcc73e239df6dfb9ce0acebcfb45ad10320",
+  "_spec": "@meijuLite/T0xFA@1.0.1",
+  "_where": "E:\\meijulite\\midea-meiju-lite",
+  "author": "",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "npm包改造",
+  "license": "ISC",
+  "name": "@meijuLite/T0xFA",
+  "scripts": {
+    "test": "echo\"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.3"
+}

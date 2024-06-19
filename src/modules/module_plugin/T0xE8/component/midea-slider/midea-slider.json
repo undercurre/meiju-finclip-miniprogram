@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "mx-bold-slider": "/pages/component/m-ui/mx-bold-slider/mx-bold-slider"
+  }
+}

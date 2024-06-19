@@ -1,0 +1,7 @@
+<!--distribution-network/addDevice/pages/frequencyGuide/frequencyGuide.wxml-->
+<view id="{{brand}}">
+  <view class="content frequency-contnet">
+    <!-- <image class="guide" src="{{imgBaseUrl + frequencyGuide}}"></image> -->
+    <image class="guide" src="{{frequencyGuide}}"></image>
+  </view>
+</view>

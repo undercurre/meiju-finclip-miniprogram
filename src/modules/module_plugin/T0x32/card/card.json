@@ -1,0 +1,14 @@
+{
+  "component": true,
+  "usingComponents": {
+    "midea-card": "../component/midea-card/midea-card",
+    "midea-switch": "../component/midea-switch/midea-switch",
+    "mx-footer": "/miniprogram_npm/m-ui/mx-footer/index",
+    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index",
+    "food-list": "../component/food-list/food-list",
+    "recommend-list": "../component/recommend-list/recommend-list",
+    "device-status-header": "../component/device-status-header/device-status-header",
+    "page-module": "../component/page-module/page-module",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index"
+  }
+}

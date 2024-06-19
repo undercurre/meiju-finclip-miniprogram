@@ -1,0 +1,12 @@
+{
+  "author": "",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "npm包改造",
+  "license": "ISC",
+  "name": "@meijuLite/T0xEA",
+  "scripts": {
+    "test": "echo\"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.3"
+}

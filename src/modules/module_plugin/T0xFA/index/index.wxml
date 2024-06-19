@@ -1,0 +1,26 @@
+<block>
+  <view class="continer">
+    <mx-nav-bar
+      title="{{title}}"
+      bind:click-left="onClickLeft"
+      bgColor="{{bgColor}}"
+      showBg="{{false}}"
+      fixed-bg-color="{{bgColor}}"
+    />
+    <view class="device-card" wx:if="{{isInit}}">
+      <device-card0
+        id="deivceCard"
+        wx:if="{{isCard0}}"
+        class="component{{deviceInfo.applianceCode}}"
+        applianceData="{{deviceInfo}}"
+      ></device-card0>
+      <device-card1
+        id="deivceCard"
+        wx:elif="{{isCard1}}"
+        class="component{{deviceInfo.applianceCode}}"
+        applianceData="{{deviceInfo}}"
+      ></device-card1>
+    </view>
+  </view>
+  <midea-toast id="media-toast"></midea-toast>
+</block>

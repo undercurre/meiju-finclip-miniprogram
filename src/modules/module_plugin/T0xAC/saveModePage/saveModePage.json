@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "蓝牙连接密码",
+  "usingComponents": {
+    "mx-switch": "/miniprogram_npm/m-ui/mx-switch/index"
+  }
+}

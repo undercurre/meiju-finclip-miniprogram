@@ -1,0 +1,22 @@
+/* pages/component/circle-button-image/circle-button-image.wxss */
+.image{
+  /*height: 476rpx;*/
+  /*width: 476rpx;*/
+  height: 550rpx;
+  width: 550rpx;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  /*margin-left: -238rpx;*/
+  transform: translateX(-50%);
+  top:0;
+}
+.content{
+  /*height: 476rpx;*/
+  height: 550rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}

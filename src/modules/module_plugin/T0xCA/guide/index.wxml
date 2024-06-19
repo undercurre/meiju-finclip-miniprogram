@@ -1,0 +1,224 @@
+<!--plugin/T0xCA/guide/index.wxml-->
+<view class="continer">
+    <view>
+      <view style="height: {{pageTop}}px;" class="header-new">
+        <view class="header row-start-container" style="margin-top:{{statusBarHeight+ 6}}px;">
+            <image class="back" src="{{iconServiceUrl}}xjzy_home.png" bindtap="goToHomeAction"></image>
+            <view class="column-center-container nav-title-container">
+                <view class="nav-title">新机指引</view>
+            </view>
+        </view>
+      </view>
+      <!-- 导航结束 -->
+      <view style="margin-top: {{pageTop}}px;position: relative;">
+        <image src="{{iconServiceUrl}}xjzy_index_bg.png" style="width: {{devWidth}}px;height: {{(devWidth * 502)/750}}px;" mode="widthFix"></image>
+
+        <view style="width: {{devWidth}}px;position: absolute;top:58%;left: 0px;" class="page-card column-start-container">
+          <view style="width: {{devWidth - 40}}px;" class="page-card-content column-start-container">
+            <view style="margin-top: 24rpx;width: {{devWidth - 40}}px;height: 68rpx;" class="column-start-container">
+              <image style="width: {{devWidth - 40 - 30}}px;height: {{((devWidth - 40 - 30)*68)/622}}px;" src="{{iconServiceUrl}}xjzy_index_subtitle.png" mode="widthFix"></image>
+            </view>
+
+            <!-- 步骤1 -->
+            <view style="width: {{devWidth - 40}}px;height: {{cellHeight}}rpx;margin-top: 30rpx;" class="row-start-container" data-step="1" bindtap="todoStepAction">
+              <!-- 步骤 序号 -->
+              <view style="width: 52px;height: {{cellHeight}}rpx;margin-left: 12px;" class="column-start-container">
+                <view style="width: 64rpx;height: 64rpx;background: #267AFF;border-radius:50%;" class="column-center-container" wx:if="{{curStep == 1}}">
+                  <view style="color: #FFFFFF;font-size: 32rpx;">1</view>
+                </view>
+                <!-- 已经完成情况 -->
+                <view style="width: 60rpx;height: 60rpx;background: #FFFFFF;border-radius:50%;border: 4rpx solid #267AFF;" class="column-center-container" wx:if="{{curStep > 1}}">
+                  <image mode="widthFix" src="{{iconServiceUrl}}xjzy_index_done.png" style="width: 32rpx;height: 32rpx;"></image>
+                </view>
+
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: {{cellHeight - 64 - 6}}rpx;">
+                </view>
+              </view>
+              <!-- 内容段 -->
+              <view style="height: {{cellHeight}}rpx;width: {{devWidth - 40 - 52 - 12 - 72}}px;margin-top: 10rpx;" class="column-start-container">
+                <view style="width: {{devWidth - 40 - 52 - 12 - 72}}px;height: 60rpx;" class="row-start-container">
+                  <view style="color: {{step1Color}};font-size:32rpx;font-weight: 600;">开箱安装</view>
+                  <!-- 指引方向 -->
+                  <view wx:if="{{curStep == 1}}" class="column-center-container" style="height: 60rpx;margin-left: 18rpx;margin-top: 5rpx;">
+                    <image mode="heightFix" src="../assets/images/xjzy_arrow.png" style="height: 20rpx;width:48rpx;"></image>
+                  </view>
+                  <view wx:if="{{curStep > 1}}" class="column-center-container" style="height: 60rpx;margin-left: 16rpx;margin-top: 5rpx;">
+                    <view class="icon icon-arrow" style="width:25rpx;height:25rpx;transform: rotate(270deg)"></view>
+                  </view>
+                </view>
+                <view style="width: {{devWidth - 40 - 52 - 12 - 72}}px;">
+                  <view style="font-size:24rpx;color: #8A8A8F;font-weight:400;">开箱安装指导，确保新机最佳状态。</view>
+                </view>
+              </view>
+              <!-- 确定按钮 -->
+              <view class="finish-btn column-center-container" wx:if="{{curStep == 1}}">
+                <view>去完成</view>
+              </view>
+            </view>
+
+            <!-- 空格 -->
+            <view style="width: {{devWidth - 40}}px;height: 20rpx;margin-top: 4rpx;" class="row-start-container">
+              <view style="width: 52px;height: 40rpx;margin-left: 12px;" class="column-start-container">
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: 40rpx;">
+                </view>
+              </view>
+            </view>
+
+            <!-- 步骤2 -->
+              <view style="width: {{devWidth - 40}}px;height: {{cellHeight}}rpx;" class="row-start-container" data-step="2" bindtap="todoStepAction">
+              <!-- 步骤 序号 -->
+              <view style="width: 52px;height: {{cellHeight}}rpx;margin-left: 12px;" class="column-start-container">
+                
+                <!-- 未轮到 -->
+                <view style="width: 60rpx;height: 60rpx;background: #FFFFFF;border-radius:50%;border: 4rpx solid #267AFF;" class="column-center-container" wx:if="{{curStep == 1}}">
+                  <view style="color: #267AFF;font-size: 32rpx;">2</view>
+                </view>
+
+                <!-- 正完成 -->
+                <view style="width: 64rpx;height: 64rpx;background: #267AFF;border-radius:50%;" class="column-center-container" wx:if="{{curStep == 2}}">
+                  <view style="color: #FFFFFF;font-size: 32rpx;">2</view>
+                </view>
+
+              <!-- 已经完成情况 -->
+              <view style="width: 60rpx;height: 60rpx;background: #FFFFFF;border-radius:50%;border: 4rpx solid #267AFF;" class="column-center-container" wx:if="{{curStep > 2}}">
+                <image mode="widthFix" src="{{iconServiceUrl}}xjzy_index_done.png" style="width: 32rpx;height: 32rpx;"></image>
+              </view>
+
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: {{cellHeight - 64 - 6}}rpx;">
+                </view>
+              </view>
+              <!-- 内容段 -->
+              <view style="height: {{cellHeight}}rpx;width: {{devWidth - 40 - 52 - 12 - 72}}px;margin-top: 10rpx;" class="column-start-container">
+                <view style="width: {{devWidth - 40 - 52 - 12 - 72}}px;height: 60rpx;" class="row-start-container">
+                  <view style="color: {{step2Color}};font-size:32rpx;font-weight: 600;">首次通电</view>
+
+                  <!-- 指引方向 -->
+                  <view wx:if="{{curStep == 2}}" class="column-center-container" style="height: 60rpx;margin-left: 18rpx;margin-top: 5rpx;">
+                    <image mode="heightFix" src="../assets/images/xjzy_arrow.png" style="height: 20rpx;width:48rpx;"></image>
+                  </view>
+                  <view wx:if="{{curStep != 2 }}" class="column-center-container" style="height: 60rpx;margin-left: 16rpx;margin-top: 5rpx;">
+                    <view class="icon icon-arrow" style="width:25rpx;height:25rpx;transform: rotate(270deg)"></view>
+                  </view>
+                </view>
+                <view style="width: {{devWidth - 40 - 52 - 12 - 72}}px;">
+                  <view style="font-size:24rpx;color: #8A8A8F;font-weight:400;">首次通电，约2小时达到设定温度。</view>
+                </view>
+              </view>
+              <!-- 确定按钮 -->
+              <view class="finish-btn column-center-container" wx:if="{{curStep == 2}}">
+                <view>去完成</view>
+              </view>
+            </view>
+
+            <!-- 空格 -->
+            <view style="width: {{devWidth - 40}}px;height: 20rpx;margin-top: 4rpx;" class="row-start-container">
+              <view style="width: 52px;height: 40rpx;margin-left: 12px;" class="column-start-container">
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: 40rpx;">
+                </view>
+              </view>
+            </view>
+
+            <!-- 步骤3 -->
+              <view style="width: {{devWidth - 40}}px;height: {{cellHeight}}rpx;" class="row-start-container" data-step="3" bindtap="todoStepAction">
+              <!-- 步骤 序号 -->
+              <view style="width: 52px;height: {{cellHeight}}rpx;margin-left: 12px;" class="column-start-container">
+                <view style="width: 60rpx;height: 60rpx;background: #FFFFFF;border-radius:50%;border: 4rpx solid #267AFF;" class="column-center-container" wx:if="{{curStep < 3}}">
+                  <view style="color: #267AFF;font-size: 32rpx;">3</view>
+                </view>
+
+                <!-- 正完成 -->
+                <view style="width: 64rpx;height: 64rpx;background: #267AFF;border-radius:50%;" class="column-center-container" wx:if="{{curStep > 2}}">
+                  <view style="color: #FFFFFF;font-size: 32rpx;">3</view>
+                </view>
+
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: {{cellHeight - 64 - 6}}rpx;">
+                </view>
+              </view>
+              <!-- 内容段 -->
+              <view style="height: {{cellHeight}}rpx;width: {{devWidth - 40 - 52 - 12 - 72}}px;margin-top: 10rpx;" class="column-start-container">
+                <view style="width: {{devWidth - 40 - 52 - 12 - 72}}px;height: 60rpx;" class="row-start-container">
+                  <view style="color:  {{step3Color}};font-size:32rpx;font-weight: 600;">连接网络</view>
+
+                  <!-- 指引方向 -->
+                  <view wx:if="{{curStep > 2}}" class="column-center-container" style="height: 60rpx;margin-left: 18rpx;margin-top: 5rpx;">
+                    <image mode="heightFix" src="../assets/images/xjzy_arrow.png" style="height: 20rpx;width:48rpx;"></image>
+                  </view>
+                  <view wx:if="{{curStep <= 2 }}" class="column-center-container" style="height: 60rpx;margin-left: 16rpx;margin-top: 5rpx;">
+                    <view class="icon icon-arrow" style="width:25rpx;height:25rpx;transform: rotate(270deg)"></view>
+                  </view>
+
+                </view>
+                <view style="width: {{devWidth - 40 - 52 - 12 - 72}}px;">
+                  <view style="font-size:24rpx;color: #8A8A8F;font-weight:400;">联网掌控冰箱，解锁更多功能。</view>
+                </view>
+              </view>
+              <!-- 确定按钮 -->
+              <view class="finish-btn column-center-container" wx:if="{{curStep == 3}}">
+                <view>去完成</view>
+              </view>
+            </view>
+
+            <!-- 空格 -->
+            <view style="width: {{devWidth - 40}}px;height: 20rpx;margin-top: 4rpx;" class="row-start-container">
+              <view style="width: 52px;height: 40rpx;margin-left: 12px;" class="column-start-container">
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: 40rpx;">
+                </view>
+              </view>
+            </view>
+
+            <!-- 步骤4 -->
+              <view style="width: {{devWidth - 40}}px;height: {{cellHeight}}rpx;" class="row-start-container" data-step="4" bindtap="todoStepAction">
+              <!-- 步骤 序号 -->
+              <view style="width: 52px;height: {{cellHeight}}rpx;margin-left: 12px;" class="column-start-container">
+                <view style="width: 60rpx;height: 60rpx;background: #FFFFFF;border-radius:50%;border: 4rpx solid #267AFF;" class="column-center-container">
+                  <view style="color: #267AFF;font-size: 32rpx;">4</view>
+                </view>
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: {{cellHeight - 64 - 6}}rpx;">
+                </view>
+              </view>
+              <!-- 内容段 -->
+              <view style="height: {{cellHeight}}rpx;width: {{devWidth - 40 - 52 - 12}}px;margin-top: 10rpx;" class="column-start-container">
+                <view style="width: {{devWidth - 40 - 52 - 12}}px;height: 60rpx;">
+                  <view style="font-size:32rpx;font-weight: 600;color: #232323;">新机自检</view>
+                </view>
+                <view style="width: {{devWidth - 40 - 52 - 12}}px;">
+                  <view style="font-size:24rpx;color: #8A8A8F;font-weight:400;">冰箱状态自检，新机万无一失。</view>
+                </view>
+              </view>
+            </view>
+
+            <!-- 空格 -->
+            <view style="width: {{devWidth - 40}}px;height: 20rpx;margin-top: 4rpx;" class="row-start-container">
+              <view style="width: 52px;height: 40rpx;margin-left: 12px;" class="column-start-container">
+                <view style="width: 1rpx;border-right: 2px dashed #D4E4FF;height: 40rpx;">
+                </view>
+              </view>
+            </view>
+
+            <!-- 步骤5 -->
+              <view style="width: {{devWidth - 40}}px;height: {{cellHeight}}rpx;" class="row-start-container" data-step="5" bindtap="todoStepAction">
+              <!-- 步骤 序号 -->
+              <view style="width: 52px;height: {{cellHeight}}rpx;margin-left: 12px;" class="column-start-container">
+     
+                <view style="width: 60rpx;height: 60rpx;background: #FFFFFF;border-radius:50%;border: 4rpx solid #267AFF;" class="column-center-container">
+                  <view style="color: #267AFF;font-size: 32rpx;">5</view>
+                </view>
+       
+              </view>
+              <!-- 内容段 -->
+              <view style="height: {{cellHeight}}rpx;width: {{devWidth - 40 - 52 - 12}}px;margin-top: 10rpx;" class="column-start-container">
+                <view style="width: {{devWidth - 40 - 52 - 12}}px;height: 60rpx;">
+                  <view style="font-size:32rpx;font-weight: 600;color: #232323;">新手礼包</view>
+                </view>
+                <view style="width: {{devWidth - 40 - 52 - 12 }}px;">
+                  <view style="font-size:24rpx;color: #8A8A8F;font-weight:400;">免费领延保，服务再升级。（限部分型号）</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>
+
+

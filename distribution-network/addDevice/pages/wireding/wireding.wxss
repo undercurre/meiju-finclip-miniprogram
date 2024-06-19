@@ -1,0 +1,58 @@
+/* addDevice//pages/notFound/notFound.wxss */
+.page {
+  font-family: PingFangSC-Medium;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.section-content {
+  flex: 1;
+  color: #fff;
+}
+
+.no-network {
+  display: block;
+  width: 654rpx;
+  height: 384rpx;
+  margin: 48rpx auto 60rpx;
+}
+
+.title {
+  font-family: PingFangSC-Semibold;
+  font-size: 48rpx;
+  color: rgba(255,255,255,0.80);
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 48rpx;
+  font-weight: 600;
+  margin-top: 64rpx;
+}
+
+.desc {
+  font-family: PingFangSC-Regular;
+  font-size:32rpx;
+  color: #FFFFFF;
+  margin: 48rpx 0;
+  text-align: center;
+}
+
+.section-footer {
+  padding: 0 32rpx;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.search-icon {
+  width: 72rpx;
+  height: 72rpx;
+  display: block;
+  margin: 24rpx auto;
+}
+.search-text {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.80);
+  text-align: center;
+  padding-bottom: 56rpx;
+}

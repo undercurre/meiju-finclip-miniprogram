@@ -1,0 +1,79 @@
+<view class="continer">
+    <view>
+      <ca-navbar backTo="{{backTo}}" navTitle="{{navTitle}}" showView="1"></ca-navbar>
+      <view style="margin-top: {{pageTop}}px;width: 100vw;height: 90vh;">
+        <view style="width: 100%;height: 77vh;" class="column-start-container">
+          <image src="{{imageUrl}}" style="width: {{devWidth}}px;height: {{(devWidth * 486)/648}}px;" mode="widthFix"></image>
+          <!-- 内容 -->
+          <view class="column-start-container" wx:if="{{pageNo == 1}}">
+            <view style="width: 100vw;margin-top: 40rpx;" class="row-start-container">
+              <view style="font-size: 36rpx;color: #333333;font-weight: 600;margin-left: 40rpx;">位置找平</view>
+            </view>
+
+            <view style="width: 100vw;margin-top: 24rpx;" class="row-start-container">
+              <view style="font-size: 28rpx;color: #666666;font-weight: 400;margin-left: 40rpx;margin-right: 40rpx;line-height: 38rpx;">
+                1）调整冰箱前脚，确保与地面之间有良好支撑，可确保冰箱平稳，并可降低不平稳带来的噪音。
+              </view>
+            </view>
+
+            <view style="width: 100vw;margin-top: 24rpx;" class="row-start-container">
+              <view style="font-size: 28rpx;color: #666666;font-weight: 400;margin-left: 40rpx;margin-right: 40rpx;line-height: 38rpx;">
+                2）放置位置与墙面一般保持10厘米-25厘米距离，可确保冰箱散热良好。
+              </view>
+            </view>
+          </view>
+
+          <!--新机清理-->
+          <view class="column-start-container" wx:if="{{pageNo == 2}}">
+            <view style="width: 100vw;margin-top: 40rpx;" class="row-start-container">
+              <view style="font-size: 36rpx;color: #333333;font-weight: 600;margin-left: 40rpx;">新机清理</view>
+            </view>
+
+            <view style="width: 100vw;margin-top: 24rpx;" class="row-start-container">
+              <view style="font-size: 28rpx;color: #666666;font-weight: 400;margin-left: 40rpx;margin-right: 40rpx;line-height: 38rpx;">
+                1）清理出厂时的保护膜。
+              </view>
+            </view>
+
+            <view style="width: 100vw;margin-top: 24rpx;" class="row-start-container">
+              <view style="font-size: 28rpx;color: #666666;font-weight: 400;margin-left: 40rpx;margin-right: 40rpx;line-height: 38rpx;">
+                2）清除冰箱内部胶带和固定泡沫。
+              </view>
+            </view>
+
+            <view style="width: 100vw;margin-top: 24rpx;" class="row-start-container">
+              <view style="font-size: 28rpx;color: #666666;font-weight: 400;margin-left: 40rpx;margin-right: 40rpx;line-height: 38rpx;">
+                3）用温水放几滴洗洁精等中性清洁剂，将冰箱里外擦拭清理后，打开冰箱门通风晾干。
+              </view>
+            </view>
+          </view>
+
+          <!--静置2小时-->
+          <view class="column-start-container" wx:if="{{pageNo == 3}}">
+            <view style="width: 100vw;margin-top: 40rpx;" class="row-start-container">
+              <view style="font-size: 36rpx;color: #333333;font-weight: 600;margin-left: 40rpx;">静置4~6小时</view>
+            </view>
+
+            <view style="width: 100vw;margin-top: 24rpx;" class="row-start-container">
+              <view style="font-size: 28rpx;color: #666666;font-weight: 400;margin-left: 40rpx;margin-right: 40rpx;line-height: 38rpx;">
+                运输搬运导致压缩机内部液体混动，新机需确保静置4~6小时，保证冰箱状态最佳。
+              </view>
+            </view>
+
+            <view style="width: 100vw;" class="row-start-container">
+              <view style="font-size: 28rpx;color: #666666;font-weight: 400;margin-left: 40rpx;margin-right: 40rpx;line-height: 38rpx;">
+                如已静置4~6小时，可以直接进行下一步操作。
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 确定按钮 -->
+        <view class="column-center-container" style="width: {{devWidth}}px;height: 88rpx;">
+          <view style="height: 88rpx;width: {{devWidth - 100}}px;border-radius: 44rpx;background: #267AFF;" class="column-center-container" bindtap="finishAction">
+            <view style="font-size:32rpx;color: #FFFFFF;font-weight: 500;">返回</view>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>

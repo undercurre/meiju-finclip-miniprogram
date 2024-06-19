@@ -1,0 +1,19 @@
+<view class="dialog" wx:if="{{customDialog.show}}">
+  <view class="dialog-mask"></view>
+  <view class="dialog-main">
+    <image class="dialog-main-close" bindtap="clickClose" src="{{closeImg}}"></image>
+    <view class="dialog-main-title">{{customDialog.title}}</view>
+    <view class="dialog-main-desc">{{customDialog.desc}}</view>
+    <view class="dialog-main-content">{{customDialog.content}}</view>
+    <input class="dialog-main-input" value="{{customDialog.wifiInfo.SSIDContent}}" disabled="{{true}}" type="text" />
+    <input class="dialog-main-input psw" wx:if="{{customDialog.isCanSeePsw}}" adjust-position="{{false}}" value="{{customDialog.wifiInfo.PswContent}}" bindinput="getPsw" type="text" placeholder="输入 WiFi 密码">
+    <image class="dialog-psw-img" src="{{customDialog.isCanSeePsw?wifiShow:wifiHide}}" catchtap="switchPswShow"></image>
+    </input>
+    <input class="dialog-main-input psw" wx:else="{{!customDialog.isCanSeePsw}}" adjust-position="{{false}}" value="{{customDialog.wifiInfo.PswContent}}" bindinput="getPsw" type="text" password="true" placeholder="输入 WiFi 密码">
+    <image class="dialog-psw-img" src="{{customDialog.isCanSeePsw?wifiShow:wifiHide}}" catchtap="switchPswShow"></image>
+    </input>
+    <view class="dialog-main-confirm" bindtap="clickConfirm" style="color:{{customDialog.comfirmColor}}"
+      >{{customDialog.confirmText}}</view
+    >
+  </view>
+</view>

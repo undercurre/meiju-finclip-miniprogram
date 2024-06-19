@@ -1,0 +1,12 @@
+/* T0xAC//index/index.wxss */
+@import "/assets/css/plugin.wxss";
+.continer{
+    /*height: unset;*/
+    /*min-height: 100vh;*/
+}
+.device-card {
+    width: 686rpx;
+    height: calc(100% - 212rpx);
+    /*margin: 44rpx auto 0;*/
+    margin: 0 auto;
+}

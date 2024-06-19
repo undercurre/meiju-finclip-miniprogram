@@ -1,0 +1,22 @@
+/* plugin/T0xCA/check/DevCheck.wxss */
+@import "../card0/assets/css/common.wxss";
+
+.check-view {
+  background: linear-gradient(#1CC6AA, #4EE577);
+  width: 100vw;
+  height: 292rpx;
+  min-height: 292rpx;
+}
+
+.check-fault-view{
+  background: linear-gradient(#FD691E, #FFBF38);
+  width: 100vw;
+  height: 292rpx;
+  min-height: 292rpx;
+}
+
+page { 
+  background: #F9F9F9;
+}
+
+

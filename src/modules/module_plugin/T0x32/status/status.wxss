@@ -1,0 +1,158 @@
+/* plugin/T0x32/status/status.wxss */
+@import '../assets/css/common.wxss';
+.wrapper{
+  background-color: #FFFFFF;
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  min-height: 100vh;
+}
+.disabled{
+  opacity: 0.5;
+}
+.loading-mask{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+  z-index: 100;
+}
+/*状态区域*/
+.status-wrapper{
+  width: 100%;
+  flex: 1;
+  position: relative;
+}
+.error-wrapper{
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.bg-image{
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  z-index: 0;
+}
+.status-container{
+  z-index: 1;
+  margin-top: 130rpx;
+}
+
+/*设备状态描述*/
+.status-info-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 137rpx;
+}
+.status-info-wrapper .title{
+  font-size: 48rpx;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #040404;
+  line-height: 67rpx;
+  margin-bottom: 48rpx;
+}
+.status-info-wrapper .text{
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #000000;
+  line-height: 36rpx;
+}
+.status-info-wrapper .text-primary{
+  font-size: 80rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #040404;
+  line-height: 112rpx;
+  margin-top: 10rpx;
+}
+.setting-desc-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60rpx;
+  background: rgba(254, 175, 33, 0.15);
+  border-radius: 1rem;
+  margin-top: 60rpx;
+  padding: 0 30rpx;
+}
+.setting-desc-wrapper .text{
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #FA6400;
+  line-height: 40rpx;
+}
+.setting-desc-wrapper .line{
+  width: 1rpx;
+  height: 16rpx;
+  background: #FF8225;
+  border-radius: 1rpx;
+  margin: 0 17rpx;
+}
+
+/*按钮区域*/
+.button-wrapper{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 168rpx;
+  background: #FFFFFF;
+  box-shadow: 0 -2rpx 10rpx 0 rgba(0,0,0,0.05);
+  border-radius: 64rpx 64rpx 0 0;
+  backdrop-filter: blur(10px);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.button{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.button .icon{
+  display: block;
+  width: 96rpx;
+  height: 96rpx;
+  margin-bottom: 10rpx;
+}
+.button .text{
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #232323;
+  line-height: 33rpx;
+}
+.button .disabled-mask{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.title-class {
+  max-width: 340rpx !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

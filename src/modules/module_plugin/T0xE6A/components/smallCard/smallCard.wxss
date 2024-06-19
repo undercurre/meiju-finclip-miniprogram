@@ -1,0 +1,64 @@
+/* src/modules/module_plugin/T0xE6/components/smallCard/smallCard.wxss */
+.item {
+  width: 216rpx;
+  height: 294rpx;
+  background: #FFFFFF;
+  box-shadow: 0rpx 2rpx 20rpx 0rpx rgba(0, 0, 0, 0.05);
+  border-radius: 32rpx;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-c {
+  flex-direction: column;
+}
+
+.flex-r {
+  flex-direction: row;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+.al-center {
+  align-items: center;
+}
+
+.title {
+  width: 120rpx;
+  height: 26rpx;
+  font-family: PingFangSC, PingFang SC;
+  font-weight: 500;
+  font-size: 30rpx;
+  color: #333333;
+  line-height: 25rpx;
+  text-align: center;
+  font-style: normal;
+  margin: 10rpx 0;
+}
+
+.detail {
+  width: 90rpx;
+  height: 26rpx;
+  font-family: PingFangSC, PingFang SC;
+  font-weight: 400;
+  font-size: 20rpx;
+  color: #999999;
+  line-height: 25rpx;
+  text-align: center;
+  font-style: normal;
+  margin: 0 0 10rpx 0;
+}
+
+.custom-button-class {
+  width: 68px!important;
+  height: 24px!important;
+  line-height: 24px!important;
+  font-size: 12px!important;
+  border-radius: 999px!important;
+  font-weight: bold!important;
+  margin-top: 20rpx 0;
+}

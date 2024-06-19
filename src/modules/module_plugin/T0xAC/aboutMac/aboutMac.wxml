@@ -1,0 +1,38 @@
+<view class="container">
+  <!-- <view>
+    <view class="li_">
+      <view>本机条码</view>
+      <view>{{containerData.snFormat}}</view>
+    </view>
+    <view class="li_">
+      <view>生产日期</view>
+      <view>{{date}}</view>
+    </view>
+    <view class="li_" bindtap="func">
+      <view>功能说明</view>
+      <image src="/assets/img/right_arrow@3x.png"></image>
+    </view>
+    <view class="li_">
+      <view>版本</view>
+      <view>{{containerData.version}}</view>
+    </view>
+  </view> -->
+  <view wx:if="{{deviceInfo.onlineStatus == 1}}" class="mx-service-self" style="width: 92%;">
+    <mx-service showIcon="{{ false }}" custom-service-class="device-service-class" custom-class="device-service-class" applianceData="{{deviceInfo}}"></mx-service>
+  </view>
+  <view style="width: 92%;" wx:for="{{arr}}" bindtap="cellTap" data-item="{{item}}">
+    <mx-row>
+      <mx-col span="24">
+        <mx-panel padding="15" height="60" custom-class="row-panel-layout">
+          <view class="cell-wrapper">
+            <view class="cell-title">{{item.title}}</view>
+            <image wx:if="{{item.hasNextPage}}" style="width: 20rpx;height: 22rpx;" src="../assets/t0ac/ic_next@2x.png"></image>
+            <view class="cell-text" wx:else>{{item.text}}</view>
+          </view>
+        </mx-panel>
+      </mx-col>
+    </mx-row>
+  </view>
+
+
+</view>

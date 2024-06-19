@@ -1,0 +1,267 @@
+<image wx:if="{{isInit}}" mode="widthFix" class="home-bg" src="{{bgImage.url_bg}}"></image>
+<view wx:if="{{isInit}}" class="main-info-layer">
+  <view class="device-status" bindtap="onClickStatus">
+    <view
+      class="status-pot"
+      style="background: {{!deviceInfo.isOnline && !deviceInfo.isError? '#7C879B':deviceInfo.isError?'#FF3B30':'#25CF42' }};"
+    ></view>
+    <view class="status-text">{{ deviceInfo.isOnline ? deviceInfo.workStatusName : "已离线" }}</view>
+    <view class="extra-status-wrapper" wx:if="{{deviceInfo.isWorking&&deviceInfo.work_status!=='pause'}}">
+      <view class="status-line"></view>
+      <view class="status-text">
+        <view>{{statusButtonRightText}}</view>
+        <view>{{statusButtonRightTime}}</view>
+      </view>
+      <image mode="widthFix" class="expend-arrow" src="{{iconUrl.arrowRight}}"></image>
+    </view>
+    <image
+      mode="widthFix"
+      class="expend-arrow"
+      wx:if="{{!deviceInfo.isError&&deviceInfo.work_status==='pause'}}"
+      src="{{iconUrl.arrowRight}}"
+    ></image>
+  </view>
+  <view class="device-img-layer">
+    <image mode="widthFix" class="device-img" src="{{deviceInfo.deviceImg}}"></image>
+  </view>
+  <view class="error-wrapper" wx:if="{{deviceInfo.isError}}">
+    <view class="error-wrapper-title">{{errorTitle}}</view>
+    <view class="error-wrapper-desc">{{errorSolution}}</view>
+  </view>
+</view>
+<view class="container" wx:if="{{isInit}}">
+  <!-- 功能区域 -->
+  <!-- tab -->
+  <view class="tab-layer {{(deviceInfo.isOnline && !deviceInfo.isRunning )?'':'disabled'}}">
+    <view
+      wx:for="{{tabList}}"
+      wx:for-item="item"
+      wx:for-index="index"
+      wx:key="value"
+      data-item="{{item}}"
+      class="tab-item {{activeTabIndex == index ? 'activeTab': 'deactiveTab'}}"
+      bindtap="checkTab"
+    >
+      <text class="tab-item-label">{{item.label}}</text>
+    </view>
+  </view>
+  <view
+    class="{{(deviceInfo.isOnline && !deviceInfo.isRunning )?'':'disabled'}} {{showAllControlItem?'control-layer':'contorl-layer-hidden'}}"
+  >
+    <view
+      wx:for="{{configList}}"
+      wx:for-item="item"
+      data-item="{{item}}"
+      wx:key="code"
+      class="control-item {{item.code === 22 && deviceInfo.device_mode === 1||deviceInfo.device_mode === 2&&item.code !==22?'disabled':''}}"
+      bindtap="onClickFunction"
+    >
+      <image mode="widthFix" class="control-item-img" src="{{item.iconControl8}}"></image>
+      <view class="control-item-name">{{item.name}}</view>
+      <view class="control-item-detail">
+        <view wx:if="{{item.expectedCookTime}}" class="control-item-text"> {{item.expectedCookTime}}分钟 </view>
+      </view>
+    </view>
+  </view>
+  <view
+    class="show-all {{(deviceInfo.isOnline && !deviceInfo.isRunning )?'':'disabled'}}"
+    wx:if="{{configList.length > 6}}"
+    bindtap="showAllControlItem"
+  >
+    {{showAllControlItemText}}
+    <image src="{{iconUrl.arrowDownBlack}}" class="arrow-down-all {{showAllControlItem?'arrow-up-all':''}}"></image>
+  </view>
+  <!-- 炉灯 - 开关选项样式 -->
+  <view class="row" wx:if="{{pageProductConfig.light.hasConfig&&pageProductConfig.light.isShow}}">
+    <view class="options-card">
+      <view class="between-flex transition-default {{deviceInfo.isOnline?'':'disabled'}}">
+        <view class="header start-flex">
+          <view class="transition-default icon-wrapper center-flex">
+            <image mode="widthFix" class="icon" src="{{iconUrl.iconLight}}"></image>
+          </view>
+          <view class="card-label-wrapper">
+            <view class="label">炉灯</view>
+          </view>
+        </view>
+        <view class="right-wrapper">
+          <midea-switch model="{{switchLight}}" bind:onChange="switchLightChange"></midea-switch>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 推荐食谱 -->
+  <view class="mt-64">
+    <recommend-list deviceInfo="{{deviceInfo}}"></recommend-list>
+  </view>
+  <mx-footer></mx-footer>
+  <mx-dialog id="mx-dialog"></mx-dialog>
+  <!-- 参数设置对话框 -->
+  <mx-popup bind:close="closeSettingModal" show="{{settingModal.isShow}}" position="bottom" round="true">
+    <view class="modal-wrapper" catchtouchmove="{{true}}">
+      <view class="header">
+        <view class="center">{{selectedFunction.name}}</view>
+        <view class="desc-wrapper center-flex">
+          <text class="desc" wx:if="{{selectedFunction.settingsData['temperature'].codeName==='onlyOption'}}">
+            {{selectedFunction.settingsData['temperature'].properties.value}}℃
+          </text>
+        </view>
+      </view>
+      <view class="options-wrapper">
+        <!-- <scroll-view scroll-y="true" show-scrollbar="false" enhanced="true" class="options-wrapper"> -->
+        <!-- 口感 -->
+        <view
+          class="options-item"
+          wx:if="{{pageProductConfig.chooseTaste.isShow&&pageProductConfig.chooseTaste.valueArray&&pageProductConfig.chooseTaste.valueArray.length>1}}"
+        >
+          <view class="header between-flex taste-title">
+            <view class="center-flex">
+              <view class="title">食物口感</view>
+              <view wx:if="{{settingModal.currentTasteValue =='1'}}" class="value-label tips">
+                嫩烤：水箱请加入足量净水
+              </view>
+              <view wx:if="{{settingModal.currentTasteValue =='3'}}" class="value-label tips">
+                嫩煎：去掉炸桶内托盘后使用
+              </view>
+            </view>
+          </view>
+          <view class="between-flex content">
+            <view
+              wx:for="{{pageProductConfig.chooseTaste.valueArray}}"
+              wx:key="index"
+              class="button {{item.temp&&item.time?'button-flex-column':''}} {{item.classActive}} {{deviceInfo.isRunning&&deviceInfo.isOnline?'click':''}}"
+              data-value="{{item.value}}"
+              data-index="chooseTaste"
+              data-item="{{item}}"
+              bindtap="onClickSettingEvent"
+            >
+              <view>{{item.label}}</view>
+              <view wx:if="{{item.temp&&item.time}}" class="extra-chooseTaste">
+                <view>{{item.temp}}°C</view>
+                <view>{{item.time}}分钟</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 温度 -->
+        <view class="options-item" wx:if="{{pageProductConfig.temperature.isShow}}">
+          <view class="card-header content">
+            <view class="title">温度</view>
+            <view class="vertical-line"></view>
+            <view class="title">{{currentSliderValue||'--'}}°C</view>
+          </view>
+          <view class="content-slider">
+            <mx-slider
+              value="{{sliderTemperature.currentValue}}"
+              step="{{sliderTemperature.step}}"
+              min="{{sliderTemperature.min}}"
+              max="{{sliderTemperature.max}}"
+              bind:change="sliderTemperatureChange"
+              bind:drag="sliderTemperatureDrag"
+              active-color="#FF8225"
+            ></mx-slider>
+            <view class="slider-mark">
+              <mx-mark markList="{{sliderMarkList}}"></mx-mark>
+            </view>
+          </view>
+        </view>
+        <!-- 风速 -->
+        <view
+          class="options-item"
+          wx:if="{{pageProductConfig.windSpeed.isShow&&pageProductConfig.windSpeed.valueArray}}"
+        >
+          <view class="header between-flex">
+            <view class="center-flex">
+              <view class="title content">风速</view>
+            </view>
+          </view>
+          <view class="content between-flex">
+            <view
+              wx:for="{{pageProductConfig.windSpeed.valueArray}}"
+              wx:key="index"
+              class="button {{item.classActive}} {{deviceInfo.isRunning&&deviceInfo.isOnline?'click':''}}"
+              data-value="{{item.value}}"
+              data-index="windSpeed"
+              data-item="{{item}}"
+              bindtap="onClickSettingEvent"
+            >
+              {{item.label}}
+            </view>
+          </view>
+        </view>
+        <!-- 火力 -->
+        <view class="options-item" wx:if="{{pageProductConfig.firePower.isShow}}">
+          <view class="header between-flex">
+            <view class="center-flex content">
+              <view class="title">火力</view>
+            </view>
+          </view>
+          <view class="content">
+            <view class="space-flex">
+              <view
+                wx:for="{{pageProductConfig.firePower.valueArray}}"
+                wx:key="index"
+                class="button {{item.classActive}} {{deviceInfo.isRunning&&deviceInfo.isOnline?'click':''}}"
+                data-value="{{item.value}}"
+                data-index="firePower"
+                bindtap="onClickSettingEvent"
+              >
+                {{item.label}}
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 转动 -->
+        <view class="options-item" style="height: 120rpx" wx:if="{{pageProductConfig.turnStatus.isShow}}">
+          <view class="space-flex">
+            <view class="text-wrapper">
+              <view class="label">转动</view>
+              <view class="desc">转叉转动使食材均匀受热，口味更佳</view>
+            </view>
+            <view class="extra-wrapper">
+              <midea-switch model="{{switchTurn}}" bind:onChange="switchTurnChange"></midea-switch>
+            </view>
+          </view>
+        </view>
+        <!-- 烹饪时间 -->
+        <midea-time
+          wx:if="{{pageProductConfig.workTime.isShow}}"
+          model="{{workTimeModal}}"
+          bind:onChange="workTimeSetting"
+        ></midea-time>
+        <!-- 预约 -->
+        <midea-appoint
+          wx:if="{{pageProductConfig.appoint.isShow}}"
+          model="{{appointModal}}"
+          bind:onChange="appointSetting"
+          bind:setAppointSwitch="setAppointSwitch"
+        ></midea-appoint>
+        <!-- </scroll-view> -->
+        <!-- 预热 -->
+        <view class="options-item" style="height: 120rpx" wx:if="{{pageProductConfig.preheat.isShow}}">
+          <view class="space-flex">
+            <image
+              mode="widthFix"
+              class="img"
+              src="http://ce-cdn.oss-cn-hangzhou.aliyuncs.com/ccs/icon/ctrl8/33/yureicon.png"
+            ></image>
+            <view class="text-wrapper">
+              <view class="label">预热</view>
+              <view class="desc">预热完成后放入食材</view>
+            </view>
+            <view class="extra-wrapper">
+              <midea-switch model="{{preheatModal}}" bind:onChange="switchPreheatChange"></midea-switch>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="button-wrapper center-flex">
+        <view class="button click" bindtap="closeSettingModal">取消</view>
+        <view class="button click" bindtap="startWork"> {{appointModal.isSwitch?'开始预约':'开始烹饪'}} </view>
+      </view>
+    </view>
+  </mx-popup>
+</view>
+<!-- 小木马加载中 -->
+<view class="hourseWarp" wx:else>
+  <image class="swing" src="http://ce-cdn.oss-cn-hangzhou.aliyuncs.com/ccs/icon/meiju-lite/common/loading.png"></image>
+</view>

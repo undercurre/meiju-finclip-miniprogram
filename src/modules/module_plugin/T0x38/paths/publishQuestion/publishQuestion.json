@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F1F7FD",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "plugin-navbar": "/miniprogram_npm/m-ui/mx-nav/index"
+
+  }
+}
