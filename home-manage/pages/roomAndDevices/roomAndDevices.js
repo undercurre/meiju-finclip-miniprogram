@@ -5,11 +5,14 @@ import { getReqId, getStamp, validateFun } from 'm-utilsdk/index'
 import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
+const commonBehavior = require('../../assets/behavior')
 Page({
+  behaviors: [commonBehavior],
   /**
    * 页面的初始数据
    */
   data: {
+    title: '房间与设备',
     homegroupId: '',
     roleId: '',
     roomList: [],

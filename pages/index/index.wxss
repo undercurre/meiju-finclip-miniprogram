@@ -2,7 +2,7 @@
 .box {
   overflow: hidden;
   height: 100vh;
-  background-image: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%);
+  /* background-image: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%); */
 }
 
 .color-bg {
@@ -302,7 +302,7 @@
   color: #333333;
   line-height: 40rpx;
   font-weight: 500;
-  margin: 54rpx 0 36rpx 32rpx;
+  margin: 71rpx 0 36rpx 32rpx;
 }
 
 .addDeviceDes {
@@ -637,3 +637,18 @@ button::after {
   display: flex;
   flex-direction: row;
 }
+.add-device-text{
+  font-size: 14px;
+  color: rgba(0,0,0,0.60);
+  letter-spacing: 0;
+  line-height: 28rpx;
+  font-weight: 500;
+}
+.home-toast-content{
+  --toast-max-width:100%
+}
+
+/* .index-content-box{ */
+  /* background: url('../../assets/img/index/index.png') no-repeat center center; */
+  /* background-size: 100% 100%; */
+/* } */

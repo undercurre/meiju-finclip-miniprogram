@@ -8,27 +8,78 @@ Page({
    * 页面的初始数据
    */
   data: {
+    title: '移动设备',
     roomList: [],
+    homeList: [],
     chooseIco: baseImgApi.url + 'icon_check@2x.png',
     roomId: null,
     homegroupId: null,
+    actionShow: false,
+    actions: [],
+    selelectFamilyInfo: {},
+    selected: '',
   },
-  //更换房间
-  changeRoom(item) {
-    console.log('切换房间', item)
-    this.changeRoomClickBurialPoint()
+  //返回
+  onClickLeft() {
+    if (getCurrentPages().length > 1) {
+      wx.navigateBack({
+        delta: 1,
+      })
+    } else {
+      wx.switchTab({
+        url: '/pages/index/index',
+      })
+    }
+  },
+  //关闭家庭选择
+  toggleActionSheet() {
     this.setData({
-      roomId: item.currentTarget.dataset.roomid,
+      actionShow: false,
     })
+  },
+  //打开家庭选择
+  onClickHomeList() {
+    if (this.data.selelectFamilyInfo.roleId != '1001') {
+      return
+    }
+    this.setData({
+      actionShow: true,
+    })
+  },
+  //选择家庭
+  actionSelected(e) {
+    console.log(e)
+    let { homeitem } = e.currentTarget.dataset
+    this.setData({
+      actionShow: false,
+      selelectFamilyInfo: homeitem,
+      homegroupId: homeitem.homegroupId,
+    })
+    //切换房间
+    this.getRoomAndDevicesList(homeitem.homegroupId)
+  },
+  //获取创建者家庭
+  gethomeList() {
+    let actions = getApp().globalData.homeGrounpList.filter((item) => {
+      return item.roleId == '1001'
+    })
+    // actions.push(getApp().globalData.selelectFamilyInfo)
+    this.setData({
+      actions,
+    })
+  },
+  //保存移动设备
+  onClickRight() {
     let { applianceCode, isOtherEquipment, cardType } = app.globalData.applianceItem
     if (cardType) {
       //蓝牙直连未上云设备修改房间
       this.bluetoothChangeRoom()
       return
     }
+    wx.showLoading({ title: '保存中', icon: 'loading', duration: 10000 })
     let reqData = {
       applianceCode: applianceCode,
-      homegroupId: this.data.homeGrounpId,
+      homegroupId: this.data.homegroupId,
       roomId: this.data.roomId,
       isOtherEquipment: isOtherEquipment,
       reqId: getReqId(),
@@ -39,6 +90,7 @@ Page({
         .request('changRoom', reqData)
         .then((resp) => {
           console.log('changRoom成功', resp)
+          wx.hideLoading()
           if (resp.data.code === 0) {
             wx.navigateBack()
           }
@@ -46,12 +98,21 @@ Page({
         })
         .catch((error) => {
           console.log('changRoom失败', error)
+          wx.hideLoading()
           wx.showToast({
-            title: '修改房间失败',
+            title: '移动设备失败',
             icon: 'none',
           })
           reject(error)
         })
+    })
+  },
+  //更换房间
+  changeRoom(item) {
+    console.log('切换房间', item)
+    this.changeRoomClickBurialPoint()
+    this.setData({
+      roomId: item.currentTarget.dataset.roomid,
     })
   },
   bluetoothChangeRoom() {
@@ -59,7 +120,7 @@ Page({
     let reqData = {
       reqId: getReqId(),
       stamp: getStamp(),
-      homegroupId: this.data.homeGrounpId,
+      homegroupId: this.data.homegroupId,
       roomId: this.data.roomId,
       applianceName: app.globalData.applianceItem.name,
       sn: app.globalData.applianceItem.sn,
@@ -75,9 +136,41 @@ Page({
       .catch((error) => {
         console.log('changRoom失败', error)
         wx.showToast({
-          title: '修改房间失败',
+          title: '移动设备失败',
           icon: 'none',
         })
+      })
+  },
+  //获取房间设备
+  getRoomAndDevicesList(homegroupId) {
+    wx.showLoading({ title: '切换中', icon: 'loading', duration: 10000 })
+    let reqData = {
+      reqId: getReqId(),
+      stamp: getStamp(),
+      uid: app.globalData.userData.uid,
+      cardType: [
+        {
+          type: 'appliance',
+          query: {
+            homegroupId: homegroupId,
+          },
+        },
+      ],
+    }
+    requestService
+      .request('applianceListAggregate', reqData)
+      .then((res) => {
+        wx.hideLoading()
+        // console.log(res, 'applianceListAggregate')
+        let roomList = res.data.data.appliance[0].roomList
+        this.setData({
+          roomList: roomList || [],
+          roomId: roomList[0]?.roomId,
+        })
+      })
+      .catch((err) => {
+        wx.hideLoading()
+        console.log(err, 'applianceListAggregate')
       })
   },
   //页面浏览埋点
@@ -137,10 +230,12 @@ Page({
     console.log('roomsId==', options)
     console.log(app.globalData.applianceItem)
     this.setData({
+      selelectFamilyInfo: app.globalData.curFamilyInfo,
       roomList: app.globalData.roomList,
       roomId: app.globalData.applianceItem.roomId,
-      homeGrounpId: options.homeGrounpId,
+      homegroupId: options.homeGrounpId,
     })
+    this.gethomeList()
     this.changeRoomViewBurialPoint()
   },
 

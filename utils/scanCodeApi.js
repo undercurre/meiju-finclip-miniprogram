@@ -12,7 +12,7 @@ import { isAddDevice } from './temporaryNoSupDevices'
 import { linkDevice, virtualPlugin, newPlugin, webView } from './paths'
 import { rangersBurialPoint } from './requestService'
 import { commonH5Api } from '../api'
-import Dialog from '../miniprogram_npm/m-ui/mx-dialog/dialog';
+import Dialog from '../miniprogram_npm/m-ui/mx-dialog/dialog'
 const paths = require('./paths')
 const brandConfig = app.globalData.brandConfig[app.globalData.brand]
 
@@ -132,7 +132,7 @@ const burialPoint = {
       },
     })
   },
-   /**
+  /**
    * 5s搜不到设备点击二维码 跳转指引
    */
   clickScanHint: () => {
@@ -232,7 +232,7 @@ export async function actionScanResult(
   wx.showLoading() //解析等待loading
   let scanCodeRes = scanRes.result
   if (scanCodeRes) {
-    const map = ['3', '5', '0', '100','103']
+    const map = ['3', '5', '0', '100', '103']
     let result = scanCodeRes.replace(/\s*/g, '') //移除空格
     //如果链接里没有mode，补上默认mode=0
     if (!result.includes('mode=')) {
@@ -252,23 +252,21 @@ export async function actionScanResult(
       Dialog.confirm({
         title: '该二维码无法识别，请扫描机身上携带“智能产品”标识的二维码',
         confirmButtonText: '查看指引',
-        confirmButtonColor:brandConfig.dialogStyle.confirmButtonColor,
-        cancelButtonColor:brandConfig.dialogStyle.cancelButtonColor3,
-        cancelButtonText:'取消'
-
+        confirmButtonColor: brandConfig.dialogStyle.confirmButtonColor,
+        cancelButtonColor: brandConfig.dialogStyle.cancelButtonColor3,
+        cancelButtonText: '取消',
       })
         .then((res) => {
           if (res.action == 'confirm') {
             clickQRcodeGuide()
-              }
-              // on confirm
+          }
+          // on confirm
         })
         .catch((error) => {
-         if (error.action == 'cancel') {
-                
-              }
-              // on cancel
-        });
+          if (error.action == 'cancel') {
+          }
+          // on cancel
+        })
       return
       wx.hideLoading()
       wx.redirectTo({
@@ -285,22 +283,21 @@ export async function actionScanResult(
       Dialog.confirm({
         title: '该二维码无法识别，请扫描机身上携带“智能产品”标识的二维码',
         confirmButtonText: '查看指引',
-        confirmButtonColor:brandConfig.dialogStyle.confirmButtonColor,
-        cancelButtonColor:brandConfig.dialogStyle.cancelButtonColor3,
-        cancelButtonText:'取消'
+        confirmButtonColor: brandConfig.dialogStyle.confirmButtonColor,
+        cancelButtonColor: brandConfig.dialogStyle.cancelButtonColor3,
+        cancelButtonText: '取消',
       })
         .then((res) => {
           if (res.action == 'confirm') {
             clickQRcodeGuide()
-              }
-              // on confirm
+          }
+          // on confirm
         })
         .catch((error) => {
-         if (error.action == 'cancel') {
-                
-              }
-              // on cancel
-        });
+          if (error.action == 'cancel') {
+          }
+          // on cancel
+        })
       return
       wx.hideLoading()
       wx.redirectTo({
@@ -555,7 +552,7 @@ async function actionOneOrEnergyCode(scanRes, codeType, showNotSupport, justAppS
 }
 
 //触屏动态二维码逻辑
-function dynamicCodeAdd(scanCodeRes, getDeviceApImgAndName,showNotSupport ,justAppSupport) {
+function dynamicCodeAdd(scanCodeRes, getDeviceApImgAndName, showNotSupport, justAppSupport) {
   let scanCdoeResObj = addDeviceSDK.dynamicCodeAdd.getTouchScreenScanCodeInfo(scanCodeRes)
   console.log('dynamic Code Add info:', scanCdoeResObj)
   if (scanCdoeResObj.verificationCode && scanCdoeResObj.verificationCodeKey) {
@@ -579,14 +576,14 @@ function dynamicCodeAdd(scanCodeRes, getDeviceApImgAndName,showNotSupport ,justA
     })
     // 动态扫码绑定添加白名单过滤逻辑
     let formatType = '0x' + addDeviceInfo.type.toLocaleUpperCase()
-    let sn8 = addDeviceInfo.sn && addDeviceInfo.sn.substring(9,17)
-    addDeviceInfo.sn8 = addDeviceInfo.sn8?addDeviceInfo.sn8:sn8
+    let sn8 = addDeviceInfo.sn && addDeviceInfo.sn.substring(9, 17)
+    addDeviceInfo.sn8 = addDeviceInfo.sn8 ? addDeviceInfo.sn8 : sn8
     if (!isSupportPlugin(formatType, sn8)) {
       console.log('扫码 不支持 无对应插件')
       justAppSupport()
       return
     }
-  
+
     if (!isAddDevice(addDeviceInfo.type.toLocaleUpperCase(), sn8)) {
       console.log('扫码 不支持 未测试')
       justAppSupport()
@@ -931,19 +928,19 @@ function scanFailTracking(params) {
     },
   })
 }
-  // 点击跳转机身二维码指引
+// 点击跳转机身二维码指引
 function clickQRcodeGuide() {
-    burialPoint.clickScanHint()
-    jumpQRcodeGuide()
-  }
+  burialPoint.clickScanHint()
+  jumpQRcodeGuide()
+}
 function jumpQRcodeGuide() {
-    const brandConfig = app.globalData.brandConfig[app.globalData.brand]
-    const guideUrl =
-      brandConfig.QRcodeGuideUrl ||
-      `${paths.webView}?webViewUrl=${encodeURIComponent(
-        `${commonH5Api.url}deviceQrCode.html`
-      )}&pageTitle=如何找到设备的二维码`
-    wx.navigateTo({
-      url: guideUrl,
-    })
-  }
+  const brandConfig = app.globalData.brandConfig[app.globalData.brand]
+  const guideUrl =
+    brandConfig.QRcodeGuideUrl ||
+    `${paths.webView}?webViewUrl=${encodeURIComponent(
+      `${commonH5Api.url}deviceQrCode.html`
+    )}&pageTitle=如何找到设备的二维码`
+  wx.navigateTo({
+    url: guideUrl,
+  })
+}

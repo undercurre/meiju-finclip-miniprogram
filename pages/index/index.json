@@ -1,5 +1,6 @@
 {
   "navigationStyle": "custom",
+  "navigationBarRightButton": {"hide": true},
   "navigationBarTitleText": "美的美居",
   "backgroundColor": "#ecf0f6",
   "usingComponents": {
@@ -16,7 +17,8 @@
     "mx-field": "/miniprogram_npm/m-ui/mx-field/index",
     "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
     "device-card-tips": "./component/device-card-tips/index",
-    "module-card": "./assets/module-card-templates/card/index"
+    "module-card": "./assets/module-card-templates/card/index",
+    "mx-toast":"m-ui/mx-toast/index"
   },
 
   "componentPlaceholder": {

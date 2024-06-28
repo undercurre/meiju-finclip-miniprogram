@@ -1,4 +1,4 @@
-import { getTimeStamp, getReqId, getStamp } from 'm-utilsdk/index'
+import { getTimeStamp, getReqId, getStamp, getUrlkey } from 'm-utilsdk/index'
 import { requestService } from '../../../../utils/requestService'
 
 //模拟数据
@@ -532,8 +532,32 @@ const service = {
       )
     })
   },
+
+  //扫码加入家庭
+  memberScancode(scancodeUrl) {
+    let reqData = {
+      reqId: getReqId(),
+      stamp: getStamp(),
+      scancodeUrl: scancodeUrl,
+    }
+    return new Promise((resolve, reject) => {
+      requestService
+        .request('memberScancode', reqData)
+        .then((resp) => {
+          if (resp.data.code == 0) {
+            resolve(resp.data.data)
+          } else {
+            reject(resp)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
 }
 
+//方法类
 function pad0(org, num) {
   org = org.toString()
   if (org.length >= num) {
@@ -546,4 +570,63 @@ function pad0(org, num) {
   var all = zero + org
   return all
 }
-export { service, pad0 }
+//解析扫码内容
+function getScanCode(result) {
+  let searchParams = getUrlkey(result)
+  if (searchParams?.action && searchParams.action == 'joinfamily') {
+    return searchParams.action
+  }
+}
+//解析扫码错误
+function scodeResonse(code) {
+  let label = '未知系统错误'
+  switch (code) {
+    case 1002:
+      label = '参数为空'
+      break
+    case 1105:
+      label = '账户不存在'
+      break
+    case 1201:
+      label = '您已经是家庭成员了'
+      break
+    case 1202:
+      label = '邀请者不是家庭管理员'
+      break
+    case 1203:
+      label = '该家庭不存在'
+      break
+    case 1204:
+      label = '您已经是家庭成员了'
+      break
+    case 1311:
+      label = '家庭二维码已失效，请扫描最新二维码'
+      break
+    case 1312:
+      label = '二维码错误'
+      break
+    case 3603:
+      label = '用户未绑定手机号码'
+      break
+    case 2019:
+      label = '您的家庭数量已达上限'
+      break
+    case 2020:
+      label = '当前家庭成员数量已达上限'
+      break
+    case 2022:
+      label = '对方的家庭数超过上限'
+      break
+    case 2023:
+      label = '对方家庭成员数量已达上限'
+      break
+    case 40500:
+      label = '调用业务系统异常(业务服务内部错误)'
+      break
+    default:
+      label = '抱歉，此二维码无效'
+      break
+  }
+  return label
+}
+export { service, pad0, getScanCode, scodeResonse }

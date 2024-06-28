@@ -57,19 +57,6 @@ const cardSDK = require('./moudle-card/index.js')
 let getBlackWhiteListTime = 0 //获取插件黑白名单次数
 // let resolveCallBack, rejectCallBack = null;
 App({
-  // async getGlobalRegion() {
-  //   return new Promise((resolve, reject) => {
-  //     cloudMethods
-  //       .getGlobalRegion()
-  //       .then((res) => {
-  //         resolve(res.data.data)
-  //       })
-  //       .catch((err) => {
-  //         reject()
-  //         console.log('err region', err)
-  //       })
-  //   })
-  // },
   ...weixinApi,
   //获取多云协议数据
   initCloudData() {
@@ -219,7 +206,7 @@ App({
     }
     //Performance_Track.getPerformanceData()
     this.$$Rangers = $$Rangers
-    //CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日志
+    CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日志
     //多云协议
     // if (!wx.getStorageSync('userRegion') && !wx.getStorageSync('cloudGlobalModule')) {
     this.initCloudData() //20230605屏蔽多云的入口调用，20230612打开多云入口
@@ -451,48 +438,44 @@ App({
       ...windowInfo,
       ...appBaseInfo,
     }
-    if (res.system.includes('iOS')) {
-      if (!res.locationAuthorized && !res.bluetoothAuthorized) {
-        wx.getLocation({
-          type: 'wgs84',
-          complete: () => {
-            wx.openBluetoothAdapter()
-          },
-        })
-      }
-      if (!res.locationAuthorized && res.bluetoothAuthorized) {
-        wx.getLocation({
-          type: 'wgs84',
-        })
-      }
-      if (res.locationAuthorized && !res.bluetoothAuthorized) {
-        wx.openBluetoothAdapter()
-      }
-    }
+    wx.openBluetoothAdapter({
+      success: (res) => {
+        console.log('lmn>>> 初始化蓝牙模块成功', res)
+      },
+      fail: (err) => {
+        console.log('lmn>>> 初始化蓝牙模块失败', err)
+      },
+    })
+    wx.getLocation({
+      type: 'wgs84', //返回可以用于wx.openLocation的经纬度
+      success(res) {
+        console.log('lmn>>> 初始化地址模块成功', res)
+        wx.openLocation()
+      },
+      fail: (err) => {
+        console.log('lmn>>> 初始化地址模块失败', err)
+      },
+    })
+
+    // if (res.system.includes('iOS')) {
+    // if (!res.locationAuthorized && !res.bluetoothAuthorized) {
+    // wx.getLocation({
+    // type: 'wgs84',
+    // complete: () => {
+    // wx.openBluetoothAdapter()
+    // },
+    // })
+    // }
+    // if (!res.locationAuthorized && res.bluetoothAuthorized) {
+    // wx.getLocation({
+    // type: 'wgs84',
+    // })
+    // }
+    // if (res.locationAuthorized && !res.bluetoothAuthorized) {
+    // wx.openBluetoothAdapter()
+    // }
+    // }
   },
-  /**
-   * 创建worker
-   * @param {Object}
-   *  * 例：
-   *  {
-   *     url: worker 路径 统一放到workers下
-   *     useExperimentalWorker 是否使用实验worker https://developers.weixin.qq.com/miniprogram/dev/api/worker/wx.createWorker.html
-   *  }
-   */
-  // createNewWorker({ url, useExperimentalWorker }) {
-  // if (this.globalData.worker) {
-  // this.globalData.worker.terminate()
-  // this.globalData.worker = null
-  // }
-  // this.globalData.worker = wx.createWorker(url, {
-  // useExperimentalWorker,
-  // })
-  // 监听 worker 被系统回收事件
-  // this.globalData.worker.onProcessKilled(() => {
-  // 重新创建一个worker
-  // this.createNewWorker({ url, useExperimentalWorker })
-  // })
-  // },
   onError(error) {
     console.log('发生脚本错误或者接口调用错误', error)
     CKECKING_LOG.uploadCheckingLog('App.onError', { event_result: error })

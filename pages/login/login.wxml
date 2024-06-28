@@ -2,48 +2,19 @@
 <view class="login-main">
   <navbar></navbar>
   <view style="height: {{statusBarHeight}}px;"></view>
-  <view class="topBac" style="margin-top: {{statusBarHeight}}px;">
-    <image src="{{topBacImg}}" class="topBacImg"></image>
-  </view>
+  <!-- <view class="topBac" style="margin-top: {{statusBarHeight}}px;"> -->
+  <!-- <image src="{{topBacImg}}" class="topBacImg"></image> -->
+  <!-- </view> -->
   <view class="login-logo" style="margin-top:{{logoTop}}rpx" wx:if="{{logoTop}}">
     <image src="{{loginLogoSrc}}"></image>
-  </view>
-
-  <view class="content">
-    <view class="agreeIcoWarp" catchtap="changeAgree">
-      <image class="agree-icon" src="{{agreeFlag ? loginBtnOn : loginBtnOff}}"></image>
-    </view>
-    <view class="des">
-      <text>我已阅读并同意</text>
-      <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《美的美居隐私协议》</text>
-      <text class="blue-text" bindtap="goPrivacy" data-type="register">《软件许可及用户服务协议》</text>
-      <text
-        class="blue-text"
-        bindtap="goPrivacy"
-        data-type="collected_userinfo"
-        data-prodtype="collected_userinfo_weixin_lite"
-        >《已收集个人信息清单》</text
-      >
-      <text
-        class="blue-text"
-        bindtap="goPrivacy"
-        data-type="shared_userinfo"
-        open-type="getPhoneNumber"
-        data-prodtype="shared_userinfo_weixin_lite"
-        >《与第三方共享个人信息清单》</text
-      >
-      <text>和</text>
-      <text class="blue-text" bindtap="goPrivacy" data-type="per_list" data-prodtype="per_list_weixin_lite"
-        >《美的美居权限列表》</text
-      >
-    </view>
   </view>
   <view class="login-section">
     <mx-cell-group custom-class="login-cell-group">
       <mx-field
-        custom-style="border: 1px solid #eeeeee;z-index:1000;"
+        class="custom-filed-class"
+        custom-style="border: 1px solid #e5e5e8;z-index:1000;"
         mx-iconfont="mx-icon"
-        left-icon="manager"
+        left-icon="{{phoneSrc}}"
         bind:input="handlePhoneNumberInput"
         maxlength="{{11}}"
         pattern="light"
@@ -52,7 +23,8 @@
         placeholder="请输入手机号码"
         border="{{ false }}"
         clearable
-      />
+        ><view slot="leftIcon"><image src="{{phoneSrc}}" /></view>
+      </mx-field>
       <mx-transition
         show="{{ imgCodeInputshow }}"
         name="{{ transitionName }}"
@@ -60,9 +32,9 @@
         custom-class="vercode-Input__container"
       >
         <mx-field
-          custom-style="border: 1px solid #eeeeee;margin-top:32rpx;z-index:1000;"
+          custom-style="border: 1px solid #e5e5e8;margin-top:32rpx;z-index:1000;"
           mx-iconfont="mx-icon"
-          left-icon="photo"
+          left-icon="{{imgCodeSrc}}"
           bind:input="handleImgcodeInput"
           pattern="light"
           shape="round"
@@ -71,7 +43,9 @@
           placeholder="请输入图形验证码"
           border="{{ false }}"
           clearable
-          ><image bindtap="getImgCode" class="imgcodever" slot="button" src="{{imgcode}}"></image
+          ><view class="button-get-imgcode" slot="button"
+            ><view class="left-position-border"></view
+            ><image bindtap="getImgCode" class="imgcodever" src="{{imgcode}}"></image></view
         ></mx-field>
       </mx-transition>
       <mx-transition
@@ -81,9 +55,9 @@
         custom-class="vercode-Input__container"
       >
         <mx-field
-          custom-style="border: 1px solid #eeeeee;margin-top:32rpx;z-index:1000;"
+          custom-style="border: 1px solid #e5e5e8;margin-top:32rpx;z-index:1000;"
           mx-iconfont="mx-icon"
-          left-icon="setting"
+          left-icon="{{verCodeSrc}}"
           bind:input="handleVercodeInput"
           maxlength="{{6}}"
           pattern="light"
@@ -93,15 +67,17 @@
           placeholder="请输入验证码"
           border="{{ false }}"
           clearable
-          ><mx-button
-            disabled="{{verCodeDisabled}}"
-            slot="button"
-            size="small"
-            type="text"
-            text-color="#267AFF"
-            bindclick="getSmsCode"
-            custom-class="login-vercode-button"
-            >{{verCodeDes}}</mx-button
+          ><view slot="button" class="vercode-content"
+            ><view class="left-border"></view
+            ><mx-button
+              disabled="{{verCodeDisabled}}"
+              size="small"
+              text-color="{{verCodeDisabled?'#c7c7cc':'#267aff'}}"
+              type="text"
+              bindclick="getSmsCode"
+              custom-class="login-vercode-button"
+              >{{verCodeDes}}</mx-button
+            ></view
           ></mx-field
         >
       </mx-transition>
@@ -115,33 +91,70 @@
       <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='加载中'}}" /> {{loginBtnDes}}
     </mx-button>
   </view>
-</view>
-
-<mx-dialog
-  use-slot
-  title="{{privacyTitle}}"
-  show="{{ privacyShow }}"
-  show-cancel-button
-  confirm-button-text="{{confirmButtonText}}"
-  cancel-button-text="{{cancelButtonText}}"
-  bind:confirm="onConfirm"
-  bind:cancel="onClose"
->
-  <view class="dialog-demo-input">
-    <view class="privacy-des">
-      <text>为保护您的合法权益，清先阅读并同意一下协议</text>
-      <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text>
-      <text>和</text>
-      <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户协议》</text>
+  <view class="content">
+    <view class="agreeIcoWarp" catchtap="changeAgree">
+      <image class="agree-icon" src="{{agreeFlag ? loginBtnOn : loginBtnOff}}"></image>
+    </view>
+    <view class="des">
+      <text>我已阅读并同意</text>
+      <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text><text>和</text>
+      <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户服务协议》</text>
     </view>
   </view>
-</mx-dialog>
 
-<mx-dedialog
-  show="{{ registerDialogShow }}"
-  title="帐号已注销"
-  content="该帐号已注销，请重新注册后再进行登录"
-  confirmLabel="重新注册登录"
-  textAlign="left"
-  bind:onButtonClicked="reristerLogin"
-></mx-dedialog>
+  <mx-dialog
+    use-slot
+    title="{{privacyTitle}}"
+    show="{{ privacyShow }}"
+    show-cancel-button
+    confirm-button-text="{{confirmButtonText}}"
+    cancel-button-text="{{cancelButtonText}}"
+    bind:confirm="onConfirm"
+    bind:cancel="onClose"
+  >
+    <view class="dialog-demo-input">
+      <view class="privacy-des">
+        <text>为保护您的合法权益，清先阅读并同意一下协议</text>
+        <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text>
+        <text>和</text>
+        <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户协议》</text>
+      </view>
+    </view>
+  </mx-dialog>
+
+  <mx-dialog
+    show-cancel-button
+    show="{{ registerDialogShow }}"
+    title="帐号已注销"
+    message="你账号3天内注销过，是否重新注册"
+    confirm-button-text="{{confirmReButtonText}}"
+    bind:confirm="reristerLogin"
+  ></mx-dialog>
+
+  <mx-dialog
+    show-cancel-button
+    show="{{ accountAbnorDialogShow }}"
+    title="帐号异常"
+    message="账号存在异常，暂时无法登陆"
+    confirm-button-text="{{confirmAuButtonText}}"
+    bind:confirm="makePhone"
+  ></mx-dialog>
+
+  <mx-dialog
+    show-cancel-button
+    show="{{ registeringDialogShow }}"
+    title="账号注销中"
+    message="你的账号正在注销中，请撤销注销后再尝试"
+    confirm-button-text="{{confirmReingButtonText}}"
+    bind:confirm="getJwtToken"
+  ></mx-dialog>
+
+  <!-- <mx-dedialog -->
+  <!-- show="{{ registerDialogShow }}" -->
+  <!-- title="帐号已注销" -->
+  <!-- content="该帐号已注销，请重新注册后再进行登录" -->
+  <!-- confirmLabel="重新注册登录" -->
+  <!-- textAlign="left" -->
+  <!-- bind:onButtonClicked="reristerLogin" -->
+  <!-- ></mx-dedialog> -->
+</view>

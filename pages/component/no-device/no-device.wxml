@@ -6,7 +6,7 @@
   <text class="addDeviceGreyDes">将为您提供便捷的智能控制体验</text>
   <view style="margin-bottom:{{autoHeight}}">
     <button class="addDeviceButton" bindtap="checkFun">{{btnConent}}</button>
-    <view wx:if="{{!isCanAddDevice&&isLogon}}" class="no-support-add" >升级中暂不可用，请到其他官方渠道添加</view>
+    <view wx:if="{{!isCanAddDevice&&isLogon}}" class="no-support-add">升级中暂不可用，请到其他官方渠道添加</view>
   </view>
 </view>
 

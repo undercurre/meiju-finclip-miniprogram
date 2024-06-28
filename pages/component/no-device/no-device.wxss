@@ -3,7 +3,7 @@
   width: 686rpx;
   height: auto;
   border-radius: 24rpx;
-  background: #fff;
+  /* background: #fff; */
   margin: 0 auto;
   text-align: center;
   display: flex;
@@ -14,7 +14,7 @@
 .addDeviceImg {
   width: 560rpx;
   height: 234rpx;
-  margin: 0 auto;
+  margin: 318rpx auto 0 auto;
 }
 
 .addDeviceDes {

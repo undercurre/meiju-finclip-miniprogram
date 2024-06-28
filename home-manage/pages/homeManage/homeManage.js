@@ -6,12 +6,14 @@ import { baseImgApi } from '../../../api'
 import burialPoint from '../../assets/burialPoint'
 import { plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
-
+const commonBehavior = require('../../assets/behavior')
 Page({
+  behaviors: [commonBehavior],
   /**
    * 页面的初始数据
    */
   data: {
+    title: '家庭管理',
     homeList: [],
     roomIco: baseImgApi.url + 'home-manage/family_ic_home@3x.png',
     equipmentIco: baseImgApi.url + 'home-manage/family_ic_shebei@3x.png',
@@ -240,33 +242,11 @@ Page({
 
   //点击邀请按钮
   clickInviteBtn(e) {
-    let { homegroupid } = e.currentTarget.dataset
-    this.sendHomeGroupItemReadRed(homegroupid)
-    burialPoint.clickInvitePoint()
+    console.log(e)
+    let { homegroupid, homeitem } = e.currentTarget.dataset
+    this.gotoInvite(homeitem, homegroupid)
+    //burialPoint.clickInvitePoint()
   },
-
-  //发送家庭点击邀请标识
-  sendHomeGroupItemReadRed(homegroupId) {
-    console.log('homegroupIdhomegroupIdhomegroupId', homegroupId)
-    let reqData = {
-      homeGroupId: homegroupId,
-      unread: 0,
-      reqId: getReqId(),
-      stamp: getStamp(),
-    }
-    return new Promise((resolve, reject) => {
-      requestService
-        .request('sendHomeGroupItemIsRead', reqData)
-        .then((resp) => {
-          console.log('是否点击邀请红点', resp)
-          resolve(resp)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-
   // 获取列表内容高度
   getContentHeight() {
     console.log('getContentHeight')
@@ -305,10 +285,11 @@ Page({
     })
   },
   goToDetail(e) {
-    let { name, homegroupid, roleid, ownhomenum } = e.currentTarget.dataset
+    let { name, homegroupid, roleid, ownhomenum, homeitem } = e.currentTarget.dataset
+    homeitem = JSON.stringify(homeitem)
     burialPoint.clickbthFamilyDetailBurialPoint()
     wx.navigateTo({
-      url: `/home-manage/pages/homeDetail/homeDetail?homegroupId=${homegroupid}&name=${name}&roleId=${roleid}&ownHomeNum=${ownhomenum}`,
+      url: `/home-manage/pages/homeDetail/homeDetail?homegroupId=${homegroupid}&name=${name}&roleId=${roleid}&ownHomeNum=${ownhomenum}&homeitem=${homeitem}`,
     })
   },
   /**

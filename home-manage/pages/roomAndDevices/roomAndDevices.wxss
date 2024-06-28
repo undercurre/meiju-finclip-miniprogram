@@ -7,17 +7,17 @@ page {
 }
 .main-container{
   margin-top: 20rpx;
-  padding-bottom: calc(204rpx + var(--iphonex-fix-bottom));
+  padding-bottom: calc(32rpx + var(--iphonex-fix-bottom));
 }
 .btn-container{
-  width: 100%;
-  box-sizing: border-box;
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
-  padding: 80rpx 32rpx calc(32rpx + var(--iphonex-fix-bottom));
-  background-color: #f9f9f9;
+  bottom: 0;
+  padding: 0 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  z-index: 1;
+  background-color: #fff;
+  position: fixed;
 }
 .dialog-input{
   padding:32rpx 30rpx 20rpx;
@@ -35,4 +35,8 @@ page {
   font-size: 20rpx;
   line-height: 20rpx;
   color: #FF8225;
+}
+.custom-plus-class{
+  display: inline-block;
+  margin-right: 8rpx;
 }

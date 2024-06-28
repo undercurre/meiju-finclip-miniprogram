@@ -5,11 +5,14 @@ import { getReqId, getStamp } from 'm-utilsdk/index'
 import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
+const commonBehavior = require('../../assets/behavior')
 Page({
+  behaviors: [commonBehavior],
   /**
    * 页面的初始数据
    */
   data: {
+    title: '家庭成员',
     homegroupId: '',
     memberList: [],
     roleId: '',
@@ -201,12 +204,15 @@ Page({
       page_id: 'page_family_Memberlist',
       page_name: '成员列表页',
     })
+    const { homeDetail, homegroupId } = this.data
+    this.gotoInvite(homeDetail, homegroupId)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     this.setData({
+      homeDetail: JSON.parse(options.homedetail),
       homegroupId: options.homegroupId,
       // memberList: JSON.parse(options.memberList),
       roleId: options.roleId,

@@ -1,8 +1,9 @@
 <!--home-manage/pages/memberManage/memberManage.wxml-->
 <privacy-popup></privacy-popup>
+<mx-nav-bar title="{{title}}" bind:click-left="onClickLeft"> </mx-nav-bar>
 <view class="main-container">
   <view class="member-container">
-    <mx-cell-group inset>
+    <mx-cell-group>
       <mx-cell
         size="large"
         imageSize="48"
@@ -50,6 +51,23 @@
   >
   </mx-dialog>
   <view class="btn-container" bindtap="inviteMembers" wx:if="{{ roleId!=1003 }}">
-    <mx-button open-type="share" type="primary" size="large" color="{{publicColor}}" round block>邀请家人</mx-button>
+    <mx-button
+      nohover-class
+      type="text"
+      size="large"
+      round
+      block
+      plain
+      color="{{publicColor}}"
+      custom-style="background-color: transparent;"
+    >
+      <mx-icon
+        classPrefix="mx-iconfont"
+        custom-class="custom-plus-class"
+        name="add2"
+        size="14"
+        color="{{publicColor}}"
+      />邀请家人</mx-button
+    >
   </view>
 </view>

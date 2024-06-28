@@ -25,20 +25,18 @@
 }
 .login-logo image {
   display: block;
-  width: 360rpx;
-  height: 360rpx;
+  width: 348rpx;
+  height: 192rpx;
   margin: 0 auto;
 }
 .login-section {
-  position: absolute;
-  left: 0;
-  bottom: 350rpx;
+  margin-top: 100rpx;
   width: 100%;
 }
 .login-btn {
-  width: 640rpx!important;
-  height: 86rpx!important;
-  line-height: 86rpx!important;
+  width:560rpx!important;
+  height: 92rpx!important;
+  line-height: 92rpx!important;
   background-color: #267aff!important;
   border-radius: 43rpx!important;
   font-size: 32rpx!important;
@@ -49,6 +47,10 @@
   align-items: center!important;
   justify-content: center!important;
 }
+.login-btn{
+  --button-disabled-opacity:.2
+}
+
 .agree-icon {
   width: 28rpx;
   height: 28rpx;
@@ -67,12 +69,7 @@ button::after {
 
 .content {
   display: flex;
-  width: 640rpx;
-  margin: 0 auto;
-  position: absolute;
-  bottom: 220rpx;
-  left: 50%;
-  margin-left: -320rpx;
+  margin: 40rpx 96rpx;
   z-index: 10;
 }
 .agreeIcoWarp {
@@ -107,16 +104,19 @@ button::after {
 }
 
 .login-cell-group{
-  margin: 20rpx 48rpx;
+  margin: 32rpx 96rpx;
 }
 
 .login-vercode-button{
  font-size: 24rpx;
 }
+.login-vercode-button{
+  --padding-xs:0
+ }
 
-.login-section{
-  --cell-line-height:56rpx
-}
+/* .login-section{ */
+  /* --cell-line-height:56rpx */
+/* } */
 .privacy-des{
   padding: 16rpx 32rpx;
   font-size: 24rpx;
@@ -124,6 +124,60 @@ button::after {
   color: #666666;
 }
 .imgcodever{
-  width: 120rpx;
-  height: 40rpx;
+  width: 160rpx;
+  height: 60rpx;
+  position: absolute;
+  top: 8rpx;
+  right: 32rpx;
 }
+
+.login-main{
+  --cell-line-height:60rpx;
+}
+
+.mx-icon--image{
+  height: 48rpx!important;
+  margin-left: 28rpx;
+}
+
+.mx-icon__image{
+  width: 48rpx!important;
+  height: 48rpx!important;
+}
+.button-get-imgcode{
+  width: 189rpx;
+  
+}
+.left-position{
+  position: relative;
+}
+.vercode-content{
+  position: relative;
+  width: 189rpx;
+  text-align: center;
+}
+.vercode-content{
+  --button-disabled-opacity:1
+}
+
+.left-border{
+  top: 18rpx;
+  position: absolute;
+  height: 30rpx;
+  width: 1px;
+  background-color: #c7c7cc;
+  left: 0;
+}
+.left-position-border{
+  top: 28rpx;
+  position: absolute;
+  height: 30rpx;
+  width: 1px;
+  background-color: #c7c7cc;
+  right: 206rpx;
+}
+.custom-filed-class{
+  --field-icon-margin-right: 18rpx;
+}
+
+

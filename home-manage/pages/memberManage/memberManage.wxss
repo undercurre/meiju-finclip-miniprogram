@@ -50,16 +50,21 @@ page {
   margin-right: 28rpx;
 }
 .btn-container{
-  width: 100%;
-  box-sizing: border-box;
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
-  padding: 80rpx 32rpx calc(32rpx + var(--iphonex-fix-bottom));
-  background-color: #f9f9f9;
+  bottom: 0;
+  padding: 0 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  z-index: 1;
+  background-color: #fff;
+  position: fixed;
 }
 
 .mx-cell__title_title{
   overflow: auto!important
+}
+
+.custom-plus-class{
+  display: inline-block;
+  margin-right: 8rpx;
 }

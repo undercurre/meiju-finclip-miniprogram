@@ -9,6 +9,7 @@
     "pages/midea-service/midea-service",
     "pages/transition/transition",
     "pages/faultInfo/faultInfo",
+    "pages/scanCode-result/index",
     "pages/openShoppingLite/openShoppingLite",
     "sub-package/privacy/privacy",
     "miniprogram_npm/m-services/services/index"
@@ -84,7 +85,8 @@
         "pages/homeDetail/homeDetail",
         "pages/roomAndDevices/roomAndDevices",
         "pages/roomDetail/roomDetail",
-        "pages/memberManage/memberManage"
+        "pages/memberManage/memberManage",
+        "pages/inviteFamily/invite"
       ]
     },
     {
@@ -736,6 +738,7 @@
   },
   "__usePrivacyCheck__": true,
   "lazyCodeLoading": "requiredComponents",
+  "navigationBarRightButton": {"hide": true},
   "requiredPrivateInfos": [
     "getLocation"
   ]

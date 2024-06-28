@@ -1,5 +1,5 @@
 {
-  "name": "project-midea-meiju-lite",
+  "name": "meiju-finclip-miniprogram",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -38,7 +38,7 @@
     "m-miniCommonSDK": "1.0.12",
     "m-performance": "^1.0.0",
     "m-services": "1.0.18",
-    "m-ui": "^2.0.27",
+    "m-ui": "^2.0.28",
     "m-track": "^1.0.0",
     "m-utilsdk": "1.0.9",
     "m-ble-crypto": "1.0.0"

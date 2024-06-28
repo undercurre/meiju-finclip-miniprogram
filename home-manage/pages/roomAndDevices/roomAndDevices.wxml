@@ -1,6 +1,6 @@
-<!--home-manage/pages/roomAndDevices/roomAndDevices.wxml-->
+<mx-nav-bar title="{{title}}" bind:click-left="onClickLeft"> </mx-nav-bar>
 <view class="main-container">
-  <mx-cell-group inset>
+  <mx-cell-group>
     <mx-cell
       wx:for="{{roomList}}"
       wx:key="index"
@@ -19,7 +19,23 @@
     />
   </mx-cell-group>
   <view class="btn-container" bindtap="showAddDialog" wx:if="{{ roleId!=1003 }}">
-    <mx-button type="primary" size="large" color="{{publicColor}}" round block>新建房间</mx-button>
+    <mx-button
+      nohover-class
+      type="text"
+      size="large"
+      round
+      plain
+      color="{{publicColor}}"
+      custom-style="background-color: transparent;"
+      block
+      ><mx-icon
+        classPrefix="mx-iconfont"
+        custom-class="custom-plus-class"
+        name="add2"
+        size="14"
+        color="{{publicColor}}"
+      />新建房间</mx-button
+    >
   </view>
   <mx-dialog
     z-index="10001"

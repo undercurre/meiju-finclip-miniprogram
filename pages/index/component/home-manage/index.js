@@ -1,10 +1,15 @@
 import { baseImgApi } from '../../../../api'
 import { rangersBurialPoint } from '../../../../utils/requestService.js'
 import { formatTime } from 'm-utilsdk/index'
-import { getFullPageUrl } from '../../../../utils/util.js'
+import { getFullPageUrl, checkFamilyPermission } from '../../../../utils/util.js'
 import { clickEventTracking } from '../../../../track/track.js'
 import { indexHomerGroupListViewBurialPoint, clickFamilyManagement } from '../../assets/js/burialPoint'
 import { service } from '../../assets/js/service.js'
+const addSelect = '/assets/img/index/add_select.png'
+const addNoSelect = '/assets/img/index/add_no_select.png'
+const addDevice = '/assets/img/index/add_device.png'
+const addScan = '/assets/img/index/add_scan.png'
+import Toast from 'm-ui/mx-toast/toast'
 const app = getApp()
 Component({
   behaviors: [],
@@ -25,27 +30,44 @@ Component({
     currentHomeGroupId: {
       type: String,
     },
+    currentHomeInfo: {
+      type: Object,
+      observer: function (val) {
+        this.checkFamilyPermission(val) // 校验家庭权限
+      },
+    },
   },
 
   data: {
+    addSelect,
+    addNoSelect,
+    addDevice,
+    addScan,
+    addSelectIcon: '',
     baseImgUrl: baseImgApi.url,
     uid: null,
+    showAddList: false,
     showHomeList: false,
-    // showHomeTitleRedDot: false,
+    hasFamilyPermission: true, //添加按钮权限
     homeManageClicked: false,
+    addManageClicked: false,
     homePickerHeight: 0,
     homePickerAnimation: null,
     iconTriangleAnimation: null,
     homePickerAnimationData: {},
     iconTriangleAnimationData: {},
+    addPickerAnimation: null,
+    addPickerAnimationData: {},
     selectIcon: baseImgApi.url + 'home_ic_done.png',
+    addWidth: '238rpx',
+    addHeight: '153rpx',
   }, // 私有数据，可用于模板渲染
 
   lifetimes: {
     // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
     attached: function () {
       this.data.uid = app.globalData.userData.uid
-      //this.checkHomeGrounpRed() // 校验家庭红点
+      this.checkFamilyPermission(this.data.currentHomeInfo) // 校验家庭权限
       this.createAnimationData()
     },
     moved: function () {},
@@ -55,7 +77,7 @@ Component({
   pageLifetimes: {
     // 组件所在页面的生命周期函数
     show: function () {
-      //this.checkHomeGrounpRed() // 校验家庭红点
+      this.checkFamilyPermission(this.data.currentHomeInfo) // 校验家庭权限
     },
     hide: function () {
       if (this.data.showHomeList) {
@@ -66,9 +88,55 @@ Component({
   },
 
   methods: {
+    //家庭权限
+    checkFamilyPermission(val) {
+      this.data.hasFamilyPermission = checkFamilyPermission({
+        currentHomeInfo: val,
+      })
+      if (this.data.hasFamilyPermission) {
+        this.setData({
+          addSelectIcon: addSelect,
+        })
+      } else {
+        this.setData({
+          addSelectIcon: addNoSelect,
+        })
+      }
+    },
+    //添加设备和扫一扫列表显示和隐藏
+    switchShowAddList() {
+      if (this.data.hasFamilyPermission) {
+        const { addHeight, addWidth, addManageClicked } = this.data
+        this.data.addManageClicked = true
+        // if (!addManageClicked) {
+        // return
+        // }
+        const addPickerAnimation = this.data.addPickerAnimation
+        let showAddList = !this.data.showAddList
+        if (showAddList) {
+          addPickerAnimation.height(addHeight).width(addWidth).opacity(1).step()
+        } else {
+          showAddList = false
+          addPickerAnimation.height(0).width(0).opacity(0).step()
+        }
+        const addPickerAnimationData = addPickerAnimation.export() // 家庭管理动画
+        this.setData({
+          addPickerAnimationData,
+          showAddList,
+        })
+      } else {
+        Toast({ context: this, position: 'bottom', message: '您当前家庭身份为普通成员，无法操作添加设备' })
+      }
+    },
     //添加设备
     goAddDeviceJia() {
+      this.switchShowAddList()
       this.triggerEvent('goAddDeviceJia')
+    },
+    //扫一扫
+    goScanCode() {
+      this.switchShowAddList()
+      this.triggerEvent('goScanCode')
     },
     changeHome(e) {
       this.triggerEvent('selectHomeGroupOption', e)
@@ -120,10 +188,15 @@ Component({
         duration: 200,
         timingFunction: 'ease',
       })
+      const addPickerAnimation = wx.createAnimation({
+        duration: 200,
+        timingFunction: 'ease',
+      })
       const iconTriangleAnimation = wx.createAnimation({
         duration: 200,
         timingFunction: 'ease',
       })
+      this.data.addPickerAnimation = addPickerAnimation
       this.data.homePickerAnimation = homePickerAnimation
       this.data.iconTriangleAnimation = iconTriangleAnimation
     },

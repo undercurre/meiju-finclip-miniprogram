@@ -17,7 +17,7 @@ page {
   white-space: nowrap;
 }
 .device-list-title{
-  margin: 48rpx 0 28rpx 36rpx;
+  margin: 16rpx 0 16rpx 0;
   font-size: 28rpx;
   color: #999;
 }
@@ -47,4 +47,9 @@ page {
   font-size: 20rpx;
   line-height: 20rpx;
   color: #FF8225;
+}
+.custom-nav-class{
+  --nav-bar-text-color:#000000;
+  --nav-bar-text-margin:0 32rpx;
+  --nav-bar-text-padding:0
 }

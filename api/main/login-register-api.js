@@ -1,3 +1,8 @@
+/*
+ * @desc:
+ * @author: zhucc22
+ * @Date: 2024-06-17 16:59:38
+ */
 import config from '../../config.js'
 const environment = config.environment
 const masPrefix = config.masPrefix
@@ -39,7 +44,7 @@ const api = {
   getJwtToken: {
     url: `${domain[`${environment}`]}/v1/user/wx/c4a/getJwtToken`,
     //masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/getJwtToken`, //旧配置
-    masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/getJwtToken`, //新配置
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/getJwtToken`, //新配置
     api: 'v1/user/wx/c4a/getJwtToken',
   },
   //获取用户注销状态信息接口

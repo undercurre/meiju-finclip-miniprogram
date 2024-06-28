@@ -1,4 +1,5 @@
 {
+  "navigationStyle": "custom",
   "navigationBarTitleText": "家庭成员",
   "navigationBarBackgroundColor": "#f9f9f9",
   "usingComponents": {
@@ -7,6 +8,8 @@
     "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
     "mx-image": "/miniprogram_npm/m-ui/mx-image/index",
+    "mx-nav-bar":"m-ui/mx-nav-bar/index",
+    "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
     "mx-action-sheet": "/miniprogram_npm/m-ui/mx-action-sheet/index"
   }
 }

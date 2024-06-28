@@ -27,6 +27,7 @@ const myxAppkey = config.myxAppkey
 const myxSecret = config.myxSecret
 const qwid = config.qwid
 const serviceAppid = config.serviceAppid
+const clientYype = config.clientYype
 var api = {
   isMasEnv: isMasEnv,
   urlPrefix: `${domain[`${environment}`]}` + (isMasEnv ? masPrefix : ''),
@@ -44,6 +45,7 @@ var api = {
   myxSecret: `${myxSecret[environment]}`,
   myqwid: `${qwid[environment]}`,
   serviceAppid: `${serviceAppid[environment]}`,
+  clientYype: clientYype,
   ...mainApi,
   ...activities,
   ...plugin,
@@ -70,6 +72,7 @@ var api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/mjl/wx/mobile/shop/bing`,
     api: '/muc/v5/app/mj/user/applet/wx/mobile/shop/bing',
   },
+  //获取短信验证码
   gitSmsCode: {
     url: `${domain[`${environment}`]}/muc/v5/app/mj/user/getSmbingsCode`,
     masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/getSmsCode`,
@@ -80,17 +83,31 @@ var api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/mobile/login`,
     api: '/mj/user/mobile/login',
   },
-  //获取图片验证码
-  getImgCode: {
-    url: `${domain[`${environment}`]}/mj/user/autoLogin`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/getImgCode`,
-    api: '/mj/user/autoLogin',
+  //短信验证码免密登陆注册
+  register: {
+    url: `${domain[`${environment}`]}/mj/user/register`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/register`,
+    api: '/mj/user/register',
   },
+  //自动登陆
   autoLogin: {
     url: `${domain[`${environment}`]}/mj/user/autoLogin`,
     masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/autoLogin`,
     api: '/mj/user/autoLogin',
   },
+  //管理员发送二维码邀请
+  memberQrcode: {
+    url: `${domain[`${environment}`]}/v1/homegroup/member/generate/qrcode`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/homegroup/member/generate/qrcode`,
+    api: '/v1/homegroup/member/generate/qrcode',
+  },
+  //扫码加入家庭
+  memberScancode: {
+    url: `${domain[`${environment}`]}/v1/homegroup/member/join/home/scancode`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/homegroup/member/join/home/scancode`,
+    api: '/v1/homegroup/member/join/home/scancode',
+  },
+  //
   mobileVerify: {
     url: `${domain[`${environment}`]}/muc/v5/app/mj/user/mobileVerify`,
     masUrl: `${domain[`${environment}`] + masPrefix}/mjl/mj/user/mobileVerify`,

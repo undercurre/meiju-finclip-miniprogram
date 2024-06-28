@@ -1,4 +1,5 @@
 {
+  "navigationStyle": "custom",
   "navigationBarTitleText": "房间详情",
   "navigationBarBackgroundColor": "#f9f9f9",
   "usingComponents": {
@@ -6,6 +7,7 @@
     "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
     "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-nav-bar":"m-ui/mx-nav-bar/index",
     "mx-field": "/miniprogram_npm/m-ui/mx-field/index"
   }
 }

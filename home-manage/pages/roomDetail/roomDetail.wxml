@@ -1,14 +1,21 @@
-<!--home-manage/pages/roomDetail/roomDetail.wxml-->
+<mx-nav-bar
+  title="{{roomName}}"
+  custom-class="custom-nav-class"
+  right-text="{{roleId==1001 || roleId==1002?'删除':''}}"
+  bind:click-right="showDeleteDialog"
+  bind:click-left="onClickLeft"
+/>
 <view class="main-container">
-  <mx-cell-group inset>
+  <mx-cell-group>
     <mx-cell size="large" center imageSize="32" is-link="{{ roleId!=1003 }}" title="房间名称" bindtap="showEditDialog">
       <view class="room-name">{{ roomName }}</view>
     </mx-cell>
   </mx-cell-group>
-  <view class="device-list-title" wx:if="{{roomDetail.applianceList.length}}">
-    <text>设备列表</text>
-  </view>
-  <mx-cell-group inset>
+  <!-- <view class="device-list-title" wx:if="{{roomDetail.applianceList.length}}"> -->
+  <!-- <text>设备列表</text> -->
+  <!-- </view> -->
+  <view class="device-list-title"></view>
+  <mx-cell-group>
     <mx-cell
       wx:for="{{ roomDetail.applianceList }}"
       wx:key="index"
@@ -19,9 +26,9 @@
       title="{{ item.name }}"
     />
   </mx-cell-group>
-  <view class="btn-container" bindtap="showDeleteDialog" wx:if="{{roleId==1001 || roleId==1002}}">
-    <mx-button type="primary" size="large" color="{{publicColor}}" round block plain>删除房间</mx-button>
-  </view>
+  <!-- <view class="btn-container" bindtap="showDeleteDialog" wx:if="{{roleId==1001 || roleId==1002}}"> -->
+  <!-- <mx-button type="primary" size="large" color="{{publicColor}}" round block plain>删除房间</mx-button> -->
+  <!-- </view> -->
   <mx-dialog
     z-index="10001"
     title="删除房间"
@@ -79,9 +86,6 @@
           error-color="{{errorColor}}"
         ></mx-field>
       </view>
-      <!-- <view class="tips-container" wx:if="{{ tipsShow }}">
-        <text class="tips">{{ tips }}</text>
-      </view> -->
     </view>
   </mx-dialog>
 </view>

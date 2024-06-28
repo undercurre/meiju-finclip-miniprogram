@@ -14,8 +14,25 @@
         <!-- <view class="red-dot home-manage-red-dot" wx:if="{{showHomeTitleRedDot}}"></view> -->
       </view>
     </view>
-    <view catchtap="goAddDeviceJia" class="add-device-icon">
-      <mx-icon name="add2" classPrefix="mx-iconfont"></mx-icon>
+    <!-- <view catchtap="goAddDeviceJia" class="add-device-icon"> -->
+
+    <view bind:tap="switchShowAddList" class="add-device-icon">
+      <mx-icon custom-class="add-device-icon-icon" name="{{addSelectIcon}}" classPrefix="mx-iconfont"></mx-icon>
+    </view>
+  </view>
+  <view class="home-picker-cover" wx:if="{{showAddList}}" bind:touchend="switchShowAddList"></view>
+  <view class="add_list_wrap">
+    <view class="add-list-pick" animation="{{addPickerAnimationData}}" bindtap="switchShowAddList">
+      <scroll-view>
+        <view class="add-picker-options-wrapper">
+          <mx-icon size="16" name="{{addDevice}}" classPrefix="mx-iconfont"></mx-icon
+          ><text catchtap="goAddDeviceJia" class="add-icon-text">添加设备</text>
+        </view>
+        <view class="add-picker-options-wrapper-item">
+          <mx-icon size="16" name="{{addScan}}" classPrefix="mx-iconfont"></mx-icon
+          ><text catchtap="goScanCode" class="add-icon-text">扫一扫</text>
+        </view>
+      </scroll-view>
     </view>
   </view>
   <view class="home-picker-cover" wx:if="{{showHomeList}}" bind:touchend="switchShowHomeList"></view>
@@ -47,5 +64,8 @@
         家庭管理
       </view>
     </view>
+  </view>
+  <view class="home-toast-content">
+    <mx-toast id="mx-toast" />
   </view>
 </block>

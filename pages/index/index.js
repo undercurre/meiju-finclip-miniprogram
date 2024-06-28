@@ -8,9 +8,10 @@ import { getPluginUrl } from '../../utils/getPluginUrl'
 import { creatDeviceSessionId, getFullPageUrl, showToast, checkFamilyPermission, getIcon } from '../../utils/util'
 import { getWxSystemInfo } from '../../utils/wx/index.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
+//const indexSrc = '../../assets/img/index/index.png'
 
-import { service } from 'assets/js/service'
-
+import { service, getScanCode, scodeResonse } from 'assets/js/service'
+import Toast from 'm-ui/mx-toast/toast'
 import {
   supportedApplianceTypes,
   getCommonType,
@@ -31,7 +32,7 @@ import {
   checkFamilyPermissionAddBurialPoint,
   cardClickPluginBurialPoint,
 } from 'assets/js/burialPoint'
-import { baseImgApi } from '../../api'
+import { baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking, trackLoaded } from '../../track/track.js'
 import paths, { scanDevice, download } from '../../utils/paths.js'
 // 动画效果
@@ -43,10 +44,18 @@ import { actionScanResult } from '../../utils/scanCodeApi'
 import { familyPermissionText } from '../../globalCommon/js/commonText.js'
 import { checkPermission } from '../common/js/permissionAbout/checkPermissionTip'
 import HomeStorage from './assets/js/storage.js'
-import { initWebsocket, receiveSocketMessage, closeReConnect, networkChange } from './../../utils/initWebsocket.js'
+import {
+  initWebsocket,
+  receiveSocketMessage,
+  closeReConnect,
+  networkChange,
+  closeWebsocket,
+} from './../../utils/initWebsocket.js'
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
 const homeStorage = new HomeStorage()
+const indexSrc = imgBaseUrl.url + '/harmonyos/index/index.png'
+const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let currentPageOptions = {} // index 页面options
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
 let forceUpdateWhenOnshow = false // 触发onshow是否需要更新
@@ -104,7 +113,6 @@ Page({
           // 已登录
           this.locationAuthorize() //判断用户是否授权小程序使用位置权限
           this.bluetoothAuthorize() //判断用户是否授权小程序使用蓝牙权限
-
           //获取添加设备灰度名单判断是否是灰度用户
           addDeviceSDK.isGrayUser().then((isCan) => {
             this.setData({
@@ -180,7 +188,7 @@ Page({
     // webview 页面返回 webViewUrl
     console.log('webViewUrl: ', res.webViewUrl)
     return {
-      title: '美的美居Lite',
+      title: '美的美居',
       imageUrl: '',
       query: '',
     }
@@ -198,6 +206,8 @@ Page({
     this.clearMixinsTime()
   },
   data: {
+    indexSrc,
+    addIndexDevice,
     resetScrollTop: 0,
     showAni: false,
     animation: '',
@@ -249,14 +259,14 @@ Page({
         funName: 'editApplianceName',
       },
       {
-        name: '更换房间',
-        ico: baseImgApi.url + 'pop_ic_home@2x.png',
-        funName: 'changeRoom',
-      },
-      {
         name: '删除设备',
         ico: baseImgApi.url + 'pop_ic_delete@2x.png',
         funName: 'deleteAppliance',
+      },
+      {
+        name: '移动设备',
+        ico: baseImgApi.url + 'pop_ic_home@2x.png',
+        funName: 'changeRoom',
       },
     ],
     unSmartEditList: [
@@ -291,7 +301,8 @@ Page({
     scollTop: 0,
     showHover: true, //设备点击态样式
     allDevice: [],
-    myBtnConent: app.globalData.isLogon ? '添加智能设备' : '前往登录',
+    //myBtnConent: app.globalData.isLogon ? '添加智能设备' : '前往登录',
+    myBtnConent: '添加智能设备',
     isCanAddDevice: true, //是否可配网,灰度下架，写死为true
     clickFLag: false, //防重复点击
     hasScand: false, // 是否已经扫码加入家庭
@@ -309,6 +320,9 @@ Page({
     const { isLogon } = app.globalData
     if (isLogon) {
       try {
+        if (getApp().globalData.gloabalWebSocket) {
+          closeWebsocket()
+        }
         await initWebsocket().then((resp) => {
           console.log('webscoket index.js链接成功=====>', resp)
           this.receiveSocketData()
@@ -427,7 +441,7 @@ Page({
     if (!hasFamilyPermission) {
       checkFamilyPermissionBurialPoint({
         page_id: 'pop_ord_memb_no_autr_change_room',
-        page_name: '普通成员无权限更换房间弹窗',
+        page_name: '普通成员无权限移动设备弹窗',
         object_id: itemInfo && itemInfo.applianceCode,
         object_name: itemInfo && itemInfo.name,
         onlineStatus: itemInfo && itemInfo.onlineStatus,
@@ -1386,9 +1400,10 @@ Page({
   //切换家庭
   updateHomeGroup(index, homegourpId) {
     console.log('优化 updateHomeGroup 切换家庭 shart', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-    this.data.currentHomeInfo = this.data.homeList[index]
+    const currentHomeInfo = this.data.homeList[index]
     //重置设备列表数据
     this.setData({
+      currentHomeInfo: currentHomeInfo,
       currentHomeGroupIndex: index,
       currentHomeGroupId: homegourpId,
       homeList: this.data.homeList,
@@ -1864,7 +1879,6 @@ Page({
     console.log('优化 init start', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
     // 1.获取当前家庭
     this.data.uid = app.globalData.userData.uid
-    this.initPushData()
     //getApp().globalData.gloabalWebSocket && this.receiveSocketData()
     wx.showNavigationBarLoading()
     //获取设备icon列表
@@ -1985,10 +1999,10 @@ Page({
    * 点击事件埋点
    */
   clickBurdPoint(clickType) {
-    wx.reportAnalytics('count_click_list', {
-      click_type: clickType,
-      click_time: formatTime(new Date()),
-    })
+    // wx.reportAnalytics('count_click_list', {
+    // click_type: clickType,
+    // click_time: formatTime(new Date()),
+    // })
   },
   // 批量添加设备卡片
   addDeviceCardBatch() {
@@ -2088,7 +2102,7 @@ Page({
       isNfcFirstInit: true,
     })
     if (app.globalData.isLogon) {
-      // this.initPushData()
+      this.initPushData()
       this.scanCodeJoinFamily(app.globalData.isLogon)
       this.joinFamilyFromShare() // 通过邀请加入家庭
       if (app.globalData.uid) {
@@ -2099,6 +2113,7 @@ Page({
       }
     } else {
       try {
+        this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
         if (isAutoLogin) {
           app.watchLogin(() => {
@@ -2300,32 +2315,6 @@ Page({
     })
   },
 
-  //美云销 新广告接口 悬浮广告 v2.26 去掉广告浮窗
-  // getFloatAdvertisement() {
-  //   let { isLogon } = app.globalData
-  //   let params = {
-  //     isLogon,
-  //     headParams: {},
-  //     restParams: {
-  //       applicationCode: 'APP202105250001EXT', //新api	应用编码
-  //       adPositionCode: 'LITEFC', //新api 广告位编码列表
-  //       // "adPositionCodes":["LITEBANNER"],      //新api 广告位编码列表
-  //     },
-  //   }
-  //   return new Promise(() => {
-  //     service.getAdvertise(params).then((res) => {
-  //       this.setData(
-  //         {
-  //           'floatDialog.initData': res.data.data.ads || [],
-  //         },
-  //         () => {
-  //           adFloatComponent = this.selectComponent('#adFloat')
-  //         }
-  //       )
-  //     })
-  //   })
-  // },
-
   // 美云销 广告新接口登录后空态banner
   getBannerAdvertisement() {
     let { isLogon } = app.globalData
@@ -2347,6 +2336,60 @@ Page({
       })
     })
   },
+  //扫码
+  goScanCode() {
+    let that = this
+    // 允许从相机和相册扫码
+    wx.scanCode({
+      success(res) {
+        //扫码加入家庭
+        if (getScanCode(res.result) == 'joinfamily') {
+          that.joinfamily(res.result)
+        } else {
+          //其他情况
+          that.gotoScanCodeResult(res.result)
+        }
+        console.log(res)
+      },
+      fail(error) {
+        Toast({ context: this, position: 'bottom', message: '未发现 有效二维码和条形码' })
+      },
+    })
+  },
+  //扫码加入家庭
+  joinfamily(result) {
+    let that = this
+    service
+      .memberScancode(result)
+      .then((res) => {
+        Toast({ context: this, position: 'bottom', message: '加入家庭成功' })
+        console.log(res)
+        let homeId = res.homegroupId
+        getApp().globalData.ifRefreshHomeList = true
+        that.getHomeGrouplistService().then((data) => {
+          data.forEach((item, index) => {
+            if (item.homegroupId == homeId) {
+              that.init(index)
+            }
+          })
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        var code = error.data.code
+        var label = 'code未知系统错误'
+        label = scodeResonse(code)
+        Toast({ context: this, position: 'bottom', message: label })
+      })
+  },
+  //展示链接
+  gotoScanCodeResult(result) {
+    result = encodeURIComponent(result)
+    wx.navigateTo({
+      url: `/pages/scanCode-result/index?result=${result}`,
+    })
+  },
+  //添加设备
   async goAddDeviceJia() {
     // 防爆击处理
     if (!this.data.isGoToScan) return
@@ -2696,22 +2739,6 @@ Page({
       }
     }, 500)
   },
-  // // 蓝牙自发现
-  // actionBlue() {
-  //   if (!this.data.isShowProductDialog) return
-  //   // this.clearDevices()
-  //   // this.closeBluetoothAdapter()
-  //   this.stopBluetoothDevicesDiscovery()
-  //   this.checkSystemInfo(false).then(() => {
-  //     if (
-  //       this.data.isBluetoothMixinNotOpenWxLocation ||
-  //       this.data.isBluetoothMixinNotOpen ||
-  //       !this.data.isBluetoothMixinHasAuthBluetooth
-  //     )
-  //       return
-  //     this.openBluetoothAdapter()
-  //   })
-  // },
   //邀请家庭接口 home-manage
   invitedLoginFamily(resp) {
     Dialog.alert({
@@ -2841,48 +2868,8 @@ Page({
       (error) => {
         console.log('0000000000000000000扫码加入家庭 error', error)
         var code = error.data.code
-        var label = '未知系统错误'
-        switch (code) {
-          case 1002:
-            label = '参数为空'
-            break
-          case 1105:
-            label = '账户不存在'
-            break
-          case 1201:
-            label = '被邀请的用户已经是家庭成员'
-            break
-          case 1202:
-            label = '邀请者不是家庭管理员'
-            break
-          case 1203:
-            label = '家庭不存在'
-            break
-          case 1204:
-            label = '不能邀请自己'
-            break
-          case 1311:
-            label = '二维码失效'
-            break
-          case 1312:
-            label = '二维码错误'
-            break
-          case 3603:
-            label = '用户未绑定手机号码'
-            break
-          case 2019:
-            label = '当前用户的家庭数超出限制'
-            break
-          case 2023:
-            label = '对方用户的家庭成员数超出限制'
-            break
-          case 40500:
-            label = '调用业务系统异常(业务服务内部错误)'
-            break
-          default:
-            label = '未知系统错误'
-            break
-        }
+        var label = 'code未知系统错误'
+        label = scodeResonse(code)
         Dialog.alert({
           zIndex: 10001,
           context: this,

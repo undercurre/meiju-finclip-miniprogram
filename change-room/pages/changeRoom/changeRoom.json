@@ -1,4 +1,9 @@
 {
-  "usingComponents": {},
-  "navigationBarTitleText": "选择房间"
+  "navigationStyle": "custom",
+  "navigationBarRightButton": {"hide": true},
+  "usingComponents": {
+    "mx-action-sheet": "/miniprogram_npm/m-ui/mx-action-sheet/index",
+    "mx-cell": "m-ui/mx-cell/index",
+    "mx-nav-bar": "m-ui/mx-nav-bar/index"
+  }
 }

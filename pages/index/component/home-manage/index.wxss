@@ -1,4 +1,5 @@
 .home-list {
+  /* margin: 44rpx 0 36rpx 32rpx; */
   position: relative;
   z-index: 99;
   box-sizing: border-box;
@@ -230,3 +231,61 @@ button[class='inviteButton']::after {
  width: 32rpx;
  height: 32rpx;
 }
+
+
+/*添加弹窗*/
+.add-device-icon-icon{
+  width: 64rpx;
+}
+.add_list_wrap{
+  position: absolute;
+  top: 70rpx;
+  right:32rpx;
+  z-index: 999999;
+}
+
+.add-list-pick{
+  position: relative;
+  top: 16rpx;
+  bottom: 0rpx;
+  right: 0rpx;
+  z-index: 100;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  max-height: 612rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 8px 16px 0 rgba(202,213,230,0.20);
+  overflow: hidden;
+  background: #fff;
+}
+
+.add-picker-options-wrapper,.add-picker-options-wrapper-item{
+  box-sizing: border-box;
+  padding: 6rpx 24rpx;
+  height: 76.5rpx;
+  font-size: 28rpx;
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.add-picker-options-wrapper{
+  border-bottom: 0.5px solid #f6f6f6;
+}
+
+.add-icon-text{
+  margin-left:24rpx
+}
+
+.home-toast-content{
+  --toast-max-width:100%
+}
+
+
+
+
+
+
+
+

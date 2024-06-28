@@ -5,7 +5,9 @@ import { getReqId, getStamp, validateFun, singleton } from 'm-utilsdk/index'
 import burialPoint from '../../assets/burialPoint'
 import { plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
+const commonBehavior = require('../../assets/behavior')
 Page({
+  behaviors: [commonBehavior],
   /**
    * 页面的初始数据
    */
@@ -129,6 +131,9 @@ Page({
     })
   },
   showDeleteDialog() {
+    if (this.data.roleId == 1003) {
+      return
+    }
     //点击埋点
     burialPoint.popupsfamilyDeleteRoomClick()
     console.log(this.data.roomDetail)

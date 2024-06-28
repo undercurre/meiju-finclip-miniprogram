@@ -1,7 +1,7 @@
 /* home-manage/pages/homeDetail/homeDetail.wxss */
 page {
   background-color: #f9f9f9;
-  overflow: scroll;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
   --iphonex-fix-bottom: env(safe-area-inset-bottom);
 }
@@ -17,7 +17,7 @@ page {
   white-space: nowrap;
 }
 .member-container{
-  margin: 20rpx 32rpx 0;
+  margin: 24rpx 32rpx;
   background-color: #fff;
   border-radius: 32rpx;
   overflow: hidden;
@@ -111,9 +111,13 @@ button::after{
 }
 .delete-btn-container{
   position: fixed;
-  bottom: calc(32rpx + var(--iphonex-fix-bottom));
-  left: 32rpx;
-  right: 32rpx;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  z-index: 1;
+  background-color: #fff;
+  position: fixed;
 }
 .dialog-input{
   padding:32rpx 30rpx 20rpx;
@@ -131,4 +135,75 @@ button::after{
   font-size: 20rpx;
   line-height: 20rpx;
   color: #FF8225;
+}
+.home-detil-Warp{
+  position: relative;
+  border-radius: 16px;
+  background: #fff;
+  margin: 20rpx 32rpx;
+  padding: 36rpx 32rpx;
+  box-sizing: border-box;
+}
+.home-detil-Warp .title {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+.home-detil-Warp .numList {
+  font-size: 24rpx;
+  font-family: 'PingFang SC';
+  color: #666666;
+  display: flex;
+  margin-top: 32rpx;
+  align-items: center;
+}
+
+.home-detil-Warp .itemWarp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 24rpx;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.home-detil-Warp .itemWarp::after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  content: '';
+  width: 1px;
+  height: 200%;
+  border-right: 1px solid #e4e4e4;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
+}
+.home-detil-Warp .itemWarp:first-child{
+  padding-left: 0;
+}
+.home-detil-Warp .itemWarp:nth-child(3)::after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  content: '';
+  width: 0;
+  height: 0;
+}
+
+.home-detil-Warp .Ico {
+  width: 24rpx;
+  height: 24rpx;
+}
+.home-detil-Warp  .centerDes {
+  margin: 0 6rpx 0 12rpx;
+}
+.member-mange{
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 28rpx;
+  font-weight: 400;
+}
+.member-mange-icon{
+  margin-left: 8rpx;
 }

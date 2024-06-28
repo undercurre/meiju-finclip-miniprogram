@@ -1,0 +1,28 @@
+<mx-nav-bar title="{{title}}" showBg bind:click-left="onClickLeft"></mx-nav-bar>
+<view class="invite-content-container">
+  <view class="invite-header-tit">
+    <view class="invite-header-title">邀请家人加入“{{homeItem.name}}”</view>
+    <view class="invite-header-sub-title">共同管理、使用智能设备与场景</view>
+  </view>
+  <view class="invite-content">
+    <mx-cell
+      custom-class="custom-cell-class"
+      border="{{ false }}"
+      icon="{{inviteIcon}}"
+      title="面对面邀请"
+      size="large"
+      center
+      label="使用【美的美居】App扫码加入家庭"
+    />
+    <view class="invite-content-scode">
+      <canvas style="width: 170px; height: 170px" canvas-id="myQrcode"></canvas>
+      <!-- <image src="{{codeUrl}}" /> -->
+    </view>
+    <view class="invite-refresh"
+      >二维码 5 分钟内有效 <text bindtap="refreshCode" class="invite-refresh-text">刷新</text></view
+    >
+  </view>
+  <view class="home-toast-content">
+    <mx-toast id="mx-toast" />
+  </view>
+</view>

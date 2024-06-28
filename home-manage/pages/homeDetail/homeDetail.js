@@ -6,14 +6,20 @@ import { getReqId, getStamp, validateFun } from 'm-utilsdk/index'
 import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
+const commonBehavior = require('../../assets/behavior')
 Page({
+  behaviors: [commonBehavior],
   /**
    * 页面的初始数据
    */
   data: {
+    title: '家庭主页',
     defaultAvatar: baseImgApi.url + 'home-manage/family_img_no touxiang@3x.png',
     moreIcon: baseImgApi.url + 'home-manage/family_ic_more@3x.png',
     addIcon: baseImgApi.url + 'home-manage/family_ic_add@3x.png',
+    roomIco: baseImgApi.url + 'home-manage/family_ic_home@3x.png',
+    equipmentIco: baseImgApi.url + 'home-manage/family_ic_shebei@3x.png',
+    parentIco: baseImgApi.url + 'home-manage/family_ic_people@3x.png',
     homegroupId: '',
     roleId: '',
     name: '',
@@ -30,6 +36,7 @@ Page({
     publicColor: PUBLIC,
     errorColor: ERROR,
     plate: plate,
+    homeDetail: {},
   },
   homeMemberGet(id) {
     let reqData = {
@@ -265,8 +272,9 @@ Page({
     })
   },
   goToMemberManage() {
+    let homeDetail = JSON.stringify(this.data.homeDetail)
     wx.navigateTo({
-      url: `/home-manage/pages/memberManage/memberManage?roleId=${this.data.roleId}&homegroupId=${this.data.homegroupId}`,
+      url: `/home-manage/pages/memberManage/memberManage?roleId=${this.data.roleId}&homegroupId=${this.data.homegroupId}&homedetail=${homeDetail}`,
     })
   },
   /**
@@ -292,6 +300,8 @@ Page({
 
   //点击邀请按钮
   clickInviteBtn() {
+    const { homeDetail, homegroupId } = this.data
+    this.gotoInvite(homeDetail, homegroupId)
     burialPoint.clickInvitePoint({
       page_id: 'page_family_detail',
       page_name: '家庭详情',
@@ -302,6 +312,7 @@ Page({
    */
   onLoad(options) {
     this.setData({
+      homeDetail: JSON.parse(options.homeitem),
       homegroupId: options.homegroupId,
       name: options.name,
       roleId: options.roleId,

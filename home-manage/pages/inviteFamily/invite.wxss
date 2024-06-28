@@ -1,0 +1,68 @@
+/* pages/invite/invite.wxss */
+page{
+  background-color: #f9f9f9;
+}
+.invite-content-container{
+  margin-top: 120rpx;
+}
+.invite-header-tit{
+  text-align: center;
+}
+
+.invite-header-title{
+  font-family: PingFangSC-Medium;
+  font-size: 36rpx;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 36rpx;
+  font-weight: 500;
+}
+
+.invite-header-sub-title{
+  margin: 24rpx 0 48rpx 0;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #8A8A8F;
+  letter-spacing: 0;
+  line-height: 28rpx;
+  font-weight: 400;
+}
+.invite-content{
+  margin: 0 24rpx;
+  background: #FFFFFF;
+  border-radius: 12px;
+}
+.invite-content-scode{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 32rpx 0;
+  width: 100%;
+}
+.invite-content-scode-code{
+  width: 328rpx;
+  height: 328rpx;
+}
+.invite-refresh{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 48rpx;
+  font-size: 28rpx;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 28rpx;
+  font-weight: 400;
+}
+.invite-refresh-text{
+  margin-left: 28rpx;
+  color: #267AFF;
+  font-weight: 500;
+}
+.home-toast-content{
+  --toast-max-width:100%
+}
+.custom-cell-class{
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}

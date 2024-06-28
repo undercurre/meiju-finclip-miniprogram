@@ -1,11 +1,51 @@
-<!--change-room/pages/changeRoom/changeRoom.wxml-->
-<view class="changeRoomWarp">
-  <view class="content">
-    <view wx:for="{{roomList}}" class="list" data-roomId ="{{item.roomId}}"bindtap="changeRoom">
-      <view class="roomName">
-        {{item.name}}
+<mx-nav-bar
+  class="custom-nav-class"
+  title="{{title}}"
+  right-text="保存"
+  bind:click-right="onClickRight"
+  bind:click-left="onClickLeft"
+></mx-nav-bar>
+<view class="move-device-wrap">
+  <mx-cell
+    custom-class="home-list-show"
+    bind:click="onClickHomeList"
+    center
+    is-link="{{selelectFamilyInfo.roleId=='1001'}}"
+    title="当前家庭"
+    value="{{selelectFamilyInfo.name}}"
+    border="{{ false }}"
+  />
+  <view class="changeRoomWarp">
+    <view class="content">
+      <view wx:for="{{roomList}}" class="list" data-roomId="{{item.roomId}}" bindtap="changeRoom">
+        <view class="roomName"> {{item.name}} </view>
+        <image src="{{chooseIco}}" class="chooseIco" wx:if="{{roomId==item.roomId}}"></image>
       </view>
-      <image src="{{chooseIco}}" class="chooseIco" wx:if="{{roomId==item.roomId}}"></image>
     </view>
   </view>
+  <mx-action-sheet
+    bind:cancel="toggleActionSheet"
+    bind:close="toggleActionSheet"
+    show="{{ actionShow }}"
+    z-index="10001"
+    cancel-text="取消"
+  >
+    <view class="home-list-select">
+      <view
+        class="home-select-item"
+        bindtap="actionSelected"
+        wx:for="{{actions}}"
+        data-homeItem="{{item}}"
+        wx:key="index"
+        data-index="{{index}}"
+        >{{item.name}}
+        <image
+          style="margin-left: 8rpx"
+          src="{{chooseIco}}"
+          class="chooseIco"
+          wx:if="{{homegroupId==item.homegroupId}}"
+        ></image
+      ></view>
+    </view>
+  </mx-action-sheet>
 </view>

@@ -20,8 +20,8 @@ const familyPermissionText = {
     confirmText: '我知道了',
   },
   changeRoom: {
-    title: '普通成员不支持更换房间',
-    content: '您为当前家庭的普通成员，暂不支持更换房间。请家庭管理员更改角色权限后再试~',
+    title: '普通成员不支持移动设备',
+    content: '您为当前家庭的普通成员，暂不支持移动设备。请家庭管理员更改角色权限后再试~',
     confirmText: '我知道了',
   },
   distributionNetwork: {

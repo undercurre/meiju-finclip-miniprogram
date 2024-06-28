@@ -2,6 +2,7 @@ const config = {
   environment: 'sit',
   isMasEnv: true, //是否通过
   masPrefix: '/mas/v5/app/proxy?alias=',
+  clientYype: '1',
   //域名
   domain: {
     dev: 'https://mp-dev.smartmidea.net', //测试
