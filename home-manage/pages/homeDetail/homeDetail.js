@@ -6,6 +6,7 @@ import { getReqId, getStamp, validateFun } from 'm-utilsdk/index'
 import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
+import { roomAndDevices, memberManage } from '../../../utils/paths.js'
 const commonBehavior = require('../../assets/behavior')
 Page({
   behaviors: [commonBehavior],
@@ -266,15 +267,17 @@ Page({
         }
       })
   },
+  //跳转房间与设备管理列表
   goToRoomList() {
     wx.navigateTo({
-      url: `/home-manage/pages/roomAndDevices/roomAndDevices?homegroupId=${this.data.homegroupId}&roleId=${this.data.roleId}`,
+      url: `${roomAndDevices}?homegroupId=${this.data.homegroupId}&roleId=${this.data.roleId}`,
     })
   },
+  //跳转用户管理列表
   goToMemberManage() {
     let homeDetail = JSON.stringify(this.data.homeDetail)
     wx.navigateTo({
-      url: `/home-manage/pages/memberManage/memberManage?roleId=${this.data.roleId}&homegroupId=${this.data.homegroupId}&homedetail=${homeDetail}`,
+      url: `${memberManage}?roleId=${this.data.roleId}&homegroupId=${this.data.homegroupId}&homedetail=${homeDetail}`,
     })
   },
   /**
@@ -301,6 +304,7 @@ Page({
   //点击邀请按钮
   clickInviteBtn() {
     const { homeDetail, homegroupId } = this.data
+    //邀请
     this.gotoInvite(homeDetail, homegroupId)
     burialPoint.clickInvitePoint({
       page_id: 'page_family_detail',

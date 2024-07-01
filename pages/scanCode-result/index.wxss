@@ -11,7 +11,8 @@ page{
   color: #000000;
   line-height: 42rpx;
   font-weight: 400;
-  word-wrap: break-word;
+  word-break:break-all;
+  /* //word-wrap: break-all; */
 }
 
 .btn-container{

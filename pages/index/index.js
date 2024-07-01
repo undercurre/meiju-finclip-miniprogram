@@ -9,8 +9,8 @@ import { creatDeviceSessionId, getFullPageUrl, showToast, checkFamilyPermission,
 import { getWxSystemInfo } from '../../utils/wx/index.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
 //const indexSrc = '../../assets/img/index/index.png'
-
-import { service, getScanCode, scodeResonse } from 'assets/js/service'
+import { actionScanResultIndex } from 'assets/js/scanCodeApi'
+import { service, scodeResonse } from 'assets/js/service'
 import Toast from 'm-ui/mx-toast/toast'
 import {
   supportedApplianceTypes,
@@ -34,7 +34,7 @@ import {
 } from 'assets/js/burialPoint'
 import { baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking, trackLoaded } from '../../track/track.js'
-import paths, { scanDevice, download } from '../../utils/paths.js'
+import paths, { scanDevice, scanCodeResult, download } from '../../utils/paths.js'
 // 动画效果
 import { bleAfterWifiDevices } from '../common/js/bleAfterWifiDevices'
 import { getDeviceSn, getDeviceSn8 } from '../common/js/device.js'
@@ -2336,25 +2336,33 @@ Page({
       })
     })
   },
-  //扫码
+  //扫码添加家庭，扫码配网
   goScanCode() {
-    let that = this
-    // 允许从相机和相册扫码
-    wx.scanCode({
-      success(res) {
-        //扫码加入家庭
-        if (getScanCode(res.result) == 'joinfamily') {
-          that.joinfamily(res.result)
-        } else {
-          //其他情况
-          that.gotoScanCodeResult(res.result)
-        }
-        console.log(res)
-      },
-      fail(error) {
-        Toast({ context: this, position: 'bottom', message: '未发现 有效二维码和条形码' })
-      },
-    })
+    let showNotSupport = () => {
+      Dialog.alert({
+        zIndex: 10001,
+        context: this,
+        title: '此二维码不适用于“添加设备”',
+        confirmButtonText: '我知道了',
+      })
+    }
+    let justAppSupport = () => {
+      Dialog.alert({
+        zIndex: 10001,
+        context: this,
+        title: '该设备仅支持在美的美居App添加',
+        confirmButtonText: '我知道了',
+      })
+    }
+    //执行二维码扫码动作
+    actionScanResultIndex(
+      showNotSupport,
+      justAppSupport,
+      this.actionGoNetwork,
+      this.getDeviceApImgAndName,
+      this.joinfamily,
+      this.gotoScanCodeResult
+    )
   },
   //扫码加入家庭
   joinfamily(result) {
@@ -2382,11 +2390,11 @@ Page({
         Toast({ context: this, position: 'bottom', message: label })
       })
   },
-  //展示链接
+  //不支持配网和家庭时 直接展示跳转链接
   gotoScanCodeResult(result) {
     result = encodeURIComponent(result)
     wx.navigateTo({
-      url: `/pages/scanCode-result/index?result=${result}`,
+      url: `${scanCodeResult}?result=${result}`,
     })
   },
   //添加设备

@@ -1,7 +1,6 @@
 //扫设备二维码 一维码 能效二维码 触屏动态二维码 非智设备码 进入配网
 
 const app = getApp() //获取应用实例
-
 import { clickEventTracking } from '../../../../track/track.js'
 import { hasKey, getStamp, getReqId } from 'm-utilsdk/index'
 import { getFullPageUrl, showToast } from '../../../../utils/util.js'
@@ -13,6 +12,7 @@ import { linkDevice } from '../../../../utils/paths'
 import { rangersBurialPoint } from '../../../../utils/requestService'
 import { commonH5Api } from '../../../../api'
 import Dialog from 'm-ui/mx-dialog/dialog'
+import Toast from 'm-ui/mx-toast/toast'
 const paths = require('../../../../utils/paths')
 const brandConfig = app.globalData.brandConfig[app.globalData.brand]
 
@@ -160,29 +160,32 @@ const burialPoint = {
  * @param {*} homeName 用户当前家庭的名称
  * @returns
  */
-export async function actionScanResult(
+export async function actionScanResultIndex(
   showNotSupport,
   justAppSupport,
   actionGoNetwork,
   getDeviceApImgAndName,
-  homegroupId,
-  homeName
+  joinfamily,
+  gotoScanCodeResult
 ) {
   trackClickScan()
 
   let scanRes = ''
-  // try {
-  // scanRes = await scanCode()
-  // } catch (error) {
-  // console.log('微信扫码失败=========', error)
-  // scanFailTracking({
-  // fialReason: '微信扫码接口调用异常',
-  // errorCode: error,
-  // })
-  // }
-
+  try {
+    scanRes = await scanCode()
+  } catch (error) {
+    scanFailTracking({
+      fialReason: '微信扫码接口调用异常',
+      errorCode: error,
+    })
+  }
   if (!scanRes.result) {
     getApp().setMethodFailedCheckingLog('wx.scanCode()', `该二维码无法识别。scanRes=${JSON.stringify(scanRes)}`)
+    return
+  }
+  //扫码进入家庭
+  if (scanRes.result.includes('joinfamily')) {
+    joinfamily(scanRes.result)
     return
   }
 
@@ -206,19 +209,19 @@ export async function actionScanResult(
 
   if (scanType.includes(scanRes.scanType)) {
     //扫码的类型是一维码
-    actionOneOrEnergyCode(scanRes, '一维码', showNotSupport, justAppSupport, actionGoNetwork)
+    actionOneOrEnergyCode(scanRes, '一维码', showNotSupport, justAppSupport, actionGoNetwork, gotoScanCodeResult)
     return
   }
 
   if (scanRes.result.includes('el.bbqk.com')) {
     //扫码的类型是能效二维码
-    actionOneOrEnergyCode(scanRes, '能效二维码', showNotSupport, justAppSupport, actionGoNetwork)
+    actionOneOrEnergyCode(scanRes, '能效二维码', showNotSupport, justAppSupport, actionGoNetwork, gotoScanCodeResult)
     return
   }
 
   if (addDeviceSDK.dynamicCodeAdd.isDeCodeDynamicCode(scanRes.result)) {
     //触屏动态二维码
-    dynamicCodeAdd(scanRes.result, getDeviceApImgAndName, showNotSupport, justAppSupport)
+    dynamicCodeAdd(scanRes.result, getDeviceApImgAndName, showNotSupport, justAppSupport, gotoScanCodeResult)
     return
   }
 
@@ -241,57 +244,25 @@ export async function actionScanResult(
     // 如果是非智能设备跳转非智设备虚拟插件页
     if (isIntelligentDevice) {
       wx.hideLoading()
+      //展示二维码链接
+      gotoScanCodeResult(scanCodeRes)
       //非智统一修改为不支持弹框提示
-      Dialog.confirm({
-        title: '该二维码无法识别，请扫描机身上携带“智能产品”标识的二维码',
-        confirmButtonText: '查看指引',
-        confirmButtonColor: brandConfig.dialogStyle.confirmButtonColor,
-        cancelButtonColor: brandConfig.dialogStyle.cancelButtonColor3,
-        cancelButtonText: '取消',
-      })
-        .then((res) => {
-          if (res.action == 'confirm') {
-            clickQRcodeGuide()
-          }
-          // on confirm
-        })
-        .catch((error) => {
-          if (error.action == 'cancel') {
-          }
-          // on cancel
-        })
       return
     }
 
     // 跳转最新的虚拟插件页
     if (isIntelligentDevices) {
       wx.hideLoading()
+      gotoScanCodeResult(scanCodeRes)
       //非智统一修改为不支持弹框提示
-      Dialog.confirm({
-        title: '该二维码无法识别，请扫描机身上携带“智能产品”标识的二维码',
-        confirmButtonText: '查看指引',
-        confirmButtonColor: brandConfig.dialogStyle.confirmButtonColor,
-        cancelButtonColor: brandConfig.dialogStyle.cancelButtonColor3,
-        cancelButtonText: '取消',
-      })
-        .then((res) => {
-          if (res.action == 'confirm') {
-            clickQRcodeGuide()
-          }
-          // on confirm
-        })
-        .catch((error) => {
-          if (error.action == 'cancel') {
-          }
-          // on cancel
-        })
       return
     }
 
     if (!ifMideaQrcode) {
       wx.hideLoading()
       console.log('非midead 不支持')
-      showNotSupport()
+      gotoScanCodeResult(scanCodeRes)
+      //showNotSupport()
       scanCodeNotSupportTracking({}, '此二维码不适用于添加设备', scanCodeRes)
       getApp().setMethodFailedCheckingLog('actionScan', '此二维码不适用于添加设备')
       return
@@ -299,7 +270,8 @@ export async function actionScanResult(
 
     if (ifMideaQrcode && !urlType) {
       wx.hideLoading()
-      justAppSupport()
+      gotoScanCodeResult(scanCodeRes)
+      //justAppSupport()
       scanCodeNotSupportTracking({}, '非美的合规的二维码', scanCodeRes)
       getApp().setMethodFailedCheckingLog('actionScan', '非美的合规的二维码')
       return
@@ -333,13 +305,17 @@ export async function actionScanResult(
       }
     } else {
       data = getUrlParamy(result)
+      if (!data) {
+        gotoScanCodeResult(scanCodeRes)
+      }
     }
     console.log('扫码解析出来数据', data)
     data.mode = data.mode || 0 //mode不存在 默认0
     if (data.mode.toString() === '999') {
       wx.hideLoading()
       console.log('扫码 不支持 非智能设备')
-      showNotSupport()
+      //showNotSupport()
+      gotoScanCodeResult(scanCodeRes)
       scanCodeNotSupportTracking(
         {
           type: data.category,
@@ -354,7 +330,8 @@ export async function actionScanResult(
     if (!map.includes((data.mode + '').toString())) {
       wx.hideLoading()
       console.log('扫码 不支持 的配网方式')
-      justAppSupport()
+      gotoScanCodeResult(scanCodeRes)
+      //justAppSupport()
       scanCodeNotSupportTracking(
         {
           type: data.category,
@@ -370,7 +347,8 @@ export async function actionScanResult(
     if (!isSupportPlugin(formatType, data.sn8)) {
       wx.hideLoading()
       console.log('扫码 不支持 无对应插件')
-      justAppSupport()
+      //justAppSupport()
+      gotoScanCodeResult(scanCodeRes)
       scanCodeNotSupportTracking(
         {
           type: data.category,
@@ -385,7 +363,8 @@ export async function actionScanResult(
     const addDeviceInfo = getAddDeviceInfo(data)
     if (addDeviceInfo.moduleType == 0 && addDeviceInfo.category != 'C0') {
       console.log('扫码 不支持 特殊品类不支持')
-      justAppSupport()
+      gotoScanCodeResult(scanCodeRes)
+      //justAppSupport()
       scanCodeNotSupportTracking(
         {
           type: data.category,
@@ -400,7 +379,8 @@ export async function actionScanResult(
     if (!isAddDevice(data.category.toLocaleUpperCase(), data.sn8)) {
       wx.hideLoading()
       console.log('扫码 不支持 未测试')
-      justAppSupport()
+      gotoScanCodeResult(scanCodeRes)
+      //justAppSupport()
       scanCodeNotSupportTracking(
         {
           type: data.category,
@@ -430,7 +410,7 @@ function scanCode() {
         resolve(res)
       },
       fail(error) {
-        console.log('扫码失败返回', error)
+        Toast({ context: this, position: 'bottom', message: '未发现 有效二维码和条形码' })
         reject(error)
       },
       complete() {
@@ -441,19 +421,28 @@ function scanCode() {
 }
 
 //扫描一维码或能效二维码配网
-async function actionOneOrEnergyCode(scanRes, codeType, showNotSupport, justAppSupport, actionGoNetwork) {
+async function actionOneOrEnergyCode(
+  scanRes,
+  codeType,
+  showNotSupport,
+  justAppSupport,
+  actionGoNetwork,
+  gotoScanCodeResult
+) {
   wx.showLoading() //解析等待loading
   let scanCodeGuide = null
   try {
     scanCodeGuide = await isScanCodeGuide(scanRes.result)
     wx.hideLoading()
   } catch (error) {
+    console.log('enter', 11111111111111)
     wx.hideLoading()
     scanFailTracking({
       fialReason: '能效码、一维码查询调用失败',
       errorCode: error,
     })
-    showNotSupport()
+    gotoScanCodeResult(scanRes.result)
+    //showNotSupport()
     getApp().setMethodFailedCheckingLog(
       'actionOneOrEnergyCode',
       `${JSON.stringify(codeType)}解析失败,error=${JSON.stringify(error)}`
@@ -470,44 +459,42 @@ async function actionOneOrEnergyCode(scanRes, codeType, showNotSupport, justAppS
     sn8: code,
     ssid: '',
   }
-
   const map = ['3', '5', '0', '100']
-
   if (data.mode.toString() === '999') {
     console.log('扫码 不支持 非智能设备')
-    showNotSupport()
+    gotoScanCodeResult
+    gotoScanCodeResult(scanRes.result)
+    //showNotSupport()
     return
   }
-
   if (!map.includes((data.mode + '').toString())) {
     console.log('扫码 不支持 的配网方式')
-    justAppSupport()
+    gotoScanCodeResult(scanRes.result)
+    //justAppSupport()
     return
   }
-
   let formatType = '0x' + data.category.toLocaleUpperCase()
-
   if (!isSupportPlugin(formatType, data.sn8)) {
     console.log('扫码 不支持 无对应插件')
-    justAppSupport()
+    gotoScanCodeResult(scanRes.result)
+    //justAppSupport()
     return
   }
-
   if (!isAddDevice(data.category.toLocaleUpperCase(), data.sn8)) {
     console.log('扫码 不支持 未测试')
-    justAppSupport()
+    gotoScanCodeResult(scanRes.result)
+    //justAppSupport()
     return
   }
-
   const deviceInfo = getAddDeviceInfo(data)
   deviceInfo.enterprise = enterpriseCode
   deviceInfo.guideInfo = scanCodeGuide
   if (deviceInfo.moduleType == 0 && data.category != '0F') {
     console.log('扫码 不支持 特殊品类不支持')
-    justAppSupport()
+    gotoScanCodeResult(scanRes.result)
+    // justAppSupport()
     return
   }
-
   const result = scanRes.result.replace(/\s*/g, '') //移除空格
   clickEventTracking('user_behavior_event', 'trackScanResult', {
     object_id: result.replace(/\u0026/g, '&'),
@@ -525,15 +512,13 @@ async function actionOneOrEnergyCode(scanRes, codeType, showNotSupport, justAppS
       qrcode_type: codeType, //码类型（一维码/能效二维码）
     },
   })
-
   // 扫码成功时不执行自发现，防止扫码跳转后异常执行自发现
   app.globalData.ifBackFromScan = true
-
   actionGoNetwork(deviceInfo)
 }
 
 //触屏动态二维码逻辑
-function dynamicCodeAdd(scanCodeRes, getDeviceApImgAndName, showNotSupport, justAppSupport) {
+function dynamicCodeAdd(scanCodeRes, getDeviceApImgAndName, showNotSupport, justAppSupport, gotoScanCodeResult) {
   let scanCdoeResObj = addDeviceSDK.dynamicCodeAdd.getTouchScreenScanCodeInfo(scanCodeRes)
   console.log('dynamic Code Add info:', scanCdoeResObj)
   if (scanCdoeResObj.verificationCode && scanCdoeResObj.verificationCodeKey) {
@@ -561,13 +546,15 @@ function dynamicCodeAdd(scanCodeRes, getDeviceApImgAndName, showNotSupport, just
     addDeviceInfo.sn8 = addDeviceInfo.sn8 ? addDeviceInfo.sn8 : sn8
     if (!isSupportPlugin(formatType, sn8)) {
       console.log('扫码 不支持 无对应插件')
-      justAppSupport()
+      gotoScanCodeResult(scanCodeRes)
+      //justAppSupport()
       return
     }
 
     if (!isAddDevice(addDeviceInfo.type.toLocaleUpperCase(), sn8)) {
       console.log('扫码 不支持 未测试')
-      justAppSupport()
+      gotoScanCodeResult(scanCodeRes)
+      //justAppSupport()
       return
     }
     wx.showModal({
@@ -607,7 +594,6 @@ function dynamicCodeAdd(scanCodeRes, getDeviceApImgAndName, showNotSupport, just
       showCancel: false,
       success(res) {
         if (res.confirm) {
-          //知道了
           burialPoint.touchScreenDiologCancel({
             deviceSessionId: app.globalData.deviceSessionId,
             type: app.addDeviceInfo.type,

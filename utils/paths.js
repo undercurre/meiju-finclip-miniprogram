@@ -104,6 +104,11 @@ module.exports = {
   //插件前缀，旧逻辑
   PluginUrl: '/plugin',
   privacy: '/sub-package/privacy/privacy',
-  homeDetail: 'home-manage/pages/homeDetail/homeDetail',
-  memberManage: 'home-manage/pages/memberManage/memberManage',
+  homeManage: '/home-manage/pages/homeManage/homeManage',
+  inviteHomeFamily: '/home-manage/pages/inviteFamily/invite',
+  memberManage: '/home-manage/pages/memberManage/memberManage',
+  homeDetail: '/home-manage/pages/homeDetail/homeDetail',
+  roomAndDevices: '/home-manage/pages/roomAndDevices/roomAndDevices',
+  roomDetail: '/home-manage/pages/roomDetail/roomDetail',
+  scanCodeResult: '/pages/scanCode-result/index',
 }

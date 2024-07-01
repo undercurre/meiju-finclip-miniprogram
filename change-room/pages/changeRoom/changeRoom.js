@@ -3,6 +3,7 @@ const app = getApp()
 import { requestService, rangersBurialPoint } from '../../../utils/requestService'
 import { getReqId, getStamp } from 'm-utilsdk/index'
 import { baseImgApi } from '../../../api'
+import { index } from '../../../utils/paths.js'
 Page({
   /**
    * 页面的初始数据
@@ -27,7 +28,7 @@ Page({
       })
     } else {
       wx.switchTab({
-        url: '/pages/index/index',
+        url: index,
       })
     }
   },

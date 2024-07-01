@@ -10,6 +10,7 @@ import drawQrcode from '../../../utils/weapp.qrcode.min.js'
 import { receiveSocketMessage } from '../../../utils/initWebsocket.js'
 import { imgBaseUrl } from '../../../api'
 const inviteIcon = imgBaseUrl.url + '/harmonyos/index/invite.png'
+import { index } from '../../../utils/paths.js'
 Page({
   /**
    * 页面的初始数据
@@ -32,10 +33,11 @@ Page({
       // roleId: options.roleId,
     })
     this.getMemberQrcode(options.homegroupid)
-    this.receiveSocketData()
+    //this.receiveSocketData()
   },
   //接收推送
   receiveSocketData() {
+    //待云端梳理推送
     receiveSocketMessage('', (message) => {
       if (message.data) {
         let pushData = JSON.parse(message.data)
@@ -52,7 +54,7 @@ Page({
       })
     } else {
       wx.switchTab({
-        url: '/pages/index/index',
+        url: index,
       })
     }
   },

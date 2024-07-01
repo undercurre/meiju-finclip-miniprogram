@@ -1,8 +1,9 @@
 /*
- * @desc:
+ * @desc: 页面返回跳转，以及分享跳转
  * @author: zhucc22
  * @Date: 2024-06-27 11:18:17
  */
+import { index, inviteHomeFamily } from '../../utils/paths.js'
 module.exports = Behavior({
   properties: {},
   observers: {},
@@ -26,7 +27,7 @@ module.exports = Behavior({
         })
       } else {
         wx.switchTab({
-          url: '/pages/index/index',
+          url: index,
         })
       }
     },
@@ -43,10 +44,11 @@ module.exports = Behavior({
         })
       }
     },
+    //跳转邀请页面
     gotoInvite(homeItem, homegroupid) {
       const item = JSON.stringify(homeItem)
       wx.navigateTo({
-        url: `/home-manage/pages/inviteFamily/invite?homeItem=${item}&homegroupid=${homegroupid}`,
+        url: `${inviteHomeFamily}?homeItem=${item}&homegroupid=${homegroupid}`,
       })
     },
   },

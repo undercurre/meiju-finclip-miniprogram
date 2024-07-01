@@ -1,15 +1,13 @@
 import { baseImgApi } from '../../../../api'
-import { rangersBurialPoint } from '../../../../utils/requestService.js'
-import { formatTime } from 'm-utilsdk/index'
 import { getFullPageUrl, checkFamilyPermission } from '../../../../utils/util.js'
 import { clickEventTracking } from '../../../../track/track.js'
 import { indexHomerGroupListViewBurialPoint, clickFamilyManagement } from '../../assets/js/burialPoint'
-import { service } from '../../assets/js/service.js'
 const addSelect = '/assets/img/index/add_select.png'
 const addNoSelect = '/assets/img/index/add_no_select.png'
 const addDevice = '/assets/img/index/add_device.png'
 const addScan = '/assets/img/index/add_scan.png'
 import Toast from 'm-ui/mx-toast/toast'
+import { homeManage, homeDetail } from '../../../../utils/paths.js'
 const app = getApp()
 Component({
   behaviors: [],
@@ -61,6 +59,7 @@ Component({
     selectIcon: baseImgApi.url + 'home_ic_done.png',
     addWidth: '238rpx',
     addHeight: '153rpx',
+    ownHomeNum: null,
   }, // 私有数据，可用于模板渲染
 
   lifetimes: {
@@ -143,6 +142,15 @@ Component({
     },
     // 家庭管理  可优化 切换家庭管理的显示和隐藏
     switchShowHomeList() {
+      if (this.data.homeList.length == 1) {
+        const { homeList, ownHomeNum } = this.data
+        let target = homeList[0]
+        let homeitem = JSON.stringify(target)
+        wx.navigateTo({
+          url: `${homeDetail}?homegroupId=${target.homegroupId}&name=${target.name}&roleId=${target.roleId}&ownHomeNum=${ownHomeNum}&homeitem=${homeitem}`,
+        })
+        return
+      }
       this.data.homeManageClicked = true
       this.homeGrounpListViewPoint()
       //切换打开/关闭家庭选择列表
@@ -179,7 +187,7 @@ Component({
     gotoHomeManage() {
       clickFamilyManagement()
       wx.navigateTo({
-        url: '/home-manage/pages/homeManage/homeManage',
+        url: homeManage,
       })
     },
     // 初始化家庭管理动画

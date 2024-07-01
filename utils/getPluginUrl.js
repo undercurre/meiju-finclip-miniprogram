@@ -10,7 +10,8 @@ import { newPluginConfig } from './newPluginConfig' //测试数据
 function getPluginUrl(type, deviceInfo) {
   type = type.includes('0x') ? type : `0x${type}`
   let url = goOldUrlPluginList.includes(type) ? PluginUrl : newPluginConfig.includes(type) ? newPluginUrl : PluginUrl
-  if(newPluginConfig && newPluginConfig.length == 0) { // 如果配置信息为空时，默认返回npm包路径（全部npm上线后当前配置会清空，后续npm插件接入后就不需要再维护这个配置）
+  if (newPluginConfig && newPluginConfig.length == 0) {
+    // 如果配置信息为空时，默认返回npm包路径（全部npm上线后当前配置会清空，后续npm插件接入后就不需要再维护这个配置）
     url = newPluginUrl
   }
   if (deviceInfo) {

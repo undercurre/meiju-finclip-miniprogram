@@ -7,6 +7,7 @@ import burialPoint from '../../assets/burialPoint'
 import { plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 const commonBehavior = require('../../assets/behavior')
+import { homeDetail } from '../../../utils/paths.js'
 Page({
   behaviors: [commonBehavior],
   /**
@@ -198,9 +199,10 @@ Page({
             this.setData({
               familyValue: '',
             })
+            let homeitem = JSON.stringify(target[0])
             //新建完家庭后跳转至该家庭详情页面
             wx.navigateTo({
-              url: `/home-manage/pages/homeDetail/homeDetail?homegroupId=${target[0].homegroupId}&name=${target[0].name}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}`,
+              url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${target[0].name}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,
             })
           })
           .catch((err) => {
@@ -289,7 +291,7 @@ Page({
     homeitem = JSON.stringify(homeitem)
     burialPoint.clickbthFamilyDetailBurialPoint()
     wx.navigateTo({
-      url: `/home-manage/pages/homeDetail/homeDetail?homegroupId=${homegroupid}&name=${name}&roleId=${roleid}&ownHomeNum=${ownhomenum}&homeitem=${homeitem}`,
+      url: `${homeDetail}?homegroupId=${homegroupid}&name=${name}&roleId=${roleid}&ownHomeNum=${ownhomenum}&homeitem=${homeitem}`,
     })
   },
   /**

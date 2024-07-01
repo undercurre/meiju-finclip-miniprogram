@@ -5,6 +5,7 @@ import { getReqId, getStamp, validateFun } from 'm-utilsdk/index'
 import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
+import { roomDetail } from '../../../utils/paths.js'
 const commonBehavior = require('../../assets/behavior')
 Page({
   behaviors: [commonBehavior],
@@ -263,7 +264,7 @@ Page({
   goToRoomDetail(e) {
     let { detail, roleid, homegroupid } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/home-manage/pages/roomDetail/roomDetail?detail=${encodeURIComponent(
+      url: `${roomDetail}?detail=${encodeURIComponent(
         JSON.stringify(detail)
       )}&roleId=${roleid}&homegroupId=${homegroupid}`,
     })
