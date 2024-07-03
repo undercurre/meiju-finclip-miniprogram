@@ -295,6 +295,7 @@ Page({
     levelName: '', // 会员名称
     paymentMember: false,
     isShowB: false, //积分商城入口显示A样式 还是B样式 默认是A样式
+    clickNum: 0
   },
   computed: {
     pageListShowData() {
@@ -1177,4 +1178,15 @@ Page({
       imageUrl: currentImageUrl, //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
     }
   },
+
+  /**
+   * 扫码调试小程序
+    */
+  startAppletByQrCode() {
+    console.log('hmn123mn-o', this.data.clickNum, this.data.clickNum >= 6)
+    if (this.data.clickNum >= 6) {
+        ft.changeIsStartAppletByQrCode()
+    }
+    this.setData({ clickNum: ++this.data.clickNum })
+  }
 })
