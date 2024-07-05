@@ -414,7 +414,8 @@ App({
       this.checkIsShutDownTime({ shutDownNoticeData, showToast: true })
     })
     this.setMiniProgramData()
-    this.triggerWxAuth()
+    //启动app不需要弹蓝牙和位置授权信息
+    //this.triggerWxAuth()
     // 埋点上报罗盘等信息
     deviceInfoReport('user_behavior_event', null, {
       page_id: 'startup',
@@ -456,25 +457,6 @@ App({
         console.log('lmn>>> 初始化地址模块失败', err)
       },
     })
-
-    // if (res.system.includes('iOS')) {
-    // if (!res.locationAuthorized && !res.bluetoothAuthorized) {
-    // wx.getLocation({
-    // type: 'wgs84',
-    // complete: () => {
-    // wx.openBluetoothAdapter()
-    // },
-    // })
-    // }
-    // if (!res.locationAuthorized && res.bluetoothAuthorized) {
-    // wx.getLocation({
-    // type: 'wgs84',
-    // })
-    // }
-    // if (res.locationAuthorized && !res.bluetoothAuthorized) {
-    // wx.openBluetoothAdapter()
-    // }
-    // }
   },
   onError(error) {
     console.log('发生脚本错误或者接口调用错误', error)

@@ -28,7 +28,7 @@ page{
   font-weight: 400;
 }
 .invite-content{
-  margin: 0 24rpx;
+  margin: 0 64rpx;
   background: #FFFFFF;
   border-radius: 12px;
 }
@@ -65,4 +65,25 @@ page{
 .custom-cell-class{
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+}
+
+.invitie-contnet-tiltle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 44rpx;
+  font-size: 32rpx;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 32rpx;
+}
+.invitie-contnet-sub-tiltle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 22rpx auto 42rpx auto;
+  font-size: 24rpx;
+  color: #8A8A8F;
+  letter-spacing: 0;
+  line-height: 24rpx;
 }

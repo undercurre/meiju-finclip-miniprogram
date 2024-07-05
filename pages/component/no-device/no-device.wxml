@@ -1,6 +1,4 @@
-<!--pages/component/no-device/no-device.wxml-->
-<!--pages/component/no-device/no-device.wxml-->
-<view class="addDeviceWarp">
+<!-- <view class="addDeviceWarp">
   <image class="addDeviceImg" src="{{img.addDeviceImg}}" style="margin-top:{{autoHeight}}"></image>
   <text class="addDeviceDes">绑定本家庭的第一台智能设备</text>
   <text class="addDeviceGreyDes">将为您提供便捷的智能控制体验</text>
@@ -8,7 +6,7 @@
     <button class="addDeviceButton" bindtap="checkFun">{{btnConent}}</button>
     <view wx:if="{{!isCanAddDevice&&isLogon}}" class="no-support-add">升级中暂不可用，请到其他官方渠道添加</view>
   </view>
-</view>
+</view> -->
 
 <!-- <view class="addDeviceWarp">
   <image class="addDeviceImg" src="{{img.addDeviceImg}}" style="margin-top:{{autoHeight}}"></image>
@@ -18,3 +16,13 @@
   <view wx:if="{{!isCanAddDevice||true}}" class="no-support-add" style="margin-bottom:{{autoHeight}}">
   </view>
 </view> -->
+
+<view class="addDeviceWarp">
+  <text class="addDeviceDes">Hi，欢迎回家</text>
+  <text class="addDeviceGreyDes">添加设备，享受更多关联服务</text>
+  <view>
+    <button class="addDeviceButton" bindtap="checkFun">{{btnConent}}</button>
+    <view wx:if="{{!isCanAddDevice&&isLogon}}" class="no-support-add">升级中暂不可用，请到其他官方渠道添加</view>
+  </view>
+  <image class="addDeviceImg" style="margin-bottom:{{autoHeight}}" src="{{img.addDeviceImg}}"></image>
+</view>

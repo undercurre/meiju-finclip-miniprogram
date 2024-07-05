@@ -323,7 +323,8 @@
         </block>
         <block wx:if="{{!isLogon || homeInfoFailFlag}}">
           <view>
-            <view class="myHomeDes">美的美居</view>
+            <!-- <view class="myHomeDes">美的美居</view> -->
+            <view class="myHomeDes"><image class="home-nologin-img" src="{{indexHeader}}" /></view>
             <no-device
               autoHeight="{{noLoginHeight}}"
               bind:checkNoDeviceBtn="checkNoDeviceBtn"

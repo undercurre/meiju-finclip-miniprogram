@@ -5,7 +5,7 @@
     <view class="invite-header-sub-title">共同管理、使用智能设备与场景</view>
   </view>
   <view class="invite-content">
-    <mx-cell
+    <!--  <mx-cell
       custom-class="custom-cell-class"
       border="{{ false }}"
       icon="{{inviteIcon}}"
@@ -13,7 +13,9 @@
       size="large"
       center
       label="使用【美的美居】App扫码加入家庭"
-    />
+    /> -->
+    <view class="invitie-contnet-tiltle">面对面邀请</view>
+    <view class="invitie-contnet-sub-tiltle">使用【美的美居】App扫码加入家庭</view>
     <view class="invite-content-scode">
       <canvas style="width: 170px; height: 170px" canvas-id="myQrcode"></canvas>
       <!-- <image src="{{codeUrl}}" /> -->

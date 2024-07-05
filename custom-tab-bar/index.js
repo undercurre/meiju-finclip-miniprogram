@@ -19,13 +19,13 @@ Component({
         text: '首页',
         page_name: '小程序首页',
       },
-      {
-        pagePath: '/pages/midea-service/midea-service',
-        iconPath: '/assets/img/tab/tab_ic_service@2x.png',
-        selectedIconPath: '/assets/img/tab/tab_ic_service_select@2x.png',
-        text: '服务',
-        page_name: '服务中心首页',
-      },
+      // {
+      // pagePath: '/pages/midea-service/midea-service',
+      // iconPath: '/assets/img/tab/tab_ic_service@2x.png',
+      // selectedIconPath: '/assets/img/tab/tab_ic_service_select@2x.png',
+      // text: '服务',
+      // page_name: '服务中心首页',
+      // },
       {
         pagePath: '/pages/mytab/mytab',
         iconPath: '/assets/img/tab/tab_ic_me@2x.png',

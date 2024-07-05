@@ -105,7 +105,7 @@ Component({
     //添加设备和扫一扫列表显示和隐藏
     switchShowAddList() {
       if (this.data.hasFamilyPermission) {
-        const { addHeight, addWidth, addManageClicked } = this.data
+        const { addHeight, addWidth } = this.data
         this.data.addManageClicked = true
         // if (!addManageClicked) {
         // return
@@ -241,11 +241,11 @@ Component({
     /**
      * 点击事件埋点
      */
-    clickBurdPoint(clickType) {
-      // wx.reportAnalytics('count_click_list', {
-      // click_type: clickType,
-      // click_time: formatTime(new Date()),
-      // })
-    },
+    //clickBurdPoint(clickType) {
+    // wx.reportAnalytics('count_click_list', {
+    // click_type: clickType,
+    // click_time: formatTime(new Date()),
+    // })
+    //},
   },
 })
