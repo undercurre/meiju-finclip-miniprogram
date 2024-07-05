@@ -4,6 +4,8 @@ import { getReqId, getStamp } from 'm-utilsdk/index'
 import { showToast } from '../../../utils/util'
 import { api } from '../../../api'
 import { enterPersonalCneter, clickModifyPhoto, clickModifyNickname } from './assets/js/burialPoint'
+import Dialog from './miniprogram_npm/m-ui/dialog/dialog';
+
 Page({
   /**
    * 页面的初始数据
@@ -17,6 +19,19 @@ Page({
     uid: '',
     logoMsg: 1,
     showLoading: false,
+    showPictureSelect: false,
+    showAuthCamera: false,
+    showAuthAlbum: false,
+    _checkAuthList: [], //需要申请的权限
+    pictureAction: [
+        {
+            name: '拍照',
+            _index: 0
+        },{
+            name: '从相册选择',
+            _index: 1
+        }
+    ]
   },
   //获取会员信息
   getVipUserInfo() {
@@ -45,6 +60,49 @@ Page({
         console.log(err, 'err')
       })
   },
+  togglePictureSelect() {
+      this.setData({
+        showPictureSelect: !this.data.showPictureSelect
+      })
+  },
+  toggleAuthCamera() {
+    this.setData({
+        showAuthCamera: !this.data.showAuthCamera
+    })
+  },
+  toggleAuthAlbum() {
+    this.setData({
+        showAuthAlbum: !this.data.showAuthAlbum
+    })
+  },
+  selectPictureSource(event) {
+    const appAuthorizeSetting = wx.getAppAuthorizeSetting()
+    let _checkAuthList = []
+    let isTakePhoto = event.detail._index == 0
+    if(isTakePhoto){
+        // 检查摄像头权限
+        if(!appAuthorizeSetting.cameraAuthorized){
+            _checkAuthList.push('cameraAuthorized')
+        }
+    }
+    // 检查相册权限
+    if(!appAuthorizeSetting.albumAuthorized){
+        _checkAuthList.push('albumAuthorized')
+    }
+    this.togglePictureSelect()
+    Dialog.confirm({
+        context: this,
+        zIndex: 10001,
+        title: '“美的美居”想获取您的数据存储权限',
+        message: '用于APP与插件升级更新、日志、缓存、图片截图和二维码名片的分享存储，以及图片/视频/二维码/条码的上传、扫描或识别',
+        confirmButtonText: '同意并设置',
+        cancelButtonText: '取消'
+    })
+  },
+  takePhotoForHeadImg() {
+
+  },
+
   //修改图像
   editHeadImg() {
     clickModifyPhoto()

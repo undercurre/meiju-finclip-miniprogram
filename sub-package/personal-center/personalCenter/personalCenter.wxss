@@ -14,9 +14,49 @@ page {
 .phone-container,.logout-container{
   margin-top: 20rpx;
 }
+.headImg-container{
+    margin-top: 16rpx;
+    padding: 0px 32rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 192rpx;
+    background: #ffffff;
+}
+.nickName-container{
+    margin-top: 16rpx;
+    padding: 0px 32rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 104rpx;
+    background: #ffffff;
+}
+.headimg-container-title{
+    font-size: 32rpx;
+    color: #000000;
+    font-weight: 400;
+}
+.headImg-container-rightPart{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 192rpx;
+}
+.nickName{
+    font-size: 28rpx;
+    color: #666666;
+    text-align: right;
+    font-weight: 400;
+}
+.headImg-container-arrow{
+    width: 20rpx;
+    height: 20rpx;
+    margin-left: 8rpx;
+}
 .avatar{
-  width: 60rpx;
-  height: 60rpx;
+  width: 120rpx;
+  height: 120rpx;
 }
 .dialog-input{
   padding:32rpx 30rpx 20rpx;

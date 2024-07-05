@@ -1,38 +1,38 @@
 <view class="main-container">
-  <mx-cell-group inset>
-    <mx-cell class="cell-image-cell" size="large" center imageSize="32" is-link title="头像">
-      <view>
-        <mx-image
-          round
-          fit="cover"
-          plate="meiju"
-          custom-class="avatar"
-          src="{{ headImgUrl }}"
-          bindtap="editHeadImg"
-        ></mx-image>
-      </view>
-    </mx-cell>
-    <mx-cell
-      bindtap="editNickName"
-      center
-      imageSize="32"
-      title="昵称"
-      is-link
-      border="{{ false }}"
-      value="{{ nickName }}"
-    />
-  </mx-cell-group>
+    <view class="headImg-container">
+        <span class="headimg-container-title">头像</span>
+        <view class="headImg-container-rightPart" bindtap="togglePictureSelect">
+            <mx-image
+                round
+                fit="cover"
+                plate="meiju"
+                class="avatar"
+                custom-class="avatar"
+                src="{{ headImgUrl }}"
+                >
+            </mx-image>
+            <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="headImg-container-arrow"/>
+        </view>
+    </view>
+    <view class="nickName-container" bindtap="editNickName">
+        <span class="headimg-container-title">昵称</span>
+        <view class="headImg-container-rightPart">
+            <span class="nickName">{{ nickName }}</span>
+            <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="headImg-container-arrow"/>
+        </view>
+    </view>
   <mx-dialog
     z-index="10001"
     use-slot
-    title="昵称"
+    title="设置昵称"
     show="{{ dialogShow }}"
     show-cancel-button
     bind:cancel="cancleEdit"
-    confirmButtonText="保存"
+    confirmButtonText="确定"
     auto-close="{{false}}"
     scale="1"
     bind:confirm="confirmEdit"
+    customStyle="border-radius: 26rpx;"
   >
     <view class="dialog-input">
       <view class="field-container">
@@ -44,6 +44,7 @@
           clearable
           placeholder="请输入昵称"
           border="{{ false }}"
+          clearable="{{true}}"
           adjust-position="{{ false }}"
           error-message="{{errorMessage}}"
           error-color="#FF8225"
@@ -54,4 +55,12 @@
       </view>
     </view>
   </mx-dialog>
+  <mx-action-sheet
+    show="{{ showPictureSelect }}"
+    actions="{{ pictureAction }}"
+    bind:select="selectPictureSource"
+    bind:cancel="togglePictureSelect"
+    cancel-text="取消"
+    />
+    <mx-dialog id="mx-dialog" />
 </view>
