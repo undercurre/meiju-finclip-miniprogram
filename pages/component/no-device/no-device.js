@@ -1,3 +1,8 @@
+/*
+ * @desc:
+ * @author: zhucc22
+ * @Date: 2024-06-17 16:59:38
+ */
 // pages/component/no-device/no-device.js
 import { baseImgApi } from '../../../api'
 Component({
@@ -33,7 +38,7 @@ Component({
   data: {
     img: {
       addDeviceImg: baseImgApi.url + 'home_img_jiadian.png',
-      deviceFlag:false
+      deviceFlag: false,
     },
   },
 
@@ -42,7 +47,7 @@ Component({
    */
   methods: {
     checkFun() {
-      if(this.data.deviceFlag) {
+      if (this.data.deviceFlag) {
         return
       }
       getApp().checkNetLocal()
@@ -54,9 +59,9 @@ Component({
         return
       }
       this.triggerEvent('checkNoDeviceBtn', this.data.type)
-      setTimeout(()=>{
+      setTimeout(() => {
         this.data.deviceFlag = false
-      },1500)
+      }, 1500)
     },
   },
 })

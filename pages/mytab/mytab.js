@@ -201,7 +201,7 @@ Page({
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       // this.trackTab()
       this.getTabBar().setData({
-        selected: 2,
+        selected: 1,
       })
     }
 
@@ -295,7 +295,7 @@ Page({
     levelName: '', // 会员名称
     paymentMember: false,
     isShowB: false, //积分商城入口显示A样式 还是B样式 默认是A样式
-    clickNum: 0
+    clickNum: 0,
   },
   computed: {
     pageListShowData() {
@@ -1181,12 +1181,12 @@ Page({
 
   /**
    * 扫码调试小程序
-    */
+   */
   startAppletByQrCode() {
     console.log('hmn123mn-o', this.data.clickNum, this.data.clickNum >= 6)
     if (this.data.clickNum >= 6) {
-        ft.changeIsStartAppletByQrCode()
+      ft.changeIsStartAppletByQrCode()
     }
     this.setData({ clickNum: ++this.data.clickNum })
-  }
+  },
 })

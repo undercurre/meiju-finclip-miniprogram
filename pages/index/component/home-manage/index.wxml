@@ -24,13 +24,13 @@
   <view class="add_list_wrap">
     <view class="add-list-pick" animation="{{addPickerAnimationData}}" bindtap="switchShowAddList">
       <scroll-view>
-        <view class="add-picker-options-wrapper">
+        <view catchtap="goAddDeviceJia" class="add-picker-options-wrapper">
           <mx-icon size="16" name="{{addDevice}}" classPrefix="mx-iconfont"></mx-icon
-          ><text catchtap="goAddDeviceJia" class="add-icon-text">添加设备</text>
+          ><text class="add-icon-text">添加设备</text>
         </view>
-        <view class="add-picker-options-wrapper-item">
+        <view catchtap="goScanCode" class="add-picker-options-wrapper-item">
           <mx-icon size="16" name="{{addScan}}" classPrefix="mx-iconfont"></mx-icon
-          ><text catchtap="goScanCode" class="add-icon-text">扫一扫</text>
+          ><text class="add-icon-text">扫一扫</text>
         </view>
       </scroll-view>
     </view>

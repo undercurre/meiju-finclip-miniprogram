@@ -647,6 +647,10 @@ button::after {
 .home-toast-content{
   --toast-max-width:100%
 }
+.home-nologin-img{
+  width: 163rpx;
+  height: 82rpx;
+}
 
 /* .index-content-box{ */
   /* background: url('../../assets/img/index/index.png') no-repeat center center; */

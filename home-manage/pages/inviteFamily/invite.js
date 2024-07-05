@@ -33,7 +33,7 @@ Page({
       // roleId: options.roleId,
     })
     this.getMemberQrcode(options.homegroupid)
-    //this.receiveSocketData()
+    this.receiveSocketData()
   },
   //接收推送
   receiveSocketData() {

@@ -12,6 +12,7 @@ import { requestService, rangersBurialPoint } from '../../utils/requestService'
 import { actionScanResultIndex } from 'assets/js/scanCodeApi'
 import { service, scodeResonse } from 'assets/js/service'
 import Toast from 'm-ui/mx-toast/toast'
+const indexHeader = '/assets/img/index/index-header.png'
 import {
   supportedApplianceTypes,
   getCommonType,
@@ -63,6 +64,9 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
+    this.setData({
+      myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
+    })
     if (getApp().globalData.gloabalWebSocket && getApp().globalData.gloabalWebSocket._isClosed) {
       this.initPushData()
     }
@@ -206,6 +210,7 @@ Page({
     this.clearMixinsTime()
   },
   data: {
+    indexHeader,
     indexSrc,
     addIndexDevice,
     resetScrollTop: 0,
@@ -301,8 +306,8 @@ Page({
     scollTop: 0,
     showHover: true, //设备点击态样式
     allDevice: [],
-    //myBtnConent: app.globalData.isLogon ? '添加智能设备' : '前往登录',
-    myBtnConent: '添加智能设备',
+    myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
+    // myBtnConent: '添加智能设备',
     isCanAddDevice: true, //是否可配网,灰度下架，写死为true
     clickFLag: false, //防重复点击
     hasScand: false, // 是否已经扫码加入家庭
@@ -2501,79 +2506,80 @@ Page({
       return
     }
     this.data.addDeviceClickFlag = true
+    //首页不需要再判断蓝牙和位置
     //判断位置和蓝牙权限以及是否开启
     // if (!(await this.checkLocationAndBluetooth(true, false, true, true))) {
     //   return
     // }
-    let locationRes
-    let blueRes
-    let privacyRes
-    try {
-      locationRes = await checkPermission.loaction(true)
-      blueRes = await checkPermission.blue(true)
-      privacyRes = await checkPermission.privacy()
-    } catch (error) {
-      this.data.addDeviceClickFlag = false
-      Dialog.alert({
-        zIndex: 10001,
-        context: this,
-        message: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
-      })
-      console.log(error, '[loactionRes blueRes]err addDevice')
-    }
-    console.log('[privacyRes] addDevice', privacyRes)
-    console.log('[loactionRes] addDevice', locationRes)
-    console.log('[blueRes] addDevice', blueRes)
-    if (privacyRes) {
-      this.setData({
-        fromPrivacy: true,
-        showPrivacy: true,
-      })
-      this.data.addDeviceClickFlag = false
-      return
-    }
-    if (!locationRes.isCanLocation) {
-      Dialog.confirm({
-        zIndex: 10001,
-        context: this,
-        title: '请开启位置权限',
-        message: locationRes.permissionTextAll,
-        confirmButtonText: '查看指引',
-        cancelButtonText: '好的',
-        messageAlign: 'left',
-      }).then((res) => {
-        const action = res?.action
-        if (action === 'confirm') {
-          wx.navigateTo({
-            url: paths.locationGuide + `?permissionTypeList=${JSON.stringify(locationRes.permissionTypeList)}`,
-          })
-        }
-      })
-      this.checkLocationAndBluetoothBurialPoint('请开启位置权限', locationRes.permissionTextAll)
-      this.data.addDeviceClickFlag = false
-      return
-    }
-    if (!blueRes.isCanBlue) {
-      Dialog.confirm({
-        zIndex: 10001,
-        context: this,
-        title: '请开启蓝牙权限',
-        message: blueRes.permissionTextAll,
-        confirmButtonText: '查看指引',
-        cancelButtonText: '好的',
-        messageAlign: 'left',
-      }).then((res) => {
-        const action = res?.action
-        if (action === 'confirm') {
-          wx.navigateTo({
-            url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(blueRes.permissionTypeList)}`,
-          })
-        }
-      })
-      this.checkLocationAndBluetoothBurialPoint('请开启蓝牙权限', blueRes.permissionTextAll)
-      this.data.addDeviceClickFlag = false
-      return
-    }
+    // let locationRes
+    // let blueRes
+    // let privacyRes
+    // try {
+    // locationRes = await checkPermission.loaction(true)
+    // blueRes = await checkPermission.blue(true)
+    // privacyRes = await checkPermission.privacy()
+    // } catch (error) {
+    // this.data.addDeviceClickFlag = false
+    // Dialog.alert({
+    // zIndex: 10001,
+    // context: this,
+    // message: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
+    // })
+    // console.log(error, '[loactionRes blueRes]err addDevice')
+    // }
+    // console.log('[privacyRes] addDevice', privacyRes)
+    // console.log('[loactionRes] addDevice', locationRes)
+    // console.log('[blueRes] addDevice', blueRes)
+    // if (privacyRes) {
+    // this.setData({
+    // fromPrivacy: true,
+    // showPrivacy: true,
+    // })
+    // this.data.addDeviceClickFlag = false
+    // return
+    // }
+    // if (!locationRes.isCanLocation) {
+    // Dialog.confirm({
+    // zIndex: 10001,
+    // context: this,
+    // title: '请开启位置权限',
+    // message: locationRes.permissionTextAll,
+    // confirmButtonText: '查看指引',
+    // cancelButtonText: '好的',
+    // messageAlign: 'left',
+    // }).then((res) => {
+    // const action = res?.action
+    // if (action === 'confirm') {
+    // wx.navigateTo({
+    // url: paths.locationGuide + `?permissionTypeList=${JSON.stringify(locationRes.permissionTypeList)}`,
+    // })
+    // }
+    // })
+    // this.checkLocationAndBluetoothBurialPoint('请开启位置权限', locationRes.permissionTextAll)
+    // this.data.addDeviceClickFlag = false
+    // return
+    // }
+    // if (!blueRes.isCanBlue) {
+    // Dialog.confirm({
+    // zIndex: 10001,
+    // context: this,
+    // title: '请开启蓝牙权限',
+    // message: blueRes.permissionTextAll,
+    // confirmButtonText: '查看指引',
+    // cancelButtonText: '好的',
+    // messageAlign: 'left',
+    // }).then((res) => {
+    // const action = res?.action
+    // if (action === 'confirm') {
+    // wx.navigateTo({
+    // url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(blueRes.permissionTypeList)}`,
+    // })
+    // }
+    // })
+    // this.checkLocationAndBluetoothBurialPoint('请开启蓝牙权限', blueRes.permissionTextAll)
+    // this.data.addDeviceClickFlag = false
+    // return
+    // }
     // setTimeout(() => {
     //   this.data.addDeviceClickFlag = false
     // }, 2000)
