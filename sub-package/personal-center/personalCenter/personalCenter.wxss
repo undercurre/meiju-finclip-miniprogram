@@ -8,12 +8,15 @@ page {
 .main-container{
   margin-top: 20rpx;
 }
+.cell-image-cell{
+    height: 96rpx;
+}
 .phone-container,.logout-container{
   margin-top: 20rpx;
 }
 .avatar{
-  width: 96rpx;
-  height: 96rpx;
+  width: 60rpx;
+  height: 60rpx;
 }
 .dialog-input{
   padding:32rpx 30rpx 20rpx;

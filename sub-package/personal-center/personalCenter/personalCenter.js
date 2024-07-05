@@ -11,7 +11,6 @@ Page({
   data: {
     headImgUrl: '',
     nickName: '',
-    mobile: '',
     dialogShow: false,
     errorMessage: '',
     fieldValue: '',
@@ -38,8 +37,7 @@ Page({
         this.setData({
           uid: res.data.data.uid,
           headImgUrl: res.data.data.userCustomize.headImgUrl,
-          nickName: res.data.data.userCustomize.nickName,
-          mobile: res.data.data.mobile.substring(0, 3) + '****' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
+          nickName: res.data.data.userCustomize.nickName
         })
       })
       .catch((err) => {

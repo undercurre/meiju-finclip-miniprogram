@@ -1,6 +1,6 @@
 <view class="main-container">
   <mx-cell-group inset>
-    <mx-cell size="large" center imageSize="32" is-link title="头像">
+    <mx-cell class="cell-image-cell" size="large" center imageSize="32" is-link title="头像">
       <view>
         <mx-image
           round
@@ -22,11 +22,6 @@
       value="{{ nickName }}"
     />
   </mx-cell-group>
-  <view class="phone-container">
-    <mx-cell-group inset>
-      <mx-cell center imageSize="32" title="手机号" value="{{ mobile }}" />
-    </mx-cell-group>
-  </view>
   <mx-dialog
     z-index="10001"
     use-slot
