@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/mytab/mytab",
     "pages/index/index",
+    "pages/mytab/mytab",
+    "pages/accountSafe/accountSafe",
     "pages/download/download",
     "pages/unSupportDevice/unSupportDevice",
     "pages/login/login",

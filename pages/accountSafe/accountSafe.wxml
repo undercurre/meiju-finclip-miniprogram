@@ -1,0 +1,4 @@
+<view class="main-container">
+    <mx-cell title="手机号" value="{{targetMobile}}" />
+    <view class="bottomOperate">注销账号</view>
+</view>

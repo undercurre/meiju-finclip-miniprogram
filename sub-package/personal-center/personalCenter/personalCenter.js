@@ -101,7 +101,8 @@ Page({
         if(!appAuthorizeSetting.cameraAuthorized == 'authorized'){
             _checkAuthList.push({
                 cameraAuthorized: appAuthorizeSetting.cameraAuthorized,
-                authName: 'scope.camera'
+                authName: 'scope.camera',
+                authStatus: appAuthorizeSetting.cameraAuthorized,
             })
         }
     }
@@ -109,7 +110,8 @@ Page({
     if(!appAuthorizeSetting.albumAuthorized == 'authorized'){
         _checkAuthList.push({
             albumAuthorized: appAuthorizeSetting.albumAuthorized,
-            authName: 'scope.writePhotosAlbum'
+            authName: 'scope.writePhotosAlbum',
+            authStatus: appAuthorizeSetting.albumAuthorized
         })
     }
     this.setData({
@@ -128,7 +130,13 @@ Page({
         return Promise.resolve({})
     }
     // 如果申请的权限有 ‘denied’ 则直接跳转到系统授权设置页
-    if(this.data._checkAuthList.some(ele => (ele.albumAuthorized && ele.albumAuthorized == 'denied') || (ele.cameraAuthorized && ele.cameraAuthorized == 'denied'))){
+    let hasDeniedAuth = this.data._checkAuthList.some(ele => {
+        if((ele.albumAuthorized && ele.albumAuthorized == 'denied') || (ele.cameraAuthorized && ele.cameraAuthorized == 'denied')){
+            console.log(`denided auth: ${ele.authName}`)
+            return true
+        }
+    })
+    if(hasDeniedAuth){
         wx.openAppAuthorizeSetting()
         return Promise.reject({hasDenied: true})
     }
