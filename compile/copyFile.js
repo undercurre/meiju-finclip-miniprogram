@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const sourceDir1 = './node_modules/@colmoLite'
 const sourceDir2 = './node_modules/@meijuLite'
 const sourceDir3 = './node_modules/@toshibaLite'
+const sourceDir9 = './node_modules/@m-finclip-harmonyos'
 const targetPath1 = './src/modules/module_plugin'
 //配网模块需要迁移的路径
 const sourceDir4 = './node_modules/@m-distributionNetwork/sdk/'
@@ -26,6 +27,7 @@ function copyFile(sourceDir, targetPath) {
 copyFile(sourceDir1, targetPath1)
 copyFile(sourceDir2, targetPath1)
 copyFile(sourceDir3, targetPath1)
+copyFile(sourceDir9, targetPath1)
 copyFile(sourceDir4, targetPath4)
 copyFile(sourceDir5, targetPath5)
 copyFile(sourceDir6, targetPath6)

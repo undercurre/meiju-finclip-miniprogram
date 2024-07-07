@@ -743,7 +743,9 @@
   },
   "__usePrivacyCheck__": true,
   "lazyCodeLoading": "requiredComponents",
-  "navigationBarRightButton": {"hide": true},
+  "navigationBarRightButton": {
+    "hide": true
+  },
   "requiredPrivateInfos": [
     "getLocation"
   ]
