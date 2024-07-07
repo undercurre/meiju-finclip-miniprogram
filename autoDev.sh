@@ -15,7 +15,8 @@ rm -rf "./miniprogram_npm"
 #  echo "文件夹【user-gudie】删除成功！"
 #rm -rf "./node_modules"
 #  echo "文件夹【node_modules】删除成功！"
+sh harmonyosPlugin.sh
 npm run installAll
 node compile/auto/autoConstructSit.js
-#node compile/copyFile.js
+node compile/copyFile.js
 node combineAppjson.js

@@ -1,5 +1,4 @@
-{
-    "name": "@meijuLite/T0x13",
+{   "name": "@meijuLite/T0x13",
     "version": "2.2.2",
     "description": "0x13npm包",
     "main": "./index/index",
