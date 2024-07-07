@@ -9,18 +9,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-    targetMobile: ''
+    mobile: '',
+    mobileLeft: '',
+    mobileRight: '',
+    targetMobile: '',
+    inputValue: '',
+    hasFixlength: false,
+    classForButton: 'changePhoneBtn haveSomeOpacity'
   },
-//   注销账号
-  cancelAccount() {
-    wx.navigateTo({
-      url: `${webView}?webViewUrl=${encodeURIComponent('https://www.baidu.com')}`,
+  inputPhone(event) {
+    let inputValue = event.detail.value
+    let preFixLength = 4 - inputValue.length
+    for(var i = 0; i < preFixLength; i++){
+        inputValue += '_'
+    }
+    let targetMobile = `${this.data.mobileLeft}${inputValue}${this.data.mobileRight}`
+    this.setData({
+        inputValue: inputValue,
+        targetMobile: targetMobile,
+        hasFixlength: preFixLength == 0,
+        classForButton: `changePhoneBtn ${preFixLength != 0 ? 'haveSomeOpacity' : ''}`
     })
   },
-  changeMobile() {
-    wx.navigateTo({
-        url: '../bindPhone/bindPhone',
-      })
+  checkPhone() {
+    let checkPhoneNum = `${this.data.mobileLeft}${this.data.inputValue}${this.data.mobileRight}`
+    if(this.data.mobile != checkPhoneNum){
+        showToast('手机号验证失败，请重新输入')
+    }else{
+        wx.navigateTo({
+            url: `../changePhone/changePhone?oldMobile=${checkPhoneNum}`,
+        })
+    }
   },
   getVipUserInfo() {
     let data = {
@@ -38,7 +57,10 @@ Page({
         wx.hideLoading()
         console.log(res.data.data.mobile, 'targetres')
         this.setData({
-          targetMobile: res.data.data.mobile.substring(0, 3) + '****' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
+            mobile: res.data.data.mobile,
+            mobileLeft: res.data.data.mobile.substring(0, 3),
+            mobileRight: res.data.data.mobile.substring(7),
+          targetMobile: res.data.data.mobile.substring(0, 3) + '____' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
         })
       })
       .catch((err) => {

@@ -1,0 +1,9 @@
+<view class="main-container">
+    <view class="container-title">验证身份</view>
+    <view class="container-tips">请输入新手机号</view>
+    <view class="input-wrapper-box">
+        <view class="input-wrapper-show">{{targetMobile}}</view>
+        <input type="number" class="input-wrapper-hidden" value="{{inputValue}}" bindinput="inputPhone" maxlength="11"/>
+    </view>
+    <mx-button size="large" type="primary" custom-class="{{classForButton}}" round="{{true}}" bind:click="checkPhone" disabled="{{!hasFixlength}}">下一步</mx-button>
+</view>

@@ -2,6 +2,10 @@
   "pages": [
     "pages/index/index",
     "pages/mytab/mytab",
+    "pages/checkPhone/checkPhone",
+    "pages/changePhone/changePhone",
+    "pages/checkValidecode/checkValidecode",
+    "pages/bindPhone/bindPhone",
     "pages/accountSafe/accountSafe",
     "pages/download/download",
     "pages/unSupportDevice/unSupportDevice",

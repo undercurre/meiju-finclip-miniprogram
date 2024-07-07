@@ -8,82 +8,16 @@ page {
 .main-container{
   margin-top: 20rpx;
 }
-.cell-image-cell{
-    height: 96rpx;
-}
-.phone-container,.logout-container{
-  margin-top: 20rpx;
-}
-.headImg-container{
-    margin-top: 16rpx;
-    padding: 0px 32rpx;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 192rpx;
-    background: #ffffff;
-}
-.nickName-container{
-    margin-top: 16rpx;
-    padding: 0px 32rpx;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.bottomOperate{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #FFFFFF;
+    width: 750rpx;
     height: 104rpx;
-    background: #ffffff;
-}
-.headimg-container-title{
+    line-height: 104rpx;
+    text-align: center;
     font-size: 32rpx;
-    color: #000000;
-    font-weight: 400;
-}
-.headImg-container-rightPart{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 192rpx;
-}
-.nickName{
-    font-size: 28rpx;
-    color: #666666;
-    text-align: right;
-    font-weight: 400;
-}
-.headImg-container-arrow{
-    width: 20rpx;
-    height: 20rpx;
-    margin-left: 8rpx;
-}
-.avatar{
-  width: 120rpx;
-  height: 120rpx;
-}
-.dialog-input{
-  padding:32rpx 30rpx 20rpx;
-}
-.input-class{
-  font-size: 24rpx;
-}
-.field-container{
-  padding-bottom: 12rpx;
-}
-.tips-container{
-  line-height: 1;
-}
-.tips{
-  font-size: 20rpx;
-  line-height: 20rpx;
-  color: #FF8225;
-}
-
-.avatar-loading{
-  position: absolute;
-  top: 15px;
-  right: 48px;
-}
-.avatar-loading-text{
-  color: #E61E1E;
-  font-size: 10px;
-  height: 12px;
-  line-height: 12px;
+    color: #267AFF;
+    padding-bottom: 68rpx;
 }

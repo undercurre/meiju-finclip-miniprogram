@@ -1,0 +1,55 @@
+/* pages/personalCenter/personalCenter.wxss */
+page {
+  background-color: #ffffff;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  margin-top: 20rpx;
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+}
+.container-tips{
+    font-size: 28rpx;
+    color: #666666;
+    margin-top: 96rpx;
+}
+.container-title{
+    margin-top: 24rpx;
+    font-size: 56rpx;
+    color: #000000;
+    font-weight: 500;   
+}
+.input-wrapper-box{
+    margin-top: 8rpx;
+    position: relative;
+    width: 100%;
+    border-bottom: 2rpx solid #f2f2f2;
+    margin-bottom: 48rpx;
+}
+.input-wrapper-show{
+    height: 96rpx;
+    line-height: 96rpx;
+    font-size: 32rpx;
+    color: #000000;
+    letter-spacing: 0;
+    font-weight: 500;
+}
+.input-wrapper-hidden{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
+    height: 96rpx;
+    line-height: 96rpx;
+    opacity: 0;
+}
+.changePhoneBtn{
+    width: 686rpx;
+}
+.haveSomeOpacity{
+    opacity: 0.2;
+}

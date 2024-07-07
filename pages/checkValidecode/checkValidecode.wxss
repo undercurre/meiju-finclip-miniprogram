@@ -1,0 +1,69 @@
+/* pages/personalCenter/personalCenter.wxss */
+page {
+  background-color: #ffffff;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  margin-top: 20rpx;
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+}
+.container-tips{
+    font-size: 28rpx;
+    color: #666666;
+    margin-top: 96rpx;
+}
+.container-title{
+    margin-top: 24rpx;
+    font-size: 56rpx;
+    color: #000000;
+    font-weight: 500;   
+}
+.input-wrapper-box{
+    margin-top: 8rpx;
+    width: 100%;
+    border-bottom: 2rpx solid #f2f2f2;
+    margin-bottom: 48rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+}
+.deleteIcon{
+    position: absolute;
+    right:  210rpx;
+    top: 32rpx;
+    width: 32rpx;
+    height: 32rpx;
+    z-index: 9999;
+}
+.input-wrapper-hidden{
+    height: 96rpx;
+    line-height: 96rpx;
+    width: 500rpx;
+    font-size: 32rpx;
+    color: #000000;
+    font-weight: 500;
+}
+.input-wrapper-again{
+    font-size: 28rpx;
+    color: #267AFF;
+    text-align: right;
+    line-height: 48rpx;
+    font-weight: 400;
+    height: 48rpx;
+    border-left: 1rpx solid #F2F2F2;
+    padding-left: 13rpx;
+}
+.disabledResend{
+    color: #C7C7CC;
+}
+.changePhoneBtn{
+    width: 686rpx;
+}
+.haveSomeOpacity{
+    opacity: 0.2;
+}

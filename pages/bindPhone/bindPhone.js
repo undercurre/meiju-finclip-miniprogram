@@ -9,6 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    mobile: '', //手机号码
+    headImgUrl: '', //用户头像
     targetMobile: ''
   },
 //   注销账号
@@ -17,10 +19,10 @@ Page({
       url: `${webView}?webViewUrl=${encodeURIComponent('https://www.baidu.com')}`,
     })
   },
-  changeMobile() {
+  changePhone(){
     wx.navigateTo({
-        url: '../bindPhone/bindPhone',
-      })
+        url: '../checkPhone/checkPhone',
+    })
   },
   getVipUserInfo() {
     let data = {
@@ -38,7 +40,9 @@ Page({
         wx.hideLoading()
         console.log(res.data.data.mobile, 'targetres')
         this.setData({
-          targetMobile: res.data.data.mobile.substring(0, 3) + '****' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
+            mobile: res.data.data.mobile,
+            headImgUrl: res.data.data.userCustomize.headImgUrl,
+            targetMobile: res.data.data.mobile.substring(0, 3) + '****' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
         })
       })
       .catch((err) => {

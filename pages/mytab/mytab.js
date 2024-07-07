@@ -914,6 +914,10 @@ Page({
   //跳转个人中心页面
   goPersonalCenter() {
     wx.navigateTo({
+        url: '../accountSafe/accountSafe',
+      })
+      return
+    wx.navigateTo({
       url: '../../sub-package/personal-center/personalCenter/personalCenter',
     })
   },
