@@ -1,8 +1,6 @@
 const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import {webView} from '../../utils/paths'
-import { getReqId, getStamp } from 'm-utilsdk/index'
-import { showToast } from '../../utils/util'
 
 Page({
   /**
@@ -50,7 +48,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-    this.getVipUserInfo()
+    
   },
 
   /**
@@ -61,7 +59,9 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow() {},
+  onShow() {
+    this.getVipUserInfo()
+  },
 
   /**
    * 生命周期函数--监听页面隐藏

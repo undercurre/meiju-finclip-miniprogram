@@ -40,3 +40,31 @@ page {
 .haveSomeOpacity{
     opacity: 0.2;
 }
+.smscode-title{
+    height: 96rpx;
+    line-height:112rpx;
+    text-align: center;
+    font-size: 26rpx;
+    color: #111111;
+    font-weight: 400;
+}
+.smscodeWrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background: rgba(255,255,255,0.90);
+    border: 1rpx solid #9F9F9F;
+    margin: 0 32rpx 24rpx;
+}
+.smscodeWrapper-input{
+    width: 300rpx;
+    height: 60rpx;
+}
+.smscodeWrapper-input{
+    --cell-line-height: 60rpx;
+}
+.smscodeWrapper-image{
+    width: 160rpx;
+    height: 60rpx;
+}

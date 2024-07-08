@@ -54,5 +54,23 @@ const api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/cancelStatusInfo`, //新配置
     api: '/v1/user/wx/c4a/cancelStatusInfo',
   },
+  getChangePhoneSmsCode: {
+    url: `${domain[`${environment}`]}/v1/user/sms/code/get`,
+    //masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/cancelStatusInfo`, //旧配置
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/sms/code/get`, //新配置
+    api: '/v1/user/sms/code/get',
+  },//用户更换绑定手机号码，需要发送验证码，文档https://yapi.smartmidea.net/project/209/interface/api/20363
+  setBindUserPhone: {
+    url: `${domain[`${environment}`]}/v1/user/mobile/modify`,
+    //masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/cancelStatusInfo`, //旧配置
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/mobile/modify`, //新配置
+    api: '/v1/user/mobile/modify',
+  },//更换绑定新的手机号码https://yapi.smartmidea.net/project/209/interface/api/20378
+  verifyUserCode: {
+    url: `${domain[`${environment}`]}/mj/user/mobileVerify`,
+    //masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/cancelStatusInfo`, //旧配置
+    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/mobileVerify`, //新配置
+    api: '/mj/user/mobileVerify',
+  },
 }
 export default api
