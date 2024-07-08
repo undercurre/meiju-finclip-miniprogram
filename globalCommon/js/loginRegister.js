@@ -754,7 +754,7 @@ const loginMethods = {
   // 校验是否需要强制更新
   checkIsUpdate(version) {
     let reqData = {
-      appId: 901,
+      iotAppId: api.iotAppId,
       clientType: 5,
       version: version,
     }

@@ -648,8 +648,8 @@ button::after {
   --toast-max-width:100%
 }
 .home-nologin-img{
-  width: 163rpx;
-  height: 82rpx;
+  width: 173rpx;
+  height: 87rpx;
 }
 
 /* .index-content-box{ */

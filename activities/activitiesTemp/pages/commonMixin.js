@@ -4,6 +4,7 @@ import { showToast } from '../../../utils/util.js'
 import { actEventViewPageTracking } from '../track/track.js'
 import { dialogText } from 'containerCommon.js'
 import { setTokenStorage, setIsAutoLogin } from '../../../utils/redis.js'
+import { api } from '../../../api'
 
 //const app = getApp()
 module.exports = Behavior({
@@ -1196,7 +1197,7 @@ module.exports = Behavior({
       this.setData({ isLoading: true })
       return new Promise((resolve, reject) => {
         let data = {
-          iotAppId: '901',
+          iotAppId: api.iotAppId,
           // "wxLoginCode": res.code,
           wxAccessToken: getApp().globalData.wxAccessToken || '',
           nickname: (getApp().globalData.userInfo && getApp().globalData.userInfo.nickName) || '',
@@ -1272,7 +1273,7 @@ module.exports = Behavior({
           timestamp: timestamp,
           data: reqData,
           iotData: {
-            iotAppId: '901',
+            iotAppId: api.iotAppId,
             // "wxLoginCode": res.code,
             wxAccessToken: getApp().globalData.wxAccessToken || '',
             nickname: (getApp().globalData.userInfo && getApp().globalData.userInfo.nickName) || '',

@@ -19,7 +19,7 @@ import { getFullPageUrl } from './utils/util'
 import { privacy, index as homeIndex } from './utils/paths'
 import { removeCloudSync } from './utils/redis'
 import { initWebsocket, closeWebsocket } from './utils/initWebsocket.js'
-// import { api } from './api'
+import { api } from './api'
 new Tracker({
   tracks: trackConfig,
 })
@@ -643,7 +643,7 @@ App({
   },
 
   getShutDownNoticeData() {
-    return requestService.request('shutdownNotice', { appId: 901 })
+    return requestService.request('shutdownNotice', { appId: api.iotAppId })
   },
 
   checkNetLocal() {
@@ -714,7 +714,7 @@ App({
     return globalCommonConfig
   },
 
-  //黑白名单获取
+  //黑白名单获取.appId 先用小程序接口 901，后面会替换到900
   getBlackWhiteList(options) {
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
@@ -724,6 +724,7 @@ App({
           {
             reqId: getReqId(),
             stamp: getStamp(),
+            //appId: api.iotAppId,
             appId: '901',
             // verType: __wxConfig.envVersion,
             verType: 'release',

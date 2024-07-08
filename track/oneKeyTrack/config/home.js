@@ -16,13 +16,13 @@ const tracks = {
       module: 'appliance',
       widget_name: '首页添加设备',
     },
-    {
-      method: 'goAddDeviceJia',
-      dataKeys: ['pageText.tab_add_appliance'],
-      widget_id: 'click_btn_tab_add_appliance',
-      module: 'appliance',
-      widget_name: 'tab+号添加设备',
-    },
+    // {
+    // method: 'goAddDeviceJia',
+    // dataKeys: ['pageText.tab_add_appliance'],
+    // widget_id: 'click_btn_tab_add_appliance',
+    // module: 'appliance',
+    // widget_name: 'tab+号添加设备',
+    // },
     {
       method: 'devicesListDialog',
       dataKeys: ['pageText.popups_home_found'],

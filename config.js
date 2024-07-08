@@ -77,14 +77,14 @@ const config = {
     prod: 'prod_secret123@muc', //生产
   },
   appKey: {
-    dev: '9f5d2a027e5847faa22d8e220ec5bbda',
-    sit: '9f5d2a027e5847faa22d8e220ec5bbda',
-    prod: 'b78e235c6eb948a480b6a8e26eed16b7',
+    dev: '143320d6c73144d083baf9f5b1a7acc9',
+    sit: '143320d6c73144d083baf9f5b1a7acc9',
+    prod: 'ad0ee21d48a64bf49f4fb583ab76e799',
   },
   iotAppId: {
-    dev: '901',
-    sit: '901',
-    prod: '901',
+    dev: '900',
+    sit: '900',
+    prod: '900',
   },
   marketAppId: {
     dev: 'test_mj',
@@ -98,8 +98,10 @@ const config = {
   },
   //c4a隐私协议域名
   privacyDomain: {
-    dev: 'https://secsit.midea.com', //测试环境
-    sit: 'https://secsit.midea.com', //测试环境
+    // dev: 'https://secsit.midea.com', //测试环境
+    // sit: 'https://secsit.midea.com', //测试环境
+    dev: 'https://sec.midea.com', //测试环境
+    sit: 'https://sec.midea.com', //测试环境
     prod: 'https://sec.midea.com', //正式环境
   },
 

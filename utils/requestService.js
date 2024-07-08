@@ -92,7 +92,7 @@ var requestService = {
         secretVersion: '1.0',
         sign: getNewSign(params, api.apiKey, timestamp, method), //new
         version: '8.5',
-        iotAppId: '901',
+        iotAppId: api.iotAppId,
         ...headerObj,
         // 'iot-gray-identification': "beta", //临时添加alpha泳道
       }
@@ -275,7 +275,7 @@ var requestBurialPoint = function (
     //app_version: '1.0.0',  // *
     ip: getApp().globalData.ip || '', //x
     location_gps_lat: '', //x
-    app_name: '微信小程序-MeijuLite',
+    app_name: '美的美居-harmonyOs',
     page_name: param.page_name, //*
     //app_key: '1ym983d5', //*
     user_account: '', // *手机号码
@@ -284,7 +284,7 @@ var requestBurialPoint = function (
     action_create_time: getStamp(), //*
     action_result: param.action_result,
     sub_action: param.sub_action, //*
-    widget_name: param.widget_name || 'WeChat',
+    widget_name: param.widget_name || 'harmonyOs',
   }
   wx.getSystemInfo({
     success(res) {

@@ -68,18 +68,14 @@ const indexHomerGroupListViewBurialPoint = function (params) {
  */
 const clickSwitchFamilyBurialPoint = function (params) {
   rangersBurialPoint('user_behavior_event', {
-    page_id: 'page_home',
-    page_name: '小程序首页',
-    module: '首页',
-    page_path: getCurrentPages()[0].route,
-    widget_id: 'click_bth_family',
-    widget_name: '切换家庭',
-    page_module: '',
-    rank: '',
-    object_type: '家庭',
+    home_tab: '首页',
+    module: '公共',
+    widget_id: 'click_bar_family_info',
+    widget_name: '首页切换切换家庭',
+    page_module: '首页切换家庭弹窗',
+    object_type: 'family',
     object_id: params.homeId,
     object_name: params.homeName,
-    ext_info: {},
   })
 }
 
@@ -89,22 +85,36 @@ const clickSwitchFamilyBurialPoint = function (params) {
 const clickOpenPluginBurialPoint = function (params) {
   console.log('点击打开插件埋点', params)
   rangersBurialPoint('user_behavior_event', {
+    module: '公共',
+    //小程序包名无，先用 deviceName代替
+    new_packageName: params.deviceName,
+    applianceCode: params.applianceCode,
     page_id: 'page_home',
-    page_name: '小程序首页',
-    module: '首页',
-    page_path: getCurrentPages()[0].route,
+    page_name: '首页',
+    plugin_type: params.pluginType,
+    sn8: params.sn8,
+    spid: params.smartProductId,
     widget_id: 'click_btn_open_plugin',
     widget_name: '打开插件',
-    page_module: '',
-    rank: '',
-    object_type: 'appliance',
-    object_id: params.applianceCode,
-    object_name: params.deviceName,
-    plugin_type: params.pluginType,
+  })
+}
+
+/**
+ * 首页点击卡片
+ */
+const clickCardBurialPoint = function (params) {
+  rangersBurialPoint('user_behavior_event', {
+    home_tab: '首页',
+    module: '公共',
+    object_id: params.smartProductId,
+    object_type: 'smartProductID',
+    page_module: '首页设备卡片',
+    sn8: params.sn8,
+    widget_id: 'card_click',
+    widget_name: '首页卡片点击上报',
     ext_info: {
-      onlineStatus: params.onlineStatus,
-      pluginType: params.pluginType,
-      sn8: params.sn8,
+      applianceType: params.type || '',
+      applianceCode: params.applianceCode || '',
     },
   })
 }
@@ -291,14 +301,92 @@ const checkFamilyPermissionAddBurialPoint = function (params) {
  */
 const clickFamilyManagement = function (params) {
   rangersBurialPoint('user_behavior_event', {
-    page_path: getCurrentPages()[0].route,
-    module: '首页',
-    page_id: 'page_home_family_list',
-    page_name: '小程序首页-家庭下拉列表',
+    home_tab: '首页',
+    module: '公共',
+    object_id: params.homeId,
+    obiect_type: 'family',
+    page_module: '首页切换家庭弹窗',
     widget_name: '家庭管理',
     widget_id: 'click_bth_management',
   })
 }
+
+/**
+ * 首页--点击添加设备
+ */
+const bthAddDeviceBurialPoint = function (params) {
+  rangersBurialPoint('user_behavior_event', {
+    home_tab: '首页',
+    module: '公共',
+    page_module: params.pageModule,
+    widget_name: '添加设备',
+    widget_id: 'click_bth_add_device',
+  })
+}
+
+/**
+ * 首页--点击扫一扫
+ */
+const clickScanBurialPoint = function () {
+  rangersBurialPoint('user_behavior_event', {
+    home_tab: '首页',
+    module: '公共',
+    page_module: '顶栏',
+    widget_name: '扫一扫',
+    widget_id: 'click_scan',
+  })
+}
+
+/**
+ * 首页--点击更多
+ */
+const clickBtnMoreBurialPoint = function () {
+  rangersBurialPoint('user_behavior_event', {
+    home_tab: '首页',
+    module: '公共',
+    page_module: '顶栏',
+    widget_name: '首页+号更多功能',
+    widget_id: 'click_btn_more_function',
+  })
+}
+
+//点击家庭下拉埋点
+const clickManageFamily = function (parmas) {
+  rangersBurialPoint('user_behavior_event', {
+    home_tab: '首页',
+    module: '公共',
+    object_id: parmas.familyId,
+    object_type: 'family',
+    widget_name: '家庭管理',
+    widget_id: 'click_btn_family',
+    ext_info: {
+      action: 'manage_family',
+    },
+  })
+}
+//点点击不支持的设备埋点
+const clickCardUnsupportedBurialPoint = function (parmas) {
+  rangersBurialPoint('user_behavior_event', {
+    home_tab: '首页',
+    module: '公共',
+    page_module: '卡片',
+    widget_id: 'click_card_unsupported',
+    widget_name: '不支持的控制设备卡片',
+  })
+}
+
+//首页暴露
+const MideaHomeViewBurialPoint = function (parmas) {
+  rangersBurialPoint('user_page_event', {
+    home_tab: '首页',
+    module: '公共',
+    page_id: 'page_home',
+    page_module: '首页',
+    page_path: '/pages/index/index',
+    page_title: '美的美居',
+  })
+}
+
 export {
   pluginAppearBurialPoint,
   joinResultBurialPoint,
@@ -315,4 +403,11 @@ export {
   checkFamilyPermissionAddBurialPoint,
   clickFamilyManagement,
   cardClickPluginBurialPoint,
+  bthAddDeviceBurialPoint,
+  clickScanBurialPoint,
+  clickBtnMoreBurialPoint,
+  clickManageFamily,
+  clickCardUnsupportedBurialPoint,
+  MideaHomeViewBurialPoint,
+  clickCardBurialPoint,
 }

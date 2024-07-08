@@ -20,6 +20,7 @@
         <block wx:if="{{isHomeListLoaded && isLogon && !homeInfoFailFlag}}">
           <!-- 家庭管理 -->
           <home-manage
+            data-type="more"
             id="home-manage"
             homeList="{{homeList}}"
             currentHomeInfo="{{currentHomeInfo}}"
@@ -213,6 +214,7 @@
                         <!-- 已购未激活设备卡片end -->
                       </block>
                       <view
+                        data-type="card"
                         wx:if="{{isCanAddDevice}}"
                         class="'device-card cardlist-add-device'"
                         hover-class="btn-hover"
@@ -225,6 +227,7 @@
                       </view>
                       <view
                         wx:else
+                        data-type="card"
                         class="'device-card cardlist-add-device'"
                         hover-class="btn-hover"
                         bindtap="goAddDeviceJia"

@@ -46,7 +46,7 @@
   border-radius: 37rpx;
   margin: 108rpx auto 0;
   font-size: 28rpx;
-  line-height: 74rpx;
+  line-height: 80rpx;
 }
 
 .no-support-add {

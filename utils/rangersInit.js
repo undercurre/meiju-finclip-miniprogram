@@ -21,7 +21,7 @@ const rangersInit = () => {
       user_name: 'ranger', // 每个事件上报时都会带上这个参数
     },
     _staging_flag: 0,
-    app_name: '美的美居Lite微信小程序',
+    app_name: '美的美居-harmonyOs',
     version: 'v2.33.1',
     user_id: '',
     user_type: '',

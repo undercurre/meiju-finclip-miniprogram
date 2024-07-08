@@ -91,14 +91,16 @@
       <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='加载中'}}" /> {{loginBtnDes}}
     </mx-button>
   </view>
-  <view class="content">
-    <view class="agreeIcoWarp" catchtap="changeAgree">
-      <image class="agree-icon" src="{{agreeFlag ? loginBtnOn : loginBtnOff}}"></image>
-    </view>
-    <view class="des">
-      <text>我已阅读并同意</text>
-      <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text><text>和</text>
-      <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户服务协议》</text>
+  <view class="login-content-privacy">
+    <view class="content">
+      <view class="agreeIcoWarp" catchtap="changeAgree">
+        <image class="agree-icon" src="{{agreeFlag ? loginBtnOn : loginBtnOff}}"></image>
+      </view>
+      <view class="des">
+        <text>我已阅读并同意</text>
+        <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text><text>和</text>
+        <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户协议》</text>
+      </view>
     </view>
   </view>
 
@@ -148,7 +150,7 @@
     confirm-button-text="{{confirmReingButtonText}}"
     bind:confirm="getJwtToken"
   ></mx-dialog>
-
+  <mx-toast id="mx-toast" />
   <!-- <mx-dedialog -->
   <!-- show="{{ registerDialogShow }}" -->
   <!-- title="帐号已注销" -->

@@ -8,6 +8,7 @@
     "mx-button" :"/miniprogram_npm/m-ui/mx-button/index",
     "mx-transition":"/miniprogram_npm/m-ui/mx-transition/index",
     "mx-image":"/miniprogram_npm/m-ui/mx-image/index",
+    "mx-toast":"m-ui/mx-toast/index",
     "navbar": "/pages/download/components/navbar/navbar"
   }
 }

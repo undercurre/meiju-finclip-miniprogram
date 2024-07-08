@@ -6,4 +6,4 @@
 //配置项
 export const plate = 'meiju'
 export const plateName = '美居Lite'
-export const iotAppId = '901'
+export const iotAppId = '900'

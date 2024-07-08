@@ -1,5 +1,15 @@
+import {
+  inputMboblieViewBurialPoint,
+  clickBthVerifyBurialPoint,
+  getCodeBurialPoint,
+  clickBtnDisAgreeBurialPoint,
+  clickBtnAgreeBurialPoint,
+  loginCheckResultBurialPoint,
+  photoCodeEventBurialPoint,
+  userPageViewTrack,
+} from 'assets/burialPoint'
 import { baseImgApi, privacyApi } from '../../api'
-import { requestService, rangersBurialPoint } from '../../utils/requestService'
+import { requestService } from '../../utils/requestService'
 import { getFullPageUrl, showToast } from '../../utils/util'
 import { index, virtualPlugin, wetChatMiddlePage } from '../../utils/paths.js'
 import config from '../../config.js' //环境及域名基地址配置
@@ -11,6 +21,7 @@ const imgCodeSrc = '/assets/img/login/imgcode.png'
 const phoneSrc = '/assets/img/login/phone.png'
 import loginMethods from '../../globalCommon/js/loginRegister.js'
 import { clickEventTracking } from '../../track/track.js'
+import Toast from 'm-ui/mx-toast/toast'
 const WX_LOG = require('../../utils/log')
 const app = getApp()
 // 用户状态, 1：未注销   2：注销成功三天后  3：注销成功3天内   4：注销中  5：注销失败
@@ -75,7 +86,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.userPageViewTrack()
+    //页面暴露埋点
+    userPageViewTrack()
     this.getAgreementTitles()
     if (options && options.fms) {
       this.setData({
@@ -127,6 +139,10 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {},
+  //不同意隐私协议
+  onClose() {
+    clickBtnDisAgreeBurialPoint()
+  },
   //同意服务和隐私协议
   onConfirm() {
     this.setData({
@@ -137,51 +153,28 @@ Page({
     } else {
       this.getSmsCode()
     }
+    //同意隐私协议
+    clickBtnAgreeBurialPoint()
   },
   changeAgree() {
     this.setData({
       agreeFlag: !this.data.agreeFlag,
     })
   },
-  userPageViewTrack() {
-    rangersBurialPoint('user_page_view', {
-      module: '公共', //写死 “活动”
-      page_id: 'page_login', //参考接口请求参数“pageId”
-      page_name: '登录页', //当前页面的标题，顶部的title
-      page_path: getFullPageUrl(), //当前页面的URL
-      page_module: '公共',
-    })
-  },
-  userBehaviorEventTrack(widget_id, widget_name) {
-    rangersBurialPoint('user_behavior_event', {
-      module: '公共', //写死 “活动”
-      page_id: 'page_login', //参考接口请求参数“pageId”
-      page_name: '登录页', //当前页面的标题，顶部的title
-      page_path: getFullPageUrl(), //当前页面的URL
-      widget_id: widget_id,
-      widget_name: widget_name,
-      page_module: '公共',
-    })
-  },
+  //
+  //原有移植代码，遗弃
   agreeToast() {
-    this.userBehaviorEventTrack('toast_login_notice', '请先阅读条款toast')
+    //this.userBehaviorEventTrack('toast_login_notice', '请先阅读条款toast')
     wx.showToast({
       title: '请先阅读并同意相关协议',
       icon: 'none',
       duration: 1000,
     })
   },
+  //隐私条件跳转
   goPrivacy(e) {
     let type = e.currentTarget.dataset.type
-    let prodType = e.currentTarget.dataset.prodtype
-    console.log('privacyApi.url', privacyApi.url)
-    let currLink = `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=${type}`
-    if (prodType) {
-      currLink = `${privacyApi.url}/mobile/agreement/?system=${
-        config.environment == 'prod' ? 'meiju_lite_app' : 'meijuapp'
-      }&agreement_type=${config.environment == 'prod' ? prodType : type}`
-    }
-
+    let currLink = `${privacyApi.url}/mobile/agreement/?system=meijuApp&agreement_type=${type}`
     let encodeLink = encodeURIComponent(currLink)
     let currUrl = `/pages/webView/webView?webViewUrl=${encodeLink}`
     console.log('新C4A隐私条款链接===', encodeLink)
@@ -228,7 +221,7 @@ Page({
   getJwtToken() {
     const accesstoken = this.data.jwtToken
     const host = `${config.privacyDomain[config.environment]}`
-    const url = `${host}/mobile/cancellation/?system=midea_app_lite&jwt_token=${accesstoken}&redirect_uri=&is_switch_tab=true`
+    const url = `${host}/mobile/cancellation/?system=midea_app&jwt_token=${accesstoken}&redirect_uri=&is_switch_tab=true`
     console.log(url, 'logouturl')
     wx.navigateTo({
       url: `/sub-package/webview/defaultWebview/defaultWebview?webViewUrl=${encodeURIComponent(
@@ -240,6 +233,8 @@ Page({
   // 更新phoneNumber变量的值
   handlePhoneNumberInput(val) {
     if (val.detail.length == 11) {
+      //手机号输入埋点
+      inputMboblieViewBurialPoint()
       this.setData({
         phoneNumber: val.detail,
         verCodeDisabled: false,
@@ -292,6 +287,8 @@ Page({
   },
   //发送验证码请求
   requestSmsCode() {
+    //点击获取验证码埋点
+    clickBthVerifyBurialPoint()
     loginMethods
       .loginSmCode({
         phoneNumber: this.data.phoneNumber,
@@ -299,6 +296,8 @@ Page({
         randomToken: this.data.randomToken,
       })
       .then(() => {
+        //短信验证码获取成功埋点
+        getCodeBurialPoint({ mobile: this.data.phoneNumber })
         let time = 60
         this.setTime(time)
         this.setData({
@@ -313,6 +312,8 @@ Page({
       .catch((error) => {
         console.log(error)
         if (error.data.code == 65011) {
+          //获取图形验证码
+          photoCodeEventBurialPoint()
           this.setData({
             imgCodeInputshow: true, //显示图形验证码输入框
             verCodeDisabled: true,
@@ -371,6 +372,7 @@ Page({
   },
   //登陆交互逻辑
   onClickLogin() {
+    //防止暴击
     if (this.data.isButtonClicked) {
       return
     }
@@ -379,6 +381,12 @@ Page({
     setTimeout(() => {
       this.data.isButtonClicked = false
     }, 1000)
+    //判断手机号
+    var reg_tel = /^(1[3|4|5|6|7|8|9][0-9])\d{8}$/ //11位手机号码正则
+    if (!reg_tel.test(this.data.phoneNumber)) {
+      Toast({ context: this, position: 'bottom', message: '请输入正确的手机号码' })
+      return
+    }
     if (!this.data.agreeFlag) {
       this.setData({
         privacyShow: true,
@@ -397,7 +405,6 @@ Page({
     this.setData({
       loginBtnDes: '加载中',
     })
-    this.userBehaviorEventTrack('click_mobile_login', '手机验证码')
     this.setData({ isLoading: false })
     this.miniAppLogin(loginType)
       .then((res) => {
@@ -469,6 +476,8 @@ Page({
       loginMethods
         .loginTempAPi({ phoneNumber: this.data.phoneNumber, vercode: this.data.vercode, loginType: loginType })
         .then((resp) => {
+          //登录成功
+          loginCheckResultBurialPoint({ mobile: this.data.phoneNumber })
           this.resetLoginBtnDes()
           //登录成功-进行初始化
           this.makeAgreeLatest()

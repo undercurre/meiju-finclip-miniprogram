@@ -32,6 +32,10 @@ import {
   checkFamilyPermissionBurialPoint,
   checkFamilyPermissionAddBurialPoint,
   cardClickPluginBurialPoint,
+  bthAddDeviceBurialPoint,
+  clickCardUnsupportedBurialPoint,
+  MideaHomeViewBurialPoint,
+  clickCardBurialPoint,
 } from 'assets/js/burialPoint'
 import { baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking, trackLoaded } from '../../track/track.js'
@@ -64,6 +68,8 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
+    //首页暴露
+    MideaHomeViewBurialPoint()
     this.setData({
       myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
     })
@@ -115,8 +121,9 @@ Page({
           })
         } else {
           // 已登录
-          this.locationAuthorize() //判断用户是否授权小程序使用位置权限
-          this.bluetoothAuthorize() //判断用户是否授权小程序使用蓝牙权限
+          //首页不校验权限相关的操作
+          //this.locationAuthorize() //判断用户是否授权小程序使用位置权限
+          //this.bluetoothAuthorize() //判断用户是否授权小程序使用蓝牙权限
           //获取添加设备灰度名单判断是否是灰度用户
           addDeviceSDK.isGrayUser().then((isCan) => {
             this.setData({
@@ -1396,7 +1403,7 @@ Page({
           isHourse: false,
         })
       })
-    this.clickBurdPoint('switch_home_menu')
+    //this.clickBurdPoint('switch_home_menu')
     clickSwitchFamilyBurialPoint({
       homeId: this.data.currentHomeInfo.homegroupId,
       homeName: this.data.currentHomeInfo.name,
@@ -2109,7 +2116,7 @@ Page({
     if (app.globalData.isLogon) {
       this.initPushData()
       this.scanCodeJoinFamily(app.globalData.isLogon)
-      this.joinFamilyFromShare() // 通过邀请加入家庭
+      //this.joinFamilyFromShare() // 通过邀请加入家庭
       if (app.globalData.uid) {
         this.setData({
           uid: app.globalData.uid,
@@ -2123,7 +2130,7 @@ Page({
         if (isAutoLogin) {
           app.watchLogin(() => {
             this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭
-            this.joinFamilyFromShare() // 通过邀请加入家庭
+            // this.joinFamilyFromShare() // 通过邀请加入家庭
             if (app.globalData.uid) {
               this.setData({
                 uid: app.globalData.uid,
@@ -2197,27 +2204,6 @@ Page({
     let from = e.currentTarget.dataset.from
     setPluginDeviceInfo(currDeviceInfo)
     console.log('currDeviceInfo', currDeviceInfo, e.currentTarget.dataset)
-    if (from == 'plain') {
-      clickOpenPluginBurialPoint({
-        applianceCode: currDeviceInfo.applianceCode,
-        homegroupId: currDeviceInfo.homegroupId,
-        deviceName: currDeviceInfo.name,
-        onlineStatus: currDeviceInfo.onlineStatus || '',
-        pluginType: currDeviceInfo.type,
-        sn8: currDeviceInfo.sn8,
-      })
-    } else {
-      //物模型卡片点击埋点
-      cardClickPluginBurialPoint({
-        applianceCode: currDeviceInfo.applianceCode,
-        deviceName: currDeviceInfo.name,
-        onlineStatus: currDeviceInfo.onlineStatus || '',
-        pluginType: currDeviceInfo.type,
-        sn8: currDeviceInfo.sn8,
-        ...currDeviceInfo,
-        is_support_current_device: e.currentTarget.dataset.support === 'support' ? 1 : 0,
-      })
-    }
     let bindType = currDeviceInfo.bindType || ''
     let sn8 = currDeviceInfo.sn8
     let formatType = type.includes('0x') ? type.substr(2, 2) : type
@@ -2227,6 +2213,23 @@ Page({
     }
     console.log('是否支持===', isSupperCurrentDevice)
     if (isSupperCurrentDevice) {
+      //支持设备点击埋点
+      if (from == 'plain') {
+        clickCardBurialPoint({
+          smartProductId: currDeviceInfo.smartProductId || '',
+        })
+      } else {
+        //物模型卡片点击埋点
+        cardClickPluginBurialPoint({
+          applianceCode: currDeviceInfo.applianceCode,
+          deviceName: currDeviceInfo.name,
+          onlineStatus: currDeviceInfo.onlineStatus || '',
+          pluginType: currDeviceInfo.type,
+          sn8: currDeviceInfo.sn8,
+          ...currDeviceInfo,
+          is_support_current_device: e.currentTarget.dataset.support === 'support' ? 1 : 0,
+        })
+      }
       try {
         if (isNeedCheckList.indexOf(formatType) == -1) {
           let batchAuthList = wx.getStorageSync('batchAuthList'),
@@ -2256,6 +2259,14 @@ Page({
               '跳转的插件路径：',
               getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo))
             )
+            //进入插件埋点
+            clickOpenPluginBurialPoint({
+              smartProductId: currDeviceInfo.smartProductId || '',
+              applianceCode: currDeviceInfo.applianceCode,
+              deviceName: currDeviceInfo.name,
+              pluginType: currDeviceInfo.type,
+              sn8: currDeviceInfo.sn8,
+            })
             wx.navigateTo({
               // url:
               //   `/plugin/T${getCommonType(type)}/index/index?deviceInfo=` +
@@ -2272,6 +2283,14 @@ Page({
             '跳转的插件路径：',
             getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo))
           )
+          //进入插件埋点
+          clickOpenPluginBurialPoint({
+            smartProductId: currDeviceInfo.smartProductId || '',
+            applianceCode: currDeviceInfo.applianceCode,
+            deviceName: currDeviceInfo.name,
+            pluginType: currDeviceInfo.type,
+            sn8: currDeviceInfo.sn8,
+          })
           wx.navigateTo({
             // url:
             //   `/plugin/T${getCommonType(type)}/index/index?deviceInfo=` +
@@ -2290,6 +2309,7 @@ Page({
       }
     } else {
       console.log('小木马跳插件就绪2', parseInt(Date.now()))
+      clickCardUnsupportedBurialPoint()
       wx.navigateTo({
         url: '/pages/unSupportDevice/unSupportDevice?deviceInfo=' + encodeURIComponent(JSON.stringify(currDeviceInfo)),
         complete() {
@@ -2403,29 +2423,17 @@ Page({
     })
   },
   //添加设备
-  async goAddDeviceJia() {
+  async goAddDeviceJia(e) {
+    let { type } = e.currentTarget.dataset
     // 防爆击处理
     if (!this.data.isGoToScan) return
     this.data.isGoToScan = false
+    if (type == 'more') {
+      bthAddDeviceBurialPoint({ pageModule: '顶栏' })
+    } else {
+      bthAddDeviceBurialPoint({ pageModule: '卡片' })
+    }
     app.globalData.deviceSessionId = creatDeviceSessionId(app.globalData.userData.uid)
-    clickEventTracking('user_behavior_event', 'goAddDeviceJia', {
-      device_info: {
-        device_session_id: app.globalData.deviceSessionId, //一次配网事件标识
-        sn: '', //sn码
-        sn8: '', //sn8码
-        a0: '', //a0码
-        widget_cate: '', //设备品类
-        wifi_model_version: '', //模组wifi版本
-        link_type: '', //连接方式 bluetooth/ap/...
-        iot_device_id: '', //设备id
-      },
-      ext_info: {
-        // is_first_add_device: app.globalData.isCanAddDevice ? 1 : 0,
-        // if_support_add_device: app.globalData.isCanAddDevice ? 1 : 0,
-        is_first_add_device: 1,
-        if_support_add_device: 1,
-      },
-    })
     getApp().checkNetLocal()
     const checkIsHomeGroupExist = await this.checkHomeGroupStatus()
     if (!checkIsHomeGroupExist) {
@@ -2500,7 +2508,7 @@ Page({
   // 跳到扫码添加设备页
   async addDevice(id, homeName) {
     const this_ = this
-    getApp().setActionCheckingLog('addDevice', '小程序首页添加设备按钮点击事件')
+    getApp().setActionCheckingLog('addDevice', '首页添加设备按钮点击事件')
     if (this.data.addDeviceClickFlag) {
       console.log('[防重终止]')
       return
@@ -2508,81 +2516,81 @@ Page({
     this.data.addDeviceClickFlag = true
     //首页不需要再判断蓝牙和位置
     //判断位置和蓝牙权限以及是否开启
-    // if (!(await this.checkLocationAndBluetooth(true, false, true, true))) {
-    //   return
-    // }
-    // let locationRes
-    // let blueRes
-    // let privacyRes
-    // try {
-    // locationRes = await checkPermission.loaction(true)
-    // blueRes = await checkPermission.blue(true)
-    // privacyRes = await checkPermission.privacy()
-    // } catch (error) {
-    // this.data.addDeviceClickFlag = false
-    // Dialog.alert({
-    // zIndex: 10001,
-    // context: this,
-    // message: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
-    // })
-    // console.log(error, '[loactionRes blueRes]err addDevice')
-    // }
-    // console.log('[privacyRes] addDevice', privacyRes)
-    // console.log('[loactionRes] addDevice', locationRes)
-    // console.log('[blueRes] addDevice', blueRes)
-    // if (privacyRes) {
-    // this.setData({
-    // fromPrivacy: true,
-    // showPrivacy: true,
-    // })
-    // this.data.addDeviceClickFlag = false
-    // return
-    // }
-    // if (!locationRes.isCanLocation) {
-    // Dialog.confirm({
-    // zIndex: 10001,
-    // context: this,
-    // title: '请开启位置权限',
-    // message: locationRes.permissionTextAll,
-    // confirmButtonText: '查看指引',
-    // cancelButtonText: '好的',
-    // messageAlign: 'left',
-    // }).then((res) => {
-    // const action = res?.action
-    // if (action === 'confirm') {
-    // wx.navigateTo({
-    // url: paths.locationGuide + `?permissionTypeList=${JSON.stringify(locationRes.permissionTypeList)}`,
-    // })
-    // }
-    // })
-    // this.checkLocationAndBluetoothBurialPoint('请开启位置权限', locationRes.permissionTextAll)
-    // this.data.addDeviceClickFlag = false
-    // return
-    // }
-    // if (!blueRes.isCanBlue) {
-    // Dialog.confirm({
-    // zIndex: 10001,
-    // context: this,
-    // title: '请开启蓝牙权限',
-    // message: blueRes.permissionTextAll,
-    // confirmButtonText: '查看指引',
-    // cancelButtonText: '好的',
-    // messageAlign: 'left',
-    // }).then((res) => {
-    // const action = res?.action
-    // if (action === 'confirm') {
-    // wx.navigateTo({
-    // url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(blueRes.permissionTypeList)}`,
-    // })
-    // }
-    // })
-    // this.checkLocationAndBluetoothBurialPoint('请开启蓝牙权限', blueRes.permissionTextAll)
-    // this.data.addDeviceClickFlag = false
-    // return
-    // }
-    // setTimeout(() => {
-    //   this.data.addDeviceClickFlag = false
-    // }, 2000)
+    /** if (!(await this.checkLocationAndBluetooth(true, false, true, true))) {
+      return
+    }
+    let locationRes
+    let blueRes
+    let privacyRes
+    try {
+      locationRes = await checkPermission.loaction(true)
+      blueRes = await checkPermission.blue(true)
+      privacyRes = await checkPermission.privacy()
+    } catch (error) {
+      this.data.addDeviceClickFlag = false
+      Dialog.alert({
+        zIndex: 10001,
+        context: this,
+        message: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
+      })
+      console.log(error, '[loactionRes blueRes]err addDevice')
+    }
+    console.log('[privacyRes] addDevice', privacyRes)
+    console.log('[loactionRes] addDevice', locationRes)
+    console.log('[blueRes] addDevice', blueRes)
+    if (privacyRes) {
+      this.setData({
+        fromPrivacy: true,
+        showPrivacy: true,
+      })
+      this.data.addDeviceClickFlag = false
+      return
+    }
+    if (!locationRes.isCanLocation) {
+      Dialog.confirm({
+        zIndex: 10001,
+        context: this,
+        title: '请开启位置权限',
+        message: locationRes.permissionTextAll,
+        confirmButtonText: '查看指引',
+        cancelButtonText: '好的',
+        messageAlign: 'left',
+      }).then((res) => {
+        const action = res?.action
+        if (action === 'confirm') {
+          wx.navigateTo({
+            url: paths.locationGuide + `?permissionTypeList=${JSON.stringify(locationRes.permissionTypeList)}`,
+          })
+        }
+      })
+      this.checkLocationAndBluetoothBurialPoint('请开启位置权限', locationRes.permissionTextAll)
+      this.data.addDeviceClickFlag = false
+      return
+    }
+    if (!blueRes.isCanBlue) {
+      Dialog.confirm({
+        zIndex: 10001,
+        context: this,
+        title: '请开启蓝牙权限',
+        message: blueRes.permissionTextAll,
+        confirmButtonText: '查看指引',
+        cancelButtonText: '好的',
+        messageAlign: 'left',
+      }).then((res) => {
+        const action = res?.action
+        if (action === 'confirm') {
+          wx.navigateTo({
+            url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(blueRes.permissionTypeList)}`,
+          })
+        }
+      })
+      this.checkLocationAndBluetoothBurialPoint('请开启蓝牙权限', blueRes.permissionTextAll)
+      this.data.addDeviceClickFlag = false
+      return
+    }
+    setTimeout(() => {
+      this.data.addDeviceClickFlag = false
+    }, 2000)*/
     forceUpdateWhenOnshow = true
     console.log('id:', id)
     console.log('homeName:', homeName)

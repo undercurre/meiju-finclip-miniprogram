@@ -1,7 +1,13 @@
 import { baseImgApi } from '../../../../api'
 import { getFullPageUrl, checkFamilyPermission } from '../../../../utils/util.js'
 import { clickEventTracking } from '../../../../track/track.js'
-import { indexHomerGroupListViewBurialPoint, clickFamilyManagement } from '../../assets/js/burialPoint'
+import {
+  indexHomerGroupListViewBurialPoint,
+  clickFamilyManagement,
+  clickScanBurialPoint,
+  clickBtnMoreBurialPoint,
+  clickManageFamily,
+} from '../../assets/js/burialPoint'
 const addSelect = '/assets/img/index/add_select.png'
 const addNoSelect = '/assets/img/index/add_no_select.png'
 const addDevice = '/assets/img/index/add_device.png'
@@ -113,6 +119,7 @@ Component({
         const addPickerAnimation = this.data.addPickerAnimation
         let showAddList = !this.data.showAddList
         if (showAddList) {
+          clickBtnMoreBurialPoint()
           addPickerAnimation.height(addHeight).width(addWidth).opacity(1).step()
         } else {
           showAddList = false
@@ -136,6 +143,7 @@ Component({
     goScanCode() {
       this.switchShowAddList()
       this.triggerEvent('goScanCode')
+      clickScanBurialPoint()
     },
     changeHome(e) {
       this.triggerEvent('selectHomeGroupOption', e)
@@ -169,6 +177,9 @@ Component({
         if (showHomeList && homeManageShow) {
           homePickerAnimation.height(height).width('412rpx').opacity(1).step()
           iconTriangleAnimation.rotate(180).step()
+          //埋点
+          clickManageFamily({ familyId: app?.globalData?.applianceHomeData?.homegroupId })
+          //this.clickDropdownFamily()
         } else {
           showHomeList = false
           homePickerAnimation.height(0).width(0).opacity(0).step()
@@ -185,7 +196,7 @@ Component({
     },
     // 跳转家庭管理页面
     gotoHomeManage() {
-      clickFamilyManagement()
+      clickFamilyManagement({ homeId: app?.globalData?.applianceHomeData?.homegroupId })
       wx.navigateTo({
         url: homeManage,
       })
@@ -224,7 +235,7 @@ Component({
         ext_info: extInfoParam,
       })
     },
-    //点击家庭下拉埋点
+    //点击家庭下拉埋点,历史遗留
     clickDropdownFamily() {
       clickEventTracking('user_behavior_event', 'clickDropdownFamily', {
         page_id: 'page_home',
@@ -238,14 +249,5 @@ Component({
         object_name: app?.globalData?.applianceHomeData?.name,
       })
     },
-    /**
-     * 点击事件埋点
-     */
-    //clickBurdPoint(clickType) {
-    // wx.reportAnalytics('count_click_list', {
-    // click_type: clickType,
-    // click_time: formatTime(new Date()),
-    // })
-    //},
   },
 })
