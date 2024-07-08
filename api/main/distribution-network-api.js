@@ -1,6 +1,6 @@
 import config from '../../config.js'
 const environment = config.environment
-const masPrefix = config.masPrefix
+const masPrefix = config.masPrefix + '/HarmonyOS' // 中台配置，Finclip项目统一添加前缀
 const domain = config.domain
 const baseHost = {
   sit: {

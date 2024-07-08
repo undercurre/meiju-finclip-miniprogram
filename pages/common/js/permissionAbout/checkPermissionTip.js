@@ -59,19 +59,21 @@ const checkPermission = {
       permissionTypeList.locationAuthorized = true
     }
 
-    if (!res[1]['authSetting']['scope.userLocation']) {
-      permissionText.push('点击右上角“...”按钮，选择“设置”，允许本程序使用位置信息')
-      permissionTypeList.scopeUserLocation = false
-    } else {
-      permissionTypeList.scopeUserLocation = true
-    }
+    // todo:Yoram930 注释掉微信对小程序的权限判断
+    // if (!res[1]['authSetting']['scope.userLocation']) {
+    //   permissionText.push('点击右上角“...”按钮，选择“设置”，允许本程序使用位置信息')
+    //   permissionTypeList.scopeUserLocation = false
+    // } else {
+    //   permissionTypeList.scopeUserLocation = true
+    // }
 
+    // todo:Yoram930 注释掉微信对小程序的权限判断
     //小程序设置里是否有位置设置
-    if (hasKey(res[1]['authSetting'], 'scope.userLocation')) {
-      permissionTypeList.locationSetting = true
-    } else {
-      permissionTypeList.locationSetting = false
-    }
+    // if (hasKey(res[1]['authSetting'], 'scope.userLocation')) {
+    //   permissionTypeList.locationSetting = true
+    // } else {
+    //   permissionTypeList.locationSetting = false
+    // }
 
     if (permissionText.length) {
       let permissionTextAll = ''
@@ -128,20 +130,22 @@ const checkPermission = {
       permissionTypeList.bluetoothAuthorized = true
     }
 
+    // todo:Yoram930 注释掉微信对小程序的权限判断
     //小程序蓝牙但未授权
-    if (!res[1]['authSetting']['scope.bluetooth']) {
-      permissionText.push('点击右上角“...”按钮，选择“设置”，允许本程序使用蓝牙')
-      permissionTypeList.scopeBluetooth = false
-    } else {
-      permissionTypeList.scopeBluetooth = true
-    }
+    // if (!res[1]['authSetting']['scope.bluetooth']) {
+    //   permissionText.push('点击右上角“...”按钮，选择“设置”，允许本程序使用蓝牙')
+    //   permissionTypeList.scopeBluetooth = false
+    // } else {
+    //   permissionTypeList.scopeBluetooth = true
+    // }
 
+    // todo:Yoram930 注释掉微信对小程序的权限判断
     //小程序设置里是否有蓝牙设置
-    if (hasKey(res[1]['authSetting'], 'scope.bluetooth')) {
-      permissionTypeList.bluetoothSetting = true
-    } else {
-      permissionTypeList.bluetoothSetting = false
-    }
+    // if (hasKey(res[1]['authSetting'], 'scope.bluetooth')) {
+    //   permissionTypeList.bluetoothSetting = true
+    // } else {
+    //   permissionTypeList.bluetoothSetting = false
+    // }
 
     if (permissionText.length) {
       let permissionTextAll = ''

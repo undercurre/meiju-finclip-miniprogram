@@ -185,6 +185,26 @@ Page({
    */
   async onShow() {
     let { isCheckGray } = app.addDeviceInfo
+    // 蓝牙权限判断
+    wx.openBluetoothAdapter({
+        success: (res) => {
+          console.log('lmn>>> 初始化蓝牙模块成功', res)
+        },
+        fail: (err) => {
+          console.log('lmn>>> 初始化蓝牙模块失败', err)
+        }
+      })
+    // 地理位置权限判断
+    wx.getLocation({
+    type: 'wgs84', //返回可以用于wx.openLocation的经纬度
+    success(res) {
+        console.log('lmn>>> 初始化地址模块成功', res)
+        wx.openLocation()
+    },
+    fail: (err) => {
+        console.log('lmn>>> 初始化地址模块失败', err)
+    }
+    })
     try {
       let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
       this.setData({
@@ -248,7 +268,7 @@ Page({
     this.clearMixinsTime()
     //关闭自动搜索
     wx.offBluetoothDeviceFound()
-    wx.offGetWifiList()
+    // wx.offGetWifiList() // todo:Yoram930
     // this.stopBluetoothDevicesDiscovery()
     this.clearTimer()
     this._clearTimeout()
@@ -266,7 +286,7 @@ Page({
     this.clearMixinsTime()
     //关闭自动搜索
     wx.offBluetoothDeviceFound()
-    wx.offGetWifiList()
+    // wx.offGetWifiList()// todo:Yoram930
     // this.stopBluetoothDevicesDiscovery()
     this.clearTimer()
     this._clearTimeout()

@@ -1612,6 +1612,7 @@ module.exports = Behavior({
             if (!this.filterAPName(brandConfig.apNameHeader, device.SSID)) return
             console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过名称校验\n', device)
             // WiFi强度校验
+            // todo:Yoram930 调试，暂时放开信号强度
             if (device.signalStrength < 99) return
             console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过ap强度校验\n', device)
             //校验是否蓝牙已发现
