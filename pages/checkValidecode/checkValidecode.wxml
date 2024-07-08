@@ -6,5 +6,29 @@
         <image wx:if="{{inputValue.length > 0}}" src="/assets/img/about/personal-center/deleteIcon.png" mode="" class="deleteIcon" bindtap="clearCode"/>
         <view class="{{resendFlag}}" bindtap="resendCode">重新获取<text class="timeCount" wx:if="{{timeCount > 0}}">({{timeCount}})</text></view>
     </view>
-    <mx-button size="large" type="primary" custom-class="{{classForButton}}" round="{{true}}" bind:click="checkPhone" disabled="{{!hasFixlength}}">绑定</mx-button>
+    <mx-dialog 
+        show="{{showValideCodeDialog}}" 
+        showCancelButton="{{true}}" 
+        confirm-button-color="{{valideCodeInfo.imgCode.length > 0 ? '#267AFF' : 'rgba(38,122,255,0.3)'}}"
+        use-slot
+        bind:cancel="toggleValideCode"
+        bind:confirm="recheckPhone">
+        <view>
+            <view class="smscode-title">今日获取短信次数过多，需进行图形验证</view>
+            <view class="smscodeWrapper">
+                <mx-field 
+                    type="text" 
+                    class="smscodeWrapper-input"
+                    maxlength="6" 
+                    value="{{ valideCodeInfo.imgCode }}"
+                    bind:input="changeValideCode" custom-style="padding-top: 0;padding-bottom: 0;padding-left:12rpx;" 
+                    border="{{ false }}"
+                    clearable="{{true}}"
+                    adjust-position="{{ false }}">
+                </mx-field>
+                <image src="{{valideCodeInfo.imgDataCode}}" mode="" class="smscodeWrapper-image"/>
+            </view>
+        </view>
+    </mx-dialog>
+    <mx-button size="large" type="primary" custom-class="{{classForButton}}" round="{{true}}" bind:click="checkSmsCode" disabled="{{!hasFixlength}}">绑定</mx-button>
 </view>

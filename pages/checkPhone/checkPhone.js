@@ -12,21 +12,21 @@ Page({
     mobile: '',
     mobileLeft: '',
     mobileRight: '',
-    targetMobile: '',
     inputValue: '',
+    inputList: ['', '', '', ''],
     hasFixlength: false,
     classForButton: 'changePhoneBtn haveSomeOpacity'
   },
   inputPhone(event) {
     let inputValue = event.detail.value
+    let inputList = inputValue.split('')
     let preFixLength = 4 - inputValue.length
     for(var i = 0; i < preFixLength; i++){
-        inputValue += '_'
+        inputList.push('')
     }
-    let targetMobile = `${this.data.mobileLeft}${inputValue}${this.data.mobileRight}`
     this.setData({
         inputValue: inputValue,
-        targetMobile: targetMobile,
+        inputList: inputList,
         hasFixlength: preFixLength == 0,
         classForButton: `changePhoneBtn ${preFixLength != 0 ? 'haveSomeOpacity' : ''}`
     })
@@ -59,8 +59,7 @@ Page({
         this.setData({
             mobile: res.data.data.mobile,
             mobileLeft: res.data.data.mobile.substring(0, 3),
-            mobileRight: res.data.data.mobile.substring(7),
-          targetMobile: res.data.data.mobile.substring(0, 3) + '____' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
+            mobileRight: res.data.data.mobile.substring(7)
         })
       })
       .catch((err) => {
