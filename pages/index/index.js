@@ -139,6 +139,9 @@ Page({
           // 切换tab不重新请求数据
           if (typeof this.getTabBar === 'function' && this.getTabBar() && !this.data.isHourse) {
             const getTabBar = this.getTabBar()
+            // this.getTabBar().setData({
+            // selected: 0,
+            // })
             if (getTabBar.data.isSwitchedTab) {
               getTabBar.data.isSwitchedTab = false
               return
@@ -1139,7 +1142,19 @@ Page({
   },
   // 计算无设备和未登录margin高度
   async nodeviceHeightSet() {
-    const systemInfo = await getWxSystemInfo()
+    //const systemInfo = await getWxSystemInfo()
+    let system = wx.getSystemSetting(),
+      appAuthorize = wx.getAppAuthorizeSetting(),
+      deviceInfo = wx.getDeviceInfo(),
+      windowInfo = wx.getWindowInfo(),
+      appBaseInfo = wx.getAppBaseInfo()
+    let systemInfo = {
+      ...system,
+      ...appAuthorize,
+      ...deviceInfo,
+      ...windowInfo,
+      ...appBaseInfo,
+    }
     const safeAreaBottom = (systemInfo.safeArea && systemInfo.safeArea.bottom) || 0
     let height = systemInfo.screenHeight
     let top = systemInfo.statusBarHeight
@@ -1152,8 +1167,12 @@ Page({
       ((height - top - bottom - app.globalData.navBarHeight - (49 + 60 + 90 + 15 + 12 + 151 + 37 + 117) * newScale) *
         piexl) /
       2
+    // let noLoginRealHeight =
+    // ((height - top - bottom - app.globalData.navBarHeight - (49 + 60 + 151 + 37 + 117 + 15) * newScale) * piexl) / 2
     let noLoginRealHeight =
-      ((height - top - bottom - app.globalData.navBarHeight - (49 + 60 + 151 + 37 + 117 + 15) * newScale) * piexl) / 2
+      ((height - top - bottom - app.globalData.navBarHeight - (71 + 87 + 36 + 151 + 37 + 117 + 15) * newScale) *
+        piexl) /
+      2
     let noDeviceWarpRealHeight = (height - top - bottom - app.globalData.navBarHeight - 49 - 60 * scale) * piexl
     this.setData({
       noDeviceHeight: noLoginRealHeight + 'rpx',
@@ -2305,10 +2324,11 @@ Page({
     return new Promise((resolve, reject) => {
       wx.getNetworkType({
         success(res) {
+          console.log('网络提示zhucc=========================>', res)
           resolve(res.networkType)
         },
         fail(error) {
-          console.log('获取当前网络状况错误', error)
+          console.log('获取当前网络状况错误=================>', error)
           reject(error)
         },
       })

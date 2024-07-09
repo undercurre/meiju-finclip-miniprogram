@@ -1,33 +1,35 @@
 /* pages/mytab/mytab.wxss */
 page {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background-color: #f9f9f9;
 }
+
 .content {
   position: relative;
   z-index: 99;
   width: 100%;
-  min-height: 556px;
+  /* min-height: 556px; */
 }
 .userinfo {
   display: flex;
-  height: 198rpx;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 54rpx
+  justify-content: center;
+  margin-bottom: 182rpx
 }
 .userinfoDetail {
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 .userinfo-avatar {
   overflow: hidden;
   display: block;
-  width: 136rpx;
-  height: 136rpx;
+  width: 144rpx;
+  height: 144rpx;
   margin: 0 24rpx 0 32rpx;
   border-radius: 50%;
-  border: 2rpx solid #ffffff;
+  /* border: 2rpx solid #ffffff; */
 }
 .userinfo-detail {
   margin-left: 8rpx;
@@ -41,20 +43,23 @@ page {
   align-items: flex-start;
 }
 .user-nick-name {
-  width: 322rpx;
+  /* width: 322rpx; */
   font-family: PingFangSC-Medium;
-  font-size: 40rpx;
+  font-size: 36rpx;
   color: #000000;
   letter-spacing: 0;
+  margin-top: 42rpx;
   line-height: 48rpx;
+  font-weight: 500;
 }
 .user-nick-name-onLogon {
   font-family: PingFangSC-Medium;
-  font-size: 40rpx;
+  font-size: 36rpx;
   color: #000000;
   letter-spacing: 0;
   line-height: 48rpx;
   font-weight: 500;
+  margin-top: 42rpx;
 }
 .user-nick-name-prelogon {
   font-family: PingFangSC-Regular;
@@ -85,7 +90,7 @@ page {
 .feedback-button {
   padding-left: 0px;
   padding-right: 0px;
-  background-color: #f9f9f9;
+  background-color: transparent;
   border: none;
 }
 .hover-class {
@@ -300,8 +305,15 @@ button[class='feedback-button']::after {
 }
 .startAppletByQrCode {
     width: 100%;
-    height: 130rpx;
+    height: 230rpx;
     position: absolute;
-    bottom: 40px;
+    /* bottom: 40px; */
     left: 0;
+}
+
+.custom-cell-class{
+  border-bottom: 1px solid transparent;
+}
+.mx-cell__title_title{
+  font-weight: 400!important;
 }

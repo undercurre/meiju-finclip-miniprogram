@@ -866,6 +866,7 @@ App({
     cardSDK: '', //物模型模板
     applianceAuthList: [], //确权状态列表
     bathAuthTimer: null, //轮询确权状态标识
+    selectTab: 0,
   },
   scanDeviceMap: {},
   addDeviceInfo: {

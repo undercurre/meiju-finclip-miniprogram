@@ -98,10 +98,10 @@ const config = {
   },
   //c4a隐私协议域名
   privacyDomain: {
-    // dev: 'https://secsit.midea.com', //测试环境
-    // sit: 'https://secsit.midea.com', //测试环境
-    dev: 'https://sec.midea.com', //测试环境
-    sit: 'https://sec.midea.com', //测试环境
+    dev: 'https://secsit.midea.com', //测试环境
+    sit: 'https://secsit.midea.com', //测试环境
+    // dev: 'https://sec.midea.com', //测试环境
+    // sit: 'https://sec.midea.com', //测试环境
     prod: 'https://sec.midea.com', //正式环境
   },
 
