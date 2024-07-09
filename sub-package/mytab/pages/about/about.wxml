@@ -1,36 +1,11 @@
 <!-- pages/about/about.wxml -->
 <view class="about-container">
-  <mx-cell-group border="{{ false }}" inset>
-    <view
-      wx:for="{{agreementList}}"
-      wx:key="{{item.id}}"
-      wx:for-item="item"
-      bindtap="goPrivacy"
-      data-agreementData="{{item}}"
-    >
-      <mx-cell title="{{item.name}}" is-link></mx-cell>
+    <mx-cell title="账号与安全" is-link bind:click="jumpAccountSafe"></mx-cell>
+    <view class="second-container">
+        <mx-cell title="已收集个人信息清单" is-link bind:click="jumpPersonInfoList"></mx-cell>
+        <mx-cell title="与第三方共享个人信息清单" is-link bind:click="jumpThridPaList"></mx-cell>
     </view>
-    <mx-cell bind:click="withdrawPrivacyAuth" border="{{ false }}" title="撤回隐私协议授权" is-link></mx-cell>
-  </mx-cell-group>
 
-  <view class="btn-loginout-wrap">
-    <mx-cell-group border="{{ false }}" inset>
-      <mx-cell bind:click="goToLoginOut" border="{{ false }}" title="注销账号" is-link></mx-cell>
-    </mx-cell-group>
-  </view>
-
-  <view class="btn-logout-wrap">
-    <mx-button
-      type="info"
-      bind:tap="switchAccount"
-      color="#FF3B30"
-      size="large"
-      round
-      block
-      plain
-      custom-class="demo-margin-bottom"
-      >退出登录</mx-button
-    >
-  </view>
-  <mx-dialog id="mx-dialog" />
+    <view class="btn-logout-wrap" bind:tap="switchAccount">退出登录</view>
+    <mx-dialog id="mx-dialog" />
 </view>

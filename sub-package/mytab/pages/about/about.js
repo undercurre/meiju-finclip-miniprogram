@@ -18,32 +18,6 @@ Page({
   data: {
     agreementList: [
       {
-        id: 'privacy',
-        name: '美的美居隐私协议',
-        url: {
-          dev: `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=privacy`,
-          sit: `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=privacy`,
-          prod: `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=privacy`,
-        },
-        trackData: {
-          widget_id: 'click_privacy',
-          widget_name: '美的美居隐私协议',
-        },
-      },
-      {
-        id: 'register',
-        name: '软件许可及用户服务协议',
-        url: {
-          dev: `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=register`,
-          sit: `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=register`,
-          prod: `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=register`,
-        },
-        trackData: {
-          widget_id: 'click_agreement',
-          widget_name: '软件许可及用户服务协议',
-        },
-      },
-      {
         id: 'collected_userinfo_weixin_lite',
         name: '已收集个人信息清单',
         url: {
@@ -122,6 +96,42 @@ Page({
       .catch((e) => {
         console.log(e, 'logout')
       })
+  },
+  jumpAccountSafe() {
+    wx.navigateTo({
+        url: '../../../../pages/accountSafe/accountSafe',
+    })
+  },
+  jumpPersonInfoList() {
+    this.jumpWebView(0)
+  },
+  jumpThridPaList() {
+    this.jumpWebView(1)
+  },
+  jumpWebView(type) {
+    let agreementData = this.data.agreementList[type]
+    const trackData = {
+      module: '个人中心',
+      page_id: 'page_about_meiju',
+      page_name: '设置',
+    }
+    clickEventTracking('user_behavior_event', null, Object.assign({}, trackData, agreementData.trackData))
+    if (!agreementData.id) return
+    let currLink = agreementData.url[privacyApi.environment]
+    let encodeLink = encodeURIComponent(currLink)
+    let currUrl = urlParamsJoin('/pages/webView/webView', {
+      webViewUrl: encodeLink,
+      pageTitle: agreementData.name,
+    })
+    console.log('新C4A隐私条款链接===', currUrl)
+    wx.navigateTo({
+      url: currUrl,
+    })
+    if(type == 0){
+
+    }else{
+
+    }
   },
   // 退出登录
   switchAccount: function () {

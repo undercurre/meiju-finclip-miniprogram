@@ -4,7 +4,7 @@ import { api } from '../../api'
 import { getReqId, getStamp } from 'm-utilsdk/index'
 import { showToast } from '../../utils/util'
 import loginMethods from '../../globalCommon/js/loginRegister'
-const timeLimit = 2
+const timeLimit = 60
 Page({
   /**
    * 页面的初始数据

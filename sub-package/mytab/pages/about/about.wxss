@@ -6,13 +6,23 @@ page {
 .about-container {
   margin-top: 16rpx;
 }
+.second-container{
+    margin-top: 16rpx;
+}
 .btn-loginout-wrap{
   margin-top: 24rpx;
 }
 .btn-logout-wrap{
   position: fixed;
-  bottom: 99rpx;
-  right: 31rpx;
-  left: 31rpx;
+  bottom: 0rpx;
+  left: 0rpx;
+  width: 750rpx;
+  height: 104rpx;
+  line-height: 104rpx;
+  padding-bottom: 68rpx;
+  background: #ffffff;
+  font-size: 32rpx;
+  text-align: center;
+color: #267AFF;
 }
 
