@@ -1,0 +1,23 @@
+/* pages/personalCenter/personalCenter.wxss */
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  margin-top: 20rpx;
+}
+.bottomOperate{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #FFFFFF;
+    width: 750rpx;
+    height: 104rpx;
+    line-height: 104rpx;
+    text-align: center;
+    font-size: 32rpx;
+    color: #267AFF;
+    padding-bottom: 68rpx;
+}

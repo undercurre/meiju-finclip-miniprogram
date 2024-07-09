@@ -2,6 +2,8 @@
   "pages": [
     "pages/mytab/mytab",
     "pages/index/index",
+    "pages/privacyAndSafa/privacyAndSafa",
+    "pages/aboutApp/aboutApp",
     "pages/checkPhone/checkPhone",
     "pages/changePhone/changePhone",
     "pages/checkValidecode/checkValidecode",
