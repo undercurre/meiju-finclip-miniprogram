@@ -1,21 +1,29 @@
 const app = getApp() //获取应用实例
 import { formatTime, getStamp } from 'm-utilsdk/index'
 import { judgeWayToMiniProgram } from '../utils/util'
-
 import { rangersBurialPoint } from '../utils/requestService'
-
+import { imgBaseUrl } from '../api'
+const tabIndexImg = imgBaseUrl.url + '/harmonyos/josn/icon_tab_home'
+const tabmineImg = imgBaseUrl.url + '/harmonyos/josn/icon_tab_me'
 Component({
   data: {
+    tabIndexImg,
+    tabmineImg,
     isShow: true,
     selected: 0,
     color: '#8A8A8F',
     selectedColor: '#000000',
     isSwitchedTab: false,
+    play: 'play',
+    stop: 'stop',
     list: [
       {
         pagePath: '/pages/index/index',
-        iconPath: '/assets/img/tab/tab_ic_home@2x.png',
-        selectedIconPath: '/assets/img/tab/tab_ic_home_select@2x.png',
+        iconPath: '/assets/img/tab/tab_index.png',
+        selectedIconPath: '/assets/img/tab/tab_index_selected.png',
+        icon: imgBaseUrl.url + '/harmonyos/json/icon_tab_home.json',
+        selectedIcon: imgBaseUrl.url + '/harmonyos/json/icon_tab_home_selected.json',
+        unselectedIcon: imgBaseUrl.url + '/harmonyos/json/icon_tab_home_unselected.json',
         text: '首页',
         page_name: '首页',
       },
@@ -28,18 +36,30 @@ Component({
       // },
       {
         pagePath: '/pages/mytab/mytab',
-        iconPath: '/assets/img/tab/tab_ic_me@2x.png',
-        selectedIconPath: '/assets/img/tab/tab_ic_me_select@2x.png',
+        iconPath: '/assets/img/tab/tab_mime.png',
+        selectedIconPath: '/assets/img/tab/tab_mime_selected.png',
+        icon: imgBaseUrl.url + '/harmonyos/json/icon_tab_me.json',
+        selectedIcon: imgBaseUrl.url + '/harmonyos/json/icon_tab_me_selected.json',
+        unselectedIcon: imgBaseUrl.url + '/harmonyos/json/icon_tab_me_unselected.json',
         text: '我的',
         page_name: '我的',
       },
     ],
   },
-  attached() {},
+  created() {
+    this.setData({
+      selected: app.globalData.selectTab,
+    })
+  },
   methods: {
     switchTab(e) {
       const data = e.currentTarget.dataset
       const url = data.path
+      app.globalData.selectTab = data.index
+      const selected = data.index
+      this.setData({
+        selected,
+      })
       const currentUid =
         app.globalData.userData && app.globalData.userData.uid && app.globalData.isLogon
           ? app.globalData.userData.uid

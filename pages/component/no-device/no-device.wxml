@@ -18,7 +18,7 @@
 </view> -->
 
 <view class="addDeviceWarp">
-  <text class="addDeviceDes">Hi，欢迎回家</text>
+  <text style="margin-top:{{autoHeight}}" class="addDeviceDes">Hi，欢迎回家</text>
   <text class="addDeviceGreyDes">添加设备，享受更多关联服务</text>
   <view>
     <button class="addDeviceButton" bindtap="checkFun">{{btnConent}}</button>
