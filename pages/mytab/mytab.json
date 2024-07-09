@@ -4,6 +4,7 @@
     "center-sign-dialog": "/pages/mytab/component/center-sign-dialog/center-sign-dialog",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
     "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
+    "mx-divider": "m-ui/mx-divider/index",
     "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index"
   },
 

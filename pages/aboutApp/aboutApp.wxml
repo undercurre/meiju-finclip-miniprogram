@@ -1,6 +1,6 @@
 <view class="main-container">
     <view class="appversion-infobox">
-        <image src="" mode="" class="meijuapp-icons"/>
+        <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons"/>
         <span class="meijuapp-appversion">V1.0.0</span>
     </view>
     <view class="app-otherInfomation">

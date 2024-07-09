@@ -15,7 +15,7 @@
     <device-card-tips isShow="{{deviceCardIsShow}}"></device-card-tips>
   </block>
   <view id="inner-wrap" style="height: 100vh;background-size: 100% 100%;background-image:url({{indexSrc}})">
-    <view class="container" style="padding-top: 92rpx">
+    <view class="container" style="padding-top: 82rpx">
       <view class="showContent" style="height: 100%">
         <block wx:if="{{isHomeListLoaded && isLogon && !homeInfoFailFlag}}">
           <!-- 家庭管理 -->
