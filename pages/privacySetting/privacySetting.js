@@ -59,7 +59,7 @@ Page({
     let clickItemInfo = event.currentTarget.dataset.item
     console.log(clickItemInfo)
     if(clickItemInfo._checkType == 0){
-        wx.openSetting()
+        wx.openAppAuthorizeSetting()
     }else{
         this.withdrawPrivacyAuth()
     }

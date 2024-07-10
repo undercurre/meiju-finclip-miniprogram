@@ -479,10 +479,6 @@ Page({
     //埋点
     clickPersonalBurialPoint()
     wx.navigateTo({
-        url: '/pages/privacySetting/privacySetting',
-    })
-    return
-    wx.navigateTo({
       url: '../../sub-package/personal-center/personalCenter/personalCenter',
     })
   },
