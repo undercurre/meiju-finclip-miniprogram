@@ -229,10 +229,18 @@ Page({
       })
     }
   },
+  gotoPrivcayPage() {
+    wx.navigateTo({
+        url: '/pages/privacyAndSafa/privacyAndSafa',
+    })
+  },
   //点击跳转关于页面
   gotoAoutPage() {
     //埋点
     clickSeetingMenuAboutBurialPoint()
+    wx.navigateTo({
+        url: '/pages/aboutApp/aboutApp',
+    })
   },
 
   getVipUserInfo: function () {
@@ -472,10 +480,6 @@ Page({
   goPersonalCenter() {
     //埋点
     clickPersonalBurialPoint()
-    wx.navigateTo({
-      url: '../accountSafe/accountSafe',
-    })
-    return
     wx.navigateTo({
       url: '../../sub-package/personal-center/personalCenter/personalCenter',
     })

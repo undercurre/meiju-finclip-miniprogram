@@ -1,0 +1,30 @@
+/* pages/personalCenter/personalCenter.wxss */
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  margin-top: 20rpx;
+}
+.appversion-infobox{
+    height: 420rpx;
+    background-color: #ffffff;
+    margin-bottom: 16rpx;
+}
+.meijuapp-icons{
+    padding-top: 104rpx;
+    margin: 0 auto 16rpx;
+    display: block;
+    width: 160rpx;
+    height: 160rpx;
+}
+.meijuapp-appversion{
+    font-size: 36rpx;
+    color: #C7C7CC;
+    font-weight: 500;
+    text-align: center;
+    width: 750rpx;
+    display: block;
+}

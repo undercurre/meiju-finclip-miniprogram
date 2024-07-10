@@ -1,0 +1,10 @@
+<view class="main-container">
+    <mx-cell 
+        wx:for="{{cellList}}" 
+        wx:for-item="cellItem"
+        wx:key="id"
+        wx:for-index="idx" 
+        title="{{cellItem.title}}" 
+        bind:click="jumpTargetPath" 
+        is-link/>
+</view>

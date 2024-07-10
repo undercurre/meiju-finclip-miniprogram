@@ -1,0 +1,16 @@
+<view class="main-container">
+    <view class="appversion-infobox">
+        <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons"/>
+        <span class="meijuapp-appversion">V1.0.0</span>
+    </view>
+    <view class="app-otherInfomation">
+        <mx-cell 
+            wx:for="{{cellList}}" 
+            wx:for-item="cellItem"
+            wx:key="id"
+            wx:for-index="idx" 
+            title="{{cellItem.title}}" 
+            bind:click="jumpTargetPath" 
+            is-link/>
+    </view>
+</view>
