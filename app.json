@@ -3,6 +3,7 @@
     "pages/mytab/mytab",
     "pages/index/index",
     "pages/privacyAndSafa/privacyAndSafa",
+    "pages/privacySetting/privacySetting",
     "pages/aboutApp/aboutApp",
     "pages/checkPhone/checkPhone",
     "pages/changePhone/changePhone",

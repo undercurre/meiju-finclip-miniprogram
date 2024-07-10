@@ -480,8 +480,11 @@ Page({
     //埋点
     clickPersonalBurialPoint()
     wx.navigateTo({
-      url: '../../sub-package/personal-center/personalCenter/personalCenter',
+      url: '/pages/privacySetting/privacySetting',
     })
+    // wx.navigateTo({
+    //   url: '../../sub-package/personal-center/personalCenter/personalCenter',
+    // })
   },
   //登录状态回调
   watchBack(isLogon, that) {

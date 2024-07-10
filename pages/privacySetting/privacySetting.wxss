@@ -1,0 +1,51 @@
+/* pages/personalCenter/personalCenter.wxss */
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}
+.main-container{
+  
+}
+.main-container-cell{
+    margin-top: 16rpx;
+    padding: 0 32rpx;
+    background-color: #ffffff;
+}
+.main-container-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 36rpx;
+    padding-bottom: 28rpx;
+}
+.main-container-top-left{
+    font-size: 32rpx;
+    color: #000000;
+    font-weight: 400;
+}
+.main-container-top-right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.main-container-top-right-text{
+    font-size: 28rpx;
+    color: #666666;
+    font-weight: 400;
+}
+.main-container-top-right-arrow{
+    width: 20rpx;
+    height: 20rpx;
+    margin-left: 8rpx;
+}
+.main-container-bottom{
+    font-size: 24rpx;
+    color: #8A8A8F;
+    font-weight: 400;
+    padding-bottom: 32rpx;
+    line-height: 32rpx;
+}
