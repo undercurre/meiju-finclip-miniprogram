@@ -1,6 +1,7 @@
 const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import {webView} from '../../utils/paths'
+import Dialog from 'm-ui/mx-dialog/dialog';
 
 Page({
   /**
@@ -60,9 +61,75 @@ Page({
     if(clickItemInfo._checkType == 0){
         wx.openSetting()
     }else{
-
+        this.withdrawPrivacyAuth()
     }
   },
+  withdrawPrivacyAuth() {
+    const context = this
+    Dialog.confirm({
+      zIndex: 10001,
+      context: this,
+      message: '撤回隐私协议授权将自动退出登录，确定要撤回吗？',
+    })
+      .then((res) => {
+        context.changeWithdrowModal(res)
+      })
+      .catch((error) => {
+        context.changeWithdrowModal(error)
+      })
+  },
+    // 撤销授权协议
+    changeWithdrowModal(e) {
+        const action = e.action
+        if (action === 'confirm') {
+          wx.showLoading({
+            mask: true,
+            title: '加载中',
+          })
+          setTimeout(() => {
+            this.cancelAgreeAgreement()
+          }, 1000)
+        }
+        if (action === 'cancel') {
+        }
+    },    
+    // 撤回授权协议接口请求
+    cancelAgreeAgreement() {
+        requestService
+            .request('cancelAgreeAgreement', {
+            mobile: app.globalData.phoneNumber,
+            })
+            .then((res) => {
+            const data = res && res.data
+            if (data && +data.code === 0) {
+                this.logout()
+                wx.hideLoading()
+                wx.navigateTo({
+                url: '/pages/login/login',
+                })
+            } else {
+                showToast('撤回失败，请稍后重试')
+            }
+            })
+            .catch((e) => {
+            console.log(e, 'cancelAgreeAgreement')
+            wx.hideLoading()
+            this.getNetworkType().then((res) => {
+                const networkType = res.networkType
+                if (networkType === 'none') {
+                showToast('网络异常，请稍后再试')
+                } else {
+                showToast('撤回失败，请稍后重试')
+                }
+            })
+            })
+    },  
+      // 退出登录
+  logout() {
+    getApp().globalData.isLogon = false
+    clearStorageSync()
+    setIsAutoLogin(false)
+  },  
   getSystemAuth() {
     wx.getSetting({
         success: res => {

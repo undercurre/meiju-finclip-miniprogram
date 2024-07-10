@@ -1,4 +1,5 @@
 const app = getApp() //获取应用实例
+import config from '../../config.js' //环境及域名基地址配置
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import {webView} from '../../utils/paths'
 
@@ -12,6 +13,10 @@ Page({
             title: '隐私保护的技术措施',
             jumpType: 0,
             id: '',
+            link: {
+                sit: 'https://qrcode.midea.com/test/AboutApp/personalPrivacyTechnology.html',
+                uat: 'https://qrcode.midea.com/AboutApp/personalPrivacyTechnology.html'
+            }
         },
         {
             title: '隐私设置',
@@ -22,21 +27,44 @@ Page({
             title: '权限列表',
             jumpType: 0,
             id: '',
+            link: {
+                sit: 'https://sec.midea.com/mobile/agreement/?system=meiju_lite_app&agreement_type=per_list_app',
+                uat: 'https://sec.midea.com/mobile/agreement/?system=meiju_lite_app&agreement_type=per_list_app'
+            }
         },
         {
             title: '用户协议',
             jumpType: 0,
             id: '',
+            link: {
+                sit: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=register',
+                uat: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=register'
+            }
         },
         {
             title: '隐私协议',
             jumpType: 0,
             id: '',
+            link: {
+                sit: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=privacy',
+                uat: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=privacy'
+            }
         }
     ]
   },
-  jumpTargetPath(data){
-
+  jumpTargetPath(event){
+    let item = event.currentTarget.dataset.item
+    if(item.jumpType == 1){
+        wx.navigateTo({
+            url: '/pages/privacySetting/privacySetting',
+        })
+    }else{
+        let env = config.environment == 'sit' ? 'sit' : 'uat'
+        let url = item.link[env]
+        wx.navigateTo({
+            url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}`,
+        })
+    }
   },
   /**
    * 生命周期函数--监听页面加载

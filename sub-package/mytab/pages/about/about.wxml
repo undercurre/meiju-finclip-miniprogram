@@ -6,6 +6,7 @@
         <mx-cell title="与第三方共享个人信息清单" is-link bind:click="jumpThridPaList"></mx-cell>
     </view>
 
+
     <view class="btn-logout-wrap" bind:tap="switchAccount">退出登录</view>
     <mx-dialog id="mx-dialog" />
 </view>

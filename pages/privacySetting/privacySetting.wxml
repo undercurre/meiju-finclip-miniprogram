@@ -15,4 +15,5 @@
         </view>
         <view class="main-container-bottom">{{cellItem.desc}}</view>
     </view>
+    <mx-dialog id="mx-dialog" />
 </view>

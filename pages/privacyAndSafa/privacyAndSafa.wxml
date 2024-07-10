@@ -5,6 +5,7 @@
         wx:key="id"
         wx:for-index="idx" 
         title="{{cellItem.title}}" 
+        data-item="{{cellItem}}"
         bind:click="jumpTargetPath" 
         is-link/>
 </view>
