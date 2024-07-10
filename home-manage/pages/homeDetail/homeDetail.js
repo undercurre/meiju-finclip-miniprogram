@@ -8,6 +8,9 @@ import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 import { roomAndDevices, memberManage } from '../../../utils/paths.js'
 const commonBehavior = require('../../assets/behavior')
+const roomIco = '/assets/img/index/room.png'
+const equipmentIco = '/assets/img/index/device.png'
+const parentIco = '/assets/img/index/member.png'
 Page({
   behaviors: [commonBehavior],
   /**
@@ -18,9 +21,9 @@ Page({
     defaultAvatar: baseImgApi.url + 'home-manage/family_img_no touxiang@3x.png',
     moreIcon: baseImgApi.url + 'home-manage/family_ic_more@3x.png',
     addIcon: baseImgApi.url + 'home-manage/family_ic_add@3x.png',
-    roomIco: baseImgApi.url + 'home-manage/family_ic_home@3x.png',
-    equipmentIco: baseImgApi.url + 'home-manage/family_ic_shebei@3x.png',
-    parentIco: baseImgApi.url + 'home-manage/family_ic_people@3x.png',
+    roomIco,
+    equipmentIco,
+    parentIco,
     homegroupId: '',
     roleId: '',
     name: '',

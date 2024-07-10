@@ -63,6 +63,7 @@ let defaultPageListData = [
 Page({
   behaviors: [service, imgBaseUrlMixins, computedBehavior],
   onShow() {
+    app.globalData.selectTab = 0
     myPageViewBurialPoint()
     app
       .checkGlobalExpiration()

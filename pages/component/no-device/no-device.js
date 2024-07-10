@@ -20,7 +20,7 @@ Component({
     },
     btnConent: {
       type: String,
-      value: '添加智能设备',
+      value: getApp().globalData.isLogon ? '去添加' : '添加智能设备',
     },
     isCanAddDevice: {
       type: Boolean,
