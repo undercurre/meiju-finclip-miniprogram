@@ -210,13 +210,6 @@ Page({
     })
   },
 
-  /**
-   * 跳转到隐私协议页面
-   */
-  gotoPrivcyPage() {
-    //埋点
-    clickSeetingMenuPrivcyBurialPoint()
-  },
   //点击跳转设置页面
   goToSettingPage() {
     //埋点
@@ -229,9 +222,13 @@ Page({
       })
     }
   },
+  /**
+   * 跳转到隐私协议页面
+   */
   gotoPrivcayPage() {
+    clickSeetingMenuPrivcyBurialPoint()
     wx.navigateTo({
-        url: '/pages/privacyAndSafa/privacyAndSafa',
+      url: '/pages/privacyAndSafa/privacyAndSafa',
     })
   },
   //点击跳转关于页面
@@ -239,7 +236,7 @@ Page({
     //埋点
     clickSeetingMenuAboutBurialPoint()
     wx.navigateTo({
-        url: '/pages/aboutApp/aboutApp',
+      url: '/pages/aboutApp/aboutApp',
     })
   },
 
