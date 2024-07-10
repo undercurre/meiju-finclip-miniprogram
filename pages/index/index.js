@@ -64,6 +64,7 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
+    app.globalData.selectTab = 0
     this.setData({
       myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
     })
@@ -115,8 +116,9 @@ Page({
           })
         } else {
           // 已登录
-          this.locationAuthorize() //判断用户是否授权小程序使用位置权限
-          this.bluetoothAuthorize() //判断用户是否授权小程序使用蓝牙权限
+          //首页不做权限校验
+          //this.locationAuthorize() //判断用户是否授权小程序使用位置权限
+          //this.bluetoothAuthorize() //判断用户是否授权小程序使用蓝牙权限
           //获取添加设备灰度名单判断是否是灰度用户
           addDeviceSDK.isGrayUser().then((isCan) => {
             this.setData({
@@ -139,9 +141,10 @@ Page({
           // 切换tab不重新请求数据
           if (typeof this.getTabBar === 'function' && this.getTabBar() && !this.data.isHourse) {
             const getTabBar = this.getTabBar()
-            // this.getTabBar().setData({
-            // selected: 0,
-            // })
+            app.globalData.selectTab = 0
+            this.getTabBar().setData({
+              selected: 0,
+            })
             if (getTabBar.data.isSwitchedTab) {
               getTabBar.data.isSwitchedTab = false
               return

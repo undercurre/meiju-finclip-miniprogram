@@ -8,6 +8,9 @@ import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 import { roomAndDevices, memberManage } from '../../../utils/paths.js'
 const commonBehavior = require('../../assets/behavior')
+// const roomIco = '/assets/img/index/room.png'
+// const equipmentIco = '/assets/img/index/device.png'
+// const parentIco = '/assets/img/index/member.png'
 Page({
   behaviors: [commonBehavior],
   /**

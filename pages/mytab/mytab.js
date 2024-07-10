@@ -63,6 +63,7 @@ let defaultPageListData = [
 Page({
   behaviors: [service, imgBaseUrlMixins, computedBehavior],
   onShow() {
+    app.globalData.selectTab = 0
     myPageViewBurialPoint()
     app
       .checkGlobalExpiration()
@@ -113,6 +114,7 @@ Page({
       this.getTabBar().setData({
         selected: 1,
       })
+      app.globalData.selectTab = 1
     }
 
     //更新头部样式
@@ -209,13 +211,6 @@ Page({
     })
   },
 
-  /**
-   * 跳转到隐私协议页面
-   */
-  gotoPrivcyPage() {
-    //埋点
-    clickSeetingMenuPrivcyBurialPoint()
-  },
   //点击跳转设置页面
   goToSettingPage() {
     //埋点
@@ -228,9 +223,13 @@ Page({
       })
     }
   },
+  /**
+   * 跳转到隐私协议页面
+   */
   gotoPrivcayPage() {
+    clickSeetingMenuPrivcyBurialPoint()
     wx.navigateTo({
-        url: '/pages/privacyAndSafa/privacyAndSafa',
+      url: '/pages/privacyAndSafa/privacyAndSafa',
     })
   },
   //点击跳转关于页面
@@ -238,7 +237,7 @@ Page({
     //埋点
     clickSeetingMenuAboutBurialPoint()
     wx.navigateTo({
-        url: '/pages/aboutApp/aboutApp',
+      url: '/pages/aboutApp/aboutApp',
     })
   },
 

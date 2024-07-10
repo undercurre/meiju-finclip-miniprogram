@@ -405,6 +405,7 @@ export async function actionScanResultIndex(
 //调取扫一扫 获取扫码的结果
 function scanCode() {
   console.log('----扫码enter-------')
+  let that = this
   return new Promise((resolve, reject) => {
     wx.scanCode({
       success(res) {
@@ -412,8 +413,8 @@ function scanCode() {
         resolve(res)
       },
       fail(error) {
-        showToast('未发现 有效二维码和条形码', 'none', 3000)
-        //Toast({ context: this, position: 'bottom', message: '未发现 有效二维码和条形码' })
+        // showToast('未发现 有效二维码和条形码', 'none', 3000)
+        Toast({ context: that, position: 'bottom', message: '未发现 有效二维码和条形码' })
         reject(error)
       },
       complete() {

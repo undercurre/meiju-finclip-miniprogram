@@ -51,10 +51,14 @@
   height: 20rpx;
   line-height: 20rpx;
 }
-.custom-canvas-class,.mx-lottie-canvas,canvas {
-  width: 56rpx!important;
-  height: 56rpx!important;
+/* .custom-canvas-class,.mx-lottie-canvas { */
+  /* width: 48rpx!important; */
+  /* height: 48rpx!important; */
+/* } */
+.custom-lottie-class canvas {
+  width: 48rpx!important;
+  height: 48rpx!important;
 }
 .custom-lottie-class{
-  padding: 4rpx;
+  padding: 8rpx;
 }

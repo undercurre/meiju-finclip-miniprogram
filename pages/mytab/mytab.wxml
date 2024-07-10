@@ -69,7 +69,6 @@
           wx:if="{{item.isShow}}"
           bind:click="{{item.funName}}"
           title="{{item.name}}"
-          size="large"
           icon="{{item.listItemLeftImg}}"
           is-link
           border="{{ false }}"

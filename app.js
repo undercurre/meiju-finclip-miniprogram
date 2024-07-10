@@ -172,7 +172,16 @@ App({
         })
     }
   },
+  selectedHander(options) {
+    const { path } = options
+    if (path && path.indexOf('mytab') != -1) {
+      this.globalData.selectTab = 1
+    } else {
+      this.globalData.selectTab = 0
+    }
+  },
   onLaunch: async function (options) {
+    this.selectedHander(options)
     //全局隐私授权跳转,打开屏蔽 2023-10-08
     if (wx.onNeedPrivacyAuthorization) {
       wx.onNeedPrivacyAuthorization((resolve) => {
@@ -190,6 +199,7 @@ App({
         url: privacy,
       })
     }
+
     console.log('launch options', options)
     // 分包异步加载
     //this.globalData.linkupSDK = linkupSDK // 存入全局变量，其他包可以直接引用
@@ -351,6 +361,7 @@ App({
     }
   },
   onShow: async function (options) {
+    this.selectedHander(options)
     //息屏后重连
     if (this.globalData.gloabalWebSocket && this.globalData.gloabalWebSocket._isClosed && this.globalData.isLogin) {
       initWebsocket()

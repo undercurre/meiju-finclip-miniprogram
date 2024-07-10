@@ -163,7 +163,7 @@ button::after{
   align-items: center;
   justify-content: center;
   position: relative;
-  height: 24rpx;
+  /* height: 24rpx; */
   padding-left: 12px;
   padding-right: 12px;
 }

@@ -10,7 +10,7 @@ Component({
     tabIndexImg,
     tabmineImg,
     isShow: true,
-    selected: 0,
+    selected: app.globalData.selectTab,
     color: '#8A8A8F',
     selectedColor: '#000000',
     isSwitchedTab: false,
