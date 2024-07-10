@@ -8,9 +8,9 @@ import { plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 const commonBehavior = require('../../assets/behavior')
 import { homeDetail } from '../../../utils/paths.js'
-const roomIco = '/assets/img/index/room.png'
-const equipmentIco = '/assets/img/index/device.png'
-const parentIco = '/assets/img/index/member.png'
+// const roomIco = '/assets/img/index/room.png'
+// const equipmentIco = '/assets/img/index/device.png'
+// const parentIco = '/assets/img/index/member.png'
 Page({
   behaviors: [commonBehavior],
   /**
@@ -19,12 +19,9 @@ Page({
   data: {
     title: '家庭管理',
     homeList: [],
-    // roomIco: baseImgApi.url + 'home-manage/family_ic_home@3x.png',
-    // equipmentIco: baseImgApi.url + 'home-manage/family_ic_shebei@3x.png',
-    // parentIco: baseImgApi.url + 'home-manage/family_ic_people@3x.png',
-    roomIco,
-    equipmentIco,
-    parentIco,
+    roomIco: baseImgApi.url + 'home-manage/family_ic_home@3x.png',
+    equipmentIco: baseImgApi.url + 'home-manage/family_ic_shebei@3x.png',
+    parentIco: baseImgApi.url + 'home-manage/family_ic_people@3x.png',
     uid: '',
     bottomDesFixed: false,
     showBottomDes: false,
