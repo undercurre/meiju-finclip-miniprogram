@@ -15,11 +15,6 @@
       path="{{item.icon}}"
       status="{{selected === index? play : stop }}"
     />
-    <!-- <mx-lottie -->
-    <!-- wx:else -->
-    <!-- custom-canvas-class="custom-canvas-class" -->
-    <!-- path="{{selected === index? item.selectedIcon : item.unselectedIcon}}" -->
-    <!-- /> -->
     <!-- <image class="cover-image" src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image> -->
     <view class="cover-view" style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
   </view>

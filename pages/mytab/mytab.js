@@ -113,6 +113,7 @@ Page({
       this.getTabBar().setData({
         selected: 1,
       })
+      app.globalData.selectTab = 1
     }
 
     //更新头部样式
