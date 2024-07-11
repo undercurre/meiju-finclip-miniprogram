@@ -3,14 +3,14 @@
  * @author: zhucc22
  * @Date: 2022-09-06 15:56:34
  */
-// import { getTimeStamp, getReqId, getStamp }  from 'm-utilsdk/index'
+import { getReqId, getStamp } from 'm-utilsdk/index'
 import { requestService } from '../../../../../utils/requestService'
 
 const service = {
   // 协议更新——协议变更判断
   checkAgreement(phoneNumber) {
     return new Promise((resolve) => {
-      let data = { mobile: phoneNumber }
+      let data = { mobile: phoneNumber, uid: getApp().globalData.userData?.uid, reqId: getReqId(), stamp: getStamp() }
       requestService.request('checkAgreementApi', data).then(
         (resp) => {
           resolve(resp)

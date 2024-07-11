@@ -107,6 +107,25 @@ var api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/v1/homegroup/member/join/home/scancode`,
     api: '/v1/homegroup/member/join/home/scancode',
   },
+
+  //协议更新——协议变更判断
+  checkAgreementApi: {
+    url: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/checkAgree`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/checkAgree`,
+    api: '/v1/user/c4a/agreement/checkAgree',
+  },
+  //协议更新——协议标题列表
+  agreementTitleApi: {
+    url: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/titles`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/titles`,
+    api: '/v1/user/c4a/agreement/titles',
+  },
+  //协议更新——同意最新协议接口
+  agreeLatestApi: {
+    url: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/agreeLatest`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/agreeLatest`,
+    api: '/v1/user/c4a/agreement/agreeLatest',
+  },
   //
   mobileVerify: {
     url: `${domain[`${environment}`]}/muc/v5/app/mj/user/mobileVerify`,
@@ -328,28 +347,25 @@ var api = {
     }/api/mcsp_cc/cc-web/mcsp/content/external/ad/list.do/withToken_lite`,
     api: '/api/mcsp_cc/cc-web/mcsp/content/external/ad/list.do/withToken_lite',
   },
-
+  //备注；小程序协议相关接口🙆用app接口代替
   // 协议更新——协议变更判断
-  checkAgreementApi: {
-    url: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/checkAgree`,
-    //masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/checkAgree`,//旧配置
-    masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/agreement/checkAgree`, //新配置,
-    api: '/v1/user/wx/c4a/agreement/checkAgree',
-  },
-  // 协议更新——协议标题列表
-  agreementTitleApi: {
-    url: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/titles`,
-    //masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/titles`, //旧配置
-    masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/agreement/titles`, //新配置
-    api: '/v1/user/wx/c4a/agreement/titles',
-  },
+  // checkAgreementApi: {
+  // url: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/checkAgree`,
+  // masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/agreement/checkAgree`, //新配置,
+  // api: '/v1/user/wx/c4a/agreement/checkAgree',
+  // },
+  //协议更新——协议标题列表
+  // agreementTitleApi: {
+  // url: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/titles`,
+  // masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/agreement/titles`, //新配置
+  // api: '/v1/user/wx/c4a/agreement/titles',
+  // },
   // 协议更新——同意最新协议接口
-  agreeLatestApi: {
-    url: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/agreeLatest`,
-    //masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/agreeLatest`, //旧配置
-    masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/agreement/agreeLatest`, //新配置
-    api: '/v1/user/wx/c4a/agreement/agreeLatest',
-  },
+  // agreeLatestApi: {
+  // url: `${domain[`${environment}`] + masPrefix}/v1/user/wx/c4a/agreement/agreeLatest`,
+  // masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/user/wx/c4a/agreement/agreeLatest`, //新配置
+  // api: '/v1/user/wx/c4a/agreement/agreeLatest',
+  // },
   //爱范儿糖纸众测活动-助力接口
   assist: {
     url: 'https://activity-sit.smartmidea.net/v1/activity/ifzc/testing/assist',

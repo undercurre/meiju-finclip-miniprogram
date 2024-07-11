@@ -9,13 +9,13 @@
     data-index="{{index}}"
     bindtap="switchTab"
   >
-    <mx-lottie
-      custom-class="custom-lottie-class"
-      custom-canvas-class="custom-canvas-class"
-      path="{{item.icon}}"
-      status="{{selected === index? play : stop }}"
-    />
-    <!-- <image class="cover-image" src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image> -->
+    <!-- <mx-lottie -->
+    <!-- custom-class="custom-lottie-class" -->
+    <!-- custom-canvas-class="custom-canvas-class" -->
+    <!-- path="{{item.icon}}" -->
+    <!-- status="{{selected === index? play : stop }}" -->
+    <!-- /> -->
+    <image class="cover-image" src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image>
     <view class="cover-view" style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
   </view>
 </view>

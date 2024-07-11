@@ -61,12 +61,12 @@ function initWebsocket() {
       initWebSocketObj: {
         url: getSeeUrl(reqId),
         success(res) {
-          console.log(res, 'initWebSocket res success')
+          //console.log(res, 'initWebSocket res success')
           resolve(res)
         },
         fail(err) {
           reject(err)
-          console.log(err, 'initWebSocket res fail')
+          //console.log(err, 'initWebSocket res fail')
         },
       },
     })

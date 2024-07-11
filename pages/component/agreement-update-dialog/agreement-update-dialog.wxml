@@ -3,10 +3,18 @@
   <view class="dialog">
     <view class="dialog-title">用户协议与隐私协议更新</view>
     <view class="dialog-content">
-      <view class="head-text"><text>为了更好地提供服务，我们更新了软件许可及用户服务协议和隐私条款。</text></view>
-      <view class="remind"><text class="remind-text"> 点击同意以确认：</text></view>
-      <view class="link"><text bindtap="gotoAgree" data-type="privacy">美的美居隐私协议</text></view>
-      <view class="link"><text bindtap="gotoAgree" data-type="register">软件许可及用户服务协议</text></view>
+      <view class="head-text"
+        ><text
+          >为了更好地提供服务，我们更新了<text class="link" bindtap="gotoAgree" data-type="register">《用户协议》</text
+          ><text class="link" bindtap="gotoAgree" data-type="privacy">《隐私协议》</text
+          >您可以点击查看相关协议内容。</text
+        ></view
+      >
+      <view class="remind"
+        ><text class="remind-text">如您同意并接受本次更新的相关协议内容，请点击“同意”，开始接受我们的服务。</text></view
+      >
+      <!-- <view class="link"><text bindtap="gotoAgree" data-type="privacy">美的美居隐私协议</text></view> -->
+      <!-- <view class="link"><text bindtap="gotoAgree" data-type="register">软件许可及用户服务协议</text></view> -->
     </view>
 
     <view slot="footer">

@@ -63,7 +63,6 @@ let defaultPageListData = [
 Page({
   behaviors: [service, imgBaseUrlMixins, computedBehavior],
   onShow() {
-    app.globalData.selectTab = 0
     myPageViewBurialPoint()
     app
       .checkGlobalExpiration()
@@ -108,13 +107,14 @@ Page({
     this.setData({
       isUpdatedAgreement: app.globalData.isUpdateAgreement,
     })
-    clickEventTracking('user_page_view')
+    //clickEventTracking('user_page_view')
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      console.log('zhuccc getTabBar().selected----------->', this.getTabBar())
+      app.globalData.selectTab = 1
       //this.trackTab()
       this.getTabBar().setData({
         selected: 1,
       })
-      app.globalData.selectTab = 1
     }
 
     //更新头部样式

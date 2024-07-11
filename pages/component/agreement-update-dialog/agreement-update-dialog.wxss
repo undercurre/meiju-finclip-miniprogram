@@ -1,6 +1,7 @@
 .argreement-dialog {
   box-sizing: border-box;
 }
+
 .argreement-dialog-mask {
   position: fixed;
   top: 0;
@@ -11,20 +12,23 @@
   opacity: 0.4;
   background: #000000;
 }
+
 .dialog {
   position: fixed;
   left: 0;
+  right: 0;
   bottom: 0;
   z-index: 99999;
-  width: 100%;
-  padding: 0 32rpx 32rpx;
+  /* width: 100%; */
+  margin: 0 24rpx 144rpx 24rpx;
   background: #ffffff;
-  border-radius: 40rpx 40rpx 0 0;
+  border-radius: 20px;
   box-sizing: border-box;
 }
+
 .dialog-title {
   width: 100%;
-  padding: 48rpx 0;
+  padding: 48rpx 0 40rpx 0;
   font-family: PingFangSC-Medium;
   font-size: 36rpx;
   color: #000000;
@@ -34,8 +38,11 @@
   font-weight: 500;
   box-sizing: border-box;
 }
+
 .dialog-content {
+  padding: 0 40rpx;
 }
+
 .head-text {
   line-height: 48rpx;
   font-weight: 400;
@@ -44,6 +51,7 @@
   color: #333333;
   letter-spacing: 0;
 }
+
 .remind {
   font-weight: 400;
   font-family: PingFangSC-Regular;
@@ -52,8 +60,9 @@
   letter-spacing: 0;
   margin: 44rpx 0 48rpx;
 }
-.remind-text {
-}
+
+.remind-text {}
+
 .link {
   margin-bottom: 30rpx;
   font-family: PingFangSC-Medium;
@@ -64,19 +73,22 @@
   line-height: 26rpx;
   font-weight: 500;
 }
-.footer {
-}
+
+.footer {}
+
 .btnWrap {
-  margin-top: 66rpx;
+  padding: 0 40rpx;
+  margin-top: 48rpx;
   display: flex;
   justify-content: space-between;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: 64rpx;
 }
+
 .dialog__btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 336rpx;
+  width: 304rpx;
   height: 92rpx;
   background: #e9f1ff;
   border-radius: 46rpx;

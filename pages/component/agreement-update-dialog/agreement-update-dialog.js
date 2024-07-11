@@ -16,7 +16,7 @@ Component({
     // }
     agreementShow: {
       type: Boolean,
-      // value: false,
+      value: false,
       observer: function (newVal) {
         if (newVal) {
           this.setData({
@@ -60,7 +60,7 @@ Component({
       } else {
         this.userBehaviorEventTrack('click_service_agreements', '软件许可及用户服务协议')
       }
-      let currLink = `${privacyApi.url}/mobile/agreement/?system=midea_app_lite&agreement_type=${type}`
+      let currLink = `${privacyApi.url}/mobile/agreement/?system=meijuApp&agreement_type=${type}`
       let encodeLink = encodeURIComponent(currLink)
       let currUrl = `/pages/webView/webView?webViewUrl=${encodeLink}`
       wx.navigateTo({

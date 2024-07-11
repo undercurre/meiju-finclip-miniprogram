@@ -75,6 +75,7 @@ Page({
     confirmAuButtonText: '联系客服',
     confirmReingButtonText: '前往撤销',
     jwtToken: '',
+    agreeVersions: [],
   },
   setLoginLogoTop() {
     let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
@@ -88,7 +89,7 @@ Page({
   onLoad: function (options) {
     //页面暴露埋点
     userPageViewTrack()
-    this.getAgreementTitles()
+    //this.getAgreementTitles()
     if (options && options.fms) {
       this.setData({
         fms: options.fms,
@@ -105,6 +106,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    //this.getAgreementTitles()
     this.setLoginLogoTop()
   },
 
@@ -182,21 +184,20 @@ Page({
       url: currUrl,
     })
   },
-  getAgreementTitles() {
-    let self = this
-    requestService
+  //获取隐私协议版本
+  async getAgreementTitles() {
+    await requestService
       .request('agreementTitleApi', {})
       .then((res) => {
         if (res.data.code == '0') {
           let titleResult = res.data.result
           this.getAgreeVersions(titleResult)
-          self.setData({
-            titleResult,
-          })
+          this.data.titleResult = titleResult
         }
       })
       .catch(() => {})
   },
+  //解析隐私协议版本参数
   getAgreeVersions(titleResult) {
     let agreeVersions = []
     titleResult.forEach((item) => {
@@ -206,10 +207,9 @@ Page({
       }
       agreeVersions.push(currInfo)
     })
-    this.setData({
-      agreeVersions,
-    })
+    this.data.agreeVersions = agreeVersions
   },
+  //重置按钮
   resetLoginBtnDes() {
     setTimeout(() => {
       this.setData({
@@ -221,7 +221,7 @@ Page({
   getJwtToken() {
     const accesstoken = this.data.jwtToken
     const host = `${config.privacyDomain[config.environment]}`
-    const url = `${host}/mobile/cancellation/?system=midea_app&jwt_token=${accesstoken}&redirect_uri=&is_switch_tab=true`
+    const url = `${host}/mobile/cancellation/?system=meijuApp&jwt_token=${accesstoken}`
     console.log(url, 'logouturl')
     wx.navigateTo({
       url: `/sub-package/webview/defaultWebview/defaultWebview?webViewUrl=${encodeURIComponent(
@@ -479,8 +479,8 @@ Page({
           //登录成功
           loginCheckResultBurialPoint({ mobile: this.data.phoneNumber })
           this.resetLoginBtnDes()
-          //登录成功-进行初始化
-          this.makeAgreeLatest()
+          //登录成功-进行初始化，同意隐私协议
+          this.makeAgreeLatest(this.data.phoneNumber)
           resolve(resp)
           if (this.data.fms == 1) {
             wx.reLaunch({
@@ -516,10 +516,12 @@ Page({
     data.ext_info['if_sys'] = 1
     clickEventTracking('user_behavior_event', null, data)
   },
-  makeAgreeLatest() {
+  //同意隐私协议
+  async makeAgreeLatest(phoneNumber) {
+    await this.getAgreementTitles()
     let self = this
     let data = {
-      mobile: app.globalData.phoneNumber,
+      mobile: phoneNumber,
       agreeVersions: self.data.agreeVersions,
     }
     requestService
