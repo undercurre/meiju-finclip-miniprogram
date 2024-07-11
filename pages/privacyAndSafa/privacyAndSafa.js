@@ -1,8 +1,9 @@
 const app = getApp() //获取应用实例
 import config from '../../config.js' //环境及域名基地址配置
+import { privacyApi } from '../../api'
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import {webView} from '../../utils/paths'
-
+const domain = config.privacyDomain.prod
 Page({
   /**
    * 页面的初始数据
@@ -27,28 +28,19 @@ Page({
             title: '权限列表',
             jumpType: 0,
             id: '',
-            link: {
-                sit: 'https://sec.midea.com/mobile/agreement/?system=meiju_lite_app&agreement_type=per_list_app',
-                uat: 'https://sec.midea.com/mobile/agreement/?system=meiju_lite_app&agreement_type=per_list_app'
-            }
+            link: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=per_list_app`//sit无法打开，改为用prod的
         },
         {
             title: '用户协议',
             jumpType: 0,
             id: '',
-            link: {
-                sit: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=register',
-                uat: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=register'
-            }
+            link: `${privacyApi.url}/mobile/agreement/?system=meijuApp&agreement_type=register`
         },
         {
             title: '隐私协议',
             jumpType: 0,
             id: '',
-            link: {
-                sit: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=privacy',
-                uat: 'https://secsit.midea.com/mobile/agreement/?system=meijuApp&agreement_type=privacy'
-            }
+            link: `${privacyApi.url}/mobile/agreement/?system=meijuApp&agreement_type=privacy`
         }
     ]
   },
@@ -59,8 +51,13 @@ Page({
             url: '/pages/privacySetting/privacySetting',
         })
     }else{
-        let env = config.environment == 'sit' ? 'sit' : 'uat'
-        let url = item.link[env]
+        let url
+        if(typeof item.link == 'string'){
+            url = item.link
+        }else{
+            let env = config.environment == 'sit' ? 'sit' : 'uat'
+            url = item.link[env]
+        }
         wx.navigateTo({
             url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}`,
         })

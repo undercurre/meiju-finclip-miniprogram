@@ -12,6 +12,7 @@ import { baseImgApi } from '../../../../api'
 import Dialog from 'm-ui/mx-dialog/dialog'
 import config from '../../../../config.js'
 import loginMethods from '../../../../globalCommon/js/loginRegister.js'
+const domain = config.privacyDomain.prod
 Page({
   /**
    * 页面的初始数据
@@ -22,9 +23,9 @@ Page({
         id: 'collected_userinfo_weixin_lite',
         name: '已收集个人信息清单',
         url: {
-          dev: `${privacyApi.url}/mobile/agreement/?system=meijuapp&agreement_type=collected_userinfo`,
-          sit: `${privacyApi.url}/mobile/agreement/?system=meijuapp&agreement_type=collected_userinfo`,
-          prod: `${privacyApi.url}/mobile/agreement/?system=meiju_lite_app&agreement_type=collected_userinfo_weixin_lite`,
+          dev: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=collected_userinfo_app`,
+          sit: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=collected_userinfo_app`,
+          prod: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=collected_userinfo_app`,
         },
         trackData: {
           widget_id: 'click_collectpion_list',
@@ -35,9 +36,9 @@ Page({
         id: 'shared_userinfo_weixin_lite',
         name: '与第三方共享个人信息清单',
         url: {
-          dev: `${privacyApi.url}/mobile/agreement/?system=meijuapp&agreement_type=shared_userinfo`,
-          sit: `${privacyApi.url}/mobile/agreement/?system=meijuapp&agreement_type=shared_userinfo`,
-          prod: `${privacyApi.url}/mobile/agreement/?system=meiju_lite_app&agreement_type=shared_userinfo_weixin_lite`,
+          dev: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=shared_userinfo_app`,
+          sit: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=shared_userinfo_app`,
+          prod: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=shared_userinfo_app`,
         },
         trackData: {
           widget_id: 'click_share_list',
@@ -48,9 +49,9 @@ Page({
         id: 'per_list_weixin_lite',
         name: '美的美居权限列表',
         url: {
-          dev: `${privacyApi.url}/mobile/agreement/?system=meijuapp&agreement_type=per_list`,
-          sit: `${privacyApi.url}/mobile/agreement/?system=meijuapp&agreement_type=per_list`,
-          prod: `${privacyApi.url}/mobile/agreement/?system=meiju_lite_app&agreement_type=per_list_weixin_lite`,
+          dev: `${domain}/mobile/agreement/?system=meijuapp&agreement_type=per_list`,
+          sit: `${domain}/mobile/agreement/?system=meijuapp&agreement_type=per_list`,
+          prod: `${domain}/mobile/agreement/?system=meiju_lite_app&agreement_type=per_list_weixin_lite`,
         },
         trackData: {
           widget_id: 'click_rights_list',
