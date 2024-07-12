@@ -92,6 +92,8 @@ var requestService = {
         secretVersion: '1.0',
         sign: getNewSign(params, api.apiKey, timestamp, method), //new
         version: '8.5',
+        appId: api.iotAppId,
+        terminalId: api.iotTerminalIid,
         iotAppId: api.iotAppId,
         iotTerminalId: api.iotTerminalIid,
         ...headerObj,

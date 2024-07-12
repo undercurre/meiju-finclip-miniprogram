@@ -77,7 +77,7 @@ var api = {
   //获取短信验证码
   gitSmsCode: {
     url: `${domain[`${environment}`]}/muc/v5/app/mj/user/getSmbingsCode`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/getSmsCode`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/mj/user/getSmsCode`,
     api: '/muc/v5/app/mj/user/getSmsCode',
   },
   mobileLogin: {
@@ -88,44 +88,44 @@ var api = {
   //短信验证码免密登陆注册
   register: {
     url: `${domain[`${environment}`]}/mj/user/register`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/register`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/mj/user/register`,
     api: '/mj/user/register',
   },
   //自动登陆
   autoLogin: {
     url: `${domain[`${environment}`]}/mj/user/autoLogin`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/autoLogin`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/mj/user/autoLogin`,
     api: '/mj/user/autoLogin',
   },
   //管理员发送二维码邀请
   memberQrcode: {
     url: `${domain[`${environment}`]}/v1/homegroup/member/generate/qrcode`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/v1/homegroup/member/generate/qrcode`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/homegroup/member/generate/qrcode`,
     api: '/v1/homegroup/member/generate/qrcode',
   },
   //扫码加入家庭
   memberScancode: {
     url: `${domain[`${environment}`]}/v1/homegroup/member/join/home/scancode`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/v1/homegroup/member/join/home/scancode`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/homegroup/member/join/home/scancode`,
     api: '/v1/homegroup/member/join/home/scancode',
   },
 
   //协议更新——协议变更判断
   checkAgreementApi: {
     url: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/checkAgree`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/checkAgree`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/user/c4a/agreement/checkAgree`,
     api: '/v1/user/c4a/agreement/checkAgree',
   },
   //协议更新——协议标题列表
   agreementTitleApi: {
     url: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/titles`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/titles`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/user/c4a/agreement/titles`,
     api: '/v1/user/c4a/agreement/titles',
   },
   //协议更新——同意最新协议接口
   agreeLatestApi: {
     url: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/agreeLatest`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/agreeLatest`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/user/c4a/agreement/agreeLatest`,
     api: '/v1/user/c4a/agreement/agreeLatest',
   },
   //
@@ -161,7 +161,7 @@ var api = {
   },
   homegroupDefaultSet: {
     url: 'https://iot-dev.smartmidea.net:443/v1/homegroup/default/set',
-    masUrl: `${domain[`${environment}`] + masPrefix}/mjl/v1/homegroup/default/set`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/mjl/v1/homegroup/default/set`,
     api: '/mjl/v1/homegroup/default/set',
   },
   applianceList: {

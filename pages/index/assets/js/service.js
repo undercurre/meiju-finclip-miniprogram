@@ -515,7 +515,7 @@ const service = {
   },
   //物模型2.0用于查询设备的属性或所有属性、设置设备属性-批量
   getBatchProperties(reqData) {
-    let url = '/v1/thing/batch/properties?requestId=' + getReqId() + '&sync=true'
+    let url = '/HarmonyOS/v1/thing/batch/properties?requestId=' + getReqId() + '&sync=true'
     //获取当前家庭设备列表
     return new Promise((resolve, reject) => {
       requestService.request(url, reqData).then(
