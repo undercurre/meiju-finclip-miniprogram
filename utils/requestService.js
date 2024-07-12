@@ -93,7 +93,7 @@ var requestService = {
         sign: getNewSign(params, api.apiKey, timestamp, method), //new
         version: '8.5',
         iotAppId: api.iotAppId,
-        'iot-terminal-id': api.iotTerminalIid,
+        iotTerminalId: api.iotTerminalIid,
         ...headerObj,
         // 'iot-gray-identification': "beta", //临时添加alpha泳道
       }
