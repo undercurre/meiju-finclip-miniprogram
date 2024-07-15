@@ -1,12 +1,15 @@
 <!-- pages/about/about.wxml -->
-<view class="about-container">
-    <mx-cell title="账号与安全" is-link bind:click="jumpAccountSafe"></mx-cell>
-    <view class="second-container">
-        <mx-cell title="已收集个人信息清单" is-link bind:click="jumpPersonInfoList"></mx-cell>
-        <mx-cell title="与第三方共享个人信息清单" is-link bind:click="jumpThridPaList"></mx-cell>
+<view>
+    <mx-nav-bar title="设置" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
+    <view class="about-container">
+        <mx-cell title="账号与安全" is-link bind:click="jumpAccountSafe"></mx-cell>
+        <view class="second-container">
+            <mx-cell title="已收集个人信息清单" is-link bind:click="jumpPersonInfoList"></mx-cell>
+            <mx-cell title="与第三方共享个人信息清单" is-link bind:click="jumpThridPaList"></mx-cell>
+        </view>
+
+
+        <view class="btn-logout-wrap" bind:tap="switchAccount">退出登录</view>
+        <mx-dialog id="mx-dialog" />
     </view>
-
-
-    <view class="btn-logout-wrap" bind:tap="switchAccount">退出登录</view>
-    <mx-dialog id="mx-dialog" />
 </view>

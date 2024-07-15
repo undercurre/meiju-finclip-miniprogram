@@ -9,6 +9,9 @@ Page({
   data: {
     targetMobile: ''
   },
+  backPage() {
+    wx.navigateBack()
+  },
 //   注销账号
   cancelAccount() {
     wx.navigateTo({

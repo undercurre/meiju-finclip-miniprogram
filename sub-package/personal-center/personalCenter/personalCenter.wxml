@@ -1,66 +1,69 @@
-<view class="main-container">
-    <view class="headImg-container">
-        <span class="headimg-container-title">头像</span>
-        <view class="headImg-container-rightPart" bindtap="togglePictureSelect">
-            <mx-image
-                round
-                fit="cover"
-                plate="meiju"
-                class="avatar"
-                custom-class="avatar"
-                src="{{ headImgUrl }}"
-                >
-            </mx-image>
-            <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="headImg-container-arrow"/>
+<view>
+    <mx-nav-bar title="个人资料" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
+    <view class="main-container">
+        <view class="headImg-container">
+            <span class="headimg-container-title">头像</span>
+            <view class="headImg-container-rightPart" bindtap="togglePictureSelect">
+                <mx-image
+                    round
+                    fit="cover"
+                    plate="meiju"
+                    class="avatar"
+                    custom-class="avatar"
+                    src="{{ headImgUrl }}"
+                    >
+                </mx-image>
+                <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="headImg-container-arrow"/>
+            </view>
         </view>
-    </view>
-    <view class="nickName-container" bindtap="editNickName">
-        <span class="headimg-container-title">昵称</span>
-        <view class="headImg-container-rightPart">
-            <span class="nickName">{{ nickName }}</span>
-            <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="headImg-container-arrow"/>
+        <view class="nickName-container" bindtap="editNickName">
+            <span class="headimg-container-title">昵称</span>
+            <view class="headImg-container-rightPart">
+                <span class="nickName">{{ nickName }}</span>
+                <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="headImg-container-arrow"/>
+            </view>
         </view>
+    <mx-dialog
+        z-index="10001"
+        use-slot
+        title="设置昵称"
+        show="{{ dialogShow }}"
+        show-cancel-button
+        bind:cancel="cancleEdit"
+        confirmButtonText="确定"
+        auto-close="{{false}}"
+        scale="1"
+        bind:confirm="confirmEdit"
+        customStyle="border-radius: 26rpx;"
+    >
+        <view class="dialog-input">
+        <view class="field-container">
+            <mx-field
+            custom-style="padding: 3px 8px; background: #f9f9f9;border: 1px solid #eeeeee;"
+            value="{{ fieldValue }}"
+            maxlength="{{15}}"
+            type="text"
+            clearable
+            placeholder="请输入昵称"
+            border="{{ false }}"
+            clearable="{{true}}"
+            adjust-position="{{ false }}"
+            error-message="{{errorMessage}}"
+            error-color="#FF8225"
+            bind:change="onChange"
+            bind:input="onInput"
+            input-class="input-class"
+            ></mx-field>
+        </view>
+        </view>
+    </mx-dialog>
+    <mx-action-sheet
+        show="{{ showPictureSelect }}"
+        actions="{{ pictureAction }}"
+        bind:select="selectPictureSource"
+        bind:cancel="togglePictureSelect"
+        cancel-text="取消"
+        />
+        <mx-dialog id="mx-dialog" />
     </view>
-  <mx-dialog
-    z-index="10001"
-    use-slot
-    title="设置昵称"
-    show="{{ dialogShow }}"
-    show-cancel-button
-    bind:cancel="cancleEdit"
-    confirmButtonText="确定"
-    auto-close="{{false}}"
-    scale="1"
-    bind:confirm="confirmEdit"
-    customStyle="border-radius: 26rpx;"
-  >
-    <view class="dialog-input">
-      <view class="field-container">
-        <mx-field
-          custom-style="padding: 3px 8px; background: #f9f9f9;border: 1px solid #eeeeee;"
-          value="{{ fieldValue }}"
-          maxlength="{{15}}"
-          type="text"
-          clearable
-          placeholder="请输入昵称"
-          border="{{ false }}"
-          clearable="{{true}}"
-          adjust-position="{{ false }}"
-          error-message="{{errorMessage}}"
-          error-color="#FF8225"
-          bind:change="onChange"
-          bind:input="onInput"
-          input-class="input-class"
-        ></mx-field>
-      </view>
-    </view>
-  </mx-dialog>
-  <mx-action-sheet
-    show="{{ showPictureSelect }}"
-    actions="{{ pictureAction }}"
-    bind:select="selectPictureSource"
-    bind:cancel="togglePictureSelect"
-    cancel-text="取消"
-    />
-    <mx-dialog id="mx-dialog" />
 </view>

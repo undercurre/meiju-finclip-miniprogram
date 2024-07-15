@@ -17,9 +17,8 @@ page {
 }
 .bindcontainer{
     background-color: #ffffff;
-    width: 750rpx;
     align-content: center;
-    padding: 48rpx 0;
+    padding: 48rpx 32rpx;
 }
 .hasbindMobile{
     font-size: 28rpx;
@@ -30,5 +29,5 @@ page {
 }
 .changePhoneBtn{
     width: 686rpx;
-    margin-left: 32rpx;
+    
 }

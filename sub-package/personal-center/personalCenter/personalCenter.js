@@ -207,6 +207,9 @@ Page({
         this.editHeadImg()
     }
   },
+  backPage() {
+    wx.navigateBack()
+  },
   //修改图像
   editHeadImg(mediaType = 'image') {
     clickModifyPhoto()

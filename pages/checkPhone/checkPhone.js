@@ -31,6 +31,9 @@ Page({
         classForButton: `changePhoneBtn ${preFixLength != 0 ? 'haveSomeOpacity' : ''}`
     })
   },
+  backPage() {
+    wx.navigateBack()
+  },
   checkPhone() {
     let checkPhoneNum = `${this.data.mobileLeft}${this.data.inputValue}${this.data.mobileRight}`
     if(this.data.mobile != checkPhoneNum){

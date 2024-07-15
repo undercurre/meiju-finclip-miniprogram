@@ -13,6 +13,9 @@ Page({
     headImgUrl: '', //用户头像
     targetMobile: ''
   },
+  backPage() {
+    wx.navigateBack()
+  },
 //   注销账号
   cancelAccount() {
     wx.navigateTo({

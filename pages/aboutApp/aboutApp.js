@@ -31,6 +31,9 @@ Page({
         }
     ]
   },
+  backPage() {
+    wx.navigateBack()
+  },
   jumpTargetPath(event) {
     let item = event.currentTarget.dataset.item
     if(item.id == 'versionUpdate'){

@@ -62,6 +62,9 @@ Page({
     isLogin: false,
     baseImgUrl: baseImgApi.url,
   },
+  backPage() {
+    wx.navigateBack()
+  },
   //注销账号
   goToLoginOut() {
     this.userBehaviorEventTrack('click_account_cancellation', '注销帐号')

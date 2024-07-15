@@ -1,19 +1,22 @@
-<view class="main-container">
-    <view class="main-container-cell"
-        wx:for="{{cellList}}" 
-        wx:for-item="cellItem"
-        wx:key="id"
-        wx:for-index="idx"
-        data-item="{{cellItem}}"
-        bindtap="jumpTargetPath">
-        <view class="main-container-top">
-            <view class="main-container-top-left">{{cellItem.title}}</view>
-            <view class="main-container-top-right">
-                <span class="main-container-top-right-text">{{cellItem.rightText}}</span>
-                <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="main-container-top-right-arrow"/>
+<view>
+    <mx-nav-bar title="隐私设置" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
+    <view class="main-container">
+        <view class="main-container-cell"
+            wx:for="{{cellList}}" 
+            wx:for-item="cellItem"
+            wx:key="id"
+            wx:for-index="idx"
+            data-item="{{cellItem}}"
+            bindtap="jumpTargetPath">
+            <view class="main-container-top">
+                <view class="main-container-top-left">{{cellItem.title}}</view>
+                <view class="main-container-top-right">
+                    <span class="main-container-top-right-text">{{cellItem.rightText}}</span>
+                    <image src="/assets/img/about/personal-center/right_arrow_headimg.png" mode="" class="main-container-top-right-arrow"/>
+                </view>
             </view>
+            <view class="main-container-bottom">{{cellItem.desc}}</view>
         </view>
-        <view class="main-container-bottom">{{cellItem.desc}}</view>
+        <mx-dialog id="mx-dialog" />
     </view>
-    <mx-dialog id="mx-dialog" />
 </view>

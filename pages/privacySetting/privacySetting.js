@@ -78,6 +78,9 @@ Page({
         context.changeWithdrowModal(error)
       })
   },
+  backPage() {
+    wx.navigateBack()
+  },
     // 撤销授权协议
     changeWithdrowModal(e) {
         const action = e.action

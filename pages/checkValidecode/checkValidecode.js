@@ -26,6 +26,9 @@ Page({
         imgDataCode: '',
     },
   },
+  backPage() {
+    wx.navigateBack()
+  },
   recheckPhone() {
     if(this.data.valideCodeInfo.imgCode.length <= 0){
         return

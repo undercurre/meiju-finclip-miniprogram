@@ -1,6 +1,6 @@
 {
-  "navigationBarTitleText": "",
-  "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "",
+    "navigationStyle": "custom",
   "usingComponents": {
     "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index",
     "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
@@ -9,6 +9,7 @@
     "mx-field": "/miniprogram_npm/m-ui/mx-field/index",
     "mx-image": "/miniprogram_npm/m-ui/mx-image/index",
     "mx-loading": "/miniprogram_npm/m-ui/mx-loading/index",
-    "mx-action-sheet": "/miniprogram_npm/m-ui/mx-action-sheet/index"
+    "mx-action-sheet": "/miniprogram_npm/m-ui/mx-action-sheet/index",
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index"
   }
 }

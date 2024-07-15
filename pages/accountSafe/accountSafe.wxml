@@ -1,4 +1,7 @@
-<view class="main-container">
-    <mx-cell title="手机号" bind:click="changeMobile" value="{{targetMobile}}" />
-    <view class="bottomOperate" bindtap="cancelAccount">注销账号</view>
+<view>
+    <mx-nav-bar title="账号与安全" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
+    <view class="main-container">
+        <mx-cell title="手机号" bind:click="changeMobile" value="{{targetMobile}}" />
+        <view class="bottomOperate" bindtap="cancelAccount">注销账号</view>
+    </view>
 </view>

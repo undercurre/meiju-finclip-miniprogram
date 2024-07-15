@@ -21,6 +21,9 @@ Page({
     },
     classForButton: 'changePhoneBtn haveSomeOpacity'
   },
+  backPage() {
+    wx.navigateBack()
+  },
   inputPhone(event) {
     let inputValue = event.detail.value
     this.setData({

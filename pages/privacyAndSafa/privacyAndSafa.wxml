@@ -1,11 +1,14 @@
-<view class="main-container">
-    <mx-cell 
-        wx:for="{{cellList}}" 
-        wx:for-item="cellItem"
-        wx:key="id"
-        wx:for-index="idx" 
-        title="{{cellItem.title}}" 
-        data-item="{{cellItem}}"
-        bind:click="jumpTargetPath" 
-        is-link/>
+<view>
+    <mx-nav-bar title="隐私安全保护" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
+    <view class="main-container">
+        <mx-cell 
+            wx:for="{{cellList}}" 
+            wx:for-item="cellItem"
+            wx:key="id"
+            wx:for-index="idx" 
+            title="{{cellItem.title}}" 
+            data-item="{{cellItem}}"
+            bind:click="jumpTargetPath" 
+            is-link/>
+    </view>
 </view>
