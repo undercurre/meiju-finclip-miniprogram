@@ -20,3 +20,5 @@ npm run installAll
 node compile/auto/autoConstructSit.js
 node compile/copyFile.js
 node combineAppjson.js
+cd "./miniprogram_npm"
+  mv m-harmonyos-services m-services #将m-harmonyos-services修改为m-services
