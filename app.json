@@ -98,6 +98,36 @@
       ]
     },
     {
+      "name": "mideaService",
+      "root": "midea-service/",
+      "pages": [
+        "pages/installation/installation",
+        "pages/addAddress/addAddress",
+        "pages/myAddress/myAddress",
+        "pages/maintenance/maintenance",
+        "pages/maintenanceFaultList/maintenanceFaultList",
+        "pages/productSelection/productSelection",
+        "pages/productSearch/productSearch",
+        "pages/serviceChargeTypes/serviceChargeTypes",
+        "pages/serviceCharge/serviceCharge",
+        "pages/orderList/orderList",
+        "pages/orderDetail/orderDetail",
+        "pages/orderProgress/orderProgress",
+        "pages/orderSupplyInfo/orderSupplyInfo",
+        "pages/faultCheck/faultCheck",
+        "pages/faultDescription/faultDescription",
+        "pages/mobileValidation/mobileValidation",
+        "pages/serviceWarranty/serviceWarranty",
+        "pages/serviceMachineSearch/serviceMachineSearch",
+        "pages/servicePhonenumber/servicePhonenumber",
+        "pages/upkeep/upkeep",
+        "pages/guideBook/guideBook",
+        "pages/branchList/branchList",
+        "pages/branchListMap/branchListMap",
+        "pages/map/map"
+      ]
+    },
+    {
       "name": "mideaVirtualPlugin",
       "root": "midea-virtual-plugin/",
       "pages": [
@@ -646,6 +676,12 @@
         "T0xCA",
         "T0xB8",
         "T0xEA"
+      ]
+    },
+    "pages/midea-service/midea-service": {
+      "network": "all",
+      "packages": [
+        "mideaService"
       ]
     },
     "distribution-network/scan-devices/pages/scan-device/scan-device": {

@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const sourceDir1 = './node_modules/@colmoLite'
 const sourceDir2 = './node_modules/@meijuLite'
 const sourceDir3 = './node_modules/@toshibaLite'
-const sourceDir9 = './node_modules/@m-finclip-harmonyos'
+const sourceDir9 = './node_modules/@meijuHarmonyOS'
 const targetPath1 = './src/modules/module_plugin'
 //配网模块需要迁移的路径
 const sourceDir4 = './node_modules/@m-distributionNetwork/sdk/'

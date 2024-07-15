@@ -26,22 +26,22 @@
     "eslint": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-wxml": "^0.6.0",
+    "fs-extra": "^11.2.0",
     "husky": "^7.0.0",
     "lint-staged": "^11.2.6",
     "miniprogram-ci": "^1.9.8",
     "prettier": "^2.5.1",
-    "fs-extra": "^11.1.1",
     "simple-git": "^3.19.1"
   },
   "dependencies": {
     "@datarangers/sdk-mp": "^2.9.0",
+    "m-ble-crypto": "1.0.0",
+    "m-harmonyos-services": "1.0.18",
     "m-miniCommonSDK": "1.0.12",
     "m-performance": "^1.0.0",
-    "m-services": "1.0.18",
-    "m-ui": "^2.0.29",
     "m-track": "^1.0.0",
-    "m-utilsdk": "1.0.9",
-    "m-ble-crypto": "1.0.0"
+    "m-ui": "^2.0.29",
+    "m-utilsdk": "1.0.9"
   },
   "lint-staged": {
     "*.js": [
