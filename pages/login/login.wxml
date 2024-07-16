@@ -9,7 +9,7 @@
     <image src="{{loginLogoSrc}}"></image>
   </view>
   <view class="login-section">
-    <mx-cell-group custom-class="login-cell-group">
+    <mx-cell-group border="{{false}}" custom-class="login-cell-group">
       <mx-field
         class="custom-filed-class"
         custom-style="border: 1px solid #e5e5e8;z-index:1000;"

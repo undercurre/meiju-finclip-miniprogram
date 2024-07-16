@@ -6,7 +6,7 @@
   <!-- <view class="topBacWarp" wx:if="{{isLogon}}"> -->
   <!-- <image src="{{topBac}}"></image> -->
   <!-- </view> -->
-  <view style="height: {{statusBarHeight +20}}px;"></view>
+  <view style="height: {{statusBarHeight +66}}px;"></view>
   <view
     class="content"
     style="{{isIpx ? 'padding-bottom: 200rpx;' : 'padding-bottom: 130rpx;'}}"

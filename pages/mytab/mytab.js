@@ -177,7 +177,7 @@ Page({
     advertiseBarData: [],
     initDataObj: {},
     isIpx: false,
-    statusBarHeight: app.globalData.statusNavBarHeight,
+    statusBarHeight: wx.getSystemInfoSync()['statusBarHeight'],
     jifenIco: baseImgApi.url + 'me_ic_remind@2x.png',
     signIco: baseImgApi.url + 'me_ic_qiandao@2x.png',
     topBac: baseImgApi.url + 'me_img_bk@2x.png',
