@@ -137,6 +137,7 @@ Component({
 
     // 不同意并退出
     exitMiniProgram() {
+      ft.terminateSelf()
       this.userBehaviorEventTrack('click_not_agree_quit', '不同意并退出')
     },
 

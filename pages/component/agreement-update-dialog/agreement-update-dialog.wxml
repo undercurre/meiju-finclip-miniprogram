@@ -20,9 +20,7 @@
     <view slot="footer">
       <view class="btnWrap" wx:if="{{btnArr && btnArr.length}}">
         <view class="dialog__btn {{item.className}} {{item.extClass}}"
-          ><navigator open-type="exit" target="miniProgram"
-            ><view bindtap="exitMiniProgram" data-index="{{index}}">{{btnArr[0].text}}</view></navigator
-          ></view
+          ><navigator><view bindtap="exitMiniProgram" data-index="{{index}}">{{btnArr[0].text}}</view></navigator></view
         >
         <view class="dialog__btn {{item.className}} {{item.extClass}}" catchtap="agreeLatest" data-index="{{index}}"
           >{{btnArr[1].text}}</view
