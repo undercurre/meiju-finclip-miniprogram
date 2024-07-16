@@ -23,4 +23,11 @@
   -webkit-box-orient: vertical;
   word-wrap:break-word;
 }
-
+.mx-nav-bar__title{}
+.mx-nav-bar__title{
+    --nav-bar-title-font-size: 32rpx;
+}
+.mx-nav-bar__left{}
+.mx-nav-bar__left{
+    --padding-md: 32rpx;
+}
