@@ -1,5 +1,6 @@
 const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
+import config from '../../config.js' //环境及域名基地址配置
 import {webView} from '../../utils/paths'
 
 Page({
@@ -14,9 +15,27 @@ Page({
   },
 //   注销账号
   cancelAccount() {
-    wx.navigateTo({
-      url: `${webView}?webViewUrl=${encodeURIComponent('https://www.baidu.com')}`,
-    })
+    this.getJwtToken()
+  },
+  getJwtToken() {
+    const wxAccessToken = app.globalData.wxAccessToken
+    requestService
+      .request('getJwtToken', { wxAccessToken })
+      .then((res) => {
+        const data = res.data
+        if (+data.code === 0) {
+          const host = `${config.privacyDomain[config.environment]}`
+          const url = `${host}/mobile/cancellation/?system=midea_app_lite&jwt_token=${data.result}&redirect_uri=&is_switch_tab=true`
+          wx.navigateTo({
+            url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}&needCheckLogStatus=true`,
+          })
+        } else {
+          showToast('程序员小哥哥植发去了，请稍后重试')
+        }
+      })
+      .catch((e) => {
+        console.log(e, 'logout')
+      })
   },
   changeMobile() {
     wx.navigateTo({
