@@ -50,6 +50,7 @@ let CMD = {
   LEFTRIGHTANGLE: 0x000A,   // 左右摆风角度
   UDAROUNDWIND: 0x0059,   // 上下环绕风  
   DEGERMING: 0x005a,      // 杀菌
+  ACDEGERMING: 0x00bf,    // 空调除菌
   AUTOMATICANTICOLDAIR: 0x0078, // f1-1主动防冷风
   COOLPOWERSAVING: 0x0089, // 酷省电
   AROUNDWIND: 0x0067, // 环游风
@@ -71,6 +72,7 @@ let CMD = {
   ELECHEATTYPE: 0x0211, // 电辅热默认规则开启
   THWINDSPEED: 0x0006, // th设置风速
   RIGHTLRWINDANGLE: 0x00A3, //th右左右出风方向
+  LEFTLRWINDANGLE: 0x00A2, //th左左右出风方向
   THLIGHT: 0x005b,
   THTIMINGON: 0x000b,
   THTIMINGOFF: 0x000c,
@@ -297,6 +299,7 @@ let STATUS = {
     udAroundWindSwitch:"",                    //上下环绕风开关
     udAroundWindDirect:"",                    //上下环绕风方向 
     degerming:"",                             //杀菌
+    acDegerming:"",                           //空调除菌
     coolPowerSaving:"",                       //酷省
     aroundWind:"",                            //环游风
     quickCoolHeat:"",                         //速冷热
@@ -749,6 +752,9 @@ let STATUS = {
     coolFreeShowAllTime:"", // 当前呈现给用户的控制是一键优化还是全时智控 0-一键优化 1-全时智控
     coolFreeAllTimeSwitch:"", //全时智控开关
     coolFreeDealdehyde:"", //除醛
+
+    // 其他
+    coolFreeStrong:"",
 
     // 厨房空调
     dustFullTime:"", // 滤网

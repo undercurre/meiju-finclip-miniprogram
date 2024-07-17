@@ -1,0 +1,17 @@
+.page-alert {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+.page-alert .alert-image {
+  width: 372rpx;
+  height: 264rpx;
+  margin-bottom: 60rpx;
+}
+.page-alert .alert-text {
+  font-size: 28rpx;
+  color: #c7c7cc;
+}

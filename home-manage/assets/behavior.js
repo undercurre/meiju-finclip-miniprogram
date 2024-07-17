@@ -21,15 +21,7 @@ module.exports = Behavior({
   methods: {
     //返回
     onClickLeft() {
-      if (getCurrentPages().length > 1) {
-        wx.navigateBack({
-          delta: 1,
-        })
-      } else {
-        wx.switchTab({
-          url: index,
-        })
-      }
+      wx.navigateBack()
     },
     //控制头部组件以及动画组件效果颜色变化
     scroll(e) {

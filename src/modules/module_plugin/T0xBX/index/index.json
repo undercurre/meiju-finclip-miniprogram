@@ -1,0 +1,24 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F9F9F9",
+  "navigationBarTextStyle": "black",
+  "disableScroll": true,
+  "usingComponents": {
+    "popup": "../assets/component/vant/popup/index",
+    "hms": "../assets/component/hms/index",
+    "count-down": "../assets/component/countdown/countdown",
+    "switch-cell": "../assets/component/vant/switch-cell/index",
+    "action-sheet": "../assets/component/vant/action-sheet/index",
+    "sf-picker-view": "../assets/component/picker-view/picker-view",
+    "cell": "../assets/component/vant/cell/index",
+    "loading": "../assets/component/mso/loading/loading",
+    "page-header": "../assets/component/mso/page-header/page-header",
+    "orange-button": "../assets/component/orange-button/orange-button",
+    "reservation-popup": "../assets/component/popup/index",
+    "nav-bar": "../assets/component/nav-bar/index",
+    "switch-option": "../assets/component/switch-option/switch-option",
+    "slider-option": "../assets/component/slider-option/slider-option",
+    "mx-footer": "../assets/component/mso/mx-footer/mx-footer"
+  }
+}

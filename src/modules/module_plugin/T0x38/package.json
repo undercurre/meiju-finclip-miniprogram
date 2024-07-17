@@ -1,7 +1,33 @@
 {
-  "name": "@meijuLite/T0x38",
-  "version": "1.0.5",
-  "description": "",
+  "_from": "@meijuLite/T0x38@1.0.5",
+  "_id": "@meijuLite/T0x38@1.0.5",
+  "_inBundle": false,
+  "_integrity": "sha512-khQFVr+oz2iEZSE/MdHergPSY+NpMBWgowykA2L0E6c+S4tPEJYX6GweS/XRYVi3EbFU7L2gcjeF74f4sC2+Lg==",
+  "_location": "/@meijuLite/T0x38",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@meijuLite/T0x38@1.0.5",
+    "name": "@meijuLite/T0x38",
+    "escapedName": "@meijuLite%2fT0x38",
+    "scope": "@meijuLite",
+    "rawSpec": "1.0.5",
+    "saveSpec": null,
+    "fetchSpec": "1.0.5"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "http://npm.midea.com:8090/repository/npm-public/@meijuLite/T0x38/-/T0x38-1.0.5.tgz",
+  "_shasum": "b56e7b70800857905a0c2890f88084d0a545e7e9",
+  "_spec": "@meijuLite/T0x38@1.0.5",
+  "_where": "/Users/zhangjun/清洁产品公司项目/小程序/美居lite-20240604/midea-meiju-lite",
   "author": "",
-  "license": "ISC"
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "V1.0.0：首页、耗材页、视频指南页、视频播放页、离线页开发,npm包改造\r V1.0.1：修复测试npm包运行过程中的问题\r V1.0.2：修复一轮测试问题:重置后不更新，进度条和开关跳动，添加toast信息\r V1.0.3：修复二轮测试问题:重置电控调试，增大按钮点击区域\r V1.0.4：合并到sit\r V1.0.5：修改调试代码，合并到sit",
+  "license": "ISC",
+  "name": "@meijuLite/T0x38",
+  "version": "1.0.6"
 }

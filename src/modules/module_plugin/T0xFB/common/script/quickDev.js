@@ -41,6 +41,7 @@ const quickDev = {
           para_item.key = properties.key
           para_item.name = properties.name
           para_item.valueList = this.jsonArray2Array(properties.valueList)
+          para_item.valueListBind = this.jsonArray2Array(properties.valueListBind)
           para_item.displayList = this.jsonArray2Array(properties.displayList)
           para_item.isUseBindList = properties.isUseBindList
           para_item.bindList = this.jsonArray2Array(properties.bindList)
@@ -96,7 +97,12 @@ const quickDev = {
       if (isNaN(toNum)) {
         result.push(json_array[i].item)
       } else {
-        result.push(toNum)
+        if(json_array[i].item.match(',')){
+          let numArr = json_array[i].item.split(',')
+          result.push(numArr)
+        } else {
+          result.push(toNum)
+        }
       }
     }
     return result

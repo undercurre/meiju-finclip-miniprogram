@@ -1606,15 +1606,16 @@ module.exports = Behavior({
           service.getWxApiPromise(wx.getWifiList)
         }, 1000)
         wx.onGetWifiList((res3) => {
-          console.log('@module bluetooth.js\n@method getWifiList\n@desc 获取到WiFi列表\n', res3)
+        //   console.log('@module bluetooth.js\n@method getWifiList\n@desc 获取到WiFi列表\n', res3)
           res3.wifiList.forEach((device) => {
             // 校验设备热点名称
             if (!this.filterAPName(brandConfig.apNameHeader, device.SSID)) return
-            console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过名称校验\n', device)
+            // console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过名称校验\n', device)
             // WiFi强度校验
             // todo:Yoram930 调试，暂时放开信号强度
+            // console.log("=====device=======",device)
             if (device.signalStrength < 99) return
-            console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过ap强度校验\n', device)
+            // console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过ap强度校验\n', device)
             //校验是否蓝牙已发现
             if (!this.filterBluetoothScan(device.SSID)) return
             // 若首页则需处理wx.getWifiList缓存，校验是否是已配网的设备
@@ -1677,7 +1678,7 @@ module.exports = Behavior({
     setMixinsWifiClose() {
       timer1 = setTimeout(() => {
         console.log('关闭wifi')
-        //wx.offGetWifiList()
+        wx.offGetWifiList()
       }, searchTime)
     },
     /**
@@ -1700,7 +1701,7 @@ module.exports = Behavior({
     filterBluetoothScan(SSID) {
       const fonudDevices = this.data.devices
       const idx = inArray(fonudDevices, 'SSID', SSID)
-      console.log('SSID 筛查', fonudDevices, idx)
+    //   console.log('SSID 筛查', fonudDevices, idx)
       return idx === -1 ? true : false
     },
     //ap和蓝牙自发现到同一个SSID的设备，以蓝牙不支持配网结果为准，不显示在自发现弹窗

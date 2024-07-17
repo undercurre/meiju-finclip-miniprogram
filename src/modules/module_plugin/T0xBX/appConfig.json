@@ -1,0 +1,17 @@
+{
+  "subpackages": [
+    {
+      "name": "T0xBX",
+
+      "root": "plugin/T0xBX",
+
+      "pages": [
+        "index/index",
+        "recipeHome/recipeHome",
+        "recipeDetail/recipeDetail",
+        "recipeSearch/recipeSearch",
+        "webview/webview"
+      ]
+    }
+  ]
+}

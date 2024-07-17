@@ -54,6 +54,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    noTap(){
+      return 0
+    },
     // 设置model
     getModel(model){
       if(!model&&this.data.model){

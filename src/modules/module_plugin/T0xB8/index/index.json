@@ -1,0 +1,15 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#F1F7FD",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "plugin-navbar": "/miniprogram_npm/m-ui/mx-nav/index",
+    "device-card": "../cards/card0/card",
+    "device-card1": "../cards/card1/card1",
+    "device-card2": "../cards/card2/card2",
+    "mbutton": "/pages/component/mbutton/mbutton",
+    "footer": "/plugin/component/footer/footer"
+    
+  }
+}

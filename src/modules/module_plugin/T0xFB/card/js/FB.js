@@ -78,3 +78,54 @@ export const pickerType = {
   timerOff: 'timerOff',
   gear: 'gear',
 }
+
+// 根据已有指令获取校验码
+export function getCheckNum(hexControlStr){
+  // 分割指令
+  const size = 2
+  let hexArr = []
+  for(let i=0;i<hexControlStr.length;i+=size){
+    hexArr.push(hexControlStr.substring(i,i+size))
+  }
+  console.log('分割后的指令(不含校验码)',hexArr)
+  // 指令长度
+  let msgLength = hexControlStr.length/2 - 1
+  // 二进制指令建立
+  let binaryArr = []
+  for (let i = 0; i < hexArr.length; i++) {
+    // 先把字符串转成十六进制再转二进制
+    let binary = parseInt(hexArr[i],16).toString(2)
+    // console.log('第'+i+'位:',binary,binary.length)
+    // 不够八位进行补零
+    if(binary.length<8){
+      // 补零个数
+      let count = 8-binary.length
+      for(let j=0;j<count;j++){
+        binary = '0'+binary
+      }
+    }
+    // 组合二进制指令
+    binaryArr.push(binary)
+  }
+  console.log('转换后的二进制指令',binaryArr)
+  // 校验码计算
+  let checkNum = 0
+  for (let i = 1; i < msgLength; i++) {
+    let intNum = parseInt(binaryArr[i], 2)
+    // console.log('校验码计算第'+i+'位:',binaryArr[i],intNum)
+    checkNum = checkNum + intNum
+  }
+  console.log('校验码计算')
+  console.log(checkNum)
+  checkNum = ~checkNum
+  checkNum++
+  checkNum = checkNum & 0xff
+  console.log('十进制的checkNum',checkNum)
+  checkNum = checkNum.toString(16).toUpperCase()
+  console.log('十六进制的checkNum',checkNum)
+  // 不够两位补零
+  if(checkNum.length===1){
+    checkNum = '0'+checkNum
+  }
+  return checkNum
+}

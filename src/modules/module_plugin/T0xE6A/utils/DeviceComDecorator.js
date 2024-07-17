@@ -217,6 +217,9 @@ export default class DeviceComDecorator {
     if (attr.query_type === '') {
       delete attr.query_type;
     }
+    if (attr.query_type === undefined) {
+      data.attr.buzzing_switch = "no_buzzing"
+    }
     this.sendLuaLogic(data, requestMethod, toastText, useLoad, () => {
       callback && callback();
     });

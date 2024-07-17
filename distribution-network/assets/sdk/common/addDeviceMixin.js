@@ -431,7 +431,7 @@ module.exports = Behavior({
     switchWifi(iOSReConfirm = true) {
       this.data.isSwitchWifi = true
       const res = wx.getSystemInfoSync()
-      if (res.system.includes('Android')) {
+      if (res.system.includes('Android') || res.system.includes('harmony')) {
         // 直接跳转
         this.jumpSystemSetting()
       }

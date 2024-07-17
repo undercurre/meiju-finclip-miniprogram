@@ -1291,6 +1291,8 @@ Page({
       let wifiInfo = await this_.wifiService.getConnectedWifi()
       this.data.curLinkWifiInfo = wifiInfo
       console.log('[on wifi switch]', wifiInfo)
+      console.log('[on wifi switch app.addDeviceInfo]', app.addDeviceInfo)
+      console.log('[on wifi switch this.data]',this.data)
       if (wifiInfo.SSID != app.addDeviceInfo.ssid) {
         //连接的不是设备wifi
         this.deviceWifiYetSwitchTip() //设备wifi被切提示重连
@@ -2417,7 +2419,7 @@ Page({
         }, 3000)
       }
     })
-    if (app.globalData.systemInfo.system.includes('Android') && typeof this.tcp.bindWifi === 'function') {
+    if ((app.globalData.systemInfo.system.includes('Android') || app.globalData.systemInfo.system.includes('harmony')) && typeof this.tcp.bindWifi === 'function') {
       //安卓支持tcp.bindWifi 则先bindWifi
       console.log('[support tcp bind wifi]')
       this.tcp.onBindWifi(async () => {

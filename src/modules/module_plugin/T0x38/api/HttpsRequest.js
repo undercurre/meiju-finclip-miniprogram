@@ -5,7 +5,7 @@ const testUrl = 'http://8.136.244.226:8082/vc/'//测试环境
 // const testUrl = 'https://vcapi.midea.com/vc/'//测试环境
 const proUrl = 'https://vcapi.midea.com/vc/'//正式环境
 
-const baseUrl = environment == 'prod' ? proUrl : testUrl
+const baseUrl = environment == 'prod' ? proUrl : proUrl
 const baseInterface = 'v1/app/'//不走mas中台
 const HttpsRequest = (url,method,params={}) => {
   return new Promise((resolve, reject) => {

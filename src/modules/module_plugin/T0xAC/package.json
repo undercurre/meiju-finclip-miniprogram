@@ -1,36 +1,36 @@
 {
-  "_from": "@meijuLite/T0xAC@1.0.57",
-  "_id": "@meijuLite/T0xAC@1.0.57",
+  "_from": "@meijuLite/T0xAC@1.0.59",
+  "_id": "@meijuLite/T0xAC@1.0.59",
   "_inBundle": false,
-  "_integrity": "sha512-c/GwhsfQyTCOHAleemlLNgCwVegT6d4aeIpqH56xpe/ZXA4cwqNSPtJi4PnzZe3wnbwkZeYsVSf460bMsXwJ0w==",
+  "_integrity": "sha512-GDVu6PEID81C8qOtFRc2CmJro81DF9j01R5kLQUf0PfODxHQx60YsPVJfOFwSP/J/4+YIZxN1O+JBeYu1o0hAg==",
   "_location": "/@meijuLite/T0xAC",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@meijuLite/T0xAC@1.0.57",
+    "raw": "@meijuLite/T0xAC@1.0.59",
     "name": "@meijuLite/T0xAC",
     "escapedName": "@meijuLite%2fT0xAC",
     "scope": "@meijuLite",
-    "rawSpec": "1.0.57",
+    "rawSpec": "1.0.59",
     "saveSpec": null,
-    "fetchSpec": "1.0.57"
+    "fetchSpec": "1.0.59"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "http://npm.midea.com:8090/repository/npm-public/@meijuLite/T0xAC/-/T0xAC-1.0.57.tgz",
-  "_shasum": "8d92dfccb9b89916a7a4c0db89f6789e6f273bd1",
-  "_spec": "@meijuLite/T0xAC@1.0.57",
+  "_resolved": "http://npm.midea.com:8090/repository/npm-public/@meijuLite/T0xAC/-/T0xAC-1.0.59.tgz",
+  "_shasum": "53951b05a2de30d2f6c38bf164cc309191a09311",
+  "_spec": "@meijuLite/T0xAC@1.0.59",
   "_where": "/Users/tanrz/Desktop/prj_code/midea-git/midea-meiju-lite",
   "author": "",
   "bundleDependencies": false,
   "deprecated": false,
-  "description": "20240411上架版本",
+  "description": "202407 上架版本",
   "license": "ISC",
   "name": "@meijuLite/T0xAC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.57"
+  "version": "1.0.59"
 }

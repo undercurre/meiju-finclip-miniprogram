@@ -14,7 +14,7 @@
   <!-- <view class="device-list-title" wx:if="{{roomDetail.applianceList.length}}"> -->
   <!-- <text>设备列表</text> -->
   <!-- </view> -->
-  <view class="device-list-title"></view>
+  <view wx:if="{{roomDetail.applianceList.length > 0}}" class="device-list-title"></view>
   <mx-cell-group>
     <mx-cell
       wx:for="{{ roomDetail.applianceList }}"

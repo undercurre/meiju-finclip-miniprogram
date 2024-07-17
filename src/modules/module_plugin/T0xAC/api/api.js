@@ -19,6 +19,8 @@ const api = {
 
   getElectric: '/jykt/bluetooth/control/queryElec',
 
+  radarGetTip: '/jykt-lite/rac-air-screen/screen/radar/getTip',
+
   getProductImgBySn8: '/jykt/plugins/picInfo/getBySn8'
 }
 export default api

@@ -7,7 +7,7 @@
   "usingComponents": {
     "mx-tab": "/miniprogram_npm/m-ui/mx-tab/index",
     "mx-tabs": "/miniprogram_npm/m-ui/mx-tabs/index",
-    "b8-card": "../../../../../plugin/T0xB8/cards/card1/card1",
+    "b8-card": "../../T0xB8/cards/card1/card1",
     "db-card": "../../../../../plugin/T0xDB/card/card"
   },
   "componentPlaceholder": {

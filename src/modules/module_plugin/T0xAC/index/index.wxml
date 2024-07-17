@@ -27,6 +27,17 @@
             <mx-status-item wx:if="{{acSwStatus.SelfCleaning}}" margin-right="12" status="off" text="智清洁运行中"></mx-status-item>
             <view wx:if="{{(acstatus.timingOnSwitch && acstatus.runStatus == 0) || (acstatus.timingOffSwitch && acstatus.runStatus == 1)}}" class="demo-divider"></view>
             <mx-status-item wx:if="{{(acstatus.timingOnSwitch && acstatus.runStatus == 0) || (acstatus.timingOffSwitch && acstatus.runStatus == 1)}}" margin-right="12" status="on" text="{{acstatus.timingOnSwitch ? showHourAndMinOn : showHourAndMin}}"></mx-status-item>
+
+            <view wx:if="{{kitStatus.quick_fry}}" class="demo-divider"></view>
+            <mx-status-item wx:if="{{kitStatus.quick_fry}}" margin-right="12" status="on" text="爆炒中"></mx-status-item>
+            <view wx:if="{{kitStatus.prepare_food}}" class="demo-divider"></view>
+            <mx-status-item wx:if="{{kitStatus.prepare_food}}" margin-right="12" status="on" text="备菜中"></mx-status-item>
+
+            <view wx:if="{{coolFreeRadaMode==1 && acstatus.runStatus == 1 && (acStatus.mode == 'cool' || acStatus.mode == 'heat')}}" class="demo-divider"></view>
+            <mx-status-item wx:if="{{coolFreeRadaMode==1 && acstatus.runStatus == 1 && (acStatus.mode == 'cool' || acStatus.mode == 'heat')}}" margin-right="12" status="on" text="{{coolFreeRadaTips[coolFreeRadaMode-1].tips}}"></mx-status-item>
+
+            <view wx:if="{{coolFreeRadaMode==2}}" class="demo-divider"></view>
+            <mx-status-item wx:if="{{coolFreeRadaMode==2}}" margin-right="12" status="on" text="{{coolFreeRadaTips[coolFreeRadaMode-1].tips}}"></mx-status-item>
           </mx-status>
           <mx-status wx:elif="{{isNorthWarm}}">
             <mx-status-item wx:if="{{!showVacation}}" showStatus margin-right="12" status="{{acstatus.runStatus == 1 ? 'on' : 'off'}}" text="{{acstatus.runStatus == 1 ? modeText : '已关机'}}"></mx-status-item>
@@ -55,7 +66,8 @@
               <view wx:if="{{!noImg}}" class="device-img-display">
                 <image class="animate-img" wx:if="{{acSwStatus.FreshAir}}" style="width: 750rpx;height: 360rpx;" src="{{animation_img.freshair}}" mode="" />
                 <image wx:if="{{acstatus.runStatus==1 && !isNorthWarm}}" class="animate-img" style="width: 750rpx;height: 360rpx;" src="{{animation_img[acStatus.mode]}}"></image>
-                <image class="device-img" style="width: 750rpx;height: 360rpx;" src="{{acstatus.runStatus==1 ? onDeviceImg : offDeviceImg}}"></image>
+                <!-- <image class="device-img" style="width: 750rpx;height: 360rpx;" src="{{acstatus.runStatus==1 ? onDeviceImg : offDeviceImg}}"></image> -->
+                <image class="{{isCoolFreeKitchen ? 'device-img-offset' : 'device-img'}}" style="width: 750rpx;height: 360rpx;" src="{{acstatus.runStatus==1 ? onDeviceImg : offDeviceImg}}"></image>
               </view>
           </view>
 
@@ -112,9 +124,9 @@
                     <text class="direct-text {{acstatus.runStatus == 0 ? 'offcan-opacity' : ''}}">上下风向</text>
                     <view class="flex-r al-center" style="height: 160rpx; margin-top: 3rpx;">
                       <view class="tabbar-demo-for" wx:for="{{udDirectArr}}" wx:key="index" wx:key="index">
-                        <mx-tabbar-item wx:if="{{item.key != 'UpDownSwipeWind'}}" class="tabbar-self {{acstatus.runStatus == 1 ? '' : (!item.offCan ? 'offcan-opacity' : 'offcan-normal')}}" data-index="{{index}}" data-item="{{item}}" checked="{{ acSwStatus[item.key] }}" icon="{{!isKitchen ? item.angleItem['1'].unselected : item.kitchenAngleItem['1'].unselected}}" activeIcon="{{!isKitchen ? item.angleItem[acNewStatus.upDownAngle+''][acStatus.mode] : item.kitchenAngleItem[acNewStatus.upDownAngle+''][acStatus.mode]}}" bind:change="modalBtnTab" activeColor="transparent" inactiveColor="transparent">{{ item.normalText }}</mx-tabbar-item>
+                        <mx-tabbar-item wx:if="{{item.key != 'UpDownSwipeWind'}}" class="tabbar-self {{acstatus.runStatus == 1 ? (acBtnDisabled[item.key].disabled ? 'offcan-opacity' : 'offcan-normal') : (!item.offCan ? 'offcan-opacity' : 'offcan-normal')}}" data-index="{{index}}" data-item="{{item}}" checked="{{ acSwStatus[item.key] }}" icon="{{!isKitchen ? item.angleItem['1'].unselected : item.kitchenAngleItem['1'].unselected}}" activeIcon="{{!isKitchen ? item.angleItem[acNewStatus.upDownAngle+''][acStatus.mode] : item.kitchenAngleItem[acNewStatus.upDownAngle+''][acStatus.mode]}}" bind:change="modalBtnTab" activeColor="transparent" inactiveColor="transparent">{{ item.normalText }}</mx-tabbar-item>
 
-                        <mx-tabbar-item wx:else class="tabbar-self {{acstatus.runStatus == 1 ? '' : (!item.offCan ? 'offcan-opacity' : 'offcan-normal')}}" data-index="{{index}}" data-item="{{item}}" checked="{{ acSwStatus[item.key] }}" icon="{{item.angleItem['1'].unselected}}" activeIcon="{{item.angleItem[1][acStatus.mode]}}" bind:change="modalBtnTab" activeColor="transparent" inactiveColor="transparent">{{ item.normalText }}</mx-tabbar-item>
+                        <mx-tabbar-item wx:else class="tabbar-self {{acstatus.runStatus == 1 ? (acBtnDisabled[item.key].disabled ? 'offcan-opacity' : 'offcan-normal') : (!item.offCan ? 'offcan-opacity' : 'offcan-normal')}}" data-index="{{index}}" data-item="{{item}}" checked="{{ acSwStatus[item.key] }}" icon="{{item.angleItem['1'].unselected}}" activeIcon="{{item.angleItem[1][acStatus.mode]}}" bind:change="modalBtnTab" activeColor="transparent" inactiveColor="transparent">{{ item.normalText }}</mx-tabbar-item>
                       </view>
                     </view>
                   </mx-panel>
@@ -185,7 +197,7 @@
                         18℃强劲风
                       </view> -->
                         <view class="quick-fry-btn flex-c jc-center" bindtap="onClickKitchenFun" data-item="{{kitchenSpecialBtn[1]}}">
-                          <view class="quick-fry-btn-text">快摆设置></view>
+                          <view class="quick-fry-btn-text">爆炒摆风></view>
                         </view>
                       </view>
                       <view class="flex-c jc-center al-center">
@@ -412,7 +424,7 @@
   <!-- 上防直吹弹窗 end -->
 
   <!-- 改版：智清洁确认弹窗 start -->
-  <mx-popup show="{{showSelfCleanConfirmPopup}}" z-index="10001" position="bottom" round custom-style="height: 65%;padding: 5px 20px 10px 20px;" bind:close="hideModePopup">
+  <mx-popup show="{{showSelfCleanConfirmPopup}}" z-index="10001" position="bottom" round custom-style="padding: 5px 20px 10px 20px;" bind:close="hideModePopup">
     <view class="flex-c jc-center al-center direct-popup-title-wrap">
       <text class="popup-title">
         开启智清洁
@@ -567,23 +579,27 @@
       <text class="popup-title">
         左右定向
       </text>
+      <view class="wind-side-wrap">
       <view class="direct-titile">
         <text class="direct-title-text">左风道</text>
       </view>
-      <view class="flex-r jc-space-between wind-direct-popup">
-        <view class="flex-c jc-center al-center" wx:for="{{leftWindBtn}}" bindtap="leftBottomLeftWind" data-item="{{item}}" wx:key="index">
+      <view class="flex-r jc-space-between wind-direct-popup" style="width: 100%;">
+        <view class="flex-c jc-center al-center" wx:for="{{leftRightAnglePopBtns}}" bindtap="leftBottomLeftWind" data-item="{{item}}" wx:key="index">
           <image style="width: 96rpx; height: 96rpx;" src="{{acNewStatus.leftRightAngle == item.angle ?  item.clickImg[acStatus.mode] : item.img}}"></image>
           <!-- acStatus.mode -->
         </view>
       </view>
+      </view>
+      <view class="wind-side-wrap">
       <view class="direct-titile">
         <text class="direct-title-text">右风道</text>
       </view>
-      <view class="flex-r jc-space-between wind-direct-popup">
-        <view class="flex-c jc-center al-center" wx:for="{{leftWindBtn}}" bindtap="rightBottomLeftWind" data-item="{{item}}" wx:key="index">
+      <view class="flex-r jc-space-between wind-direct-popup" style="width: 100%;">
+        <view class="flex-c jc-center al-center" wx:for="{{rightRightAnglePopBtns}}" bindtap="rightBottomLeftWind" data-item="{{item}}" wx:key="index">
           <image style="width: 96rpx; height: 96rpx;" src="{{acNewStatus.rightLrWindAngle == item.angle ?  item.clickImg[acStatus.mode] : item.img}}"></image>
           <!-- acStatus.mode -->
         </view>
+      </view>
       </view>
     </view>
     <view class="popup-bottom-btn flex-c jc-center al-center" bindtap="hidePopup">
@@ -613,12 +629,32 @@
   </mx-popup>
   <!-- 改版：上下可视化end -->
 
+  <!-- 改版：T1T3上下风向可视化start -->
+  <mx-popup show="{{showT1T3UpDownPopup}}" z-index="10001" position="bottom" round custom-style="height: 26%;" bind:close="hidePopup" catchtouchmove="preventTouchMove">
+    <view class="flex-c jc-center al-center direct-popup-title-wrap">
+      <text class="popup-title">
+        上下定向
+      </text>
+      <view class="flex-r jc-space-between wind-direct-popup">
+        <view class="flex-c jc-center al-center" wx:for="{{T1T3UdAngle}}" bindtap="bottomUpdownWind" data-item="{{item}}" wx:key="index">
+          <image style="width: 96rpx; height: 96rpx;" src="{{acNewStatus.upDownAngle == item.angle ?  item.clickImg[acStatus.mode] : item.img}}"></image>      
+          <!-- acStatus.mode -->
+        </view>
+      </view>
+    </view>
+    <view class="popup-bottom-btn flex-c jc-center al-center" bindtap="hidePopup">
+      <text class="popup-title-switch">完成</text>
+    </view>
+  </mx-popup>
+  <!-- 改版：T1T3上下可视化end -->
+
   <!-- 改版：左右风道 上下风向可视化start -->
   <mx-popup show="{{showUpDownAngleLrPopup}}" z-index="10001" position="bottom" round custom-style="" bind:close="hidePopup" catchtouchmove="preventTouchMove">
     <view class="flex-c jc-center al-center direct-popup-title-wrap">
       <text class="popup-title">
         上下定向
       </text>
+      <view class="wind-side-wrap">
       <view class="direct-titile">
         <text class="direct-title-text">左风道</text>
       </view>
@@ -630,6 +666,8 @@
           <!-- acStatus.mode -->
         </view>
       </view>
+      </view>
+      <view class="wind-side-wrap">
       <view class="direct-titile">
         <text class="direct-title-text">右风道</text>
       </view>
@@ -641,6 +679,7 @@
           <!-- acStatus.mode -->
         </view>
       </view>
+    </view>
     </view>
     <view class="popup-bottom-btn flex-c jc-center al-center" bindtap="hidePopup">
       <text class="popup-title-switch">完成</text>
@@ -734,7 +773,7 @@
   <mx-popup show="{{showQuickFryWindPop}}" z-index="10001" position="bottom" round custom-style="height: 50%;padding:10px 5px 10px 5px;" bind:close="hidePopup">
     <view style="width: 100%;margin-bottom: 35rpx; padding-bottom: 35rpx; border-bottom: 1px solid #e5e5e8;" class="flex-c jc-center al-center">
       <text class="popup-title">
-        设置快摆风向
+        设置爆炒摆风
       </text>
     </view>
     <view class="bottom-mode">
@@ -764,6 +803,75 @@
       <text class="popup-title-switch">完成</text>
     </view>
   </mx-popup>
+
+  <!-- X空间空调爆炒弹窗 -->
+  <mx-popup show="{{showQuickFryWindPopCoolFree}}" z-index="10001" position="bottom" round custom-style="height: 50%;padding:10px 5px 10px 5px;" bind:close="hidePopup">
+    <view style="width: 100%;margin-bottom: 35rpx; padding-bottom: 35rpx; border-bottom: 1px solid #e5e5e8;" class="flex-c jc-center al-center">
+      <text class="popup-title">
+        设置爆炒摆风
+      </text>
+    </view>
+    <view class="bottom-mode">
+      <view class="kitchen-wind-box">
+        <view class="tips">快摆角度固定30°，可整体上下调节</view>
+        <view class="kitchen-main-cf">
+          <view class="top-device">
+            <image src="../assets/t0ac/cool-free-quickfry-device.png"></image>
+          </view>
+          <view class="wind">
+            <!-- <image class="wind-bg" src="{{imageDoamin + 'plugin/0xAC/'+'wind_area_bg.png'}}"></image> -->
+            <image style="transform: {{'rotate(' + (-((100-quickFryValue)*0.74 - 10)) +'deg)'}}" class="wind-area" src="../assets/t0ac/cool-free-wind-area-bg.png"></image>
+          </view>
+        </view>
+        <view class="row-silder-item flex-r jc-center" style="margin-bottom: 70rpx;margin-top: 20rpx;">
+          <view style="width: 80%;">
+            <mx-slider value="{{100-quickFryValue}}" min="1" max="100" bind:change="onChangeQuickFryXarea" active-color="{{sliders.sliderColor[acStatus.mode]}}" data-item="{{100-quickFryValue}}" bind:drag="onDragQuickFryArea"></mx-slider>
+            <view class="kitchen-slider-text">
+              <text>最下</text>
+              <text>最上</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="popup-bottom-btn flex-c jc-center al-center" bindtap="hidePopup">
+      <text class="popup-title-switch">完成</text>
+    </view>
+  </mx-popup>
+
+
+  <!-- 改版：厨房空调内机防霉确认弹窗 start -->
+  <mx-popup show="{{showDryNewNamePop}}" z-index="10001" position="bottom" round custom-style="padding: 5px 20px 10px 20px;" bind:close="hideModePopup">
+    <view class="flex-c jc-center al-center direct-popup-title-wrap">
+      <text class="popup-title">
+        开启内机防霉
+      </text>
+    </view>
+    <view style="margin-top: 20px;">
+      <view class="flex-c jc-center al-center">
+        <view style="margin: 20rpx 0;width: 80%;" wx:for="{{DryKitchenContent}}" wx:key="index">
+          <view class="flex-r al-center" style="height: 120rpx;position: relative;right: 27px;">
+            <!-- <view class="dot"></view> -->
+            <view>
+              <view class="dot"></view>
+            </view>
+            <view>
+              <view class="self-clean-content">{{item.content}}</view>
+            </view>
+          </view>         
+        </view>
+      </view>
+      <view class="mode-bottom-btn flex-r jc-space-between al-center">
+        <view class="mode-bottom-btn-item flex-r jc-center al-center" bindtap="hidePopup">
+          <text>暂不开启</text>
+        </view>
+        <view class="mode-bottom-btn-item flex-r jc-center al-center" bindtap="switchXareaDry" style="border-left: 1rpx solid #E5E5E8;">
+          <text>确定开启</text>
+        </view>
+      </view>
+    </view>
+  </mx-popup>
+  <!-- 厨房空调内机防霉确认弹窗 end -->
 
 
   <!-- 主动防冷风 start -->
@@ -959,22 +1067,26 @@
 
 
 
+  
   <view class="self-action-sheet">
-    <mx-action-sheet description="请选择模式" confirmText="完成" show="{{ showModePopup && hasAuto }}" z-index="10001" bind:cancel="hideModePopup" bind:close="hideModePopup" bind:confirm="modeSelectConfirm" custom-style="height: 90%;">
-      <view class="item_content {{bottomModeBtn > 4 ? 'action-sheet-demo-height' : 'action-sheet-demo-height-no-auto'}}">
+    <mx-action-sheet description="请选择模式" confirmText="完成" show="{{ showModePopup && hasAuto }}" z-index="10001" bind:cancel="hideModePopup" bind:close="hideModePopup" bind:confirm="modeSelectConfirm" catchtouchmove="preventTouchMove">
+      <view class="item_content {{bottomModeBtn.length > 4 ? 'action-sheet-demo-height' : 'action-sheet-demo-height-no-auto'}}">
         <view class="item" wx:for="{{bottomModeBtn}}" wx:key="index" data-index="{{index}}" data-selected="{{modePopupMode == item.id}}">
+          <view class="tab-area" data-item="{{item}}" bindtap="bottomModeBtn"></view>
           <mx-cell-group inset custom-class="{{(modePopupMode == item.id && !acstatus.manualDryFunc && !acstatus.smartDryFunc) ?(modePopupMode == 'heat' ? 'custom-border3-class' : 'custom-border-class'):'custom-borderless-class' }}">
-            <mx-cell data-item="{{item}}" bindtap="bottomModeBtn" customStyle="background:#f9f9f9" center imageSize="32" title="{{item.text}}" label="{{item.explain}}" icon="{{modePopupMode == item.id && !acstatus.manualDryFunc && !acstatus.smartDryFunc ? item.clickImg : item.img}}" border="{{ false }}" />
+            <mx-cell customStyle="background:#f9f9f9" center imageSize="32" title="{{item.text}}" label="{{item.explain}}" icon="{{modePopupMode == item.id && !acstatus.manualDryFunc && !acstatus.smartDryFunc ? item.clickImg : item.img}}" border="{{ false }}" />
           </mx-cell-group>
         </view>
       </view>
     </mx-action-sheet>
   </view>
+  
 
 
-  <mx-action-sheet description="请选择模式" confirmText="完成" show="{{ showModePopup && !hasAuto }}" z-index="10001" bind:cancel="hideModePopup" bind:close="hideModePopup" bind:confirm="modeSelectConfirm" custom-style="height: 90%;">
-    <view class="item_content action-sheet-demo-height-no-auto">
-      <view class="item" wx:for="{{bottomModeBtnNoAuto}}" wx:key="index" data-index="{{index}}" data-selected="{{modePopupMode == item.id}}" data-item="{{item}}" bindtap="bottomModeBtn">
+  <mx-action-sheet description="请选择模式" confirmText="完成" show="{{ showModePopup && !hasAuto }}" z-index="10001" bind:cancel="hideModePopup" bind:close="hideModePopup" bind:confirm="modeSelectConfirm" custom-style="height: 90%;" catchtouchmove="preventTouchMove">
+    <view class="item_content action-sheet-demo-height-no-auto">      
+      <view class="item" wx:for="{{bottomModeBtnNoAuto}}" wx:key="index" data-index="{{index}}" data-selected="{{modePopupMode == item.id}}">
+        <view class="tab-area" data-item="{{item}}" bindtap="bottomModeBtn"></view>
         <mx-cell-group inset custom-class="{{modePopupMode == item.id ?(modePopupMode == 'heat' ? 'custom-border3-class' : 'custom-border-class'):'custom-borderless-class' }}">
           <mx-cell customStyle="background:#f9f9f9" center imageSize="32" title="{{item.text}}" label="{{item.explain}}" icon="{{modePopupMode == item.id ? item.clickImg : item.img}}" border="{{ false }}" />
         </mx-cell-group>

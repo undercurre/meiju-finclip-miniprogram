@@ -3147,6 +3147,27 @@ const SNFuncMatch = {
             FuncType.isCoolFree, // 酷风
         ]
     },
+    COOLFREE_Rada: {
+      sn: "96699",
+      func: [
+          FuncType.ModeControl, // 模式控制     
+          // FuncType.UpDownSwipeWind,        
+          // FuncType.UpDownWindAngle,//风向可视化（上下摆风角度）
+          // FuncType.LeftRightSwipeWind,
+          // FuncType.LeftRightWindAngle,//风向可视化（左右摆风角度）                                              
+          FuncType.ElectricHeat, // 电辅热            
+          FuncType.CoolFreeDry, //          
+          // FuncType.SelfCleaning, //
+          // FuncType.Supercooling,// 智控温
+          FuncType.AppointmentSwitchOff, // 定时关     
+          FuncType.CoolFreeSleep, // 睡眠     
+          FuncType.CoolFreeStrong, // 强劲                 
+          FuncType.Dot5Support,
+          FuncType.NoPolar,
+          FuncType._16Support,         
+          FuncType.isCoolFree, // 酷风
+      ]
+  },
     W11_BLE: {
         sn: "20087/20085/Z1926/F9025",
         func: [
@@ -3688,6 +3709,27 @@ const SNFuncMatch = {
         FuncType.SafeMode, // 数字遥控器特有功能
     ]
   },
+  X_AREA: {
+    sn: "93209/93221", // x空间厨房空调
+    func: [
+        FuncType.ModeControl, // 模式控制    
+        FuncType.UpDownSwipeWind, // 上下风
+        FuncType.UpDownWindAngle, // 风向可视化（上下摆风角度）  
+        FuncType.LeftRightSwipeWind, // 左右风              
+        FuncType.LeftRightWindAngle,// 风向可视化（左右摆风角度） 
+        // FuncType.coolFreeKitchenWindDirect,
+        FuncType.DryNewNameKitchen, // 内机防霉
+        FuncType.FilterClean, // 滤网清洗和复位      
+        FuncType.SelfCleaning,                           
+        FuncType.NoPolar,
+        FuncType.Dot5Support,
+        FuncType._16Support,
+        FuncType.PrepareFood,
+        FuncType.QuickFry,
+        FuncType.UpDownSwipeWindKit,
+        FuncType.useCoolFreeKitchen,        
+    ]
+  },  
   KQ1_D1_BLE: {
     sn: "F1173/F1171", // N8KQ1-D1
     func: [
@@ -3961,6 +4003,7 @@ _DX1_1:{
       FuncType.ThNowindFeelLeft, // 左无风感      
       FuncType.ThNowindFeelRight, // 右无风感
       FuncType.SelfCleaning, // 智清洁
+      FuncType.QuickCoolHeat, // 速冷热
       FuncType.DryNewName, // 干燥  
       FuncType.ElectricHeat, // 电辅热    
       FuncType.Supercooling, // 智控温
@@ -3979,7 +4022,7 @@ _DX1_1:{
     ]
   },
   T1_OFFLINE_VOICE_BLE: {
-    sn: "51663", // KFR-72L/T5 KFR-72L/T5[Y]
+    sn: "51663/51665/Z1652", // KFR-72L/T5 KFR-72L/T5[Y]
     func: [
       FuncType.ModeWithNoAuto, // 模式控制    
       FuncType.UpDownSwipeWind, // 左右分区，上下摆风   
@@ -3989,12 +4032,16 @@ _DX1_1:{
       FuncType.ECO, // ECO         
       FuncType.ThNowindFeelLeft, // 左无风感      
       FuncType.ThNowindFeelRight, // 右无风感
+      FuncType.AcDegerming, // 空调除菌
+      FuncType.QuickCoolHeat, // 速冷热
       FuncType.SelfCleaning, // 智清洁
       FuncType.DryNewName, // 干燥  
       FuncType.ElectricHeat, // 电辅热    
+      FuncType.Supercooling, // 智控温
+      FuncType.ThLight, // 灯光
       FuncType.KeepWet, // 保湿
       FuncType.BackWarmRemoveWet, // 回温除湿
-      FuncType.Degerming, // 除菌
+      FuncType.Degerming, // 除菌      
       FuncType.Dot5Support,
       FuncType.NoPolar,
       FuncType._16Support,
@@ -4063,6 +4110,7 @@ _DX1_1:{
       FuncType.SelfCleaning, // 智清洁      
       FuncType.Dry, // 干燥
       FuncType.Supercooling, // 智控温         
+      FuncType.Quietness, // 静眠
       FuncType.ElectricHeat, // 电辅热    
       FuncType.PowerManager, // 电量查询     
       FuncType.CoolPowerSaving, // 酷省         
@@ -4271,7 +4319,7 @@ _DX1_1:{
       FuncType.ElectricHeat, // 电辅热
       FuncType.Degerming, // 除菌
       FuncType.Supercooling, // 智控温   
-      FuncType.Quietness, // 静眠
+      FuncType.Quietness, // 静眠 // 制热、制冷能开
       FuncType.PowerManager, // 电量查询     
       FuncType.QuickCoolHeat, // 速冷热
       FuncType.LoopFan, // 循环扇
@@ -4555,6 +4603,7 @@ _DX1_1:{
       FuncType.ECO, // ECO   
       FuncType.CSEco,  // 舒省                                           
       FuncType.SelfCleaning, // 智清洁,   
+      FuncType.Quietness, // 静眠 // 只有制冷能开
       FuncType.Dry, // 干燥                    
       FuncType.UpDownWindBlowing,//上下防直吹                                    
       FuncType.Supercooling,//智控温   
@@ -4566,7 +4615,70 @@ _DX1_1:{
       FuncType.InitWifi, // 数字遥控器特有功能
       FuncType.SafeMode, // 数字遥控器特有功能 
     ]
-  }
+  },
+  // G5019 N8JD1
+  N8XY1_3: {
+    sn: "F1317", //KFR-51L/N8HB1 /KFR-72L/N8HB1
+    func: [    
+      FuncType.ModeControl, // 模式控制      
+      FuncType.UpDownSwipeWind, // 上下风
+      FuncType.UpDownWindAngle,//风向可视化（上下摆风角度）
+      FuncType.LeftRightSwipeWind,
+      FuncType.LeftRightWindAngle,//风向可视化（左右摆风角度）
+      FuncType.ElectricHeat, // 电辅热             
+      FuncType.Supercooling, // 智控温
+      FuncType.ECO, // ECO      
+      FuncType.Dry,
+      FuncType.WindBlowing,
+      FuncType.SelfCleaning, // 自清洁  
+      FuncType.Dot5Support,
+      FuncType.NoPolar,
+      FuncType._16Support
+    ]
+  },
+  MQ1_1_GUA_BLE: {
+    sn: "13193/13191/Z1651", //KFR-26GW/MQ1-1 KFR-35GW/MQ1-1
+    func: [    
+      FuncType.ModeControl, // 模式控制          
+      FuncType.UpDownSwipeWind, // 上下风
+      FuncType.UpDownWindAngle,//风向可视化（上下摆风角度）
+      FuncType.LeftRightSwipeWind,
+      FuncType.LeftRightWindAngle,//风向可视化（左右摆风角度）
+      FuncType.ElectricHeat, // 电辅热             
+      FuncType.Supercooling, // 智控温
+      FuncType.ECO, // ECO      
+      FuncType.Dry,
+      FuncType.WindBlowing, // 防直吹
+      FuncType.PowerManager, // 电量查询
+      FuncType.SelfCleaning, // 自清洁  
+      FuncType.Dot5Support,
+      FuncType.NoPolar,
+      FuncType._16Support,
+      FuncType.BleControl, // 数字遥控器特有功能
+      FuncType.InitWifi, // 数字遥控器特有功能
+      FuncType.SafeMode, // 数字遥控器特有功能 
+    ]
+  },
+  // N8TY1-P1
+  N8TY1_P1: {
+    sn: "F1329", //KFR-26GW/MQ1-1 KFR-35GW/MQ1-1
+    func: [    
+      FuncType.ModeControl, // 模式控制          
+      FuncType.UpDownSwipeWind, // 上下风
+      FuncType.UpDownWindAngle,//风向可视化（上下摆风角度）
+      FuncType.LeftRightSwipeWind,
+      FuncType.LeftRightWindAngle,//风向可视化（左右摆风角度）
+      FuncType.ElectricHeat, // 电辅热             
+      FuncType.Supercooling, // 智控温
+      FuncType.ECO, // ECO   
+      FuncType.CSEco, // 舒省         
+      FuncType.WindBlowing, // 防直吹
+      FuncType.SelfCleaning, // 自清洁  
+      FuncType.Dot5Support,
+      FuncType.NoPolar,
+      FuncType._16Support,     
+    ]
+  },
 };
 //公用功能
 const FuncDefault = [    
@@ -4578,7 +4690,7 @@ const FuncDefault = [
 ];
 
 
-const OrderMap = ['LoopFan','CleanFunc', 'KeepWet' , 'BackWarmRemoveWet','CoolPowerSaving','ECO','CSEco','Supercooling','ThLight','Show','Sound', 'NewSound','ElectricHeat', 'Degerming','Dry', 'CoolFreeDry', 'DryNewName'] // 此顺序定义其他按钮中的按钮顺序
+const OrderMap = ['LoopFan','CleanFunc', 'KeepWet' , 'BackWarmRemoveWet','CoolPowerSaving','ECO','CSEco','Supercooling','ThLight','Show','Sound', 'NewSound','ElectricHeat', 'Degerming', 'coolFreeKitchenWindDirect', 'Dry', 'CoolFreeDry', 'DryNewName'] // 此顺序定义其他按钮中的按钮顺序
 
 const FuncCoolFreeDefault = [
     // FuncType.ElectricHeat, 
