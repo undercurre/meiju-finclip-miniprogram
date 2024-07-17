@@ -313,6 +313,24 @@ const LuaMapCoolFree = {
     isStandardProto: false,
     value: 'automaticAntiColdAir',
     key: {}
+  },
+  // coolFreeCosySleep
+  "energy_save": {
+    isStandardProto: true,
+    value: 'coolFreeCosySleep',
+    key: {
+      'on': 1,
+      'off': 0
+    }
+  },
+  // coolFreeStrong
+  "strong_wind": {
+    isStandardProto: true,
+    value: 'coolFreeStrong',
+    key: {
+      'on': 1,
+      'off': 0
+    }
   }
 };
 

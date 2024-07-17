@@ -1533,7 +1533,7 @@ const FuncType = {
       metaType: FuncMetaType.HardDriver,
       protocolVersion: ProtocolVersion.attribute,
       luaKey: "",
-      CMD: CMD.KEEPWET,
+      CMD: CMD.BACKWARMREMOVEWET,
       btnType:"other"   
     },
     ThNowindFeelLeft: {
@@ -1585,7 +1585,7 @@ const FuncType = {
       metaType: FuncMetaType.HardDriver,
       protocolVersion: ProtocolVersion.attribute,
       luaKey: "right_lr_wind_angle,left_lr_wind_angle",
-      CMD: CMD.UPDOWNANGLE,
+      CMD: CMD.LEFTRIGHTANGLE,
       btnType:"lrSwipeDirect"
     },
     ElecHeatType: {
@@ -1601,6 +1601,7 @@ const FuncType = {
       metaType: FuncMetaType.HardDriver,
       protocolVersion: ProtocolVersion.attribute,
       luaKey: "light",
+      CMD: CMD.THLIGHT,
       btnType:"other"
     },
     UpWindBlowing:{
@@ -1732,7 +1733,46 @@ const FuncType = {
       luaKey: "",
       btnType: "fixed"
     },
-
+    AcDegerming:{
+      name: "空调",
+      value: 1013,
+      metaType: FuncMetaType.HardDriver,
+      protocolVersion: ProtocolVersion.attribute,
+      luaKey: "air_remove_odor",
+      CMD: CMD.ACDEGERMING,
+      btnType: "cell"
+  },
+  useCoolFreeKitchen: {
+    name: "x空间",
+    value: 1014,
+    metaType: FuncMetaType.Other,
+    protocolVersion: ProtocolVersion.standard,
+    luaKey: ""
+  },
+  coolFreeKitchenWindDirect: {
+    name: "x空间风向",
+    value: 1015,
+    metaType: FuncMetaType.HardDriver,
+    protocolVersion: ProtocolVersion.standard,
+    luaKey: "",
+    btnType: "cell",
+  },
+  CoolFreeSleep: {
+    name: "酷风睡眠",
+    value: 1016,
+    metaType: FuncMetaType.HardDriver,
+    protocolVersion: ProtocolVersion.standard,
+    luaKey: "",
+    btnType: "other",
+  },
+  CoolFreeStrong: {
+    name: "酷风强劲",
+    value: 1017,
+    metaType: FuncMetaType.HardDriver,
+    protocolVersion: ProtocolVersion.standard,
+    luaKey: "",
+    btnType: "other",
+  }
     
 };
 
@@ -1810,6 +1850,7 @@ const FuncOrder = {
             FuncType.AirQualityReport,
             FuncType.WindBlowingDA400,
             FuncType.Degerming,
+            FuncType.AcDegerming,
             FuncType.CoolPowerSaving,
             FuncType.CoolPowerSavingNewName,
             FuncType.MessageRemind,
@@ -1831,6 +1872,7 @@ const FuncOrder = {
         ],
         noneControlFunc: [        
             FuncType.useNorthWarm,
+            FuncType.useCoolFreeKitchen,
             FuncType.useTH,    
             FuncType.isCoolFree,     
             FuncType.Dot5Support,
@@ -1868,6 +1910,7 @@ const FuncOrder = {
             FuncType.FaWindBlowing,
             FuncType.F11NoWindFeel, 
             FuncType.Degerming,
+            FuncType.AcDegerming,
             FuncType.AutomaticAntiColdAir,
             FuncType.XiaoMiSmartCurve,
             FuncType.MyXiaoMiBracelet,

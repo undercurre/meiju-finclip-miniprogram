@@ -1,9 +1,11 @@
 const app = getApp() //获取应用实例
+const constructionBleControlOrder = app.getGlobalConfig().constructionBleControlOrder
 const requestService = app.getGlobalConfig().requestService
 const rangersBurialPoint = app.getGlobalConfig().rangersBurialPoint
-import { getStamp } from 'm-utilsdk/index'
+const pluginBluetooth = require('./behaviors/bluetooth')
+import { getStamp,ab2hex } from 'm-utilsdk/index'
 
-import { getTimeRange, menuId, modeDesc } from './js/FB.js'
+import {getCheckNum, getTimeRange, menuId, modeDesc} from './js/FB.js'
 import { modeName, pickerType } from './js/FB'
 import MideaToast from '../component/media-toast/toast.js'
 import { parseComponentModel } from '../common/script/common'
@@ -17,10 +19,13 @@ import { Format } from '../assets/script/format'
 
 let deviceStatusTimer = null
 let deviceShutdownTimer = null
+let deviceDesktopCtrlTimer = null
 let isDebug = false
 let isLoading = false
 let productConfig = {}
+let controlOrder = 0
 Component({
+  behaviors: [pluginBluetooth],
   options: {
     multipleSlots: true, // 在组件定义时的选项中启用多slot支持
   },
@@ -28,6 +33,9 @@ Component({
     applianceData: Object,
   },
   data: {
+    systemInfo: {},
+    // 是否显示桌面设置指引
+    isShowDesktopCtrlTips: false,
     // 这两个模式，不显示头图中温度档位
     displayTempOffMode: ['nature_cool', 'idle'],
 
@@ -61,7 +69,7 @@ Component({
     },
     isInit: false,
     cardNormalHeight: '120',
-    deviceInfo: {
+    pageDeviceInfo: {
       isOnline: isDebug,
       isRunning: isDebug,
     },
@@ -97,6 +105,7 @@ Component({
       shake: undefined,
       udShake: undefined,
       coolWarm: undefined,
+      tableGear: {}
     },
     timedShutdownPickerColumns: {
       hours: [],
@@ -362,6 +371,17 @@ Component({
     // endregion
   },
   methods: {
+    // 显示或隐藏桌面设置指引
+    showDesktopCtrlTips(){
+      this.setData({
+        isShowDesktopCtrlTips: true
+      })
+    },
+    closeDesktopCtrlTips(){
+      this.setData({
+        isShowDesktopCtrlTips: false
+      })
+    },
     // region 2021.08.10 Ao
     noop() {},
     // region 跳转到美居下载页
@@ -375,25 +395,25 @@ Component({
     getProductConfig() {
       return new Promise((resolve, reject) => {
         let data = this.data
-        let deviceInfo = data.deviceInfo
-        deviceInfo.modelNumber = Number(deviceInfo.modelNumber)
+        let pageDeviceInfo = data.pageDeviceInfo
+        pageDeviceInfo.modelNumber = Number(pageDeviceInfo.modelNumber)
         let productModelNumber =
-          deviceInfo.modelNumber != 0
-            ? deviceInfo.modelNumber >= 10
-              ? '000000' + deviceInfo.modelNumber
-              : '0000000' + deviceInfo.modelNumber
-            : deviceInfo.sn8
+          pageDeviceInfo.modelNumber != 0
+            ? pageDeviceInfo.modelNumber >= 10
+              ? '000000' + pageDeviceInfo.modelNumber
+              : '0000000' + pageDeviceInfo.modelNumber
+            : pageDeviceInfo.sn8
 
-        if (deviceInfo.onlineStatus == Dict.onlineStatus.online) {
-          deviceInfo.isOnline = true
+        if (pageDeviceInfo.onlineStatus == Dict.onlineStatus.online) {
+          pageDeviceInfo.isOnline = true
         } else {
-          deviceInfo.isOnline = false
+          pageDeviceInfo.isOnline = false
           MideaToast('设备已离线，请检查网络状态')
         }
         let method = 'GET'
         let sendParams = {
-          applianceId: deviceInfo.applianceCode,
-          productTypeCode: deviceInfo.type,
+          applianceId: pageDeviceInfo.applianceCode,
+          productTypeCode: pageDeviceInfo.type,
           userId: data.uid,
           productModelNumber: productModelNumber,
           bigVer: requestParam.bigVer,
@@ -410,7 +430,7 @@ Component({
           .request(commonApi.sdaTransmit, sendParams, method)
           .then((res) => {
             console.log('获取产品配置')
-            console.log(deviceInfo)
+            console.log(pageDeviceInfo)
             console.log(res)
             // 设置页面功能
             let resData = null
@@ -424,12 +444,13 @@ Component({
             let temperatureSlider = data.temperatureSlider
             let timedShutdownPickerColumns = data.timedShutdownPickerColumns
             let quickDevJson = data.quickDevJson
+            let deviceStatus = data.deviceStatus
             let coolOrWarm = 0
             do {
               if (res.data.errorCode == 50300 || res.code == 1001) {
                 wx.redirectTo({
                   url:
-                    `/pages/unSupportDevice/unSupportDevice?backTo=/pages/index/index&deviceInfo=` +
+                    `/pages/unSupportDevice/unSupportDevice?backTo=/pages/index/index&pageDeviceInfo=` +
                     encodeURIComponent(JSON.stringify(this.properties.applianceData)),
                 })
                 break
@@ -443,6 +464,30 @@ Component({
               if (quickDevJson.para.length > 0) {
                 quickDevJson.para.forEach((item) => {
                   switch (item.key) {
+                    case Dict.functions.key.desktopCtrl:
+                      // 桌面设置
+                      controllerInfo.desktopCtrl = {
+                        isShow: true,
+                        buttonList: []
+                      }
+                      if(item.displayList&&item.valueList){
+                        let buttonList = []
+                        item.displayList.forEach((displayItem,index)=>{
+                          buttonList.push({
+                            name: displayItem,
+                            value: item.valueList[index]
+                          })
+                        })
+                        controllerInfo.desktopCtrl.buttonList = buttonList
+                      }
+                      // 建立蓝牙连接
+                      this.bluetoothConnect(this.data.pageDeviceInfo.btMac, this.data.systemInfo.platform)
+                      // console.log('页面数据: ',{
+                      //   pageDeviceInfo: JSON.stringify(this.properties.applianceData),
+                      //   systemInfo: res,
+                      // })
+
+                      break;
                     case Dict.functions.key.power:
                       // 开关
                       controllerInfo.switchBtn.isShow = true
@@ -450,7 +495,7 @@ Component({
                     case Dict.functions.key.mode:
                       // 模式
                       controllerInfo.modeBtn = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: 'normal',
                         iconUrl: imageDomain + '/0xFB/icon_zhire.png',
                       }
@@ -522,7 +567,7 @@ Component({
                     case Dict.functions.key.timeout:
                       // 定时
                       controllerInfo.timedShutdownBtn = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: {
                           hour: 0,
                           minute: 0,
@@ -579,7 +624,7 @@ Component({
                     case Dict.functions.key.gear:
                       // 档位
                       controllerInfo.gearButtons = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFB/icon-wind.png',
@@ -611,6 +656,33 @@ Component({
                         }
                       }
                       break
+                    case Dict.functions.key.tableGear:
+                      // 档位(电暖桌)
+                      if(item.displayList.length===item.valueList.length&&item.valueList.length===item.valueListBind.length){
+                        controllerInfo.tableGear = {
+                          isShow: true,
+                          title: item.name,
+                          gearList: [],
+                          iconUrl: imageDomain + '/0xFB/icon-wind.png',
+                        }
+                        let tableGearList = []
+                        item.displayList.forEach((tableGearItem,tableGearIndex)=>{
+                          let maxValue = item.valueListBind[tableGearIndex][item.valueListBind[tableGearIndex].length-1]
+                          let sliderConfig = {
+                            value: Number(item.valueListBind[tableGearIndex][0]),
+                            min: Number(item.valueListBind[tableGearIndex][0]),
+                            max: Number(maxValue)
+                          }
+                          tableGearList.push({
+                            name: tableGearItem,
+                            key: item.valueList[tableGearIndex],
+                            valueList: item.valueListBind[tableGearIndex],
+                            sliderConfig,
+                          })
+                        })
+                        controllerInfo.tableGear.gearList = tableGearList
+                      }
+                      break;
                     case Dict.functions.key.childLock:
                       // 童锁
                       childLockSwitch = parseComponentModel(data.childLockSwitch)
@@ -624,7 +696,7 @@ Component({
                     case Dict.functions.key.humidify:
                       // 加湿
                       controllerInfo.humidify = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFC/icon-humidify.png',
@@ -633,7 +705,7 @@ Component({
                     case Dict.functions.key.disinfect:
                       // 杀菌
                       controllerInfo.disinfect = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFB/icon_disinfect.png',
@@ -650,7 +722,7 @@ Component({
                     case Dict.functions.key.sound:
                       // 声音
                       controllerInfo.sound = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFC/icon-voiceOnOff.png',
@@ -659,7 +731,7 @@ Component({
                     case Dict.functions.key.shake:
                       // 左右摇头
                       controllerInfo.shake = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFA/kit-swing.png',
@@ -668,7 +740,7 @@ Component({
                     case Dict.functions.key.udShake:
                       // 上下摇头
                       controllerInfo.udShake = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFB/icon_udSwing.png',
@@ -677,7 +749,7 @@ Component({
                     case Dict.functions.key.screenDisplay:
                       // 屏幕显示
                       controllerInfo.screenDisplay = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFB/icon_display.png',
@@ -686,12 +758,12 @@ Component({
                     case Dict.functions.key.fireLight:
                       // 氛围灯
                       controllerInfo.fireLight = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFA/kit-display-on-off.png',
                       }
-                      if (item.valueList && item.valueList.length > 0) {
+                      if (item.valueList && item.valueList.length > 0 && item.displayList&&item.displayList.length===item.valueList.length) {
                         let fireLightList = []
                         item.valueList.forEach((t, index) => {
                           fireLightList.push({
@@ -706,7 +778,7 @@ Component({
                     case Dict.functions.key.coldAndWarm:
                       // 冷暖
                       controllerInfo.coldAndWarm = {
-                        isShow: isDebug,
+                        isShow: true,
                         value: undefined,
                         label: '--',
                         iconUrl: imageDomain + '/0xFB/icon-wind.png',
@@ -772,7 +844,7 @@ Component({
                 if (res.data.errorCode == 50300 || res.code == 1001) {
                   wx.redirectTo({
                     url:
-                      `/pages/unSupportDevice/unSupportDevice?backTo=/pages/index/index&deviceInfo=` +
+                      `/pages/unSupportDevice/unSupportDevice?backTo=/pages/index/index&pageDeviceInfo=` +
                       encodeURIComponent(JSON.stringify(this.properties.applianceData)),
                   })
                   break
@@ -794,7 +866,7 @@ Component({
     dataInit(newDeviceStatus) {
       let currentProtocolVersion = newDeviceStatus?.version
       let data = this.data
-      let deviceInfo = data.deviceInfo
+      let pageDeviceInfo = data.pageDeviceInfo
       let controllerInfo = data.controllerInfo
       let functionIsDisabled = data.functionIsDisabled
       let deviceStatus = data.newDeviceStatus
@@ -808,12 +880,12 @@ Component({
       let humidifySwitch = parseComponentModel(data.humidifySwitch)
       let shakeSwitch = parseComponentModel(data.shakeSwitch)
       let udShakeSwitch = parseComponentModel(data.udShakeSwitch)
-      if (deviceInfo.onlineStatus == Dict.onlineStatus.online) {
-        deviceInfo.isOnline = true
+      if (pageDeviceInfo.onlineStatus == Dict.onlineStatus.online) {
+        pageDeviceInfo.isOnline = true
         controllerInfo.switchBtn.disabled = false
         childLockSwitch.disabled = false
       } else {
-        deviceInfo.isOnline = false
+        pageDeviceInfo.isOnline = false
         controllerInfo.switchBtn.disabled = true
         childLockSwitch.disabled = true
       }
@@ -833,7 +905,7 @@ Component({
           if (newDeviceStatus.power === DeviceFunctionConfig.power.on) {
             controllerInfo.timedShutdownBtn.value.hour = newDeviceStatus.timer_off_hour
             controllerInfo.timedShutdownBtn.value.minute = newDeviceStatus.timer_off_minute
-            deviceInfo.isRunning = true
+            pageDeviceInfo.isRunning = true
             // 定时关
             hour = parseDeviceConfig({
               type: 'timer',
@@ -846,7 +918,7 @@ Component({
           } else {
             controllerInfo.timedShutdownBtn.value.hour = newDeviceStatus.timer_on_hour
             controllerInfo.timedShutdownBtn.value.minute = newDeviceStatus.timer_on_minute
-            deviceInfo.isRunning = false
+            pageDeviceInfo.isRunning = false
             // 定时开
             hour = parseDeviceConfig({
               type: 'timer',
@@ -869,9 +941,9 @@ Component({
             controllerInfo.timedShutdownBtn.label = hour + ':' + minute
           } while (false)
         }
-        // 设备温度
-        deviceInfo.curTemperature = newDeviceStatus.cur_temperature > 35 ? 35 : newDeviceStatus.cur_temperature
-        deviceInfo.temperature = newDeviceStatus.temperature
+        // region 设备温度
+        pageDeviceInfo.curTemperature = newDeviceStatus.cur_temperature > 35 ? 35 : newDeviceStatus.cur_temperature
+        pageDeviceInfo.temperature = newDeviceStatus.temperature
         temperatureSlider.currentValue = newDeviceStatus.temperature
         if (deviceLabel.temp[newDeviceStatus.mode]) {
           controllerInfo.temperatureSlider = {
@@ -894,26 +966,27 @@ Component({
         } else {
           controllerInfo.temperatureSlider = undefined
         }
-        switch (deviceInfo.temperature) {
+        switch (pageDeviceInfo.temperature) {
           case 128:
           case -41:
           case 87:
             // 设置温度无效
-            deviceInfo.isInvalid = true
+            pageDeviceInfo.isInvalid = true
             controllerInfo.temperatureSlider = undefined
             break
         }
-        switch (deviceInfo.curTemperature) {
+        switch (pageDeviceInfo.curTemperature) {
           case 128:
           case -41:
           case 87:
             // 设置温度无效
-            deviceInfo.isInvalid = true
-            deviceInfo.curTemperature = undefined
+            pageDeviceInfo.isInvalid = true
+            pageDeviceInfo.curTemperature = undefined
             break
         }
-        // 设备模式
-        let newMode = (deviceInfo.modeValue = parseDeviceConfig({
+        // endregion
+        // region 设备模式
+        let newMode = (pageDeviceInfo.modeValue = parseDeviceConfig({
           type: 'mode',
           value: newDeviceStatus.mode,
           sn8: this.properties.applianceData.sn8,
@@ -924,14 +997,14 @@ Component({
             item.isActive = false
             for (let j = 0; j < item.modeList.length; j++) {
               const element = item.modeList[j]
-              if (element.value === deviceInfo.modeValue) {
+              if (element.value === pageDeviceInfo.modeValue) {
                 currentCoolOrWarmIndex = i
                 item.isActive = true
               }
             }
           }
         }
-        if (deviceInfo.modeValue.includes(DeviceFunctionConfig.mode.circulate)) {
+        if (pageDeviceInfo.modeValue.includes(DeviceFunctionConfig.mode.circulate)) {
           // 循环模式无档位
           modeHasNoGear = true
           mainTitle = '循环中'
@@ -941,7 +1014,7 @@ Component({
         }
         deviceLabel.mode.forEach((item) => {
           if (item.value === newMode) {
-            modeBtn.rightWrapper.text.content = deviceInfo.mode = item.label + '模式'
+            modeBtn.rightWrapper.text.content = pageDeviceInfo.mode = item.label + '模式'
             if (controllerInfo.modeBtn) {
               controllerInfo.modeBtn.value = item.value
               controllerInfo.modeBtn.iconUrl = DeviceFunctionConfig.getModeIcon({
@@ -952,7 +1025,20 @@ Component({
             }
           }
         })
-        // 设备档位
+        // 仅加湿模式不能摇头(5706671K)
+        if(pageDeviceInfo.sn8==='5706671K'){
+          switch (newDeviceStatus.mode) {
+            case 'idle_mode':
+              controllerInfo.shake.disabled = true
+              break;
+            default:
+              controllerInfo.shake.disabled = false
+              break;
+          }
+        }
+        // endregion
+
+        // region 设备档位
         if (controllerInfo.gearButtons) {
           controllerInfo.gearButtons.value = newDeviceStatus.gear
         }
@@ -1007,9 +1093,20 @@ Component({
             controllerInfo.gearButtons.isShow = false
           }
         }
+        // 电暖桌多区域档位赋值
+        // console.log('电暖桌多区域档位赋值',JSON.stringify(controllerInfo.tableGear,null,2))
+        if(controllerInfo.tableGear.isShow){
+          if(controllerInfo.tableGear.gearList&&controllerInfo.tableGear.gearList.length>0){
+            controllerInfo.tableGear.gearList.forEach((item,index)=>{
+              item.sliderConfig.value = newDeviceStatus[item.key]
+            })
+          }
+        }
+        // endregion
+
         // 设备童锁
         if (controllerInfo.childLock) {
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             childLockSwitch.isActive = true
           } else {
             childLockSwitch.isActive = false
@@ -1024,20 +1121,21 @@ Component({
             controllerInfo.childLock.value = false
           }
         }
-        for (let key in controllerInfo) {
-          if (controllerInfo[key] && key !== 'noticeBar' && key !== 'childLock') {
-            controllerInfo[key].isShow = !childLockSwitch.selected
-            if (key === 'switchBtn') {
-              controllerInfo[key].isShow = true
-              if (!deviceInfo.isRunning) {
-                controllerInfo[key].disabled = true
-                if (!childLockSwitch.selected) {
-                  controllerInfo[key].disabled = false
-                }
-              }
-            }
-          }
-        }
+        // 开关功能显隐禁用配置
+        // for (let key in controllerInfo) {
+        //   if (controllerInfo[key] && key !== 'noticeBar' && key !== 'childLock') {
+        //     // controllerInfo[key].isShow = true
+        //     if (key === 'switchBtn') {
+        //       // controllerInfo[key].isShow = true
+        //       if (!pageDeviceInfo.isRunning) {
+        //         controllerInfo[key].disabled = false
+        //         // if (!childLockSwitch.selected) {
+        //         //   controllerInfo[key].disabled = false
+        //         // }
+        //       }
+        //     }
+        //   }
+        // }
         // 冷暖风
         if (controllerInfo.coldAndWarm) {
           for (let i = 0; i < deviceLabel.coldAndWarmCtrlList.length; i++) {
@@ -1095,12 +1193,17 @@ Component({
         }
         // 声音
         if (controllerInfo.sound) {
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             soundSwitch.isActive = true
           } else {
             soundSwitch.isActive = false
           }
-          if (newDeviceStatus.voice === DeviceFunctionConfig.voice.openBuzzer) {
+          let openVoiceArr = [
+            DeviceFunctionConfig.voice.openGps,
+            DeviceFunctionConfig.voice.openBuzzer,
+            DeviceFunctionConfig.voice.openTip,
+          ]
+          if (openVoiceArr.includes(newDeviceStatus.voice)) {
             // 开启
             controllerInfo.sound.value = true
             soundSwitch.selected = true
@@ -1124,7 +1227,7 @@ Component({
         }
         // 屏幕显示
         if (controllerInfo.screenDisplay) {
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             screenDisplaySwitch.isActive = true
           } else {
             screenDisplaySwitch.isActive = false
@@ -1141,7 +1244,7 @@ Component({
         }
         // 加湿
         if (controllerInfo.humidify) {
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             humidifySwitch.isActive = true
           } else {
             humidifySwitch.isActive = false
@@ -1158,7 +1261,7 @@ Component({
         }
         // 氛围灯
         if (controllerInfo.fireLight) {
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             fireLightSwitch.isActive = true
           } else {
             fireLightSwitch.isActive = false
@@ -1185,7 +1288,7 @@ Component({
         }
         // 摇头/左右摇头
         if (controllerInfo.shake) {
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             shakeSwitch.isActive = true
           } else {
             shakeSwitch.isActive = false
@@ -1209,7 +1312,7 @@ Component({
         }
         // 上下摇头
         if (controllerInfo.udShake) {
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             udShakeSwitch.isActive = true
           } else {
             udShakeSwitch.isActive = false
@@ -1225,10 +1328,10 @@ Component({
           }
         }
       }
-      if (deviceInfo.isOnline) {
+      if (pageDeviceInfo.isOnline) {
         switchBtn.disabled = false
         timedShutdownBtn.disabled = false
-        if (deviceInfo.isRunning) {
+        if (pageDeviceInfo.isRunning) {
           modeBtn.disabled = false
         } else {
           modeBtn.disabled = true
@@ -1250,11 +1353,11 @@ Component({
       humidifySwitch = parseComponentModel(humidifySwitch)
       udShakeSwitch = parseComponentModel(udShakeSwitch)
       gearSlider = parseComponentModel(gearSlider)
-      console.log('deviceInfo')
-      console.log(deviceInfo)
+      // console.log('pageDeviceInfo')
+      // console.log(pageDeviceInfo)
       this.setData({
         controllerInfo,
-        deviceInfo,
+        pageDeviceInfo,
         modeBtn,
         switchBtn,
         timedShutdownBtn,
@@ -1281,11 +1384,11 @@ Component({
     // region 开关机
     switchDevice() {
       let data = this.data
-      let deviceInfo = data.deviceInfo
+      let pageDeviceInfo = data.pageDeviceInfo
       let childLockSwitch = parseComponentModel(data.childLockSwitch)
       let switchBtn = data.controllerInfo.switchBtn
       do {
-        if (!deviceInfo.isOnline) {
+        if (!pageDeviceInfo.isOnline) {
           MideaToast('设备已离线，请检查网络状态')
           break
         }
@@ -1303,14 +1406,14 @@ Component({
         isLoading = true
         let modeBtn = parseComponentModel(data.modeBtn)
         let controllerInfo = data.controllerInfo
-        if (deviceInfo.isRunning) {
+        if (pageDeviceInfo.isRunning) {
           // 关机
-          deviceInfo.isRunning = false
+          pageDeviceInfo.isRunning = false
           controllerInfo.switchBtn.value = false
           modeBtn.disabled = true
         } else {
           // 开机
-          deviceInfo.isRunning = true
+          pageDeviceInfo.isRunning = true
           controllerInfo.switchBtn.value = true
           modeBtn.disabled = false
         }
@@ -1334,7 +1437,7 @@ Component({
             modeBtn = parseComponentModel(modeBtn)
             childLockSwitch = parseComponentModel(childLockSwitch)
             this.setData({
-              deviceInfo,
+              pageDeviceInfo,
               controllerInfo,
               modeBtn,
               childLockSwitch,
@@ -1358,7 +1461,7 @@ Component({
         UI.showLoading()
         setTimeout(() => {
           let data = this.data
-          let deviceInfo = data.deviceInfo
+          let pageDeviceInfo = data.pageDeviceInfo
           let deviceLabel = data.deviceLabel
           let timedShutdownPickerColumns = this.data.timedShutdownPickerColumns
           let pickerValue = timedShutdownPickerColumns.selectedValue
@@ -1370,7 +1473,7 @@ Component({
             timer_off_minute: 0,
           }
           let type = undefined
-          if (deviceInfo.isRunning) {
+          if (pageDeviceInfo.isRunning) {
             // 预约关机
             type = 'timer_off_hour'
           } else {
@@ -1403,9 +1506,9 @@ Component({
     // region 删除定时
     deleteTimedShutdown() {
       let data = this.data
-      let deviceInfo = data.deviceInfo
+      let pageDeviceInfo = data.pageDeviceInfo
       let type = undefined
-      if (deviceInfo.isRunning) {
+      if (pageDeviceInfo.isRunning) {
         // 删除定时关机
         type = 'timer_off_minute'
       } else {
@@ -1492,9 +1595,9 @@ Component({
     pickOnChange(e) {
       do {
         let data = this.data
-        let deviceInfo = data.deviceInfo
+        let pageDeviceInfo = data.pageDeviceInfo
         let timedShutdownPickerColumns = this.data.timedShutdownPickerColumns
-        if (!deviceInfo.isOnline) {
+        if (!pageDeviceInfo.isOnline) {
           break
         }
         let val = e.detail.value
@@ -1526,9 +1629,14 @@ Component({
     showTimedShutdownModal() {
       do {
         let data = this.data
-        let deviceInfo = data.deviceInfo
-        if (!deviceInfo.isOnline) {
+        let pageDeviceInfo = data.pageDeviceInfo
+        let controllerInfo = this.data.controllerInfo
+        if (!pageDeviceInfo.isOnline) {
           MideaToast('设备已离线，请检查网络状态')
+          break
+        }
+        if(!pageDeviceInfo.isRunning&&controllerInfo.desktopCtrl&&controllerInfo.desktopCtrl.isShow){
+          // MideaToast('设备不支持定时开机')
           break
         }
         this.setData({
@@ -1593,13 +1701,13 @@ Component({
       } while (false)
     },
     showSelectModeModal() {
-      let deviceInfo = this.data.deviceInfo
+      let pageDeviceInfo = this.data.pageDeviceInfo
       let modeBtn = parseComponentModel(this.data.modeBtn)
       do {
         if (modeBtn.disabled) {
           break
         }
-        if (!deviceInfo.isOnline) {
+        if (!pageDeviceInfo.isOnline) {
           MideaToast('设备已离线，请检查网络状态')
           break
         }
@@ -1616,11 +1724,11 @@ Component({
     // endregion
     // region 温度控制事件
     moveTemperature(event) {
-      let deviceInfo = this.data.deviceInfo
+      let pageDeviceInfo = this.data.pageDeviceInfo
       let temperatureModel = event.detail
       temperatureModel.currentValue = Math.floor(temperatureModel.currentValue)
-      deviceInfo.temperature = temperatureModel.currentValue
-      this.setData({ deviceInfo })
+      pageDeviceInfo.temperature = temperatureModel.currentValue
+      this.setData({ pageDeviceInfo })
     },
     changeTemperatureValue(event) {
       let temperatureModel = event.detail
@@ -1670,9 +1778,9 @@ Component({
     selectGear(event) {
       return new Promise((resolve, reject) => {
         do {
-          let deviceInfo = this.data.deviceInfo
+          let pageDeviceInfo = this.data.pageDeviceInfo
           let controllerInfo = this.data.controllerInfo
-          if (!deviceInfo.isRunning) {
+          if (!pageDeviceInfo.isRunning) {
             MideaToast('设备已离线，请检查网络状态')
             break
           }
@@ -1693,7 +1801,7 @@ Component({
               gear: value,
               mode: parseDeviceConfig({
                 type: 'mode',
-                value: deviceInfo.modeValue,
+                value: pageDeviceInfo.modeValue,
                 sn8: this.properties.applianceData.sn8,
               }),
             },
@@ -1711,11 +1819,106 @@ Component({
         } while (false)
       })
     },
+    // 改变档位(电暖桌)
+    onMoveTableGear(event){
+      console.log('拖动档位',event)
+      let controllerInfo = this.data.controllerInfo
+      let gearIndex = event.currentTarget.dataset.index
+      controllerInfo.tableGear.gearList[gearIndex].sliderConfig.value = event.detail.value
+      this.setData({controllerInfo})
+    },
+    onChangeTableGear(event){
+      console.log('改变档位',event)
+      let controllerInfo = this.data.controllerInfo
+      let gearIndex = event.currentTarget.dataset.index
+      controllerInfo.tableGear.gearList[gearIndex].sliderConfig.value = event.detail
+      this.setData({controllerInfo})
+      let gearKey = event.currentTarget.dataset.item.key
+      let gearValue = event.detail
+      let controlParams = {}
+      controlParams[gearKey] = gearValue
+      UI.showLoading()
+      this.clearDeviceStatusInterval()
+      this.requestControl({
+        control: controlParams
+      }).then(res=>{
+        this.dataInit(res.data.data.status)
+        UI.hideLoading()
+        this.deviceStatusInterval()
+      }).catch(err=>{
+        UI.hideLoading()
+        this.deviceStatusInterval()
+      })
+    },
+    // 桌面设置
+    onTouchDesktopControlStart(event){
+      console.log('点击桌面设置开始',event)
+      deviceDesktopCtrlTimer = setTimeout(()=>{
+        let controlItem = event.currentTarget.dataset.item
+        console.log('点击桌面设置指定项',controlItem)
+        // 清除定时器
+        this.onTouchDesktopControlEnd()
+        // 发送蓝牙指令
+        let sendOrder = ()=>{
+          let controlHex = ''
+          if(controlOrder===255){
+            controlOrder = 0
+          } else {
+            controlOrder++
+          }
+          // controlOrder = controlOrder=255?0:controlOrder++
+          let hexControlOrder = controlOrder.toString(16).toUpperCase()
+          if(hexControlOrder.length===1){
+            hexControlOrder = '0'+(hexControlOrder||'0')
+          }
+          switch (controlItem.value) {
+            case 'up':
+              // 上升指令
+              controlHex = 'AA27FB00000000000002000000'+hexControlOrder+'0000000000000000000000000000000000000000000000000100'
+              break;
+            case 'down':
+              // 下降指令
+              controlHex = 'AA27FB00000000000002000000'+hexControlOrder+'0000000000000000000000000000000000000000000000000200'
+              break;
+          }
+          // 设置校验码
+          const checkNum = getCheckNum(controlHex)
+          controlHex = controlHex.slice(0,-2)+checkNum
+          console.log('桌面设置: ', {controlOrder,hexControlOrder,controlHex,checkNum})
+          if(controlHex){
+            let parsedData = constructionBleControlOrder(controlHex, app.globalData.bleSessionSecret)
+            this.data.currentOrder = ab2hex(parsedData)
+            this.getBLEDeviceServices(this.data.deviceInfo.deviceId, 'FF90')
+          } else {
+            UI.toast('未定义指令')
+          }
+        }
+        // 发送一次命令
+        sendOrder()
+        // 没停一直按着
+        deviceDesktopCtrlTimer = setInterval(()=>{
+          wx.vibrateLong({
+            fail: err=>{
+              console.error('震动调用失败: ',err)
+            }
+          })
+          sendOrder()
+        },400)
+      },2000)
+    },
+    onTouchDesktopControlEnd(event){
+      console.log('点击桌面设置结束',event)
+      if(deviceDesktopCtrlTimer){
+        clearTimeout(deviceDesktopCtrlTimer)
+        clearInterval(deviceDesktopCtrlTimer)
+        deviceDesktopCtrlTimer = null
+      }
+    },
     selectColdAndWarm(event) {
       return new Promise((resolve, reject) => {
         do {
-          let deviceInfo = this.data.deviceInfo
-          if (!deviceInfo.isRunning) {
+          let pageDeviceInfo = this.data.pageDeviceInfo
+          if (!pageDeviceInfo.isRunning) {
             MideaToast('设备已离线，请检查网络状态')
             break
           }
@@ -1747,9 +1950,9 @@ Component({
       })
     },
     selectCoolWarm(event) {
-      let deviceInfo = this.data.deviceInfo
+      let pageDeviceInfo = this.data.pageDeviceInfo
       const e = event.currentTarget.dataset.value
-      if (!deviceInfo.isRunning) {
+      if (!pageDeviceInfo.isRunning) {
         MideaToast('设备已离线，请检查网络状态')
         return
       }
@@ -1776,8 +1979,8 @@ Component({
     selectDisinfect(event) {
       return new Promise((resolve, reject) => {
         do {
-          let deviceInfo = this.data.deviceInfo
-          if (!deviceInfo.isRunning) {
+          let pageDeviceInfo = this.data.pageDeviceInfo
+          if (!pageDeviceInfo.isRunning) {
             MideaToast('设备已离线，请检查网络状态')
             break
           }
@@ -1810,8 +2013,8 @@ Component({
     selectFireLight(event) {
       return new Promise((resolve, reject) => {
         do {
-          let deviceInfo = this.data.deviceInfo
-          if (!deviceInfo.isRunning) {
+          let pageDeviceInfo = this.data.pageDeviceInfo
+          if (!pageDeviceInfo.isRunning) {
             MideaToast('设备已离线，请检查网络状态')
             break
           }
@@ -1849,8 +2052,8 @@ Component({
     confirmRepeatPick() {
       return new Promise((resolve, reject) => {
         do {
-          let deviceInfo = this.data.deviceInfo
-          if (!deviceInfo.isRunning) {
+          let pageDeviceInfo = this.data.pageDeviceInfo
+          if (!pageDeviceInfo.isRunning) {
             MideaToast('设备已离线，请检查网络状态')
             break
           }
@@ -1880,8 +2083,8 @@ Component({
     // endregion
     // region 童锁事件
     switchChildLock(event) {
-      let deviceInfo = this.data.deviceInfo
-      if (!deviceInfo.isOnline) {
+      let pageDeviceInfo = this.data.pageDeviceInfo
+      if (!pageDeviceInfo.isOnline) {
         MideaToast('设备已离线，请检查网络状态')
         return
       }
@@ -1922,7 +2125,8 @@ Component({
       let detail = event.detail
       let currentProtocolVersion = this.data.currentProtocolVersion
       let quickDevJson = this.data.quickDevJson
-      let deviceInfo = this.data.deviceInfo
+      let pageDeviceInfo = this.data.pageDeviceInfo
+      let deviceStatus = this.data.deviceStatus
       let control = {}
       let onOrder = quickDevJson.isSupportDiySwing
         ? DeviceFunctionConfig.shakeSwitch.normal
@@ -1931,6 +2135,16 @@ Component({
         case 'voice':
           control = {
             voice: detail.selected ? DeviceFunctionConfig.voice.openBuzzer : DeviceFunctionConfig.voice.closeBuzzer,
+          }
+          if(deviceStatus.voice===DeviceFunctionConfig.voice.openGps||deviceStatus.voice===DeviceFunctionConfig.voice.closeGps){
+            control = {
+              voice: detail.selected ? DeviceFunctionConfig.voice.openGps : DeviceFunctionConfig.voice.closeGps,
+            }
+          }
+          if(deviceStatus.voice===DeviceFunctionConfig.voice.openTip||deviceStatus.voice===DeviceFunctionConfig.voice.mute){
+            control = {
+              voice: detail.selected ? DeviceFunctionConfig.voice.openTip : DeviceFunctionConfig.voice.mute,
+            }
           }
           break
         case 'screen_close':
@@ -1970,7 +2184,7 @@ Component({
               ? DeviceFunctionConfig.humidification.noChange
               : DeviceFunctionConfig.humidification.off,
           }
-          if (deviceInfo.modeValue === DeviceFunctionConfig.mode.idle) {
+          if (pageDeviceInfo.modeValue === DeviceFunctionConfig.mode.idle) {
             control.mode = DeviceFunctionConfig.mode.warmHouse
           }
           break
@@ -2009,19 +2223,19 @@ Component({
     // endregion
     // region 更新设备状态
     updateStatus() {
-      let deviceInfo = this.data.deviceInfo
+      let pageDeviceInfo = this.data.pageDeviceInfo
       return new Promise((resolve, reject) => {
         requestService
           .request('luaGet', {
-            applianceCode: this.data.deviceInfo.applianceCode,
+            applianceCode: this.data.pageDeviceInfo.applianceCode,
             command: {},
             reqId: getStamp().toString(),
             stamp: getStamp(),
           })
           .then((res) => {
             do {
-              console.log('设备状态')
-              console.log(res.data.data)
+              // console.log('设备状态')
+              // console.log(res.data.data)
               if (res.data.code !== '0') {
                 if (res.code == 1307) {
                   break
@@ -2033,9 +2247,9 @@ Component({
               // 设置页面属性
               try {
                 this.dataInit(res.data.data)
-                // deviceInfo.onlineStatus = Dict.onlineStatus.online
+                // pageDeviceInfo.onlineStatus = Dict.onlineStatus.online
                 // this.setData({
-                //   deviceInfo,
+                //   pageDeviceInfo,
                 // })
               } catch (e) {
                 console.error(e)
@@ -2065,7 +2279,7 @@ Component({
             console.log(err)
             if (err && err.data && (err.data.code == '1307' || err.data.code == '40670')) {
               this.setData({
-                deviceInfo,
+                pageDeviceInfo,
                 _applianceData: {
                   onlineStatus: 0,
                   offlineFlag: true,
@@ -2285,11 +2499,11 @@ Component({
         control_params: JSON.stringify(command),
       }
       this.rangersBurialPointClick('plugin_button_click', params)
-      let deviceInfo = this.data.deviceInfo
+      let pageDeviceInfo = this.data.pageDeviceInfo
       return new Promise((resolve, reject) => {
         requestService
           .request('luaControl', {
-            applianceCode: deviceInfo.applianceCode,
+            applianceCode: pageDeviceInfo.applianceCode,
             command: command,
             reqId: getStamp().toString(),
             stamp: getStamp(),
@@ -2629,17 +2843,17 @@ Component({
     },
     // 埋点
     rangersBurialPointClick(eventName, param) {
-      let deviceInfo = this.data.deviceInfo
-      if (deviceInfo) {
+      let pageDeviceInfo = this.data.pageDeviceInfo
+      if (pageDeviceInfo) {
         let paramBurial = {}
         let paramBase = {
           module: '插件',
           apptype_name: '取暖器',
-          deviceInfo: {
-            widget_cate: deviceInfo.type,
-            sn8: deviceInfo.sn8,
-            a0: deviceInfo.modelNumber,
-            iot_device_id: deviceInfo.applianceCode,
+          pageDeviceInfo: {
+            widget_cate: pageDeviceInfo.type,
+            sn8: pageDeviceInfo.sn8,
+            a0: pageDeviceInfo.modelNumber,
+            iot_device_id: pageDeviceInfo.applianceCode,
           },
         }
         paramBurial = Object.assign(paramBase, param)
@@ -2649,29 +2863,32 @@ Component({
     // endregion
   },
   attached() {
-    // 获取设备高度
-    wx.getSystemInfo({
-      success: (res) => {
-        // 设置功能区域高度
-        let headerHeight = res.statusBarHeight + 40
-        let factor = res.screenWidth / 750
-        let mainHeight = 550 * factor
-        let marginHeight = 40 * factor
-        let controllerHeight = res.screenHeight - headerHeight - mainHeight - marginHeight - 35
-        this.setData({
-          controllerHeight: controllerHeight,
-        })
-      },
-      fail: (err) => {
-        console.error('设备信息')
-        console.error(err)
-      },
-    })
     const app = getApp()
-    let deviceInfo = this.data.deviceInfo
+    let pageDeviceInfo = this.data.pageDeviceInfo
     wx.nextTick(() => {
       do {
-        Object.assign(deviceInfo, this.properties.applianceData)
+        // 获取设备高度
+        wx.getSystemInfo({
+          success: (res) => {
+            // 设置功能区域高度
+            let headerHeight = res.statusBarHeight + 40
+            let factor = res.screenWidth / 750
+            let mainHeight = 550 * factor
+            let marginHeight = 40 * factor
+            let controllerHeight = res.screenHeight - headerHeight - mainHeight - marginHeight - 35
+            this.setData({
+              controllerHeight: controllerHeight,
+              systemInfo: res,
+            })
+
+          },
+          fail: (err) => {
+            console.error('设备信息')
+            console.error(err)
+          },
+        })
+        // 页面设备数据赋值
+        Object.assign(pageDeviceInfo, this.properties.applianceData)
         let userData = app.globalData.userData
         if (isDebug) {
           this.setData({
@@ -2686,7 +2903,7 @@ Component({
         this.setData({
           uid: app.globalData.userData.uid,
           _applianceData: this.properties.applianceData,
-          deviceInfo: deviceInfo,
+          pageDeviceInfo: pageDeviceInfo,
         })
         let param = {}
         param['page_name'] = '首页'
@@ -2735,5 +2952,11 @@ Component({
           })
       } while (false)
     })
+  },
+  detached() {
+    if (this.data.isOpenBluetoothAdapter) {
+      this.close()
+    }
+    controlOrder = 0
   },
 })

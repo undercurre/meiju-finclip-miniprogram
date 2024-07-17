@@ -232,7 +232,8 @@ Page({
         deviceSnFromDeviceInfo: cloudDecrypt(data.deviceInfo.sn, app.globalData.userData.key, appKey),
         connectedDevice: data.connectedDevice,
         isCoolFree: data.isCoolFree,
-        hasAuto: data.hasAuto
+        hasAuto: data.hasAuto,
+        isCoolFreeKitchen: data.isCoolFreeKitchen
       })     
       // if (that.data.deviceInfo.sn) {
       //   that.getSleepCurve();
@@ -266,9 +267,17 @@ Page({
             console.log('wifi moreFunc', data)   
             if(data.dust_full_time != undefined) {
               this.setData({
-                dustFullTime: data.dust_full_time == 1
+                // dustFullTime: data.dust_full_time == 1
+                dustFullTime: this.judgeDustFullTime(data?.dust_full_time,data?.fresh_filter_time)
               })       
             } 
+
+            if (data.filter_time != undefined) {
+              this.setData({
+                // dustFullTime: data.dust_full_time == 1
+                dustFullTime: this.judgeDustFullTime(data?.dust_full_time, data?.filter_time)
+              })     
+            }
             // // console.log(app.globalData.DeviceComDecorator.AcProcess.parser.newsendingState, "that.data.DeviceComDecorator.AcProcess.parser.newsendingState",app.globalData.DeviceComDecorator.AcProcess.parser.sendingState);
             // that.updateNewProtocolStatus(
             //   app.globalData.DeviceComDecorator.AcProcess.parser.newsendingState,
@@ -390,12 +399,14 @@ Page({
   },
   query() {
     console.log('更多页查询');
-    if(!this.data.isCoolFree) {
-      this.data.DeviceComDecorator._queryStatus(true) // 查询设备状态    
-      this.data.DeviceComDecorator._queryStatusNewProtocol('');   
-    } else {
+    if(this.data.isCoolFree) {
       console.log('查询酷风');
       this.data.DeviceComDecorator._queryStatusCoolFree()
+    } else if(this.data.isCoolFreeKitchen) {
+      this.data.DeviceComDecorator._queryXAreaRunstatus();
+    } else {     
+      this.data.DeviceComDecorator._queryStatus(true) // 查询设备状态    
+      this.data.DeviceComDecorator._queryStatusNewProtocol('');   
     }   
   },
   doReset() {
@@ -408,7 +419,11 @@ Page({
       // this.setData({
       //   isNoTime: false
       // })
-      app.globalData.DeviceComDecorator.dustFullTimeReset('dust_full_time', this.data.page_path)
+      if (this.data.isCoolFreeKitchen) {
+        app.globalData.DeviceComDecorator.xAreaRefreshFilter()
+      } else {
+        app.globalData.DeviceComDecorator.dustFullTimeReset('dust_full_time', this.data.page_path)
+      }      
     }
   },
 
@@ -1618,5 +1633,20 @@ Page({
       storageColdTipsNotShow: flag
     })
     console.log(flag,'getColdWindTipsFlag');
+  },
+
+  judgeDustFullTime(valueOther, valueCfKitchen) {
+    console.log(valueOther, "valueOther", valueCfKitchen, "valueCfKitchen")
+    let dustFullFlag = false;
+    if (this.data.isCoolFreeKitchen) {
+      if (100 - valueCfKitchen <= 10) {
+        dustFullFlag = true;
+      } else {
+        dustFullFlag = false;
+      }
+    } else {
+      dustFullFlag = valueOther == 1
+    }
+    return dustFullFlag;
   }
 })

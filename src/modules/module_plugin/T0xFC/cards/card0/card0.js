@@ -1491,10 +1491,10 @@ Component({
           break
         }
         if (index === DeviceData.functionsType.power) {
-          if (deviceInfo.lock === DeviceData.powerValue.childLock.on) {
-            MideaToast('请关闭童锁后再进行设置！')
-            break
-          }
+          // if (deviceInfo.lock === DeviceData.powerValue.childLock.on) {
+          //   MideaToast('请关闭童锁后再进行设置！')
+          //   break
+          // }
           // 电源
           this.powerOnOff()
           break

@@ -75,10 +75,12 @@ Component({
     switchStatus: JSON.stringify({color: '#267AFF',selected: false,disabled: true}),//开关状态
     showModePopup: false,//模式弹框
     showSetttingPopup: false,//参数设置弹框
+    showX11SettingPopup: false,//X11参数设置
 
     statusLeftText: '',//状态栏左侧标题栏文案
     statusRightText: '',//状态栏右侧标题栏文案
     deviceImages: {},//图片集
+    deviceType: 'x9',//设备类型系列
     isX9: true,
     imageHeight: '0',
     imageWidth: '0',
@@ -104,14 +106,66 @@ Component({
     powerSetTimeOut: null,//根据电控结果更新自助力进度条的定时器
     auto_brushChangeFlag: true,//是否根据电控结果更新滚刷进度条
     iconRemoveStatus: false,//是否显示左边的文字（图片偏右）
+    imageWrapHeight: '646rpx',//动态容器的高度
+    x11SettingPopupHeight: '820rpx',
+    x11MainListData: [
+      {
+        title: '清洁偏好',
+        subtext: '水量 | --',
+        mainUrl: 'clean',
+        iconUrl: `${IMAGE_SERVER}auto_icon.png`
+      },
+      {
+        title: '烘干偏好',
+        subtext: '--',
+        mainUrl: 'dry',
+        iconUrl: `${IMAGE_SERVER}point_icon-1.png`
+      }
+    ],//X11主页cell
+    modeList: [
+      {title: '自动', value: 0},
+      {title: '速吸', value: 1},
+      {title: '强力', value: 2}
+    ],//X11模式列表
+    x11AutoModeParams: deviceConfig.x11AutoModeParams,
+    x11FastModeParams: deviceConfig.x11FastModeParams,
+    x11StrongModeParams: deviceConfig.x11StrongModeParams,
+    modelParameters: deviceConfig.x11AutoModeParams,//x11当前模式参数设置
+    currentModeIndex: 0,
+    x11ShowModeType: 'clean',
+    dryList:[
+      {text: '柔烘', key: 0, selectImage: `${IMAGE_SERVER}clenself_icon-1.png`, normalImage: `${IMAGE_SERVER}clenself_icon_unselect-1.png`},
+      {text: '速干', key: 1, selectImage: `${IMAGE_SERVER}clean_dry_icon-1.png`, normalImage: `${IMAGE_SERVER}clean_dry_icon_unselect-1.png`},
+    ],
+    currentDryMode: 0,
+    x11SelfCleanList:[
+      {activeImage: `${IMAGE_SERVER}clenself_icon-1.png`, img: `${IMAGE_SERVER}clenself_icon_unselect.png`, text: '自清洁', tag: 1},
+      {activeImage: `${IMAGE_SERVER}clean_dry_icon-1.png`, img: `${IMAGE_SERVER}clean_dry_icon_unselect.png`, text: '自清洁+烘干', tag: 2},
+      {activeImage: `${IMAGE_SERVER}dry_icon_1.png`, img: `${IMAGE_SERVER}dry_icon_unselect.png`, text: '烘干', tag: 3},
+    ],
+
   },
 
   lifetimes: {
     //组件被加入时，查询状态并添加轮询定时器
     attached() {
+      console.log("当前数据mode:",this.data.modelParameters);
+      let type = 'x9'
+      let deviceWrapHeight = '646rpx'
+      if(['7500048J','7500048N'].indexOf(this.properties.applianceData.sn8) > -1) {
+        type = 'x9'
+        deviceWrapHeight = '710rpx'
+      }else if(['750004D4'].indexOf(this.properties.applianceData.sn8) > -1) {
+        type = 'x11'
+        deviceWrapHeight = '776rpx'
+      }else {
+        type = 'x10'
+        deviceWrapHeight = '646rpx'
+      }
       this.setData({
         isX9: ['7500048J','7500048N'].indexOf(this.properties.applianceData.sn8) > -1 ? true : false,
-        deviceWrapHeight: ['7500048J','7500048N'].indexOf(this.properties.applianceData.sn8) > -1 ? '710rpx' : '646rpx'
+        deviceType: type,
+        deviceWrapHeight: deviceWrapHeight
       })
 
       let height = wx.getSystemInfoSync().statusBarHeight
@@ -132,6 +186,7 @@ Component({
         sn8: this.properties.applianceData.sn8,
         typeName: 'device_status_weex'
       }
+      console.log("当前的数据入参是：",params);
       api.getDevicePicsBySN8(params).then(res => {
         console.log("当前的图片资源是:",res);
         if(res.hasData == true) {
@@ -178,7 +233,8 @@ Component({
     onShowPopup(e) {
       this.setData({
         showModePopup: e.currentTarget.dataset.popup == 'showModePopup' ? true : false,
-        showSetttingPopup: e.currentTarget.dataset.popup == 'showSetttingPopup' ? true : false
+        showSetttingPopup: e.currentTarget.dataset.popup == 'showSetttingPopup' ? true : false,
+        showX11SettingPopup: e.currentTarget.dataset.popup == 'showX11SettingPopup' ? true : false,
       })
       if(this.data.showSetttingPopup) {
         switch(e.currentTarget.dataset.set) {
@@ -235,6 +291,27 @@ Component({
           break;
         }
       }
+      if(this.data.showX11SettingPopup) {
+        switch(e.currentTarget.dataset.set) {
+          default: console.log(e.currentTarget.dataset.set);
+          case "clean": 
+            this.setData({
+              setttingPopupTitle: "清洁偏好",
+              x11SettingPopupHeight: '820rpx',
+              x11ShowModeType: 'clean'
+            })
+          break;
+
+          case "dry": 
+          this.setData({
+            setttingPopupTitle: "烘干偏好",
+            x11SettingPopupHeight: '450rpx',
+            x11ShowModeType: 'dry'
+          })
+        break;
+
+        }
+      }
     },
     // 弹出层消失
     onClose() {
@@ -242,7 +319,8 @@ Component({
         showModePopup: false,
         showSetttingPopup:false,
         currentsliderChangeFlag: true,
-        auto_brushChangeFlag: true
+        auto_brushChangeFlag: true,
+        showX11SettingPopup: false,
       })
     },
     //改变工作模式
@@ -289,6 +367,29 @@ Component({
           icon: 'none'
         })
         this.setData({currentsliderChangeFlag: true})
+      }
+    },
+
+    // X11清洁偏好修改模式
+    selectCleanMode(e) {
+      if(e.currentTarget.dataset.index == this.data.currentModeIndex) {
+        return
+      }
+      if(e.currentTarget.dataset.index == 0) {
+        this.setData({
+          currentModeIndex: e.currentTarget.dataset.index,
+          modelParameters: this.data.x11AutoModeParams
+        })
+      }else if(e.currentTarget.dataset.index == 1) {
+        this.setData({
+          currentModeIndex: e.currentTarget.dataset.index,
+          modelParameters: this.data.x11FastModeParams
+        })
+      }else if(e.currentTarget.dataset.index == 2) {
+        this.setData({
+          currentModeIndex: e.currentTarget.dataset.index,
+          modelParameters: this.data.x11StrongModeParams
+        })
       }
     },
 
@@ -454,6 +555,36 @@ Component({
 
      },
 
+    //  更新X11清洁偏好和烘干偏好文案
+    updateX11MainItemCellSubText(auto_pump, selfclean_dry_set) {
+      let cleanItem = this.data.x11MainListData[0]
+      let dryItem = this.data.x11MainListData[1]
+      if(auto_pump == 30) {
+        cleanItem.subtext = "水量 | 小"
+      }else if(auto_pump == 40) {
+        cleanItem.subtext = "水量 | 适中"
+      }else if(auto_pump == 50) {
+        cleanItem.subtext = "水量 | 较大"
+      }else if(auto_pump == 60) {
+        cleanItem.subtext = "水量 | 大"
+      }else {
+        cleanItem.subtext = "水量 | --"
+      }
+
+      if(selfclean_dry_set == 0) {
+        dryItem.subtext = '柔烘'
+      }else {
+        dryItem.subtext = '速干'
+      }
+      let tempArr = [
+        cleanItem,
+        dryItem
+      ]
+      this.setData({
+        x11MainListData: tempArr
+      })
+    },
+
     /**
      * lua相关接口
      */
@@ -471,6 +602,18 @@ Component({
        }
        api.luaQuery(this.properties.applianceData.applianceCode, param).then(res => {
         console.log("查询设备基本状态:", res);
+        let iconRemoveStatus = false
+        if(this.data.deviceType == 'x9') {
+          iconRemoveStatus = false
+        }else if(this.data.deviceType == 'x11') {
+          iconRemoveStatus = true
+        }else {
+          if(['auto','fast','fixed_point','standby','upright'].includes(res.work_mode)) {
+            iconRemoveStatus = true
+          }else {
+            iconRemoveStatus = false
+          }
+        }
         // 更新显示：状态栏、设备图片和电量
         this.setData({
           deviceState: res,
@@ -479,27 +622,82 @@ Component({
           X9CurrentSelfMode: res.air_dry == 'on' ? this.data.x9SelfCleanModeList[0] : this.data.x9SelfCleanModeList[1],
           deviceIcon: JSON.stringify(this.data.deviceImages) == '{}' ? `${IMAGE_SERVER}standby.png`  : this.data.deviceImages[res.work_mode].imgUrl,
           batteryPercent: res.battery_ratio,
-          iconRemoveStatus: ['auto','fast','fixed_point','standby','upright'].includes(res.work_mode) && !this.data.isX9 ? true : false
+          // iconRemoveStatus: ['auto','fast','fixed_point','standby','upright'].includes(res.work_mode) && !this.data.isX9 ? true : false
+          iconRemoveStatus: iconRemoveStatus,
         })
         // 更新x9参数显示：水量、吸力
-        if(this.data.isX9) {
+        if(this.data.deviceType == 'x9') {
           this.X9WaterLevelTransform(res.pump_value)
           this.X9FastGearTransform(res.fast_gear)
-        }else {
-          //更新x10参数显示：自动、定点、滚刷速度、自清洁/烘干icon
+        }else if(this.data.deviceType == 'x11') {
+          if(this.data.currentsliderChangeFlag) {
+            let autoList = this.data.x11AutoModeParams
+            let fastList = this.data.x11FastModeParams
+            let strongList = this.data.x11StrongModeParams
+            autoList[0].currentValue = res.auto_pump
+            autoList[1].currentValue = res.auto_brush
+            fastList[0].currentValue = res.fast_fan_power
+            fastList[1].currentValue = res.fast_brush
+            strongList[0].currentValue = res.power_pump
+            strongList[1].currentValue = res.power_brush
+            this.setData({
+              x11AutoModeParams: autoList,
+              x11FastModeParams: fastList,
+              x11StrongModeParams: strongList,
+            })
+            if(this.data.currentModeIndex == 0) {
+              this.setData({
+                modelParameters: this.data.x11AutoModeParams
+              })
+            }else if(this.data.currentModeIndex == 1) {
+              this.setData({
+                modelParameters: this.data.x11FastModeParams
+              })
+            }else if(this.data.currentModeIndex == 2) {
+              this.setData({
+                modelParameters: this.data.x11StrongModeParams
+              })
+            }
+          }
           this.setData({
             self_clean_mode: res.self_clean_mode,
-            x10AutoCurrentWater:  this.data.x10AutoWaterList.find(i => (i.sliderValue * 10 + 30) == res.auto_pump),
-            x10CurrentFixedWater:  this.data.x10FixedWaterList.find(i => (i.sliderValue * 20 + 80) == res.fixed_point_pump),
+            currentDryMode: res.selfclean_dry_set
           })
-          if(this.data.auto_brushChangeFlag) {
-            this.setData({auto_brush: res.auto_brush ? res.auto_brush : 80})
+          this.updateX11MainItemCellSubText(res.auto_pump, res.selfclean_dry_set)
+          if(res.selfclean_dry_set == 1) {
+            this.setData({
+              x11SelfCleanList:[
+                {activeImage: `${IMAGE_SERVER}clenself_icon-1.png`, img: `${IMAGE_SERVER}clenself_icon_unselect.png`, text: '自清洁', tag: 1},
+                {activeImage: `${IMAGE_SERVER}clean_dry_icon-1.png`, img: `${IMAGE_SERVER}clean_dry_icon_unselect.png`, text: '自清洁+烘干', tag: 4},
+                {activeImage: `${IMAGE_SERVER}dry_icon_1.png`, img: `${IMAGE_SERVER}dry_icon_unselect.png`, text: '烘干', tag: 5},
+              ],
+            })
+          }else {
+            this.setData({
+              x11SelfCleanList:[
+                {activeImage: `${IMAGE_SERVER}clenself_icon-1.png`, img: `${IMAGE_SERVER}clenself_icon_unselect.png`, text: '自清洁', tag: 1},
+                {activeImage: `${IMAGE_SERVER}clean_dry_icon-1.png`, img: `${IMAGE_SERVER}clean_dry_icon_unselect.png`, text: '自清洁+烘干', tag: 2},
+                {activeImage: `${IMAGE_SERVER}dry_icon_1.png`, img: `${IMAGE_SERVER}dry_icon_unselect.png`, text: '烘干', tag: 3},
+              ],
+            })
           }
-          console.log('currentPowerChangeFlag',this.data.currentPowerChangeFlag,res.push_forward);
-          if(this.data.currentPowerChangeFlag) {
-            this.byTypeAdjustPowerSelfValue(res.push_forward)
-          }
-          console.log("当前的数据是:",this.data.x10FixedWaterList);
+        }else {
+            //更新x10参数显示：自动、定点、滚刷速度、自清洁/烘干icon
+            this.setData({
+              self_clean_mode: res.self_clean_mode,
+              x10AutoCurrentWater:  this.data.x10AutoWaterList.find(i => (i.sliderValue * 10 + 30) == res.auto_pump),
+              x10CurrentFixedWater:  this.data.x10FixedWaterList.find(i => (i.sliderValue * 20 + 80) == res.fixed_point_pump),
+            })
+            if(this.data.auto_brushChangeFlag) {
+              this.setData({auto_brush: res.auto_brush ? res.auto_brush : 80})
+            }
+            console.log('currentPowerChangeFlag',this.data.currentPowerChangeFlag,res.push_forward);
+            if(this.data.currentPowerChangeFlag) {
+              this.byTypeAdjustPowerSelfValue(res.push_forward)
+            }
+            console.log("当前的数据是:",this.data.x10FixedWaterList);
+          
+          
         }
         // 更新参数弹框中进度条的值
         if(this.data.currentsliderChangeFlag) {
@@ -521,19 +719,28 @@ Component({
             })
           }
         }
-        if(this.data.isX9) {
+        if(this.data.deviceType == 'x9') {
           //更新x9设备图片的宽高
           this.setX9ImageRect(res.work_mode)
           //更新开关
           this.setData({switchStatus: JSON.stringify({color: '#267AFF',selected: deviceConfig.selfCleanStatusList.indexOf(res.work_mode) > -1 ?true: false,disabled: true})})
+        }else if(this.data.deviceType == 'x11') {
+          this.setData({
+            imageHeight: '776rpx',
+            imageWidth: '750rpx',
+            imageWrapHeight: '776rpx',
+            isCharge: false,
+          })
         }else {
-          //更新x10：设备图片宽高
+            //更新x10：设备图片宽高
           this.setData({
             imageHeight: '644rpx',
             imageWidth: '750rpx',
             isCharge: ['charging'].indexOf(res.work_mode) > -1 ? true : false,
           })
         }
+   
+        
         wx.hideLoading({
           noConflict: true,
         })
@@ -543,24 +750,7 @@ Component({
         })
       })
     },
-    // // x9打开自清洁
-    // openOrCloseSelfClean(e) {
-    //   if(this.data.deviceState.plug_status != 'on') {
-    //     wx.showToast({
-    //       title: '请将设备放置在充电座后开启',
-    //       icon: 'none'
-    //     })
-    //     return
-    //   }
-    //   this.setData({switchStatus: JSON.stringify(e.detail)})
-    //   this.modelChange("self_clean",JSON.parse(this.data.switchStatus).selected ? 'on' : 'off')
-    //   if(!JSON.parse(this.data.switchStatus).selected) {
-    //     wx.showToast({
-    //       title: '自清洁关闭，请清理污水箱',
-    //       icon: 'none'
-    //     })
-    //   }
-    // },
+    
     //点击x9开关
     tapSwitch() {
       if(this.data.deviceState.plug_status != 'on') {
@@ -611,7 +801,6 @@ Component({
     },
     // 模式切换
     modelChange(work_model,type){
-    
       wx.showLoading({title: "加载中"})
       let param = {
         "control_type": "work_mode",
@@ -819,6 +1008,63 @@ Component({
       }
     
     },
+       // x11自清洁
+    x11ClickSelfClean(e) {
+        // 不在充电座上
+        if(this.data.deviceState.plug_status != 'on') {
+          wx.showToast({
+            title: '请将设备放置在充电座后开启',
+            icon: 'none'
+          })
+          return
+        }
+        //目前在工作中，需先关闭再切换
+        if(this.data.self_clean_mode) {
+          //再次点击关闭
+          if(e.currentTarget.dataset.tag == this.data.self_clean_mode) {
+            if(e.currentTarget.dataset.tag == 1) {
+              this.modelChange('self_clean','off')
+            }else if(e.currentTarget.dataset.tag == 2) {
+              this.modelChange('self_clean_and_baking_dry','off')
+            }else if(e.currentTarget.dataset.tag == 3) {
+              this.modelChange('baking_dry','off')
+            }else if(e.currentTarget.dataset.tag == 4) {
+              this.modelChange('self_clean_and_fast_dry','off')
+            }else if(e.currentTarget.dataset.tag == 5) {
+              this.modelChange('fast_dry','off')
+            }
+            wx.showToast({
+              title: '自清洁关闭，请清理污水箱',
+              icon: 'none'
+            })
+            this.setData({self_clean_mode: 0})
+          }else {
+            wx.showToast({
+              title: '请先关闭当前模式，再进行模式切换操作',
+              icon: 'none'
+            })
+          }
+        }else {
+          //目前未工作，直接切换
+          if(e.currentTarget.dataset.tag == 1) {
+            this.modelChange('self_clean','on')
+            this.setData({self_clean_mode: 1})
+          }else if(e.currentTarget.dataset.tag == 2) {
+            this.modelChange('self_clean_and_baking_dry','on')
+            this.setData({self_clean_mode: 2})
+          }else if(e.currentTarget.dataset.tag == 3) {
+            this.modelChange('baking_dry','on')
+            this.setData({self_clean_mode: 3})
+          }else if(e.currentTarget.dataset.tag == 4) {
+            this.modelChange('self_clean_and_fast_dry','on')
+            this.setData({self_clean_mode: 4})
+          }else if(e.currentTarget.dataset.tag == 5) {
+            this.modelChange('fast_dry','on')
+            this.setData({self_clean_mode: 5})
+          }
+        }
+      
+      },
 
     // 自助力调试
     selfPowerAdjust(params) {
@@ -842,6 +1088,96 @@ Component({
           reject(false)
         })
       })
-    }
+    },
+
+    // X11设置第一个slider
+    async  onSettingType1(e) {
+      this.setData({currentsliderChangeFlag: false})
+      wx.showLoading({title: ""})
+      let params = {}
+      params.control_type = 'work_mode_param'
+      if(this.data.currentModeIndex == 0) {//自动模式的水量调节
+        params.auto_pump = e.detail
+      }else if(this.data.currentModeIndex == 1) {//速吸模式的吸力调节
+        params.fast_fan_power = e.detail
+      }else if(this.data.currentModeIndex == 2) {//强力模式的水量调节
+        params.power_pump = e.detail
+      }
+      await api.luaControl(this.properties.applianceData.applianceCode,params).then(res => {
+        this.updateX11MainItemCellSubText(this.data.deviceState.auto_pump, this.data.deviceState.selfclean_dry_set)
+        this.queryDeviceStatus()
+        wx.hideLoading({
+          noConflict: true
+        })
+        this.setData({currentsliderChangeFlag: false})
+
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+        wx.showToast({
+          title: '修改失败，请重试',
+          icon: 'none'
+        })
+        this.setData({currentsliderChangeFlag: true})
+
+      })
+    },
+    // X11设置第二个slider
+    async onSettingType2(e) {
+      this.setData({currentsliderChangeFlag: false})
+      wx.showLoading({title: ""})
+      let params = {}
+      params.control_type = 'work_mode_param'
+      if(this.data.currentModeIndex == 0) {//自动模式的滚刷调节
+        params.auto_brush = e.detail
+      }else if(this.data.currentModeIndex == 1) {//速吸模式的滚刷调节
+        params.fast_brush = e.detail
+      }else if(this.data.currentModeIndex == 2) {//强力模式的滚刷调节
+        params.power_brush = e.detail
+      }
+      console.log("当前的slider数据是:",params);
+      await api.luaControl(this.properties.applianceData.applianceCode,params).then(res => {
+        this.queryDeviceStatus()
+        wx.hideLoading({
+          noConflict: true
+        })
+        this.setData({currentsliderChangeFlag: false})
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+        wx.showToast({
+          title: '修改失败，请重试',
+          icon: 'none'
+        })
+        this.setData({currentsliderChangeFlag: true})
+      })
+    },
+
+    // X11修改烘干偏好
+    changeDryMode(e) {
+      if(e.currentTarget.dataset.index == this.data.currentDryMode) {
+        return
+      }
+      wx.showLoading({title: ""})
+      let params = {
+        "control_type": "selfclean_dry_set",
+        "selfclean_dry_set": e.currentTarget.dataset.index
+      }
+       api.luaControl(this.properties.applianceData.applianceCode,params).then(res => {
+        this.updateX11MainItemCellSubText(this.data.deviceState.auto_pump, this.data.deviceState.selfclean_dry_set)
+        this.queryDeviceStatus()
+        wx.hideLoading({
+          noConflict: true
+        })
+      }, err => {
+        wx.hideLoading({
+          noConflict: true
+        })
+
+      })
+
+    },
   }
 })

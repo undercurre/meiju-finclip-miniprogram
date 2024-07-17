@@ -2827,6 +2827,15 @@ export default class Parser {
                 tmp.degerming = 0xff;                
               }
               break;
+            case CMD.ACDEGERMING: // 杀菌
+              if(sucessflag == 0) {
+                console.log('acDegerming');
+                tmp.acDegerming = srcBuf[ck + 3];              
+              } else {        
+                console.log('errnewmode');      
+                tmp.acDegerming = 0xff;                
+              }
+              break;
             case CMD.CONTROLSOFTWINDSTATUS:  //柔风感
                 tmp.controlSoftWindStatus=tmplen?srcBuf[ck+3]:0
               break;
@@ -2973,7 +2982,7 @@ export default class Parser {
                 this.sendingState.windSpeed = tmp.windSpeed;           
               }
               break;
-            case CMD.THLIGHT: // TH风速
+            case CMD.THLIGHT: // TH灯光
               if(sucessflag == 0) {                
                 tmp.thLight = srcBuf[ck + 3];                
               } else {                            
@@ -3033,10 +3042,80 @@ export default class Parser {
                 tmp.windSwingLrRight = (srcBuf[ck + 10] & 0x01) ? 1 : 0;
                 console.log("左左右风这里解出来多少，", tmp.windSwingLrLeft, tmp.windSwingLrRight)
 
+                // tmp.moisturizing = (srcBuf[ck + 27] & 0x80) >> 7;
+                tmp.thLight = (srcBuf[ck + 47] & 0x20) >> 5 // 灯光
+                tmp.rewarmingDry = (srcBuf[ck + 26] & 0x02) >> 1// rewarming_dry 回温除湿              
+                tmp.degerming = (srcBuf[ck + 22] & 0x02) >> 1
+
+                tmp.rightLrWindAngle =  (srcBuf[ck + 46] & 0xf0) >> 4
+                if (tmp.rightLrWindAngle == 2) {
+                  tmp.rightLrWindAngle = 13
+                } else if(tmp.rightLrWindAngle == 3) {
+                  tmp.rightLrWindAngle = 25
+                } else if(tmp.rightLrWindAngle == 4) {
+                  tmp.rightLrWindAngle = 38
+                }else if(tmp.rightLrWindAngle == 5) {
+                  tmp.rightLrWindAngle = 50
+                }else if(tmp.rightLrWindAngle == 6) {
+                  tmp.rightLrWindAngle = 62
+                }else if(tmp.rightLrWindAngle == 7) {
+                  tmp.rightLrWindAngle = 75
+                }else if(tmp.rightLrWindAngle == 8) {
+                  tmp.rightLrWindAngle = 88
+                }else if(tmp.rightLrWindAngle == 9) {
+                  tmp.rightLrWindAngle = 100
+                }
+
+                tmp.leftRightAngle =  (srcBuf[ck + 20] & 0xf0) >> 4
+                if (tmp.leftRightAngle == 2) {
+                  tmp.leftRightAngle = 13
+                } else if(tmp.leftRightAngle == 3) {
+                  tmp.leftRightAngle = 25
+                } else if(tmp.leftRightAngle == 4) {
+                  tmp.leftRightAngle = 38
+                }else if(tmp.leftRightAngle == 5) {
+                  tmp.leftRightAngle = 50
+                }else if(tmp.leftRightAngle == 6) {
+                  tmp.leftRightAngle = 62
+                }else if(tmp.leftRightAngle == 7) {
+                  tmp.leftRightAngle = 75
+                }else if(tmp.leftRightAngle == 8) {
+                  tmp.leftRightAngle = 88
+                }else if(tmp.leftRightAngle == 9) {
+                  tmp.leftRightAngle = 100
+                }
+
+                console.log("解析出来的左出风角度是",tmp.leftRightAngle)
+                tmp.upDownAngle = (srcBuf[ck + 20] & 0x0f)
+                if (tmp.upDownAngle == 2) {
+                  tmp.upDownAngle = 13
+                } else if(tmp.upDownAngle == 3) {
+                  tmp.upDownAngle = 25
+                } else if(tmp.upDownAngle == 4) {
+                  tmp.upDownAngle = 38
+                }else if(tmp.upDownAngle == 5) {
+                  tmp.upDownAngle = 50
+                }else if(tmp.upDownAngle == 6) {
+                  tmp.upDownAngle = 62
+                }else if(tmp.upDownAngle == 7) {
+                  tmp.upDownAngle = 75
+                }else if(tmp.upDownAngle == 8) {
+                  tmp.upDownAngle = 88
+                }else if(tmp.upDownAngle == 9) {
+                  tmp.upDownAngle = 100
+                }
+                tmp.superCoolingSw = (srcBuf[ck + 21] & 0x40) >> 6
+                tmp.acDegerming = (srcBuf[ck + 50] & 0x40) >> 6
+                tmp.quickCoolHeat = (srcBuf[ck + 47] & 0x10) >> 4
+                tmp.switchSelfCleaning = (srcBuf[ck + 11] & 0x04) >> 2
               } else {
                 tmp.windSpeed = 0xff;
                 tmp.elecHeat = 0xff;
               }     
+              tmp.moisturizing = (srcBuf[ck + 30] & 0x80) >> 7
+              tmp.moisturizingFanSpeed = srcBuf[ck + 35]
+              tmp.innerPurifier = (srcBuf[ck + 12] & 0x20) >> 5
+              tmp.innerPurifierFanSpeed = srcBuf[ck + 38]
               this.sendingState.windSpeed = tmp.windSpeed;   
             // case CMD.THGUINOWINDSENSE: // TH无风感（左无风感，右无风感）
             //   let _ck = 21;

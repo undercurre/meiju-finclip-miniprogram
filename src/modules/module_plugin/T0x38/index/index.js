@@ -22,6 +22,11 @@ Page({
     if (options.deviceInfo) {
       let deviceInfo = JSON.parse(decodeURIComponent(options.deviceInfo))
       console.log("当前设备的基本信息:",deviceInfo);
+      if(['750004D4'].indexOf(deviceInfo.sn8) > -1) {
+        this.setData({
+          backgroundImage: `${IMAGE_SERVER}x11_background.png`
+        })
+      }
       if(deviceInfo.onlineStatus == 0) {
         this.setData({backgroundImage: ''})
       }

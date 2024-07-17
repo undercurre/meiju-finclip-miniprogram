@@ -534,6 +534,11 @@ const LuaMapTh = {
     isStandardProto: false,
     value: 'hasPreventCoolWindMenory',
     key: {}
+  },
+  "air_remove_odor": {
+    isStandardProto: false,
+    value: 'acDegerming',
+    key: {}
   }
 };
 

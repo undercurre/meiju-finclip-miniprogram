@@ -1,0 +1,32 @@
+<!--pages/component/mso/search-bar.wxml-->
+<view class="recipe-search-bar">
+  <view class="input-wrap">
+    <view class="search-icon-wrap">
+      <image
+        class="search-icon"
+        src="https://www.smartmidea.net/projects/sit/meiju-lite-assets/plugin/0xBX/common/search.png"
+      ></image>
+    </view>
+    <view wx:if="{{fakeInput}}" class="input fake-input" catchtap="fakeInputClicked">{{placeholder}}</view>
+    <input
+      wx:else
+      class="input"
+      value="{{keyword}}"
+      placeholder="{{placeholder}}"
+      focus="{{true}}"
+      hold-keyboard="{{true}}"
+      confirm-type="search"
+      bindinput="bindinput"
+      bindconfirm="bindconfirm"
+    />
+    <view wx:if="{{keyword}}" class="clear-button" hover="click-hover" catchtap="clickClear">
+      <image
+        class="button-icon"
+        src="https://www.smartmidea.net/projects/sit/meiju-lite-assets/plugin/0xBX/common/delete_circle_dark_gray.png"
+      ></image>
+    </view>
+  </view>
+  <view wx:if="{{!fakeInput}}" class="btn" catchtap="clickCancel">
+    <text class="btn-text">取消</text>
+  </view>
+</view>

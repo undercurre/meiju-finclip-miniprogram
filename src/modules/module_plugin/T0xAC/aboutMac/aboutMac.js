@@ -129,7 +129,7 @@ Page({
         date: deviceInfo.year + '年' + deviceInfo.month + '月' + deviceInfo.day + '日',
         containerData: {
           snFormat: deviceInfo.snFormat,
-          version: "v3.25",
+          version: "v3.36",
         },
       })
     } else {

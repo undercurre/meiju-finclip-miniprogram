@@ -31,4 +31,5 @@
             </view>
         </view>
     </view>
+    <view class="disabled-mask" wx:if="{{bindModel.disabled}}" catch:tap="noTap"></view>
 </view>

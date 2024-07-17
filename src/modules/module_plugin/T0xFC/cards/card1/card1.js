@@ -41,7 +41,7 @@ Component({
     hostWhenOffDisable: false,
     isHostingUsingMode: false,
     statusObj: {
-      statusText: '',
+      statusText: '已离线',
       appointText: '',
       appointDescribe: '',
       statusPoint: '',
@@ -366,7 +366,8 @@ Component({
       let deviceInfo = this.data.deviceInfo
 
       return new Promise((resolve, reject) => {
-        if (!checkLocking && deviceInfo.lock === DeviceData.powerValue.childLock.on) {
+        // 童锁禁用解除
+        if (false&&!checkLocking && deviceInfo.lock === DeviceData.powerValue.childLock.on) {
           Toast({ context: this, position: 'bottom', message: '请关闭童锁后再进行设置！' })
           reject()
         } else {
@@ -731,6 +732,7 @@ Component({
         statusObj.statusText = '已离线'
       }
       // 设备在线
+      deviceInfo.isOnline = true
       deviceInfo.isRunning = false
       activeColor = '#7C879B'
 
@@ -1085,6 +1087,11 @@ Component({
           let formatSecond = Format.calculateTime(timingSeconds)
           statusObj.appointDescribe = formatSecond
         }
+      } else {
+        deviceInfo.isOnline = false
+        deviceInfo.isRunning = false
+        statusObj.statusPoint = 'off'
+        statusObj.statusText = '已离线'
       }
       this.setData({
         statusObj,

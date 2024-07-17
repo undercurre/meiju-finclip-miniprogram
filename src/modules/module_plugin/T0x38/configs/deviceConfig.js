@@ -217,6 +217,79 @@ export default {
         "flag": 0
       }
     ],
+
+    x11AutoModeParams: [
+      {
+        contentTitle: '清扫水量',
+        waterPumcontent: '水量小水渍残留少，但清洗效果会减弱',
+        scales: [{'title': '小', value: 30},{'title': '大', value: 60}],
+        step: 10,
+        currentValue: 30,
+        min: 30,
+        max: 60,
+        modelStyles: ['小', "大"],
+        type: 1
+      },
+      {
+        contentTitle: '滚刷转速',
+        waterPumcontent: '滚刷转速高清洁能力强，但寿命减短噪音大',
+        scales: [{'title': '舒适', value: 60},{'title': '强力', value: 100}],
+        step: 1,
+        currentValue: 80,
+        min: 60,
+        max: 100,
+        modelStyles: ['舒适',"强力"],
+        type: 2
+      },
+    ],
+    x11FastModeParams: [
+      {
+        contentTitle: '吸力档位',
+        waterPumcontent: '档位越高吸力越大，但噪音相应增大',
+        scales: [{'title': '小', value: 36},{'title': '大', value: 54}],
+        step: 1,
+        currentValue: 36,
+        min: 36,
+        max: 54,
+        modelStyles: ['低', "高"],
+        type: 1
+      },
+      {
+        contentTitle: '滚刷转速',
+        waterPumcontent: '滚刷转速高清洁能力强，但寿命减短噪音大',
+        scales: [{'title': '舒适', value: 60},{'title': '强力', value: 100}],
+        step: 1,
+        currentValue: 80,
+        min: 60,
+        max: 100,
+        modelStyles: ['舒适',"强力"],
+        type: 2
+      },
+    ],
+    x11StrongModeParams: [
+      {
+        contentTitle: '清扫水量',
+        waterPumcontent: '水量大去污能力好但水迹多，根据使用环境调节',
+        scales: [{'title': '小', value: 60},{'title': '大', value: 120}],
+        step: 10,
+        currentValue: 60,
+        min: 60,
+        max: 120,
+        modelStyles: ['小', "大"],
+        type: 1
+      },
+      {
+        contentTitle: '滚刷转速',
+        waterPumcontent: '滚刷转速高清洁能力强，但寿命减短噪音大',
+        scales: [{'title': '舒适', value: 60},{'title': '强力', value: 100}],
+        step: 1,
+        currentValue: 80,
+        min: 60,
+        max: 100,
+        modelStyles: ['舒适',"强力"],
+        type: 2
+      },
+    ],
     //设备基础状态
     deviceStatus: {
       'charging': '充电中',

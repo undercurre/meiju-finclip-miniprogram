@@ -27,6 +27,7 @@ export const Dict = {
       mode: 'mode', // 模式
       temperature: 'temp', // 设置温度
       gear: 'gear', // 档位
+      tableGear: 'tableGear', // 电暖桌档位设置
       timeout: 'timing', // 定时
       screenDisplay: 'displayOnOff', // 屏显
       sound: 'voice', // 声音,
@@ -40,6 +41,7 @@ export const Dict = {
       shake: 'shake', // yaotou
       udShake: 'udShake', // yaotou
       humidify: 'humidify', // 加湿
+      desktopCtrl: 'desktop_ctrl', // 桌面设置
     },
   },
   // 处理错误信息

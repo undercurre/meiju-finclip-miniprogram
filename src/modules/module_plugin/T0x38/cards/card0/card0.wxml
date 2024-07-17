@@ -24,7 +24,7 @@
       </view>
       <!-- 设备图片 -->
       <!-- right: {{(!isX9 && (deviceState.work_mode=='standby')) ? '96rpx' : '0rpx'}}; -->
-      <view class="device-image-wrap" style="top: {{isX9 ? '64rpx' : '0rpx'}};">
+      <view class="device-image-wrap" style="top: {{isX9 ? '64rpx' : '0rpx'}}; height: {{imageWrapHeight}};">
           <image src="{{deviceIcon}}" mode="" style="height: {{imageHeight}}; width: {{imageWidth}};"  />
           <image wx:if="{{isCharge}}" src="{{lightIcon}}" mode="" class="device-light"/>
           <view wx:if="{{isCharge}}" class="device-charging">{{batteryPercent}}<span class="device-unit">%</span></view>
@@ -84,7 +84,7 @@
      </view>
     </view>
     <!-- X9系列 -->
-    <block wx:if="{{isX9}}">
+    <block wx:if="{{deviceType == 'x9'}}">
       <!-- 自清洁+风干 -->
       <view class="accessory-status-wrap">
         <view class="mode-choice" bind:tap="onShowPopup" data-popup="showModePopup">
@@ -112,7 +112,36 @@
         </view>
       </view> 
     </block>
-    <!-- X10系列 -->
+    <!-- X11系列 -->
+    <block wx:elif="{{deviceType == 'x11'}}" >
+      <view class="device-setting-wrap">
+        <view class="x10-device-setting" 
+              bind:tap="onShowPopup"
+              data-set="{{item.mainUrl}}"
+              data-popup="showX11SettingPopup"
+              wx:for="{{x11MainListData}}"
+              wx:key="index" >
+          <view class="x10-setting-item">
+            <view class="item-text">{{item.title}}</view>
+            <view class="item-value">{{item.subtext}}</view>
+          </view>
+          <image src="{{item.iconUrl}}" mode="" class="x10-setting-icon"/>
+        </view>
+      </view> 
+      <!-- 自清洁 -->
+      <view class="x10-clean-self-wrap">
+        <view class="x10-clean-self-title">自清洁 | 烘干</view>
+        <view class="x10-clean-self-item-wrap">
+          <view class="x10-clean-self-item" wx:for="{{x11SelfCleanList}}" wx:key="index" bind:tap="x11ClickSelfClean" data-tag="{{item.tag}}">
+            <image src="{{self_clean_mode == item.tag ? item.activeImage : item.img}}" mode="" class="x10-clean-self-item-img"/>
+            <view class="x10-clean-self-item-text">{{item.text}}</view>
+          </view>
+        </view>
+      </view>
+
+ 
+    </block>
+
     <block wx:else="">
       <view class="device-setting-wrap">
         <view class="x10-device-setting" bind:tap="onShowPopup" data-popup="showSetttingPopup" data-set="auto">
@@ -221,6 +250,60 @@
         </block>
       </view>
     </mx-popup>
+    <!-- X11系列弹框设置 -->
+    <mx-popup show="{{ showX11SettingPopup }}" bind:close="onClose" position="bottom" round close-on-click-overlay>
+      <view class="Settting-popup" style="height: {{x11SettingPopupHeight}};" wx:if="{{x11ShowModeType == 'clean'}}">
+        <!-- 弹出框标题 -->
+        <view class="setttingPopup-title">{{setttingPopupTitle}}</view>
+        <image src="{{settingPopupCloseIcon}}" class="close-popup-icon" mode="" bind:tap="onClose"/>
+        <view class="setttingPopup-des" style="margin-top: 36rpx;">根据个人习惯调节各模式下的清洁偏好</view>
+        <view class="mode-wrap">
+          <view class="mode-item" 
+                wx:for="{{modeList}}" 
+                wx:key="index" 
+                bind:tap="selectCleanMode"
+                data-index="{{index}}"
+                style="background-color: {{currentModeIndex == index ? '#3348FF' : 'transparent'}}; border-radius: {{currentModeIndex == index ? '42rpx' : '0rpx'}}; color: {{currentModeIndex == index ? 'white' : '#333'}};">{{item.title}}</view>
+        </view>
+        <block wx:for="{{modelParameters}}" wx:key="index">
+          <!-- 参数设置标题 -->
+          <view class="settting-title" >{{item.contentTitle}}</view>
+          <!-- 参数设置弹框描述 -->
+          <view class="setttingPopup-des" >{{item.waterPumcontent}}</view>
+          <!-- 弹出框内容-参数设置 -->
+          <mx-slider wx:if="{{item.type == 1}}" min="{{item.min}}" max="{{item.max}}" 
+          value="{{item.currentValue}}" 
+          active-color="#3348FF"
+          step="{{item.step}}" bind:change="onSettingType1" custom-class="setttingPopup-set"/>
+
+          <mx-slider wx:if="{{item.type == 2}}" min="{{item.min}}" max="{{item.max}}" 
+          value="{{item.currentValue}}" 
+          active-color="#3348FF"
+          step="{{item.step}}" bind:change="onSettingType2" custom-class="setttingPopup-set"/>
+        </block>
+      </view>
+
+      <view class="Settting-popup" style="height: {{x11SettingPopupHeight}};" wx:else="">
+        <!-- 弹出框标题 -->
+        <view class="setttingPopup-title">{{setttingPopupTitle}}</view>
+        <image src="{{settingPopupCloseIcon}}" class="close-popup-icon" mode="" bind:tap="onClose"/>
+        <view class="dry-type-wrap">
+         <view class="dry-type-item" 
+          wx:for="{{dryList}}" 
+          style="margin-left: {{index == 1 ? '164rpx': '0rpx'}};"
+          wx:key="index" 
+          bind:tap="changeDryMode" 
+          data-index="{{index}}">
+          <view class="dry-img">
+            <image src="{{currentDryMode == index ? item.selectImage : item.normalImage}}" style="height: 96rpx;width: 96rpx;" mode=""/>
+          </view>
+          <view class="dry-text">{{item.text}}</view>
+         </view>
+        </view>
+        <view class="dry-desc">速干烘干时间短但噪音大，根据您的偏好选择烘干默认档位</view>
+      </view>
+    </mx-popup>
+
   </block>
 
   <block wx:else>
