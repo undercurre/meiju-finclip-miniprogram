@@ -311,12 +311,12 @@
     },
     {
       "name": "T0xBX",
-      "root": "plugin/T0xBX",
+      "root": "src/modules/module_plugin/T0xBX",
       "pages": [
         "index/index",
         "recipeHome/recipeHome",
-        "recipeSearch/recipeSearch",
         "recipeDetail/recipeDetail",
+        "recipeSearch/recipeSearch",
         "webview/webview"
       ]
     },
@@ -553,24 +553,6 @@
         "index/index",
         "activity/activity",
         "activity/detail"
-      ]
-    },
-    {
-      "name": "T0xC0",
-      "root": "src/modules/module_plugin/T0xC0",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xBX",
-      "root": "src/modules/module_plugin/T0xBX",
-      "pages": [
-        "index/index",
-        "recipeHome/recipeHome",
-        "recipeDetail/recipeDetail",
-        "recipeSearch/recipeSearch",
-        "webview/webview"
       ]
     },
     {
