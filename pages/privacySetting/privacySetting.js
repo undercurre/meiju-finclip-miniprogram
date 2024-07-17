@@ -59,7 +59,17 @@ Page({
     let clickItemInfo = event.currentTarget.dataset.item
     console.log(clickItemInfo)
     if(clickItemInfo._checkType == 0){
-        wx.openAppAuthorizeSetting()
+        // wx.openAppAuthorizeSetting()
+        wx.authorize({
+            scope: clickItemInfo._authName,
+            success: res => {
+                this.getSystemAuth()
+            },
+            complete: res => {
+                console.log(`authorize result: ${JSON.stringify(res)}`)
+                wx.openAppAuthorizeSetting()
+            }
+        })
     }else{
         this.withdrawPrivacyAuth()
     }
@@ -80,6 +90,18 @@ Page({
   },
   backPage() {
     wx.navigateBack()
+  },
+  getNetworkType() {
+    return new Promise((resolve, reject) => {
+      wx.getNetworkType({
+        success(res) {
+          resolve(res)
+        },
+        fail(res) {
+          reject(res)
+        },
+      })
+    })
   },
     // 撤销授权协议
     changeWithdrowModal(e) {

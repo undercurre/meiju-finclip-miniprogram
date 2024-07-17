@@ -13,6 +13,7 @@ import { actionScanResultIndex } from 'assets/js/scanCodeApi'
 import { service, scodeResonse } from 'assets/js/service'
 import Toast from 'm-ui/mx-toast/toast'
 const indexHeader = '/assets/img/index/index-header.png'
+console.log(`getSystemInfoSync：${JSON.stringify(wx.getSystemInfoSync())}`)
 import {
   supportedApplianceTypes,
   getCommonType,
