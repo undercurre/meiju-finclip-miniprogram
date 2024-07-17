@@ -1,4 +1,10 @@
 function includes(arr, value) {
   return arr.indexOf(value) >= 0
 }
-module.exports = { includes: includes }
+function notNull(value){
+  return value!==null&&value!==undefined
+}
+module.exports = {
+  includes: includes,
+  notNull: notNull
+}

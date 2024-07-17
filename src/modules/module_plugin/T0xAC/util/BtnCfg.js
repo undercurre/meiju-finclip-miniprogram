@@ -2050,8 +2050,8 @@ const Btns = {
       default: imageDoamin + 'plugin/0xAC/' + 'dry-selected.png',
       disabled: imageDoamin + 'plugin/0xAC/' + 'dry-unselected-off.png',
     },
-    normalText: "干燥",
-    unselectedText: "干燥",
+    normalText: "内机防霉",
+    unselectedText: "内机防霉",
     hasSwitch: false,
     key: "CoolFreeDry",
     funcType: "button",
@@ -2605,7 +2605,7 @@ const Btns = {
     show: true,
     selected: false,
     offCan: false,
-    widget_id: 'click_sleep_curve',
+    widget_id: '',
     switchFunc: (state) => {
 
     },
@@ -2646,7 +2646,7 @@ const Btns = {
     show: true,
     selected: false,
     offCan: false,
-    widget_id: 'click_sleep_curve',
+    widget_id: '',
     switchFunc: (state) => {
 
     },
@@ -2695,6 +2695,47 @@ const Btns = {
 
     }
   },
+  CoolFreeSleep: {
+    normalImg: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'sleepopen.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'sleephot.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'sleepopen.png',
+    },
+    normalImgDark: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'sleepopen.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'sleephot.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'sleepref.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'sleepopen.png',
+    },
+    normalText: "睡眠",
+    unselectedText: "睡眠",
+    hasSwitch: false,
+    key: "CoolFreeSleep",
+    funcType: "button",
+    explain: "",
+    extraText1: "",
+    editable: false,
+    hasSet: false, // 包含设置的指引和文案
+    show: true,
+    selected: false,
+    offCan: false,
+    widget_id: 'click_sleep_curve',
+    switchFunc: (state) => {
+
+    },
+    func: (state) => {
+
+    }
+  },  
   UpDownAroundWind: {
     normalImg: {
       unselected: imageDoamin + 'plugin/0xAC/' + 'down-round-wind-unselect.png',
@@ -2838,6 +2879,50 @@ const Btns = {
     },
     func: (state) => {
 
+    }
+  },
+  AcDegerming: {
+    normalImg: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'wisCleanOpen.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'wisCleanRef.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'wisCleanRef.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'wisCleanRef.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'wisCleanHot.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'wisCleanRef.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'wisCleanRef.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'wisCleanClose.png',
+    },
+    normalImgDark: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-unselected-dark@2x.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-selected-dark@2x.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-selected-dark@2x.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-selected-dark@2x.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-selected-dark@2x.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-selected-dark@2x.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-selected-dark@2x.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'self-cleaning-selected-dark@2x.png',
+    },
+    cellImg: {
+      img: imageDoamin + 'plugin/0xAC/' + 'ac-degreming.png',
+    },
+    normalText: "空调除菌",
+    unselectedText: "空调除菌",
+    hasSwitch: true,
+    key: "AcDegerming",
+    funcType: "button",
+    explain: "",
+    extraText1: "",
+    editable: false,
+    widget_id: '',
+    hasSet: false, // 包含设置的指引和文案
+    show: true,
+    selected: false,
+    offCan: true,
+    switchFunc: (state) => {
+      console.log('switch state' + state);
+    },
+    func: (state) => {
+      console.log('switch state' + state);
     }
   },
   UpNoWindFeel: {
@@ -3698,6 +3783,49 @@ const Btns = {
     unselectedText: "滤网清洗和复位",
     hasSwitch: false,
     key: "FilterClean",
+    funcType: "cell",
+    explain: "",
+    extraText1: "",
+    editable: false,
+    hasSet: false, // 包含设置的指引和文案
+    show: true,
+    selected: false,
+    offCan: true,
+    switchFunc: (state) => {
+      console.log('switch state' + state);
+    },
+    func: (state) => {
+      console.log('switch state' + state);
+    },
+  },
+  coolFreeKitchenWindDirect: {
+    normalImg: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+    },
+    normalImgDark: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'filter-clean-unselected.png',
+    },
+    cellImg: {
+      img: imageDoamin + 'plugin/0xAC/' + 'filter-kitchen@2x.png',
+    },
+    normalText: "风向",
+    unselectedText: "风向",
+    hasSwitch: false,
+    key: "coolFreeKitchenWindDirect",
     funcType: "cell",
     explain: "",
     extraText1: "",
@@ -4669,7 +4797,48 @@ const Btns = {
     func: (state) => {
 
     }
-  },
+  },  
+  CoolFreeStrong: {
+    normalImg: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-unselect.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-heat.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-unselect.png',
+    },
+    normalImgDark: {
+      unselected: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-unselect.png',
+      auto: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      cool: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      dry: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      heat: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-heat.png',
+      fan: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      default: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-cool.png',
+      disabled: imageDoamin + 'plugin/0xAC/' + 'cool-free-strong-unselect.png',
+    },
+    normalText: "强劲",//酷风的强劲
+    unselectedText: "强劲", //酷风的强劲
+    hasSwitch: false,
+    key: "CoolFreeStrong",
+    funcType: "button",
+    explain: "",
+    extraText1: "",
+    editable: false,
+    hasSet: false, // 包含设置的指引和文案
+    show: true,
+    selected: false,
+    offCan: false,
+    widget_id: '',
+    switchFunc: (state) => {
+
+    },
+    func: (state) => {
+
+    }
+  },  
 }
 
 

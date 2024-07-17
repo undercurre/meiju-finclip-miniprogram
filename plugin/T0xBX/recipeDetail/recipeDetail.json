@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "",
-  "navigationBarBackgroundColor": "#F9F9F9",
-  "navigationBarTextStyle": "black",
-  "usingComponents": {
-    "plugin-navbar": "/pages/component/plugin-navbar/plugin-navbar",
-    "loading": "/pages/component/mso/loading/loading"
-  }
-}

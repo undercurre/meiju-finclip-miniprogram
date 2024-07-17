@@ -55,7 +55,7 @@ Page({
 
     this.setData({
       'arr[0].text': this.data.sn,     
-      'arr[1].text': '2.0.2'
+      'arr[1].text': '2.0.3'
     })
 
   },

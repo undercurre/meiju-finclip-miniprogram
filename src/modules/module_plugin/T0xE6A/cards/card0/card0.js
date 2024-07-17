@@ -16,6 +16,25 @@ let {
   deviceConfig
 } = configs
 
+import {
+  FuncType,
+  FuncOrder,
+  FuncMetaType
+} from '../../utils/sn-process/FuncType'
+import {
+  Btns
+} from '../../utils/BtnCfg'
+import {
+  errMap
+} from '../../utils/errTestConfig/config'
+import SnProcess from '../../utils/device-funcs-match/SnProcess'
+import FuncMatchBase from '../../utils/device-funcs-match/SNProcess/FuncMatchBase'
+import {
+  SNFuncMatch,
+  FuncDefault,
+  FuncCoolFreeDefault
+} from '../../utils/sn-process/SnFuncMap'
+
 // npm login --registry=https://npm.midea.com/repository/U-MeijuApp/
 // npm publish --registry=https://npm.midea.com/repository/U-MeijuApp/
 
@@ -43,6 +62,10 @@ Component({
    * 组件的初始数据
    */
   data: {
+    bathTempVal: 0,
+    errText: "",
+    showError: false,
+    zeroWaterArr:[], // 零冷水按钮
     showZeroWaterFlag: false,
     showShortcut: false,
     stateText: "--",
@@ -58,54 +81,56 @@ Component({
     timerClickIcon: `${IMAGE_SERVER}zero-cold-water.png`,
     moreIcon: `${IMAGE_SERVER}cell-more@2x.png`,
     tabIndex: 0,
-    miniData: [{
-        icon: `${IMAGE_SERVER}smart-at-home-unselect.png`,
-        activeIcon: `${IMAGE_SERVER}smart-at-home-select.png`,
-        label: '智能居家',
-        describe: '102分钟',
-        detail: '温度 60℃',
-        selected: false,
-        val: 2
-      },
-      {
-        icon: `${IMAGE_SERVER}smart-sleep-unselect.png`,
-        activeIcon: `${IMAGE_SERVER}smart-sleep-select.png`,
-        label: '智能睡眠',
-        describe: '70分钟',
-        detail: '温度 60℃',
-        selected: false,
-        val: 3
-      },
-      {
-        icon: `${IMAGE_SERVER}smart-out-unselect.png`,
-        activeIcon: `${IMAGE_SERVER}smart-out-select.png`,
-        label: '智能外出',
-        describe: '80分钟',
-        detail: '温度 60℃',
-        selected: false,
-        val: 1
-      }
-    ],
+    miniData:[],
+    // miniData: [{
+    //     icon: `${IMAGE_SERVER}smart-at-home-unselect.png`,
+    //     activeIcon: `${IMAGE_SERVER}smart-at-home-select.png`,
+    //     label: '智能居家',
+    //     describe: '102分钟',
+    //     detail: '温度 60℃',
+    //     selected: false,
+    //     val: 2
+    //   },
+    //   {
+    //     icon: `${IMAGE_SERVER}smart-sleep-unselect.png`,
+    //     activeIcon: `${IMAGE_SERVER}smart-sleep-select.png`,
+    //     label: '智能睡眠',
+    //     describe: '70分钟',
+    //     detail: '温度 60℃',
+    //     selected: false,
+    //     val: 3
+    //   },
+    //   {
+    //     icon: `${IMAGE_SERVER}smart-out-unselect.png`,
+    //     activeIcon: `${IMAGE_SERVER}smart-out-select.png`,
+    //     label: '智能外出',
+    //     describe: '80分钟',
+    //     detail: '温度 60℃',
+    //     selected: false,
+    //     val: 1
+    //   }
+    // ],
     mark: ['10°C', '35°C'],
     bathMark: ['10°C', '35°C'],
     aiFeelTempIcon: `${IMAGE_SERVER}ai-feel-temp.png`,
     barWashIcon: `${IMAGE_SERVER}bar-wash.png`,
-    specialCards: [{
-        icon: `${IMAGE_SERVER}ai-feel-temp.png`,
-        activeIcon: '',
-        label: '智温感',
-        describe: '智能调节水温，恒温舒适',
-        checked: false,
-      },
-      {
-        icon: `${IMAGE_SERVER}bar-wash.png`,
-        activeIcon: '',
-        label: '增压',
-        describe: '提升水量，畅享瀑布洗',
-        checked: false,
-      },
-    ],
+    // specialCards: [{
+    //     icon: `${IMAGE_SERVER}ai-feel-temp.png`,
+    //     activeIcon: '',
+    //     label: '智温感',
+    //     describe: '智能调节水温，恒温舒适',
+    //     checked: false,
+    //   },
+    //   {
+    //     icon: `${IMAGE_SERVER}bar-wash.png`,
+    //     activeIcon: '',
+    //     label: '增压',
+    //     describe: '提升水量，畅享瀑布洗',
+    //     checked: false,
+    //   },
+    // ],
 
+    specialCards: [],
     cards: [{
         title: '采暖',
       },
@@ -119,13 +144,19 @@ Component({
         label: '开关',
         checked: false,
       },
-      {
-        icon: `${IMAGE_SERVER}zero-cold-water-once-unselect.png`,
-        activeIcon: `${IMAGE_SERVER}zero-cold-water-once-select.png`,
-        label: '单次零冷水',
-        checked: true,
-      },
+      // {
+      //   icon: `${IMAGE_SERVER}zero-cold-water-once-unselect.png`,
+      //   activeIcon: `${IMAGE_SERVER}zero-cold-water-once-select.png`,
+      //   label: '单次零冷水',
+      //   checked: true,
+      // },
     ],
+    defaulteSingleColdWater: {
+      icon: `${IMAGE_SERVER}zero-cold-water-once-unselect.png`,
+      activeIcon: `${IMAGE_SERVER}zero-cold-water-once-select.png`,
+      label: '单次零冷水',
+      checked: true,
+    },
 
     status: {
       heat_set_temperature_max: 80,
@@ -145,6 +176,17 @@ Component({
     bathTempText: 30,
     systemType: "",
     singleZeroWaterTipsShow: false,
+
+    swStatus: {
+      dotZeroWater: false,
+      appointmentZeroWater: false,
+      addPressure: false,
+      smartTempFeel: false,
+    },
+
+    detailStatus: {
+      appointmentZeroWater: ""
+    }
   },
 
   lifetimes: {
@@ -174,6 +216,7 @@ Component({
         typeName: 'device_status_weex'
       }
 
+      this.generateFuncs(params.sn8);
       // this.queryStatus();      
 
       let that = this;
@@ -223,6 +266,7 @@ Component({
             ...this.data.status,
             ...data
           }
+          // mergeData.error_code = 5;
           // mark: ['10°C', '35°C'],
           this.setData({
             status: mergeData,
@@ -230,7 +274,9 @@ Component({
             bathMark: [mergeData.bath_set_temperature_min + '℃', mergeData.bath_set_temperature_max + '℃'],
             popupTempText: mergeData.current_heat_set_temperature,
             bathTempText: mergeData.current_bath_set_temperature,
-            barText: parseFloat(mergeData.water_gage / 10).toFixed(1)
+            barText: parseFloat(mergeData.water_gage / 10).toFixed(1),
+            errText: this.getErrorText(mergeData),
+            bathTempVal: (parseFloat(data.bath_out_water_temperature + data.bath_out_water_temperature_small * 0.1)).toFixed(1)
           })
           this.refreshBtnStatus(this.data.status);
           this.refreshQuickMode(this.data.status);
@@ -283,11 +329,22 @@ Component({
 
     refreshBtnStatus(status) {
       this.setData({
-        'tabbarItems[0].checked': status.power == "on",
-        'tabbarItems[1].checked': status.cold_water_single == "on",
-        'specialCards[0].checked': status.bath_mode == "10",
-        'specialCards[1].checked': status.pressure == "on"
+        'tabbarItems[0].checked': status.power == "on",        
+        // 'specialCards[0].checked': status.bath_mode == "10",
+        // 'specialCards[1].checked': status.pressure == "on",        
+        'detailStatus.appointmentZeroWater':  status.cold_water_appoint_master == 'on' ? '已开启' : '已关闭',
+        swStatus: {
+          dotZeroWater:status.cold_water_dot == "on",
+          appointmentZeroWater:status.cold_water_appoint_master == 'on',
+          smartTempFeel: status.bath_mode == "10",
+          addPressure: status.pressure == "on",
+        }
       })
+      if (this.data.tabbarItems[1]) {
+        this.setData({
+          'tabbarItems[1].checked': status.cold_water_single == "on",
+        })
+      }
     },
 
     refreshQuickMode(status) {
@@ -295,7 +352,7 @@ Component({
       for (let index = 0; index < this.data.miniData.length; index++) {
         if (status.heat_mode == this.data.miniData[index].val) {
           this.data.miniData[index].selected = true
-          text = this.data.miniData[index].label
+          text = this.data.miniData[index].title
         } else {
           this.data.miniData[index].selected = false
         }
@@ -575,28 +632,48 @@ Component({
       console.log(target);
     },
 
-    switchColdWaterDot(e) {
-      console.log(e);
-      app.globalData.DeviceComDecorator.coldWaterDot(e.detail);
+    switchColdWaterDot() {
+      let flag = !this.data.swStatus.dotZeroWater;
+      app.globalData.DeviceComDecorator.coldWaterDot(flag);
     },
 
-    barthDisabledTips() {
+    barthDisabledTips(e) {
+      console.log(e);
+      let item = e.target.dataset.item;
       if (this.data.status.power == "off") {
         wx.showToast({
           title: '总开关关闭时不可用',
           icon: 'none'
         })
+      } else {
+        switch (item.key) {
+          case "appointmentZeroWater":
+            this.goToTimeSet();
+            break;        
+          default:
+            break;
+        }
       }
+
+    },
+
+    specialCardsDisabledTips(e) {      
+      if (this.data.status.power == "off") {
+        wx.showToast({
+          title: '总开关关闭时不可用',
+          icon: 'none'
+        })
+      } 
     },
 
     // 智温感，增压switch
     specialFuncSwitch(e) {
       console.log(e);
       let item = e.currentTarget.dataset.item;
-      let flag = !item.checked;
-      if (item.label == '智温感') {
+      let flag = !this.data.swStatus[item.key];
+      if (item.title == '智温感') {
         app.globalData.DeviceComDecorator.bathMode(flag)
-      } else if (item.label == '增压') {
+      } else if (item.title == '增压') {
         app.globalData.DeviceComDecorator.pressureSwitch(flag)
       }
     },
@@ -719,8 +796,106 @@ Component({
     },
 
     preventDefault(e) {
-      e.preventDefault();
-    }
+      try {
+        e.preventDefault(); 
+      } catch (error) {
+        
+      }      
+    },
+
+    generateFuncs(sn8) {
+      this.setData({
+        deviceSn8: sn8,
+      })
+      console.log(sn8, 'sn8888888888888888888888')
+      // 00000021122012185091802902930000
+      FuncMatchBase.SNFuncMatch = SNFuncMatch
+      FuncMatchBase.FuncDefault = FuncDefault
+      FuncMatchBase.FuncOrder = FuncOrder
+      FuncMatchBase.FuncMetaType = FuncMetaType
+      FuncMatchBase.FuncType = FuncType
+      // let sn5 = sn8.slice(3);
+
+      let sn = '000000211' + sn8 + '091802902930000'
+      let deviceSubType = SnProcess.getAcSubType(sn) ? SnProcess.getAcSubType(sn) : '';
+      console.log(deviceSubType, "deviceSubType--------------");
+
+
+      console.log('生成sn', sn)
+      let obj = SnProcess.getAcFunc(sn, true)
+      let allBtn = SnProcess.getSnOrder(sn, false)
+
+      this.generateEachPartBtn(allBtn);
+      console.log(allBtn);
+    },
+
+    // 组出各个模块的功能
+    generateEachPartBtn(allBtn) {
+      // let func = allBtn.slice(1);
+      let funcType = FuncMatchBase.FuncType;
+      let warmArr = [];
+      let barthArr = [];
+      let zeroWaterArr = [];
+
+      allBtn.forEach(element => {
+        if (funcType[element].useType && funcType[element].useType == "specialWarm") { 
+          warmArr.push(Btns[element]);
+          // warmArr.push(element);
+        }
+
+        if (funcType[element].useType && funcType[element].useType == 'barth') { 
+          barthArr.push(Btns[element]);
+          // barthArr.push(element);
+        }
+
+        if (funcType[element].useType && funcType[element].useType == 'zeroWater') { 
+          zeroWaterArr.push(Btns[element]);
+          // zeroWaterArr.push(element);
+        }
+
+        if (funcType[element].useType && funcType[element].useType == 'bottomTap') { 
+          this.data.tabbarItems.push(this.data.defaulteSingleColdWater);
+          // zeroWaterArr.push(element);
+        }
+
+      });
+
+      this.setData({
+        miniData:warmArr,
+        specialCards:barthArr,
+        zeroWaterArr,
+        tabbarItems: this.data.tabbarItems
+      })
+      console.log("generateEachPartBtn", FuncMatchBase.FuncType, warmArr, barthArr, zeroWaterArr);
+    },
+    coldWaterArrSwitch(e) {
+      console.log(e);
+      let item = e.currentTarget.dataset.item;
+      switch (item.key) {
+        case 'dotZeroWater':
+          this.switchColdWaterDot();
+          break;
+        case '': 
+          break;
+        default:
+          break;
+      }
+    },
+
+    getErrorText(mergeData) {
+      if (23 < mergeData.error_code && mergeData.error_code < 31) {
+        console.log('此类故障空缺')
+        this.setData({
+          showError: false
+        })
+      } else {
+        this.setData({
+          showError: true
+        })
+        return errMap?.errMsgMap[mergeData.error_code + '']?.errDesc
+      }
+    },
+
 
 
   },

@@ -413,3 +413,21 @@
   pointer-events: auto;
 }
 
+.error-msg {
+  width: 750rpx;
+  height: 72rpx;
+  background: #FFF5EE;
+  position: fixed;
+  z-index: 1000;
+}
+
+.err-text {
+  font-family: PingFangSC, PingFang SC;
+  font-weight: 500;
+  font-size: 26rpx;
+  color: #FF8225;
+  line-height: 26rpx;
+  text-align: left;
+  font-style: normal;
+}
+

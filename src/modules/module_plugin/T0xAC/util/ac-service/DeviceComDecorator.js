@@ -29,6 +29,10 @@ import {
 } from '../selfconfig/lua-map-northwarm.js'
 
 import {
+  LuaMapCfKitchen
+} from '../selfconfig/lua-map-cf-kitchen.js'
+
+import {
   BurialMapList
 } from '../burialMap'
 
@@ -54,6 +58,14 @@ const freshAirFanSpeedTH = {
   '100': '(4档)'
 }
 
+
+const angleMap = {
+  "1": 1,
+  "25": 3,
+  "50": 5,
+  "75": 7,
+  "100": 9
+}
 export default class DeviceComDecorator {
   constructor(bluetoothConn, applianceCode, ctrlType, deviceSn, deviceSn8) {
     // this.deviceId = deviceId;
@@ -68,16 +80,17 @@ export default class DeviceComDecorator {
     this.subType = this.getAcSubType();
     console.log("找到设备subType",this.subType);
     this.isCoolFree = this.subType && (this.subType == 'COOLFREE' || this.subType.indexOf('COOLFREE') >= 0)
-    this.useTH = this.checkIsTH();
+    this.useTH = this.checkUseWhat('useTH');
     this.isTH = this.useTH || (this.subType && (this.subType == 'XF1_1_BLE' || this.subType == 'T5_35_BLE' || this.subType == 'T3_35_BLE' || this.subType == 'T5_72_BLE' || this.subType == 'K2_1_BLE' || this.subType == 'JP1_1' || this.subType == 'JH1_1' || this.subType == 'FA1_1' || this.subType == 'FA1_1_51_72')) // 使用th协议的
     this.useTHFreshAir = this.subType && (this.subType == 'T5_35_BLE' || this.subType == 'T3_35_BLE' || this.subType == 'T5_72_BLE' || this.subType == 'T3_OFFLINE_VOICE_BLE')
-    this.useNorthWarm = this.checkIsNorthWarm();
+    this.useNorthWarm = this.checkUseWhat('useNorthWarm');
+    this.useCfKitchen = this.checkUseWhat('useCoolFreeKitchen');
 
     this.AcProcess = new SendOrder();
 
     this.timer = null;
 
-    console.log(this.isTH, 'this.isTH');
+    console.log(this.useCfKitchen, 'this.useCfKitchen');
 
     this.event = new Event();
 
@@ -118,13 +131,49 @@ export default class DeviceComDecorator {
     }, false, '加载中...');    
   }
 
+  _queryStatusSetting() {
+    this.writeData({
+      hex: "",
+      attr: {
+        query_type: 'nil'
+      }
+    }, false, '加载中...', '', (data)=>{
+      console.log("_queryStatusSetting", data);
+      if (data.single_control == 1) {
+        this._queryStatusCoolFreeKitchen();
+      } 
+    });    
+  }
+  // 查询X空间厨房空调信息
+  _queryStatusCoolFreeKitchen() {
+        
+    this.writeData({
+      hex: "",
+      attr: {
+        query_type: 'c002_query'
+      }
+    }, false, '加载中...');    
+
+    this._queryXAreaRunstatus();
+  }
+
+  // 查询x空间上的滤网清洁之类的
+  _queryXAreaRunstatus() {
+    this.writeData({
+      hex: "",
+      attr: {
+        query_type: 'run_status'
+      }
+    }, false, '加载中...');    
+  }
+
 
   // 查新协议
   _queryStatusNewProtocol(useloading = true,queryType) {
     let attribuite = this.getDeviceFunc();
     this.newProtocolCMD = attribuite.uniqueCmds
     // this.newProtocolCMD[CMD.Supercooling] = "";
-    console.log('查新协议',attribuite.luaKeysStr,attribuite.uniqueCmds);
+    console.log('查新协议',attribuite.luaKeysStr,attribuite.uniqueCmds, this.newProtocolCMD.length);
     let order = this.AcProcess.makeQueryPackage(this.newProtocolCMD);    
     this.writeData({
       hex: order,
@@ -245,7 +294,7 @@ export default class DeviceComDecorator {
     if(this.isTH) { // TH的关机特殊处理，开机时正常发power on
       if(isOn) {
         thAttrs[CMD.THPOWER] = [1];      
-        if (this.subType == 'T1_OFFLINE_VOICE_BLE' || this.subType == 'T5_35_BLE' || this.subType == 'T5_72_BLE' || this.subType == 'T3_35_BLE') {          
+        if (this.subType == 'T1_OFFLINE_VOICE_BLE' || this.subType == 'T5_35_BLE' || this.subType == 'T3_35_BLE') {          
           luaAttrs = {
             total_status_switch: "1",
             buzzer: burzzer ? "on" : "off"
@@ -433,12 +482,18 @@ export default class DeviceComDecorator {
 
     let _value = windSpeedValue > 100 ? 102 : windSpeedValue < 1 ? 1 : windSpeedValue;
     let luaAttrs = {};
-    luaAttrs.strong_wind = 'off';
-    luaAttrs.wind_speed = _value;
-    luaAttrs.power_saving = 'off'
+    
+
+    if (this.useTH) {
+      luaAttrs.wind_speed = _value;
+    } else {
+      luaAttrs.strong_wind = 'off';
+      luaAttrs.wind_speed = _value;
+      luaAttrs.power_saving = 'off'      
+      let luaSendStr = [...sleepCurveData, sleepCurveData[7], sleepCurveData[7]].join(',')
+      luaAttrs.comfort_sleep_curve = luaSendStr    
+    }
     luaAttrs.buzzer = burzzer ? "on" : "off"
-    let luaSendStr = [...sleepCurveData, sleepCurveData[7], sleepCurveData[7]].join(',')
-    luaAttrs.comfort_sleep_curve = luaSendStr    
 
     if (this.subType == 'MXC1_2_BLE') {
       let thAttrs = {}
@@ -1583,7 +1638,7 @@ export default class DeviceComDecorator {
     let attrs = {};
     let burzzer = wx.getStorageSync('Sound')
     let _angle = parseInt(angle);
-    attrs[CMD.LEFTRIGHTANGLE] = [_angle];
+    attrs[CMD.LEFTLRWINDANGLE] = [_angle];
     console.log(attrs);
 
     let luaAttrs = {
@@ -2017,6 +2072,30 @@ export default class DeviceComDecorator {
     // burialParam = this.matchBurialParamsAdvance(burialParam, widget_id, page_path)
     // this.sendBurial(burialParam)
   }
+
+  /**
+   * 
+   */
+  acDegermingSwitch(isOn, widget_id, page_path) {
+    let attrs = {};
+    let burzzer = wx.getStorageSync('Sound')
+    attrs[CMD.ACDEGERMING] = isOn ? [1] : [0];
+    // attrs[CMD.CONTROLSELFCLEANING] = [0]; // 除菌会开机，需要把智清洁关闭
+    
+    let luaAttrs = {
+      air_remove_odor: isOn ? 1 : 0,
+      self_clean: "off",
+      buzzer: burzzer ? "on" : "off"
+    };
+
+    this.writeData({
+      hex: this.AcProcess.makeNewProtocolPackage(attrs, burzzer),
+      attr: luaAttrs
+    },true, '控制中...', 'degermingSwitch', ()=>{
+      this.selfShowToast(isOn ? '已开启除菌' : '已关闭除菌');
+    });
+    this.delayQueryNewAndOld();
+  }  
 
 
   /**
@@ -2645,13 +2724,13 @@ export default class DeviceComDecorator {
   //  let modeIndex = this.coolFreeModeMap(_modeIndex);
     console.log(acstatus, "酷风模式切换")
     let dryLuaAttr = acstatus.coolFreeDryClean == 1 ? true : false;
-    if (acstatus.runStatus == 0) {
-      wx.showToast({
-        title: '空调已关，请先开空调',
-        icon: 'none'
-      })
-      return;
-    }
+    // if (acstatus.runStatus == 0) {
+    //   wx.showToast({
+    //     title: '空调已关，请先开空调',
+    //     icon: 'none'
+    //   })
+    //   return;
+    // }
     let burzzer = wx.getStorageSync('Sound')
     let attrs = {
       mode: modeIndex,
@@ -2748,6 +2827,98 @@ export default class DeviceComDecorator {
     });
   }
 
+  /**
+   * 酷风智控温
+   * @param {*} isOn 
+   * @param {*} widget_id 
+   * @param {*} page_path 
+   */
+  coolFreeSmartCooling(isOn, widget_id, page_path) {
+    let attrs = {};
+    let burzzer = wx.getStorageSync('Sound')
+    // attrs[CMD.SoundNew] = burzzer ? [1]:[0]; // 蜂鸣器位置
+    attrs[CMD.Supercooling] = isOn ? [1] : [0];
+    attrs[CMD.NONDIRECTWIND] = [1];
+    attrs[CMD.FAWINDFEEL] = [1];
+    let luaAttrs = {
+      prevent_super_cool: isOn ? "on" : "off",    
+      buzzer: burzzer ? "on" : "off"
+    }
+    // this.AcProcess.parser.newsendingState.faWindFeel = 1;
+    // 智控温和eco、舒省、省电互斥
+    this.AcProcess.parser.sendingState.ecoFunc = 0
+    this.AcProcess.parser.sendingState.CSEco = 0
+    this.AcProcess.parser.sendingState.powerSave = 0
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    });
+    // this.powerSave(false);
+    // this.switchECO(false);
+    let burialParam = {
+      ext_info: isOn ? '开启' : '关闭',
+      setting_params: JSON.stringify(luaAttrs)
+    }
+    burialParam = this.matchBurialParamsAdvance(burialParam, widget_id, page_path)
+    this.sendBurial(burialParam);   
+    this.delayQueryNewAndOld();
+  }
+
+
+  /**
+   * 酷风睡眠
+   */
+  coolFreeCosySleep(isOn) {
+    let burzzer = wx.getStorageSync('Sound')
+    let luaAttrs = {
+      energy_save: isOn ? "on" : "off",    
+      buzzer: burzzer ? "on" : "off"
+    }   
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    });             
+    this.delayQueryNewAndOld();
+  }
+
+
+  /**
+   * 酷风强劲
+   */
+  coolFreeStrong(isOn) {
+    let burzzer = wx.getStorageSync('Sound')
+    // params.wind_speed=100;
+    // params.energy_save="off";
+    // params.comfort_sleep='off';
+    // params.no_wind_sense='off';
+    // params.cool_hot_sense="off";
+    // params.nobody_energy_save="off";
+    // params.wind_straight="off";
+    // params.wind_avoid="off";
+    // params.prevent_super_cool=0;
+    // params.eco=0;
+    // params.new_wind_model_mute=0;
+    let luaAttrs = {
+      strong_wind: isOn ? "on" : "off",   
+      wind_speed: 100,
+      energy_save: "off",
+      comfort_sleep: "off",
+      no_wind_sense: "off",
+      cool_hot_sense: "off",
+      nobody_energy_save: "off",
+      wind_straight: "off",
+      wind_avoid: "off",
+      prevent_super_cool: 0,
+      eco: 0,
+      new_wind_model_mute: 0,
+      buzzer: burzzer ? "on" : "off"
+    }   
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    });           
+    this.delayQueryNewAndOld();
+  }
   /*****************************北方采暖器逻辑控制**************************************/
   northWarmSwitchDevice(isOn, modeIndex, memoryChoice, acstatus, callback) {    
     let burzzer = wx.getStorageSync('Sound')    
@@ -3302,7 +3473,7 @@ export default class DeviceComDecorator {
    * 保湿开关方法th
    * @param {保湿开关} isOn 
    */
-  keepWetSwitch(isOn, fanSpeed, widget_id, page_path) {
+  keepWetSwitch(isOn, fanSpeed, widget_id, page_path, useTips) {
     let attrs = {};
     let burzzer = wx.getStorageSync('Sound')
     attrs[CMD.KEEPWET] = [
@@ -3320,8 +3491,12 @@ export default class DeviceComDecorator {
       hex: this.AcProcess.makeNewProtocolPackage(attrs, burzzer),
       attr: luaAttrs
     },true, '控制中...', '', ()=>{     
-      this.selfShowToast(isOn ? `已开启保湿${freshAirFanSpeedTH[fanSpeed+'']}` : '已关闭保湿');           
+      if (useTips) {
+        this.selfShowToast(isOn ? `已开启保湿${freshAirFanSpeedTH[fanSpeed+'']}` : '已关闭保湿'); 
+      }        
     });
+
+    this.delayQueryNewAndOld();
     let burialParam = {
       ext_info: isOn ? '开启' : '关闭',
       setting_params: JSON.stringify(luaAttrs)
@@ -3408,8 +3583,8 @@ export default class DeviceComDecorator {
         delete attr.query_type;
       }
 
-      this.sendLuaLogic(data, requestMethod, toastText, useLoad, () => {
-        callback && callback();
+      this.sendLuaLogic(data, requestMethod, toastText, useLoad, (res) => {
+        callback && callback(res);
       });
     } else {
       console.log('虚拟');
@@ -3429,16 +3604,14 @@ export default class DeviceComDecorator {
       ..._data.attr
     },this.status).then((data) => {
       wx.hideLoading({
-        success: (res) => {
-          callback && callback()
-        },
+        success: (res) => {},
       })
       this.status = {...this.status,...data};
-      console.log(JSON.stringify(data), "wifiwifiwifiwifi", LuaMap)
-
-
+      console.log(JSON.stringify(data), "wifiwifiwifiwifi", LuaMap)      
       this.luaDataTransformer(data);      
-      this.event.dispatch("receiveMessageLan", data)                 
+      this.event.dispatch("receiveMessageLan", 
+      data)     
+      callback && callback(data);            
     }).catch(err => {
       console.log(JSON.stringify(err));
       wx.hideLoading({
@@ -3475,7 +3648,7 @@ export default class DeviceComDecorator {
           wx.hideLoading({
             success: (res) => {
               console.log('hide loading 1111111');            
-              callback && callback();
+              callback && callback(res);
             },
           })
         }, toastText == '加载中...' ? 800 : 500);
@@ -3497,6 +3670,8 @@ export default class DeviceComDecorator {
     } else if(this.useNorthWarm) {
       console.log('北方采暖转换')
       _map = LuaMapNorthWarm
+    } else if(this.useCfKitchen) {
+      _map = LuaMapCfKitchen
     }
     console.log(data, "luaMapTransfer")
 
@@ -3766,6 +3941,12 @@ export default class DeviceComDecorator {
     return this.checkHasFunc('useNorthWarm', obj.home.noneControlFunc)
   }
 
+  checkUseWhat(data) {
+    let sn = '000000211' + this.deviceSn8 + '091802902930000' 
+    let obj = SnProcess.getAcFunc(sn, false)    
+    return this.checkHasFunc(data, obj.home.noneControlFunc)
+  }
+
   checkHasFunc(funcName, allBtn) {
     return allBtn.indexOf(funcName) >= 0;
   }
@@ -3830,5 +4011,339 @@ export default class DeviceComDecorator {
     var hour = now.getHours();
     var output = year + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day + ' ' + (hour < 10 ? '0' : '') + hour + ":00:00";
     return output;
+  }
+
+  /****************酷风厨房空调******************/
+  coolFreeKitchenSwitchDevice(isOn) {
+    let luaAttrs = {
+      power: isOn ? "on" : "off",
+      power_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+  /**
+   * 酷风风速
+   */
+  coolFreeKitchenWindSpeed(windSpeedValue) {
+    let _value = windSpeedValue > 100 ? 102 : windSpeedValue < 1 ? 1 : windSpeedValue;
+    let luaAttrs = {
+      wind_speed: _value,
+      wind_speed_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+  /**
+   * 酷风上下摆风
+   */
+  coolFreeKitchenUdSwing(isOn) {   
+    let luaAttrs = {
+      wind_swing_ud: isOn ? "on" : "off",
+      wind_swing_ud_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+  /**
+   * 酷风左右摆风
+   */
+  coolFreeKitchenLrSwing(isOn) {   
+    let luaAttrs = {
+      wind_swing_lr: isOn ? "on" : "off",
+      wind_swing_lr_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+  /**
+   * 酷风上下摆风角度
+   */
+  coolFreeKitchenUdAngle(angle) {   
+    console.log(angle.toString(),"angleMap", angleMap[angle.toString()])
+    let luaAttrs = {
+      up_down_wind_direction: angleMap[angle.toString()],
+      up_down_wind_direction_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+  /**
+   * 酷风左右摆风角度
+   */
+  coolFreeKitchenLrAngle(angle) {   
+    
+    let luaAttrs = {
+      left_right_wind_direction: angleMap[angle.toString()],
+      left_right_wind_direction_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+  /**
+   * 酷风厨房空调备菜
+   */
+  coolFreeKitchenPrepareFood(isOn) {
+    let luaAttrs = {
+      prepare_food: isOn ? 1 : 0,
+      prepare_food_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+
+  /**
+   * 爆炒
+   */
+  coolFreeKitchenQuickFry(isOn) {
+    let luaAttrs = {
+      quick_fry: isOn ? 1 : 0,
+      quick_fry_enable: 1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '加载中...');
+  }
+
+  /*干燥X空间*/
+  switchDryXarea(isOn) {
+    let burzzer = wx.getStorageSync('Sound')   
+    let luaAttrs = {
+      dry: isOn ? "on" : "off",
+      dry_enable: 1      
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    });
+    // this.delayQuery();
+  }
+
+  /**
+   * X空间系列，定时关下发发码
+   * @param {*} time 
+   * @param {*} sleepCurveData 
+   * @param {*} page_path 
+   */
+  xAreaTimingOffSwitch(time, sleepCurveData, page_path) {    
+    let luaAttrs = {     
+      power_off_time_value: time * 60,
+      power_off_time_value_enable:1,
+      power_off_timer: "on",
+      power_off_timer_enable: 1,
+    }    
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '控制中...', 'TimerOn', ()=>{
+      this.selfShowToast('已设置定时关机');
+    });
+    let burialParam = {
+      object_name: `${time}小时`,
+      setting_params: JSON.stringify(luaAttrs)
+    }
+    burialParam = this.matchBurialParamsAdvance(burialParam, 'click_appointment_shutdown', page_path || '')
+    this.sendBurial(burialParam)
+  }
+
+   /**
+    * x空间系列关闭定时
+    * @param {*} page_path 
+    * @param {*} sleepCurveData 
+    */
+   xAreaCancelTimingOff(page_path, sleepCurveData) {    
+    let luaAttrs = {          
+      power_off_time_value: 0,
+      power_off_time_value_enable:1,
+      power_off_timer: "off",
+      power_off_timer_enable: 1,
+      power_on_time_value: 0,
+      power_on_time_value_enable: 1,
+      power_on_timer: "off",
+      power_on_timer_enable: 1,
+      timer_enable: 1,      
+    }
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '控制中...', 'TimerOnOffSwitchOff', ()=>{
+      this.selfShowToast('已取消定时');
+    });
+
+    let burialParam = {
+      object_name: '取消定时',
+      setting_params: JSON.stringify(luaAttrs)
+    }
+    burialParam = this.matchBurialParamsAdvance(burialParam, 'click_appointment_shutdown', page_path || '')
+    this.sendBurial(burialParam);
+  }
+
+
+
+  /**
+   * x空间系列下发定时开
+   * @param {*} time 
+   * @param {*} sleepCurveData 
+   * @param {*} page_path 
+   */
+  xAreaTimingOnSwitch(time, sleepCurveData, page_path) {
+    let luaAttrs = {     
+      power_on_time_value: time * 60,
+      power_on_time_value_enable: 1,
+      power_on_timer: "on",
+      power_on_timer_enable: 1,
+      timer_enable: 1,      
+    }    
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '控制中...', 'TimerOn', ()=>{
+      this.selfShowToast('已设置定时开机');
+    });
+    let burialParam = {
+      object_name: `${time}小时`,
+      setting_params: JSON.stringify(luaAttrs)
+    }
+    burialParam = this.matchBurialParamsAdvance(burialParam, 'click_appointment_shutdown', page_path || '')
+    this.sendBurial(burialParam)
+  }
+
+  /**
+   * x空间智清洁
+   * @param {*} isOn 
+   * @param {*} widget_id 
+   * @param {*} page_path 
+   */
+  xAreaSelfCleaningSwitch(isOn, widget_id, page_path) {    
+    let _self_clean = isOn ? "on" : "off";
+    let luaAttrs = {
+      self_clean: _self_clean,
+      self_clean_enable:1
+    }
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    },true, '控制中...', 'SelfCleaning', ()=>{
+      this.selfShowToast(isOn ? '已开启智清洁' : '已关闭智清洁');
+    });
+   
+  }
+
+  /**
+   * 重置滤网时间
+   */
+  xAreaRefreshFilter() {   
+    let luaAttrs = {
+      // fresh_filter_time_reset:"on"
+      purify_filter_time_reset: "on"
+    }
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    },true, '控制中...', 'SelfCleaning',()=>{
+      setTimeout(() => {
+        this._queryXAreaRunstatus();  
+      }, 500);      
+    });     
+   
+    
+  }
+
+   /*X空间类型的模式切换*/
+   xAreaModeChange(modeIndex, acstatus, widget_id, page_path) { 
+    // 1: 自动，2：制冷 3：抽湿 4：制热 5：送风 参数是这个，需要转成酷风的
+    // 0-制冷；1-抽湿；2-自动；3-制热；4-送风；5-待机；6-除湿再热；7-自动除湿；
+    // 对于这个蓝牙直接发送指令的情况，需要转一次
+    //  let modeIndex = this.coolFreeModeMap(_modeIndex);   
+    let modeOptions = ["auto", "cool", "dry", "heat", "fan"]
+    let modeOptionsMap = {"auto":"自动", "cool":"制冷", "dry":"抽湿", "heat":"制热", "fan":"送风"}
+    let luaAttrs = {
+      mode: modeOptions[modeIndex - 1],
+      mode_enable: 1
+    }    
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    },true, '控制中...', 'controlModeToggle', ()=>{
+      this.selfShowToast(`已切换为${modeOptionsMap[modeOptions[modeIndex - 1]]}模式`);
+    });
+  }
+
+  // 爆炒摆风 
+  xAreaQuickFryCenterPoint(data) {      
+    let luaAttrs = {
+      quick_prepare_food_angle: data,
+      quick_prepare_food_angle_enable:1
+    };
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    });
+  }
+
+  xAreaControlTemp(value, acstatus, callback, page_path) {
+    //todo mutex in view       
+
+    let _is = parseInt(value) > 30 ? 30 : parseInt(value) < 16 ? 16 : parseInt(value);
+    let _is5 = ((value - parseInt(value)) * 10) === 0 ? 0 : 0.5;
+    let luaAttrs = {
+      temperature: _is,
+      temperature_enable:1,
+      small_temperature: _is5,    
+      small_temperature_enable:1
+    }
+
+    this.writeData({
+      hex: "",
+      attr: luaAttrs
+    }, true, '', 'TempControl', () => {
+      callback && callback();
+    });
+
+
+    let burialParam = {
+      page_name: "遥控面板",
+      object: "温度",
+      ex_value: acstatus.tempSet,
+      value: value,
+      link_mode: modeArray[acstatus.mode - 1],
+      setting_params: JSON.stringify(luaAttrs),
+      order_status: 1,
+      ext_info: value
+    }
+
+    burialParam = this.matchBurialParamsAdvance(burialParam, 'click_temperature_change', page_path);
+    this.sendBurial(burialParam);
   }
 }

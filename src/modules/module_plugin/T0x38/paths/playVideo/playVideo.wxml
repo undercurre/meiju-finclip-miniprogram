@@ -17,7 +17,6 @@
         show-center-play-btn="{{false}}"
         show-play-btn="{{false}}"
         show-fullscreen-btn="{{false}}"
-        object-fit="fill" 
         bindplay="videoPlay"
         bindpause="videoPause"
         bindcontrolstoggle="videoControls"

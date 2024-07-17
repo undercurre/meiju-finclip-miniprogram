@@ -78,7 +78,7 @@
       </view>
     </midea-card>
     <!-- 模式与定时 -->
-    <view class="row" wx:if="{{deviceInfo.lock!=='on'}}">
+    <view class="row" wx:if="{{true||deviceInfo.lock!=='on'}}">
       <!-- 模式 -->
       <midea-card
         wx:if="{{configList['mode']&&configList['mode'].length>0}}"
@@ -134,7 +134,7 @@
     <!-- 档位控制 -->
     <view
       class="row gear-control-wrapper"
-      wx:if="{{configList['gear']&&configList['gear'].length>0&&bindModeGearConfig.list.length>0&&deviceInfo.lock!=='on'}}"
+      wx:if="{{configList['gear']&&configList['gear'].length>0&&bindModeGearConfig.list.length>0&&(true||deviceInfo.lock!=='on')}}"
     >
       <midea-card class="item">
         <view class="center-wrapper {{deviceInfo.isRunning?'':'disabled'}}" slot="centerWrapper">
@@ -177,7 +177,7 @@
       </midea-card>
     </view>
     <!-- 智能托管 -->
-    <view class="row" wx:if="{{configList['hostingOnOff']&&deviceInfo.lock!=='on'}}">
+    <view class="row" wx:if="{{configList['hostingOnOff']&&(true||deviceInfo.lock!=='on')}}">
       <midea-card class="item child-lock-wrapper" height="100">
         <view
           slot="centerWrapper"
@@ -208,7 +208,7 @@
     <!-- 恒湿 -->
     <view
       class="row gear-control-wrapper"
-      wx:if="{{configList['humidify']&&configList['humidify'].length>0&&bindHumidifyConfig.list.length>0&&deviceInfo.lock!=='on'}}"
+      wx:if="{{configList['humidify']&&configList['humidify'].length>0&&bindHumidifyConfig.list.length>0&&(true||deviceInfo.lock!=='on')}}"
     >
       <midea-card class="item" bindtap="onClickHumidify">
         <view class="center-wrapper {{!deviceInfo.isRunning?'disabled':''}}" slot="centerWrapper">
@@ -240,7 +240,7 @@
     <!-- 亮度 -->
     <view
       class="row gear-control-wrapper"
-      wx:if="{{configList['brightLed']&&configList['brightLed'].length>0&&bindBrightLedConfig.list.length>0&&deviceInfo.lock!=='on'}}"
+      wx:if="{{configList['brightLed']&&configList['brightLed'].length>0&&bindBrightLedConfig.list.length>0&&(true||deviceInfo.lock!=='on')}}"
     >
       <midea-card class="item">
         <view class="center-wrapper {{deviceInfo.isRunning?'':'disabled'}}" slot="centerWrapper">
@@ -272,7 +272,7 @@
           class="center-wrapper {{deviceInfo.isRunning?'':'disabled'}}"
           slot="centerWrapper"
           style="margin-top: 30rpx"
-          wx:if="{{configList['light_bind']&&configList['light_bind'].length>0&&bindLightColorConfig.list.length>0&&deviceInfo.lock!=='on'&&deviceInfo.mode === 'sleep'&&(deviceInfo.bright === 0||deviceInfo.bright === 6)}}"
+          wx:if="{{configList['light_bind']&&configList['light_bind'].length>0&&bindLightColorConfig.list.length>0&&(true||deviceInfo.lock!=='on')&&deviceInfo.mode === 'sleep'&&(deviceInfo.bright === 0||deviceInfo.bright === 6)}}"
         >
           <view class="header start-flex">
             <view
@@ -300,7 +300,7 @@
       </midea-card>
     </view>
     <!-- 净离子与声音 -->
-    <view class="row" wx:if="{{deviceInfo.lock!=='on'}}">
+    <view class="row" wx:if="{{true||deviceInfo.lock!=='on'}}">
       <!-- 净离子 -->
       <midea-card
         class="item child-lock-wrapper {{deviceInfo.isRunning?'':'disabled'}}"
@@ -343,7 +343,7 @@
       </midea-card>
     </view>
     <!-- 负离子 -->
-    <view class="row" wx:if="{{configList['anion']&&deviceInfo.lock!=='on'}}">
+    <view class="row" wx:if="{{configList['anion']&&(true||deviceInfo.lock!=='on')}}">
       <midea-card class="item child-lock-wrapper" height="100">
         <view slot="centerWrapper" class="between-flex transition-default {{deviceInfo.isOnline?'':'disabled'}}">
           <view class="header start-flex">

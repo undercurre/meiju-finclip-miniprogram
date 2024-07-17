@@ -46,6 +46,10 @@ const timerArr = ["30分钟", "1小时", "1.5小时", "2小时", "2.5小时", "3
   "19.5小时", "20小时", "20.5小时", "21小时", "21.5小时", "22小时", "22.5小时", "23小时", "23.5小时", "24小时"
 ]
 
+const xAreaArr = ["30分钟", "1小时", "1.5小时", "2小时", "2.5小时", "3小时", "3.5小时", "4小时", "4.5小时", "5小时", "5.5小时", "6小时",
+"6.5小时", "7小时", "7.5小时", "8小时", "8.5小时", "9小时", "9.5小时", "10小时", "11小时", "12小时",
+"13小时", "14小时", "15小时", "16小时", "17小时", "18小时", "19小时", "20小时", "21小时", "22小时", "23小时", "24小时"]
+
 
 const AC_TYPE_PRODUCT = {
   '移动空调': 'mobile',
@@ -67,6 +71,12 @@ import {
 import {
   Btns
 } from '../util/BtnCfg'
+
+import {
+  leftRightAnglePopBtns,
+  rightRightAnglePopBtns,
+  T1T3UdAngle
+} from '../util/assetConfig'
 
 import {
   SNFuncMatch,
@@ -97,6 +107,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    leftRightAnglePopBtns,
+    rightRightAnglePopBtns,
+    T1T3UdAngle,
     windFeelMxPanelWidth:0,
     windFeelItemsWidth:0,
     noImg:false,
@@ -237,6 +250,7 @@ Page({
       UpDownWindBlowing: false,
       softWindFeel: false,
       Degerming: false,
+      AcDegerming: false,
       AroundWind: false,
       ThNowindFeel: false,
       AutomaticAntiColdAir: false,
@@ -879,6 +893,7 @@ Page({
     showModePopup: false, //展示底部模式
     showLeftPopup: false, //展示底部左右风
     showUpDownPopup: false, //展示底部上下风
+    showT1T3UpDownPopup: false, //展示T1T3上下出风角度
     SwitchLeftChecked: false, //是否开启左右风    
     showUdRoundWindPopup: false,
     showUpLrDwonLrPopup: false, //展示底部上左右风向、下左右风向
@@ -973,6 +988,7 @@ Page({
       }
     ],
     showQuickFryWindPop: false,
+    showQuickFryWindPopCoolFree: false,
     prepareFood: false,
     prepareFoodTemp: 26,
     prepareFoodFanSpeed: 102,
@@ -995,6 +1011,8 @@ Page({
     targetTempMark: ['16°C', '30°C'],
     northWarmTargetTempText:"",    
 
+    isCoolFreeKitchen: false,
+
     timerColumns: [], // 定时picker的数组
     openTimerPicker: false, // 定时picker的展示,
     showSelfCleanConfirmPopup: false,
@@ -1015,6 +1033,20 @@ Page({
       {
         title: "异响现象",
         content: "智清洁运行中，室内机可能会发出异响，此为正常现象"
+      }
+    ],
+
+    DryKitchenContent: [{
+        title: "",
+        content: "内机防霉功能可吹出内部的湿冷空气，以防霉菌滋生"
+      },
+      {
+        title: "",
+        content: "仅支持在制冷、抽湿模式下开启和运行"
+      },
+      {
+        title: "",
+        content: "开启后，将在每次空调关机后运行，约十分钟完成工作，并自动关机"
       }
     ],
   
@@ -1390,6 +1422,9 @@ Page({
       Degerming: {
         disabled: false
       },
+      AcDegerming: {
+        disabled: false
+      },
       AroundWind: {
         disabled: false
       },
@@ -1416,7 +1451,19 @@ Page({
       },
       ThDownNoWindFeel: {
         disabled: false
-      } 
+      },
+      UpDownSwipeWind: {
+        disabled: false
+      },
+      UpDownWindAngle: {
+        disabled: false
+      },
+      CoolFreeSleep: {
+        disabled: false
+      },
+      CoolFreeStrong: {
+        disabled: false
+      }
     },
     quickSwipeMark: ['最下', '最上'],
     coldTipsNotShow: false,
@@ -1442,7 +1489,16 @@ Page({
 
     placeholder: '../assets/t0ac/img_no_shebei@2x.png',
     showVacation: false,
-    synchronizeAngle: "", // 分左风道右风道时，需要使用这个角度来决定显示那个椒图的图片
+    synchronizeAngle: "", // 分左风道右风道时，需要使用这个角度来决定显示那个角度的图片,
+
+    coolFreeRadaMode:-1,
+    coolFreeRadaTips:[{
+      tips:''
+    },{ 
+      tips:''
+    }],
+    coolFreeRadaTipsShowFlag: false
+
   },
 
   /**
@@ -1688,6 +1744,7 @@ Page({
               safeModeFlag: data
             })
           })
+          this.checkRadarGetTip();
         })
         let str =
           'aa32ac00000000000803bb2800ffff11018000000002526632000000003200012800000004523266000400000000000093c217'
@@ -1844,7 +1901,7 @@ Page({
           event: that.data.event,
           deviceSnBle: that.data.deviceInfoSn,
           connectedDevice: that.data.connectedDevice,
-          isCoolFree: that.data.isCoolFree,
+          isCoolFree: that.data.isCoolFree,          
           isTH: that.data.isTH,
           hasAuto: that.data.hasAuto,
         })
@@ -1892,6 +1949,8 @@ Page({
     if (mode != this.data.acStatus.mode) {
       if (this.data.isCoolFree) {
         this.data.DeviceComDecorator.coolFreeControlModeToggle(modeIndex, this.data.acstatus, '', '')
+      } else if(this.data.isCoolFreeKitchen) {
+        this.data.DeviceComDecorator.xAreaModeChange(modeIndex, this.data.acstatus, '', '')
       } else {
         this.data.DeviceComDecorator.controlModeToggle(modeIndex, this.data.acstatus, '', '')
         this.data.DeviceComDecorator.AcProcess.parser.newsendingState.leftRightAngle = 0 // 调模式摆风角度置0
@@ -1905,21 +1964,25 @@ Page({
     console.log(e)
     let angle = e.currentTarget.dataset.item.angle
     // status.leftLeftRightWind
-    this.data.DeviceComDecorator.AcProcess.parser.sendingState.leftLeftRightWind = 0
-    this.data.DeviceComDecorator.AcProcess.parser.sendingState.rightLeftRightWind = 0
-    this.data.DeviceComDecorator.AcProcess.parser.sendingState.downWind = 0
-    this.data.DeviceComDecorator.AcProcess.parser.newsendingState.udAroundWindSwitch = 0 // 环绕风关闭
+    if (this.data.isCoolFreeKitchen) {
+      this.data.DeviceComDecorator.coolFreeKitchenLrAngle(angle);
+    } else {
+      this.data.DeviceComDecorator.AcProcess.parser.sendingState.leftLeftRightWind = 0
+      this.data.DeviceComDecorator.AcProcess.parser.sendingState.rightLeftRightWind = 0
+      this.data.DeviceComDecorator.AcProcess.parser.sendingState.downWind = 0
+      this.data.DeviceComDecorator.AcProcess.parser.newsendingState.udAroundWindSwitch = 0 // 环绕风关闭      
+      this.data.DeviceComDecorator.windSwingLrAngle(
+        angle,
+        'click_lr_angle',
+        this.data.page_path,
+        this.data.acNewStatus,
+        () => {}
+      )
+    }  
     this.setData({
       // UpDownSwipeWind: this.data.acstatus.windUpDown == 1,
       'acSwStatus.LeftRightSwipeWind': false,
-    })
-    this.data.DeviceComDecorator.windSwingLrAngle(
-      angle,
-      'click_lr_angle',
-      this.data.page_path,
-      this.data.acNewStatus,
-      () => {}
-    )
+    })  
   },
   // 左风道左右出风方向
   leftBottomLeftWind(e) {
@@ -1991,16 +2054,22 @@ Page({
   bottomUpdownWind(e) {
     console.log(e)
     let angle = e.currentTarget.dataset.item.angle
-    this.data.DeviceComDecorator.AcProcess.parser.sendingState.leftUpDownWind = 0
-    this.data.DeviceComDecorator.AcProcess.parser.sendingState.rightUpDownWind = 0
-    this.data.DeviceComDecorator.AcProcess.parser.newsendingState.udAroundWindSwitch = 0
-    this.data.DeviceComDecorator.AcProcess.parser.newsendingState.switchNonDirectWind = 1 // 防直吹假关
+
+    if(this.data.isCoolFreeKitchen) {
+      this.data.DeviceComDecorator.coolFreeKitchenUdAngle(angle);
+    } else {
+      this.data.DeviceComDecorator.AcProcess.parser.sendingState.leftUpDownWind = 0
+      this.data.DeviceComDecorator.AcProcess.parser.sendingState.rightUpDownWind = 0
+      this.data.DeviceComDecorator.AcProcess.parser.newsendingState.udAroundWindSwitch = 0
+      this.data.DeviceComDecorator.AcProcess.parser.newsendingState.switchNonDirectWind = 1 // 防直吹假关
+      
+      this.data.DeviceComDecorator.windSwingUdAngle(angle, 'click_ud_angle', this.data.page_path, this.data
+      .acNewStatus)
+    }    
 
     this.setData({
       'acSwStatus.UpDownSwipeWind': false,
     })
-    this.data.DeviceComDecorator.windSwingUdAngle(angle, 'click_ud_angle', this.data.page_path, this.data
-      .acNewStatus)
   },
   // 左右风 switch控制按钮
   onChangeLeftRight(e) {
@@ -2232,7 +2301,12 @@ Page({
       // }
     }
     console.log('----------wind data---------', this.data, windSpeed)
-    this.data.DeviceComDecorator.controlWindSpeed(windSpeed, this.data.acstatus, '', this.data.sleepCurve)
+    if (this.data.isCoolFreeKitchen) {
+      // x空间厨房空调风速的发码
+      this.data.DeviceComDecorator.coolFreeKitchenWindSpeed(windSpeed);
+    } else {
+      this.data.DeviceComDecorator.controlWindSpeed(windSpeed, this.data.acstatus, '', this.data.sleepCurve)
+    }   
   },
   setSliderText() {
     let sliderText = '自动'
@@ -2275,9 +2349,27 @@ Page({
     this.setData({
       quickFryValue: e.detail.value,
     })
-    this.data.DeviceComDecorator.changeQuickFryCenterPoint(point, this.data.acstatus,
-      'silder_quick_fry_center_point', this.data
-      .page_path)
+
+    if (this.data.isCoolFreeKitchen) {
+      this.data.DeviceComDecorator.xAreaQuickFryCenterPoint(point);
+    } else {
+      this.data.DeviceComDecorator.changeQuickFryCenterPoint(point, this.data.acstatus,
+        'silder_quick_fry_center_point', this.data
+        .page_path)
+    }   
+  },
+  onDragQuickFryArea(e) {
+    this.setData({
+      quickFryValue: 100-e.detail.value,
+    })
+  },
+  onChangeQuickFryXarea(e) {
+    let point = e.detail
+    console.log(e);
+    this.setData({
+      quickFryValue: e.detail.value,
+    })
+    this.data.DeviceComDecorator.xAreaQuickFryCenterPoint(100-point);    
   },
   powerToggle() {
     this.initSubscribeModal(this.data.deviceInfo)
@@ -2298,8 +2390,9 @@ Page({
         this.data.DeviceComDecorator.coolFreeSwitchDevice(isOn, '', false, this.data.acstatus, () => {})
       } else if(this.data.isNorthWarm) {
         this.data.DeviceComDecorator.northWarmSwitchDevice(isOn, '', false, this.data.acstatus, () => {});
-      }      
-      else {
+      } else if(this.data.isCoolFreeKitchen) {
+        this.data.DeviceComDecorator.coolFreeKitchenSwitchDevice(isOn);
+      } else {
         if (this.data.deviceSubType == 'T5_35_BLE' || this.data.deviceSubType == 'T1_OFFLINE_VOICE_BLE' || this.data.deviceSubType == 'T5_72_BLE' || this.data.deviceSubType == 'T3_35_BLE') {
           // 新风开时，需要发全关
           if(this.data.acSwStatus.FreshAir) {
@@ -2387,7 +2480,11 @@ Page({
       holidayModeMcuSwitch: status.holidayModeMcuSwitch,
       current_water_temperature: status.current_water_temperature,
       northWarmpowerOnTimer: status.northWarmpowerOnTimer,
-      northWarmpowerOffTimer: status.northWarmpowerOffTimer
+      northWarmpowerOffTimer: status.northWarmpowerOffTimer,
+
+      // 酷风参数
+      coolFreeCosySleep: status.coolFreeCosySleep, 
+      coolFreeStrong: status.coolFreeStrong
     }
     // 1: 自动，2：制冷 3：抽湿 4：制热 5：送风
     console.log('22222222++++++++++++++++++++++++', _acstatus)
@@ -2419,7 +2516,7 @@ Page({
     this.setSliderText()
     this.calCircleVal(this.data.acstatus.tempSetWithDot)    
     this.checkSoundSwitch();
-    this.refreshBtnStatus();
+    this.refreshBtnStatus();    
     this.judgeBtnDisabled(this.data.acStatus);
     if (status.runStatus == 1) {
       this.refreshTimerOffIndex(status.timingOffHour); // 开机时渲染定时关的数据
@@ -2439,6 +2536,7 @@ Page({
         northWarmTargetTempText: status.northWarmTargetTemp && status.northWarmTargetTemp.toFixed(1)
       })
     }
+    this.getRadaText(this.data.acstatus);
 
   },
   updateNewProtocolStatus: function (status) {
@@ -2560,7 +2658,7 @@ Page({
       'acSwStatus.BackWarmRemoveWet': this.data.acNewStatus.rewarmingDry == 1,
       'acSwStatus.KeepWet': this.data.acNewStatus.moisturizing == 1,
       'acSwStatus.rewarmingDry': this.data.acNewStatus.rewarmingDry == 1, // 回温除湿
-      'acSwStatus.LeftRightWindAngleLeftRight': this.data.acNewStatus.rightLrWindAngle != 0 || this.data.acNewStatus.leftRightAngle != 0,
+      'acSwStatus.LeftRightWindAngleLeftRight': (this.data.acNewStatus.rightLrWindAngle != 0 || this.data.acNewStatus.leftRightAngle != 0) && this.data.acstatus.runStatus == 1,
       'acSwStatus.ThLight' : this.data.acNewStatus.thLight != 0,
       'UpWindBlowingBtn[0].selected': this.data.acNewStatus.nonDirectWindDistance == 0 && this.data.acNewStatus.switchNonDirectWind == 2 && this.data.acNewStatus.nonDirectWindType == 2,
       'UpWindBlowingBtn[1].selected': this.data.acNewStatus.nonDirectWindDistance == 1 && this.data.acNewStatus.switchNonDirectWind == 2 && this.data.acNewStatus.nonDirectWindType == 2,
@@ -2646,11 +2744,8 @@ Page({
         LeftRightWindAngle: (this.data.acNewStatus.leftRightAngle !=
           0) && this.data.acstatus.runStatus == 1,
         Dry: this.data.acstatus.diyFunc == 1 && (this.data.acstatus.mode == 2 || this.data.acstatus.mode == 3),
-        DryNewName: this.data.acstatus.diyFunc == 1 && (this.data.acstatus.mode == 2 || this.data.acstatus
-          .mode == 3), // 内机防霉
-        DryNewNameKitchen: this.data.acstatus.diyFunc == 1 && (this.data.acstatus.mode == 2 || this.data
-          .acstatus
-          .mode == 3), // 内机防霉
+        DryNewName: this.data.acstatus.diyFunc == 1 && (this.data.acstatus.mode == 2 || this.data.acstatus.mode == 3), // 内机防霉
+        DryNewNameKitchen: this.data.acstatus.diyFunc == 1 && (this.data.acstatus.mode == 2 || this.data.acstatus.mode == 3), // 内机防霉
         Show: this.data.acstatus.screenShow == 0,
         Supercooling: this.data.acNewStatus.superCoolingSw == 1,
         Voice: this.data.acNewStatus.voiceBroadcastStatus == 3,
@@ -2680,6 +2775,7 @@ Page({
           .faWindFeel != 2 || this.data.acNewStatus.faWindFeel != 3 || this.data.acNewStatus.faWindFeel != 4
         ), //主动防冷风标志为1，且fa的无风感、柔风感、防直吹都不打开，即为1的时候才点亮  
         Degerming: this.data.acNewStatus.degerming == 1,
+        AcDegerming: this.data.acNewStatus.acDegerming == 1,
         AroundWind: this.data.acNewStatus.aroundWind == 1,
         WaterFallWind: this.data.acNewStatus.aroundWind == 1,
         QuickCoolHeat: this.data.acNewStatus.quickCoolHeat == 1,
@@ -2697,7 +2793,7 @@ Page({
         CleanFunc: this.data.acNewStatus.innerPurifier == 1,        
         KeepWet: this.data.acNewStatus.moisturizing == 1,
         BackWarmRemoveWet: this.data.acNewStatus.rewarmingDry == 1,
-        LeftRightWindAngleLeftRight: this.data.acNewStatus.rightLrWindAngle != 0 || this.data.acNewStatus.leftRightAngle != 0,
+        LeftRightWindAngleLeftRight: (this.data.acNewStatus.rightLrWindAngle != 0 || this.data.acNewStatus.leftRightAngle != 0) && this.data.acstatus.runStatus == 1,
         ThLight: this.data.acNewStatus.thLight != 0,
         UpWindBlowing: this.data.acNewStatus.switchNonDirectWind == 2 && this.data.acNewStatus.nonDirectWindType == 2,
         DownWindBlowing: this.data.acNewStatus.switchNonDirectWind == 2 && this.data.acNewStatus.nonDirectWindType == 3,
@@ -2710,6 +2806,10 @@ Page({
         NorthWarmAuto: this.data.acstatus.waterModelAuto == 1 && this.data.acstatus.runStatus == 1,
         NorthWarmSaveEnergy: this.data.acstatus.northWarmEco == 1,
         TargetIndoorTemp: this.data.acstatus.northWarmTempCtrlSwitch == 1 && this.data.acstatus.runStatus == 1,
+
+        // 酷风
+        CoolFreeSleep: this.data.acstatus.coolFreeCosySleep == 1,
+        CoolFreeStrong: this.data.acstatus.coolFreeStrong == 1,
         
       },
     })    
@@ -2727,7 +2827,16 @@ Page({
     if (time == 0) {
       index = 0
     } else {
-      index = Math.ceil(time / 0.5) - 1
+      if (this.data.isCoolFreeKitchen || this.data.isCoolFree) {
+        console.log('refreshTimerOffIndex----',time, index)
+        if (time > 10) {
+          index = Math.ceil(time) + 9
+        } else {
+          index = Math.ceil(time / 0.5) - 1
+        }
+      } else {
+        index = Math.ceil(time / 0.5) - 1
+      }    
     }
 
     this.setData({
@@ -2781,7 +2890,7 @@ Page({
       btnObj: {
         ModeControl: {
           switchFunc: () => {
-            console.log('mode')
+            console.log('mode')           
             this.showOrHideModePopup(true)
           },
         },
@@ -2800,9 +2909,27 @@ Page({
               })
               return
             }
-            this.setData({
-              showUpDownPopup: true, //展示底部上下风
-            })
+            if (this.data.deviceSubType == 'T1_OFFLINE_VOICE_BLE' || this.data.deviceSubType == 'T3_OFFLINE_VOICE_BLE') {
+              this.setData({
+                showT1T3UpDownPopup: true, //展示底部上下风
+              })
+            } else if (this.data.isCoolFreeKitchen) {
+              // x空间厨房空调特殊处理
+              if (this.data.kitStatus.quick_fry) {
+                wx.showToast({
+                  title: '爆炒下不可调节',
+                  icon: 'none'
+                })
+              } else {
+                this.setData({
+                  showUpDownPopup: true, //展示底部上下风
+                })
+              }
+            } else {
+              this.setData({
+                showUpDownPopup: true, //展示底部上下风
+              })
+            }           
           },
           btnSelectFunc: () => {},
           switchBtnFunc: () => {
@@ -2874,9 +3001,21 @@ Page({
         LeftRightSwipeWind: {
           switchFunc: () => {
             // let sendData = (this.data.applianceStatus.wind_swing_lr == "on" || this.data.applianceStatus.wind_swing_lr_under == "on") ? false : true
+            if (this.data.acstatus.runStatus == 0) {
+              wx.showToast({
+                title: '空调已关，请先开空调',
+                icon: 'none',
+              })
+              return
+            }
             let isOn = this.data.acstatus.windLeftRight == 0 ? 1 : 0
-            this.data.DeviceComDecorator.switchLeftRightSwipe(isOn, this.data.acstatus, '', '', this.data
+
+            if (this.data.isCoolFreeKitchen) {
+              this.data.DeviceComDecorator.coolFreeKitchenLrSwing(isOn);
+            } else {
+              this.data.DeviceComDecorator.switchLeftRightSwipe(isOn, this.data.acstatus, '', '', this.data
               .isKitchen ? '' : this.data.sleepCurve, this.data.isKitchen)
+            }           
           },
         },
         LeftRightSwipeWindPopup: {
@@ -2887,7 +3026,7 @@ Page({
           },
         },
         UpDownSwipeWindPopup: {
-          switchFunc: () => {
+          switchFunc: () => {            
             this.setData({
               showUpDownSwipePopup: true
             })
@@ -2896,10 +3035,29 @@ Page({
         UpDownSwipeWind: {
           switchFunc: () => {
             // let sendData = (this.data.applianceStatus.wind_swing_ud == "on") ? false : true
+            if (this.data.acstatus.runStatus == 0) {
+              wx.showToast({
+                title: '空调已关，请先开空调',
+                icon: 'none',
+              })
+              return
+            }
             let isOn = this.data.acstatus.windUpDown == 0 ? 1 : 0
-            this.data.DeviceComDecorator.AcProcess.parser.newsendingState.switchNonDirectWind = 1
-            this.data.DeviceComDecorator.switchUpDownSwipe(isOn, this.data.acstatus, '', '', this.data
+            if (this.data.isCoolFreeKitchen) {
+              // x空间厨房空调特殊处理
+              if (this.data.kitStatus.quick_fry) {
+                wx.showToast({
+                  title: '爆炒下不可调节',
+                  icon: 'none'
+                })
+              } else {
+                this.data.DeviceComDecorator.coolFreeKitchenUdSwing(isOn)
+              }              
+            } else {
+              this.data.DeviceComDecorator.AcProcess.parser.newsendingState.switchNonDirectWind = 1            
+              this.data.DeviceComDecorator.switchUpDownSwipe(isOn, this.data.acstatus, '', '', this.data
               .isKitchen ? '' : this.data.sleepCurve, this.data.isKitchen)
+            }            
           },
         },
         FreshAir: {
@@ -2992,17 +3150,29 @@ Page({
         Quietness: {
           switchFunc: (key) => {
             let Quietness = this.data.acSwStatus.Quietness == 1 ? 0 : 1
-            if (this.data.acstatus.mode == 2 || this.data.acstatus.mode == 4 || this.data.acstatus.mode ==
-              1) {
-              this.data.acstatus.powerSave = Quietness
-              app.globalData.DeviceComDecorator.powerSave(Quietness, key.widget_id, this.data.page_path)
-              app.globalData.DeviceComDecorator.AcProcess.parser.newsendingState.superCoolingSw = 0
+            if (this.data.deviceSubType == 'JH2_1_BLE') { // 腰部
+              if (this.data.acstatus.mode == 2 || this.data.acstatus.mode == 4) {
+                this.data.acstatus.powerSave = Quietness
+                app.globalData.DeviceComDecorator.powerSave(Quietness, key.widget_id, this.data.page_path)
+                app.globalData.DeviceComDecorator.AcProcess.parser.newsendingState.superCoolingSw = 0
+              } else {
+                wx.showToast({
+                  title: '静眠需在制冷、或制热模式下运行',
+                  icon: 'none',
+                })
+              } 
             } else {
-              wx.showToast({
-                title: '睡眠需在自动、制冷、或制热模式下运行',
-                icon: 'none',
-              })
-            }
+              if (this.data.acstatus.mode == 2) {
+                this.data.acstatus.powerSave = Quietness
+                app.globalData.DeviceComDecorator.powerSave(Quietness, key.widget_id, this.data.page_path)
+                app.globalData.DeviceComDecorator.AcProcess.parser.newsendingState.superCoolingSw = 0
+              } else {
+                wx.showToast({
+                  title: '静眠需在制冷模式下运行',
+                  icon: 'none',
+                })
+              } 
+            }            
           },
         },
         NoWindFeel: {
@@ -3319,10 +3489,15 @@ Page({
             console.log('self=======***:', that.data.acNewStatus, that.data.acNewStatus.switchSelfCleaning)
             // let sendData = that.data.acNewStatus.selfCleaningSwitch == 1 ? 0 : 1
             let sendData = that.data.acNewStatus.switchSelfCleaning == 1 ? 0 : 1
-            app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.timingOffSwitch = 0
-            app.globalData.DeviceComDecorator.AcProcess.parser.newsendingState.superCoolingSw = 0
-            app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.runStatus = 0
-            app.globalData.DeviceComDecorator.selfCleaningSwitch(sendData, key.widget_id, that.data.page_path)
+
+            if (this.data.isCoolFreeKitchen) {
+              app.globalData.DeviceComDecorator.xAreaSelfCleaningSwitch(sendData, key.widget_id, that.data.page_path)
+            } else {
+              app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.timingOffSwitch = 0
+              app.globalData.DeviceComDecorator.AcProcess.parser.newsendingState.superCoolingSw = 0
+              app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.runStatus = 0
+              app.globalData.DeviceComDecorator.selfCleaningSwitch(sendData, key.widget_id, that.data.page_path)
+            }           
             // app.globalData.DeviceComDecorator._queryStatus()
             // setTimeout(() => {
             //   wx.navigateBack({
@@ -3520,9 +3695,20 @@ Page({
             }
             let dryTips = wx.getStorageSync(`drytips_${this.data.deviceInfo.applianceCode}`)
             if (!this.data.acSwStatus.Dry && this.data.isKitchen && !dryTips) {
-              this.setData({
-                showDryNewNamePop: true
-              })
+              // this.setData({
+              //   showDryNewNamePop: true
+              // })
+            } else if(this.data.isCoolFreeKitchen) {
+              console.log("!!!!");
+              if (!this.data.acSwStatus.DryNewNameKitchen) {
+                console.log("????", this.data.acSwStatus.DryNewNameKitchen);
+                this.setData({
+                  showDryNewNamePop: true
+                })
+              } else {
+                console.log("xxxxx");
+                app.globalData.DeviceComDecorator.switchDryXarea(data)
+              }              
             } else {
               this.doDryNewNameSwitch()
             }
@@ -3571,13 +3757,17 @@ Page({
             }
             if (this.data.acstatus.mode == 2) {
               let sendData = this.data.acNewStatus.superCoolingSw == 1 ? 0 : 1
-              app.globalData.DeviceComDecorator.smartCooling(sendData, key.widget_id, this.data.page_path)
-              app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.windSpeed = 102
-              app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.cosySleepMode = 0
-              if (this.data.acstatus.tempSet < 26) {
-                app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.tempSet = parseFloat(26.0)
-                app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.tempSet2 = parseFloat(26.0)
-              }
+              if (this.data.deviceSubType == 'COOLFREE_Rada') {
+                app.globalData.DeviceComDecorator.coolFreeSmartCooling(sendData, key.widget_id, this.data.page_path)
+              } else {
+                app.globalData.DeviceComDecorator.smartCooling(sendData, key.widget_id, this.data.page_path)
+                app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.windSpeed = 102
+                app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.cosySleepMode = 0
+                if (this.data.acstatus.tempSet < 26) {
+                  app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.tempSet = parseFloat(26.0)
+                  app.globalData.DeviceComDecorator.AcProcess.parser.sendingState.tempSet2 = parseFloat(26.0)
+                }
+              }                           
               // app.globalData.DeviceComDecorator.AcProcess.parser.nwesendingState.switchNonDirectWind = 1;
             } else {
               let text = this.data.hasAuto ? '智控温不能在自动、抽湿、制热、送风模式下开启' : '智控温不能在抽湿、制热、送风模式下开启'
@@ -3797,7 +3987,14 @@ Page({
             console.log('Degerming----------------', data);
             app.globalData.DeviceComDecorator.degermingSwitch(data, "", this.data.page_path);
           },
-        },        
+        },  
+        AcDegerming: { // 空调除菌        
+          switchFunc: () => {
+            let data = !this.data.acSwStatus.AcDegerming;
+            console.log('acDegerming----------------', data);         
+            app.globalData.DeviceComDecorator.acDegermingSwitch(data, "", this.data.page_path);               
+          },
+        },
         AroundWind: {
           switchFunc: () => {
             if (this.data.acStatus.mode == 'dry') {
@@ -3973,9 +4170,21 @@ Page({
               })
               return
             }
-            this.setData({
-              showKeepWetPopup: true
-            })      
+            if (this.data.deviceSubType == 'T1_OFFLINE_VOICE_BLE') {
+              let flag = this.data.acSwStatus.KeepWet ? false : true
+              this.data.DeviceComDecorator.AcProcess.parser.newsendingState.switchSelfCleaning = 0; // 智清洁假关
+              this.data.DeviceComDecorator.keepWetSwitch(
+                flag,
+                20,
+                "",
+                "",
+                "",
+                false)       
+            } else {
+              this.setData({
+                showKeepWetPopup: true
+              })      
+            }            
           },
         },
         BackWarmRemoveWet: { // 回温除湿功能
@@ -4148,6 +4357,34 @@ Page({
             })        
           }
         },
+        CoolFreeSleep: {
+          switchFunc: (key) => {
+            console.log("睡眠");   
+            let flag = !this.data.acSwStatus.CoolFreeSleep;
+            if(this.data.acstatus.mode == 2 || this.data.acstatus.mode == 4 || this.data.acstatus.mode == 1) {
+              app.globalData.DeviceComDecorator.coolFreeCosySleep(flag)
+            } else {
+              wx.showToast({
+                title: '强劲只在自动、制冷或制热模式下可用',
+                icon: 'none',
+              })              
+            }          
+          }
+        },
+        CoolFreeStrong: {
+          switchFunc: (key) => {
+            console.log("强劲");   
+            let flag = !this.data.acSwStatus.CoolFreeStrong;
+            if(this.data.acstatus.mode == 2 || this.data.acstatus.mode == 4) {
+              app.globalData.DeviceComDecorator.coolFreeStrong(flag)
+            } else {
+              wx.showToast({
+                title: '强劲只在制冷或制热模式下可用',
+                icon: 'none',
+              })              
+            }          
+          }
+        }
       },
     })
   },
@@ -4184,13 +4421,16 @@ Page({
   catchSliderTouchStart() {},
 
   showOrHideModePopup(show) {
-    if (this.data.acstatus.runStatus == 0) {
-      wx.showToast({
-        title: '空调已关，请先开空调',
-        icon: 'none',
-      })
-      return
-    }
+    if (!this.data.isCoolFreeKitchen && !this.data.isCoolFree) {
+      // 家中的空调关机下可以调模式
+      if (this.data.acstatus.runStatus == 0) {
+        wx.showToast({
+          title: '空调已关，请先开空调',
+          icon: 'none',
+        })
+        return
+      }
+    }   
     this.setData({
       showModePopup: show,
       // modePopupMode: this.data.acStatus.mode
@@ -4201,9 +4441,11 @@ Page({
       showModePopup: false,
       showLeftPopup: false,
       showUpDownPopup: false,
+      showT1T3UpDownPopup: false,
       showUdRoundWindPopup: false,
       openTimerPicker: false,
       showQuickFryWindPop: false,
+      showQuickFryWindPopCoolFree: false,
       showDryNewNamePop: false,
       showUpDownWindBlowing: false,
       showSelfCleanConfirmPopup: false,
@@ -4232,6 +4474,9 @@ Page({
     } else if(this.data.isNorthWarm) {
       // 查询北方采暖
       this.northWarmQuery();
+    } else if(this.data.isCoolFreeKitchen) {
+      this.coolFreeKitchenQuery();
+      // this.queryStatusSetting();
     } else {
       // 其他查询
       this.query();
@@ -4268,6 +4513,10 @@ Page({
   northWarmQuery() {
     this.data.DeviceComDecorator._queryStatusNorthWarm();
     this.data.DeviceComDecorator._queryTimerStatusNorthWarm();
+  },
+  coolFreeKitchenQuery() {
+    console.log('coolFreeKitchenQuery-------------')
+    this.data.DeviceComDecorator._queryStatusSetting();
   },
   /*.........................................机型功能匹配......最新引入................................*/
   generateFuncs(sn8) {
@@ -4311,6 +4560,8 @@ Page({
       isTH: obj.home.noneControlFunc.hasuseTH || (deviceSubType == 'T5_35_BLE' || deviceSubType == 'T3_35_BLE' || deviceSubType == 'T5_72_BLE' ||
         deviceSubType == 'JP1_1' || deviceSubType == 'FA1_1' || deviceSubType == 'FA1_1_51_72' || deviceSubType == 'offline_voice_SN1_QJ201_MZA1'),
       deviceSubType: deviceSubType ? deviceSubType : '',
+      isNorthWarm: obj.home.noneControlFunc.hasuseNorthWarm,      
+      isCoolFreeKitchen: obj.home.noneControlFunc.hasuseCoolFreeKitchen,
       isNorthWarm: obj.home.noneControlFunc.hasuseNorthWarm,   
       hasAutoPrentColdWindMenory: obj.home.noneControlFunc.hashasAutoPreventColdWindMemory
     })
@@ -4333,6 +4584,15 @@ Page({
           'AppointmentSwitchOff')))
       }
       modeBtn = modeBtn.filter(x => (x.id != 'heat'))
+    }
+
+    if (this.data.isCoolFreeKitchen) {
+      allBtn = allBtn.filter(x => ((x !=
+        'ElectricHeat') && (x != 'Sound') && (x != 'Show')))
+      if (this.data.isNorthWarm) {
+        allBtn = allBtn.filter(x => ((x !=
+          'AppointmentSwitchOff')))
+      }
     }
 
     if (obj.more.controlFunc.hasNewSound) { // 过滤掉使用新的声音的机型的旧声音功能
@@ -5160,13 +5420,21 @@ Page({
       //   })
       //   return false
       // }
-      this.setData({
-        showQuickFryWindPop: true,
-      })
+      if (this.data.isCoolFreeKitchen) {
+        this.setData({
+          showQuickFryWindPopCoolFree: true
+        });
+      } else {
+        this.setData({
+          showQuickFryWindPop: true,
+        })
+      }      
     }
   },
-  prepareFoodChange(value) {
-    // if (this.data.acstatus.mode == 2 || this.data.acstatus.runStatus == 0) {
+  prepareFoodChange(value) {   
+    if (this.data.isCoolFreeKitchen) {
+      this.data.DeviceComDecorator.coolFreeKitchenPrepareFood(value)
+    } else {
       let sendData = {
         prepare_food: value ? 1 : 0,
         prepare_food_temp: this.data.prepareFoodTemp,
@@ -5174,28 +5442,20 @@ Page({
       }
       this.data.DeviceComDecorator.switchPrepareFood(sendData, this.data.acstatus, 'switch_prepare_food', this.data
         .page_path)
-    // } else {
-    //   wx.showToast({
-    //     title: '备菜不能在自动、抽湿、送风模式下开启',
-    //     icon: 'none',
-    //   })
-    // }
+    }      
   },
-  quickFryChange(value) {
-    // if (this.data.acstatus.mode == 2 || this.data.acstatus.runStatus == 0) {
+  quickFryChange(value) {   
+    if (this.data.isCoolFreeKitchen) {
+      this.data.DeviceComDecorator.coolFreeKitchenQuickFry(value);
+    } else {
       let sendData = {
         quick_fry: value ? 1 : 0,
         quick_fry_temp: this.data.quickFryTemp,
         quick_fry_fan_speed: this.data.quickFryFanSpeed,
       }
       this.data.DeviceComDecorator.switchQuickFry(sendData, this.data.acstatus, 'switch_quick_fry', this.data
-        .page_path)
-    // } else {
-    //   wx.showToast({
-    //     title: '爆炒不能在自动、抽湿、送风模式下开启',
-    //     icon: 'none',
-    //   })
-    // }
+        .page_path)  
+    }        
   },
   toCheckDry() {
     this.setData({
@@ -5226,6 +5486,7 @@ Page({
           isCoolFree: that.data.isCoolFree,
           isTH: that.data.isTH,
           hasAuto: that.data.hasAuto,
+          isCoolFreeKitchen: that.data.isCoolFreeKitchen
         })
       },
     })
@@ -5463,8 +5724,12 @@ Page({
         //   })
         //   return
         // }
-        that.data.DeviceComDecorator.AcProcess.parser.newsendingState.superCoolingSw = 0 // 调温退出智控温        
-        that.data.DeviceComDecorator.controlTemp(temperature + small_temperature, that.data.acstatus, () => {});
+        that.data.DeviceComDecorator.AcProcess.parser.newsendingState.superCoolingSw = 0 // 调温退出智控温  
+        if(that.data.isCoolFreeKitchen) {
+          that.data.DeviceComDecorator.xAreaControlTemp(temperature + small_temperature, that.data.acstatus, () => {});
+        } else {
+          that.data.DeviceComDecorator.controlTemp(temperature + small_temperature, that.data.acstatus, () => {});
+        }             
       }
 
     }, 500);
@@ -5484,9 +5749,10 @@ Page({
     //   arr.push(1 + i * 0.5 + '小时')
     // } 
 
+    let timeList = (this.data.isCoolFreeKitchen || this.data.isCoolFree) ? xAreaArr : timerArr
 
     let column2 = {
-      values: timerArr,
+      values: timeList,
       className: 'column1',
       defaultIndex: 0,
       selectDescription: ''
@@ -5503,11 +5769,18 @@ Page({
     let timerOnOffIndex = pickerIndex[0];
     let timerValIndex = pickerIndex[1];
     let timeVal = (pickerIndex[1] + 1) * 0.5;
-    console.log(timeVal);
+    console.log(timeVal, "------timeVal");
 
     if (timerOnOffIndex == 0) { // 选择无定时，取消定时
       if (this.data.isCoolFree) {
         app.globalData.DeviceComDecorator.coolFreeCancelTimingOff((res) => {
+          this.setData({
+            applianceStatus: res.status,
+          })
+          this.computeButtons()
+        }, this.data.sleepCurve)
+      } else if(this.data.isCoolFreeKitchen) { // X空间系列的发码
+        app.globalData.DeviceComDecorator.xAreaCancelTimingOff((res) => {
           this.setData({
             applianceStatus: res.status,
           })
@@ -5524,15 +5797,43 @@ Page({
     } else {
       if (this.data.acstatus.runStatus == 1) { // 开机状态，发定时关  
         if (this.data.isCoolFree) {
-          app.globalData.DeviceComDecorator.coolFreeTimingOffSwitch(timeVal, this.data.sleepCurve)
+          let spTime = timeVal;
+          if (timeVal > 10) {
+            spTime = pickerIndex[1] - 10 + 1
+          } else {
+            spTime = timeVal
+          }
+          app.globalData.DeviceComDecorator.coolFreeTimingOffSwitch(spTime, this.data.sleepCurve)
+        } else if(this.data.isCoolFreeKitchen) { // X空间系列的发码
+          let spTime = timeVal;
+          if (timeVal > 10) {
+            spTime = pickerIndex[1] - 10 + 1
+          } else {
+            spTime = timeVal
+          }
+          app.globalData.DeviceComDecorator.xAreaTimingOffSwitch(spTime, this.data.sleepCurve)
         } else {
           app.globalData.DeviceComDecorator.timingOffSwitch(timeVal, this.data.sleepCurve)
         }
       } else { // 关机状态，发定时开
         if (this.data.isCoolFree) {
-          app.globalData.DeviceComDecorator.coolFreeTimingOnSwitch(timeVal, this.data.sleepCurve)
-        } else {          
-          app.globalData.DeviceComDecorator.timingOnSwitch(timeVal, this.data.sleepCurve)          
+          let spTime = timeVal;
+          if (timeVal > 10) {
+            spTime = pickerIndex[1] - 10 + 1
+          } else {
+            spTime = timeVal
+          }
+          app.globalData.DeviceComDecorator.coolFreeTimingOnSwitch(spTime, this.data.sleepCurve)
+        } else if(this.data.isCoolFreeKitchen) { // X空间系列的发码
+          let spTime = timeVal;
+          if (timeVal > 10) {
+            spTime = pickerIndex[1] - 10 + 1
+          } else {
+            spTime = timeVal
+          }
+          app.globalData.DeviceComDecorator.xAreaTimingOnSwitch(spTime, this.data.sleepCurve)
+        } else {
+          app.globalData.DeviceComDecorator.timingOnSwitch(timeVal, this.data.sleepCurve)
         }
       }
     }
@@ -5585,7 +5886,8 @@ Page({
       if (ColumnIndex == 0) {
         picker.setColumnValues(index + 1, []);
       } else {
-        picker.setColumnValues(index + 1, timerArr);
+        let timeList = (this.data.isCoolFreeKitchen || this.data.isCoolFree) ? xAreaArr : timerArr
+        picker.setColumnValues(index + 1, timeList);
       }
     } else {
       // picker.setColumnValues(index, []);
@@ -5676,6 +5978,11 @@ Page({
     this.data.btnObj['SelfCleaning'].switchFunc()
     this.hidePopup();
   },
+  switchXareaDry() {
+    // this.data.btnObj['DryNewNameKitchen'].switchFunc()
+    app.globalData.DeviceComDecorator.switchDryXarea(true);
+    this.hidePopup();
+  },
   switchTargetTemp() {
     console.log("TargetIndoorTemp",this.data.acSwStatus.TargetIndoorTemp)
     let flag = !this.data.acSwStatus.TargetIndoorTemp;    
@@ -5713,7 +6020,10 @@ Page({
     this.data.DeviceComDecorator.keepWetSwitch(
       sendData.moisturizing == 1,
       sendData.moisturizing_fan_speed,
-      (res) => {})       
+      "",
+      "",
+      "",
+      true)       
   },
   updateCircleFanItemSelect() {   
     if (this.data.acSwStatus.LoopFan) {
@@ -5893,10 +6203,12 @@ Page({
       return AC_TYPE_PRODUCT['T1T3']
     }
     let type = sn8.length > 3 ? sn8.substr(0, 3) : ''; //初步判断类型
-    if (type == '230' || type == '223') return AC_TYPE_PRODUCT['风管机']
+    if (type == '230' || (type == '223' && sn8 != '22396699')) return AC_TYPE_PRODUCT['风管机']
     if (type == '000') return type = this.tempFitForTribleZero(sn8) ? AC_TYPE_PRODUCT['挂机'] : AC_TYPE_PRODUCT[
       '柜机窄风口']
-    if (type == '225') return AC_TYPE_PRODUCT['天花机']
+    if (type == '225' && sn8 != '22593209') return AC_TYPE_PRODUCT['天花机']
+    if (sn8 == '22593209') return AC_TYPE_PRODUCT['挂机']
+    if (sn8 == '22396699') return ''
     if (type == '206') return AC_TYPE_PRODUCT['移动空调']
     if (type == '222') return AC_TYPE_PRODUCT['柜机窄风口']
     if (type == '226') return AC_TYPE_PRODUCT['热风机']
@@ -6020,7 +6332,11 @@ Page({
   },
 
   preventTouchMove(e) {
-    e.preventDefault()
+    try {
+      e.preventDefault() 
+    } catch (error) {
+      
+    }   
     // e.stopPropagation();
   },
 
@@ -6257,6 +6573,66 @@ Page({
       })
     }
 
+    if (this.data.deviceSubType == 'JH2_1_BLE') {
+      if (acStatus.mode != 'heat' && acStatus.mode != 'cool') {
+        this.setData({
+          'acBtnDisabled.Quietness.disabled': true,
+        })
+      } else {
+        this.setData({
+          'acBtnDisabled.Quietness.disabled': false,
+        })
+      }
+    } else {
+      if (acStatus.mode != 'cool') {
+        this.setData({
+          'acBtnDisabled.Quietness.disabled': true,
+        })
+      } else {
+        this.setData({
+          'acBtnDisabled.Quietness.disabled': false,
+        })
+      }
+    }
+
+    // X空间厨房空调特殊处理
+    if (this.data.isCoolFreeKitchen) {
+      if (this.data.kitStatus.quick_fry) {
+        this.setData({
+          'acBtnDisabled.UpDownSwipeWind.disabled': true,
+          'acBtnDisabled.UpDownWindAngle.disabled': true,
+        })
+      } else {
+        this.setData({
+          'acBtnDisabled.UpDownSwipeWind.disabled': false,
+          'acBtnDisabled.UpDownWindAngle.disabled': false,
+        })
+      }
+    }
+
+    if (this.data.isCoolFree) {
+      if(acStatus.mode != 'cool' && acStatus.mode != 'heat' && acStatus.mode != 'auto') {
+        this.setData({
+          'acBtnDisabled.CoolFreeSleep.disabled': true,          
+        })
+      } else {
+        this.setData({
+          'acBtnDisabled.CoolFreeSleep.disabled': false,          
+        })
+      }
+
+      if (acStatus.mode != 'cool' && acStatus.mode != 'heat') {
+        this.setData({
+          'acBtnDisabled.CoolFreeStrong.disabled': true,         
+        })
+      } else {
+        // CoolFreeStrong
+        this.setData({
+          'acBtnDisabled.CoolFreeStrong.disabled': false,
+        })
+      }      
+    }
+
 
   },
 
@@ -6272,10 +6648,17 @@ Page({
       })
       return;
     }
-    wx.showToast({
-      title: '风速不能在自动、抽湿模式下调节',
-      icon: 'none'
-    })
+    if (this.data.hasAuto) {
+      wx.showToast({
+        title: '风速不能在自动、抽湿模式下调节',
+        icon: 'none'
+      }) 
+    } else {
+      wx.showToast({
+        title: '风速不能在抽湿模式下调节',
+        icon: 'none'
+      })
+    }    
   },
   // 防抖
   throttle(func, delay) {
@@ -6292,8 +6675,8 @@ Page({
   checkSoundSwitch() {
     try {
       let value = wx.getStorageSync('Sound')
-      console.log('storage==============sound=======', value == false, value == 'false', wx.getStorageSync('Sound'))
-      if (value == false || value == true) {
+      console.log('storage==============sound=======', value+'' == false, value == 'false', wx.getStorageSync('Sound'))
+      if (value+'' == 'false' || value+'' == 'true') {
         this.setData({
           'acSwStatus.Sound': value,
           SoundSwitch: value
@@ -6479,6 +6862,53 @@ Page({
 
   },
 
+  checkRadarGetTip() {
+    if (this.data.deviceSubType == 'COOLFREE_Rada') {
+      requestService.request(selfApi.radarGetTip, {
+        applianceId: this.data.deviceInfo.applianceCode
+      },'POST').then((res)=>{        
+        let result = res?.data?.result;
+        console.log(result, "checkRadarGetTip ______-");
+        if (result?.mode == 1) {
+          // 人走节能
+          this.setData({
+            coolFreeRadaMode: result.mode
+          })
+        } else if(result?.mode == 2){
+          // 无人布防
+          this.setData({
+            coolFreeRadaMode: result.mode
+          })
+        }
+        
+      })
+    }
+  },
+  getRadaText(status) {
+    let textLess = [{
+      tips:'人走节能'
+    },{ 
+      tips:'无人布防'
+    }];
+    let textMore = [{
+      tips:'智感雷达 人走节能'
+    },{ 
+      tips:'智感雷达 无人布防'
+    }]
+    if (status.timingOnSwitch && status.runStatus == 0) {
+      this.setData({
+        coolFreeRadaTips: textLess
+      })
+    } else if(status.timingOffSwitch && status.runStatus == 1) {
+      this.setData({
+        coolFreeRadaTips: textLess
+      })
+    } else {
+      this.setData({
+        coolFreeRadaTips: textMore
+      })
+    }
+  },
   preventWindMemory() {
     let flag = this.data.acNewStatus.preventCoolWindMenory == 1 ? 0 : 1
     app.globalData.DeviceComDecorator.preventColdWindMemorySwitch(flag);

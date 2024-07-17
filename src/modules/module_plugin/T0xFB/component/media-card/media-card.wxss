@@ -1,5 +1,12 @@
 /* plugin/T0xFB/component/media-card.wxss */
 @import "../../common/css/common.wxss";
+.disabled-mask{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 .card-wrapper{
     padding: 20rpx 30rpx;
     border-radius: 20rpx;
@@ -8,6 +15,7 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2rpx 30rpx 4rpx rgba(0,0,0,0.06);
+    position: relative;
 }
 .center-wrapper{
     flex: 1;
@@ -16,9 +24,12 @@
     width: 100rpx;
     display: block;
 }
-.disabled.card-wrapper{
-    background: rgba(255, 255, 255, 0.6);
+.disabled{
+  opacity: 0.6;
 }
+/*.disabled.card-wrapper{*/
+/*    background: rgba(255, 255, 255, 0.6);*/
+/*}*/
 .disabled.icon,.disabled .text{
     opacity: .4;
 }

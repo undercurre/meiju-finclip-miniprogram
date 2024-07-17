@@ -1,8 +1,13 @@
 <!--plugin/T0x38/cards/card0/card0.wxml-->
 <!-- 背景图 -->
+<view wx:if="{{status.error_code != 0 && showError}}" class="error-msg flex-r al-center">
+  <!-- <image bind:tap="tipsShow" style="width: 32rpx;height: 32rpx; margin-left: 25rpx;" src="../../assets/images/tips-err.png" mode="" /> -->
+  <view class="err-text" style="margin: 0 0rpx 0 30rpx;">
+    提示：{{errText}}
+  </view>
+</view>
 <mx-bg-shade bgColor="#ffaa10" opacity="0.16" shadow style="height: 100%; width: 100%;">
-
-  <view class="container" style="height: calc(100vh - {{46+height+'px'}}); background-color: transparent;">
+  <view class="container" style="height: calc(100vh - {{46+height+'px'}}); background-color: transparent;position: relative; top: {{status.error_code != 0 && showError? '72rpx' : '0rpx'}};">
     <block wx:if="{{applianceData.onlineStatus == 1}}">
       <!-- 顶部tab切换 -->
       <view class="card-view">
@@ -20,10 +25,7 @@
         <view class="flex-c j-c-center al-center">
           <mx-status wx:if="{{status.error_code == 0 && stateText != '采暖关'}}">
             <mx-status-item showStatus status="{{status.power == 'on' ? 'on' : 'off'}}" text="{{stateText}}"></mx-status-item>
-          </mx-status>
-          <mx-status wx:elif="{{status.error_code != 0}}">
-            <mx-status-item showStatus status="off" text="故障中"></mx-status-item>
-          </mx-status>
+          </mx-status>          
         </view>
         <!-- 设备图片 -->
         <!-- right: {{(!isX9 && (deviceState.work_mode=='standby')) ? '96rpx' : '0rpx'}}; -->
@@ -33,9 +35,13 @@
           <view wx:if="{{isCharge}}" class="device-charging">{{batteryPercent}}<span class="device-unit">%</span></view>
           <view wx:if="{{isCharge}}" class="device-charging-text">充电中</view> -->
           <image style="width: 750rpx; height: 468rpx;" src="../../assets/images/device-img.png" mode="" />
-          <view class="flex-c j-c-center al-center" style="position: relative;top: -90rpx;">
+          <view class="flex-r j-c-center al-center" style="position: relative;top: -90rpx;">
             <mx-information custom-class="demo-information-view">
-              <mx-information-item content="{{barText}}" index="0" text="水压" unit="bar"></mx-information-item>
+              <mx-information-item content="{{tabIndex == 0 ? status.heat_out_water_temperature : bathTempVal}}" index="0" text="实际水温" unit="℃"></mx-information-item>
+            </mx-information>
+            <view style="width: 1px; height: 50rpx; background-color: lightgray;"></view>
+            <mx-information custom-class="demo-information-view">
+              <mx-information-item content="{{barText}}" index="0" text="{{status.water_gage < 0.5 ? '需补水' : '水压'}}" unit="bar"></mx-information-item>
             </mx-information>
           </view>
         </view>
@@ -45,10 +51,10 @@
       <!-- tab=采暖 -->
       <block wx:if="{{tabIndex == 0}}" style="background-color: #f9f9f9;">
         <view style="margin-bottom: 270rpx; width: 100%;position: relative; top: -100rpx;">
-          <!-- 全屋采暖 -->
+          <!-- 采暖模式 -->
           <view class="data-card-item">
             <mx-cell-group inset custom-class="cell-group-class">
-              <mx-cell bindtap="getWarmTap" custom-class="cell-item {{status.power == 'off' ? 'disabled-opacity' : ''}}" center icon="{{getWarmIcon}}" imageSize="32" label="一键开启，温暖全屋" title="全屋采暖" border="{{ false }}">
+              <mx-cell bindtap="getWarmTap" custom-class="cell-item {{status.power == 'off' ? 'disabled-opacity' : ''}}" center icon="{{getWarmIcon}}" imageSize="32" label="一键开启，温暖全屋" title="采暖模式" border="{{ false }}">
                 <mx-switch data-item="{{status.winter_mode == 'on'}}" disabled="{{status.power == 'off'}}" checked="{{ status.winter_mode == 'on' }}" active-color="#FFAA11" bind:change="winterModeSwitch" slot="right-icon"></mx-switch>
               </mx-cell>
             </mx-cell-group>
@@ -96,8 +102,8 @@
               <image bindtap="showShortcutTips" style="width: 38rpx; height: 38rpx; margin-left: 10rpx;" src="../../assets/images/question@2x.png" mode="" />
             </view>
             <mx-tabcard custom-class="tab-card" type="mini">
-              <view style="width: 100%;display: flex; justify-content: space-around;">
-                <mx-small-card wx:for="{{miniData}}"  wx:key="index" custom-class="small-card-icon" icon="{{item.selected ? item.activeIcon : item.icon}}" label="{{item.label}}" data-item="{{item}}" bind:onCardClicked="cardClicked"></mx-small-card>
+              <view style="width: 100%;display: flex;">
+                <mx-small-card wx:for="{{miniData}}"  wx:key="index" custom-class="small-card-icon" icon="{{item.selected ? item.activeIcon : item.icon}}" label="{{item.title}}" data-item="{{item}}" bind:onCardClicked="cardClicked"></mx-small-card>
                 <!-- <small-card bind:myevent="clickshowTempSlider" data-item="{{item}}" bindtap="cardClicked" checked="{{item.selected}}" icon="{{item.icon}}" wx:for="{{miniData}}" detailText="{{item.detail}}" titleText="{{item.label}}" wx:key="index"></small-card> -->
               </view>
             </mx-tabcard>
@@ -149,16 +155,17 @@
           <view class="demo-center prevent-default" catchtouchmove="{{true}}">
             <view class="demo-center-title flex-c j-c-center al-center" style="height: 60px;">功能介绍</view>
             <view class="flex-c j-c-center">
-              <view class="flex-r">
-                <text class="tips-title">智能居家：</text><text class="tips-text">检测室内温度，智能调温</text>
+              <view class="flex-r" wx:for="{{miniData}}" wx:key="index">
+                <text class="tips-title">{{item.title}}：</text><text class="tips-text">{{item.tips}}</text>
               </view>
-              <view class="flex-r">
+              <!-- <view class="flex-r">
                 <text class="tips-title">智能睡眠：</text><text class="tips-text">适用于睡眠场景，智能调温</text>
               </view>
               <view class="flex-r">
                 <text class="tips-title">智能外出：</text><text class="tips-text">外出省气，低温采暖，智能调温</text>
-              </view>
-            </view>           
+              </view> -->
+            </view>     
+            <!-- <view class="tips-text" style="margin-top: 30rpx;">以上仅作功能解析说明，实际不同机型所显示的功能也可能不同</view>       -->
           </view>
           <view class="tips-btn flex-c j-c-center al-center" style="margin-top: 70rpx;" bindtap="hidePopup" catchtouchmove="{{true}}">
             <text class="tips-btn-text">我知道了</text>
@@ -194,7 +201,7 @@
           </view>
 
           <!-- 零冷水 -->
-          <view style="width: 100%;">
+          <view style="width: 100%;" wx:if="{{zeroWaterArr.length > 0}}">
             <view style="margin: 30rpx 0 10rpx 0;" class="flex-r al-center {{status.power == 'off' ? 'disabled-opacity':''}}">
               <text class="title-text" style="padding-left: 35rpx;">零冷水</text>
               <image bindtap="showZeroWaterTips" style="width: 38rpx; height: 38rpx; margin-left: -8rpx;" src="../../assets/images/question@2x.png" mode="" />
@@ -203,10 +210,13 @@
               <mx-row>
                 <mx-col span="24">
                   <mx-panel padding="0" height="" custom-class="row-panel-layout panel-custom-class">
-                    <mx-cell custom-class="cell-custom {{status.power == 'off' ? 'disabled-opacity':''}}" imageSize="32" icon="{{dotClickIcon}}" title="点动零冷水" center label="快速开关两次，启动零冷水" bindtap="barthDisabledTips">
+                    <!-- <mx-cell custom-class="cell-custom {{status.power == 'off' ? 'disabled-opacity':''}}" imageSize="32" icon="{{dotClickIcon}}" title="点动零冷水" center label="快速开关两次，启动零冷水" bindtap="barthDisabledTips">
                       <mx-switch disabled="{{status.power == 'off'}}" checked="{{ status.cold_water_dot == 'on' }}" bind:change="switchColdWaterDot" active-color="{{status.power == 'off' ? 'lightgray' : '#ffaa10'}}" slot="right-icon"></mx-switch>
                     </mx-cell>
                     <mx-cell custom-class="cell-custom" imageSize="32" icon="{{timerClickIcon}}" center title="定时零冷水" label="预约时段启动零冷水" is-link border="{{ false }}" value="{{ status.cold_water_appoint_master == 'on' ? '已开启' : '已关闭' }}" bindtap="goToTimeSet">
+                    </mx-cell> -->
+                    <mx-cell data-item="{{item}}" wx:for="{{zeroWaterArr}}" custom-class="cell-custom {{status.power == 'off' ? 'disabled-opacity':''}}" imageSize="32" value="{{detailStatus[item.key]}}" is-link="{{item.key == 'appointmentZeroWater'}}" icon="{{dotClickIcon}}" title="{{item.title}}" center label="{{item.label}}" wx:key="index" bindtap="barthDisabledTips">
+                      <mx-switch data-item="{{item}}" wx:if="{{item.hasSwitch}}" disabled="{{status.power == 'off'}}" checked="{{ swStatus[item.key] }}" bind:change="coldWaterArrSwitch" active-color="{{status.power == 'off' ? 'lightgray' : '#ffaa10'}}" slot="right-icon"></mx-switch>
                     </mx-cell>
                   </mx-panel>
                 </mx-col>
@@ -217,19 +227,19 @@
 
           <!-- 特色功能 -->
           <view style="width: 100%;">
-            <view style="margin: 30rpx 0 10rpx 0;">
+            <view style="margin: 30rpx 0 10rpx 0;" wx:if="{{specialCards.length > 0}}">
               <text class="title-text" style="padding-left: 35rpx;">特色功能</text>
             </view>
             <view class="row-row-content {{status.power == 'off' ? 'disabled-opacity' : ''}}">
               <mx-row gutter="10">
                 <mx-col wx:for="{{specialCards}}" span="12" wx:key="index">
                   <mx-panel padding="10" custom-class="row-panel-layout flex-c">
-                    <view class="flex-r al-center j-sp-between" style="margin-bottom: 10rpx;" bindtap="barthDisabledTips">
+                    <view class="flex-r al-center j-sp-between" style="margin-bottom: 10rpx;" bindtap="specialCardsDisabledTips">
                       <image style="width: 64rpx; height: 64rpx;" src="{{item.icon}}" mode="" />
-                      <mx-switch disabled="{{status.power == 'off'}}" checked="{{ item.checked }}" data-item="{{item}}" active-color="{{status.power == 'off' ? 'lightgray' : '#ffaa10'}}" bind:change="specialFuncSwitch" slot="right-icon"></mx-switch>
+                      <mx-switch disabled="{{status.power == 'off'}}" checked="{{ swStatus[item.key] }}" data-item="{{item}}" active-color="{{status.power == 'off' ? 'lightgray' : '#ffaa10'}}" bind:change="specialFuncSwitch" slot="right-icon"></mx-switch>
                     </view>
                     <view class="flex-c j-c-center">
-                      <text class="card-title margin-5">{{item.label}}</text>
+                      <text class="card-title margin-5">{{item.title}}</text>
                       <text class="card-describe margin-5">{{item.describe}}</text>
                     </view>
                   </mx-panel>
@@ -248,7 +258,7 @@
 
         <view class="tab-bar-class" style="bottom:{{systemType == 'Android' ? -30 : 0}}rpx">
           <mx-tabbar border-radius box-shadow fixed="{{false}}" custom-class="tabbar-position" safe-area-inset-bottom="{{ false }}">
-            <mx-tabbar-item wx:if="{{ tabIndex == 0 ? (index < 1) : (index <= 1)}}" wx:for="{{tabbarItems}}" wx:key="index" checked="{{ item.checked }}" inactive-color="transparent" active-color="transparent" icon="{{item.icon}}" data-item="{{item}}" activeIcon="{{item.activeIcon}}" bind:change="bottomTab" custom-class="{{item.label == '单次零冷水' && status.power == 'off' ? 'disabled-opacity' : ''}}">{{item.label}}</mx-tabbar-item>
+            <mx-tabbar-item wx:for="{{tabbarItems}}" wx:key="index" checked="{{ item.checked }}" inactive-color="transparent" active-color="transparent" icon="{{item.icon}}" data-item="{{item}}" activeIcon="{{item.activeIcon}}" bind:change="bottomTab" custom-class="{{item.label == '单次零冷水' && status.power == 'off' ? 'disabled-opacity' : ''}}">{{item.label}}</mx-tabbar-item>
           </mx-tabbar>
         </view>
 

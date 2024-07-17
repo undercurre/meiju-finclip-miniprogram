@@ -1,0 +1,289 @@
+<wxs src="../assets/wxs/util.wxs" module="util"></wxs>
+
+<view class="container">
+    <page-header
+        title="{{deviceInfo.name}}"
+        theme="{{theme}}"
+        overlay="{{!!deviceStatus && deviceStatus.isAppointed}}"
+        bind:clickBack="back" />
+    <block wx:if="{{!loadingPluginData}}">
+       <view class="header-bg">
+        <image class="bg-device-img" style="height:{{deviceHeightRpx}}rpx"
+        src="{{pageData.images.deviceImage}}" catchtap="countTap"></image>
+      </view>
+
+        <!-- <view class="icon-buttons">
+            <view
+                class="icon-button"
+                hover-class="click-hover"
+                wx:for="{{pageData.iconButtons}}" wx:key="index"
+                catchtap="{{item.method}}">
+                <image class="button-icon" src="{{item.buttonIcon}}"></image>
+            </view>
+        </view> -->
+
+        <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" class="content">
+            <view class="white-block row operations">
+                <view wx:if="{{state === 0}}" class="block-left">
+                    <text class="device-state">设备离线</text>
+                </view>
+                <block wx:if="{{state === 2}}">
+                    <view class="block-left">
+                        <text class="device-state">{{deviceStatus.workText}}</text>
+                    </view>
+                    <view class="block-center">
+                        <count-down 
+                            id="countdown"
+                            wx:if="{{deviceStatus.showCountDown}}"
+                            autoStart="{{deviceStatus.showPauseButton}}"
+                            time="{{deviceStatus.remainingSeconds*1000}}"
+                            bind:countdown-change="countdownChange"
+                            class="orange-text" />
+                        <text wx:if="{{deviceStatus.orangeText}}" class="orange-text">{{deviceStatus.orangeText}}</text>
+                        <text wx:if="deviceStatus.grayText" class="gray-text">{{deviceStatus.grayText}}</text>
+                    </view>
+                    <view class="block-right">
+                        <view class="operation-button{{item.key === 'finish' ? ' large' : ''}}"
+                            hover-class="click-hover"
+                            wx:for="{{operations}}" wx:key="index"
+                            hidden="{{!deviceStatus['show' + util.firstLetterUpperCase(item.key) +'Button']}}"
+                            data-operation="{{item}}"
+                            catchtap="changeWorkStatus">
+                            <image class="button-icon" src="https://www.smartmidea.net/projects/meiju-lite-assets/plugin/0xBX/common/{{item.key}}.png" 
+                            ></image>
+                        </view>
+                    </view>
+                </block>
+                <loading wx:if="{{state === 1}}" text="设备连接中" />
+            </view>
+
+            <block wx:if="{{state === 2}}">
+                <view hidden="{{deviceStatus.isWorking || deviceStatus.showFinishButton}}"
+                    wx:for="{{pluginData.groups}}"
+                    wx:for-index="x"
+                    wx:key="x"
+                    wx:for-item="group"
+                    >
+                    <view class="white-block modes"  wx:if="{{group.modes && group.modes.length}}">
+                      <view class="block-title">{{group.title}}</view>
+                      <view wx:if="{{deviceStatus}}" class="mode-buttons">
+                          <view wx:if="{{!pluginData.MODES[item.modeId].invisible}}" class="mode-button" hover-class="click-hover"
+                          wx:for="{{group.modes}}"
+                          wx:key="index"
+                          data-mode="{{pluginData.MODES[item.modeId]}}"
+                          data-index= "{{index+1}}"
+                          catchtap="onModeButtonClicked">
+                              <image wx:if="{{pluginData.MODES[item.modeId].icon}}"
+                              class="mode-icon{{_theme}}" mode="aspectFill" src="{{pluginData.MODES[item.modeId].icon}}" ></image>
+                              <view wx:else class="mode-circle">{{pluginData.MODES[item.modeId].icontext}}</view>
+                              <text class="mode-text">{{pluginData.MODES[item.modeId].name}}</text>
+                          </view>
+                      </view>
+                    </view>
+
+                    <loading class="av-c" wx:else />
+                </view>
+
+                <view wx:if="{{(deviceStatus.isPreheatingTempArrived || deviceStatus.showFinishButton) && deviceStatus.cookingInfo.length}}" class="white-block params{{deviceStatus.showFinishButton ? ' fade' : ''}}">
+                    <view class="cooking-params">
+                        <view class="cooking-param" wx:for="{{deviceStatus.cookingInfoLimited}}" wx:key="index">
+                            <text class="param-name">{{item.value}}</text>
+                            <text class="param-desc">{{item.label}}</text>
+                        </view>
+                    </view>
+                </view>
+
+                <view hidden="{{!(deviceStatus.isWorking && !deviceStatus.isPreheatingTempArrived)}}"
+                    class="white-block column edit" hover-class="{{deviceStatus.editable ? 'click-hover' : ''}}" catchtap="edit">
+                    <view class="block-top">
+                        <view class="block-top-left">
+                            <text class="mode-text">模式</text>
+                            <view class="blue-text">
+                                <text wx:for="{{deviceStatus.cookingInfo}}" wx:key="index">{{(item.ingoreLabel ? '' : item.label) + item.value}}</text>
+                            </view>
+                        </view>
+                        <image wx:if="{{deviceStatus.editable}}" class="arrow-right" src="https://www.smartmidea.net/projects/meiju-lite-assets/plugin/0xBX/common/arrow_right.png"></image>
+                    </view>
+                    <view wx:if="{{deviceStatus.progress}}" class="block-bottom">
+                        <view class="progress-bar">
+                            <view class="progress" style="width:{{deviceStatus.progress}}"></view>
+                        </view>
+                    </view>
+                </view>
+            </block>
+            
+            <view class="white-block links">
+                <view class="block-title">更多服务</view>
+                <view class="link-buttons" >
+                    <view wx:for="{{pageData.linkButtons}}" wx:key="index"
+                        class="link-button"
+                        hover-class="click-hover"
+                        data-data="{{item}}"
+                        catchtap="{{item.method}}">
+                        <image class="button-icon" src="{{item.buttonIcon}}"></image>
+                        <text class="button-text">{{item.buttonText}}</text>
+                    </view>
+                </view>
+            </view>
+
+            <!-- <view wx:if="{{!fromApp}}" class="openMeiJuAPpp-item" catchtap="jumpToDownload">
+                <text class="item-text">下载美的美居App，体验更多功能</text>
+                <image class="item-icon" src="http://chuyu-meiyun.oss-cn-shenzhen.aliyuncs.com/2d7adcda30e24c8fa9c7d1401a92f82782.png"></image>
+            </view> -->
+            <mx-footer />
+        </scroll-view>
+
+        <view wx:if="{{showOperationalEntrance && pageData.operationalEntrance}}" class="operational-entrance">
+            <image class="entrance-image" mode="aspectFill" src="{{pageData.operationalEntrance.imageUrl}}" data-data="{{pageData.operationalEntrance}}" catchtap="onOperationalEntranceClicked"></image>
+            <image class="close-icon" mode="aspectFill" src="https://www.smartmidea.net/projects/meiju-lite-assets/actTemp/images/float-close.png" catchtap="onOperationalEntranceCloseClicked"></image>
+        </view>
+    </block>    
+
+    <view hidden="{{!bubble || !bubble.show || !bubble.text}}" class="bubble" style="top:{{pageData.images['bubbleTop' + imageSuffix]}}rpx">
+        <image class="bubble-tail" src="http://chuyu-meiyun.oss-cn-shenzhen.aliyuncs.com/f28f0ba13b9d44aa9e0e9f8a3640377111.png"></image>
+        <text class="text">{{bubble.text}}</text>
+    </view>
+
+    <popup
+        show="{{ paramsPopupVisibility }}"
+        duration="200"
+        position="bottom"
+        overlay="{{ true }}"
+        bind:click-overlay="hideParamsPopup"
+        bind:transitionEnd="onParamsPopupClosed"
+        custom-style="{{popupCustomStyle}}"
+        >
+        <block wx:if="{{!paramsPopupOverlayClosed}}">
+            <view class="popup-header popup-content__params_ma">
+                <view class="popup-title">{{popupParams.selectedMode.name}}</view>
+                <nav-bar wx:if="{{popupParams.settingGroups && popupParams.settingGroups.length > 1}}" tabs="{{popupParams.settingGroups}}" activeIndex="{{popupParams.activeIndex}}" bind:tabClick="onIndexChanged"/>
+            </view>
+            <view class="picker-views popup-content__params_ma" hidden="{{popupParams.activeIndex != x}}" wx:for="{{popupParams.settingGroups}}" wx:for-index="x" wx:key="x">
+                <block wx:for="{{item.localKeys}}" wx:for-item="key" wx:for-index="y" wx:key="y">
+                    <block wx:if="{{popupParams.modeSettings[key].showOption}}">
+                        <image wx:if="{{popupParams.modeSettings[key].componentType === 'picker' && popupParams.modeSettings[key].beforeIcon}}" class="picker-icon" src="{{popupParams.modeSettings[key].beforeIcon}}"></image>
+                        <sf-picker-view
+                        class="picker"
+                        wx:if="{{popupParams.modeSettings[key].componentType === 'picker'}}"
+                        key="{{key}}"
+                        range="{{popupParams.modeSettings[key].range}}"
+                        mapValues="{{popupParams.modeSettings[key].mapValues}}"
+                        value="{{popupParams.modeSettings[key].default}}"
+                        unit="{{popupParams.modeSettings[key].unit}}"
+                        bind:pickerChange="onSettingChange"
+                        >
+                    </sf-picker-view>
+                    <hms
+                        class="hms"
+                        key="{{key}}"
+                        max="{{popupParams.modeSettings[key].max}}"
+                        min="{{popupParams.modeSettings[key].min}}"
+                        value="{{popupParams.modeSettings[key].default}}"
+                        wx:if="{{popupParams.modeSettings[key].componentType === 'hms'}}"
+                        bind:hmsChange="onSettingChange"
+                    />
+                    </block>
+                </block>
+            </view>
+            <view wx:if="{{popupParams.selectedMode.autoCookTips}}" class="auto-cooking popup-content__params_ma">
+                <text class="auto-cooking-text">{{popupParams.selectedMode.autoCookTips}}</text>
+            </view>
+            <view class="dialog-footer popup-content__params_ma"
+                style="justify-content:{{popupParams.showMoreOptions || popupParams.singleSwitch ? 'space-between' : 'center'}}">
+                <view wx:if="{{popupParams.showMoreOptions}}" class="button display-button" hover-class="click-hover" catchtap='moreOptionsButtonClicked'>
+                    <text class="button-text">更多设置</text>
+                    <image class="button-icon" src="http://chuyu-meiyun.oss-cn-shenzhen.aliyuncs.com/8bbf27e1a4954ce7a985b41e6932a44885.png"></image>
+                </view>
+                <switch-option
+                    wx:if="{{popupParams.singleSwitch}}"
+                    label="{{popupParams.modeSettings[popupParams.singleSwitch].name}}"
+                    key="{{popupParams.singleSwitch}}"
+                    checked="{{popupParams.modeSettings[popupParams.singleSwitch].default}}"
+                    bind:switchChange="onSettingChange"
+                />
+                <view class="button start_button" hover-class="button-hover" catchtap='validateBeforeStart'>确定</view>
+            </view>
+        </block>
+    </popup>
+    
+    <popup
+        show="{{ optionsPopupVisibility }}"
+        duration="200"
+        position="bottom"
+        overlay="{{ true }}"
+        bind:click-overlay="hideOptionsPopup"
+        bind:transitionEnd="onOptionsPopupClosed"
+        custom-style="{{popupCustomStyle}}"
+        >
+        <block wx:if="{{!optionsPopupOverlayClosed}}">
+            <view class="popup-header popup-content__more_settings_ma">
+                <view class="popup-title">更多设置</view>
+            </view>
+            <view class="picker-options popup-content__more_settings_ma">
+                <block wx:if="{{popupParams.modeSettings[key].showOption}}" wx:for="{{popupParams.modeSettings}}" wx:for-index="key" wx:key="key">
+                    <switch-option
+                        wx:if="{{item.componentType === 'switch'}}"
+                        icon="{{item.icon}}"
+                        label="{{item.name}}"
+                        key="{{key}}"
+                        checked="{{item.default}}"
+                        bind:switchChange="onOptionChange"
+                    />
+                    <slider-option
+                        wx:if="{{item.componentType === 'slider'}}"
+                        icon="{{item.icon}}"
+                        label="{{item.name}}"
+                        unit="{{item.unit}}"
+                        key="{{key}}"
+                        mapValues="{{item.mapValues}}"
+                        value="{{item.default}}"
+                        bind:sliderChange="onOptionChange"
+                    />
+                </block>
+            </view>
+            <view style="height:16rpx;background-color:rgb(242,242,242)"></view>
+            <view class="dialog-button-wrap">
+                <view class="button dialog-button" hover-class="button-hover" style="color:rgb(102,102,102);" bindtap='hideOptionsPopup'>取消</view>
+                <view class="button dialog-button" hover-class="button-hover" catchtap='onOptionsPopupComfirm'>确定</view>
+            </view>
+        </block>
+    </popup>
+
+    <reservation-popup
+        custom-style="{{popupCustomStyle}}background-color:#fff;"
+        show="{{deviceStatus.isAppointed}}"
+        duration="200"
+        position="bottom"
+        overlay="{{ true }}"
+    >
+        <view wx:if="{{deviceStatus.isAppointed}}" slot="beyond" class="beyond-popup">
+            <orange-button class="orange-button" data-operation="{{operations[3]}}" catchtap="changeWorkStatus"
+                text="取消预约"
+            />
+        </view>
+        <view slot="content" class="popup">
+            <view class="popup-content">
+                <view class="popup-title">{{deviceStatus.appointmentTitle}}</view>
+                <view wx:if="{{deviceStatus.appointment}}" class="reservation-info">
+                    <text class="blue">{{deviceStatus.appointment.day}}</text>
+                    <view class="split"></view>
+                    <view class="time">
+                        <text class="blue">{{deviceStatus.appointment.hour}}</text>
+                        <text class="normal">时</text>
+                        <text class="blue">{{deviceStatus.appointment.minute}}</text>
+                        <text class="normal">分开始</text>
+                    </view>
+                    
+                </view>
+                <view wx:else class="reservation-info">
+                    <view class="time">
+                        <text class="blue">预约中</text>
+                    </view>
+                    
+                </view>
+            </view>
+        </view>
+    </reservation-popup>   
+
+    <loading wx:if="{{loadingPluginData}}" class="placeholder-loading" text="加载中..." />
+</view>
