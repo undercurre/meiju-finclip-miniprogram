@@ -2,6 +2,8 @@ const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import {webView} from '../../utils/paths'
 import Dialog from 'm-ui/mx-dialog/dialog';
+import { setIsAutoLogin, clearStorageSync } from '../../utils/redis.js'
+import { showToast } from '../../utils/util.js'
 
 Page({
   /**
