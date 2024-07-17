@@ -28,7 +28,7 @@
                         clearable="{{true}}"
                         adjust-position="{{ false }}">
                     </mx-field>
-                    <image src="{{valideCodeInfo.imgDataCode}}" mode="" class="smscodeWrapper-image"/>
+                    <image src="{{valideCodeInfo.imgDataCode}}" bind:tap="reflashCode" mode="" class="smscodeWrapper-image"/>
                 </view>
             </view>
         </mx-dialog>

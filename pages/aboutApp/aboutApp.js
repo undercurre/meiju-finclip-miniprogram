@@ -17,8 +17,8 @@ Page({
             title: '开源许可通告',
             id: 'codeArrow',
             link: {
-                sit: 'https://qrcode.midea.com/test/AboutApp/openSourceLicense_android.html',
-                uat: 'https://qrcode.midea.com/AboutApp/openSourceLicense_android.html',
+                sit: 'https://qrcode.midea.com/test/AboutApp/openSourceLicense_harmony.html',
+                uat: 'https://qrcode.midea.com/AboutApp/openSourceLicense_harmony.html',
             }
         },
         {
@@ -29,15 +29,51 @@ Page({
                 uat: 'https://www.smartmidea.net/projects/licence/index.html',
             }
         }
-    ]
+    ],
+    poupInfomation: {
+        show: false,
+        poupInfo: {
+            img: 'https://wx3.sinaimg.cn/mw690/92321886gy1hqaaubetpyj21jk25nat4.jpg',
+            info: `考虑放假了丝
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            
+            扣法兰看手机卡拉卡`,
+            type: 1,    //假定1是可升级， 2是参与内测，3是必须升级
+        }
+    }
+  },
+  togglePoup() {
+    let poupInfomation = this.data.poupInfomation
+    poupInfomation.show = !poupInfomation.show
+    this.setData({
+        poupInfomation
+    })
   },
   backPage() {
     wx.navigateBack()
   },
+  joinTest() {
+    
+  },
+  updateNow() {
+    try{
+        ft.startAppGalleryDetailAbility()
+    }
+  },
+  checkVersion(){
+    //检查版本request
+    this.togglePoup()
+  },
   jumpTargetPath(event) {
     let item = event.currentTarget.dataset.item
     if(item.id == 'versionUpdate'){
-
+        this.checkVersion()
     }else{
         let env = config.environment == 'sit' ? 'sit' : 'uat'
         let url = item.link[env]

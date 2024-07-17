@@ -12,39 +12,25 @@ Page({
   data: {
     cellList: [
         {
-            id: 1,
-            title: '允许App访问您的相机权限',
-            _checkType: 0,
-            _status: 0,
-            _authName: 'scope.camera',
-            rightText: '',
-            desc: '用于扫码设备二维码进行设备配网功能，更改头像等'
-        },
-        {
             id: 2,
             title: '允许App访问您的位置信息',
             _checkType: 0,
             _status: 0,
             _authName: 'scope.userLocation',
+            _apiName: 'getLocation',
             rightText: '',
             desc: '获取您当前的位置信息，不会追踪您的行踪轨迹，用于设备配网，设置家庭地址等'
         },
         {
             id: 3,
-            title: '允许App访问您的语音权限',
+            title: '允许App访问您的蓝牙权限',
             _checkType: 0,
             _status: 0,
-            _authName: 'scope.record',
+            _authName: 'scope.bluetooth',
+            _apiName: 'openBluetoothAdapter',
+            _closeApiName: 'closeBluetoothAdapter',
             rightText: '',
             desc: '获用于语音控制设备，带语音功能的家电进行通话'
-        },
-        {
-            title: '允许App访问您的日历',
-            _checkType: 0,
-            _status: 0,
-            _authName: 'scope.addPhoneCalendar',
-            rightText: '',
-            desc: '在日历内添加提醒，用于提供衣服晾晒等预约类型功能，为您提供提醒服务'
         },
         {
             id: 4,
@@ -62,13 +48,14 @@ Page({
     console.log(clickItemInfo)
     if(clickItemInfo._checkType == 0){
         // wx.openAppAuthorizeSetting()
-        wx.authorize({
-            scope: clickItemInfo._authName,
+        wx[clickItemInfo._apiName]({
             success: res => {
                 this.getSystemAuth()
+                if(clickItemInfo._closeApiName){
+                    wx[clickItemInfo._closeApiName]()
+                }
             },
             complete: res => {
-                console.log(`authorize result: ${JSON.stringify(res)}`)
                 wx.openAppAuthorizeSetting()
             }
         })
@@ -131,9 +118,11 @@ Page({
             if (data && +data.code === 0) {
                 this.logout()
                 wx.hideLoading()
-                wx.navigateTo({
-                url: '/pages/login/login',
-                })
+                try{
+                    ft.restartAppShell(true)
+                }catch(e){
+                    
+                }
             } else {
                 showToast('撤回失败，请稍后重试')
             }

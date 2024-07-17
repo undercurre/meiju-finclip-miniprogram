@@ -17,4 +17,26 @@
                 is-link/>
         </view>
     </view>
+    <mx-popup
+        show="{{poupInfomation.show}}"    
+        round
+    >
+        <view class="poupBox">
+            <image src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img"/>
+            <view class="poupBox-introduce">
+                <text class="poupBox-introduce-text">{{poupInfomation.poupInfo.info}}</text>
+            </view>
+            <div class="poupBox-button-wrapper">
+                <view wx:if="{{poupInfomation.poupInfo.type == 2}}">
+                    <mx-button size="large" type="primary" round="{{true}}" bind:click="joinTest">参与内测</mx-button>
+                </view>
+                <view wx:else>
+                    <mx-button size="large" type="primary" round="{{true}}"  bind:click="updateNow">立即升级</mx-button>
+                </view>
+                <view wx:if="{{poupInfomation.poupInfo.type != 3}}">
+                    <mx-button size="large" type="weak" round="{{true}}" bind:click="togglePoup">暂不升级</mx-button>
+                </view>
+            </div>
+        </view>
+    </mx-popup>
 </view>

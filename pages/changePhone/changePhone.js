@@ -24,6 +24,9 @@ Page({
   backPage() {
     wx.navigateBack()
   },
+  reflashCode() {
+    this.checkPhone({}, {})
+  },
   inputPhone(event) {
     let inputValue = event.detail.value
     this.setData({

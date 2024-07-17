@@ -112,6 +112,9 @@ Page({
         valideCodeInfo: valideCodeInfo
     })
   },
+  reflashCode() {
+    this.checkPhone()
+  },
   resendCode() {
     if(this.data.timeCount > 0){
         return

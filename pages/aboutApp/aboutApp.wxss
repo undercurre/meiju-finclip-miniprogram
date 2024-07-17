@@ -28,3 +28,33 @@ page {
     width: 750rpx;
     display: block;
 }
+
+.poupBox{
+    padding-bottom: 56rpx;
+}
+.poupBox-img{
+    width: 540rpx;
+    height: 296rpx;
+}
+.poupBox-introduce{
+    width: 444rpx;
+    margin: 54rpx auto 48rpx;
+    max-height: 384rpx;
+    overflow: auto;
+}
+.poupBox-introduce-text{
+    font-size: 26rpx;
+    color: #666666;
+    letter-spacing: 0;
+    line-height: 48rpx;
+    font-weight: 400;
+}
+.poupBox-button-wrapper{
+    width: 444rpx;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.poupBox-button-wrapper view:nth-child(n+2){
+    margin-top: 16rpx;
+}

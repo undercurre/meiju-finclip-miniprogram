@@ -25,7 +25,7 @@ Page({
         const data = res.data
         if (+data.code === 0) {
           const host = `${config.privacyDomain[config.environment]}`
-          const url = `${host}/mobile/cancellation/?system=midea_app_lite&jwt_token=${data.result}&redirect_uri=&is_switch_tab=true`
+          const url = `${host}/mobile/cancellation/?system=meijuapp&jwt_token=${data.result}&redirect_uri=&is_switch_tab=true`
           wx.navigateTo({
             url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}&needCheckLogStatus=true`,
           })
