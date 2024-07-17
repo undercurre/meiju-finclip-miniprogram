@@ -59,12 +59,12 @@ Page({
     wx.navigateBack()
   },
   joinTest() {
-    
+
   },
   updateNow() {
     try{
         ft.startAppGalleryDetailAbility()
-    }
+    }catch(e){}
   },
   checkVersion(){
     //检查版本request
