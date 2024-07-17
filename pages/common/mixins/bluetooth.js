@@ -1678,7 +1678,7 @@ module.exports = Behavior({
     setMixinsWifiClose() {
       timer1 = setTimeout(() => {
         console.log('关闭wifi')
-        //wx.offGetWifiList()
+        wx.offGetWifiList()
       }, searchTime)
     },
     /**

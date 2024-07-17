@@ -211,7 +211,7 @@ Page({
       showHover: true,
     })
     this.stopBluetoothDevicesDiscovery()
-    // wx.offGetWifiList() //Yoram TODO 930
+    wx.offGetWifiList() 
     this.clearMixinsTime()
   },
   data: {
