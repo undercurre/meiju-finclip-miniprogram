@@ -22,15 +22,7 @@ Page({
   },
   //返回
   onClickLeft() {
-    if (getCurrentPages().length > 1) {
-      wx.navigateBack({
-        delta: 1,
-      })
-    } else {
-      wx.switchTab({
-        url: index,
-      })
-    }
+    wx.navigateBack()
   },
   //关闭家庭选择
   toggleActionSheet() {
