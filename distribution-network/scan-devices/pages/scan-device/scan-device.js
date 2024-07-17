@@ -268,7 +268,7 @@ Page({
     this.clearMixinsTime()
     //关闭自动搜索
     wx.offBluetoothDeviceFound()
-    // wx.offGetWifiList() // todo:Yoram930
+    wx.offGetWifiList() // todo:Yoram930
     // this.stopBluetoothDevicesDiscovery()
     this.clearTimer()
     this._clearTimeout()
@@ -286,7 +286,7 @@ Page({
     this.clearMixinsTime()
     //关闭自动搜索
     wx.offBluetoothDeviceFound()
-    // wx.offGetWifiList()// todo:Yoram930
+    wx.offGetWifiList()// todo:Yoram930
     // this.stopBluetoothDevicesDiscovery()
     this.clearTimer()
     this._clearTimeout()
@@ -875,7 +875,7 @@ Page({
       return
     }
     this.stopBluetoothDevicesDiscovery()
-    // wx.offGetWifiList() //Yoram TODO 930
+    wx.offGetWifiList() //Yoram TODO 930
     this.clearMixinsTime()
     this.clickAddByTypeViewTrack()
     setTimeout(() => {

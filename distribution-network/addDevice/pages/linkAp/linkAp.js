@@ -360,7 +360,7 @@ Page({
     let self = this
     let { ssid,fm,dataSource } = app.addDeviceInfo
     let brandName = ssid?ssid.split('_')[0].toLocaleLowerCase():this.data.brandName
-    type = type.toLocaleLowerCase()
+    type = app.addDeviceInfo.type.toLocaleLowerCase() || type.toLocaleLowerCase()
     if (this.data.isLinkDeviceWifi) {
       getApp().setMethodCheckingLog('checkLinkWifi 已连上设备wifi')
       return //已连上设备wifi
@@ -517,6 +517,9 @@ Page({
   copy() {
     const _this = this
     getApp().setActionCheckingLog('copy', '点击复制密码')
+    wx.navigateTo({
+        url: paths.feedback,
+      })
     if (this.data.flag) return
     this.data.flag = true
     wx.setClipboardData({

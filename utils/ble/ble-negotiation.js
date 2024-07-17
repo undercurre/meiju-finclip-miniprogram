@@ -93,7 +93,7 @@ module.exports = Behavior({
           console.log('蓝牙连接成功', res)
           wx.getSystemInfo({
             success: (res) => {
-              if (res.system.indexOf('Android') != -1) {
+              if (res.system.indexOf('Android') != -1 || res.system.indexOf('harmony') != -1) {
                 wx.setBLEMTU({
                   deviceId,
                   mtu: 250,
@@ -218,6 +218,7 @@ module.exports = Behavior({
       })
       // 操作之前先监听，保证第一时间获取数据
       wx.onBLECharacteristicValueChange((characteristic) => {
+        console.log('收到设备消息---000', characteristic)
         console.log('收到设备消息---', ab2hex(characteristic.value))
         let value = this.isGroup(ab2hex(characteristic.value))
         if (!value) {

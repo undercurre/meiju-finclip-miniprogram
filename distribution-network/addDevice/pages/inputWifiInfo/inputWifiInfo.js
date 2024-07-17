@@ -513,7 +513,7 @@ Page({
     let { type, sn8, linkType } = app.addDeviceInfo
     const res = wx.getSystemInfoSync()
     console.log(res.system)
-    if (res.system.includes('Android')) {
+    if (res.system.includes('Android') || res.system.includes('harmony')) {
       let locationRes
       try {
         let checkNetLocal = await getApp().checkNetLocal()

@@ -134,13 +134,16 @@ const udpService = {
             //udp2广播信息
             let hexMsg = ab2hex(res.message).toLocaleLowerCase()
             console.log('udp2 message', hexMsg)
+            console.log('udp2 message decode2body',apUtils.decode2body(hexMsg))
             if (apUtils.decode2body(hexMsg).type == '007a') {
               let udpMsgBody = apUtils.decode2body(hexMsg).body
               let adData = apUtils.parseUdpBody(udpMsgBody)
+              console.log("=======success return=========",adData,app.addDeviceInfo)
               if (hexCharCodeToStr(adData.ssid).toLocaleLowerCase() == app.addDeviceInfo.ssid
                 .toLocaleLowerCase()) {
                 //过滤偶现没有版本信息的包
                 WX_LOG.info('设备自启udp成功', 'udp.onMessage')
+                console.log("=======success return=====resolve====",adData)
                 resolve(adData)
               }
             }
@@ -160,9 +163,9 @@ const udpService = {
    * @param {*} udp2 
    */
   getUdpInfo(udp, udp2) {
-    let openbroadcast = this.openbroadcast(udp)
+    //let openbroadcast = this.openbroadcast(udp)
     let onDeviceAutoUdp = this.onDeviceAutoUdp(udp2)
-    return Promise.race([onDeviceAutoUdp, openbroadcast])
+    return Promise.race([onDeviceAutoUdp])
   },
 
   /**
