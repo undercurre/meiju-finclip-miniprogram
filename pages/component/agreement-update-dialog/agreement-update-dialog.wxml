@@ -4,10 +4,10 @@
     <view class="dialog-title">用户协议与隐私协议更新</view>
     <view class="dialog-content">
       <view class="head-text"
-        ><text
-          >为了更好地提供服务，我们更新了<text class="link" bindtap="gotoAgree" data-type="register">《用户协议》</text
-          ><text class="link" bindtap="gotoAgree" data-type="privacy">《隐私协议》</text
-          >您可以点击查看相关协议内容。</text
+        ><view
+          >为了更好地提供服务，我们更新了<view class="link" bindtap="gotoAgree" data-type="register">《用户协议》</view
+          ><view class="link" bindtap="gotoAgree" data-type="privacy">《隐私协议》</view
+          >您可以点击查看相关协议内容。</view
         ></view
       >
       <view class="remind"

@@ -64,7 +64,7 @@
 .remind-text {}
 
 .link {
-  margin-bottom: 30rpx;
+  display: inline-block;
   font-family: PingFangSC-Medium;
   font-size: 26rpx;
   color: #267aff;
