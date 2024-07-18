@@ -15,9 +15,10 @@ Page({
             id: 2,
             title: '允许App访问您的位置信息',
             _checkType: 0,
-            _status: 0,
+            _status: false,
             _authName: 'scope.userLocation',
             _apiName: 'getLocation',
+            _checkName: 'locationAuthorized',
             rightText: '',
             desc: '获取您当前的位置信息，不会追踪您的行踪轨迹，用于设备配网，设置家庭地址等'
         },
@@ -25,9 +26,10 @@ Page({
             id: 3,
             title: '允许App访问您的蓝牙权限',
             _checkType: 0,
-            _status: 0,
+            _status: false,
             _authName: 'scope.bluetooth',
             _apiName: 'openBluetoothAdapter',
+            _checkName: 'bluetoothAuthorized',
             _closeApiName: 'closeBluetoothAdapter',
             rightText: '',
             desc: '获用于语音控制设备，带语音功能的家电进行通话'
@@ -45,20 +47,23 @@ Page({
   },
   jumpTargetPath(event) {
     let clickItemInfo = event.currentTarget.dataset.item
-    console.log(clickItemInfo)
+    console.log(`authorizeName clickItemInfo=${JSON.stringify(clickItemInfo)}`)
     if(clickItemInfo._checkType == 0){
         // wx.openAppAuthorizeSetting()
-        wx[clickItemInfo._apiName]({
-            success: res => {
-                this.getSystemAuth()
-                if(clickItemInfo._closeApiName){
-                    wx[clickItemInfo._closeApiName]()
+        if(!clickItemInfo._status){
+            wx[clickItemInfo._apiName]({
+                complete: res => {
+                    this.getSystemAuth()
+                    if(clickItemInfo._closeApiName){
+                        wx[clickItemInfo._closeApiName]()
+                    }
+                    console.log(`authorizeName: ${clickItemInfo._apiName},resutl =${JSON.stringify(res)}`)
+                    wx.openAppAuthorizeSetting()
                 }
-            },
-            complete: res => {
-                wx.openAppAuthorizeSetting()
-            }
-        })
+            })
+        }else{
+            wx.openAppAuthorizeSetting()
+        }
     }else{
         this.withdrawPrivacyAuth()
     }
@@ -147,22 +152,19 @@ Page({
     setIsAutoLogin(false)
   },  
   getSystemAuth() {
-    wx.getSetting({
-        success: res => {
-            console.log(`授权结果查询：${JSON.stringify(res.authSetting)}`)
-            let authSetting = res.authSetting
-            let cellList = this.data.cellList
-            cellList.forEach(ele => {
-                if(ele._checkType != 1){
-                    let authStatus = typeof authSetting[ele._authName] != 'undefined' ? authSetting[ele._authName] : false
-                    ele._status = authStatus
-                    ele.rightText = authStatus ? '已允许' : '去设置'
-                }
-            })
-            this.setData({
-                cellList: cellList
-            })
+    const authList = wx.getAppAuthorizeSetting()
+    console.log(`授权结果查询：${JSON.stringify(authList)}`)
+    console.log()
+    let cellList = this.data.cellList
+    cellList.forEach(ele => {
+        if(ele._checkType != 1){
+            let authStatus = typeof authList[ele._checkName] != 'undefined' ? authList[ele._checkName] == 'authorized' : false
+            ele._status = authStatus
+            ele.rightText = authStatus ? '已允许' : '去设置'
         }
+    })
+    this.setData({
+        cellList: cellList
     })
   },
   /**
