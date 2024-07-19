@@ -1,24 +1,6 @@
 <view>
-    <mx-nav-bar title="关于美的美居" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
-    <view class="main-container">
-        <view class="appversion-infobox">
-            <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons"/>
-            <span class="meijuapp-appversion">V1.0.0</span>
-        </view>
-        <view class="app-otherInfomation">
-            <mx-cell 
-                wx:for="{{cellList}}" 
-                wx:for-item="cellItem"
-                wx:key="id"
-                wx:for-index="idx" 
-                title="{{cellItem.title}}" 
-                data-item="{{cellItem}}"
-                bind:click="jumpTargetPath" 
-                is-link/>
-        </view>
-    </view>
     <mx-popup
-        show="{{false}}"    
+        show="{{poupInfomation.show}}"    
         round
     >
         <view class="poupBox">
@@ -39,5 +21,4 @@
             </div>
         </view>
     </mx-popup>
-    <version-update-dialog poupInfomation="{{poupInfomation}}"></version-update-dialog>
 </view>

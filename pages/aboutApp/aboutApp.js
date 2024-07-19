@@ -46,13 +46,17 @@ Page({
             扣法兰看手机卡拉卡`,
             type: 1,    //假定1是可升级， 2是参与内测，3是必须升级
         }
-    }
+    },
+    showVersionUpdateDialog:false 
   },
   togglePoup() {
     let poupInfomation = this.data.poupInfomation
     poupInfomation.show = !poupInfomation.show
+    console.error('点击版本更新')
+    this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
     this.setData({
-        poupInfomation
+        poupInfomation,
+        showVersionUpdateDialog: this.data.showVersionUpdateDialog
     })
   },
   backPage() {
