@@ -26,7 +26,9 @@ const checkPermission = {
     console.log('[system and setting info]', res)
     //未开 系统位置开关 未授权给微信
     if (!res[0].locationEnabled) {
-      permissionText.push('开启手机定位')
+    //   permissionText.push('开启手机定位')
+    permissionText.push('开启手机系统定位')
+    permissionText.push('以便扫描添加附近智能设备')
       permissionTypeList.locationEnabled = false
     } else {
       permissionTypeList.locationEnabled = true
@@ -45,7 +47,10 @@ const checkPermission = {
           permissionTypeList.locationReducedAccuracy = false
         }
       } else {
-        permissionText.push('授予微信使用定位的权限')
+        // permissionText.push('授予微信使用定位的权限')
+        permissionText = []
+        permissionText.push('开启位置信息权限')
+        permissionText.push('以便扫描添加附近智能设备')
       }
       permissionTypeList.locationAuthorized = false
     } else {
@@ -79,7 +84,8 @@ const checkPermission = {
       let permissionTextAll = ''
       if (permissionText.length > 1) {
         permissionText.forEach((item, index) => {
-          permissionTextAll += `${index + 1}、${item}${index + 1 != permissionText.length ? '\n' : ''}`
+        //   permissionTextAll += `${index + 1}、${item}${index + 1 != permissionText.length ? '\n' : ''}`
+          permissionTextAll += `${item}${index + 1 != permissionText.length ? '\n' : ''}`
         })
       } else {
         permissionTextAll = permissionText[0]
@@ -116,7 +122,9 @@ const checkPermission = {
 
     //蓝牙开关未开
     if (!res[0].bluetoothEnabled) {
-      permissionText.push('开启手机蓝牙')
+    //   permissionText.push('开启手机蓝牙')
+      permissionText.push('开启蓝牙权限')
+      permissionText.push('用于蓝牙连接与控制设备等功能')
       permissionTypeList.bluetoothEnabled = false
     } else {
       permissionTypeList.bluetoothEnabled = true
@@ -124,7 +132,7 @@ const checkPermission = {
 
     //需要授权蓝牙但未授权
     if (res[0].bluetoothAuthorized != undefined && res[0].bluetoothAuthorized !== 'authorized') {
-      permissionText.push('授予微信使用蓝牙的权限')
+      // permissionText.push('授予微信使用蓝牙的权限')
       permissionTypeList.bluetoothAuthorized = false
     } else {
       permissionTypeList.bluetoothAuthorized = true
@@ -151,7 +159,8 @@ const checkPermission = {
       let permissionTextAll = ''
       if (permissionText.length > 1) {
         permissionText.forEach((item, index) => {
-          permissionTextAll += `${index + 1}、${item}${index + 1 != permissionText.length ? '\n' : ''}`
+          //   permissionTextAll += `${index + 1}、${item}${index + 1 != permissionText.length ? '\n' : ''}`
+          permissionTextAll += `${item}${index + 1 != permissionText.length ? '\n' : ''}`
         })
       } else {
         permissionTextAll = permissionText[0]

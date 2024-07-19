@@ -75,6 +75,11 @@
   height: 249rpx;
 }
 
+#meiju .device-default-image {
+  width: 480rpx;
+  height: 400rpx;
+}
+
 #meiju .scan-device-title {
   font-family: PingFangSC-Medium;
   font-size: 48rpx;
@@ -238,6 +243,30 @@
 }
 
 #meiju .scan-tab {}
+
+#meiju .scan-device-pppup{
+  top:138rpx !important;
+  height: 230rpx;
+  width:686rpx;
+  border-radius:32rpx;
+  left:32rpx;
+}
+
+#meiju .scan-device-pppup-title{
+  padding-left: 32rpx;
+  padding-top: 40rpx;
+  font-size: 32rpx;
+  color:#080808;
+  font-weight: 400;
+}
+
+#meiju .scan-device-pppup-message{
+  padding-left: 32rpx;
+  padding-top: 32rpx;
+  font-size: 24rpx;
+  padding-bottom:40rpx;
+  padding-right:32rpx;
+}
 
 #meiju .head-item-line {
   width: 2rpx;
