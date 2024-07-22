@@ -17,7 +17,7 @@
                 is-link/>
         </view>
     </view>
-    <mx-popup
+    <!-- <mx-popup
         show="{{false}}"    
         round
     >
@@ -38,6 +38,6 @@
                 </view>
             </div>
         </view>
-    </mx-popup>
-    <version-update-dialog poupInfomation="{{poupInfomation}}"></version-update-dialog>
+    </mx-popup>  -->
+    <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
 </view>

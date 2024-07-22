@@ -59,6 +59,23 @@ Page({
         showVersionUpdateDialog: this.data.showVersionUpdateDialog
     })
   },
+  versionUpadte(e){
+    //子组件传承
+    console.error(e.detail)
+    if(e.detail.type == 3){
+        //立即升级
+        this.updateNow()
+    } else if(e.detail.type == 2){
+        //参与内测
+    }
+    let poupInfomation = this.data.poupInfomation
+    poupInfomation.show = !poupInfomation.show
+    this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
+    this.setData({
+        poupInfomation,
+        showVersionUpdateDialog: this.data.showVersionUpdateDialog
+    })
+  },
   backPage() {
     wx.navigateBack()
   },

@@ -27,19 +27,19 @@ Component({
     methods: {
         joinTest(){
             console.error('参与内测')
-            this.triggerEvent('childEvent', {
-                detail: '参与内测'
+            this.triggerEvent('versionUpadte', {
+                detail: {name:'参与内测',type:2}
             }, {});
         },
         updateNow(){
-            this.triggerEvent('childEvent', {
-                detail: '立即升级'
+            this.triggerEvent('versionUpadte', {
+                detail: {name:'立即升级',type:3}
             }, {});
         },
         togglePoup(){
             console.error('暂不升级')
-            this.triggerEvent('childEvent', {
-                detail: '暂不升级'
+            this.triggerEvent('versionUpadte', {
+                detail: {name:'暂不升级',type:0}
             }, {});
         }
     }
