@@ -163,9 +163,9 @@ const udpService = {
    * @param {*} udp2 
    */
   getUdpInfo(udp, udp2) {
-    //let openbroadcast = this.openbroadcast(udp)
+    let openbroadcast = this.openbroadcast(udp)
     let onDeviceAutoUdp = this.onDeviceAutoUdp(udp2)
-    return Promise.race([onDeviceAutoUdp])
+    return Promise.race([onDeviceAutoUdp, openbroadcast])
   },
 
   /**
