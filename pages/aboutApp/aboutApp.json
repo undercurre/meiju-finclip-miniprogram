@@ -1,5 +1,6 @@
 {
     "navigationBarTitleText": "",
+    "navigationBarRightButton": {"hide": true},
     "navigationStyle": "custom",
   "usingComponents": {
     "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index",

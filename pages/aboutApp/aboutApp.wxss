@@ -58,3 +58,7 @@ page {
 .poupBox-button-wrapper view:nth-child(n+2){
     margin-top: 16rpx;
 }
+.mytab-aboutapp-content{
+  --nav-bar-text-margin:0;
+  --nav-bar-text-padding:0;
+}

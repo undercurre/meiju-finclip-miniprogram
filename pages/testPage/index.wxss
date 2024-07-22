@@ -1,0 +1,6 @@
+page {
+  background-color: #f9f9f9;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  --iphonex-fix-bottom: env(safe-area-inset-bottom);
+}

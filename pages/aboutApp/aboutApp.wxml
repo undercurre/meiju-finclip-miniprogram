@@ -1,42 +1,46 @@
-<view>
-    <mx-nav-bar title="关于美的美居" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
-    <view class="main-container">
-        <view class="appversion-infobox">
-            <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons"/>
-            <span class="meijuapp-appversion">V1.0.0</span>
-        </view>
-        <view class="app-otherInfomation">
-            <mx-cell 
-                wx:for="{{cellList}}" 
-                wx:for-item="cellItem"
-                wx:key="id"
-                wx:for-index="idx" 
-                title="{{cellItem.title}}" 
-                data-item="{{cellItem}}"
-                bind:click="jumpTargetPath" 
-                is-link/>
-        </view>
+<view class="mytab-aboutapp-content">
+  <mx-nav-bar
+    title="关于美的美居"
+    bgColor="#FFFFFF"
+    right-text="{{environment=='sit'?'测试使用':''}}"
+    bind:click-right="onClickRight"
+    bind:click-left="backPage"
+  ></mx-nav-bar>
+  <view class="main-container">
+    <view class="appversion-infobox">
+      <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons" />
+      <span class="meijuapp-appversion">V1.0.0</span>
     </view>
-    <mx-popup
-        show="{{poupInfomation.show}}"    
-        round
-    >
-        <view class="poupBox">
-            <image src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img"/>
-            <view class="poupBox-introduce">
-                <text class="poupBox-introduce-text">{{poupInfomation.poupInfo.info}}</text>
-            </view>
-            <div class="poupBox-button-wrapper">
-                <view wx:if="{{poupInfomation.poupInfo.type == 2}}">
-                    <mx-button size="large" type="primary" round="{{true}}" bind:click="joinTest">参与内测</mx-button>
-                </view>
-                <view wx:else>
-                    <mx-button size="large" type="primary" round="{{true}}"  bind:click="updateNow">立即升级</mx-button>
-                </view>
-                <view wx:if="{{poupInfomation.poupInfo.type != 3}}">
-                    <mx-button size="large" type="weak" round="{{true}}" bind:click="togglePoup">暂不升级</mx-button>
-                </view>
-            </div>
+    <view class="app-otherInfomation">
+      <mx-cell
+        wx:for="{{cellList}}"
+        wx:for-item="cellItem"
+        wx:key="id"
+        wx:for-index="idx"
+        title="{{cellItem.title}}"
+        data-item="{{cellItem}}"
+        bind:click="jumpTargetPath"
+        is-link
+      />
+    </view>
+  </view>
+  <mx-popup show="{{poupInfomation.show}}" round>
+    <view class="poupBox">
+      <image src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img" />
+      <view class="poupBox-introduce">
+        <text class="poupBox-introduce-text">{{poupInfomation.poupInfo.info}}</text>
+      </view>
+      <div class="poupBox-button-wrapper">
+        <view wx:if="{{poupInfomation.poupInfo.type == 2}}">
+          <mx-button size="large" type="primary" round="{{true}}" bind:click="joinTest">参与内测</mx-button>
         </view>
-    </mx-popup>
+        <view wx:else>
+          <mx-button size="large" type="primary" round="{{true}}" bind:click="updateNow">立即升级</mx-button>
+        </view>
+        <view wx:if="{{poupInfomation.poupInfo.type != 3}}">
+          <mx-button size="large" type="weak" round="{{true}}" bind:click="togglePoup">暂不升级</mx-button>
+        </view>
+      </div>
+    </view>
+  </mx-popup>
 </view>

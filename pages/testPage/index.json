@@ -1,0 +1,11 @@
+{
+  "navigationBarRightButton": {"hide": true},
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "mx-cell-group": "/miniprogram_npm/m-ui/mx-cell-group/index",
+    "mx-cell": "/miniprogram_npm/m-ui/mx-cell/index",
+    "mx-toast":"m-ui/mx-toast/index",
+    "mx-action-sheet": "m-ui/mx-action-sheet/index",
+    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index"
+  }
+}
