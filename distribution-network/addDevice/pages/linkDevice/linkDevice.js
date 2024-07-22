@@ -2419,7 +2419,7 @@ Page({
         }, 3000)
       }
     })
-    if ((app.globalData.systemInfo.system.includes('Android') || app.globalData.systemInfo.system.includes('harmony')) && typeof this.tcp.bindWifi === 'function') {
+    if (app.globalData.systemInfo.system.includes('Android') && typeof this.tcp.bindWifi === 'function') {
       //安卓支持tcp.bindWifi 则先bindWifi
       console.log('[support tcp bind wifi]')
       this.tcp.onBindWifi(async () => {

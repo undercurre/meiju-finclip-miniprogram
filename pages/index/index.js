@@ -65,8 +65,13 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
+    let poupInfomation = this.data.poupInfomation
+    poupInfomation.show = true
+    console.error('首页强制更新')
     this.setData({
       myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
+      showVersionUpdateDialog:true,
+      poupInfomation:poupInfomation
     })
     if (getApp().globalData.gloabalWebSocket && getApp().globalData.gloabalWebSocket._isClosed) {
       this.initPushData()
@@ -193,6 +198,23 @@ Page({
         isDeviceLength: false,
       })
     }
+  },
+  versionUpadte(e){
+    //子组件传承
+    console.error(e.detail)
+    // this.updateNow()
+    let poupInfomation = this.data.poupInfomation
+    poupInfomation.show = !poupInfomation.show
+    this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
+    this.setData({
+        poupInfomation,
+        showVersionUpdateDialog: this.data.showVersionUpdateDialog
+    })
+  },
+  updateNow() {
+    try{
+        ft.startAppGalleryDetailAbility()
+    }catch(e){}
   },
   onAddToFavorites(res) {
     // webview 页面返回 webViewUrl
@@ -325,6 +347,24 @@ Page({
     fromPrivacy: false,
     showPrivacy: false,
     batchProperties: [], //物模型属性存取
+    poupInfomation: {
+        show: false,
+        poupInfo: {
+            img: 'https://wx3.sinaimg.cn/mw690/92321886gy1hqaaubetpyj21jk25nat4.jpg',
+            info: `首页强制更新考虑放假了丝
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            
+            扣法兰看手机卡拉卡`,
+            type: 3,    //假定1是可升级， 2是参与内测，3是必须升级
+        }
+    },
+    showVersionUpdateDialog:false 
   },
   //长链接推送解析
   async initPushData() {
