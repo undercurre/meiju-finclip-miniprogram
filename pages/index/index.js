@@ -202,7 +202,7 @@ Page({
   versionUpadte(e){
     //子组件传承
     console.error(e.detail)
-    this.updateNow()
+    // this.updateNow()
     let poupInfomation = this.data.poupInfomation
     poupInfomation.show = !poupInfomation.show
     this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
