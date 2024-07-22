@@ -400,4 +400,5 @@
   <view class="home-toast-content">
     <mx-toast id="mx-toast" />
   </view>
+  <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
 </view>
