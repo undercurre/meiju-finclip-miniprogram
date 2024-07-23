@@ -27,3 +27,7 @@
 .poupBox-button-wrapper view:nth-child(n+2){
     margin-top: 16rpx;
 }
+
+.version-update-popup{
+    z-index: 10000 !important;
+}
