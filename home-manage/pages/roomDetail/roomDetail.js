@@ -62,6 +62,7 @@ Page({
     this.editRoom()
       .then((res) => {
         console.log(res, '修改房间名成功')
+        app.globalData.ifRefreshHomeList = true
         this.setData({
           roomName: this.data.roomValue,
           editDialogShow: false,
@@ -171,6 +172,7 @@ Page({
     requestService
       .request('deleteRoom', reqData)
       .then((res) => {
+        app.globalData.ifRefreshHomeList = true
         console.log(res, '删除房间成功')
         wx.navigateBack()
       })

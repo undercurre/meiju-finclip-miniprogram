@@ -1,5 +1,6 @@
 import { getTimeStamp, getReqId, getUID, getStamp, hasKey } from 'm-utilsdk/index'
 import { showToast } from '../../utils/util.js'
+import { closeWebsocket } from '../../utils/initWebsocket.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
 import { authorizedCommonTrack } from '../../track/track.js'
 import { setTokenStorage, setIsAutoLogin, setUserInfo, removeUserInfo, removeStorageSync } from '../../utils/redis.js'
@@ -708,6 +709,7 @@ const loginMethods = {
     wx.removeStorageSync('batchAuthList')
     getApp().globalData.applianceAuthList = null
     removeStorageSync()
+    closeWebsocket()
     // clearStorageSync()
     setIsAutoLogin(false)
     removeUserInfo()

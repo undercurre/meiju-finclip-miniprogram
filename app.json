@@ -18,6 +18,7 @@
     "pages/transition/transition",
     "pages/faultInfo/faultInfo",
     "pages/scanCode-result/index",
+    "pages/testPage/index",
     "pages/openShoppingLite/openShoppingLite",
     "sub-package/privacy/privacy",
     "miniprogram_npm/m-services/services/index"
@@ -714,7 +715,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#fff"
   },
