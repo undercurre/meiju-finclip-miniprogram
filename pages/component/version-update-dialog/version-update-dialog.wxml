@@ -2,6 +2,8 @@
     <mx-popup
         show="{{poupInfomation.show}}"    
         round
+        custom-class="version-update-popup"
+        overlay-style="z-index:10000"
     >
         <view class="poupBox">
             <image src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img"/>

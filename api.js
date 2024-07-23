@@ -840,6 +840,18 @@ var api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/applet/whitelist/filter`,
     api: '/v1/applet/whitelist/filter',
   },
+  //版本更新-未登录
+  getUpgradeStrategy: {
+    url: `${domain[`${environment}`]}/v1/apisix/gray/app/getUpgradeStrategy`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/apisix/gray/app/getUpgradeStrategy`,
+    api: '/v1/apisix/gray/app/getUpgradeStrategy',
+  },
+  //版本更新-已登录
+  getLoginUpgradeStrategy: {
+    url: `${domain[`${environment}`]}/v1/apisix/gray/app/getLoginUpgradeStrategy`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/v1/apisix/gray/app/getLoginUpgradeStrategy`,
+    api: '/v1/apisix/gray/app/getLoginUpgradeStrategy',
+  },
   // 组合设备查询离线的sn
   getOfflineSn: {
     url: `${applianceDomain}/v1/appliance/offline/sn`,
