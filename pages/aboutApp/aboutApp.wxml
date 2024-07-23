@@ -11,7 +11,21 @@
       <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons" />
       <span class="meijuapp-appversion">V1.0.0</span>
     </view>
-    <!-- <mx-popup
+    <view class="app-otherInfomation">
+      <mx-cell
+        wx:for="{{cellList}}"
+        wx:for-item="cellItem"
+        wx:key="id"
+        wx:for-index="idx"
+        title="{{cellItem.title}}"
+        data-item="{{cellItem}}"
+        bind:click="jumpTargetPath"
+        is-link
+      />
+    </view>
+  </view>
+
+  <!-- <mx-popup
         show="{{false}}"    
         round
     >
@@ -33,9 +47,5 @@
             </div>
         </view>
     </mx-popup>  -->
-    <version-update-dialog
-      poupInfomation="{{poupInfomation}}"
-      bindversionUpadte="versionUpadte"
-    ></version-update-dialog>
-  </view>
+  <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
 </view>
