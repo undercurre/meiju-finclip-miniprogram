@@ -4,3 +4,6 @@ page {
   -webkit-overflow-scrolling: touch;
   --iphonex-fix-bottom: env(safe-area-inset-bottom);
 }
+.test-operta-otherInfomation{
+  margin-top: 24rpx;
+}

@@ -16,6 +16,7 @@
         mx-iconfont="mx-icon"
         left-icon="{{phoneSrc}}"
         bind:input="handlePhoneNumberInput"
+        type="number"
         maxlength="{{11}}"
         pattern="light"
         shape="round"
@@ -40,6 +41,7 @@
           shape="round"
           use-button-slot
           value="{{ verImgcode }}"
+          focus="{{autoVerImgCodeFocus}}"
           placeholder="请输入图形验证码"
           border="{{ false }}"
           clearable
@@ -58,6 +60,7 @@
           custom-style="border: 1px solid #e5e5e8;margin-top:32rpx;z-index:1000;"
           mx-iconfont="mx-icon"
           left-icon="{{verCodeSrc}}"
+          type="number"
           bind:input="handleVercodeInput"
           maxlength="{{6}}"
           pattern="light"
@@ -65,6 +68,7 @@
           use-button-slot
           value="{{ vercode }}"
           placeholder="请输入验证码"
+          focus="{{autoVerCodeFocus}}"
           border="{{ false }}"
           clearable
           ><view slot="button" class="vercode-content"

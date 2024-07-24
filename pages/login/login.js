@@ -76,6 +76,8 @@ Page({
     confirmReingButtonText: '前往撤销',
     jwtToken: '',
     agreeVersions: [],
+    autoVerImgCodeFocus: false,
+    autoVerCodeFocus: false,
   },
   setLoginLogoTop() {
     let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
@@ -271,7 +273,7 @@ Page({
         loginDisabled: false,
         isLogin: true,
       })
-      if (val.detail.length > 6) {
+      if (val.detail.length == 6) {
         this.onClickLogin()
       }
     } else {
@@ -308,6 +310,11 @@ Page({
           isLogin: true,
           loginBtnDes: '登录',
         })
+        setTimeout(() => {
+          this.setData({
+            autoVerCodeFocus: true,
+          })
+        }, 200)
       })
       .catch((error) => {
         console.log(error)
@@ -320,6 +327,11 @@ Page({
             imgcode: error.data.data.imgCode,
             randomToken: error.data.data.randomToken,
           })
+          setTimeout(() => {
+            this.setData({
+              autoVerImgCodeFocus: true,
+            })
+          }, 200)
           return
         }
         if (error.data.code == 1105) {
@@ -333,6 +345,11 @@ Page({
             isLogin: true,
             loginBtnDes: '注册',
           })
+          setTimeout(() => {
+            this.setData({
+              autoVerCodeFocus: true,
+            })
+          }, 200)
           return
         }
         showToast(error.data.msg)
