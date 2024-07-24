@@ -4,7 +4,7 @@ import { getReqId, getStamp } from 'm-utilsdk/index'
 import { showToast } from '../../../utils/util'
 import { api } from '../../../api'
 import { enterPersonalCneter, clickModifyPhoto, clickModifyNickname } from './assets/js/burialPoint'
-import Dialog from 'm-ui/mx-dialog/dialog';
+import Dialog from 'm-ui/mx-dialog/dialog'
 
 Page({
   /**
@@ -25,14 +25,15 @@ Page({
     _checkAuthList: [], //需要申请的权限
     _agreeAuthList: [], //用户同意检查的权限
     pictureAction: [
-        {
-            name: '拍照',
-            _index: 0
-        },{
-            name: '从相册选择',
-            _index: 1
-        }
-    ]
+      {
+        name: '拍照',
+        _index: 0,
+      },
+      {
+        name: '从相册选择',
+        _index: 1,
+      },
+    ],
   },
   //获取会员信息
   getVipUserInfo() {
@@ -53,7 +54,7 @@ Page({
         this.setData({
           uid: res.data.data.uid,
           headImgUrl: res.data.data.userCustomize.headImgUrl,
-          nickName: res.data.data.userCustomize.nickName
+          nickName: res.data.data.userCustomize.nickName,
         })
       })
       .catch((err) => {
@@ -62,149 +63,165 @@ Page({
       })
   },
   togglePictureSelect() {
-      this.setData({
-        showPictureSelect: !this.data.showPictureSelect
-      })
+    this.setData({
+      showPictureSelect: !this.data.showPictureSelect,
+    })
   },
   toggleAuthCamera() {
-    if(this.data._checkAuthList.length == 0 || !this.data._checkAuthList.some(ele => typeof ele.cameraAuthorized !== 'undefined')){
-        return Promise.resolve({hasCheck: true})
+    if (
+      this.data._checkAuthList.length == 0 ||
+      !this.data._checkAuthList.some((ele) => typeof ele.cameraAuthorized !== 'undefined')
+    ) {
+      return Promise.resolve({ hasCheck: true })
     }
     return Dialog.confirm({
-        context: this,
-        zIndex: 10002,
-        title: '“美的美居”想获取您的摄像头使用权限',
-        message: '用于扫描、拍照、录制视频及通话',
-        confirmButtonText: '设置',
-        cancelButtonText: '取消'
+      context: this,
+      zIndex: 10002,
+      title: '“美的美居”想获取您的摄像头使用权限',
+      message: '用于扫描、拍照、录制视频及通话',
+      confirmButtonText: '设置',
+      cancelButtonText: '取消',
     })
   },
   toggleAuthAlbum() {
-    if(this.data._checkAuthList.length == 0 || !this.data._checkAuthList.some(ele => typeof ele.albumAuthorized !== 'undefined')){
-        return Promise.resolve({hasCheck: true})
+    if (
+      this.data._checkAuthList.length == 0 ||
+      !this.data._checkAuthList.some((ele) => typeof ele.albumAuthorized !== 'undefined')
+    ) {
+      return Promise.resolve({ hasCheck: true })
     }
     return Dialog.confirm({
-        context: this,
-        zIndex: 10001,
-        title: '“美的美居”想获取您的数据存储权限',
-        message: '用于APP与插件升级更新、日志、缓存、图片截图和二维码名片的分享存储，以及图片/视频/二维码/条码的上传、扫描或识别',
-        confirmButtonText: '同意并设置',
-        cancelButtonText: '取消'
+      context: this,
+      zIndex: 10001,
+      title: '“美的美居”想获取您的数据存储权限',
+      message:
+        '用于APP与插件升级更新、日志、缓存、图片截图和二维码名片的分享存储，以及图片/视频/二维码/条码的上传、扫描或识别',
+      confirmButtonText: '同意并设置',
+      cancelButtonText: '取消',
     })
   },
   selectPictureSource(event) {
     const appAuthorizeSetting = wx.getAppAuthorizeSetting()
     let _checkAuthList = []
     let isTakePhoto = event.detail._index == 0
-    if(isTakePhoto){
-        // 检查摄像头权限
-        if(!appAuthorizeSetting.cameraAuthorized == 'authorized'){
-            _checkAuthList.push({
-                cameraAuthorized: appAuthorizeSetting.cameraAuthorized,
-                authName: 'scope.camera',
-                authStatus: appAuthorizeSetting.cameraAuthorized,
-            })
-        }
+    if (isTakePhoto) {
+      // 检查摄像头权限
+      if (!appAuthorizeSetting.cameraAuthorized == 'authorized') {
+        _checkAuthList.push({
+          cameraAuthorized: appAuthorizeSetting.cameraAuthorized,
+          authName: 'scope.camera',
+          authStatus: appAuthorizeSetting.cameraAuthorized,
+        })
+      }
     }
     // 检查相册权限
-    if(!appAuthorizeSetting.albumAuthorized == 'authorized'){
-        _checkAuthList.push({
-            albumAuthorized: appAuthorizeSetting.albumAuthorized,
-            authName: 'scope.writePhotosAlbum',
-            authStatus: appAuthorizeSetting.albumAuthorized
-        })
+    if (!appAuthorizeSetting.albumAuthorized == 'authorized') {
+      _checkAuthList.push({
+        albumAuthorized: appAuthorizeSetting.albumAuthorized,
+        authName: 'scope.writePhotosAlbum',
+        authStatus: appAuthorizeSetting.albumAuthorized,
+      })
     }
     this.setData({
-        _checkAuthList: _checkAuthList
+      _checkAuthList: _checkAuthList,
     })
     this.togglePictureSelect()
 
-    if(isTakePhoto){
-        this.takePhotoForHeadImgCheck()
-    }else{
-        this.choosePhotoCheck()
+    if (isTakePhoto) {
+      this.takePhotoForHeadImgCheck()
+    } else {
+      this.choosePhotoCheck()
     }
   },
   requestAuthFromSys() {
-    if(this.data._agreeAuthList.length == this.data._checkAuthList.length){
-        return Promise.resolve({})
+    if (this.data._agreeAuthList.length == this.data._checkAuthList.length) {
+      return Promise.resolve({})
     }
     // 如果申请的权限有 ‘denied’ 则直接跳转到系统授权设置页
-    let hasDeniedAuth = this.data._checkAuthList.some(ele => {
-        if((ele.albumAuthorized && ele.albumAuthorized == 'denied') || (ele.cameraAuthorized && ele.cameraAuthorized == 'denied')){
-            console.log(`denided auth: ${ele.authName}`)
-            return true
-        }
+    let hasDeniedAuth = this.data._checkAuthList.some((ele) => {
+      if (
+        (ele.albumAuthorized && ele.albumAuthorized == 'denied') ||
+        (ele.cameraAuthorized && ele.cameraAuthorized == 'denied')
+      ) {
+        console.log(`denided auth: ${ele.authName}`)
+        return true
+      }
     })
-    if(hasDeniedAuth){
-        wx.openAppAuthorizeSetting()
-        return Promise.reject({hasDenied: true})
+    if (hasDeniedAuth) {
+      wx.openAppAuthorizeSetting()
+      return Promise.reject({ hasDenied: true })
     }
     let promiseList = []
-    this.data._checkAuthList.forEach(ele => {
-        let targetAuth = this.getSingleAuth(ele.authName)
-        promiseList.push(targetAuth)
+    this.data._checkAuthList.forEach((ele) => {
+      let targetAuth = this.getSingleAuth(ele.authName)
+      promiseList.push(targetAuth)
     })
     return Promise.all(promiseList)
   },
   getSingleAuth(auth) {
     return new Promise((reslove, reject) => {
-        wx.authorize({
-            scope: auth,
-            success() {
-                reslove()
-            },
-            fail() {
-                reject()
-            }
-        })
+      wx.authorize({
+        scope: auth,
+        success() {
+          reslove()
+        },
+        fail() {
+          reject()
+        },
+      })
     })
   },
   takePhotoForHeadImgCheck() {
-    if(this.data._checkAuthList.length > 0){
-        let _agreeAuthList = []
-        this.toggleAuthCamera().then(res => {
-            if(!res.hasCheck){
-                _agreeAuthList.push('cameraAuthorized')
-            }
-            console.log(res)
-        }).finally(() => {
-            this.toggleAuthAlbum().then(result => {
-                if(!result.hasCheck){
-                    _agreeAuthList.push('albumAuthorized')
-                }
-                console.log(result)
-            }).finally(() => {
-                this.setData({
-                    _agreeAuthList: _agreeAuthList
-                })
-                this.requestAuthFromSys().then(() => {
-                    this.editHeadImg('camera')
-                })
+    if (this.data._checkAuthList.length > 0) {
+      let _agreeAuthList = []
+      this.toggleAuthCamera()
+        .then((res) => {
+          if (!res.hasCheck) {
+            _agreeAuthList.push('cameraAuthorized')
+          }
+          console.log(res)
+        })
+        .finally(() => {
+          this.toggleAuthAlbum()
+            .then((result) => {
+              if (!result.hasCheck) {
+                _agreeAuthList.push('albumAuthorized')
+              }
+              console.log(result)
+            })
+            .finally(() => {
+              this.setData({
+                _agreeAuthList: _agreeAuthList,
+              })
+              this.requestAuthFromSys().then(() => {
+                this.editHeadImg('camera')
+              })
             })
         })
-    }else{
-        this.editHeadImg('camera')
+    } else {
+      this.editHeadImg('camera')
     }
   },
   choosePhotoCheck() {
-    if(this.data._checkAuthList.length > 0){
-        let _agreeAuthList = []
-        this.toggleAuthAlbum().then(result => {
-            if(!result.hasCheck){
-                _agreeAuthList.push('albumAuthorized')
-            }
-            console.log(result)
-        }).finally(() => {
-            this.setData({
-                _agreeAuthList: _agreeAuthList
-            })
-            this.requestAuthFromSys().then(() => {
-                this.editHeadImg()
-            })
+    if (this.data._checkAuthList.length > 0) {
+      let _agreeAuthList = []
+      this.toggleAuthAlbum()
+        .then((result) => {
+          if (!result.hasCheck) {
+            _agreeAuthList.push('albumAuthorized')
+          }
+          console.log(result)
         })
-    }else{
-        this.editHeadImg()
+        .finally(() => {
+          this.setData({
+            _agreeAuthList: _agreeAuthList,
+          })
+          this.requestAuthFromSys().then(() => {
+            this.editHeadImg()
+          })
+        })
+    } else {
+      this.editHeadImg()
     }
   },
   backPage() {
@@ -215,14 +232,14 @@ Page({
     clickModifyPhoto()
     let that = this
     let sourceType = []
-    if(mediaType == 'image'){
-        sourceType.push('album')
-    }else{
-        sourceType.push('camera')
+    if (mediaType == 'image') {
+      sourceType.push('album')
+    } else {
+      sourceType.push('camera')
     }
     wx.chooseMedia({
       count: 1,
-      mediaType: 'image',
+      mediaType: ['image'],
       sizeType: ['original', 'compressed'],
       sourceType: sourceType,
       success(res) {

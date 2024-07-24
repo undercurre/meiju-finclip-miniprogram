@@ -1,33 +1,9 @@
-<view class="mytab-aboutapp-content">
-  <mx-nav-bar
-    title="关于美的美居"
-    bgColor="#FFFFFF"
-    right-text="{{environment=='sit'?'测试使用':''}}"
-    bind:click-right="onClickRight"
-    bind:click-left="backPage"
-  ></mx-nav-bar>
-  <view class="main-container">
-    <view class="appversion-infobox">
-      <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons" />
-      <span class="meijuapp-appversion">V1.0.0</span>
-    </view>
-    <view class="app-otherInfomation">
-      <mx-cell
-        wx:for="{{cellList}}"
-        wx:for-item="cellItem"
-        wx:key="id"
-        wx:for-index="idx"
-        title="{{cellItem.title}}"
-        data-item="{{cellItem}}"
-        bind:click="jumpTargetPath"
-        is-link
-      />
-    </view>
-  </view>
-
-  <!-- <mx-popup
-        show="{{false}}"    
+<view>
+    <mx-popup
+        show="{{poupInfomation.show}}"    
         round
+        custom-class="version-update-popup"
+        overlay-style="z-index:10000"
     >
         <view class="poupBox">
             <image src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img"/>
@@ -46,6 +22,5 @@
                 </view>
             </div>
         </view>
-    </mx-popup>  -->
-  <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
+    </mx-popup>
 </view>

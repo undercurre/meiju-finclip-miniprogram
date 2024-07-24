@@ -186,6 +186,7 @@ Page({
       this.homeQuit()
         .then((res) => {
           console.log(res, '退出家庭成功')
+          app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })
         .catch((err) => {
@@ -249,6 +250,7 @@ Page({
     this.familyNameEdit()
       .then((res) => {
         console.log(res, '修改家庭名称成功')
+        app.globalData.ifRefreshHomeList = true
         this.setData({
           familyDialogShow: false,
           autoFocus: false,

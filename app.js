@@ -735,10 +735,9 @@ App({
           {
             reqId: getReqId(),
             stamp: getStamp(),
-            //appId: api.iotAppId,
-            appId: '901',
+            appId: config.iotTerminalIid,
             // verType: __wxConfig.envVersion,
-            verType: 'release',
+            verType: api.environment == 'sit' ? 'trial' : 'release',
             ifGrayData: '1',
           },
           'POST'

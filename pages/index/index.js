@@ -65,6 +65,16 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
+    if(!app.globalData.showVersionAuthCount){
+      app.globalData.showVersionAuthCount = 1
+      try {
+        await this.checkVersionUpdate()
+        console.error('首页强制更新')
+      } catch (error) {
+        app.globalData.showVersionAuthCount = 0
+      }
+    }
+
     this.setData({
       myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
     })
@@ -194,6 +204,23 @@ Page({
       })
     }
   },
+  versionUpadte(e) {
+    //子组件传承
+    console.error(e.detail)
+    // this.updateNow()
+    let poupInfomation = this.data.poupInfomation
+    poupInfomation.show = !poupInfomation.show
+    this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
+    this.setData({
+      poupInfomation,
+      showVersionUpdateDialog: this.data.showVersionUpdateDialog,
+    })
+  },
+  updateNow() {
+    try {
+      ft.startAppGalleryDetailAbility()
+    } catch (e) {}
+  },
   onAddToFavorites(res) {
     // webview 页面返回 webViewUrl
     console.log('webViewUrl: ', res.webViewUrl)
@@ -212,7 +239,7 @@ Page({
       showHover: true,
     })
     this.stopBluetoothDevicesDiscovery()
-    wx.offGetWifiList() 
+    wx.offGetWifiList()
     this.clearMixinsTime()
   },
   data: {
@@ -325,6 +352,24 @@ Page({
     fromPrivacy: false,
     showPrivacy: false,
     batchProperties: [], //物模型属性存取
+    poupInfomation: {
+      show: false,
+      poupInfo: {
+        img: 'https://wx3.sinaimg.cn/mw690/92321886gy1hqaaubetpyj21jk25nat4.jpg',
+        info: `首页强制更新考虑放假了丝
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            开了房见识到了肯德基凯撒
+            
+            扣法兰看手机卡拉卡`,
+        type: 3, //假定1是可升级， 2是参与内测，3是必须升级
+      },
+    },
+    showVersionUpdateDialog: false,
   },
   //长链接推送解析
   async initPushData() {
@@ -2176,6 +2221,79 @@ Page({
         if_sys: 1, //本需求固定为1
       },
     })
+  },
+
+ checkVersionUpdate(){
+  let self = this
+  let params ={}
+  wx.getSystemInfo({
+    success(res){
+      console.error('res=================:',res)
+      params = {
+          "deviceId":res.deviceId,
+          "os":"HarmonyOS",
+          "channel":"huawei",
+          "deviceName":"Mate 60 Pro",
+          "platform":3,
+          "osVersion":res.system,
+          "version":'1.0.0',
+          "iotAppId":"900",
+          "strategyId":""
+      }
+    }
+  })
+  return new Promise((resolve, reject) => {
+    let urlName = 'getUpgradeStrategy'
+    if(app.globalData.isLogon){
+        urlName = 'getLoginUpgradeStrategy'
+    }
+    let reqData = {
+      ...params,
+      reqId: getReqId(),
+      stamp: getStamp(),
+    }
+    requestService.request(urlName, reqData).then(
+      (resp) => {
+        console.error('resp----------:',resp)
+        // 强制更新还要一个条件，目前先弹窗测试 resp.data.data.dialogConfig.popType ==3 
+        if (resp.data.code == 0 && self.compareVersion(resp.data.data.versionName,reqData.version)) {
+          let poupInfomation = self.data.poupInfomation
+          poupInfomation.show = !poupInfomation.show
+          poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
+          poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
+
+          self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
+          self.setData({
+              poupInfomation,
+              showVersionUpdateDialog: self.data.showVersionUpdateDialog
+          })
+          resolve(resp)
+        } else {
+          reject(resp)
+        }
+      },
+      (error) => {
+        console.error('error===========:',error)
+        reject(error)
+      }
+    )
+  })
+  },
+
+  //输出1，则v1版本号比v2大
+  compareVersion(v1, v2) {
+    const version1 = v1.split('.').map(Number);
+    const version2 = v2.split('.').map(Number);
+  
+    for (let i = 0; i < Math.max(version1.length, version2.length); i++) {
+      const num1 = version1[i] || 0;
+      const num2 = version2[i] || 0;
+  
+      if (num1 > num2) return 1;
+      if (num1 < num2) return -1;
+    }
+  
+    return 0; // 版本号相等
   },
 
   //获取当前用户下的空调设备

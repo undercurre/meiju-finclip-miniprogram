@@ -109,7 +109,6 @@ Page({
     })
     //clickEventTracking('user_page_view')
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      console.log('zhuccc getTabBar().selected----------->', this.getTabBar())
       app.globalData.selectTab = 1
       //this.trackTab()
       this.getTabBar().setData({
@@ -506,7 +505,14 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {},
+  onReady: function () {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      //this.trackTab()
+      this.getTabBar().setData({
+        selected: 1,
+      })
+    }
+  },
   onAddToFavorites() {
     // webview 页面返回 webViewUrl
     return {

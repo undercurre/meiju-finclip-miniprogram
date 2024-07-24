@@ -186,6 +186,7 @@ Page({
     }
     this.addFamily()
       .then((res) => {
+        app.globalData.ifRefreshHomeList = true
         console.log(res, '创建家庭成功')
         this.setData({
           dialogShow: false,

@@ -86,7 +86,7 @@ const config = {
     sit: '900',
     prod: '900',
   },
-  iotTerminalIid: '900-harmoney',
+  iotTerminalIid: '900-harmony',
   marketAppId: {
     dev: 'test_mj',
     sit: 'test_mj',

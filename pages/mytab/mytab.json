@@ -1,5 +1,6 @@
 {
   "navigationStyle": "custom",
+  "navigationBarRightButton": {"hide": true},
   "usingComponents": {
     "center-sign-dialog": "/pages/mytab/component/center-sign-dialog/center-sign-dialog",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",

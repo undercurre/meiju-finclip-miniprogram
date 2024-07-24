@@ -95,9 +95,8 @@ var requestService = {
         appId: api.iotAppId,
         terminalId: api.iotTerminalIid,
         iotAppId: api.iotAppId,
-        iotTerminalId: api.iotTerminalIid,
         ...headerObj,
-        // 'iot-gray-identification': "beta", //临时添加alpha泳道
+        //'iot-gray-identification': 'alpha', //临时添加alpha泳道
       }
       if (getApp() && getApp().globalData && getApp().globalData.userData) {
         let accessToken = getApp().globalData.userData.mdata.accessToken
