@@ -438,6 +438,17 @@ Page({
         }
         let mode = res.data.data[netWorking].mainConnectinfoList[0].mode
         console.log('mode=====', mode)
+        if(mode == 17) { // 数字遥控器配网方式，重新查询是否有ap配网指引
+            let newParam = {...param,queryType: 2,mode: 0}
+            let newMultinetworkGuide = await requestService
+            .request('multiNetworkGuide', newParam)
+            console.log("===newMultinetworkGuide==",newMultinetworkGuide)
+            let newMode =  newMultinetworkGuide.data.data[netWorking].mainConnectinfoList[0].mode
+            if(newMode == 0) {
+                res = newMultinetworkGuide
+                mode = newMode
+            }
+        }
         //0,3 跳inputWifiInfo, 5 跳addguide
         let addDeviceInfo = {
           sn8: code,
