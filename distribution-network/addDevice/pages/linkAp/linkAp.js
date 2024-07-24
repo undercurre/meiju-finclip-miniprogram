@@ -517,9 +517,6 @@ Page({
   copy() {
     const _this = this
     getApp().setActionCheckingLog('copy', '点击复制密码')
-    wx.navigateTo({
-        url: paths.feedback,
-      })
     if (this.data.flag) return
     this.data.flag = true
     wx.setClipboardData({
