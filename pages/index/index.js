@@ -65,10 +65,16 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
-    try {
-      await this.checkVersionUpdate()
-      console.error('首页强制更新')
-    } catch (error) {}
+    if (!app.globalData.showVersionAuthCount) {
+      app.globalData.showVersionAuthCount = 1
+      try {
+        await this.checkVersionUpdate()
+        console.error('首页强制更新')
+      } catch (error) {
+        app.globalData.showVersionAuthCount = 0
+      }
+    }
+
     this.setData({
       myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
     })
