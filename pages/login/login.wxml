@@ -16,7 +16,7 @@
         mx-iconfont="mx-icon"
         left-icon="{{phoneSrc}}"
         bind:input="handlePhoneNumberInput"
-        type="number"
+        type="digit"
         maxlength="{{11}}"
         pattern="light"
         shape="round"

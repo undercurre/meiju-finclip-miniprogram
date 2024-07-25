@@ -2177,8 +2177,8 @@ Page({
     })
     if (app.globalData.isLogon) {
       this.initPushData()
-      this.scanCodeJoinFamily(app.globalData.isLogon)
-      this.joinFamilyFromShare() // 通过邀请加入家庭
+      //this.scanCodeJoinFamily(app.globalData.isLogon)
+      //this.joinFamilyFromShare() // 通过邀请加入家庭
       if (app.globalData.uid) {
         this.setData({
           uid: app.globalData.uid,
@@ -2189,18 +2189,18 @@ Page({
       try {
         this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-        if (isAutoLogin) {
-          app.watchLogin(() => {
-            this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭
-            this.joinFamilyFromShare() // 通过邀请加入家庭
-            if (app.globalData.uid) {
-              this.setData({
-                uid: app.globalData.uid,
-              })
-              app.globalData.uid = ''
-            }
-          }, this)
-        }
+        // if (isAutoLogin) {
+        // app.watchLogin(() => {
+        // this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭
+        // this.joinFamilyFromShare() // 通过邀请加入家庭
+        // if (app.globalData.uid) {
+        // this.setData({
+        // uid: app.globalData.uid,
+        // })
+        // app.globalData.uid = ''
+        // }
+        // }, this)
+        // }
       } catch (e) {
         console.log(e)
       }
