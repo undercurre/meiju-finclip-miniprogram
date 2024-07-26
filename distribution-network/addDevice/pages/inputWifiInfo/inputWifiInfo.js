@@ -288,9 +288,10 @@ Page({
       this.getWifisList()
     }
     this.wifiListSheet = this.selectComponent('#wifi-list-sheet') //组件的id
-    // if (app.globalData.system.systemInfo == 'android') {
-    //     this.getWifiList() //提前获取下wifi列表
-    // }
+    const res = wx.getSystemInfoSync()
+    if (res.system.includes('Android') || res.system.includes('harmony')) {
+        this.getWifiList() //提前获取下wifi列表
+    }
     burialPoint.apLocalLog({
       log: {
         msg: '分包异步加载apUtils结果',
@@ -970,7 +971,7 @@ Page({
     this.setData({
       platform: res.platform,
     })
-    if (this.data.platform == 'android') {
+    if (this.data.platform == 'android' || this.data.platform == 'harmony') {
       console.log('currentWiFiPwd=================:',this.data.currentWiFiPwd)
       that.wifiService.getWifiSortByFrequency(
         (wifiList) => {
@@ -1386,7 +1387,7 @@ Page({
     }
     let pass = false
     let _this = this
-    if (mode == 0 && this.data.platform == 'android' && fm != 'scanCode') {
+    if (mode == 0 && (this.data.platform == 'android' || this.data.platform == 'harmony') && fm != 'scanCode') {
       //如果是Android客户端，ap配网，设备已发出WiFi信号则跳过配网指引页
       async function passFunc() {
         let brandName = _this.getBrandBname(enterprise)
