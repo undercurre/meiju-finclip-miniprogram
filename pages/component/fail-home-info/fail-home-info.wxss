@@ -5,7 +5,7 @@
   height: 100%;
   top: 180rpx;
   left: 0;
-  background-image: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%);
+  /* background-image: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%); */
   z-index: 99;
 }
 .img-no-home {

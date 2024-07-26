@@ -294,6 +294,7 @@ const loginMethods = {
 
   //解析扫码错误
   scodeResonse(data) {
+    console.log('错误吗====》', data)
     const { code, msg } = data
     let label = '未知系统错误'
     switch (code) {
@@ -302,6 +303,9 @@ const loginMethods = {
         break
       case 1106:
         label = '手机号格式不正确'
+        break
+      case 1101:
+        label = '请输入正确的验证码'
         break
       case 1129:
         label = '获取频繁，请稍后再试'

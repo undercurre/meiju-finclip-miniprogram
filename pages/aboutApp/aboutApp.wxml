@@ -10,6 +10,9 @@
     <view class="appversion-infobox">
       <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons" />
       <span class="meijuapp-appversion">V1.0.0</span>
+      <!-- <span wx:if="{{environment=='sit' && runtimeSDKVersion}}" class="meijuapp-appversion" -->
+      <!-- >finclipSdk {{runtimeSDKVersion}}</span -->
+      <!-- > -->
     </view>
     <view class="app-otherInfomation">
       <mx-cell

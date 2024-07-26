@@ -76,6 +76,8 @@ Page({
     confirmReingButtonText: '前往撤销',
     jwtToken: '',
     agreeVersions: [],
+    autoVerImgCodeFocus: false,
+    autoVerCodeFocus: false,
   },
   setLoginLogoTop() {
     let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
@@ -113,7 +115,9 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {},
+  onHide: function () {
+    if (this.data.timer) clearInterval(this.data.timer)
+  },
 
   /**
    * 生命周期函数--监听页面卸载
@@ -232,16 +236,31 @@ Page({
 
   // 更新phoneNumber变量的值
   handlePhoneNumberInput(val) {
+    let value = val.detail
+    // 只允许输入数字
+    if (!/^[0-9]*$/.test(value)) {
+      value = value.substring(0, value.length - 1)
+    }
+    this.setData({
+      phoneNumber: value,
+    })
     if (val.detail.length == 11) {
       //手机号输入埋点
       inputMboblieViewBurialPoint()
       this.setData({
-        phoneNumber: val.detail,
         verCodeDisabled: false,
       })
     } else {
+      if (this.data.timer) clearInterval(this.data.timer)
       this.setData({
+        loginBtnDes: '获取验证码',
+        vercode: '',
+        verImgcode: '',
+        verCodeInputshow: false,
+        imgCodeInputshow: false,
+        loginDisabled: true,
         verCodeDisabled: true,
+        isLogin: false,
       })
     }
   },
@@ -249,12 +268,17 @@ Page({
   handleImgcodeInput(val) {
     if (val.detail.length > 1) {
       this.setData({
-        verImgcode: val.detail,
         verCodeDisabled: false,
+        verImgcode: val.detail,
       })
     } else {
+      if (!this.data.timer) {
+        this.setData({
+          verCodeDisabled: false,
+        })
+      }
       this.setData({
-        verCodeDisabled: true,
+        loginDisabled: true,
       })
     }
   },
@@ -266,12 +290,16 @@ Page({
       if (vallen.length > 1) {
         return
       }
+      let value = val.detail
+      if (!/^[0-9]*$/.test(value)) {
+        value = value.substring(0, value.length - 1)
+      }
       this.setData({
-        vercode: val.detail,
+        vercode: value,
         loginDisabled: false,
         isLogin: true,
       })
-      if (val.detail.length > 6) {
+      if (val.detail.length == 6) {
         this.onClickLogin()
       }
     } else {
@@ -304,10 +332,16 @@ Page({
           vercode: '',
           randomToken: '',
           verCodeInputshow: true, //显示验证码输入框
+          loginDisabled: true,
           verCodeDisabled: true,
           isLogin: true,
           loginBtnDes: '登录',
         })
+        setTimeout(() => {
+          this.setData({
+            autoVerCodeFocus: true,
+          })
+        }, 200)
       })
       .catch((error) => {
         console.log(error)
@@ -320,6 +354,11 @@ Page({
             imgcode: error.data.data.imgCode,
             randomToken: error.data.data.randomToken,
           })
+          setTimeout(() => {
+            this.setData({
+              autoVerImgCodeFocus: true,
+            })
+          }, 200)
           return
         }
         if (error.data.code == 1105) {
@@ -333,6 +372,11 @@ Page({
             isLogin: true,
             loginBtnDes: '注册',
           })
+          setTimeout(() => {
+            this.setData({
+              autoVerCodeFocus: true,
+            })
+          }, 200)
           return
         }
         showToast(error.data.msg)
@@ -367,6 +411,11 @@ Page({
           verCodeDes: '重新获取',
           verCodeDisabled: false,
         })
+        if (this.data.vercode.length < 2) {
+          this.setData({
+            loginDisabled: true,
+          })
+        }
       }
     }, 1000)
   },

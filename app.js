@@ -727,6 +727,13 @@ App({
 
   //黑白名单获取.appId 先用小程序接口 901，后面会替换到900
   getBlackWhiteList(options) {
+    const systemInfo = wx.getSystemInfo()
+    let miniProgramenv = api.environment == 'sit' ? 'trial' : 'release'
+    if (systemInfo.system == 'harmony') {
+      const accountInfo = ft?.getAccountInfoSync()
+      miniProgramenv =
+        accountInfo?.miniProgram?.envVersion == 'develop' ? 'trial' : accountInfo?.miniProgram?.envVersion
+    }
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
       requestService
@@ -735,10 +742,9 @@ App({
           {
             reqId: getReqId(),
             stamp: getStamp(),
-            //appId: api.iotAppId,
-            appId: '901',
+            appId: config.iotTerminalIid,
             // verType: __wxConfig.envVersion,
-            verType: 'release',
+            verType: miniProgramenv,
             ifGrayData: '1',
           },
           'POST'
