@@ -1814,6 +1814,9 @@ module.exports = Behavior({
         wx.authorize({
           scope: 'scope.userLocation',
           async success() {
+            _this.setData({
+              showPopup:true
+          })
             if (!app.globalData.isBluetoothMixinNotOpenWxLocation) {
               await _this.checkSystemInfo()
             }

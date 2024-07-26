@@ -51,24 +51,27 @@ Page({
       },
     },
     showVersionUpdateDialog: false,
+    appVersion:''
   },
   togglePoup() {
     let self = this
     let params = {}
     // console.log('getSystemInfo:',wx.getSystemInfo())
+    // console.error('getAppInfo:',app.getAppInfo())
+
     wx.getSystemInfo({
       success(res) {
         console.error('res=================:', res)
 
         params = {
           deviceId: res.deviceId,
-          os: 'HarmonyOS',
-          channel: 'huawei',
-          deviceName: 'Mate 60 Pro',
+          os: res.platform.toLowerCase() =='harmony'?'HarmonyOS':'',
+          channel: res.brand.toLowerCase(),
+          deviceName: res.model,
           platform: 3,
           osVersion: res.system,
-          version: '1.0.0',
-          iotAppId: '900',
+          version: self.data.appVersion,
+          iotAppId: config.iotAppId[self.data.environment],
           strategyId: '',
         }
       },
@@ -189,7 +192,26 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {},
+  onLoad() {
+    let self = this
+    try {
+        ft.getAppInfo({
+            success: function (res) {
+                console.log("getAppInfo success ------------");
+                console.log(res);
+                self.setData({
+                    appVersion : res.data.data.VERSION_NAME
+                })
+            },
+            fail: function (res) {
+                console.log("getAppInfo fail");
+                console.log(res);
+            }
+        })
+    } catch (error) {
+        
+    }
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
