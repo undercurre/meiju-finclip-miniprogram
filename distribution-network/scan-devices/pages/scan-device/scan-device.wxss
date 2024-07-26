@@ -391,3 +391,14 @@
   border-bottom-left-radius: 15rpx;
   border-top-right-radius:15rpx;
 } */
+
+.blueGuideGif{
+    position:absolute;
+    top:0;
+    height:100%;
+}
+
+.blueGuideGif .blueGuideGif-img{
+    height:100%;
+    width:750rpx;
+}

@@ -10,25 +10,29 @@
           <!-- <view>'permissionImg':{{ permissionImg }}</view> -->
           <!-- <view>{{ baseImgUrl }}/permission/common/img_dakaidingwei.png</view> -->
           <!-- <view>{{ baseImgUrl }}/permission/common/img_dakailanya.png</view> -->
-          <image
+          <!-- <image
             wx:if="{{!checkPermissionRes.isCanLocation}}"
             src="{{ permissionImg }}"
             class="device-not-open-img"
-          ></image>
-          <image wx:else src="{{ permissionImg }}" class="device-not-open-img"></image>
+          ></image> -->
+          <!-- <image wx:else src="{{ permissionImg }}" class="device-not-open-img"></image> -->
+          <image src="./assest/img/defaultImage.png" class="device-default-image"></image>
         </view>
         <view class="device-not-open-describe">
           <text class="tip">{{checkPermissionRes.permissionTextAll}}</text>
         </view>
-        <view class="scan-look-guide" bindtap="goToGuide">
+        <!-- <view class="scan-look-guide" bindtap="goToGuide">
           <text class="text">查看操作指引</text>
-        </view>
-        <view class="retry3">
+        </view> -->
+        <!-- <view class="retry3">
           <view>已开启？</view>
           <view class="retry-btn" bindtap="retry">
             <text>重新搜索设备</text>
             <image class="retry-img" src="{{reSearchIcon}}"></image>
           </view>
+        </view> -->
+        <view class="scan-look-guide" bindtap="openJurisdiction">
+          <text class="text">去开启</text>
         </view>
       </view>
       <block wx:else>
@@ -174,6 +178,9 @@
   <view wx:else class="no-can-add-device">
     <no-can-add-device></no-can-add-device>
   </view>
+  <view class="blueGuideGif" wx:if="{{blueGuideGifShow}}" bindtap="closeBlueGuid">
+    <image class="blueGuideGif-img" src="./assest/img/blueGuide.gif" mode=""></image>
+  </view>
   <mx-dialog id="mx-dialog" />
   <mx-dialog id="mx-cellularType" show="{{ishowDialog}}" useSlot showCancelButton cancelButtonColor="#000" bind:confirm="scanQRcode" confirmButtonText="重新扫描" bind:cancel="onClickOverlay"
   cancelButtonColor="{{dialogStyle.cancelButtonColor}}"  confirmButtonColor="{{dialogStyle.confirmButtonColor2}}" custom-style="padding-top:40rpx;padding-left:40rpx;padding-right:40rpx;" onClickOverlay="onClickOverlay" message-align="left" messageSize='16' >
@@ -185,6 +192,22 @@
       </view>
     </view>
   </mx-dialog>
+
+  <mx-popup
+  show="{{ showPopup }}"
+  position="top"
+  custom-class="scan-device-pppup"
+  round
+  bind:close="onClosePopup"
+  overlay="false"
+>
+  <view class="scan-device-pppup-title">
+    <text>美的美居申请获取定位权限</text>
+  </view>
+  <view class="scan-device-pppup-message">
+    <text>获取您的位置信息以便向您提供位置服务，以及发现附近WiFi或蓝牙列表</text>
+  </view>
+</mx-popup>
 </view>
 
 

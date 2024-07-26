@@ -912,14 +912,17 @@ module.exports = Behavior({
             let bluetoothErrorTextArr = []
             if (!res[0].locationEnabled) {
               this.setData({ openLocation: false })
-              locationErrorTextArr.push('开启手机定位')
+            //   locationErrorTextArr.push('开启手机定位')
+              locationErrorTextArr.push('开启手机系统定位')
+              locationErrorTextArr.push('以便扫描添加附近智能设备')
             } else {
               this.setData({ openLocation: true })
             }
 
             // 微信位置是否授权校验
             if (!res[0].locationAuthorized) {
-              locationErrorTextArr.push('授予微信使用定位的权限')
+              locationErrorTextArr.push('开启位置信息权限')
+              locationErrorTextArr.push('以便扫描添加附近智能设备')
               this.setData({ authWxLocation: false })
             } else {
               this.setData({ authWxLocation: true })
@@ -953,20 +956,20 @@ module.exports = Behavior({
             }
 
             // 微信蓝牙是否授权校验
-            if (res[0].bluetoothAuthorized != undefined && !res[0].bluetoothAuthorized) {
-              bluetoothErrorTextArr.push('授予微信使用蓝牙的权限')
-              this.setData({ authwxBluetooth: false })
-            } else {
-              this.setData({ authwxBluetooth: true })
-            }
-
+            // if (res[0].bluetoothAuthorized != undefined && !res[0].bluetoothAuthorized) {
+            //   bluetoothErrorTextArr.push('授予微信使用蓝牙的权限')
+            //   this.setData({ authwxBluetooth: false })
+            // } else {
+            //   this.setData({ authwxBluetooth: true })
+            // }
+            this.setData({ authwxBluetooth: true })
             // 小程序蓝牙是否授权校验
-            if (!res[1]['scope.bluetooth']) {
-              bluetoothErrorTextArr.push('点击右上角“...”按钮，选择“设置”，允许本程序使用蓝牙')
-              this.setData({ authMpBluetooth: false })
-            } else {
-              this.setData({ authMpBluetooth: true })
-            }
+            // if (!res[1]['scope.bluetooth']) {
+            //   bluetoothErrorTextArr.push('点击右上角“...”按钮，选择“设置”，允许本程序使用蓝牙')
+            //   this.setData({ authMpBluetooth: false })
+            // } else {
+            //   this.setData({ authMpBluetooth: true })
+            // }
 
             this.data.locationErrorText = this.parseErrorText(locationErrorTextArr)
             this.data.bluetoothErrorText = this.parseErrorText(bluetoothErrorTextArr)
