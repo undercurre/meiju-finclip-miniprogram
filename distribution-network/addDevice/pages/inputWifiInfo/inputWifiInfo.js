@@ -514,13 +514,13 @@ Page({
     const res = wx.getSystemInfoSync()
     console.log(res.system)
     if (res.system.includes('Android') || res.system.includes('harmony')) {
-      let locationRes
+    //   let locationRes
       try {
-        let checkNetLocal = await getApp().checkNetLocal()
-        this.locationAuthorize()
-        locationRes = await checkPermission.loaction()
-        this.data.locationResFlag = locationRes
-        console.log('[loactionRes]', locationRes)
+        // let checkNetLocal = await getApp().checkNetLocal()
+        // this.locationAuthorize()
+        // locationRes = await checkPermission.loaction()
+        // this.data.locationResFlag = locationRes
+        // console.log('[loactionRes]', locationRes)
       } catch (error) {
         console.log('切换wifi error:', error)
         that.data.clickFLag = false
@@ -531,45 +531,45 @@ Page({
         //   duration: 2000,
         // })
       }
-      if (!locationRes.isCanLocation) {
-        console.log('进入isCanLocation位置权限逻辑')
-        // this.setDialogMixinsData(true, '请开启位置权限', locationRes.permissionTextAll, false, [
-        //   {
-        //     btnText: '好的',
-        //     flag: 'confirm',
-        //   },
-        //   {
-        //     btnText: '查看指引',
-        //     flag: 'lookGuide',
-        //     type: 'location',
-        //     permissionTypeList: locationRes.permissionTypeList,
-        //   },
-        // ])
-        // setTimeout(() => {
-        //   that.setData({
-        //     clickFLag: false,
-        //   })
-        // }, 1000)
-        // getApp().setMethodFailedCheckingLog('checkPermission', '未开位置权限')
-        // return
-        const obj = {
-          title: '请开启位置权限',
-          message: locationRes.permissionTextAll,
-          confirmButtonText: '查看指引',
-          type: 'location',
-          permissionTypeList: locationRes.permissionTypeList,
-          confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-          cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
-        }
-        //调用通用弹框组件
-        commonDialog.showCommonDialog(obj)
-        that.data.clickFLag = false
-        console.log('进入isCanLocation位置权限逻辑，调用弹框组件11111')
-        setTimeout(() => {
-          this.data.actionScanClickFlag = false
-        }, 1500)
-        return
-      }
+    //   if (!locationRes.isCanLocation) {
+    //     console.log('进入isCanLocation位置权限逻辑')
+    //     // this.setDialogMixinsData(true, '请开启位置权限', locationRes.permissionTextAll, false, [
+    //     //   {
+    //     //     btnText: '好的',
+    //     //     flag: 'confirm',
+    //     //   },
+    //     //   {
+    //     //     btnText: '查看指引',
+    //     //     flag: 'lookGuide',
+    //     //     type: 'location',
+    //     //     permissionTypeList: locationRes.permissionTypeList,
+    //     //   },
+    //     // ])
+    //     // setTimeout(() => {
+    //     //   that.setData({
+    //     //     clickFLag: false,
+    //     //   })
+    //     // }, 1000)
+    //     // getApp().setMethodFailedCheckingLog('checkPermission', '未开位置权限')
+    //     // return
+    //     const obj = {
+    //       title: '请开启位置权限',
+    //       message: locationRes.permissionTextAll,
+    //       confirmButtonText: '查看指引',
+    //       type: 'location',
+    //       permissionTypeList: locationRes.permissionTypeList,
+    //       confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //       cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+    //     }
+    //     //调用通用弹框组件
+    //     commonDialog.showCommonDialog(obj)
+    //     that.data.clickFLag = false
+    //     console.log('进入isCanLocation位置权限逻辑，调用弹框组件11111')
+    //     setTimeout(() => {
+    //       this.data.actionScanClickFlag = false
+    //     }, 1500)
+    //     return
+    //   }
       //安卓且获取到wifi列表
       try {
         console.log('获取wifi列表！！！！！')
@@ -1030,71 +1030,71 @@ Page({
                 success(res) {
                   //地理位置
                   getApp().setMethodCheckingLog('wx.getSetting()')
-                  if (!res.authSetting['scope.userLocation']) {
-                    wx.authorize({
-                      scope: 'scope.userLocation',
-                      success(res) {
-                        getApp().setMethodCheckingLog('wx.authorize()')
-                        //获取当前连接wifi信息
-                        console.log('授权定位成功')
-                        that.getCurLinkWifiInfo()
-                      },
-                      fail(error) {
-                        getApp().setMethodFailedCheckingLog(
-                          'wx.authorize()',
-                          `授权定位异常。error=${JSON.stringify(error)}`
-                        )
-                        Dialog.confirm({
-                          title: '定位失败，您未开启定位权限，点击开启定位权限',
-                          confirmButtonText: '我知道了',
-                          confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-                          showCancelButton: false
-                        }).then((res) => {
-                          if (res.action == 'confirm') {
-                            wx.openSetting({
-                              success: function (res) {
-                                if (res.authSetting['scope.userLocation']) {
-                                  console.log('获取当前连接wifi信息')
-                                  that.getCurLinkWifiInfo()
-                                } else {
-                                  wx.showToast({
-                                    title: '用户未开启地理位置权限',
-                                    icon: 'none',
-                                    duration: 3000,
-                                  })
-                                }
-                              },
-                            })
-                          }
-                        })
-                        // wx.showModal({
-                        //   title: '提示',
-                        //   content: '定位失败，您未开启定位权限，点击开启定位权限',
-                        //   success: function (res) {
-                        //     if (res.confirm) {
-                        //       wx.openSetting({
-                        //         success: function (res) {
-                        //           if (res.authSetting['scope.userLocation']) {
-                        //             console.log('获取当前连接wifi信息')
-                        //             that.getCurLinkWifiInfo()
-                        //           } else {
-                        //             wx.showToast({
-                        //               title: '用户未开启地理位置权限',
-                        //               icon: 'none',
-                        //               duration: 3000,
-                        //             })
-                        //           }
-                        //         },
-                        //       })
-                        //     }
-                        //   },
-                        // })
-                      },
-                    })
-                  } else {
+                  // if (!res.authSetting['scope.userLocation']) {
+                    // wx.authorize({
+                    //   scope: 'scope.userLocation',
+                    //   success(res) {
+                    //     getApp().setMethodCheckingLog('wx.authorize()')
+                    //     //获取当前连接wifi信息
+                    //     console.log('授权定位成功')
+                    //     that.getCurLinkWifiInfo()
+                    //   },
+                    //   fail(error) {
+                    //     getApp().setMethodFailedCheckingLog(
+                    //       'wx.authorize()',
+                    //       `授权定位异常。error=${JSON.stringify(error)}`
+                    //     )
+                    //     Dialog.confirm({
+                    //       title: '定位失败，您未开启定位权限，点击开启定位权限',
+                    //       confirmButtonText: '我知道了',
+                    //       confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+                    //       showCancelButton: false
+                    //     }).then((res) => {
+                    //       if (res.action == 'confirm') {
+                    //         wx.openSetting({
+                    //           success: function (res) {
+                    //             if (res.authSetting['scope.userLocation']) {
+                    //               console.log('获取当前连接wifi信息')
+                    //               that.getCurLinkWifiInfo()
+                    //             } else {
+                    //               wx.showToast({
+                    //                 title: '用户未开启地理位置权限',
+                    //                 icon: 'none',
+                    //                 duration: 3000,
+                    //               })
+                    //             }
+                    //           },
+                    //         })
+                    //       }
+                    //     })
+                    //     // wx.showModal({
+                    //     //   title: '提示',
+                    //     //   content: '定位失败，您未开启定位权限，点击开启定位权限',
+                    //     //   success: function (res) {
+                    //     //     if (res.confirm) {
+                    //     //       wx.openSetting({
+                    //     //         success: function (res) {
+                    //     //           if (res.authSetting['scope.userLocation']) {
+                    //     //             console.log('获取当前连接wifi信息')
+                    //     //             that.getCurLinkWifiInfo()
+                    //     //           } else {
+                    //     //             wx.showToast({
+                    //     //               title: '用户未开启地理位置权限',
+                    //     //               icon: 'none',
+                    //     //               duration: 3000,
+                    //     //             })
+                    //     //           }
+                    //     //         },
+                    //     //       })
+                    //     //     }
+                    //     //   },
+                    //     // })
+                    //   },
+                    // })
+                  // } else {
                     //获取当前连接wifi信息
                     that.getCurLinkWifiInfo()
-                  }
+                  // }
                 },
                 fail(error) {
                   getApp().setMethodFailedCheckingLog(
@@ -1274,48 +1274,48 @@ Page({
     //   return
     // }
 
-    this.locationAuthorize()
-    let locationRes = await checkPermission.loaction()
-    console.log('[loactionRes]', locationRes)
-    if (!locationRes.isCanLocation) {
-      // this.setDialogMixinsData(true, '请开启位置权限', locationRes.permissionTextAll, false, [
-      //   {
-      //     btnText: '好的',
-      //     flag: 'confirm',
-      //   },
-      //   {
-      //     btnText: '查看指引',
-      //     flag: 'lookGuide',
-      //     type: 'location',
-      //     permissionTypeList: locationRes.permissionTypeList,
-      //   },
-      // ])
-      // getApp().setMethodFailedCheckingLog('checkPermission', '未开位置权限')
-      // self.data.clickNetFLag = false
-      // return
+    // this.locationAuthorize()
+    // let locationRes = await checkPermission.loaction()
+    // console.log('[loactionRes]', locationRes)
+    // if (!locationRes.isCanLocation) {
+    //   // this.setDialogMixinsData(true, '请开启位置权限', locationRes.permissionTextAll, false, [
+    //   //   {
+    //   //     btnText: '好的',
+    //   //     flag: 'confirm',
+    //   //   },
+    //   //   {
+    //   //     btnText: '查看指引',
+    //   //     flag: 'lookGuide',
+    //   //     type: 'location',
+    //   //     permissionTypeList: locationRes.permissionTypeList,
+    //   //   },
+    //   // ])
+    //   // getApp().setMethodFailedCheckingLog('checkPermission', '未开位置权限')
+    //   // self.data.clickNetFLag = false
+    //   // return
 
-      const obj = {
-        title: '请开启位置权限',
-        message: locationRes.permissionTextAll,
-        confirmButtonText: '查看指引',
-        type: 'location',
-        permissionTypeList: locationRes.permissionTypeList,
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-        cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
-      }
-      //调用通用弹框组件
-      commonDialog.showCommonDialog(obj)
-      self.data.clickNetFLag = false
-      setTimeout(() => {
-        this.data.actionScanClickFlag = false
-      }, 1500)
-      return
-    }
+    //   const obj = {
+    //     title: '请开启位置权限',
+    //     message: locationRes.permissionTextAll,
+    //     confirmButtonText: '查看指引',
+    //     type: 'location',
+    //     permissionTypeList: locationRes.permissionTypeList,
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //     cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+    //   }
+    //   //调用通用弹框组件
+    //   commonDialog.showCommonDialog(obj)
+    //   self.data.clickNetFLag = false
+    //   setTimeout(() => {
+    //     this.data.actionScanClickFlag = false
+    //   }, 1500)
+    //   return
+    // }
     setWifiStorage(this.data.bindWifiTest)
     app.addDeviceInfo.curWifiInfo = this.data.bindWifiTest //共享选取的wifi
     getApp().setMethodCheckingLog('保存wifi信息', `curWifiInfo=${JSON.stringify(app.addDeviceInfo.curWifiInfo)}`)
     app.addDeviceInfo.continueConnectWifi = this.data.continueConnectWifi // 保存是否手动输入的状态->失败页linkNetFail需要用到
-    console.log('addDeviceInfo====', app.addDeviceInfo)
+    console.error('wifi登记页addDeviceInfo====', app.addDeviceInfo)
     const {
       adData,
       moduleType,

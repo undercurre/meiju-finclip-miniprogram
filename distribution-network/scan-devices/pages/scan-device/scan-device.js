@@ -121,7 +121,7 @@ Page({
           console.log('[isGrayUser error]', error)
         }
         this.checkCurrentFamilyPermission()
-        this.locationAuthorize() //判断用户是否授权小程序使用位置权限
+        // this.locationAuthorize() //判断用户是否授权小程序使用位置权限
         // this.bluetoothAuthorize() //判断用户是否授权小程序使用蓝牙权限
         if (options.openScan) {
           //是否启动扫码
@@ -151,21 +151,39 @@ Page({
 
   async getpermissionTextAll(type) {
     let object_name = []
-    if (type == 'location') {
-      let locationRes = await checkPermission.loaction()
-      let permissionTypeList = locationRes.permissionTypeList
-      let { locationEnabled, locationAuthorized, scopeUserLocation } = permissionTypeList
-      if (!locationEnabled) {
-        object_name.push('开启定位服务')
-      }
-      if (!locationAuthorized) {
-        object_name.push('允许微信获取位置权限')
-      }
-      if (!scopeUserLocation) {
-        object_name.push('允许小程序使用位置权限')
-      }
-      object_name = object_name.join('/')
-    } else if (type == 'blue') {
+    // if (type == 'location') {
+    //   let locationRes = await checkPermission.loaction()
+    //   let permissionTypeList = locationRes.permissionTypeList
+    //   let { locationEnabled, locationAuthorized, scopeUserLocation } = permissionTypeList
+    //   if (!locationEnabled) {
+    //     object_name.push('开启定位服务')
+    //   }
+    //   if (!locationAuthorized) {
+    //     object_name.push('允许微信获取位置权限')
+    //   }
+    //   if (!scopeUserLocation) {
+    //     object_name.push('允许小程序使用位置权限')
+    //   }
+    //   object_name = object_name.join('/')
+    // } else if (type == 'blue') {
+    //   let blueRes = await checkPermission.blue()
+    //   let permissionTypeList = blueRes.permissionTypeList
+    //   let { bluetoothEnabled, bluetoothAuthorized, scopeBluetooth } = permissionTypeList
+    //   if (!bluetoothEnabled) {
+    //     // object_name.push('开启蓝牙服务')
+    //     object_name.push('开启蓝牙权限')
+    //   }
+    //   if (!bluetoothAuthorized) {
+    //     // object_name.push('允许微信获取蓝牙权限')
+    //     object_name.push('用于蓝牙连接与控制设备等功能')
+    //   }
+    //   if (!scopeBluetooth) {
+    //     // object_name.push('允许小程序使用蓝牙权限')
+    //     object_name.push('用于蓝牙连接与控制设备等功能')
+    //   }
+    //   object_name = object_name.join('/')
+    // }
+    if (type == 'blue') {
       let blueRes = await checkPermission.blue()
       let permissionTypeList = blueRes.permissionTypeList
       let { bluetoothEnabled, bluetoothAuthorized, scopeBluetooth } = permissionTypeList
@@ -187,23 +205,34 @@ Page({
   },
 
   async openJurisdiction(){ //去开启
-    let locationRes = await checkPermission.loaction()
-    let permissionTypeList = locationRes.permissionTypeList
-    let { locationEnabled, locationAuthorized, scopeUserLocation,bluetoothEnabled } = permissionTypeList
-    console.error('locationAuthorized----:',locationAuthorized)
-    console.error('locationEnabled----:',locationEnabled)
-    console.error('bluetoothEnabled----:',bluetoothEnabled)
-    if(!locationAuthorized){
+    // let locationRes = await checkPermission.loaction()
+    // let permissionTypeList = locationRes.permissionTypeList
+    let blueRes = await checkPermission.blue()
+    let permissionTypeList = blueRes.permissionTypeList
+    let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
+    // let { locationEnabled, locationAuthorized, scopeUserLocation,bluetoothEnabled } = permissionTypeList
+    // if(!locationAuthorized){
+    //     wx.openAppAuthorizeSetting({
+    //         success (res) {
+    //         console.log(res)
+    //         }
+    //     })
+    //     return
+    // }
+
+    // if(!locationEnabled){
+    //     console.log('去开启定位功能')
+    //     return
+    // }
+    console.error('bluetoothEnabled-----:',bluetoothEnabled)
+    console.error('bluetoothAuthorized-----:',bluetoothAuthorized)
+    console.error('blueRes.isCanBlue-----:',blueRes.isCanBlue)
+    if(!bluetoothAuthorized){
         wx.openAppAuthorizeSetting({
             success (res) {
             console.log(res)
             }
         })
-        return
-    }
-
-    if(!locationEnabled){
-        console.log('去开启定位功能')
         return
     }
     if(!bluetoothEnabled){
@@ -213,6 +242,7 @@ Page({
         })
         return
     }
+
   },
 
   closeBlueGuid(){
@@ -227,6 +257,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   async onShow() {
+    let self = this
     let { isCheckGray } = app.addDeviceInfo
     this.actionBlue()
     // // 蓝牙权限判断
@@ -239,22 +270,22 @@ Page({
     //     }
     //   })
     // 地理位置权限判断
-    wx.getLocation({
-      type: 'wgs84', //返回可以用于wx.openLocation的经纬度
-      success(res) {
-          console.log('lmn>>> 初始化地址模块成功', res)
-          wx.openLocation()
-      },
-      fail: (err) => {
-          console.log('lmn>>> 初始化地址模块失败', err)
-      },
-      complete(){
-        self.setData({
-            showPopup:false //关闭安全信息弹窗
-        })
-        self.permissionCheckTip() // 校验权限
-      }
-    })
+    // wx.getLocation({
+    //   type: 'wgs84', //返回可以用于wx.openLocation的经纬度
+    //   success(res) {
+    //       console.log('lmn>>> 初始化地址模块成功', res)
+    //       wx.openLocation()
+    //   },
+    //   fail: (err) => {
+    //       console.log('lmn>>> 初始化地址模块失败', err)
+    //   },
+    //   complete(){
+    //     self.setData({
+    //         showPopup:false //关闭安全信息弹窗
+    //     })
+    //     self.permissionCheckTip() // 校验权限
+    //   }
+    // })
 
     // 监听蓝牙状态变化
     wx.onBluetoothAdapterStateChange(function (res) {
@@ -267,6 +298,9 @@ Page({
       } else {
       // 蓝牙未打开
       console.error('蓝牙未打开2');
+    //   this.stopBluetoothDevicesDiscovery()
+      // this.closeWifiScan()
+      //关闭自动搜索
       // self.retry()
       }
     });
@@ -470,7 +504,7 @@ Page({
     let locationRes
     let blueRes
     try {
-      locationRes = await checkPermission.loaction(false)
+      // locationRes = await checkPermission.loaction(false)
       blueRes = await checkPermission.blue(false)
     } catch (error) {
       this.data.actionScanClickFlag = false
@@ -490,23 +524,23 @@ Page({
       console.log(error, '[loactionRes blueRes]err checkPermission')
     }
     console.log('[loactionRes] checkPermission', locationRes)
-    if (!locationRes.isCanLocation) {
-      const obj = {
-        title: '请开启位置权限',
-        message: locationRes.permissionTextAll,
-        confirmButtonText: '查看指引',
-        type: 'location',
-        permissionTypeList: locationRes.permissionTypeList,
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-        cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
-      }
-      //调用通用弹框组件
-      commonDialog.showCommonDialog(obj)
-      setTimeout(() => {
-        this.data.actionScanClickFlag = false
-      }, 1500)
-      return
-    }
+    // if (!locationRes.isCanLocation) {
+    //   const obj = {
+    //     title: '请开启位置权限',
+    //     message: locationRes.permissionTextAll,
+    //     confirmButtonText: '查看指引',
+    //     type: 'location',
+    //     permissionTypeList: locationRes.permissionTypeList,
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //     cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+    //   }
+    //   //调用通用弹框组件
+    //   commonDialog.showCommonDialog(obj)
+    //   setTimeout(() => {
+    //     this.data.actionScanClickFlag = false
+    //   }, 1500)
+    //   return
+    // }
     console.log('[blueRes] checkPermission', blueRes)
     if (!blueRes.isCanBlue) {
       const obj = {
@@ -705,14 +739,14 @@ Page({
   },
   //权限提示
   async permissionCheckTip() {
-    let loactionPermission = await checkPermission.loaction()
-    if (!loactionPermission.isCanLocation) {
-      this.setData({
-        checkPermissionRes: loactionPermission,
-        permissionImg: imgUrl + imgesList['img_dakaidingwei'],
-      })
-      return false
-    }
+    // let loactionPermission = await checkPermission.loaction()
+    // if (!loactionPermission.isCanLocation) {
+    //   this.setData({
+    //     checkPermissionRes: loactionPermission,
+    //     permissionImg: imgUrl + imgesList['img_dakaidingwei'],
+    //   })
+    //   return false
+    // }
     let bluePermission = await checkPermission.blue()
     console.log('[bluePermission]', bluePermission)
     if (!bluePermission.isCanBlue) {
@@ -891,7 +925,7 @@ Page({
     let locationRes
     let blueRes
     try {
-      locationRes = await checkPermission.loaction(false)
+      // locationRes = await checkPermission.loaction(false)
       blueRes = await checkPermission.blue(false)
     } catch (error) {
       this.data.selectModelClickFlag = false
@@ -905,23 +939,23 @@ Page({
       })
       console.log(error, '[loactionRes blueRes]err checkPermission')
     }
-    console.log('[loactionRes] checkPermission', locationRes)
-    if (!locationRes.isCanLocation) {
-      const obj = {
-        title: '请开启位置权限',
-        message: locationRes.permissionTextAll,
-        confirmButtonText: '查看指引',
-        type: 'location',
-        permissionTypeList: locationRes.permissionTypeList,
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-        cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
-      }
-      commonDialog.showCommonDialog(obj)
-      setTimeout(() => {
-        this.data.selectModelClickFlag = false
-      }, 1500)
-      return
-    }
+    // console.log('[loactionRes] checkPermission', locationRes)
+    // if (!locationRes.isCanLocation) {
+    //   const obj = {
+    //     title: '请开启位置权限',
+    //     message: locationRes.permissionTextAll,
+    //     confirmButtonText: '查看指引',
+    //     type: 'location',
+    //     permissionTypeList: locationRes.permissionTypeList,
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //     cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+    //   }
+    //   commonDialog.showCommonDialog(obj)
+    //   setTimeout(() => {
+    //     this.data.selectModelClickFlag = false
+    //   }, 1500)
+    //   return
+    // }
     console.log('[blueRes] checkPermission', blueRes)
     if (!blueRes.isCanBlue) {
       const obj = {
