@@ -59,7 +59,7 @@ Page({
         },
       },
     ],
-    isLogin: false,
+    isLogon: app.globalData.isLogon,
     baseImgUrl: baseImgApi.url,
   },
   backPage() {
@@ -103,9 +103,13 @@ Page({
       })
   },
   jumpAccountSafe() {
-    wx.navigateTo({
+    if (!this.data.isLogon) {
+      this.goLogin()
+    } else {
+      wx.navigateTo({
         url: '../../../../pages/accountSafe/accountSafe',
-    })
+      })
+    }
   },
   jumpPersonInfoList() {
     this.jumpWebView(0)
@@ -132,10 +136,8 @@ Page({
     wx.navigateTo({
       url: currUrl,
     })
-    if(type == 0){
-
-    }else{
-
+    if (type == 0) {
+    } else {
     }
   },
   // 退出登录
@@ -306,6 +308,11 @@ Page({
           reject(res)
         },
       })
+    })
+  },
+  goLogin: function () {
+    wx.navigateTo({
+      url: '/pages/login/login',
     })
   },
   /**

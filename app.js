@@ -729,7 +729,7 @@ App({
   getBlackWhiteList(options) {
     const systemInfo = wx.getSystemInfo()
     let miniProgramenv = api.environment == 'sit' ? 'trial' : 'release'
-    if (systemInfo.system == 'harmony') {
+    if (systemInfo.platform == 'harmony') {
       const accountInfo = ft?.getAccountInfoSync()
       miniProgramenv =
         accountInfo?.miniProgram?.envVersion == 'develop' ? 'trial' : accountInfo?.miniProgram?.envVersion

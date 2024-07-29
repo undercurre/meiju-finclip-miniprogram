@@ -51,7 +51,8 @@ Page({
       },
     },
     showVersionUpdateDialog: false,
-    appVersion:''
+    appVersion: '',
+    hasUpadteVersion: false,
   },
   togglePoup() {
     let self = this
@@ -65,7 +66,7 @@ Page({
 
         params = {
           deviceId: res.deviceId,
-          os: res.platform.toLowerCase() =='harmony'?'HarmonyOS':'',
+          os: res.platform.toLowerCase() == 'harmony' ? 'HarmonyOS' : '',
           channel: res.brand.toLowerCase(),
           deviceName: res.model,
           platform: 3,
@@ -195,22 +196,20 @@ Page({
   onLoad() {
     let self = this
     try {
-        ft.getAppInfo({
-            success: function (res) {
-                console.log("getAppInfo success ------------");
-                console.log(res);
-                self.setData({
-                    appVersion : res.data.data.VERSION_NAME
-                })
-            },
-            fail: function (res) {
-                console.log("getAppInfo fail");
-                console.log(res);
-            }
-        })
-    } catch (error) {
-        
-    }
+      ft.getAppInfo({
+        success: function (res) {
+          console.log('getAppInfo success ------------')
+          console.log(res)
+          self.setData({
+            appVersion: res.data.data.VERSION_NAME,
+          })
+        },
+        fail: function (res) {
+          console.log('getAppInfo fail')
+          console.log(res)
+        },
+      })
+    } catch (error) {}
   },
 
   /**

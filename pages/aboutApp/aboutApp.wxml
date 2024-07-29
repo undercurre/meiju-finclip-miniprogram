@@ -23,8 +23,13 @@
         title="{{cellItem.title}}"
         data-item="{{cellItem}}"
         bind:click="jumpTargetPath"
+        use-label-slot="{{cellItem.id == 'versionUpdate'}}"
         is-link
-      />
+      >
+        <view wx:if="{{hasUpadteVersion}}" class="update-tip" slot="label">
+          <mx-info dot />
+        </view>
+      </mx-cell>
     </view>
   </view>
 

@@ -1,3 +1,8 @@
+/*
+ * @desc: 宿主注入接口
+ * @author: zhucc22
+ * @Date: 2024-07-29 09:22:16
+ */
 module.exports = {
   extApi: [
     {
@@ -36,6 +41,5 @@ module.exports = {
       sync: false, //是否为同步api
       params: {},
     },
-
   ],
 }

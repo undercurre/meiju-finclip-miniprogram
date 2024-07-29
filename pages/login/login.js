@@ -236,11 +236,11 @@ Page({
 
   // 更新phoneNumber变量的值
   handlePhoneNumberInput(val) {
-    let value = val.detail
+    let value = val.detail.replace(/[^\d]/g, '')
     // 只允许输入数字
-    if (!/^[0-9]*$/.test(value)) {
-      value = value.substring(0, value.length - 1)
-    }
+    // if (!/^[0-9]*$/.test(value)) {
+    // value = value.substring(0, value.length - 1)
+    // }
     this.setData({
       phoneNumber: value,
     })
@@ -290,10 +290,7 @@ Page({
       if (vallen.length > 1) {
         return
       }
-      let value = val.detail
-      if (!/^[0-9]*$/.test(value)) {
-        value = value.substring(0, value.length - 1)
-      }
+      let value = val.detail.replace(/[^\d]/g, '')
       this.setData({
         vercode: value,
         loginDisabled: false,

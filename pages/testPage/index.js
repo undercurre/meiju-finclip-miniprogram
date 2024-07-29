@@ -14,7 +14,7 @@ Page({
    */
   data: {
     appVibeTitle: '切换环境',
-    vsConsoleTitle: '切换vsconsole',
+    vsConsoleTitle: 'vsconsole',
     environment: config.environment,
     scodeTitle: '打开扫码调试',
     clearCacheTitle: '清理缓存',
@@ -25,6 +25,7 @@ Page({
     version: '',
     miniProgramenv: '',
     show: false,
+    enableDebug: true,
     actions: [
       {
         name: 'sit',
@@ -88,9 +89,11 @@ Page({
     let self = this
     wx.getSystemInfo({
       success(res) {
+        console.log('获取版本号-----》', res)
         if (res && res.runtimeSDKVersion) {
           self.setData({
             runtimeSDKVersion: res?.runtimeSDKVersion,
+            enableDebug: res.enableDebug,
           })
         }
       },
@@ -103,7 +106,14 @@ Page({
     console.log('获取小程序信息', accountInfo.miniProgram) // 小程序信息
   },
   //切换vsconsole调试
-  switchVsconsole() {},
+  switchVsconsole() {
+    ft.setEnableDebug({
+      enableDebug: !this.data.enableDebug,
+    })
+    this.setData({
+      enableDebug: !this.data.enableDebug,
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -214,13 +214,13 @@ Page({
   goToSettingPage() {
     //埋点
     clickSeetingMenuSettingBurialPoint()
-    if (!this.data.isLogon) {
-      this.goLogin()
-    } else {
-      wx.navigateTo({
-        url: '/sub-package/mytab/pages/about/about',
-      })
-    }
+    // if (!this.data.isLogon) {
+    // this.goLogin()
+    // } else {
+    wx.navigateTo({
+      url: '/sub-package/mytab/pages/about/about',
+    })
+    // }
   },
   /**
    * 跳转到隐私协议页面

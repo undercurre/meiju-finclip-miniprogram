@@ -62,3 +62,8 @@ page {
   --nav-bar-text-margin:0;
   --nav-bar-text-padding:0;
 }
+.update-tip{
+  position: absolute;
+  right: 60rpx;
+  top: 44rpx;
+}
