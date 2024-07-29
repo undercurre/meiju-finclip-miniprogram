@@ -715,7 +715,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "",
+    "navigationBarTitleText": " ",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#fff"
   },

@@ -517,8 +517,9 @@ Page({
     return new Promise((resolve, reject) => {
       const fullPageUr = getFullPageUrl('prev')
       console.log('跳转 fullPageUr', fullPageUr)
-      let prevPage =
-        fullPageUr === 'sub-package/mytab/pages/about/about' || undefined ? '/pages/index/index' : '/' + fullPageUr
+      let prevPage = fullPageUr === undefined ? '/pages/index/index' : '/' + fullPageUr
+      // let prevPage =
+      // fullPageUr === 'sub-package/mytab/pages/about/about' || undefined ? '/pages/index/index' : '/' + fullPageUr
       loginMethods
         .loginTempAPi({ phoneNumber: this.data.phoneNumber, vercode: this.data.vercode, loginType: loginType })
         .then((resp) => {

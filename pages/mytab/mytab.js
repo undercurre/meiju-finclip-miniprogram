@@ -64,44 +64,44 @@ Page({
   behaviors: [service, imgBaseUrlMixins, computedBehavior],
   onShow() {
     myPageViewBurialPoint()
-    app
-      .checkGlobalExpiration()
-      .then(() => {
-        //const mobile = app.globalData.phoneNumber || ''
-        //this.setBindDeviceToWxData(mobile)
-        // this.setWithDrawDataIsShow(app.globalData.isLogon)
-        //this.setBindDeviceToWxDataIsShow(app.globalData.isLogon)
-        this.setData(
-          {
-            isLogon: app.globalData.isLogon,
-          },
-          () => {
-            //this.inviteFun()
-          }
-        )
-        if (app.globalData.isLogon) {
-          //获取用户信息
-          this.getVipUserInfo()
-          //this.getSignInfo()
-        }
-        // this.getAdvertisement() // 新广告接口 v2.6去掉广告位
-      })
-      .catch(() => {
-        this.getVipUserInfo()
-        //this.getSignInfo()
-        app.globalData.isLogon = false
-        // this.setWithDrawDataIsShow(app.globalData.isLogon)
-        this.setData(
-          {
-            isLogon: app.globalData.isLogon,
-          },
-          () => {
-            //this.inviteFun()
-          }
-        )
-        // this.deletePerson()
-        // this.getAdvertisement() // 新广告接口 未登录 v2.6去掉广告位
-      })
+    // app
+    // .checkGlobalExpiration()
+    // .then(() => {
+    //const mobile = app.globalData.phoneNumber || ''
+    //this.setBindDeviceToWxData(mobile)
+    // this.setWithDrawDataIsShow(app.globalData.isLogon)
+    //this.setBindDeviceToWxDataIsShow(app.globalData.isLogon)
+    // this.setData(
+    // {
+    // isLogon: app.globalData.isLogon,
+    // },
+    // () => {
+    //this.inviteFun()
+    // }
+    // )
+    if (app.globalData.isLogon) {
+      //获取用户信息
+      this.getVipUserInfo()
+      //this.getSignInfo()
+    }
+    // this.getAdvertisement() // 新广告接口 v2.6去掉广告位
+    // })
+    // .catch(() => {
+    // this.getVipUserInfo()
+    //this.getSignInfo()
+    // app.globalData.isLogon = false
+    // this.setWithDrawDataIsShow(app.globalData.isLogon)
+    // this.setData(
+    // {
+    // isLogon: app.globalData.isLogon,
+    // },
+    // () => {
+    //this.inviteFun()
+    // }
+    // )
+    // this.deletePerson()
+    // this.getAdvertisement() // 新广告接口 未登录 v2.6去掉广告位
+    // })
     app.watchLogin(this.watchBack, this) //kkk add 非刷新页面监听登录态
     //当前tab页面检查协议是否已更新，已更新则关闭已渲染的协议更新弹窗（由于自定义遮罩层不能覆盖原生的tabbar，所以协议新弹窗出现时，可以点击tabbar，以至于tab页面都会渲染协议更新的弹窗）
     this.setData({

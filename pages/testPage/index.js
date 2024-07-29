@@ -1,5 +1,5 @@
 /*
- * @desc:
+ * @desc: 扫码调试页面
  * @author: zhucc22
  * @Date: 2024-07-22 15:12:35
  */
@@ -31,6 +31,9 @@ Page({
         name: 'sit',
       },
       {
+        name: 'uat',
+      },
+      {
         name: 'prod',
       },
     ],
@@ -60,7 +63,8 @@ Page({
     removeUserInfo()
     clearStorageSync()
     Toast({ context: this, position: 'bottom', message: '缓存已经清除' })
-    wx.navigateTo({
+    ft.clearAppCache()
+    wx.switchTab({
       url: '/pages/index/index',
     })
   },
@@ -72,11 +76,12 @@ Page({
   },
   selectItems(e) {
     config.environment = e.detail.name
+    ft.changeCustomEnv({ env: e.detail.name })
     let message = '已切换到' + e.detail.name
+    Toast({ context: this, position: 'bottom', message: message })
     wx.switchTab({
       url: '/pages/index/index',
     })
-    Toast({ context: this, position: 'bottom', message: message })
   },
   toggleCloseActionSheet() {
     this.setData({
@@ -107,9 +112,10 @@ Page({
   },
   //切换vsconsole调试
   switchVsconsole() {
-    ft.setEnableDebug({
-      enableDebug: !this.data.enableDebug,
-    })
+    // ft.setEnableDebug({
+    // enableDebug: !this.data.enableDebug,
+    // })
+    ft.changeIsShowVConsole()
     this.setData({
       enableDebug: !this.data.enableDebug,
     })

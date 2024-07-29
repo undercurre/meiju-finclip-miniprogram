@@ -1,21 +1,22 @@
 const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import config from '../../config.js' //环境及域名基地址配置
-import {webView} from '../../utils/paths'
+import { webView } from '../../utils/paths'
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    targetMobile: ''
+    targetMobile: '',
   },
   backPage() {
     wx.navigateBack()
   },
-//   注销账号
+  //   注销账号
   cancelAccount() {
     this.getJwtToken()
+    ft.clearAppCache()
   },
   getJwtToken() {
     const wxAccessToken = app.globalData.wxAccessToken
@@ -39,8 +40,8 @@ Page({
   },
   changeMobile() {
     wx.navigateTo({
-        url: '../bindPhone/bindPhone',
-      })
+      url: '../bindPhone/bindPhone',
+    })
   },
   getVipUserInfo() {
     let data = {
@@ -69,9 +70,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
-    
-  },
+  onLoad() {},
 
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -41,5 +41,20 @@ module.exports = {
       sync: false, //是否为同步api
       params: {},
     },
+    {
+      name: 'changeIsShowVConsole', //切换vconsole显示
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      name: 'clearAppCache', //清除app缓存
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      name: 'changeCustomEnv', //切换当前环境
+      sync: false, //是否为同步api
+      params: {},
+    },
   ],
 }

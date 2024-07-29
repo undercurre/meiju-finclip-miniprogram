@@ -63,7 +63,13 @@ Page({
     baseImgUrl: baseImgApi.url,
   },
   backPage() {
-    wx.navigateBack()
+    if (getCurrentPages().length > 1) {
+      wx.navigateBack()
+    } else {
+      wx.switchTab({
+        url: '/pages/mytab/mytab',
+      })
+    }
   },
   //注销账号
   goToLoginOut() {
@@ -329,7 +335,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.checkLoginStatus()
+    this.setData({
+      isLogon: app.globalData.isLogon,
+    })
+    //this.checkLoginStatus()
   },
 
   /**

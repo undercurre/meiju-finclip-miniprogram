@@ -630,7 +630,7 @@ App({
       this.globalData.fromWxMiniProgramData = {}
     }
   },
-  //新登录流程校验调用
+  //新登录流程校验调用（无效了)
   checkGlobalExpiration() {
     let app = this
     return new Promise((resolve, reject) => {
