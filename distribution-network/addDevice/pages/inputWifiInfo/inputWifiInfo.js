@@ -574,7 +574,7 @@ Page({
       //安卓且获取到wifi列表
       try {
         console.log('获取wifi列表！！！！！')
-        this.getWifiList(true)
+        this.getWifiList()
         this.wifiListSheet.showFrame()
       } catch (error) {
         console.log('inputWifi 获取wifi列表:',error)
@@ -860,7 +860,7 @@ Page({
           })
           if (IsCyc) {
             setTimeout(() => {
-              that.getWifiList(true)
+              that.getWifiList()
             }, interval)
           }
           burialPoint.apLocalLog({
