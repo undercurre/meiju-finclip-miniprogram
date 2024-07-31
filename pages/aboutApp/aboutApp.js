@@ -53,15 +53,16 @@ Page({
     showVersionUpdateDialog: false,
     appVersion: '',
     hasUpadteVersion: false,
+    isWifiNetWork:false
   },
   togglePoup() {
-    if (this.data.hasUpadteVersion) {
+    if(this.data.hasUpadteVersion){
       let poupInfomation = this.data.poupInfomation
       poupInfomation.show = !poupInfomation.show
       this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
       this.setData({
         poupInfomation,
-        showVersionUpdateDialog: this.data.showVersionUpdateDialog,
+        showVersionUpdateDialog:this.data.showVersionUpdateDialog
       })
     }
   },
@@ -102,12 +103,12 @@ Page({
         (resp) => {
           if (resp.data.code == 0 && self.compareVersion(resp.data.data.versionName, reqData.version)) {
             let poupInfomation = self.data.poupInfomation
-
+            
             poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
             poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
             self.setData({
-              hasUpadteVersion: true,
-              poupInfomation,
+              hasUpadteVersion:true,
+              poupInfomation
             })
             resolve(resp)
           } else {
@@ -140,10 +141,11 @@ Page({
   versionUpadte(e) {
     //子组件传承
     console.error(e.detail)
-    if (e.detail.type == 3) {
+    if (e.detail.detail.type == 3) {
       //立即升级
+      console.error('进入立即升级')
       this.updateNow()
-    } else if (e.detail.type == 2) {
+    } else if (e.detail.detail.type == 2) {
       //参与内测
     }
     let poupInfomation = this.data.poupInfomation
@@ -160,10 +162,29 @@ Page({
   joinTest() {},
   updateNow() {
     try {
+      console.log('11111')
       ft.startAppGalleryDetailAbility()
-    } catch (e) {}
+    } catch (e) {
+      console.error('e=========:',e)
+    }
   },
   checkVersion() {
+    let self = this
+    wx.getNetworkType({
+        success(res) {
+          console.log('当前网络状况2222', res)
+          if(res.networkType == 'wifi'){
+            self.data.isWifiNetWork = true
+          } else {
+            self.data.isWifiNetWork = false
+          }
+         
+        },
+        fail(error) {
+          console.log('获取当前网络状况错误1111', error)
+          self.data.isWifiNetWork = false
+        },
+      })
     //检查版本request
     this.togglePoup()
   },
@@ -175,7 +196,7 @@ Page({
       let env = config.environment == 'sit' ? 'sit' : 'uat'
       let url = item.link[env]
       wx.navigateTo({
-        url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}&pageTitle=${item.title}`,
+        url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}`,
       })
     }
   },

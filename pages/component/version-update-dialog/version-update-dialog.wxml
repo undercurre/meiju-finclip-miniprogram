@@ -21,6 +21,9 @@
                     <mx-button size="large" type="weak" round="{{true}}" bind:click="togglePoup">暂不升级</mx-button>
                 </view>
             </div>
+            <view class="netWork-box" wx:if="{{!isWifiNetWork}}">
+                <text class="netWork-content">当前使用移动网络下载安装包将消耗流量</text>
+            </view>
         </view>
     </mx-popup>
 </view>
