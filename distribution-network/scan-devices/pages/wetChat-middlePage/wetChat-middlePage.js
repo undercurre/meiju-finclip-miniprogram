@@ -192,7 +192,7 @@ Page({
     }
     // wx.showModal({
     //   title: '',
-    //   content: '该设备暂不支持小程序配网，我们会尽快开放，敬请期待',
+    //   content: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
     //   showCancel: false,
     //   confirmText: '我知道了',
     //   success(res) {
@@ -204,7 +204,7 @@ Page({
     //   },
     // })
     Dialog.confirm({
-      title: '该设备暂不支持小程序配网，我们会尽快开放，敬请期待',
+      title: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
       confirmButtonText: '我知道了',
       confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
       showCancelButton: false

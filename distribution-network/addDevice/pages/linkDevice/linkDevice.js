@@ -399,7 +399,7 @@ Page({
           // 设备不支持小程序配网，AP配网联网进度页弹窗样式不正确 BUG2024031194902 统一改成相同的弹窗
           // if (isShowColmoUnSupportDialog) {  
           //   Dialog.confirm({
-          //     title: '抱歉，该设备暂不支持小程序配网。'
+          //     title: '该设备暂不支持添加，功能正在迭代升级中，敬请期待'
           //     confirmButtonText: '返回首页',
           //     confirmButtonColor: this_.data.dialogStyle.confirmButtonColor2,
           //     cancelButtonColor: this_.data.dialogStyle.cancelButtonColor2,

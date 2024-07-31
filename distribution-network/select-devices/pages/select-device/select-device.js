@@ -727,7 +727,7 @@ Page({
     //先判断是否isSupportPlugin
     if (!isSupportPlugin(`0x${category}`, code, code, '0')) {
       Dialog.confirm({
-        title: '该设备暂不支持小程序配网，我们会尽快开放，敬请期待',
+        title: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
         confirmButtonText: '我知道了',
         confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
         showCancelButton: false,
@@ -737,7 +737,7 @@ Page({
         }
       })
       // wx.showModal({
-      //   content: '该设备暂不支持小程序配网，我们会尽快开放，敬请期待',
+      //   content: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
       //   confirmText: '我知道了',
       //   confirmColor: '#267aff',
       //   showCancel: false,
@@ -802,7 +802,7 @@ Page({
           })
         } else {
           Dialog.confirm({
-            title: '该设备暂不支持小程序配网，我们会尽快开放，敬请期待',
+            title: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
             confirmButtonText: '我知道了',
             confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
             showCancelButton: false,
@@ -812,7 +812,7 @@ Page({
             }
           })
           // wx.showModal({
-          //   content: '该设备暂不支持小程序配网，我们会尽快开放，敬请期待',
+          //   content: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
           //   confirmText: '我知道了',
           //   confirmColor: '#267aff',
           //   showCancel: false,
