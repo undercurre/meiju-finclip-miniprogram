@@ -56,7 +56,7 @@ Page({
       },
     ],
     isCreateFamily: false, //是否是当前家庭的创建者
-    isIpx: app.globalData.isPx,
+    isIpx: app.globalData.isPx || wx.getSystemInfoSync().system.includes('harmony'),
     inputNotice: '',
     baseImgUrl: baseImgApi.url,
     plainSn: '', //原始sn
