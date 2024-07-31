@@ -23,6 +23,21 @@ Component({
             // }
       },
     },
+    data:{
+        isWiFi:false
+    },
+    created: function() {
+        // 组件被创建时执行
+        wx.getNetworkType({
+            success(res) {
+              console.log('当前网络状况11111', res)
+             
+            },
+            fail(error) {
+              console.log('获取当前网络状况错误1111', error)
+            },
+          })
+    },
 
     methods: {
         joinTest(){

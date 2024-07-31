@@ -139,11 +139,12 @@ Page({
   },
   versionUpadte(e) {
     //子组件传承
-    console.error(e.detail)
-    if (e.detail.type == 3) {
+    console.error(e.detail.detail.type)
+    if (e.detail.detail.type == 3) {
       //立即升级
+      console.error('进入立即升级')
       this.updateNow()
-    } else if (e.detail.type == 2) {
+    } else if (e.detail.detail.type == 2) {
       //参与内测
     }
     let poupInfomation = this.data.poupInfomation
@@ -159,9 +160,13 @@ Page({
   },
   joinTest() {},
   updateNow() {
+    
     try {
+      console.log('11111')
       ft.startAppGalleryDetailAbility()
-    } catch (e) {}
+    } catch (e) {
+      console.error('e=========:',e)
+    }
   },
   checkVersion() {
     //检查版本request
