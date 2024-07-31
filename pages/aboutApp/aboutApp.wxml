@@ -55,5 +55,5 @@
             </div>
         </view>
     </mx-popup>  -->
-  <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
+  <version-update-dialog poupInfomation="{{poupInfomation}}" isWifiNetWork="{{isWifiNetWork}}" bindversionUpadte="versionUpadte"></version-update-dialog>
 </view>

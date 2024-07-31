@@ -31,3 +31,15 @@
 .version-update-popup{
     z-index: 10000 !important;
 }
+
+.netWork-box{
+    margin-top:24rpx;
+    text-align: center;
+}
+.netWork-content{
+    font-size: 24rpx;
+    color: #FF9500;
+    text-align: center;
+    line-height: 12px;
+    font-weight: 400;
+}

@@ -22,7 +22,13 @@ Component({
             //     }
             // }
       },
+      isWifiNetWork:{
+        type:Boolean,
+        value:false
+      }
     },
+
+
 
     methods: {
         joinTest(){
