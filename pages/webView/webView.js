@@ -40,10 +40,10 @@ Page({
       console.log('新webViewUrl-else-pageUrl', this.data.pageUrl, typeof this.data.pageUrl)
     }
     const pageTitle = options && options.pageTitle
-    const res = await this.checkSystem()
-    if (res) {
-      pageTitle && this.setNavBarTitle(pageTitle)
-    }  
+    //const res = await this.checkSystem()
+    // if (res) {
+    pageTitle && this.setNavBarTitle(pageTitle)
+    // }
   },
 
   /**
