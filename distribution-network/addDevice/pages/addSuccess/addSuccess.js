@@ -767,7 +767,7 @@ Page({
             }
             console.log('----mode 3 combinedStatus = ' + this.data.combinedStatus)
             this.linkDeviceService.getApplianceAuthType(resp.data.data.applianceCode).then((respData) => {
-              log.info('是否有对应插件参数', type, sn8, A0, '0')
+              log.info('是否有对应插件参数', type, sn8, A0, '0', respData)
               // 组合配网新增跳转
               if (this.data.combinedStatus > -1) {
                 if (this.data.combinedStatus == 1) { // 组合成功跳转插件页

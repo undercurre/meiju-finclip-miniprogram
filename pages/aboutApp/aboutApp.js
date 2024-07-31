@@ -55,13 +55,13 @@ Page({
     hasUpadteVersion: false,
   },
   togglePoup() {
-    if(this.data.hasUpadteVersion){
+    if (this.data.hasUpadteVersion) {
       let poupInfomation = this.data.poupInfomation
       poupInfomation.show = !poupInfomation.show
       this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
       this.setData({
         poupInfomation,
-        showVersionUpdateDialog:this.data.showVersionUpdateDialog
+        showVersionUpdateDialog: this.data.showVersionUpdateDialog,
       })
     }
   },
@@ -102,12 +102,12 @@ Page({
         (resp) => {
           if (resp.data.code == 0 && self.compareVersion(resp.data.data.versionName, reqData.version)) {
             let poupInfomation = self.data.poupInfomation
-            
+
             poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
             poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
             self.setData({
-              hasUpadteVersion:true,
-              poupInfomation
+              hasUpadteVersion: true,
+              poupInfomation,
             })
             resolve(resp)
           } else {
@@ -180,7 +180,7 @@ Page({
       let env = config.environment == 'sit' ? 'sit' : 'uat'
       let url = item.link[env]
       wx.navigateTo({
-        url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}`,
+        url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}&pageTitle=${item.title}`,
       })
     }
   },

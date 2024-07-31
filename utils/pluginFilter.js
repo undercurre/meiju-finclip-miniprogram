@@ -1,6 +1,7 @@
 import paths from '../utils/paths'
 import { showToast } from '../utils/util'
 import { getPluginUrl } from './getPluginUrl'
+import { setPluginDeviceInfo } from '../track/pluginTrack.js'
 const app = getApp()
 const brandConfig = app.globalData.brandConfig[app.globalData.brand]
 const supportedApplianceTypes = () => {
@@ -376,14 +377,48 @@ function goTopluginPage(deviceInfo, backPage = '', isRomoveRoute = false, fromPa
  */
 
 function goToInvitePage(homeName, deviceInfo, backPage = '', isRomoveRoute = false, status = 0) {
-  wx.navigateTo({
-    url: `${
-      paths.inviteFamily
-    }?homeName=${homeName}&isRomoveRoute=${isRomoveRoute}&backTo=${backPage}&status=${status}&deviceInfo=${JSON.stringify(
-      deviceInfo
-    )}`,
-  })
+    const res = wx.getSystemInfoSync()
+    if (res.system.includes('harmony')) {
+        goPluginDetail(app.addDeviceInfo.cloudBackDeviceInfo || deviceInfo, backPage, isRomoveRoute, status)
+    } else {
+        wx.navigateTo({
+            url: `${
+            paths.inviteFamily
+            }?homeName=${homeName}&isRomoveRoute=${isRomoveRoute}&backTo=${backPage}&status=${status}&deviceInfo=${JSON.stringify(
+            deviceInfo
+            )}`,
+        })
+    } 
 }
+
+/**
+ * 鸿蒙系统跳过邀请页
+ * @param {*} deviceInfo 
+ * @param {*} backTo 
+ * @param {*} isRomoveRoute 
+ * @param {*} status 
+ */
+const goPluginDetail = (deviceInfo, backTo, isRomoveRoute, status) => {
+    console.log("===goPluginDetail===", deviceInfo, backTo, isRomoveRoute, status)
+    //0 已确权 1 待确权 2 未确权 3 不支持确权
+    if (status == 1 || status == 2) {
+      wx.reLaunch({
+        url: '/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index',
+      })
+    } else {
+      // 组合配网新增逻辑
+      let {combinedStatus} = app.combinedDeviceInfo[0]
+      if(combinedStatus > -1){
+        deviceInfo.composeApplianceList = app.composeApplianceList
+        console.log('---inviteFamily deviceInfo---', deviceInfo)
+        setPluginDeviceInfo(deviceInfo)
+      } else{
+        setPluginDeviceInfo(app.addDeviceInfo) //进入插件页前，设置设备信息到app.globalData.currDeviceInfo
+      }
+      goTopluginPage(deviceInfo, backTo, isRomoveRoute)
+    }
+  }
+
 /**
  * 根据sn位数判断是否colmo设备
  * @param {*} decodedSn
