@@ -54,7 +54,19 @@
     "distribution-network/select-devices/pages/select-model/select-model",
     "distribution-network/user-gudie/pages/frequency-guide/frequency-guide",
     "distribution-network/user-gudie/pages/location-guide/location-guide",
-    "distribution-network/user-gudie/pages/blue-guide/blue-guide"
+    "distribution-network/user-gudie/pages/blue-guide/blue-guide",
+    "sub-package/common-package/pages/index/index",
+    "sub-package/personal-center/personalCenter/personalCenter",
+    "sub-package/webview/defaultWebview/defaultWebview",
+    "sub-package/mytab/pages/about/about",
+    "change-room/pages/changeRoom/changeRoom",
+    "home-manage/pages/homeManage/homeManage",
+    "home-manage/pages/homeDetail/homeDetail",
+    "home-manage/pages/roomAndDevices/roomAndDevices",
+    "home-manage/pages/roomDetail/roomDetail",
+    "home-manage/pages/memberManage/memberManage",
+    "home-manage/pages/inviteFamily/invite",
+    "common-packages/plugin/component/webToMP/web-to-mp"
   ],
   "embeddedAppIdList": [
     "wx255b67a1403adbc2",
@@ -64,19 +76,6 @@
   ],
   "workers": "workers",
   "subpackages": [
-    {
-      "name": "commonPackage",
-      "root": "sub-package/common-package",
-      "pages": [
-        "pages/index/index"
-      ],
-      "plugins": {
-        "captcha": {
-          "version": "1.2.9",
-          "provider": "wxbf8483dfc5ac6817"
-        }
-      }
-    },
     {
       "name": "wxBindDevice",
       "root": "sub-package/wx-bind-device",
@@ -89,46 +88,6 @@
       "root": "sub-package/wx-bind-deviceCard",
       "pages": [
         "redirect/index"
-      ]
-    },
-    {
-      "name": "personalCenter",
-      "root": "sub-package/personal-center",
-      "pages": [
-        "personalCenter/personalCenter"
-      ]
-    },
-    {
-      "name": "webview",
-      "root": "sub-package/webview",
-      "pages": [
-        "defaultWebview/defaultWebview"
-      ]
-    },
-    {
-      "name": "mytab",
-      "root": "sub-package/mytab/pages",
-      "pages": [
-        "about/about"
-      ]
-    },
-    {
-      "name": "changeRoom/",
-      "root": "change-room/",
-      "pages": [
-        "pages/changeRoom/changeRoom"
-      ]
-    },
-    {
-      "name": "homeManage",
-      "root": "home-manage/",
-      "pages": [
-        "pages/homeManage/homeManage",
-        "pages/homeDetail/homeDetail",
-        "pages/roomAndDevices/roomAndDevices",
-        "pages/roomDetail/roomDetail",
-        "pages/memberManage/memberManage",
-        "pages/inviteFamily/invite"
       ]
     },
     {
@@ -232,13 +191,6 @@
       "root": "activities/common",
       "pages": [
         "pages/share/share"
-      ]
-    },
-    {
-      "name": "component",
-      "root": "common-packages/plugin/component",
-      "pages": [
-        "webToMP/web-to-mp"
       ]
     },
     {
