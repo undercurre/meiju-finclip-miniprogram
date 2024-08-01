@@ -116,7 +116,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    if (this.data.timer) clearInterval(this.data.timer)
+    if (this.data.timer) clearTimeout(this.data.timer)
   },
 
   /**
@@ -251,7 +251,7 @@ Page({
         verCodeDisabled: false,
       })
     } else {
-      if (this.data.timer) clearInterval(this.data.timer)
+      if (this.data.timer) clearTimeout(this.data.timer)
       this.setData({
         loginBtnDes: '获取验证码',
         vercode: '',
@@ -391,7 +391,7 @@ Page({
   //验证码倒计时
   setTime(time) {
     //let that = this
-    if (this.data.timer) clearInterval(this.data.timer)
+    if (this.data.timer) clearTimeout(this.data.timer)
     this.data.timer = setTimeout(() => {
       if (time > 1) {
         time--
@@ -449,6 +449,7 @@ Page({
   loginTemp(loginType) {
     console.log('点击登陆')
     this.setData({
+      loginDisabled: true,
       loginBtnDes: '加载中',
     })
     this.setData({ isLoading: false })
@@ -540,6 +541,7 @@ Page({
                 url: prevPage,
               })
             }, 100)
+            if (this.data.timer) clearTimeout(this.data.timer)
           }
         })
         .catch((err) => {

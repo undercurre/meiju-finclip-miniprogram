@@ -1,6 +1,8 @@
 const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import config from '../../config.js' //环境及域名基地址配置
+import { showToast } from 'm-miniCommonSDK/index'
+// import loginMethods from '../../globalCommon/js/loginRegister.js'
 import { webView } from '../../utils/paths'
 
 Page({
@@ -16,7 +18,6 @@ Page({
   //   注销账号
   cancelAccount() {
     this.getJwtToken()
-    ft.clearAppCache()
   },
   getJwtToken() {
     const wxAccessToken = app.globalData.wxAccessToken
