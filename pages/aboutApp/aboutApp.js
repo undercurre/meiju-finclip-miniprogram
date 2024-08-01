@@ -174,15 +174,21 @@ Page({
         success(res) {
           console.log('当前网络状况2222', res)
           if(res.networkType == 'wifi'){
-            self.data.isWifiNetWork = true
+            self.setData({
+                isWifiNetWork:true
+            })
           } else {
-            self.data.isWifiNetWork = false
+            self.setData({
+                isWifiNetWork:false
+            })
           }
          
         },
         fail(error) {
           console.log('获取当前网络状况错误1111', error)
-          self.data.isWifiNetWork = false
+          self.setData({
+            isWifiNetWork:false
+          })
         },
       })
     //检查版本request
