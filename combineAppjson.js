@@ -95,6 +95,12 @@ const integrationConfig = (obj) => {
     appJson.subpackages.push(obj)
   }
 }
+//appjson 文件是否有配置主包信息，有的话就忽略，没有的话就新增
+const integrationMainConfig = (obj) => {
+    if(!appJson.pages.includes(obj)) {
+        appJson.pages.push(obj)
+    }
+}
 const init = () => {
   const findTargetFiles = findFiles(dirname, filename)
   console.log('获取到匹配的文件：', findTargetFiles)
@@ -103,7 +109,10 @@ const init = () => {
     const getTargetAppConfig = getAppConfig(item)
     console.log('获取模块配置文件：', getTargetAppConfig)
     getTargetAppConfig.subpackages.forEach((configItem) => {
-      integrationConfig(configItem)
+      integrationConfig(configItem) // 查找添加分包配置信息
+    })
+    getTargetAppConfig.pages && getTargetAppConfig.pages.forEach((configItem) => {
+        integrationMainConfig(configItem) // 查找添加主包配置信息
     })
   })
 
