@@ -81,6 +81,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   async onLoad(options) {
+
+
+    let self = this
+    // 监听蓝牙状态变化
+    wx.onBluetoothAdapterStateChange(function (res) {
+        console.error('res=====:',res)
+        console.error('蓝牙状态已改变333');
+        self.permissionCheckTip()//校验权限
+        if (res.available) {
+            if (res.available) {
+              self.startBluetoothDevicesDiscovery(0)
+              }
+        // 蓝牙已打开并且正在搜索设备
+        console.error('蓝牙已打开，正在搜索设备2');
+        // self.retry()
+        } else {
+        // 蓝牙未打开
+        console.error('蓝牙未打开2');
+        }
+    });
     getApp().onLoadCheckingLog()
     console.log('品牌:', app.globalData.brand)
     this.data.brand = app.globalData.brand
@@ -227,6 +247,11 @@ Page({
     console.error('bluetoothEnabled-----:',bluetoothEnabled)
     console.error('bluetoothAuthorized-----:',bluetoothAuthorized)
     console.error('blueRes.isCanBlue-----:',blueRes.isCanBlue)
+
+    let system = wx.getSystemSetting()
+    let appAuthorize = wx.getAppAuthorizeSetting()
+    console.error('isCanBlue.system-----:',system)
+    console.error('isCanBlue.appAuthorize-----:',appAuthorize)
     if(!bluetoothAuthorized){
         wx.openAppAuthorizeSetting({
             success (res) {
@@ -257,54 +282,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   async onShow() {
+    const systemInfo = wx.getSystemInfoSync()
+    console.error('systemInfo====:',systemInfo)
     let self = this
     let { isCheckGray } = app.addDeviceInfo
-    this.actionBlue()
-    // // 蓝牙权限判断
-    // wx.openBluetoothAdapter({
-    //     success: (res) => {
-    //       console.log('lmn>>> 初始化蓝牙模块成功', res)
-    //     },
-    //     fail: (err) => {
-    //       console.log('lmn>>> 初始化蓝牙模块失败', err)
-    //     }
-    //   })
-    // 地理位置权限判断
-    // wx.getLocation({
-    //   type: 'wgs84', //返回可以用于wx.openLocation的经纬度
-    //   success(res) {
-    //       console.log('lmn>>> 初始化地址模块成功', res)
-    //       wx.openLocation()
-    //   },
-    //   fail: (err) => {
-    //       console.log('lmn>>> 初始化地址模块失败', err)
-    //   },
-    //   complete(){
-    //     self.setData({
-    //         showPopup:false //关闭安全信息弹窗
-    //     })
-    //     self.permissionCheckTip() // 校验权限
-    //   }
-    // })
 
-    // 监听蓝牙状态变化
-    wx.onBluetoothAdapterStateChange(function (res) {
-      console.error('蓝牙状态已改变2');
-      self.permissionCheckTip()//校验权限
-      if (res.available) {
-      // 蓝牙已打开并且正在搜索设备
-      console.error('蓝牙已打开，正在搜索设备2');
-      // self.retry()
-      } else {
-      // 蓝牙未打开
-      console.error('蓝牙未打开2');
-    //   this.stopBluetoothDevicesDiscovery()
-      // this.closeWifiScan()
-      //关闭自动搜索
-      // self.retry()
-      }
-    });
     try {
+        this.actionBlue()
+        this.actionWifi()
       let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
       this.setData({
         isCanAddDevice: isCan,
@@ -349,7 +334,7 @@ Page({
         })
       }
       // this.actionBlue()
-      this.actionWifi()
+    //   this.actionWifi()
     }
     // this.sendFindFriendOrder() 暂时屏蔽找朋友配网
     this.setTimer()
@@ -362,11 +347,11 @@ Page({
   onHide: function () {
     // this.closeBluetoothAdapter()
     console.log('scan-device onhide')
-    this.stopBluetoothDevicesDiscovery()
+    // this.stopBluetoothDevicesDiscovery()
     // this.closeWifiScan()
     this.clearMixinsTime()
     //关闭自动搜索
-    wx.offBluetoothDeviceFound()
+    // wx.offBluetoothDeviceFound()
     wx.offGetWifiList() // todo:Yoram930
     // this.stopBluetoothDevicesDiscovery()
     this.clearTimer()
@@ -501,29 +486,29 @@ Page({
     // if (!(await this.checkLocationAndBluetooth(true, true, true, true))) {
     //   return
     // }
-    let locationRes
-    let blueRes
-    try {
-      // locationRes = await checkPermission.loaction(false)
-      blueRes = await checkPermission.blue(false)
-    } catch (error) {
-      this.data.actionScanClickFlag = false
-      Dialog.confirm({
-        title: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
-        confirmButtonText: '好的',
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-        showCancelButton: false,
-      }).then((res) => {
-        if (res.action == 'confirm') {
-        }
-      })
+    // let locationRes
+    // let blueRes
+    // try {
+    //   locationRes = await checkPermission.loaction(false)
+    //   blueRes = await checkPermission.blue(false)
+    // } catch (error) {
+    //   this.data.actionScanClickFlag = false
+    //   Dialog.confirm({
+    //     title: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
+    //     confirmButtonText: '好的',
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //     showCancelButton: false,
+    //   }).then((res) => {
+    //     if (res.action == 'confirm') {
+    //     }
+    //   })
       // wx.showModal({
       //   showCancel: false,
       //   content: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
       // })
-      console.log(error, '[loactionRes blueRes]err checkPermission')
-    }
-    console.log('[loactionRes] checkPermission', locationRes)
+    //   console.log(error, '[loactionRes blueRes]err checkPermission')
+    // }
+    // console.log('[loactionRes] checkPermission', locationRes)
     // if (!locationRes.isCanLocation) {
     //   const obj = {
     //     title: '请开启位置权限',
@@ -541,24 +526,24 @@ Page({
     //   }, 1500)
     //   return
     // }
-    console.log('[blueRes] checkPermission', blueRes)
-    if (!blueRes.isCanBlue) {
-      const obj = {
-        title: '请开启蓝牙权限',
-        message: blueRes.permissionTextAll,
-        confirmButtonText: '查看指引',
-        type: 'blue',
-        permissionTypeList: blueRes.permissionTypeList,
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-        cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
-      }
-      //调用通用弹框组件
-      commonDialog.showCommonDialog(obj)
-      setTimeout(() => {
-        this.data.actionScanClickFlag = false
-      }, 1500)
-      return
-    }
+    // console.log('[blueRes] checkPermission', blueRes)
+    // if (!blueRes.isCanBlue) {
+    //   const obj = {
+    //     title: '请开启蓝牙权限',
+    //     message: blueRes.permissionTextAll,
+    //     confirmButtonText: '查看指引',
+    //     type: 'blue',
+    //     permissionTypeList: blueRes.permissionTypeList,
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //     cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+    //   }
+    //   //调用通用弹框组件
+    //   commonDialog.showCommonDialog(obj)
+    //   setTimeout(() => {
+    //     this.data.actionScanClickFlag = false
+    //   }, 1500)
+    //   return
+    // }
     setTimeout(() => {
       this.data.actionScanClickFlag = false
     }, 1500)
@@ -748,7 +733,7 @@ Page({
     //   return false
     // }
     let bluePermission = await checkPermission.blue()
-    console.log('[bluePermission]', bluePermission)
+    console.error('[bluePermission]', bluePermission)
     if (!bluePermission.isCanBlue) {
       this.setData({
         checkPermissionRes: bluePermission,
@@ -772,8 +757,7 @@ Page({
     }
     this.setData({
       checkPermissionRes: {
-        isCanBlue: true,
-        isCanLocation: true,
+        isCanBlue: true
       },
     })
     return true
@@ -922,23 +906,23 @@ Page({
     // if (!(await this.checkLocationAndBluetooth(true, true, true, true))) {
     //   return
     // }
-    let locationRes
-    let blueRes
-    try {
-      // locationRes = await checkPermission.loaction(false)
-      blueRes = await checkPermission.blue(false)
-    } catch (error) {
-      this.data.selectModelClickFlag = false
-      Dialog.confirm({
-        title: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
-        confirmButtonText: '好的',
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-      }).then((res) => {
-        if (res.action == 'confirm') {
-        }
-      })
-      console.log(error, '[loactionRes blueRes]err checkPermission')
-    }
+    // let locationRes
+    // let blueRes
+    // try {
+    //   locationRes = await checkPermission.loaction(false)
+    //   blueRes = await checkPermission.blue(false)
+    // } catch (error) {
+    //   this.data.selectModelClickFlag = false
+    //   Dialog.confirm({
+    //     title: '微信系统出错，请尝试点击右上角“...” - “重新进入小程序”',
+    //     confirmButtonText: '好的',
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //   }).then((res) => {
+    //     if (res.action == 'confirm') {
+    //     }
+    //   })
+    //   console.log(error, '[loactionRes blueRes]err checkPermission')
+    // }
     // console.log('[loactionRes] checkPermission', locationRes)
     // if (!locationRes.isCanLocation) {
     //   const obj = {
@@ -956,23 +940,23 @@ Page({
     //   }, 1500)
     //   return
     // }
-    console.log('[blueRes] checkPermission', blueRes)
-    if (!blueRes.isCanBlue) {
-      const obj = {
-        title: '请开启蓝牙权限',
-        message: blueRes.permissionTextAll,
-        confirmButtonText: '查看指引',
-        type: 'blue',
-        permissionTypeList: blueRes.permissionTypeList,
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-        cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
-      }
-      commonDialog.showCommonDialog(obj)
-      setTimeout(() => {
-        this.data.selectModelClickFlag = false
-      }, 1500)
-      return
-    }
+    // console.log('[blueRes] checkPermission', blueRes)
+    // if (!blueRes.isCanBlue) {
+    //   const obj = {
+    //     title: '请开启蓝牙权限',
+    //     message: blueRes.permissionTextAll,
+    //     confirmButtonText: '查看指引',
+    //     type: 'blue',
+    //     permissionTypeList: blueRes.permissionTypeList,
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+    //     cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+    //   }
+    //   commonDialog.showCommonDialog(obj)
+    //   setTimeout(() => {
+    //     this.data.selectModelClickFlag = false
+    //   }, 1500)
+    //   return
+    // }
     this.stopBluetoothDevicesDiscovery()
     wx.offGetWifiList() //Yoram TODO 930
     this.clearMixinsTime()
