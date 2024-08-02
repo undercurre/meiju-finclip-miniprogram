@@ -56,5 +56,10 @@ module.exports = {
       sync: false, //是否为同步api
       params: {},
     },
+    {
+      name: 'restartApp', //重启应用
+      sync: false, //是否为同步api
+      params: {},
+    },
   ],
 }

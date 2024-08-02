@@ -91,7 +91,7 @@
   box-sizing: border-box;
   background: #fff;
   max-width: 100%;
-  max-height: 500rpx;
+  max-height: 430rpx;
   z-index: 100;
   overflow: hidden !important;
   border-radius: 16rpx 16rpx 0 0;

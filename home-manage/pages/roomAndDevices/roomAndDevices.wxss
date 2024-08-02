@@ -40,3 +40,6 @@ page {
   display: inline-block;
   margin-right: 8rpx;
 }
+.main-container .mx-cell__title_title{
+  font-weight: 400!important;
+}

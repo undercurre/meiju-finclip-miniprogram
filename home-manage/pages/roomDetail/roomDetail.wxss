@@ -53,3 +53,6 @@ page {
   --nav-bar-text-margin:0 32rpx;
   --nav-bar-text-padding:0
 }
+.main-container .mx-cell__title_title{
+  font-weight: 400!important;
+}
