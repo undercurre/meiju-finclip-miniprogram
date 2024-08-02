@@ -2736,17 +2736,17 @@ Page({
         is_near: item.isSameSn8Nearest ? 1 : 0,
       },
     })
-    if (!this.checkWxVersion()) {
-      Dialog.alert({
-        zIndex: 10001,
-        context: this,
-        message: '你的微信版本过低，请升级至最新版本后再试',
-        confirmButtonText: '我知道了',
-      })
-      getApp().setMethodFailedCheckingLog('goNetwork', '当前微信版本过低不通过')
-      self.data.clickFLag = false
-      return
-    }
+    // if (!this.checkWxVersion()) {
+    //   Dialog.alert({
+    //     zIndex: 10001,
+    //     context: this,
+    //     message: '你的微信版本过低，请升级至最新版本后再试',
+    //     confirmButtonText: '我知道了',
+    //   })
+    //   getApp().setMethodFailedCheckingLog('goNetwork', '当前微信版本过低不通过')
+    //   self.data.clickFLag = false
+    //   return
+    // }
     if (!this.checkIfGoNetwork(item)) {
       getApp().setMethodFailedCheckingLog('goNetwork', '选取的是不支持配网设备')
       self.data.clickFLag = false
@@ -3190,15 +3190,15 @@ Page({
     let item = this.data.nfcData
     let type = item['type'].includes('0x') ? item['type'].substr(2, 2) : item['type']
     item['type'] = type
-    if (!this.checkWxVersion()) {
-      Dialog.alert({
-        zIndex: 10001,
-        context: this,
-        message: '你的微信版本过低，请升级至最新版本后再试',
-        confirmButtonText: '我知道了',
-      })
-      return
-    }
+    // if (!this.checkWxVersion()) {
+    //   Dialog.alert({
+    //     zIndex: 10001,
+    //     context: this,
+    //     message: '你的微信版本过低，请升级至最新版本后再试',
+    //     confirmButtonText: '我知道了',
+    //   })
+    //   return
+    // }
     let param = {
       category: type,
       code: item['sn8'],
@@ -3397,15 +3397,15 @@ Page({
       sn8: sn8,
       deviceImg: deviceImg, //设备图片
     }
-    if (!this.checkWxVersion()) {
-      Dialog.alert({
-        zIndex: 10001,
-        context: this,
-        message: '你的微信版本过低，请升级至最新版本后再试',
-        confirmButtonText: '我知道了',
-      })
-      return
-    }
+    // if (!this.checkWxVersion()) {
+    //   Dialog.alert({
+    //     zIndex: 10001,
+    //     context: this,
+    //     message: '你的微信版本过低，请升级至最新版本后再试',
+    //     confirmButtonText: '我知道了',
+    //   })
+    //   return
+    // }
     let param = {
       category: category,
       code: sn8,

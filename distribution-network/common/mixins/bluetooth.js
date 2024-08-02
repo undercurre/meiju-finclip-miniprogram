@@ -1056,23 +1056,23 @@ module.exports = Behavior({
     async checkAuth(checkList = ['location', 'bluetooth'], deviceInfo, isPopup = true) {
       let sn8 = deviceInfo && deviceInfo.sn8 ? deviceInfo.sn8 : ''
       let type = deviceInfo && deviceInfo.type ? deviceInfo.type : ''
-      if (checkList.includes('version') && !this.checkWxVersion()) {
-        if (isPopup) {
-          this.setData({
-            customDialog: {
-              isShow: true,
-              subTitle: '你的微信版本过低，请升级至最新版本后再试',
-              cancelTxt: '我知道了',
-              confirmBtnType: 'none',
-            },
-          })
-        }
-        return {
-          value: false,
-          type: 'version',
-          errorText: '你的微信版本过低，请升级至最新版本后再试',
-        }
-      }
+      // if (checkList.includes('version') && !this.checkWxVersion()) {
+      //   if (isPopup) {
+      //     this.setData({
+      //       customDialog: {
+      //         isShow: true,
+      //         subTitle: '你的微信版本过低，请升级至最新版本后再试',
+      //         cancelTxt: '我知道了',
+      //         confirmBtnType: 'none',
+      //       },
+      //     })
+      //   }
+      //   return {
+      //     value: false,
+      //     type: 'version',
+      //     errorText: '你的微信版本过低，请升级至最新版本后再试',
+      //   }
+      // }
       // 位置权限弹窗
       if (await checkList.includes('location')) {
         let locationRes = await checkPermission.loaction()

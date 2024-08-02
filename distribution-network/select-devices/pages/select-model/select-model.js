@@ -471,28 +471,22 @@ Page({
         console.log("modeArr=====", modeArr)
         if (modeArr.indexOf(mode) >= 0) {
           //判断微信版本
-          if (!checkWxVersion_807()) {
-            Dialog.confirm({
-              title: '你的微信版本过低，请升级至最新版本后再试',
-              confirmButtonText: '我知道了',
-              confirmButtonColor: this.data.dialogStyle.cancelButtonColor5,
-              showCancelButton: false,
-            }).then((res) => {
-              if (res.action == 'confirm') {
-              }
-            })
-            // wx.showModal({
-            //   content: '你的微信版本过低，请升级至最新版本后再试',
-            //   confirmText: '我知道了',
-            //   confirmColor: '#267aff',
-            //   showCancel: false,
-            // })
-            setTimeout(() => {
-              self.data.clickFLag = false
-            }, 1000)
-            getApp().setMethodFailedCheckingLog('prodClicked', '微信版本过低')
-            return
-          }
+          // if (!checkWxVersion_807()) {
+          //   Dialog.confirm({
+          //     title: '你的微信版本过低，请升级至最新版本后再试',
+          //     confirmButtonText: '我知道了',
+          //     confirmButtonColor: this.data.dialogStyle.cancelButtonColor5,
+          //     showCancelButton: false,
+          //   }).then((res) => {
+          //     if (res.action == 'confirm') {
+          //     }
+          //   })
+          //   setTimeout(() => {
+          //     self.data.clickFLag = false
+          //   }, 1000)
+          //   getApp().setMethodFailedCheckingLog('prodClicked', '微信版本过低')
+          //   return
+          // }
           // 判断全局的密钥有没有，有就跳过，没有就重新拉取
           if (!app.globalData.privateKey && mode != '103' && mode != '100' && mode != '20') {
             if (app.globalData.privateKeyIntervalNum) {

@@ -1594,14 +1594,15 @@ Page({
     console.log('失败页跳转H5------------:',text)
     let url
     let title
-    if (text.indexOf('本地网络') != -1) {
-      let permissionTypeList = { localNet: false } //本地网络未开
-      wx.navigateTo({
-        url: paths.localNetGuide + `?permissionTypeList=${JSON.stringify(permissionTypeList)}`,
-      })
-      burialPoint.clickLocalNetGuide(params)
-      return
-    } else if (text.indexOf('Mac地址') != -1) {
+    // if (text.indexOf('本地网络') != -1) {
+    //   let permissionTypeList = { localNet: false } //本地网络未开
+    //   wx.navigateTo({
+    //     url: paths.localNetGuide + `?permissionTypeList=${JSON.stringify(permissionTypeList)}`,
+    //   })
+    //   burialPoint.clickLocalNetGuide(params)
+    //   return
+    // } else 
+    if (text.indexOf('Mac地址') != -1) {
       url = `${commonH5Api.url}macGuide.html`
       // title = '操作指引'
       title = ''

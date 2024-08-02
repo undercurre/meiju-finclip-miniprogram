@@ -5,15 +5,6 @@
             scroll-y="{{true}}"
             style="height:{{contentHeight * 2}}rpx;"
         >
-            <view class="wifiGuide-check-text-box">
-                <view class="wifiGuide-check-text">
-                    <view>
-                        检测到您当前使用的系统是 
-                    </view>
-                    <view class="wifiGuide-phoneBrand" bindtap="chosePhoneBrand">{{brandTypeName}}</view> 
-                    <image class="wifiguide-img" bindtap="chosePhoneBrand" src="{{phoneBrandGuideImg}}"></image>
-                </view>
-            </view>
             <view class="wifiGuide-des-box">
                 <view class="wifiGuide-des">
                     <view class="wifiGuide-des-one">
@@ -28,9 +19,9 @@
                             <image mode="widthFix" class="wifiGuide-step-img" src="{{wifiGuideStepImg2}}"></image>
                         </view>
                     </view>
-                </view>
-                <view class="wifiGuide-illustrate">
-                    由于系统版本差异，可能部分系统不支持二维码分享WiFi密码。
+                    <view class="wifiGuide-des-two">
+                        <text >3、<text>{{desList[phoneBrand][2]}}</text></text>
+                    </view>
                 </view>
             </view>
 

@@ -180,28 +180,12 @@
           <view class="detail-content">
             <view class="detail-one detail-step" style="height:{{brand=='colmo'?'124rpx':'128rpx'}} ">
               <text class="detail-text" style="width:{{brand=='colmo'?'90%':'100%'}} ">
-                <text class="step-num">1</text> 点击下方“去连接”进入系统设置页</text>
-            </view>
-            <view class="line"></view>
-            <view class="detail-two detail-step">
-              <text class="detail-text">
-                <text class="step-num">2</text>
-                <text>点击左上角“设置”</text>
-              </text>
-              <image class="detail-img" src="{{imgBaseUrl+imges.detailStep2}}"></image>
-            </view>
-            <view class="line"></view>
-            <view class="detail-thr detail-step">
-              <text class="detail-text">
-                <text class="step-num">3</text> 
-                <text>选择无线局域网</text>
-              </text>
-              <image class="detail-img" src="{{imgBaseUrl+imges.detailStep3}}"></image>
+                <text class="step-num">1</text> 点击下方“去连接”进入系统WLAN设置页面</text>
             </view>
             <view class="line"></view>
             <view class="detail-four detail-step">
               <text class="detail-text2">
-               <text class="step-num">4</text>
+               <text class="step-num">2</text>
                <text>选择格式为“{{wifiHotspot}}_xxxx”的无线网络进行连接</text>
                 </text>
               <view class="step-four">
@@ -223,7 +207,7 @@
             <view class="detail-four detail-step">
               <text class="detail-text">
                 <text class="step-num">5</text>
-                <text>返回小程序</text>
+                <text>返回返回美的美居</text>
               </text>
               <view class="step-four">
                 <image class="detail-img detail-step" src="{{imgBaseUrl+imges.detailStep5}}"></image>
