@@ -2184,126 +2184,75 @@ Page({
   udpErrTips(error) {
     let self = this
     if (error.errMsg.includes('No route to host')) {
-      if (app.globalData.linkupSDK.commonIndex.commonUtils.checkPhoneSystemVerion('14.0.0')) {
-        if (this.data.isShowOpenlocaltNetTip) return
-        Dialog.confirm({
-          title: '手机与设备通信中断，请确认手机设置已授权微信获取“本地网络权限”',
-          confirmButtonText: '查看指引',
-          cancelButtonText: '放弃',
-          // cancelButtonColor:'#0078FF',
-          // confirmButtonColor:'#0078FF',
-          cancelButtonColor: this.data.dialogStyle.cancelButtonColor2,
-          confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
-        })
-          .then((res) => {
-            if (res.action == 'confirm') {
-              self.udpService.closeUdp(self.udp, self.udp2)
-              clearInterval(timer) //停止计时
-              clearInterval(udpCycTimer) //停止udp重试
-              // stopInterval方法需要更新sdk版本 1.0.5才能使用
-              this.udpService.stopInterval()
-              let permissionTypeList = { localNet: false } //本地网络未开
-              wx.navigateTo({
-                url: paths.localNetGuide + `?permissionTypeList=${JSON.stringify(permissionTypeList)}`,
-              })
-              let localNetDialogClickLookGuide = {
-                deviceSessionId: app.globalData.deviceSessionId,
-                type: app.addDeviceInfo.type,
-                sn8: app.addDeviceInfo.sn8,
-                sn: self.data.plainSn,
-                moduleVersion: app.addDeviceInfo.moduleVersion,
-                linkType: app.addDeviceInfo.linkType,
-              }
-              burialPoint.localNetDialogClickLookGuide(localNetDialogClickLookGuide)
-              app.apNoNetBurialPoint.localNetDialogClickLookGuide = localNetDialogClickLookGuide //暂存
-            }
-          })
-          .catch((error) => {
-            if (error.action == 'cancel') {
-              clearInterval(udpCycTimer) //停止udp重试
-              // stopInterval方法需要更新sdk版本 1.0.5才能使用
-              this.udpService.stopInterval()
-              clearInterval(timer) //停止计时
-              self.udpService.closeUdp(self.udp, self.udp2)
-              //回到首页
-              wx.reLaunch({
-                url: paths.index,
-              })
-              let localNetDialogClickConfirm = {
-                deviceSessionId: app.globalData.deviceSessionId,
-                type: app.addDeviceInfo.type,
-                sn8: app.addDeviceInfo.sn8,
-                sn: self.data.plainSn,
-                moduleVersion: app.addDeviceInfo.moduleVersion,
-                linkType: app.addDeviceInfo.linkType,
-              }
-              burialPoint.localNetDialogClickConfirm(localNetDialogClickConfirm)
-              app.apNoNetBurialPoint.localNetDialogClickConfirm = localNetDialogClickConfirm
-            }
-          })
-        // this.setData({
-        //   //取消弹窗
-        //   customDialog: {
-        //     show: true,
-        //     content: '手机与设备通信中断，请确认手机设置已授权微信获取“本地网络权限”',
-        //     cancelText: '放弃',
-        //     cancelColor: '#0078FF',
-        //     confirmText: '查看指引',
-        //     confirmColor: '#0078FF',
-        //     success(res) {
-        //       console.log('page dialog res', res)
-        //       if (res.confirm) {
-        //         self.closeUdp()
-        //         clearInterval(timer) //停止计时
-        //         clearInterval(udpCycTimer) //停止udp重试
-        //         let permissionTypeList = { localNet: false } //本地网络未开
-        //         wx.navigateTo({
-        //           url: paths.localNetGuide + `?permissionTypeList=${JSON.stringify(permissionTypeList)}`,
-        //         })
-        //         let localNetDialogClickLookGuide = {
-        //           deviceSessionId: app.globalData.deviceSessionId,
-        //           type: app.addDeviceInfo.type,
-        //           sn8: app.addDeviceInfo.sn8,
-        //           sn: self.data.plainSn,
-        //           moduleVersion: app.addDeviceInfo.moduleVersion,
-        //           linkType: app.addDeviceInfo.linkType,
-        //         }
-        //         burialPoint.localNetDialogClickLookGuide(localNetDialogClickLookGuide)
-        //         app.apNoNetBurialPoint.localNetDialogClickLookGuide = localNetDialogClickLookGuide //暂存
-        //       } else if (res.cancel) {
-        //         clearInterval(udpCycTimer) //停止udp重试
-        //         clearInterval(timer) //停止计时
-        //         self.closeUdp()
-        //         //回到首页
-        //         wx.reLaunch({
-        //           url: paths.index,
-        //         })
-        //         let localNetDialogClickConfirm = {
-        //           deviceSessionId: app.globalData.deviceSessionId,
-        //           type: app.addDeviceInfo.type,
-        //           sn8: app.addDeviceInfo.sn8,
-        //           sn: self.data.plainSn,
-        //           moduleVersion: app.addDeviceInfo.moduleVersion,
-        //           linkType: app.addDeviceInfo.linkType,
-        //         }
-        //         burialPoint.localNetDialogClickConfirm(localNetDialogClickConfirm)
-        //         app.apNoNetBurialPoint.localNetDialogClickConfirm = localNetDialogClickConfirm
-        //       }
-        //     },
-        //   },
-        // })
-        let localNetDialogView = {
-          deviceSessionId: app.globalData.deviceSessionId,
-          type: app.addDeviceInfo.type,
-          sn8: app.addDeviceInfo.sn8,
-          sn: self.data.plainSn,
-          moduleVersion: app.addDeviceInfo.moduleVersion,
-          linkType: app.addDeviceInfo.linkType,
-        }
-        burialPoint.localNetDialogView(localNetDialogView)
-        app.apNoNetBurialPoint.localNetDialogView = localNetDialogView //暂存
-        this.data.isShowOpenlocaltNetTip = true
-      }
+      // if (app.globalData.linkupSDK.commonIndex.commonUtils.checkPhoneSystemVerion('14.0.0')) {
+      //   if (this.data.isShowOpenlocaltNetTip) return
+      //   Dialog.confirm({
+      //     title: '手机与设备通信中断，请确认手机设置已授权微信获取“本地网络权限”',
+      //     confirmButtonText: '查看指引',
+      //     cancelButtonText: '放弃',
+      //     // cancelButtonColor:'#0078FF',
+      //     // confirmButtonColor:'#0078FF',
+      //     cancelButtonColor: this.data.dialogStyle.cancelButtonColor2,
+      //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+      //   })
+      //     .then((res) => {
+      //       if (res.action == 'confirm') {
+      //         self.udpService.closeUdp(self.udp, self.udp2)
+      //         clearInterval(timer) //停止计时
+      //         clearInterval(udpCycTimer) //停止udp重试
+      //         // stopInterval方法需要更新sdk版本 1.0.5才能使用
+      //         this.udpService.stopInterval()
+      //         let permissionTypeList = { localNet: false } //本地网络未开
+      //         wx.navigateTo({
+      //           url: paths.localNetGuide + `?permissionTypeList=${JSON.stringify(permissionTypeList)}`,
+      //         })
+      //         let localNetDialogClickLookGuide = {
+      //           deviceSessionId: app.globalData.deviceSessionId,
+      //           type: app.addDeviceInfo.type,
+      //           sn8: app.addDeviceInfo.sn8,
+      //           sn: self.data.plainSn,
+      //           moduleVersion: app.addDeviceInfo.moduleVersion,
+      //           linkType: app.addDeviceInfo.linkType,
+      //         }
+      //         burialPoint.localNetDialogClickLookGuide(localNetDialogClickLookGuide)
+      //         app.apNoNetBurialPoint.localNetDialogClickLookGuide = localNetDialogClickLookGuide //暂存
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       if (error.action == 'cancel') {
+      //         clearInterval(udpCycTimer) //停止udp重试
+      //         // stopInterval方法需要更新sdk版本 1.0.5才能使用
+      //         this.udpService.stopInterval()
+      //         clearInterval(timer) //停止计时
+      //         self.udpService.closeUdp(self.udp, self.udp2)
+      //         //回到首页
+      //         wx.reLaunch({
+      //           url: paths.index,
+      //         })
+      //         let localNetDialogClickConfirm = {
+      //           deviceSessionId: app.globalData.deviceSessionId,
+      //           type: app.addDeviceInfo.type,
+      //           sn8: app.addDeviceInfo.sn8,
+      //           sn: self.data.plainSn,
+      //           moduleVersion: app.addDeviceInfo.moduleVersion,
+      //           linkType: app.addDeviceInfo.linkType,
+      //         }
+      //         burialPoint.localNetDialogClickConfirm(localNetDialogClickConfirm)
+      //         app.apNoNetBurialPoint.localNetDialogClickConfirm = localNetDialogClickConfirm
+      //       }
+      //     })
+      //   let localNetDialogView = {
+      //     deviceSessionId: app.globalData.deviceSessionId,
+      //     type: app.addDeviceInfo.type,
+      //     sn8: app.addDeviceInfo.sn8,
+      //     sn: self.data.plainSn,
+      //     moduleVersion: app.addDeviceInfo.moduleVersion,
+      //     linkType: app.addDeviceInfo.linkType,
+      //   }
+      //   burialPoint.localNetDialogView(localNetDialogView)
+      //   app.apNoNetBurialPoint.localNetDialogView = localNetDialogView //暂存
+      //   this.data.isShowOpenlocaltNetTip = true
+      // }
     }
   },
   /**
@@ -3039,7 +2988,7 @@ Page({
           clearInterval(timer) //停止计时
 
           Dialog.confirm({
-            title: `请将手机连上家庭WiFi "${wifiInfo.SSIDContent}",\n以完成设备联网,连接后返回小程序`,
+            title: `请将手机连上家庭WiFi "${wifiInfo.SSIDContent}",\n以完成设备联网,连接后返回本页面`,
             confirmButtonText: '去连接',
             cancelButtonText: '取消',
             cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,

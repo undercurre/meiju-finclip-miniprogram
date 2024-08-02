@@ -641,20 +641,20 @@ Page({
         is_near: item.isSameSn8Nearest ? 1 : 0,
       },
     })
-    if (!this.checkWxVersion()) {
-      Dialog.alert({
-        message: '你的微信版本过低，请升级至最新版本后再试',
-        'confirm-button-text': this.data.dialogMixinsBtnText,
-        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2
-      }).then(() => {
-        // on close
-      })
-      getApp().setMethodFailedCheckingLog('goNetwork', '微信版本校验不通过')
-      setTimeout(() => {
-        this.data.autoFoundCardClickFlag = false
-      }, 1500)
-      return
-    }
+    // if (!this.checkWxVersion()) {
+    //   Dialog.alert({
+    //     message: '你的微信版本过低，请升级至最新版本后再试',
+    //     'confirm-button-text': this.data.dialogMixinsBtnText,
+    //     confirmButtonColor: this.data.dialogStyle.confirmButtonColor2
+    //   }).then(() => {
+    //     // on close
+    //   })
+    //   getApp().setMethodFailedCheckingLog('goNetwork', '微信版本校验不通过')
+    //   setTimeout(() => {
+    //     this.data.autoFoundCardClickFlag = false
+    //   }, 1500)
+    //   return
+    // }
 
     if (!item.isSupport) {
       getApp().setMethodFailedCheckingLog('goNetwork', `暂不支持的设备。deviceINifo=${JSON.stringify(item)}`)
