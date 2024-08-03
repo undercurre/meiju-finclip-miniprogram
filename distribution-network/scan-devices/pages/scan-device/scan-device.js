@@ -63,6 +63,12 @@ Page({
       permissionTextAll: null, //权限提示文案
       permissionTypeList: {},
     },
+    checkWifiPermissionRes: { // wifi权限
+      isCanWifi:true,
+      type: '', //权限类型
+      permissionTextAll: `开启WLAN开关\n以便扫描添加智能设备`, //权限提示文案
+      permissionTypeList: {wifiEnabled:true},
+    },
     isScanHint: false,
     brand: '',
     scanImg: '', //扫描动图
@@ -73,7 +79,7 @@ Page({
     guideFalg: false,
     retryFlag: false,
     showPopup:false,
-    blueGuideGifShow:false,//开启蓝牙gif图标识
+    wifiGuideGifShow:false,//开启wifigif图标识
   },
   ifBackFromScan: false, // 从扫码页返回标识
 
@@ -225,6 +231,7 @@ Page({
   },
 
   async openJurisdiction(){ //去开启
+    console.error('子组件触发')
     // let locationRes = await checkPermission.loaction()
     // let permissionTypeList = locationRes.permissionTypeList
     let blueRes = await checkPermission.blue()
@@ -261,27 +268,55 @@ Page({
         return
     }
     if(!bluetoothEnabled){
-        console.log('去开启蓝牙')
-        this.setData({
-            blueGuideGifShow:true
-        })
-        return
+      ft.changeBlueTooth({ enable: true })
+      return
+    }
+
+    if(!this.data.checkWifiPermissionRes.isCanWifi){
+      console.error('去打开wifi')
+      this.setData({
+        wifiGuideGifShow:false
+      })
     }
 
   },
 
-  closeBlueGuid(){
-    if(this.data.blueGuideGifShow){
+  closeWifiGuid(){
+    if(this.data.wifiGuideGifShow){
         this.setData({
-            blueGuideGifShow:false
+          wifiGuideGifShow:false
         })
     }
+  },
+
+
+  wifiStateOnChange() {
+    ft.wifiStateOnChange({ success: this.handleRes })
+  },
+
+  handleRes(res) {
+    let self = this
+    console.error("调用customEvent success=====:",res);
+    console.error("调用customEventes.data.resultCode=====:",res.data.resultCode);
+    //res.resultCode 0 未激活，1 已激活
+    let openWifi = res.data.resultCode==1?true:false
+    setTimeout(()=>{
+      let checkWifiPermissionRes = self.data.checkWifiPermissionRes
+      checkWifiPermissionRes.isCanWifi = openWifi,
+      checkWifiPermissionRes.permissionTypeList.wifiEnabled = openWifi
+      self.setData({
+        checkWifiPermissionRes:{...checkWifiPermissionRes}
+      })
+      console.error('wifi切换：',checkWifiPermissionRes)
+    },500)
+    this.wifiStateOnChange()
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   async onShow() {
+    this.wifiStateOnChange()
     const systemInfo = wx.getSystemInfoSync()
     console.error('systemInfo====:',systemInfo)
     let self = this
@@ -289,7 +324,20 @@ Page({
 
     try {
         this.actionBlue()
-        this.actionWifi()
+
+        let checkWifiPermissionRes = this.data.checkWifiPermissionRes
+        checkWifiPermissionRes.isCanWifi = systemInfo.wifiEnabled,
+        checkWifiPermissionRes.permissionTypeList.wifiEnabled = systemInfo.wifiEnabled
+        this.setData({
+          checkPermissionRes:checkWifiPermissionRes
+        })
+        console.error('系统wifi：',checkWifiPermissionRes)
+        if(systemInfo.wifiEnabled){
+          
+          this.actionWifi()
+        } else {
+          return
+        }
       let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
       this.setData({
         isCanAddDevice: isCan,
@@ -760,6 +808,15 @@ Page({
         isCanBlue: true
       },
     })
+
+    let wifiPermission = await checkPermission.wifi()
+    console.error('wifiPermission======:',wifiPermission)
+    if (!wifiPermission.isCanWifi) {
+      this.setData({
+        checkPermissionRes: wifiPermission,
+      })
+      return false
+    }
     return true
   },
 
@@ -831,49 +888,50 @@ Page({
     }
     this.data.retryFlag = true
     let { type } = this.data.checkPermissionRes
-    if (type == 'location') {
-      clickEventTracking('user_behavior_event', 'researchDevice', {
-        page_id: 'page_open_locate_new',
-        page_name: '提示需开启位置权限页面',
-        page_path: getFullPageUrl(),
-        module: 'appliance',
-        widget_id: 'click_research device',
-        widget_name: '重新搜索设备',
-        object_type: '弹窗类型',
-        object_id: '',
-        object_name: (await this.getpermissionTextAll('location')) || '',
-        device_info: {
-          device_session_id: getApp().globalData.deviceSessionId || '',
-        },
-      })
-    }
-    if (type == 'blue') {
-      clickEventTracking('user_behavior_event', 'researchDevice', {
-        page_id: 'page_page_open_bluetooth_new',
-        page_name: '提示需开启蓝牙权限页面',
-        page_path: getFullPageUrl(),
-        module: 'appliance',
-        widget_id: 'click_research device',
-        widget_name: '重新搜索设备',
-        object_type: '弹窗类型',
-        object_id: '',
-        object_name: (await this.getpermissionTextAll('blue')) || '',
-        device_info: {
-          device_session_id: getApp().globalData.deviceSessionId || '',
-        },
-      })
-    }
+    // if (type == 'location') {
+    //   clickEventTracking('user_behavior_event', 'researchDevice', {
+    //     page_id: 'page_open_locate_new',
+    //     page_name: '提示需开启位置权限页面',
+    //     page_path: getFullPageUrl(),
+    //     module: 'appliance',
+    //     widget_id: 'click_research device',
+    //     widget_name: '重新搜索设备',
+    //     object_type: '弹窗类型',
+    //     object_id: '',
+    //     object_name: (await this.getpermissionTextAll('location')) || '',
+    //     device_info: {
+    //       device_session_id: getApp().globalData.deviceSessionId || '',
+    //     },
+    //   })
+    // }
+    // if (type == 'blue') {
+    //   clickEventTracking('user_behavior_event', 'researchDevice', {
+    //     page_id: 'page_page_open_bluetooth_new',
+    //     page_name: '提示需开启蓝牙权限页面',
+    //     page_path: getFullPageUrl(),
+    //     module: 'appliance',
+    //     widget_id: 'click_research device',
+    //     widget_name: '重新搜索设备',
+    //     object_type: '弹窗类型',
+    //     object_id: '',
+    //     object_name: (await this.getpermissionTextAll('blue')) || '',
+    //     device_info: {
+    //       device_session_id: getApp().globalData.deviceSessionId || '',
+    //     },
+    //   })
+    // }
     let permission = await this.permissionCheckTip()
     console.log('[retry permission]', permission)
-    if (permission) {
+    if (permission && this.data.checkWifiPermissionRes.isCanWifi) {
       this.actionBlue()
       this.actionWifi()
-    } else {
-      wx.showToast({
-        title: '请按照指引开启权限',
-        icon: 'none',
-      })
-    }
+    } 
+    // else {
+    //   wx.showToast({
+    //     title: '请按照指引开启权限',
+    //     icon: 'none',
+    //   })
+    // }
     setTimeout(() => {
       this.data.retryFlag = false
     }, 1500)
