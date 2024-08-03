@@ -377,7 +377,7 @@
       "pages": [
         "index/index"
       ]
-    } 
+    }
   ],
   "preloadRule": {
     "pages/index/index": {

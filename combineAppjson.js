@@ -98,8 +98,8 @@ const integrationConfig = (obj) => {
 //appjson 文件是否有配置主包信息，有的话就忽略，没有的话就新增
 const integrationMainConfig = (obj) => {
     obj.pages.forEach((item) => {
-        if(!appJson.pages.includes(obj.root + '/' + item)) {
-            appJson.pages.push(obj.root + '/' + item)
+        if(!appJson.pages.includes('src/modules/module_plugin/' + item)) {
+            appJson.pages.push('src/modules/module_plugin/' + item)
         }
     })
 }
