@@ -1693,8 +1693,9 @@ Page({
     })
   },
   // 获取设备图片
-  getIotDeviceV3() {
+  async getIotDeviceV3() {
     let dcpDeviceImgList = []
+    let that = this
     return new Promise((resolve, reject) => {
       if (!isEmptyObject(app.globalData.dcpDeviceImgList)) {
         dcpDeviceImgList = app.globalData.dcpDeviceImgList
@@ -1709,8 +1710,20 @@ Page({
         service
           .getIotDeviceV3()
           .then((resp) => {
+            console.log('获取设备图标 首页内')
             this.data.sceneIconList = resp.data.data.iconList
             app.globalData.dcpDeviceImgList = resp.data.data.iconList
+            this.data.supportedApplianceList.forEach((item) => {
+              item.deviceImg = getIcon(item, resp.data.data.iconList, this.data.supportedApplianceList)
+            })
+            this.data.unsupportedApplianceList.forEach((item) => {
+              item.deviceImg = getIcon(item, resp.data.data.iconList, this.data.unsupportedApplianceList)
+            })
+            this.setData({
+              supportedApplianceList: this.data.supportedApplianceList,
+              unsupportedApplianceList: this.data.unsupportedApplianceList,
+            })
+            // this.refreshApplianceData()
             try {
               wx.setStorageSync('dcpDeviceImgList', resp.data.data.iconList) //部分手机可能因为长度设置失败
             } catch (error) {
@@ -2125,7 +2138,7 @@ Page({
       },
     })
   },
-  onLoad(options) {
+  async onLoad(options) {
     console.error('版本号：20240801')
     //处理websocket相关逻辑
     console.log('优化 onload', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
@@ -2143,7 +2156,7 @@ Page({
         isIpx: res && res.safeArea.top > 20 ? true : false,
       })
     })
-    this.getIotDeviceV3()
+    await this.getIotDeviceV3()
     this.setData({
       isNfcFirstInit: true,
     })

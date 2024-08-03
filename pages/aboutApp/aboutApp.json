@@ -14,6 +14,7 @@
     "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
     "mx-popup":"/miniprogram_npm/m-ui/mx-popup/index",
     "mx-info":"/miniprogram_npm/m-ui/mx-info/index",
+    "mx-toast":"/miniprogram_npm/m-ui/mx-toast/index",
     "version-update-dialog":"../component/version-update-dialog/version-update-dialog"
   }
 }

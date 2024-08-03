@@ -3,6 +3,7 @@ import config from '../../config.js' //环境及域名基地址配置
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import { webView } from '../../utils/paths'
 import { getTimeStamp, getReqId } from 'm-utilsdk/index'
+import Toast from 'm-ui/mx-toast/toast'
 
 Page({
   /**
@@ -53,17 +54,19 @@ Page({
     showVersionUpdateDialog: false,
     appVersion: '',
     hasUpadteVersion: false,
-    isWifiNetWork:false
+    isWifiNetWork: false,
   },
   togglePoup() {
-    if(this.data.hasUpadteVersion){
+    if (this.data.hasUpadteVersion) {
       let poupInfomation = this.data.poupInfomation
       poupInfomation.show = !poupInfomation.show
       this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
       this.setData({
         poupInfomation,
-        showVersionUpdateDialog:this.data.showVersionUpdateDialog
+        showVersionUpdateDialog: this.data.showVersionUpdateDialog,
       })
+    } else {
+      Toast({ context: this, position: 'bottom', message: '已是最新版本' })
     }
   },
   versionInfo() {
@@ -103,12 +106,12 @@ Page({
         (resp) => {
           if (resp.data.code == 0 && self.compareVersion(resp.data.data.versionName, reqData.version)) {
             let poupInfomation = self.data.poupInfomation
-            
+
             poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
             poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
             self.setData({
-              hasUpadteVersion:true,
-              poupInfomation
+              hasUpadteVersion: true,
+              poupInfomation,
             })
             resolve(resp)
           } else {
@@ -165,32 +168,31 @@ Page({
       console.log('11111')
       ft.startAppGalleryDetailAbility()
     } catch (e) {
-      console.error('e=========:',e)
+      console.error('e=========:', e)
     }
   },
   checkVersion() {
     let self = this
     wx.getNetworkType({
-        success(res) {
-          console.log('当前网络状况2222', res)
-          if(res.networkType == 'wifi'){
-            self.setData({
-                isWifiNetWork:true
-            })
-          } else {
-            self.setData({
-                isWifiNetWork:false
-            })
-          }
-         
-        },
-        fail(error) {
-          console.log('获取当前网络状况错误1111', error)
+      success(res) {
+        console.log('当前网络状况2222', res)
+        if (res.networkType == 'wifi') {
           self.setData({
-            isWifiNetWork:false
+            isWifiNetWork: true,
           })
-        },
-      })
+        } else {
+          self.setData({
+            isWifiNetWork: false,
+          })
+        }
+      },
+      fail(error) {
+        console.log('获取当前网络状况错误1111', error)
+        self.setData({
+          isWifiNetWork: false,
+        })
+      },
+    })
     //检查版本request
     this.togglePoup()
   },

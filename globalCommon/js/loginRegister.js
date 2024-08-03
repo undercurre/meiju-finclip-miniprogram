@@ -126,7 +126,7 @@ const loginMethods = {
           platform: 110,
           iotAppId: api.iotAppId,
           rule: 1,
-          deviceId: userInfo.userInfo.mobile || '',
+          deviceId: app.globalData.appSystemInfo.deviceId || userInfo.userInfo.mobile || '',
           tokenPwd: userInfo.mdata.tokenPwdInfo.tokenPwd || '',
           uid: userInfo.uid || '',
           nickname: (userInfo.userInfo && userInfo.userInfo.nickName) || '',
@@ -189,12 +189,13 @@ const loginMethods = {
   // //获取验证码
   loginSmCode(params) {
     return new Promise((resolve, reject) => {
+      let app = getApp() || this
       let data = {
         data: {
           appKey: '46579c15',
           imgCode: params.imgCode,
           randomToken: params.randomToken,
-          deviceId: params.phoneNumber,
+          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         },
         iotData: {
           iotAppId: api.iotAppId,
@@ -218,6 +219,8 @@ const loginMethods = {
   },
   //验证码和手机号请求注册登陆小程序
   loginTempAPi(params) {
+    // let systemInfo = wx.getSystemInfo()
+    console.log('获取设备ID------.', getApp().globalData.appSystemInfo)
     const noPromptCode = [1000, 1110, 1105, 1217, 1219, 1403, 1404, 1407, 1406]
     return new Promise((resolve, reject) => {
       let app = getApp() || this
@@ -228,7 +231,7 @@ const loginMethods = {
         appVersion: '9.0,',
         osVersion: '',
         platform: 110,
-        deviceId: params.phoneNumber,
+        deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         smsCode: params.vercode,
       }
       let data = {
@@ -238,7 +241,7 @@ const loginMethods = {
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,
-          deviceId: params.phoneNumber,
+          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
