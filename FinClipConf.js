@@ -61,5 +61,17 @@ module.exports = {
       sync: false, //是否为同步api
       params: {},
     },
+    {
+      //监听wifi是否开启
+      name: 'wifiStateOnChange',
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      // 系统蓝牙开关
+      name: 'changeBlueTooth',
+      sync: true, //是否为同步api
+      params: {},
+    },
   ],
 }
