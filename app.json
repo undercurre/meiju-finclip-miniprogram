@@ -21,7 +21,52 @@
     "pages/testPage/index",
     "pages/openShoppingLite/openShoppingLite",
     "sub-package/privacy/privacy",
-    "miniprogram_npm/m-services/services/index"
+    "miniprogram_npm/m-services/services/index",
+    "distribution-network/addDevice/pages/inputWifiInfo/inputWifiInfo",
+    "distribution-network/addDevice/pages/addGuide/addGuide",
+    "distribution-network/addDevice/pages/linkDevice/linkDevice",
+    "distribution-network/addDevice/pages/addSuccess/addSuccess",
+    "distribution-network/addDevice/pages/notFound/notFound",
+    "distribution-network/addDevice/pages/addFail/addFail",
+    "distribution-network/addDevice/pages/linkNetFail/linkNetFail",
+    "distribution-network/addDevice/pages/afterCheck/afterCheck",
+    "distribution-network/addDevice/pages/authTimeout/authTimeout",
+    "distribution-network/addDevice/pages/wifiSuccessSimple/wifiSuccessSimple",
+    "distribution-network/addDevice/pages/linkAp/linkAp",
+    "distribution-network/addDevice/pages/lowApVersion/lowApVersion",
+    "distribution-network/addDevice/pages/friendDeviceNetWork/friendDeviceNetWork",
+    "distribution-network/addDevice/pages/friendDeviceNetworkFail/friendDeviceNetworkFail",
+    "distribution-network/addDevice/pages/batchNetwork/batchNetwork",
+    "distribution-network/addDevice/pages/editBoundDevice/editBoundDevice",
+    "distribution-network/addDevice/pages/feedback/feedback",
+    "distribution-network/addDevice/pages/localNetGuide/localNetGuide",
+    "distribution-network/addDevice/pages/inviteFamily/inviteFamily",
+    "distribution-network/addDevice/pages/linkCombinedDevice/linkCombinedDevice",
+    "distribution-network/addDevice/pages/linkCombinedFail/linkCombinedFail",
+    "distribution-network/addDevice/pages/reLinkCombined/reLinkCombined",
+    "distribution-network/addDevice/pages/wifiGuide/wifiGuide",
+    "distribution-network/scan-devices/pages/qrcode-guide/qrcode-guide",
+    "distribution-network/scan-devices/pages/scan-device/scan-device",
+    "distribution-network/scan-devices/pages/scan-help/scan-help",
+    "distribution-network/scan-devices/pages/wetChat-middlePage/wetChat-middlePage",
+    "distribution-network/select-devices/pages/select-device/select-device",
+    "distribution-network/select-devices/pages/search-device/search-device",
+    "distribution-network/select-devices/pages/select-model/select-model",
+    "distribution-network/user-gudie/pages/frequency-guide/frequency-guide",
+    "distribution-network/user-gudie/pages/location-guide/location-guide",
+    "distribution-network/user-gudie/pages/blue-guide/blue-guide",
+    "sub-package/common-package/pages/index/index",
+    "sub-package/personal-center/personalCenter/personalCenter",
+    "sub-package/webview/defaultWebview/defaultWebview",
+    "sub-package/mytab/pages/about/about",
+    "change-room/pages/changeRoom/changeRoom",
+    "home-manage/pages/homeManage/homeManage",
+    "home-manage/pages/homeDetail/homeDetail",
+    "home-manage/pages/roomAndDevices/roomAndDevices",
+    "home-manage/pages/roomDetail/roomDetail",
+    "home-manage/pages/memberManage/memberManage",
+    "home-manage/pages/inviteFamily/invite",
+    "common-packages/plugin/component/webToMP/web-to-mp"
   ],
   "embeddedAppIdList": [
     "wx255b67a1403adbc2",
@@ -31,19 +76,6 @@
   ],
   "workers": "workers",
   "subpackages": [
-    {
-      "name": "commonPackage",
-      "root": "sub-package/common-package",
-      "pages": [
-        "pages/index/index"
-      ],
-      "plugins": {
-        "captcha": {
-          "version": "1.2.9",
-          "provider": "wxbf8483dfc5ac6817"
-        }
-      }
-    },
     {
       "name": "wxBindDevice",
       "root": "sub-package/wx-bind-device",
@@ -56,46 +88,6 @@
       "root": "sub-package/wx-bind-deviceCard",
       "pages": [
         "redirect/index"
-      ]
-    },
-    {
-      "name": "personalCenter",
-      "root": "sub-package/personal-center",
-      "pages": [
-        "personalCenter/personalCenter"
-      ]
-    },
-    {
-      "name": "webview",
-      "root": "sub-package/webview",
-      "pages": [
-        "defaultWebview/defaultWebview"
-      ]
-    },
-    {
-      "name": "mytab",
-      "root": "sub-package/mytab/pages",
-      "pages": [
-        "about/about"
-      ]
-    },
-    {
-      "name": "changeRoom/",
-      "root": "change-room/",
-      "pages": [
-        "pages/changeRoom/changeRoom"
-      ]
-    },
-    {
-      "name": "homeManage",
-      "root": "home-manage/",
-      "pages": [
-        "pages/homeManage/homeManage",
-        "pages/homeDetail/homeDetail",
-        "pages/roomAndDevices/roomAndDevices",
-        "pages/roomDetail/roomDetail",
-        "pages/memberManage/memberManage",
-        "pages/inviteFamily/invite"
       ]
     },
     {
@@ -199,70 +191,6 @@
       "root": "activities/common",
       "pages": [
         "pages/share/share"
-      ]
-    },
-    {
-      "name": "addDevicePage",
-      "root": "distribution-network/addDevice/",
-      "pages": [
-        "pages/inputWifiInfo/inputWifiInfo",
-        "pages/addGuide/addGuide",
-        "pages/linkDevice/linkDevice",
-        "pages/addSuccess/addSuccess",
-        "pages/notFound/notFound",
-        "pages/addFail/addFail",
-        "pages/linkNetFail/linkNetFail",
-        "pages/afterCheck/afterCheck",
-        "pages/authTimeout/authTimeout",
-        "pages/wifiSuccessSimple/wifiSuccessSimple",
-        "pages/linkAp/linkAp",
-        "pages/lowApVersion/lowApVersion",
-        "pages/friendDeviceNetWork/friendDeviceNetWork",
-        "pages/friendDeviceNetworkFail/friendDeviceNetworkFail",
-        "pages/batchNetwork/batchNetwork",
-        "pages/editBoundDevice/editBoundDevice",
-        "pages/feedback/feedback",
-        "pages/localNetGuide/localNetGuide",
-        "pages/inviteFamily/inviteFamily",
-        "pages/linkCombinedDevice/linkCombinedDevice",
-        "pages/linkCombinedFail/linkCombinedFail",
-        "pages/reLinkCombined/reLinkCombined",
-        "pages/wifiGuide/wifiGuide"
-      ]
-    },
-    {
-      "name": "scan-devices",
-      "root": "distribution-network/scan-devices",
-      "pages": [
-        "pages/qrcode-guide/qrcode-guide",
-        "pages/scan-device/scan-device",
-        "pages/scan-help/scan-help",
-        "pages/wetChat-middlePage/wetChat-middlePage"
-      ]
-    },
-    {
-      "name": "select-devices",
-      "root": "distribution-network/select-devices",
-      "pages": [
-        "pages/select-device/select-device",
-        "pages/search-device/search-device",
-        "pages/select-model/select-model"
-      ]
-    },
-    {
-      "name": "user-gudie",
-      "root": "distribution-network/user-gudie",
-      "pages": [
-        "pages/frequency-guide/frequency-guide",
-        "pages/location-guide/location-guide",
-        "pages/blue-guide/blue-guide"
-      ]
-    },
-    {
-      "name": "component",
-      "root": "common-packages/plugin/component",
-      "pages": [
-        "webToMP/web-to-mp"
       ]
     },
     {
@@ -684,12 +612,6 @@
       "packages": [
         "mideaService"
       ]
-    },
-    "distribution-network/scan-devices/pages/scan-device/scan-device": {
-      "network": "all",
-      "packages": [
-        "addDevicePage"
-      ]
     }
   },
   "tabBar": {
@@ -715,7 +637,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "",
+    "navigationBarTitleText": " ",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#fff"
   },

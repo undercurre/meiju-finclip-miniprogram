@@ -134,7 +134,7 @@ App({
     return false
   },
   // 请求iot的设备icon
-  getDcpDeviceImg() {
+  async getDcpDeviceImg() {
     let that = this
     let dcpDeviceImgList = []
     if (!isEmptyObject(this.globalData.dcpDeviceImgList)) {
@@ -151,9 +151,10 @@ App({
         console.log('setStorage error', error)
       }
     } else {
-      loginMethods
+      await loginMethods
         .getDcpDeviceImgs()
         .then((res) => {
+          console.log('获取设备图标 app内')
           try {
             //部分手机会因为长度超限制设置失败
             wx.nextTick(() => {
@@ -314,7 +315,7 @@ App({
       }
     }
 
-    this.getDcpDeviceImg()
+    await this.getDcpDeviceImg()
     this.setWxUserInfo()
     // this.getIP() //获取IP地址，用于大数据埋点
     console.log('删除调用获取IP地址接口')
@@ -427,12 +428,23 @@ App({
     this.setMiniProgramData()
     //启动app不需要弹蓝牙和位置授权信息
     //this.triggerWxAuth()
+    this.getSystemInfo()
     // 埋点上报罗盘等信息
     deviceInfoReport('user_behavior_event', null, {
       page_id: 'startup',
       module: 'data',
       ext_info: {
         if_sys: 1,
+      },
+    })
+  },
+  //获取设备相关信息
+  getSystemInfo() {
+    let that = this
+    wx.getSystemInfo({
+      success(res) {
+        console.log('获取版本号-----》', res)
+        that.globalData.appSystemInfo = res
       },
     })
   },
@@ -727,6 +739,13 @@ App({
 
   //黑白名单获取.appId 先用小程序接口 901，后面会替换到900
   getBlackWhiteList(options) {
+    const systemInfo = wx.getSystemInfoSync()
+    let miniProgramenv = api.environment == 'sit' ? 'trial' : 'release'
+    if (systemInfo.platform == 'harmony') {
+      const accountInfo = ft?.getAccountInfoSync()
+      miniProgramenv =
+        accountInfo?.miniProgram?.envVersion == 'develop' ? 'trial' : accountInfo?.miniProgram?.envVersion
+    }
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
       requestService
@@ -737,7 +756,7 @@ App({
             stamp: getStamp(),
             appId: config.iotTerminalIid,
             // verType: __wxConfig.envVersion,
-            verType: api.environment == 'sit' ? 'trial' : 'release',
+            verType: miniProgramenv,
             ifGrayData: '1',
           },
           'POST'
@@ -784,6 +803,7 @@ App({
     isGetOpenId: false,
     isActionAppLaunch: false,
     wxExpiration: null,
+    appSystemInfo: {},
     systemInfo: {}, // wx.getSystemInfo()数据
     wxSettingInfo: {}, // wx.getSetting()数据
     userInfo: null,

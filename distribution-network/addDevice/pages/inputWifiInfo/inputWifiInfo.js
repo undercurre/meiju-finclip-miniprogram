@@ -288,9 +288,10 @@ Page({
       this.getWifisList()
     }
     this.wifiListSheet = this.selectComponent('#wifi-list-sheet') //组件的id
-    // if (app.globalData.system.systemInfo == 'android') {
-    //     this.getWifiList() //提前获取下wifi列表
-    // }
+    const res = wx.getSystemInfoSync()
+    if (res.system.includes('Android') || res.system.includes('harmony')) {
+        this.getWifiList() //提前获取下wifi列表
+    }
     burialPoint.apLocalLog({
       log: {
         msg: '分包异步加载apUtils结果',
@@ -573,7 +574,7 @@ Page({
       //安卓且获取到wifi列表
       try {
         console.log('获取wifi列表！！！！！')
-        this.getWifiList(true)
+        this.getWifiList()
         this.wifiListSheet.showFrame()
       } catch (error) {
         console.log('inputWifi 获取wifi列表:',error)
@@ -859,7 +860,7 @@ Page({
           })
           if (IsCyc) {
             setTimeout(() => {
-              that.getWifiList(true)
+              that.getWifiList()
             }, interval)
           }
           burialPoint.apLocalLog({
@@ -970,7 +971,7 @@ Page({
     this.setData({
       platform: res.platform,
     })
-    if (this.data.platform == 'android') {
+    if (this.data.platform == 'android' || this.data.platform == 'harmony') {
       console.log('currentWiFiPwd=================:',this.data.currentWiFiPwd)
       that.wifiService.getWifiSortByFrequency(
         (wifiList) => {
@@ -1386,7 +1387,7 @@ Page({
     }
     let pass = false
     let _this = this
-    if (mode == 0 && this.data.platform == 'android' && fm != 'scanCode') {
+    if (mode == 0 && (this.data.platform == 'android' || this.data.platform == 'harmony') && fm != 'scanCode') {
       //如果是Android客户端，ap配网，设备已发出WiFi信号则跳过配网指引页
       async function passFunc() {
         let brandName = _this.getBrandBname(enterprise)
@@ -2113,77 +2114,82 @@ Page({
       sn8: app.addDeviceInfo.sn8,
       type: app.addDeviceInfo.type,
     })
+
+    this.setData({
+      ishowManualInputWiFi: true,
+      messageContent: '无法获取所连接的WiFi，可手动输入家庭WiFi名称与密码',
+    })
     // console.log(systemType)
     // console.log(systemGrade)
     // console.log(this.toNum(version) >= this.toNum('8.2.0'))
     // 如果是IOS  或者  微信系统>= 8.2.0  或者  安卓系统没有精准定位功能
-    if (systemType == 'IOS' || this.toNum(version) >= this.toNum('8.2.0') || !systemGrade) {
-      burialPoint.showManualInputWiFi({
-        deviceSessionId: app.globalData.deviceSessionId,
-        blueVersion: app.addDeviceInfo.blueVersion,
-        deviceId: app.addDeviceInfo.deviceId,
-        linkType: app.addDeviceInfo.linkType,
-        sn: app.addDeviceInfo.sn,
-        sn8: app.addDeviceInfo.sn8,
-        type: app.addDeviceInfo.type,
-      })
-      this.setData({
-        ishowManualInputWiFi: true,
-        messageContent: '无法获取所连接的WiFi，可手动输入家庭WiFi名称与密码',
-      })
-    } else {
-      // 安卓系统有精准定位
-      brand = brand.toLowerCase()
-      if (brand == 'xiaomi' || brand == 'redmi') {
-        //是否符合品牌
-        this.setData({
-          ishowDialog: true,
-          modalText: '请关闭手机系统中微信的"模糊定位"开关',
-          otherAndroidSystem: false, //是小米系的安卓系统
-        })
-        burialPoint.showPreciseLocation({
-          deviceSessionId: app.globalData.deviceSessionId,
-          blueVersion: app.addDeviceInfo.blueVersion,
-          deviceId: app.addDeviceInfo.deviceId,
-          linkType: app.addDeviceInfo.linkType,
-          sn: app.addDeviceInfo.sn,
-          sn8: app.addDeviceInfo.sn8,
-          type: app.addDeviceInfo.type,
-        })
-      } else if (brand == 'vivo' || brand == 'huawei' || brand == 'honor' || brand == 'oppo' || brand == 'motorola') {
-        this.setData({
-          ishowDialog: true,
-          modalText: '请开启手机系统中微信的"精确位置"开关',
-          otherAndroidSystem: true, //非小米系的安卓系统
-        })
-        burialPoint.showPreciseLocation({
-          deviceSessionId: app.globalData.deviceSessionId,
-          blueVersion: app.addDeviceInfo.blueVersion,
-          deviceId: app.addDeviceInfo.deviceId,
-          linkType: app.addDeviceInfo.linkType,
-          sn: app.addDeviceInfo.sn,
-          sn8: app.addDeviceInfo.sn8,
-          type: app.addDeviceInfo.type,
-        })
-      } else {
-        // 除去小米，红米，vivo,华为，荣耀，oppo,摩托罗拉的其他品牌
-        burialPoint.showManualInputWiFi({
-          deviceSessionId: app.globalData.deviceSessionId,
-          blueVersion: app.addDeviceInfo.blueVersion,
-          deviceId: app.addDeviceInfo.deviceId,
-          linkType: app.addDeviceInfo.linkType,
-          sn: app.addDeviceInfo.sn,
-          sn8: app.addDeviceInfo.sn8,
-          type: app.addDeviceInfo.type,
-        })
+    // if (systemType == 'IOS' || this.toNum(version) >= this.toNum('8.2.0') || !systemGrade) {
+    //   burialPoint.showManualInputWiFi({
+    //     deviceSessionId: app.globalData.deviceSessionId,
+    //     blueVersion: app.addDeviceInfo.blueVersion,
+    //     deviceId: app.addDeviceInfo.deviceId,
+    //     linkType: app.addDeviceInfo.linkType,
+    //     sn: app.addDeviceInfo.sn,
+    //     sn8: app.addDeviceInfo.sn8,
+    //     type: app.addDeviceInfo.type,
+    //   })
+    //   this.setData({
+    //     ishowManualInputWiFi: true,
+    //     messageContent: '无法获取所连接的WiFi，可手动输入家庭WiFi名称与密码',
+    //   })
+    // } else {
+    //   // 安卓系统有精准定位
+    //   brand = brand.toLowerCase()
+    //   if (brand == 'xiaomi' || brand == 'redmi') {
+    //     //是否符合品牌
+    //     this.setData({
+    //       ishowDialog: true,
+    //       modalText: '请关闭手机系统中微信的"模糊定位"开关',
+    //       otherAndroidSystem: false, //是小米系的安卓系统
+    //     })
+    //     burialPoint.showPreciseLocation({
+    //       deviceSessionId: app.globalData.deviceSessionId,
+    //       blueVersion: app.addDeviceInfo.blueVersion,
+    //       deviceId: app.addDeviceInfo.deviceId,
+    //       linkType: app.addDeviceInfo.linkType,
+    //       sn: app.addDeviceInfo.sn,
+    //       sn8: app.addDeviceInfo.sn8,
+    //       type: app.addDeviceInfo.type,
+    //     })
+    //   } else if (brand == 'vivo' || brand == 'huawei' || brand == 'honor' || brand == 'oppo' || brand == 'motorola') {
+    //     this.setData({
+    //       ishowDialog: true,
+    //       modalText: '请开启手机系统中微信的"精确位置"开关',
+    //       otherAndroidSystem: true, //非小米系的安卓系统
+    //     })
+    //     burialPoint.showPreciseLocation({
+    //       deviceSessionId: app.globalData.deviceSessionId,
+    //       blueVersion: app.addDeviceInfo.blueVersion,
+    //       deviceId: app.addDeviceInfo.deviceId,
+    //       linkType: app.addDeviceInfo.linkType,
+    //       sn: app.addDeviceInfo.sn,
+    //       sn8: app.addDeviceInfo.sn8,
+    //       type: app.addDeviceInfo.type,
+    //     })
+    //   } else {
+    //     // 除去小米，红米，vivo,华为，荣耀，oppo,摩托罗拉的其他品牌
+    //     burialPoint.showManualInputWiFi({
+    //       deviceSessionId: app.globalData.deviceSessionId,
+    //       blueVersion: app.addDeviceInfo.blueVersion,
+    //       deviceId: app.addDeviceInfo.deviceId,
+    //       linkType: app.addDeviceInfo.linkType,
+    //       sn: app.addDeviceInfo.sn,
+    //       sn8: app.addDeviceInfo.sn8,
+    //       type: app.addDeviceInfo.type,
+    //     })
 
-        this.setData({
-          ishowManualInputWiFi: true,
-          messageContent:
-            '请检查手机系统中对于微信的位置授权，是否具备”精准位置/确切位置“项，若具备，请开启该权限后重试；若不具备，请尝试手动输入WiFi名称与密码',
-        })
-      }
-    }
+    //     this.setData({
+    //       ishowManualInputWiFi: true,
+    //       messageContent:
+    //         '请检查手机系统中对于微信的位置授权，是否具备”精准位置/确切位置“项，若具备，请开启该权限后重试；若不具备，请尝试手动输入WiFi名称与密码',
+    //     })
+    //   }
+    // }
   },
 
   toNum(num) {

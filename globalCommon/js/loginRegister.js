@@ -34,6 +34,19 @@ const loginMethods = {
       })
     })
   },
+  //获取设备相关信息
+  getSystemInfo() {
+    return new Promise((resolve, reject) => {
+      wx.getSystemInfo({
+        success(res) {
+          resolve(res)
+        },
+        fail: (err) => {
+          reject(err)
+        },
+      })
+    })
+  },
   //后台解密手机号
   decryptPhoneNumberApi(e) {
     return new Promise((resolve, reject) => {
@@ -110,7 +123,15 @@ const loginMethods = {
     })
   },
   //发送网络请求登陆小程序(自动登陆)
-  loginAPi() {
+  async loginAPi() {
+    // this.getSystemInfo().then((system) => {
+    let system
+    await wx.getSystemInfo({
+      success(res) {
+        system = res
+      },
+    })
+    console.log('获取系统相关信息---->', system)
     let userInfo = wx.getStorageSync('userInfo')
     console.log('wx.getStorage(userInfo)', wx.getStorageSync('userInfo'))
     let app = getApp() || this
@@ -126,7 +147,7 @@ const loginMethods = {
           platform: 110,
           iotAppId: api.iotAppId,
           rule: 1,
-          deviceId: userInfo.userInfo.mobile || '',
+          deviceId: system.deviceId || userInfo.userInfo.mobile || '',
           tokenPwd: userInfo.mdata.tokenPwdInfo.tokenPwd || '',
           uid: userInfo.uid || '',
           nickname: (userInfo.userInfo && userInfo.userInfo.nickName) || '',
@@ -185,16 +206,18 @@ const loginMethods = {
     } else {
       app.globalData.isLogon = false
     }
+    // })
   },
   // //获取验证码
   loginSmCode(params) {
     return new Promise((resolve, reject) => {
+      let app = getApp() || this
       let data = {
         data: {
           appKey: '46579c15',
           imgCode: params.imgCode,
           randomToken: params.randomToken,
-          deviceId: params.phoneNumber,
+          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         },
         iotData: {
           iotAppId: api.iotAppId,
@@ -218,6 +241,8 @@ const loginMethods = {
   },
   //验证码和手机号请求注册登陆小程序
   loginTempAPi(params) {
+    // let systemInfo = wx.getSystemInfo()
+    console.log('获取设备ID------.', getApp().globalData.appSystemInfo)
     const noPromptCode = [1000, 1110, 1105, 1217, 1219, 1403, 1404, 1407, 1406]
     return new Promise((resolve, reject) => {
       let app = getApp() || this
@@ -228,7 +253,7 @@ const loginMethods = {
         appVersion: '9.0,',
         osVersion: '',
         platform: 110,
-        deviceId: params.phoneNumber,
+        deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         smsCode: params.vercode,
       }
       let data = {
@@ -238,7 +263,7 @@ const loginMethods = {
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,
-          deviceId: params.phoneNumber,
+          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
@@ -294,6 +319,7 @@ const loginMethods = {
 
   //解析扫码错误
   scodeResonse(data) {
+    console.log('错误吗====》', data)
     const { code, msg } = data
     let label = '未知系统错误'
     switch (code) {
@@ -302,6 +328,9 @@ const loginMethods = {
         break
       case 1106:
         label = '手机号格式不正确'
+        break
+      case 1101:
+        label = '请输入正确的验证码'
         break
       case 1129:
         label = '获取频繁，请稍后再试'

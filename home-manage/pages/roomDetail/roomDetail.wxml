@@ -21,6 +21,8 @@
       wx:key="index"
       wx:for-index="index"
       wx:for-item="item"
+      icon="{{ item.deviceImg }}"
+      imageSize="48"
       size="large"
       center
       title="{{ item.name }}"

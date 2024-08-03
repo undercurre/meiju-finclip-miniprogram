@@ -1,3 +1,8 @@
+/*
+ * @desc: 宿主注入接口
+ * @author: zhucc22
+ * @Date: 2024-07-29 09:22:16
+ */
 module.exports = {
   extApi: [
     {
@@ -28,6 +33,32 @@ module.exports = {
       // 拉起应用市场对应的应用详情界面
       name: 'startAppGalleryDetailAbility', //扩展api名 该api必须Native方实现了
       sync: true, //是否为同步api
+      params: {},
+    },
+    {
+      // 获取app版本号
+      name: 'getAppInfo', //扩展api名 该api必须Native方实现了
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      name: 'changeIsShowVConsole', //切换vconsole显示
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      name: 'clearAppCache', //清除app缓存
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      name: 'changeCustomEnv', //切换当前环境
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      name: 'restartApp', //重启应用
+      sync: false, //是否为同步api
       params: {},
     },
   ],

@@ -16,7 +16,7 @@ Page({
    */
   data: {
     brand: app.globalData.brand,
-    phoneBrand:'',
+    phoneBrand:'huawei',
     desList:{
       'samsung':['进入系统设置--连接--WLAN页面，点击当前连接的WiFi右侧的设置按钮。','进入WiFi详情页后，点击底部的二维码按钮，进入到WiFi二维码页面。请对当前页面进行截图。'],
       'realme':['进入系统设置--WLAN页面，点击当前连接的WiFi。','进入WiFi详情页面后，点击顶部的“WLAN二维码”，在弹出的弹窗中可以看到该WiFi的二维码。请对当前页面进行截图。'],
@@ -24,7 +24,7 @@ Page({
       'iqoo':['进入系统设置--WLAN页面，点击当前连接的WiFi。','进入WiFi详情页面后，可以看到该WiFi的二维码。请对当前页面进行截图。'],
       'xiaomi':['进入系统设置--WLAN页面，在当前连接的WiFi点击“点击分享密码”。','在弹出弹窗中，可以看到该WiFi的二维码。请对当前页面进行截图。'],
       'redmi':['进入系统设置--WLAN页面，在当前连接的WiFi点击“点击分享密码”。','在弹出弹窗中，可以看到该WiFi的二维码。请对当前页面进行截图。'],
-      'huawei':['进入系统设置--WLAN页面，点击当前连接的WiFi。','在弹出弹窗中，可以看到该WiFi的二维码。请对当前页面进行截图。'],
+      'huawei':['进入系统设置--WLAN页面，点击当前手机所连接的家庭WiFi。','在WiFi详情页中，可以看到该WiFi的二维码。请对当前页面进行','点击下方扫描二维码按钮，上传第2步的截图，获取WiFi密码。'],
       'honor':['进入系统设置--WLAN页面，点击当前连接的WiFi。','在弹出弹窗中，可以看到该WiFi的二维码。请对当前页面进行截图。'],
       'oppo':['进入系统设置--WLAN页面，点击当前连接的WiFi。','进入WiFi详情页面后，点击顶部的“WLAN二维码”，在弹出的弹窗中可以看到该WiFi的二维码。请对当前页面进行截图。'],
     },
@@ -32,8 +32,8 @@ Page({
     brandTypeName:'',
     phoneBrandType:['SAMSUNG','Realme','VIVO','iQOO','小米','红米','华为','荣耀','OPPO'],
     phoneBrandGuideImg:imgUrl+imgesList['wifi_guide_down'],
-    wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_vivo1'],
-    wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_vivo2'],
+    wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_huawei1'],
+    wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_huawei2'],
     brandConfig:app.globalData.brandConfig[app.globalData.brand].dialogStyle,
     btnColor:{
       'meiju':{
@@ -72,114 +72,114 @@ Page({
 
     let phoneBrandTypeName = systemInfo.brand
     phoneBrandTypeName = phoneBrandTypeName.toLocaleLowerCase()
-    this.switchPhoneBrand(phoneBrandTypeName)
+    // this.switchPhoneBrand(phoneBrandTypeName)s
   },
 
-  switchPhoneBrand(brandName){
-    console.log(brandName)
-    switch (brandName) {
-      case 'samsung':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_sansumg1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_sansumg2'],
-          phoneBrand:brandName,
-          defaultIndex:'0',
-          brandTypeName:this.data.phoneBrandType[0],
-          contentHeight:1600
-        })
-        break;
-      case 'realme':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_oppo1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_oppo2'],
-          phoneBrand:brandName,
-          defaultIndex:'1',
-          brandTypeName:this.data.phoneBrandType[1],
-        })
-        break;
-      case 'vivo':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_vivo1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_vivo2'],
-          phoneBrand:brandName,
-          defaultIndex:'2',
-          brandTypeName:this.data.phoneBrandType[2],
-        })
-        break;
-      case 'iqoo':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_vivo1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_vivo2'],
-          phoneBrand:brandName,
-          defaultIndex:'3',
-          brandTypeName:this.data.phoneBrandType[3],
-        })
-        break;
-      case 'xiaomi':
-      case '小米':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_xiaomi1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_xiaomi2'],
-          phoneBrand:'xiaomi',
-          defaultIndex:'4',
-          brandTypeName:this.data.phoneBrandType[4],
-        })
-        break;
-      case 'redmi':
-      case '红米':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_xiaomi1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_xiaomi2'],
-          phoneBrand:'redmi',
-          defaultIndex:'5',
-          brandTypeName:this.data.phoneBrandType[5],
-        })
-        break;
+  // switchPhoneBrand(brandName){
+  //   console.log(brandName)
+  //   switch (brandName) {
+  //     case 'samsung':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_sansumg1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_sansumg2'],
+  //         phoneBrand:brandName,
+  //         defaultIndex:'0',
+  //         brandTypeName:this.data.phoneBrandType[0],
+  //         contentHeight:1600
+  //       })
+  //       break;
+  //     case 'realme':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_oppo1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_oppo2'],
+  //         phoneBrand:brandName,
+  //         defaultIndex:'1',
+  //         brandTypeName:this.data.phoneBrandType[1],
+  //       })
+  //       break;
+  //     case 'vivo':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_vivo1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_vivo2'],
+  //         phoneBrand:brandName,
+  //         defaultIndex:'2',
+  //         brandTypeName:this.data.phoneBrandType[2],
+  //       })
+  //       break;
+  //     case 'iqoo':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_vivo1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_vivo2'],
+  //         phoneBrand:brandName,
+  //         defaultIndex:'3',
+  //         brandTypeName:this.data.phoneBrandType[3],
+  //       })
+  //       break;
+  //     case 'xiaomi':
+  //     case '小米':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_xiaomi1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_xiaomi2'],
+  //         phoneBrand:'xiaomi',
+  //         defaultIndex:'4',
+  //         brandTypeName:this.data.phoneBrandType[4],
+  //       })
+  //       break;
+  //     case 'redmi':
+  //     case '红米':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_xiaomi1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_xiaomi2'],
+  //         phoneBrand:'redmi',
+  //         defaultIndex:'5',
+  //         brandTypeName:this.data.phoneBrandType[5],
+  //       })
+  //       break;
 
-      case 'huawei':
-      case '华为':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_huawei1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_huawei2'],
-          phoneBrand:'huawei',
-          defaultIndex:'6',
-          brandTypeName:this.data.phoneBrandType[6],
-        })
-        break;
-      case 'honor':
-      case '荣耀':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_huawei1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_huawei2'],
-          phoneBrand:'honor',
-          defaultIndex:'7',
-          brandTypeName:this.data.phoneBrandType[7],
-        })
-        break;
-      case 'oppo':
-        this.setData({
-          wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_oppo1'],
-          wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_oppo2'],
-          phoneBrand:brandName,
-          defaultIndex:'8',
-          brandTypeName:this.data.phoneBrandType[8],
-        })
-        break;
-      default:
-      this.setData({
-        wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_vivo1'],
-        wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_vivo2'],
-        phoneBrand:'vivo',
-        defaultIndex:'2',
-        brandTypeName:this.data.phoneBrandType[2],
-      })
-      break;
-    }
+  //     case 'huawei':
+  //     case '华为':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_huawei1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_huawei2'],
+  //         phoneBrand:'huawei',
+  //         defaultIndex:'6',
+  //         brandTypeName:this.data.phoneBrandType[6],
+  //       })
+  //       break;
+  //     case 'honor':
+  //     case '荣耀':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_huawei1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_huawei2'],
+  //         phoneBrand:'honor',
+  //         defaultIndex:'7',
+  //         brandTypeName:this.data.phoneBrandType[7],
+  //       })
+  //       break;
+  //     case 'oppo':
+  //       this.setData({
+  //         wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_oppo1'],
+  //         wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_oppo2'],
+  //         phoneBrand:brandName,
+  //         defaultIndex:'8',
+  //         brandTypeName:this.data.phoneBrandType[8],
+  //       })
+  //       break;
+  //     default:
+  //     this.setData({
+  //       wifiGuideStepImg1:imgUrlStep+imgesList['wifi_guide_vivo1'],
+  //       wifiGuideStepImg2:imgUrlStep+imgesList['wifi_guide_vivo2'],
+  //       phoneBrand:'vivo',
+  //       defaultIndex:'2',
+  //       brandTypeName:this.data.phoneBrandType[2],
+  //     })
+  //     break;
+  //   }
 
-    this.setData({
-      clickShow:true
-    })
-  },
+  //   this.setData({
+  //     clickShow:true
+  //   })
+  // },
 
   scanCode(){
     let self = this

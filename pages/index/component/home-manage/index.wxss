@@ -12,10 +12,12 @@
   margin-bottom: 20rpx;
   font-weight: 500;
 }
+
 .familyBox {
   display: flex;
   align-items: center;
 }
+
 .active-home {
   font-family: PingFangSC-Medium;
   margin-left: 32rpx;
@@ -23,12 +25,15 @@
   font-size: 40rpx;
   color: #333333;
   max-width: 440rpx;
-  display: -webkit-box;   /*必须结合的属性,将对象作为弹性伸缩盒子模型显示*/
-  -webkit-line-clamp: 1;  /*设置多少行*/
-  -webkit-box-orient: vertical; 
-  overflow: hidden;   
-  text-overflow: ellipsis; 
+  display: -webkit-box;
+  /*必须结合的属性,将对象作为弹性伸缩盒子模型显示*/
+  -webkit-line-clamp: 1;
+  /*设置多少行*/
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .ico-warp {
   position: relative;
 }
@@ -86,7 +91,7 @@
   box-sizing: border-box;
   background: #fff;
   max-width: 100%;
-  max-height: 520rpx;
+  max-height: 430rpx;
   z-index: 100;
   overflow: hidden !important;
   border-radius: 16rpx 16rpx 0 0;
@@ -121,11 +126,11 @@
   overflow: hidden;
 }
 
-.home-active-select{
+.home-active-select {
   max-width: 248rpx;
 }
 
-.home-default-select{
+.home-default-select {
   max-width: 316rpx;
 }
 
@@ -204,12 +209,12 @@ button[class='inviteButton']::after {
   border: 0;
 }
 
-.add-device-icon{
+.add-device-icon {
   position: absolute;
   right: 32rpx;
 }
 
-.home-picker-create{
+.home-picker-create {
   margin-left: 16rpx;
   padding: 12rpx;
   background: #F2F2F2;
@@ -221,30 +226,31 @@ button[class='inviteButton']::after {
   font-weight: 500;
 }
 
-.home-picker-item-active{
+.home-picker-item-active {
   color: #267aff;
 }
 
-.home-pick-select{
- position: absolute;
- right: 24rpx;
- width: 32rpx;
- height: 32rpx;
+.home-pick-select {
+  position: absolute;
+  right: 24rpx;
+  width: 32rpx;
+  height: 32rpx;
 }
 
 
 /*添加弹窗*/
-.add-device-icon-icon{
+.add-device-icon-icon {
   width: 64rpx;
 }
-.add_list_wrap{
+
+.add_list_wrap {
   position: absolute;
   top: 70rpx;
-  right:32rpx;
+  right: 32rpx;
   z-index: 999999;
 }
 
-.add-list-pick{
+.add-list-pick {
   position: relative;
   top: 16rpx;
   bottom: 0rpx;
@@ -255,12 +261,13 @@ button[class='inviteButton']::after {
   opacity: 0;
   max-height: 612rpx;
   border-radius: 16rpx;
-  box-shadow: 0 8px 16px 0 rgba(202,213,230,0.20);
+  box-shadow: 0 8px 16px 0 rgba(202, 213, 230, 0.20);
   overflow: hidden;
   background: #fff;
 }
 
-.add-picker-options-wrapper,.add-picker-options-wrapper-item{
+.add-picker-options-wrapper,
+.add-picker-options-wrapper-item {
   box-sizing: border-box;
   padding: 6rpx 24rpx;
   height: 76.5rpx;
@@ -270,22 +277,14 @@ button[class='inviteButton']::after {
   align-items: center;
 }
 
-.add-picker-options-wrapper{
+.add-picker-options-wrapper {
   border-bottom: 0.5px solid #f6f6f6;
 }
 
-.add-icon-text{
-  margin-left:24rpx
+.add-icon-text {
+  margin-left: 24rpx
 }
 
-.home-toast-content{
-  --toast-max-width:100%
+.home-toast-content {
+  --toast-max-width: 100%
 }
-
-
-
-
-
-
-
-

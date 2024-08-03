@@ -933,20 +933,20 @@ module.exports = Behavior({
         await this.checkSystemInfo()
       }
 
-      if (!commonIndex.commonUtil.checkWxVersion() && isCheckVersion) {
-        this.setData({
-          isSureDialog: true,
-          dialogMixinsTitle: '你的微信版本过低，请升级至最新版本后再试',
-          dialogMixinsContent: '',
-          isShowDialogMixinsBlueDesc: false,
-          dialogMixinsBtns: [{
-            btnText: '我知道了',
-            flag: 'confirm',
-          }, ],
-          showOpenLocation: true,
-        })
-        return false
-      }
+      // if (!commonIndex.commonUtil.checkWxVersion() && isCheckVersion) {
+      //   this.setData({
+      //     isSureDialog: true,
+      //     dialogMixinsTitle: '你的微信版本过低，请升级至最新版本后再试',
+      //     dialogMixinsContent: '',
+      //     isShowDialogMixinsBlueDesc: false,
+      //     dialogMixinsBtns: [{
+      //       btnText: '我知道了',
+      //       flag: 'confirm',
+      //     }, ],
+      //     showOpenLocation: true,
+      //   })
+      //   return false
+      // }
 
       if (!app.globalData.hasAuthLocation && isCheckLocation) {
         //没有授权过位置权限则调出，位置授权弹框

@@ -9,7 +9,10 @@
   <view class="main-container">
     <view class="appversion-infobox">
       <image src="./assets/me_ic_logo@3x.png" mode="" class="meijuapp-icons" />
-      <span class="meijuapp-appversion">V1.0.0</span>
+      <span class="meijuapp-appversion">V{{appVersion}}</span>
+      <!-- <span wx:if="{{environment=='sit' && runtimeSDKVersion}}" class="meijuapp-appversion" -->
+      <!-- >finclipSdk {{runtimeSDKVersion}}</span -->
+      <!-- > -->
     </view>
     <view class="app-otherInfomation">
       <mx-cell
@@ -20,8 +23,13 @@
         title="{{cellItem.title}}"
         data-item="{{cellItem}}"
         bind:click="jumpTargetPath"
+        use-label-slot="{{cellItem.id == 'versionUpdate'}}"
         is-link
-      />
+      >
+        <view wx:if="{{hasUpadteVersion}}" class="update-tip" slot="label">
+          <mx-info dot />
+        </view>
+      </mx-cell>
     </view>
   </view>
 
@@ -47,5 +55,10 @@
             </div>
         </view>
     </mx-popup>  -->
-  <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
+  <version-update-dialog
+    poupInfomation="{{poupInfomation}}"
+    isWifiNetWork="{{isWifiNetWork}}"
+    bindversionUpadte="versionUpadte"
+  ></version-update-dialog>
 </view>
+<mx-toast id="mx-toast" />

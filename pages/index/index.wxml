@@ -324,7 +324,7 @@
             </view>
           </block>
         </block>
-        <block wx:if="{{!isLogon || homeInfoFailFlag}}">
+        <block wx:if="{{(!isLogon && homeInfoFailFlag) || !isLogon}}">
           <view>
             <!-- <view class="myHomeDes">美的美居</view> -->
             <view class="myHomeDes"><image class="home-nologin-img" src="{{indexHeader}}" /></view>
@@ -400,5 +400,4 @@
   <view class="home-toast-content">
     <mx-toast id="mx-toast" />
   </view>
-  <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
 </view>

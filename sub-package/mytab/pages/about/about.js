@@ -59,11 +59,17 @@ Page({
         },
       },
     ],
-    isLogin: false,
+    isLogon: app.globalData.isLogon,
     baseImgUrl: baseImgApi.url,
   },
   backPage() {
-    wx.navigateBack()
+    if (getCurrentPages().length > 1) {
+      wx.navigateBack()
+    } else {
+      wx.switchTab({
+        url: '/pages/mytab/mytab',
+      })
+    }
   },
   //注销账号
   goToLoginOut() {
@@ -103,9 +109,13 @@ Page({
       })
   },
   jumpAccountSafe() {
-    wx.navigateTo({
+    if (!this.data.isLogon) {
+      this.goLogin()
+    } else {
+      wx.navigateTo({
         url: '../../../../pages/accountSafe/accountSafe',
-    })
+      })
+    }
   },
   jumpPersonInfoList() {
     this.jumpWebView(0)
@@ -132,10 +142,8 @@ Page({
     wx.navigateTo({
       url: currUrl,
     })
-    if(type == 0){
-
-    }else{
-
+    if (type == 0) {
+    } else {
     }
   },
   // 退出登录
@@ -308,6 +316,11 @@ Page({
       })
     })
   },
+  goLogin: function () {
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -322,7 +335,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.checkLoginStatus()
+    this.setData({
+      isLogon: app.globalData.isLogon,
+    })
+    //this.checkLoginStatus()
   },
 
   /**

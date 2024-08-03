@@ -67,30 +67,15 @@ Page({
     app
       .checkGlobalExpiration()
       .then(() => {
-        //const mobile = app.globalData.phoneNumber || ''
-        //this.setBindDeviceToWxData(mobile)
-        // this.setWithDrawDataIsShow(app.globalData.isLogon)
-        //this.setBindDeviceToWxDataIsShow(app.globalData.isLogon)
-        this.setData(
-          {
-            isLogon: app.globalData.isLogon,
-          },
-          () => {
-            //this.inviteFun()
-          }
-        )
-        if (app.globalData.isLogon) {
-          //获取用户信息
-          this.getVipUserInfo()
-          //this.getSignInfo()
-        }
-        // this.getAdvertisement() // 新广告接口 v2.6去掉广告位
+        const mobile = app.globalData.phoneNumber || ''
+        this.setData({
+          isLogon: app.globalData.isLogon,
+        })
+        this.getVipUserInfo()
       })
       .catch(() => {
         this.getVipUserInfo()
-        //this.getSignInfo()
         app.globalData.isLogon = false
-        // this.setWithDrawDataIsShow(app.globalData.isLogon)
         this.setData(
           {
             isLogon: app.globalData.isLogon,
@@ -99,8 +84,6 @@ Page({
             //this.inviteFun()
           }
         )
-        // this.deletePerson()
-        // this.getAdvertisement() // 新广告接口 未登录 v2.6去掉广告位
       })
     app.watchLogin(this.watchBack, this) //kkk add 非刷新页面监听登录态
     //当前tab页面检查协议是否已更新，已更新则关闭已渲染的协议更新弹窗（由于自定义遮罩层不能覆盖原生的tabbar，所以协议新弹窗出现时，可以点击tabbar，以至于tab页面都会渲染协议更新的弹窗）
@@ -156,7 +139,7 @@ Page({
     currentHomeGroupId: '',
     currentHomeInfo: {},
     homeList: null,
-    headImgUrl: '/assets/img/about/header-login.png',
+    headImgUrl: '',
     nickName: '',
     vipGrow: '',
     isRegister: false,
@@ -214,13 +197,13 @@ Page({
   goToSettingPage() {
     //埋点
     clickSeetingMenuSettingBurialPoint()
-    if (!this.data.isLogon) {
-      this.goLogin()
-    } else {
-      wx.navigateTo({
-        url: '/sub-package/mytab/pages/about/about',
-      })
-    }
+    // if (!this.data.isLogon) {
+    // this.goLogin()
+    // } else {
+    wx.navigateTo({
+      url: '/sub-package/mytab/pages/about/about',
+    })
+    // }
   },
   /**
    * 跳转到隐私协议页面
@@ -241,6 +224,7 @@ Page({
   },
 
   getVipUserInfo: function () {
+    console.log('enter onShow222')
     if (!app.globalData.isLogon) return
     let data = {
       // brand: 1,
@@ -256,6 +240,7 @@ Page({
     requestService.request('getVipUserInfo', data).then((resp) => {
       const vipData = resp?.data?.data
       app.globalData.userData.grade = vipData?.grade
+      console.log('vipData----->', vipData)
       this.setData({
         headImgUrl: vipData?.userCustomize?.headImgUrl,
         nickName: vipData?.userCustomize?.nickName,
@@ -263,6 +248,8 @@ Page({
         paymentMember: vipData?.paymentMember,
         levelName: vipData?.levelName,
       })
+      console.log('vipData----->', this.data.headImgUrl)
+      console.log('vipData----->', this.data.headImgUrl)
     })
   },
 
@@ -483,6 +470,7 @@ Page({
   },
   //登录状态回调
   watchBack(isLogon, that) {
+    console.log('test islogin------>')
     if (isLogon) {
       // that.getAdvertisement() // 新广告接口 v2.6去掉广告位
       //that.setBindDeviceToWxData(app.globalData.phoneNumber)

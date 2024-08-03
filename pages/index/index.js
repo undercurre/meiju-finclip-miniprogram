@@ -65,16 +65,6 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
-    if(!app.globalData.showVersionAuthCount){
-      app.globalData.showVersionAuthCount = 1
-      try {
-        await this.checkVersionUpdate()
-        console.error('首页强制更新')
-      } catch (error) {
-        app.globalData.showVersionAuthCount = 0
-      }
-    }
-
     this.setData({
       myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
     })
@@ -203,23 +193,6 @@ Page({
         isDeviceLength: false,
       })
     }
-  },
-  versionUpadte(e) {
-    //子组件传承
-    console.error(e.detail)
-    // this.updateNow()
-    let poupInfomation = this.data.poupInfomation
-    poupInfomation.show = !poupInfomation.show
-    this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
-    this.setData({
-      poupInfomation,
-      showVersionUpdateDialog: this.data.showVersionUpdateDialog,
-    })
-  },
-  updateNow() {
-    try {
-      ft.startAppGalleryDetailAbility()
-    } catch (e) {}
   },
   onAddToFavorites(res) {
     // webview 页面返回 webViewUrl
@@ -369,7 +342,6 @@ Page({
         type: 3, //假定1是可升级， 2是参与内测，3是必须升级
       },
     },
-    showVersionUpdateDialog: false,
   },
   //长链接推送解析
   async initPushData() {
@@ -1721,8 +1693,9 @@ Page({
     })
   },
   // 获取设备图片
-  getIotDeviceV3() {
+  async getIotDeviceV3() {
     let dcpDeviceImgList = []
+    let that = this
     return new Promise((resolve, reject) => {
       if (!isEmptyObject(app.globalData.dcpDeviceImgList)) {
         dcpDeviceImgList = app.globalData.dcpDeviceImgList
@@ -1737,8 +1710,20 @@ Page({
         service
           .getIotDeviceV3()
           .then((resp) => {
+            console.log('获取设备图标 首页内')
             this.data.sceneIconList = resp.data.data.iconList
             app.globalData.dcpDeviceImgList = resp.data.data.iconList
+            this.data.supportedApplianceList.forEach((item) => {
+              item.deviceImg = getIcon(item, resp.data.data.iconList, this.data.supportedApplianceList)
+            })
+            this.data.unsupportedApplianceList.forEach((item) => {
+              item.deviceImg = getIcon(item, resp.data.data.iconList, this.data.unsupportedApplianceList)
+            })
+            this.setData({
+              supportedApplianceList: this.data.supportedApplianceList,
+              unsupportedApplianceList: this.data.unsupportedApplianceList,
+            })
+            // this.refreshApplianceData()
             try {
               wx.setStorageSync('dcpDeviceImgList', resp.data.data.iconList) //部分手机可能因为长度设置失败
             } catch (error) {
@@ -2171,14 +2156,14 @@ Page({
         isIpx: res && res.safeArea.top > 20 ? true : false,
       })
     })
-    this.getIotDeviceV3()
+    await this.getIotDeviceV3()
     this.setData({
       isNfcFirstInit: true,
     })
     if (app.globalData.isLogon) {
       this.initPushData()
-      this.scanCodeJoinFamily(app.globalData.isLogon)
-      this.joinFamilyFromShare() // 通过邀请加入家庭
+      //this.scanCodeJoinFamily(app.globalData.isLogon)
+      //this.joinFamilyFromShare() // 通过邀请加入家庭
       if (app.globalData.uid) {
         this.setData({
           uid: app.globalData.uid,
@@ -2189,18 +2174,18 @@ Page({
       try {
         this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-        if (isAutoLogin) {
-          app.watchLogin(() => {
-            this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭
-            this.joinFamilyFromShare() // 通过邀请加入家庭
-            if (app.globalData.uid) {
-              this.setData({
-                uid: app.globalData.uid,
-              })
-              app.globalData.uid = ''
-            }
-          }, this)
-        }
+        // if (isAutoLogin) {
+        // app.watchLogin(() => {
+        // this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭
+        // this.joinFamilyFromShare() // 通过邀请加入家庭
+        // if (app.globalData.uid) {
+        // this.setData({
+        // uid: app.globalData.uid,
+        // })
+        // app.globalData.uid = ''
+        // }
+        // }, this)
+        // }
       } catch (e) {
         console.log(e)
       }
@@ -2221,79 +2206,6 @@ Page({
         if_sys: 1, //本需求固定为1
       },
     })
-  },
-
- checkVersionUpdate(){
-  let self = this
-  let params ={}
-  wx.getSystemInfo({
-    success(res){
-      console.error('res=================:',res)
-      params = {
-          "deviceId":res.deviceId,
-          "os":"HarmonyOS",
-          "channel":"huawei",
-          "deviceName":"Mate 60 Pro",
-          "platform":3,
-          "osVersion":res.system,
-          "version":'1.0.0',
-          "iotAppId":"900",
-          "strategyId":""
-      }
-    }
-  })
-  return new Promise((resolve, reject) => {
-    let urlName = 'getUpgradeStrategy'
-    if(app.globalData.isLogon){
-        urlName = 'getLoginUpgradeStrategy'
-    }
-    let reqData = {
-      ...params,
-      reqId: getReqId(),
-      stamp: getStamp(),
-    }
-    requestService.request(urlName, reqData).then(
-      (resp) => {
-        console.error('resp----------:',resp)
-        // 强制更新还要一个条件，目前先弹窗测试 resp.data.data.dialogConfig.popType ==3 
-        if (resp.data.code == 0 && self.compareVersion(resp.data.data.versionName,reqData.version)) {
-          let poupInfomation = self.data.poupInfomation
-          poupInfomation.show = !poupInfomation.show
-          poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
-          poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
-
-          self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
-          self.setData({
-              poupInfomation,
-              showVersionUpdateDialog: self.data.showVersionUpdateDialog
-          })
-          resolve(resp)
-        } else {
-          reject(resp)
-        }
-      },
-      (error) => {
-        console.error('error===========:',error)
-        reject(error)
-      }
-    )
-  })
-  },
-
-  //输出1，则v1版本号比v2大
-  compareVersion(v1, v2) {
-    const version1 = v1.split('.').map(Number);
-    const version2 = v2.split('.').map(Number);
-  
-    for (let i = 0; i < Math.max(version1.length, version2.length); i++) {
-      const num1 = version1[i] || 0;
-      const num2 = version2[i] || 0;
-  
-      if (num1 > num2) return 1;
-      if (num1 < num2) return -1;
-    }
-  
-    return 0; // 版本号相等
   },
 
   //获取当前用户下的空调设备
@@ -2837,17 +2749,17 @@ Page({
         is_near: item.isSameSn8Nearest ? 1 : 0,
       },
     })
-    if (!this.checkWxVersion()) {
-      Dialog.alert({
-        zIndex: 10001,
-        context: this,
-        message: '你的微信版本过低，请升级至最新版本后再试',
-        confirmButtonText: '我知道了',
-      })
-      getApp().setMethodFailedCheckingLog('goNetwork', '当前微信版本过低不通过')
-      self.data.clickFLag = false
-      return
-    }
+    // if (!this.checkWxVersion()) {
+    //   Dialog.alert({
+    //     zIndex: 10001,
+    //     context: this,
+    //     message: '你的微信版本过低，请升级至最新版本后再试',
+    //     confirmButtonText: '我知道了',
+    //   })
+    //   getApp().setMethodFailedCheckingLog('goNetwork', '当前微信版本过低不通过')
+    //   self.data.clickFLag = false
+    //   return
+    // }
     if (!this.checkIfGoNetwork(item)) {
       getApp().setMethodFailedCheckingLog('goNetwork', '选取的是不支持配网设备')
       self.data.clickFLag = false
@@ -3291,15 +3203,15 @@ Page({
     let item = this.data.nfcData
     let type = item['type'].includes('0x') ? item['type'].substr(2, 2) : item['type']
     item['type'] = type
-    if (!this.checkWxVersion()) {
-      Dialog.alert({
-        zIndex: 10001,
-        context: this,
-        message: '你的微信版本过低，请升级至最新版本后再试',
-        confirmButtonText: '我知道了',
-      })
-      return
-    }
+    // if (!this.checkWxVersion()) {
+    //   Dialog.alert({
+    //     zIndex: 10001,
+    //     context: this,
+    //     message: '你的微信版本过低，请升级至最新版本后再试',
+    //     confirmButtonText: '我知道了',
+    //   })
+    //   return
+    // }
     let param = {
       category: type,
       code: item['sn8'],
@@ -3498,15 +3410,15 @@ Page({
       sn8: sn8,
       deviceImg: deviceImg, //设备图片
     }
-    if (!this.checkWxVersion()) {
-      Dialog.alert({
-        zIndex: 10001,
-        context: this,
-        message: '你的微信版本过低，请升级至最新版本后再试',
-        confirmButtonText: '我知道了',
-      })
-      return
-    }
+    // if (!this.checkWxVersion()) {
+    //   Dialog.alert({
+    //     zIndex: 10001,
+    //     context: this,
+    //     message: '你的微信版本过低，请升级至最新版本后再试',
+    //     confirmButtonText: '我知道了',
+    //   })
+    //   return
+    // }
     let param = {
       category: category,
       code: sn8,

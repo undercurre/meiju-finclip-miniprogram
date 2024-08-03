@@ -3,9 +3,12 @@
   <mx-nav-bar title="测试调试界面" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
   <view class="test-operta-otherInfomation">
     <mx-cell title="{{appVibeTitle}}(当前环境:{{environment}})" bind:click="switchEnvironment" is-link />
-    <mx-cell title="{{vsConsoleTitle}}" bind:click="switchVsconsole" is-link />
+    <mx-cell title="{{enableDebug?'关闭':'打开'}}{{vsConsoleTitle}}" bind:click="switchVsconsole" is-link />
     <mx-cell title="{{scodeTitle}}" bind:click="startAppletByQrCode" is-link />
-    <mx-cell title="{{clearCacheTitle}}" bind:click="clearCache" is-link /></view
+    <mx-cell title="{{clearCacheTitle}}" bind:click="clearCache" is-link />
+    <mx-cell wx:if="{{runtimeSDKVersion}}" title="{{sdkTitle}}" value="{{runtimeSDKVersion}}" is-link />
+    <mx-cell wx:if="{{version}}" title="{{miniProgramTitle}}" value="{{version}}" is-link />
+    <mx-cell wx:if="{{miniProgramenv}}" title="{{miniProgramEnvTitle}}" value="{{miniProgramenv}}" is-link /></view
 ></view>
 <mx-toast id="mx-toast" />
 <mx-action-sheet
