@@ -231,34 +231,11 @@ Page({
   },
 
   async openJurisdiction(){ //去开启
-    console.error('子组件触发')
     // let locationRes = await checkPermission.loaction()
     // let permissionTypeList = locationRes.permissionTypeList
     let blueRes = await checkPermission.blue()
     let permissionTypeList = blueRes.permissionTypeList
     let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
-    // let { locationEnabled, locationAuthorized, scopeUserLocation,bluetoothEnabled } = permissionTypeList
-    // if(!locationAuthorized){
-    //     wx.openAppAuthorizeSetting({
-    //         success (res) {
-    //         console.log(res)
-    //         }
-    //     })
-    //     return
-    // }
-
-    // if(!locationEnabled){
-    //     console.log('去开启定位功能')
-    //     return
-    // }
-    console.error('bluetoothEnabled-----:',bluetoothEnabled)
-    console.error('bluetoothAuthorized-----:',bluetoothAuthorized)
-    console.error('blueRes.isCanBlue-----:',blueRes.isCanBlue)
-
-    let system = wx.getSystemSetting()
-    let appAuthorize = wx.getAppAuthorizeSetting()
-    console.error('isCanBlue.system-----:',system)
-    console.error('isCanBlue.appAuthorize-----:',appAuthorize)
     if(!bluetoothAuthorized){
         wx.openAppAuthorizeSetting({
             success (res) {

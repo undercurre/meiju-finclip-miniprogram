@@ -3,7 +3,8 @@
   "usingComponents": {
     "sure-center-dialog": "../../../../pages/component/sure-center-dialog/sure-center-dialog",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
-    "mx-lottie": "/miniprogram_npm/m-ui/mx-lottie/index"
+    "mx-lottie": "/miniprogram_npm/m-ui/mx-lottie/index",
+    "permissionVerification":"../../../scan-devices/components/permissionVerification/permissionVerification"
   },
   "enablePullDownRefresh": true
 }

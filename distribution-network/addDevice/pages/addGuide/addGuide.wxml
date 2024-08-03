@@ -2,6 +2,9 @@
 <privacy-popup bind:handleAgree="handleAgree"></privacy-popup>
 <view class="page" id="{{brand}}">
   <view class="guide-container">
+    <view wx:if="{{!checkPermissionRes.isCanBlue}}">
+      <permissionVerification checkPermissionRes="{{checkPermissionRes}}" bindopenJurisdiction="openJurisdiction"></permissionVerification>
+    </view>
     <!-- ble guide -->
     <view wx:if="{{guideType=='set'&&!noFound}}"  class="check-guide">
       <view class="addGuide-title addGuide-thick">
