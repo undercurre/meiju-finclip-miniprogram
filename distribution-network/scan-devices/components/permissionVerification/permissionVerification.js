@@ -19,10 +19,9 @@ Component({
 
     data: {},
     methods: {
-
         openJurisdiction(){
             console.log("触发去开启按钮")
-            this.triggerEvent('onOpenJurisdiction')
+            this.triggerEvent('openJurisdiction')
         }
     },
 })

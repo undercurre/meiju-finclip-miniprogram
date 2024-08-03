@@ -5,7 +5,6 @@
   </nav-bar>
   <view wx:if="{{isCanAddDevice}}" class="scan-container">
     <view style="flex: 1">
-    <view>isCanWifi:{{checkWifiPermissionRes.isCanWifi}}</view>
       <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue || !checkWifiPermissionRes.isCanWifi}}">
         <!-- <view style="margin-top: 180rpx;">
           <image
@@ -28,8 +27,8 @@
             <image class="retry-img" src="{{reSearchIcon}}"></image>
           </view>
         </view> -->
-        <permissionVerification checkPermissionRes="{{checkPermissionRes}}"  checkWifiPermissionRes="{{checkWifiPermissionRes}}" bind:openJurisdiction="openJurisdiction"></permissionVerification>
-        <view style="margin-top: 180rpx;">
+        
+        <!-- <view style="margin-top: 180rpx;">
           <image src="./assest/img/defaultImage.png" class="device-default-image"></image>
         </view>
         <view class="device-not-open-describe">
@@ -38,7 +37,8 @@
         </view>
         <view class="scan-look-guide" bindtap="openJurisdiction">
           <text class="text">去开启</text>
-        </view>
+        </view>-->
+        <permissionVerification checkPermissionRes="{{checkPermissionRes}}"  checkWifiPermissionRes="{{checkWifiPermissionRes}}" bindopenJurisdiction="openJurisdiction"></permissionVerification>
       </view>
       <block wx:else>
         <!-- color:'+brand=='colom'?'#fff':'#000'+' -->

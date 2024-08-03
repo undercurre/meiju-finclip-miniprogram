@@ -275,7 +275,7 @@ Page({
     if(!this.data.checkWifiPermissionRes.isCanWifi){
       console.error('去打开wifi')
       this.setData({
-        wifiGuideGifShow:false
+        wifiGuideGifShow:true
       })
     }
 
@@ -317,21 +317,19 @@ Page({
    */
   async onShow() {
     this.wifiStateOnChange()
-    const systemInfo = wx.getSystemInfoSync()
+    const systemInfo = await wx.getSystemInfoSync()
     console.error('systemInfo====:',systemInfo)
     let self = this
     let { isCheckGray } = app.addDeviceInfo
 
     try {
         this.actionBlue()
-
         let checkWifiPermissionRes = this.data.checkWifiPermissionRes
         checkWifiPermissionRes.isCanWifi = systemInfo.wifiEnabled,
         checkWifiPermissionRes.permissionTypeList.wifiEnabled = systemInfo.wifiEnabled
         this.setData({
           checkPermissionRes:checkWifiPermissionRes
         })
-        console.error('系统wifi：',checkWifiPermissionRes)
         if(systemInfo.wifiEnabled){
           
           this.actionWifi()

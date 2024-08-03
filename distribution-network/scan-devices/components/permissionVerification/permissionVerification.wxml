@@ -1,4 +1,4 @@
-<view>
+<view class="permission-box">
     <view style="margin-top: 180rpx;">
         <image src="./img/defaultImage.png" class="device-default-image"></image>
     </view>

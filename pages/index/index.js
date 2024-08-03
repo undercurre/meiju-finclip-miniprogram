@@ -2138,8 +2138,8 @@ Page({
       },
     })
   },
-  onLoad(options) {
-    console.error('版本号：202408309591')
+  async onLoad(options) {
+    console.error('版本号：202408309593')
     //处理websocket相关逻辑
     console.log('优化 onload', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
     trackLoaded('page_loaded_event', 'pageOnLoad')
