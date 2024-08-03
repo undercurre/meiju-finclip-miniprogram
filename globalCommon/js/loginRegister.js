@@ -34,6 +34,19 @@ const loginMethods = {
       })
     })
   },
+  //获取设备相关信息
+  getSystemInfo() {
+    return new Promise((resolve, reject) => {
+      wx.getSystemInfo({
+        success(res) {
+          resolve(res)
+        },
+        fail: (err) => {
+          reject(err)
+        },
+      })
+    })
+  },
   //后台解密手机号
   decryptPhoneNumberApi(e) {
     return new Promise((resolve, reject) => {
@@ -110,7 +123,15 @@ const loginMethods = {
     })
   },
   //发送网络请求登陆小程序(自动登陆)
-  loginAPi() {
+  async loginAPi() {
+    // this.getSystemInfo().then((system) => {
+    let system
+    await wx.getSystemInfo({
+      success(res) {
+        system = res
+      },
+    })
+    console.log('获取系统相关信息---->', system)
     let userInfo = wx.getStorageSync('userInfo')
     console.log('wx.getStorage(userInfo)', wx.getStorageSync('userInfo'))
     let app = getApp() || this
@@ -126,7 +147,7 @@ const loginMethods = {
           platform: 110,
           iotAppId: api.iotAppId,
           rule: 1,
-          deviceId: app.globalData.appSystemInfo.deviceId || userInfo.userInfo.mobile || '',
+          deviceId: system.deviceId || userInfo.userInfo.mobile || '',
           tokenPwd: userInfo.mdata.tokenPwdInfo.tokenPwd || '',
           uid: userInfo.uid || '',
           nickname: (userInfo.userInfo && userInfo.userInfo.nickName) || '',
@@ -185,6 +206,7 @@ const loginMethods = {
     } else {
       app.globalData.isLogon = false
     }
+    // })
   },
   // //获取验证码
   loginSmCode(params) {

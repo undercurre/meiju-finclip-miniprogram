@@ -438,7 +438,7 @@ App({
       },
     })
   },
-  //获取设备县官信息
+  //获取设备相关信息
   getSystemInfo() {
     let that = this
     wx.getSystemInfo({
