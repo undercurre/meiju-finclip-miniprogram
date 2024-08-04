@@ -78,6 +78,8 @@ Page({
     agreeVersions: [],
     autoVerImgCodeFocus: false,
     autoVerCodeFocus: false,
+    userStatue: 'login',
+    autoFocus: 'false',
   },
   setLoginLogoTop() {
     let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
@@ -116,7 +118,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    if (this.data.timer) clearTimeout(this.data.timer)
+    //if (this.data.timer) clearTimeout(this.data.timer)
   },
 
   /**
@@ -217,9 +219,15 @@ Page({
   resetLoginBtnDes() {
     setTimeout(() => {
       this.setData({
-        loginBtnDes: '登录',
+        loginBtnDes: this.data.userStatue == 'login' ? '登录' : '注册',
       })
     }, 1000)
+  },
+  //重置按钮
+  resetLoginStatusBtnDes() {
+    this.setData({
+      loginBtnDes: this.data.userStatue == 'login' ? '登录中' : '注册并登录中',
+    })
   },
   // 跳转到c4a注销页面
   getJwtToken() {
@@ -233,7 +241,9 @@ Page({
       )}&needCheckLogStatus=true`,
     })
   },
-
+  onClear() {
+    console.log('111')
+  },
   // 更新phoneNumber变量的值
   handlePhoneNumberInput(val) {
     let value = val.detail.replace(/[^\d]/g, '')
@@ -244,11 +254,18 @@ Page({
     this.setData({
       phoneNumber: value,
     })
-    if (val.detail.length == 11) {
+    if (value.length == 0) {
+      this.setData({
+        //verCodeDisabled: false,
+        autoFocus: true,
+      })
+    }
+    if (value.length == 11) {
       //手机号输入埋点
       inputMboblieViewBurialPoint()
       this.setData({
-        verCodeDisabled: false,
+        //verCodeDisabled: false,
+        loginDisabled: false,
       })
     } else {
       if (this.data.timer) clearTimeout(this.data.timer)
@@ -268,7 +285,8 @@ Page({
   handleImgcodeInput(val) {
     if (val.detail.length > 1) {
       this.setData({
-        verCodeDisabled: false,
+        //verCodeDisabled: false,
+        loginDisabled: false,
         verImgcode: val.detail,
       })
     } else {
@@ -282,17 +300,20 @@ Page({
       })
     }
   },
+  handlePhoneFocus() {},
   // 更新验证码变量的值
   handleVercodeInput(val) {
     let vallen = []
-    if (val.detail.length > 1) {
+    let value = val.detail.replace(/[^\d]/g, '')
+    this.setData({
+      vercode: value,
+    })
+    if (value.length > 1) {
       vallen.push(val.timeStamp)
       if (vallen.length > 1) {
         return
       }
-      let value = val.detail.replace(/[^\d]/g, '')
       this.setData({
-        vercode: value,
         loginDisabled: false,
         isLogin: true,
       })
@@ -332,6 +353,7 @@ Page({
           loginDisabled: true,
           verCodeDisabled: true,
           isLogin: true,
+          userStatue: 'login',
           loginBtnDes: '登录',
         })
         setTimeout(() => {
@@ -347,7 +369,8 @@ Page({
           photoCodeEventBurialPoint()
           this.setData({
             imgCodeInputshow: true, //显示图形验证码输入框
-            verCodeDisabled: true,
+            loginDisabled: true,
+            //verCodeDisabled: true,
             imgcode: error.data.data.imgCode,
             randomToken: error.data.data.randomToken,
           })
@@ -367,6 +390,7 @@ Page({
             verCodeInputshow: true,
             verCodeDisabled: true,
             isLogin: true,
+            userStatue: 'register',
             loginBtnDes: '注册',
           })
           setTimeout(() => {
@@ -450,8 +474,8 @@ Page({
     console.log('点击登陆')
     this.setData({
       loginDisabled: true,
-      loginBtnDes: '加载中',
     })
+    this.resetLoginStatusBtnDes()
     this.setData({ isLoading: false })
     this.miniAppLogin(loginType)
       .then((res) => {
@@ -548,6 +572,11 @@ Page({
           this.resetLoginBtnDes()
           console.log(err, 'actionGetphonenumber')
           WX_LOG.warn('login loginAPi catch', err)
+          setTimeout(() => {
+            this.setData({
+              loginDisabled: false,
+            })
+          }, 1000)
           reject(err)
         })
     })
@@ -609,6 +638,10 @@ Page({
     wx.makePhoneCall({
       phoneNumber: '4008899315',
     })
+  },
+  clickBack() {
+    console.log('回退页面清理定时器')
+    if (this.data.timer) clearTimeout(this.data.timer)
   },
   /**
    * 用户点击右上角分享

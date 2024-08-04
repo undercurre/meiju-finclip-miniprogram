@@ -1,6 +1,6 @@
 <privacy-popup></privacy-popup>
 <view class="login-main">
-  <navbar></navbar>
+  <navbar bind:clickBack="clickBack"></navbar>
   <view style="height: {{statusBarHeight}}px;"></view>
   <!-- <view class="topBac" style="margin-top: {{statusBarHeight}}px;"> -->
   <!-- <image src="{{topBacImg}}" class="topBacImg"></image> -->
@@ -16,7 +16,7 @@
         mx-iconfont="mx-icon"
         left-icon="{{phoneSrc}}"
         bind:input="handlePhoneNumberInput"
-        type="digit"
+        type="number"
         maxlength="{{11}}"
         pattern="light"
         shape="round"
@@ -86,13 +86,20 @@
         >
       </mx-transition>
     </mx-cell-group>
+    <!-- <mx-button -->
+    <!-- disabled="{{loginDisabled && verCodeDisabled}}" -->
+    <!-- custom-class="login-btn" -->
+    <!-- hover-class="loginBtnHover" -->
+    <!-- bindclick="onClickLogin" -->
+    <!-- > -->
     <mx-button
-      disabled="{{loginDisabled && verCodeDisabled}}"
+      disabled="{{loginDisabled}}"
       custom-class="login-btn"
       hover-class="loginBtnHover"
       bindclick="onClickLogin"
     >
-      <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='加载中'}}" /> {{loginBtnDes}}
+      <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='登录中' || loginBtnDes=='注册并登录中'}}" />
+      {{loginBtnDes}}
     </mx-button>
   </view>
   <view class="login-content-privacy">
