@@ -109,6 +109,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let self = this
+    // 监听蓝牙状态变化
+    wx.onBluetoothAdapterStateChange(function (res) {
+        console.error('Guideres=====:',res)
+        console.error('Guide蓝牙状态已改变');
+          self.initAddGuide()
+        if (res.available) {
+          if (res.available) {
+            self.startBluetoothDevicesDiscovery(0)
+          }
+          // 蓝牙已打开并且正在搜索设备
+          console.error('Guide蓝牙已打开，正在搜索设备2');
+          // self.retry()
+        } else {
+          // 蓝牙未打开
+          console.error('Guide蓝牙未打开2');
+        }
+    });
     console.log('dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle:', brandStyle.config)
     getApp().onLoadCheckingLog()
     this.data.brand = app.globalData.brand
@@ -1595,13 +1613,18 @@ Page({
         moduleVersion: app.addDeviceInfo.blueVersion,
         linkType: app.addDeviceInfo.linkType,
       })
+      // this.setData({
+      //   ishowBlueRes: true,
+      //   bluePermissionTextAll: blueRes.permissionTextAll,
+      // })
       this.setData({
-        // ishowBlueRes: true,
-        // bluePermissionTextAll: blueRes.permissionTextAll,
         checkPermissionRes: blueRes,
       })
       return false
     }
+    this.setData({
+      checkPermissionRes: blueRes,
+    })
     return true
   },
 
@@ -1689,7 +1712,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () { },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏
