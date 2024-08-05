@@ -97,12 +97,36 @@ Page({
     fm:app.addDeviceInfo.fm,
     cellularType:null, // 蜂窝白名单 0：非白名单，1：白名单
     scanDsn:'',////保存扫码的dsn
+    checkPermissionRes: {
+      isCanBlue: true,
+      type: '', //权限类型
+      permissionTextAll: null, //权限提示文案
+      permissionTypeList: {},
+    },
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let self = this
+    // 监听蓝牙状态变化
+    wx.onBluetoothAdapterStateChange(function (res) {
+        console.error('Guideres=====:',res)
+        console.error('Guide蓝牙状态已改变');
+          self.initAddGuide()
+        if (res.available) {
+          if (res.available) {
+            self.startBluetoothDevicesDiscovery(0)
+          }
+          // 蓝牙已打开并且正在搜索设备
+          console.error('Guide蓝牙已打开，正在搜索设备2');
+          // self.retry()
+        } else {
+          // 蓝牙未打开
+          console.error('Guide蓝牙未打开2');
+        }
+    });
     console.log('dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle:', brandStyle.config)
     getApp().onLoadCheckingLog()
     this.data.brand = app.globalData.brand
@@ -172,6 +196,32 @@ Page({
     showToast(`已切换至第${nextIndex + 1}种方式`)
     this.clickNewDeviceGuideInfoViewTrack()
   },
+
+  async addGuideOpenBluetooth() {
+    try {
+      await wx.openBluetoothAdapter();
+      console.log('蓝牙已打开');
+    } catch (error) {
+      console.error('打开蓝牙失败', error);
+    }
+  },
+  async openJurisdiction(){
+    let blueRes = await checkPermission.blue()
+    let permissionTypeList = blueRes.permissionTypeList
+    let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
+    if(!bluetoothAuthorized){
+        wx.openAppAuthorizeSetting({
+            success (res) {
+            console.log(res)
+            }
+        })
+        return
+    }
+    if(!bluetoothEnabled){
+      ft.changeBlueTooth({ enable: true })
+      return
+    }
+  },
   async initAddGuide() {
     const self = this
     let {
@@ -229,6 +279,8 @@ Page({
     let addguideType = ''
     if (addDeviceSDK.bluetoothAuthModes.includes(mode)) {
       console.log('[需要校验蓝牙权限]')
+      
+      await this.addGuideOpenBluetooth()
       let isCanBlue = await this.checkBluetoothAuth()
       console.log('[是否可以使用蓝牙]', isCanBlue)
       if (!isCanBlue) {
@@ -1561,39 +1613,18 @@ Page({
         moduleVersion: app.addDeviceInfo.blueVersion,
         linkType: app.addDeviceInfo.linkType,
       })
+      // this.setData({
+      //   ishowBlueRes: true,
+      //   bluePermissionTextAll: blueRes.permissionTextAll,
+      // })
       this.setData({
-        ishowBlueRes: true,
-        bluePermissionTextAll: blueRes.permissionTextAll,
+        checkPermissionRes: blueRes,
       })
-      // this.setDialogMixinsData(
-      //   true,
-      //   '请开启蓝牙权限',
-      //   blueRes.permissionTextAll,
-      //   false,
-      //   [
-      //     {
-      //       btnText: '放弃',
-      //       flag: 'bottomBtn',
-      //       type: 'cancel',
-      //     },
-      //     {
-      //       btnText: '已完成操作',
-      //       flag: 'bottomBtn',
-      //       type: 'confirm',
-      //       permissionTypeList: blueRes.permissionTypeList,
-      //     },
-      //   ],
-      //   [
-      //     {
-      //       btnText: '查看详细指引',
-      //       flag: 'lookGuide',
-      //       type: 'blue',
-      //       permissionTypeList: blueRes.permissionTypeList,
-      //     },
-      //   ]
-      // )
       return false
     }
+    this.setData({
+      checkPermissionRes: blueRes,
+    })
     return true
   },
 
@@ -1681,7 +1712,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () { },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏

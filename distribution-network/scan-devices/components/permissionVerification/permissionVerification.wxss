@@ -1,0 +1,41 @@
+.permission-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.device-default-image {
+  width: 480rpx;
+  height: 400rpx;
+}
+
+.device-not-open-describe {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #000000;
+  text-align: center;
+}
+
+.tip {
+  display: block;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.scan-look-guide {
+  width: 148px;
+  height: 40px;
+  margin-top: 15px;
+  line-height: 40px;
+  background: #267AFF;
+  border-radius: 20px;
+  text-align: center;
+  font-family: PingFangSC-Medium;
+  font-size: 14px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  font-weight: 500;
+}

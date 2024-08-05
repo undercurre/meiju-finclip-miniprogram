@@ -157,6 +157,7 @@ Page({
     callBackudp:null, //AP配网  回连路由 创建 udp实例
     callBackudp2:null,
     isLAN:'',//1:1307 ,2:4169
+    isNoOpenBlueFlag:false,//未开启蓝牙弹窗标识符
   },
   bluePswFailDialogShowNum: 0, // 蓝牙配网密码错误弹窗已展示次数
   orderTimeout: 5000, // 指令未收到回报的超时时间
@@ -465,9 +466,9 @@ Page({
       case 5:
         //直连 绑定
         systemInfo = await this.wxGetSystemInfo()
-        if (!systemInfo.bluetoothEnabled && 1==2) {
+        if ((!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') && 1==2) {
           //未打开蓝牙
-          this.noOpenBlue()
+          this.noOpenBlue(systemInfo)
           return
         }
         isDirectCon = true
@@ -521,7 +522,7 @@ Page({
       case 18:
         systemInfo = await this.wxGetSystemInfo()
         console.log("===Yoram===systemInfo",systemInfo)
-        if (!systemInfo.bluetoothEnabled && 1==2) {
+        if ((!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') && 1==2) {
           //未打开蓝牙
           this.noOpenBlue()
           return
@@ -2121,19 +2122,41 @@ Page({
   },
   //未打开蓝牙处理
   noOpenBlue() {
+    this.data.isNoOpenBlueFlag = true
+    let message = ''
+    let type 
+    if(!systemInfo.bluetoothEnabled){
+      type = '1'
+      message = '请打开手机蓝牙开关'
+    } else if(systemInfo.bluetoothAuthorized != 'authorized' ) {
+      type = '2'
+      message = '请允许美的美居App访问蓝牙'
+    }
+    if(systemInfo.bluetoothAuthorized != 'authorized' && !systemInfo.bluetoothEnabled){
+      type = '3'
+      message = '1.请打开手机蓝牙开关\n2.请允许美的美居App访问蓝牙'
+    }
     let self = this
     Dialog.confirm({
       title: '请开启蓝牙后再试',
-      message: '1.开启手机蓝牙\n2.授予微信使用蓝牙的权限',
-      confirmButtonText: '我知道了',
+      message: message,
+      confirmButtonText: '去开启',
       confirmButtonColor: this.data.dialogStyle.confirmButtonColor,
-      showCancelButton: false,
+      cancelButtonText:'我知道了'
     }).then((res) => {
       if (res.action == 'confirm') {
-        setTimeout(() => { // colmo 点击我知道了按钮，效果不明显，美居没问题，加个定时器影响不大
-          self.init()
-        }, 500)
-
+        // setTimeout(() => { // colmo 点击我知道了按钮，效果不明显，美居没问题，加个定时器影响不大
+        //   self.init()
+        // }, 500)
+        if(type == '1' || type == '3'){
+          wx.openAppAuthorizeSetting({
+            success (res) {
+            console.log(res)
+            }
+          })
+        } else {
+          ft.changeBlueTooth({ enable: true })
+        }
       }
     })
   },
@@ -4102,6 +4125,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   async onLoad() {
+    let self = this
+    // 监听蓝牙状态变化
+    wx.onBluetoothAdapterStateChange(function (res) {
+      console.error('linkDeviceres=====:',res)
+      console.error('linkDevice蓝牙状态已改变');
+      if(self.data.isNoOpenBlueFlag){
+        self.init()
+      }
+      if (res.available) {
+        if (res.available) {
+          self.startBluetoothDevicesDiscovery(0)
+        }
+        // 蓝牙已打开并且正在搜索设备
+        console.error('linkDevice蓝牙已打开，正在搜索设备');
+        // self.retry()
+      } else {
+        // 蓝牙未打开
+        console.error('linkDevice蓝牙未打开');
+      }
+    });
     app.onLoadCheckingLog()
     this.data.brand = app.globalData.brand
     this.setData({

@@ -1,0 +1,12 @@
+<view class="permission-box">
+    <view style="margin-top: 180rpx;">
+        <image src="./img/defaultImage.png" class="device-default-image"></image>
+    </view>
+    <view class="device-not-open-describe">
+        <text class="tip">{{checkPermissionRes.permissionTextAll}}</text>
+        <text class="tip" wx:if="{{!checkPermissionRes.permissionTextAll}}">{{checkWifiPermissionRes.permissionTextAll}}</text>
+    </view>
+    <view class="scan-look-guide" bindtap="openJurisdiction">
+        <text class="text">去开启</text>
+    </view>
+</view>
