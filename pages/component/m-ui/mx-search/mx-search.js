@@ -32,7 +32,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    spritePicture: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mideaServices/images/icon.png',
+    spritePicture: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mideaServices/images/icon.png',
   },
 
   /**

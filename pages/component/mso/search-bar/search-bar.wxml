@@ -4,7 +4,7 @@
     <view class="search-icon-wrap">
       <image
         class="search-icon"
-        src="https://www.smartmidea.net/projects/sit/meiju-lite-assets/plugin/0xBX/common/search.png"
+        src="https://www.smartmidea.net/projects/sit/meiju-finclip-assets/plugin/0xBX/common/search.png"
       ></image>
     </view>
     <view wx:if="{{fakeInput}}" class="input fake-input" catchtap="fakeInputClicked">{{placeholder}}</view>
@@ -22,7 +22,7 @@
     <view wx:if="{{keyword}}" class="clear-button" hover="click-hover" catchtap="clickClear">
       <image
         class="button-icon"
-        src="https://www.smartmidea.net/projects/sit/meiju-lite-assets/plugin/0xBX/common/delete_circle_dark_gray.png"
+        src="https://www.smartmidea.net/projects/sit/meiju-finclip-assets/plugin/0xBX/common/delete_circle_dark_gray.png"
       ></image>
     </view>
   </view>
