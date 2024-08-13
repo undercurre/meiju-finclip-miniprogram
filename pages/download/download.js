@@ -16,19 +16,19 @@ let checkIsCanBlueFoundTimer = null
 
 const imageList = {
   dev: {
-    appIcon: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/download/download_img_logo.png',
-    iconCopy: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/download/icon_copy.png',
-    iconDownload: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/download/icon_download.png',
+    appIcon: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/download/download_img_logo.png',
+    iconCopy: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/download/icon_copy.png',
+    iconDownload: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/download/icon_download.png',
   },
   sit: {
-    appIcon: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/download/download_img_logo.png',
-    iconCopy: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/download/icon_copy.png',
-    iconDownload: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/download/icon_download.png',
+    appIcon: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/download/download_img_logo.png',
+    iconCopy: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/download/icon_copy.png',
+    iconDownload: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/download/icon_download.png',
   },
   prod: {
-    appIcon: 'https://www.smartmidea.net/projects/meiju-lite-assets/download/download_img_logo.png',
-    iconCopy: 'https://www.smartmidea.net/projects/meiju-lite-assets/download/icon_copy.png',
-    iconDownload: 'https://www.smartmidea.net/projects/meiju-lite-assets/download/icon_download.png',
+    appIcon: 'https://www.smartmidea.net/projects/meiju-finclip-assets/download/download_img_logo.png',
+    iconCopy: 'https://www.smartmidea.net/projects/meiju-finclip-assets/download/icon_copy.png',
+    iconDownload: 'https://www.smartmidea.net/projects/meiju-finclip-assets/download/icon_download.png',
   },
 }
 Page({
