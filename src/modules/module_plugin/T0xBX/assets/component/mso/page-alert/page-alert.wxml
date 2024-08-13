@@ -1,4 +1,0 @@
-<view class="page-alert">
-  <image class="alert-image" src="{{alertImage}}" mode="aspectFill"></image>
-  <text class="alert-text">{{alertText}}</text>
-</view>

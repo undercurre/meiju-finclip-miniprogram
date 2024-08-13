@@ -1,6 +1,0 @@
-<view class="sf-navbar">
-  <view id="{{index}}" class="sf-navbar__item {{_activeIndex == index ? 'sf-navbar__item_on' : ''}}" wx:for="{{tabs}}" bindtap="tabClick" wx:key="index">
-    <view class="sf-navbar__title">{{item.name}}</view>
-  </view>
-  <view class="sf-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}); -webkit-transform: translateX({{sliderOffset}});"></view>
-</view>
