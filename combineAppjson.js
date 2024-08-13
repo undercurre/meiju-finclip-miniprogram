@@ -97,9 +97,11 @@ const integrationConfig = (obj) => {
 }
 //appjson 文件是否有配置主包信息，有的话就忽略，没有的话就新增
 const integrationMainConfig = (obj) => {
-    if(!appJson.pages.includes(obj)) {
-        appJson.pages.push(obj)
-    }
+    obj.pages.forEach((item) => {
+        if(!appJson.pages.includes('src/modules/module_plugin/' + obj.name + '/' + item)) {
+            appJson.pages.push('src/modules/module_plugin/' +  obj.name + '/' + item)
+        }
+    })
 }
 const init = () => {
   const findTargetFiles = findFiles(dirname, filename)
@@ -108,12 +110,15 @@ const init = () => {
   findTargetFiles.forEach((item) => {
     const getTargetAppConfig = getAppConfig(item)
     console.log('获取模块配置文件：', getTargetAppConfig)
-    getTargetAppConfig.subpackages.forEach((configItem) => {
-      integrationConfig(configItem) // 查找添加分包配置信息
-    })
-    getTargetAppConfig.pages && getTargetAppConfig.pages.forEach((configItem) => {
-        integrationMainConfig(configItem) // 查找添加主包配置信息
-    })
+    if(appJson.isSubpackage) { // 配网指明是分包，按分包加载
+        getTargetAppConfig.subpackages.forEach((configItem) => {
+            integrationConfig(configItem) // 查找添加分包配置信息
+          })
+    } else { // 未指明是分包，或者没有配置，默认当主包
+        getTargetAppConfig.subpackages && getTargetAppConfig.subpackages.forEach((configItem) => {
+            integrationMainConfig(configItem) // 查找添加主包配置信息
+        })
+    }  
   })
 
   writeAppJson()

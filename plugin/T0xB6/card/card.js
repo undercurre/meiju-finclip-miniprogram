@@ -796,10 +796,13 @@ Component({
     const code = this.properties.applianceData.applianceCode
     let setting = await getSetting(this.properties.applianceData.sn8)
     if (setting.funcList) {
-      setting.funcList.map((i) => {
-        i.type = this.getImage(i.desc)
-        return i
-      })
+        setting.funcList = []
+    //   setting.funcList.map((i) => {
+    //     let desc = i
+    //     i = { desc }
+    //     i.type = this.getImage(i.desc)
+    //     return i
+    //   })
     }
     console.log('setting', setting)
     let gear = {

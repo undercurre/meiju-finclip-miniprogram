@@ -1,3 +1,0 @@
-<view wx:if="{{formattedTime}}">
-  <text>{{formattedTime}}</text>
-</view>

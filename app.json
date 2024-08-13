@@ -66,7 +66,66 @@
     "home-manage/pages/roomDetail/roomDetail",
     "home-manage/pages/memberManage/memberManage",
     "home-manage/pages/inviteFamily/invite",
-    "common-packages/plugin/component/webToMP/web-to-mp"
+    "common-packages/plugin/component/webToMP/web-to-mp",
+    "plugin/T0xB9/index/index",
+    "plugin/T0x21/index/index",
+    "plugin/T0xB3/index/index",
+    "plugin/T0xB3/mode-select/mode-select",
+    "plugin/T0xB6/index/index",
+    "plugin/T0xB6/stewardServe/stewardServe",
+    "plugin/T0xB7/index/index",
+    "plugin/T0xB7/setTemperature/temperature",
+    "plugin/T0x9C/index/index",
+    "plugin/T0xCC/index/index",
+    "plugin/T0xCD/index/index",
+    "plugin/T0xCE/index/index",
+    "plugin/T0xCF/index/index",
+    "plugin/T0xD9/index/index",
+    "plugin/T0xD9/pages/insurance-card/insurance-card",
+    "plugin/T0xD9/pages/insurance-regulations/insurance-regulations",
+    "plugin/T0xD9/pages/save-water/save-water-main/save-water-main",
+    "plugin/T0xD9/pages/save-water/save-water-detail/save-water-detail",
+    "plugin/T0xD9/pages/save-water/save-water-list/save-water-list",
+    "plugin/T0xD9/pages/save-water/save-water-history/save-water-history",
+    "plugin/T0xDA/index/index",
+    "plugin/T0xDA/pages/insurance-card/insurance-card",
+    "plugin/T0xDA/pages/insurance-regulations/insurance-regulations",
+    "plugin/T0xDA/pages/save-water/save-water-main/save-water-main",
+    "plugin/T0xDA/pages/save-water/save-water-detail/save-water-detail",
+    "plugin/T0xDA/pages/save-water/save-water-list/save-water-list",
+    "plugin/T0xDA/pages/save-water/save-water-history/save-water-history",
+    "plugin/T0xDB/index/index",
+    "plugin/T0xDB/pages/insurance-card/insurance-card",
+    "plugin/T0xDB/pages/insurance-regulations/insurance-regulations",
+    "plugin/T0xDB/pages/save-water/save-water-main/save-water-main",
+    "plugin/T0xDB/pages/save-water/save-water-detail/save-water-detail",
+    "plugin/T0xDB/pages/save-water/save-water-list/save-water-list",
+    "plugin/T0xDB/pages/save-water/save-water-history/save-water-history",
+    "plugin/T0xDC/index/index",
+    "plugin/T0xDC/pages/insurance-card/insurance-card",
+    "plugin/T0xDC/pages/insurance-regulations/insurance-regulations",
+    "plugin/T0xDC/pages/save-water/save-water-main/save-water-main",
+    "plugin/T0xDC/pages/save-water/save-water-detail/save-water-detail",
+    "plugin/T0xDC/pages/save-water/save-water-list/save-water-list",
+    "plugin/T0xDC/pages/save-water/save-water-history/save-water-history",
+    "plugin/T0xE1/index/index",
+    "plugin/T0xE1/appointment/index",
+    "plugin/T0xE2/index/index",
+    "plugin/T0xE2/appointment/list/index",
+    "plugin/T0xE2/appointment/add/index",
+    "plugin/T0xE2/appointment/listHoliday/index",
+    "plugin/T0xE2/appointment/addHoliday/index",
+    "plugin/T0xE3/index/index",
+    "plugin/T0xE3/ai-cold-water/ai-cold-water",
+    "plugin/T0xE3/device-water-appoint/device-water-appoint",
+    "plugin/T0xE6/index/index",
+    "plugin/T0xE6/heat-appoint/index",
+    "plugin/T0xE6/heat-appoint/edit/index",
+    "plugin/T0xED/index/index",
+    "plugin/T0xED/filter-page/filter-page",
+    "plugin/T0xED/multiple-select-page/multiple-select-page",
+    "plugin/T0x26/index/index",
+    "plugin/T0x40/index/index"
   ],
   "embeddedAppIdList": [
     "wx255b67a1403adbc2",
@@ -192,421 +251,9 @@
       "pages": [
         "pages/share/share"
       ]
-    },
-    {
-      "name": "T0xB9",
-      "root": "plugin/T0xB9",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0x21",
-      "root": "plugin/T0x21",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xB3",
-      "root": "plugin/T0xB3",
-      "pages": [
-        "index/index",
-        "mode-select/mode-select"
-      ]
-    },
-    {
-      "name": "T0xB6",
-      "root": "plugin/T0xB6",
-      "pages": [
-        "index/index",
-        "stewardServe/stewardServe"
-      ]
-    },
-    {
-      "name": "T0xB7",
-      "root": "plugin/T0xB7",
-      "pages": [
-        "index/index",
-        "setTemperature/temperature"
-      ]
-    },
-    {
-      "name": "T0x9C",
-      "root": "plugin/T0x9C",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xBX",
-      "root": "src/modules/module_plugin/T0xBX",
-      "pages": [
-        "index/index",
-        "recipeHome/recipeHome",
-        "recipeDetail/recipeDetail",
-        "recipeSearch/recipeSearch",
-        "webview/webview"
-      ]
-    },
-    {
-      "name": "T0xCC",
-      "root": "plugin/T0xCC",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xCD",
-      "root": "plugin/T0xCD",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xCE",
-      "root": "plugin/T0xCE",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xCF",
-      "root": "plugin/T0xCF",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xD9",
-      "root": "plugin/T0xD9",
-      "pages": [
-        "index/index",
-        "pages/insurance-card/insurance-card",
-        "pages/insurance-regulations/insurance-regulations",
-        "pages/save-water/save-water-main/save-water-main",
-        "pages/save-water/save-water-detail/save-water-detail",
-        "pages/save-water/save-water-list/save-water-list",
-        "pages/save-water/save-water-history/save-water-history"
-      ]
-    },
-    {
-      "name": "T0xDA",
-      "root": "plugin/T0xDA",
-      "pages": [
-        "index/index",
-        "pages/insurance-card/insurance-card",
-        "pages/insurance-regulations/insurance-regulations",
-        "pages/save-water/save-water-main/save-water-main",
-        "pages/save-water/save-water-detail/save-water-detail",
-        "pages/save-water/save-water-list/save-water-list",
-        "pages/save-water/save-water-history/save-water-history"
-      ]
-    },
-    {
-      "name": "T0xDB",
-      "root": "plugin/T0xDB",
-      "pages": [
-        "index/index",
-        "pages/insurance-card/insurance-card",
-        "pages/insurance-regulations/insurance-regulations",
-        "pages/save-water/save-water-main/save-water-main",
-        "pages/save-water/save-water-detail/save-water-detail",
-        "pages/save-water/save-water-list/save-water-list",
-        "pages/save-water/save-water-history/save-water-history"
-      ]
-    },
-    {
-      "name": "T0xDC",
-      "root": "plugin/T0xDC",
-      "pages": [
-        "index/index",
-        "pages/insurance-card/insurance-card",
-        "pages/insurance-regulations/insurance-regulations",
-        "pages/save-water/save-water-main/save-water-main",
-        "pages/save-water/save-water-detail/save-water-detail",
-        "pages/save-water/save-water-list/save-water-list",
-        "pages/save-water/save-water-history/save-water-history"
-      ]
-    },
-    {
-      "name": "T0xE1",
-      "root": "plugin/T0xE1",
-      "pages": [
-        "index/index",
-        "appointment/index"
-      ]
-    },
-    {
-      "name": "T0xE2",
-      "root": "plugin/T0xE2",
-      "pages": [
-        "index/index",
-        "appointment/list/index",
-        "appointment/add/index",
-        "appointment/listHoliday/index",
-        "appointment/addHoliday/index"
-      ]
-    },
-    {
-      "name": "T0xE3",
-      "root": "plugin/T0xE3",
-      "pages": [
-        "index/index",
-        "ai-cold-water/ai-cold-water",
-        "device-water-appoint/device-water-appoint"
-      ]
-    },
-    {
-      "name": "T0xE6",
-      "root": "plugin/T0xE6",
-      "pages": [
-        "index/index",
-        "heat-appoint/index",
-        "heat-appoint/edit/index"
-      ]
-    },
-    {
-      "name": "T0xED",
-      "root": "plugin/T0xED",
-      "pages": [
-        "index/index",
-        "filter-page/filter-page",
-        "multiple-select-page/multiple-select-page"
-      ]
-    },
-    {
-      "name": "T0x26",
-      "root": "plugin/T0x26",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0x40",
-      "root": "plugin/T0x40",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0x13",
-      "root": "src/modules/module_plugin/T0x13",
-      "pages": [
-        "index/index",
-        "card_M0200003/babyManage/babyManage",
-        "card_M0200003/babyEdit/babyEdit",
-        "card_M0200003/babyAdd/babyAdd",
-        "card_M0200003/historyDetail/historyDetail",
-        "card_M0200003/recordDetail/recordDetail",
-        "card_M0200003/montherFeed/montherFeed",
-        "card_M0200003/bottleFeed/bottleFeed",
-        "card_M0200003/deviceTimer/deviceTimer",
-        "card_M0200003/timerEdit/timerEdit"
-      ]
-    },
-    {
-      "name": "T0x15",
-      "root": "src/modules/module_plugin/T0x15",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0x32",
-      "root": "src/modules/module_plugin/T0x32",
-      "pages": [
-        "index/index",
-        "preDish/preDish",
-        "status/status",
-        "sda-cloud-menu/pages/detail/detail",
-        "sda-cloud-menu/pages/list/list"
-      ]
-    },
-    {
-      "name": "T0x33",
-      "root": "src/modules/module_plugin/T0x33",
-      "pages": [
-        "index/index",
-        "device-status/device-status",
-        "sda-cloud-menu/pages/detail/detail",
-        "sda-cloud-menu/pages/list/list"
-      ]
-    },
-    {
-      "name": "T0x38",
-      "root": "src/modules/module_plugin/T0x38",
-      "pages": [
-        "index/index",
-        "paths/material/material",
-        "paths/publishQuestion/publishQuestion",
-        "paths/questionDetail/questionDetail",
-        "paths/questionList/questionList",
-        "paths/buyMaterial/buyMaterial",
-        "paths/video/video",
-        "paths/playVideo/playVideo"
-      ]
-    },
-    {
-      "name": "T0x3D",
-      "root": "src/modules/module_plugin/T0x3D",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0x4E",
-      "root": "src/modules/module_plugin/T0x4E",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xAC",
-      "root": "src/modules/module_plugin/T0xAC",
-      "pages": [
-        "index/index",
-        "aboutMac/aboutMac",
-        "saveModePage/saveModePage",
-        "funSpace/funSpace",
-        "electric/electric",
-        "filterClean/filterClean",
-        "timerSet/timerSet",
-        "timeSetDetail/timeSetDetail"
-      ]
-    },
-    {
-      "name": "T0xB8",
-      "root": "src/modules/module_plugin/T0xB8",
-      "pages": [
-        "index/index",
-        "activity/activity",
-        "activity/detail"
-      ]
-    },
-    {
-      "name": "T0xCA",
-      "root": "src/modules/module_plugin/T0xCA",
-      "pages": [
-        "index/index",
-        "card0/card0",
-        "record/openDoorRecord",
-        "report/monthReport",
-        "guide/index",
-        "guide/install/instruction",
-        "guide/install/InstallStep1",
-        "guide/install/InstallStep2",
-        "check/DevCheck",
-        "jump/toApp"
-      ]
-    },
-    {
-      "name": "T0xE6A",
-      "root": "src/modules/module_plugin/T0xE6A",
-      "pages": [
-        "index/index",
-        "paths/timeSet/timeSet",
-        "paths/aboutMac/aboutMac",
-        "paths/timeDetail/timeDetail"
-      ]
-    },
-    {
-      "name": "T0xE7",
-      "root": "src/modules/module_plugin/T0xE7",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xE8",
-      "root": "src/modules/module_plugin/T0xE8",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xE9",
-      "root": "src/modules/module_plugin/T0xE9",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xEA",
-      "root": "src/modules/module_plugin/T0xEA",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xEC",
-      "root": "src/modules/module_plugin/T0xEC",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xF1",
-      "root": "src/modules/module_plugin/T0xF1",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xFA",
-      "root": "src/modules/module_plugin/T0xFA",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xFB",
-      "root": "src/modules/module_plugin/T0xFB",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xFC",
-      "root": "src/modules/module_plugin/T0xFC",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xFD",
-      "root": "src/modules/module_plugin/T0xFD",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xC0",
-      "root": "src/modules/module_plugin/T0xC0",
-      "pages": [
-        "index/index"
-      ]
-    },
-    {
-      "name": "T0xEB",
-      "root": "src/modules/module_plugin/T0xEB",
-      "pages": [
-        "index/index"
-      ]
     }
   ],
   "preloadRule": {
-    "pages/index/index": {
-      "network": "all",
-      "packages": [
-        "T0xAC",
-        "T0xE2",
-        "T0xDB",
-        "T0xCA",
-        "T0xB8",
-        "T0xEA"
-      ]
-    },
     "pages/midea-service/midea-service": {
       "network": "all",
       "packages": [

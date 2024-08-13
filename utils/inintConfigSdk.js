@@ -16,6 +16,7 @@ import { getPluginUrl, getPluginPreUrl } from './getPluginUrl'
 const bleNegotiation = require('./ble/ble-negotiation')
 const registerBLEConnectionStateChange = require('./ble/ble-negotiation')
 import { paesrBleResponData, constructionBleControlOrder } from './ble/ble-order'
+const config = require('../config')
 
 const globalCommonConfig = {
   pluginEventTrack: pluginEventTrack,
@@ -44,6 +45,7 @@ const globalCommonConfig = {
   registerBLEConnectionStateChange,
   paesrBleResponData,
   constructionBleControlOrder,
+  config: config
 }
 
 module.exports = {

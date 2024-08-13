@@ -278,7 +278,7 @@ module.exports = Behavior({
       const brandConfig = app.globalData.brandConfig[app.globalData.brand]
       if (!brandConfig.bluetooth) return
       app.globalData.bluetoothUnSupport = []
-      this.closeBluetoothAdapter()
+      // this.closeBluetoothAdapter()
       // this.clearDevices()
       wx.openBluetoothAdapter({
         success: (res) => {

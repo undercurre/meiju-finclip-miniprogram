@@ -6,7 +6,8 @@
     "no-can-add-device": "../../../../pages/component/no-can-add-device/no-can-add-device",
     "nav-bar": "../../components/plugin-navbar/plugin-navbar",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
-    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index"
+    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index",
+    "permissionVerification":"../../components/permissionVerification/permissionVerification"
   },
   "navigationBarTitleText": "添加设备",
   "navigationStyle": "custom"

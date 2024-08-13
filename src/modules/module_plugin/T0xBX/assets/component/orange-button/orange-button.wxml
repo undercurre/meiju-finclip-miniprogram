@@ -1,4 +1,0 @@
-<view class="button orange-button">
-    <!-- <image class="button-icon"></image> -->
-    <text class="button-text">{{text}}</text>
-</view>

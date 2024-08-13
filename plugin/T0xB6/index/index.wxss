@@ -6,6 +6,7 @@
   background-color: #F9F9F9;
   box-sizing: border-box;
   padding-bottom: 100rpx;
+  height: 100vh;
   /* padding-top: 50rpx; */
 }
 .device-newCard {
