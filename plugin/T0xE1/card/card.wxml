@@ -138,7 +138,7 @@
 
         <active-dialog active-style="top: 20rpx"></active-dialog>
 
-        <text class="openMeiJuApp" wx:if="{{!showCircle}}">更多功能尽在美的美居App</text>
+        <!-- <text class="openMeiJuApp" wx:if="{{!showCircle}}">更多功能尽在美的美居App</text> -->
 
         <!-- 底部按钮 -->
         <view class="control-bar-container" style="z-index: 5;" wx:if="{{deviceStatus > -2}}">
