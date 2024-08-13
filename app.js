@@ -701,7 +701,7 @@ App({
     // 检查网络是否通畅
     return new Promise((resolve, reject) => {
       wx.request({
-        url: 'https://www.smartmidea.net/projects/meiju-lite-assets/checkingLog/result.json?t=' + new Date().getTime(),
+        url: 'https://www.smartmidea.net/projects/meiju-finclip-assets/checkingLog/result.json?t=' + new Date().getTime(),
         data: {},
         header: {
           'content-type': 'application/json',
