@@ -41,7 +41,6 @@
     confirm-button-text="删除"
     cancelButtonColor="{{publicColor}}"
     confirmButtonColor="{{publicColor}}"
-    scale="1"
     bind:confirm="deleteConfirm"
     messageAlign="{{dialogMessageAlign}}"
   >

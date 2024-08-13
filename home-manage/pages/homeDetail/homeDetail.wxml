@@ -101,7 +101,6 @@
       bind:cancel="cancelDialog"
       cancelButtonColor="{{publicColor}}"
       confirmButtonColor="{{publicColor}}"
-      scale="1"
       bind:confirm="confirm"
       messageAlign="{{dialogMessageAlign}}"
     >

@@ -46,7 +46,6 @@
     bind:close="deleteCancle"
     cancelButtonColor="{{publicColor}}"
     confirmButtonColor="{{publicColor}}"
-    scale="1"
     bind:confirm="deleteConfirm"
   >
   </mx-dialog>
