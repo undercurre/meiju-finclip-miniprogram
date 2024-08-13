@@ -1276,9 +1276,10 @@ padding-right: 40px;
 
 #meiju .step-four-text {
   position: absolute;
-  left: 30rpx;
-  top: 110rpx;
+  left: 60rpx;
+  top: 90rpx;
   font-size: 24rpx;
+  color: #267AFF;
 }
 
 
