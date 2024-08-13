@@ -1,4 +1,0 @@
-<view class="loading_container">
-  <vant-loading />
-  <text class="loading_text">{{text}}</text>
-</view>
