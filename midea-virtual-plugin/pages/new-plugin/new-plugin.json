@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "trojan-horse": "../../component/trojan-horse/trojan-horse",
-    "plugin-navbar": "../../component/plugin-navbar/plugin-navbar",
-    "user-right-dialog": "../../component/user-right-dialog/user-right-dialog",
-    "guide-dialog": "../../component/guide-dialog/guide-dialog"
-  }
-}

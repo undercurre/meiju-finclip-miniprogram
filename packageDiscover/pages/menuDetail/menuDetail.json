@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "networkless": "/pages/component/networkless/index"
-  },
-  "navigationBarTitleText": "",
-  "enablePullDownRefresh": true
-}

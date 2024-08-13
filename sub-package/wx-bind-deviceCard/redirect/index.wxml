@@ -1,8 +1,0 @@
-<view>
-  <block wx:if="{{!isLoading && isLogin && isDeviceDisabled }}">
-    <no-control></no-control>
-  </block>
-  <block wx:if="{{!isLoading && !isLogin}}">
-    <no-login></no-login>
-  </block>
-</view>
