@@ -73,7 +73,7 @@ Page({
     Dialog.confirm({
       zIndex: 10001,
       context: this,
-      message: '撤回隐私协议授权将自动退出登录，确定要撤回吗？',
+      title: '撤回隐私协议授权将自动退出登录，确定要撤回吗？',
     })
       .then((res) => {
         context.changeWithdrowModal(res)

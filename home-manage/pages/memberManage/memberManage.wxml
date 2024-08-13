@@ -52,6 +52,7 @@
   </mx-dialog>
   <view class="btn-container" bindtap="inviteMembers" wx:if="{{ roleId!=1003 }}">
     <mx-button
+      custom-class="custom-button-class"
       nohover-class
       type="text"
       size="large"
@@ -61,13 +62,15 @@
       color="{{publicColor}}"
       custom-style="background-color: transparent;"
     >
-      <mx-icon
-        classPrefix="mx-iconfont"
-        custom-class="custom-plus-class"
-        name="add2"
-        size="14"
-        color="{{publicColor}}"
-      />邀请家人</mx-button
+      <view class="invite-family-member">
+        <mx-icon
+          classPrefix="mx-iconfont"
+          custom-class="custom-plus-class"
+          name="add2"
+          size="14"
+          color="{{publicColor}}"
+        />邀请家人</view
+      ></mx-button
     >
   </view>
 </view>

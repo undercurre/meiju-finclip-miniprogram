@@ -13,6 +13,7 @@
   z-index:9999;
   opacity: 0.5;
 }
+
 .text-overflow2 {
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;

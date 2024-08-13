@@ -79,7 +79,7 @@
       </block>
     </mx-cell-group>
 
-    <view class="startAppletByQrCode" bindtap="startAppletByQrCode"></view>
+    <!-- <view class="startAppletByQrCode" bindtap="startAppletByQrCode"></view> -->
   </view>
   <!-- 协议确认弹窗 -->
   <block>

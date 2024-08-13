@@ -38,6 +38,7 @@ Page({
     option: '',
     errorMessage: '',
     publicColor: PUBLIC,
+    buttonColor: '#666666',
     errorColor: ERROR,
     plate: plate,
     homeDetail: {},
@@ -133,20 +134,31 @@ Page({
         dialogMessage: '删除家庭会清除家庭下所有设备与家庭成员，确定要删除该家庭吗？',
         dialogShow: true,
         option: 'delete',
-        dialogMessageAlign: 'left',
+        //dialogMessageAlign: 'left',
       })
       //浏览埋点
       burialPoint.popupsfamilyDeleteFamilyBurialPoint()
     } else if (option === 'exit') {
       //点击埋点
       burialPoint.popupsfamilyQuitFamilyClick()
-      this.setData({
-        dialogTitle: '退出家庭',
-        dialogMessage: '确定要退出该家庭吗',
-        dialogShow: true,
-        option: 'exit',
-        dialogMessageAlign: 'center',
-      })
+      if (this.data.roleId == 1001) {
+        this.setData({
+          dialogTitle: '退出家庭',
+          dialogMessage: '您为家庭创建者，退出家庭后创建者身份将自动转移，确定要退出家庭吗？',
+          dialogShow: true,
+          option: 'exit',
+          dialogMessageAlign: 'center',
+        })
+      } else {
+        this.setData({
+          dialogTitle: '退出家庭',
+          dialogMessage: '确定要退出该家庭吗',
+          dialogShow: true,
+          option: 'exit',
+          dialogMessageAlign: 'center',
+        })
+      }
+
       //浏览埋点
       burialPoint.popupsfamilyQuitFamilyBurialPoint()
     }

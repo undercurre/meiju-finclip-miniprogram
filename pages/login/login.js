@@ -46,7 +46,7 @@ Page({
     topBacImg: baseImgApi.url + 'denglu_img_bk@2x.png',
     loginBtnDes: '获取验证码',
     loadingIco: baseImgApi.url + 'loading.png',
-    logoTop: '',
+    logoTop: app.globalData.systemInfo.statusNavBarHeight + 228,
     registerDialogShow: false,
     fms: 2,
     phoneNumber: '',
@@ -82,7 +82,8 @@ Page({
     autoFocus: 'false',
   },
   setLoginLogoTop() {
-    let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
+    //let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
+    let marginHeight = app.globalData.systemInfo.statusNavBarHeight + 228
     this.setData({
       logoTop: marginHeight ? marginHeight : 140,
     })
@@ -91,6 +92,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setLoginLogoTop()
     //页面暴露埋点
     userPageViewTrack()
     //this.getAgreementTitles()

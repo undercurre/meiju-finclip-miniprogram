@@ -4,6 +4,10 @@
   "usingComponents": {
     "mx-action-sheet": "/miniprogram_npm/m-ui/mx-action-sheet/index",
     "mx-cell": "m-ui/mx-cell/index",
+    "mx-dialog": "m-ui/mx-dialog/index",
+    "mx-field": "m-ui/mx-field/index",
+    "mx-icon": "m-ui/mx-icon/index",
+    "mx-divider": "m-ui/mx-divider/index",
     "mx-nav-bar": "m-ui/mx-nav-bar/index"
   }
 }

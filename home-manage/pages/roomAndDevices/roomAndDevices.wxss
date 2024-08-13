@@ -14,7 +14,7 @@ page {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  padding: 0 32rpx calc(var(--iphonex-fix-bottom));
   z-index: 1;
   background-color: #fff;
   position: fixed;
@@ -42,4 +42,18 @@ page {
 }
 .main-container .mx-cell__title_title{
   font-weight: 400!important;
+}
+.btn-container{
+  --button-large-height:128rpx
+}
+.custom-button-class .mx-button__text{
+  font-weight: 500!important;
+}
+.btn-create-room{
+  display: flex;
+}
+.custom-value-class{
+  font-size: 24rpx!important;
+  color: #8A8A8F!important;
+  font-weight: 400;
 }
