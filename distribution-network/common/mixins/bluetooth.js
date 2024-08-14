@@ -48,39 +48,39 @@ module.exports = Behavior({
       //   mode: 3
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png',
       //   deviceName: '测测试测试测试测试试'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png',
       //   deviceName: '测试3'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png',
       //   deviceName: '测试3'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png',
       //   deviceName: '测试1测试1测试1测试1测试1测试1'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png',
       //   deviceName: '测试2'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png',
       //   deviceName: '测试3'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png',
       //   deviceName: '测试3'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei22.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei22.png',
       //   deviceName: '测试1测试1测试1测试1测试1测试1'
       // },
       // {
-      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei11.png',
+      //   deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei11.png',
       //   deviceName: '测试2'
       // },
     ],

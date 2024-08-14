@@ -366,7 +366,7 @@ page{
     height: 168rpx;
     position: relative;
     margin: 0rpx auto 8rpx auto;
-    background-image: url(https://www.smartmidea.net/projects/sit/meiju-lite-assets/shareImg/colmo/addDeviceAboutImg/img_cardbg@2x.png);
+    background-image: url(https://www.smartmidea.net/projects/sit/meiju-finclip-assets/shareImg/colmo/addDeviceAboutImg/img_cardbg@2x.png);
     background-repeat: no-repeat;
     /* background-position:21px 15px;  */
     display: flex;
