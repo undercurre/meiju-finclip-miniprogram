@@ -42,7 +42,7 @@
     "m-track": "^1.0.0",
     "m-ui": "^2.0.29",
     "m-utilsdk": "1.0.9",
-    "@meijuHarmonyOS/T0xBX": "1.2.0"
+    "@meijuHarmonyOS/T0xBX": "1.2.1"
   },
   "lint-staged": {
     "*.js": [
