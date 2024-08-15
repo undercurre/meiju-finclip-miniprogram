@@ -1,9 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "mbutton": "/pages/component/mbutton/mbutton",
-    "offline": "/pages/component/offline/offline",
-    "cardHeader": "/pages/component/card-header/card-header",
-    "circleProgressBar": "/pages/component/circle-progress-bar/circle-progress-bar"
-  }
-}
