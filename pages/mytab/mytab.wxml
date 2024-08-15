@@ -1,7 +1,7 @@
 <!-- pages/mytab/mytab.wxml -->
 <wxs src="./assets/js/tools.wxs" module="tools" />
 <privacy-popup></privacy-popup>
-<view class="person-box" style="height: 100vh;background-size: 100% 100%;background-image:url({{indexSrc}})">
+<view class="person-box inner-wrap-backgruop" style="height: 100vh; background-size: 100% 100%">
   <view class="shadow" wx:if="{{ isLoading }}"></view>
   <!-- <view class="topBacWarp" wx:if="{{isLogon}}"> -->
   <!-- <image src="{{topBac}}"></image> -->

@@ -209,7 +209,7 @@ button::after{
   font-weight: 400;
 }
 .member-mange-icon{
-  margin-left: 8rpx;
+  margin-left: 16rpx;
 }
 .detail-container .mx-cell__title_title{
   font-weight: 400!important;

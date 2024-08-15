@@ -8,7 +8,8 @@ import { getPluginUrl } from '../../utils/getPluginUrl'
 import { creatDeviceSessionId, getFullPageUrl, showToast, checkFamilyPermission, getIcon } from '../../utils/util'
 import { getWxSystemInfo } from '../../utils/wx/index.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
-//const indexSrc = '../../assets/img/index/index.png'
+const indexSrc = '/assets/img/index/index.png'
+//const indexSrc = imgBaseUrl.url + '/harmonyos/index/index.png'
 import { actionScanResultIndex } from 'assets/js/scanCodeApi'
 import { service, scodeResonse } from 'assets/js/service'
 import Toast from 'm-ui/mx-toast/toast'
@@ -56,7 +57,6 @@ import {
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
 const homeStorage = new HomeStorage()
-const indexSrc = imgBaseUrl.url + '/harmonyos/index/index.png'
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let currentPageOptions = {} // index 页面options
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
@@ -65,9 +65,6 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
-    this.setData({
-      myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
-    })
     if (getApp().globalData.gloabalWebSocket && getApp().globalData.gloabalWebSocket._isClosed) {
       this.initPushData()
     }
@@ -312,7 +309,7 @@ Page({
     scollTop: 0,
     showHover: true, //设备点击态样式
     allDevice: [],
-    myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
+    //myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
     // myBtnConent: '添加智能设备',
     isCanAddDevice: true, //是否可配网,灰度下架，写死为true
     clickFLag: false, //防重复点击

@@ -6,8 +6,8 @@
   <!-- <image src="{{topBacImg}}" class="topBacImg"></image> -->
   <!-- </view> -->
   <view class="login-logo" style="margin-top:{{logoTop}}rpx">
-    <!-- <image class="login-logo-image" src="{{loginLogoSrc}}"></image> -->
-    <mx-image custom-class="login-logo-image" src="{{loginLogoSrc}}"></mx-image>
+    <image class="login-logo-image" src="{{loginLogoSrc}}"></image>
+    <!-- <mx-image custom-class="login-logo-image" src="{{loginLogoSrc}}"></mx-image> -->
   </view>
   <view class="login-section">
     <mx-cell-group border="{{false}}" custom-class="login-cell-group">

@@ -5,16 +5,12 @@
   bind:handleAgree="handleAgree"
   bind:handleDisagree="handleDisagree"
 ></privacy-popup>
-<view
-  class="box"
-  style="height: 100vh;background-size: 100% 100%;background-image:url({{indexSrc}})"
-  bindtap="closeEditListPop"
->
+<view class="box inner-wrap-backgruop" style="height: 100vh; background-size: 100% 100%" bindtap="closeEditListPop">
   <block>
     <!-- <index-header></index-header> -->
     <device-card-tips isShow="{{deviceCardIsShow}}"></device-card-tips>
   </block>
-  <view id="inner-wrap" style="height: 100vh;background-size: 100% 100%;background-image:url({{indexSrc}})">
+  <view id="inner-wrap" class="inner-wrap-backgruop" style="height: 100vh; background-size: 100% 100%">
     <view class="container" style="padding-top:{{statusBarHeight + 20}}px">
       <view class="showContent" style="height: 100%">
         <block wx:if="{{isHomeListLoaded && isLogon && !homeInfoFailFlag}}">
@@ -34,293 +30,289 @@
           <!-- 设备、场景 -->
           <block>
             <view class="home-inner-box" style="{{sHeight}}">
-              <swiper style="{{sHeight}}" duration="300">
-                <swiper-item>
-                  <scroll-view
-                    class="scrollView"
-                    scroll-y
-                    refresher-default-style="black"
-                    style="height: calc(100% - 6px)"
-                    scroll-top="{{resetScrollTop}}"
-                    refresher-enabled="{{true}}"
-                    refresher-threshold="{{200}}"
-                    refresher-triggered="{{triggered}}"
-                    bindscroll="scollDidScoll"
-                    bindscrolltolower="bindscrolltolower"
-                    bindrefresherrestore="bindrefresherrestore"
-                    bindrefresherrefresh="bindrefresherrefresh"
-                  >
-                    <view
-                      wx:if="{{ allDevice>0 }}"
-                      class="device-list"
-                      style="padding-bottom: {{ unsupportedApplianceList.length==0 ? (isIpx ? '230' : '80') : 0}}rpx;"
-                    >
-                      <block
-                        wx:for="{{supportedApplianceList}}"
-                        wx:key="index"
-                        wx:for-index="index"
-                        wx:for-item="device"
+              <!-- <swiper style="{{sHeight}}" duration="300"> -->
+              <!-- <swiper-item> -->
+              <scroll-view
+                class="scrollView"
+                scroll-y
+                refresher-default-style="black"
+                style="height: calc(100% - 6px)"
+                scroll-top="{{resetScrollTop}}"
+                refresher-enabled="{{true}}"
+                refresher-threshold="{{200}}"
+                refresher-triggered="{{triggered}}"
+                bindscroll="scollDidScoll"
+                bindscrolltolower="bindscrolltolower"
+                bindrefresherrestore="bindrefresherrestore"
+                bindrefresherrefresh="bindrefresherrefresh"
+              >
+                <view
+                  wx:if="{{ allDevice>0 }}"
+                  class="device-list"
+                  style="padding-bottom: {{ unsupportedApplianceList.length==0 ? (isIpx ? '230' : '80') : 0}}rpx;"
+                >
+                  <block wx:for="{{supportedApplianceList}}" wx:key="index" wx:for-index="index" wx:for-item="device">
+                    <view wx:if="{{device.cardUITemplate}}">
+                      <module-card
+                        deviceInfo="{{device}}"
+                        data-type="{{device.type}}"
+                        data-index="{{index}}"
+                        data-appliance-code="{{device.applianceCode}}"
+                        data-all="{{device}}"
+                        data-support="support"
+                        data-is-support="{{true}}"
+                        data-from="moudle"
+                        bindtap="goToPlugin"
+                        data-item="{{ device }}"
+                        hover-class="{{tools.filterHoverClass(showHover, device)}}"
+                        bindlongpress="editeLongPress"
                       >
-                        <view wx:if="{{device.cardUITemplate}}">
-                          <module-card
-                            deviceInfo="{{device}}"
-                            data-type="{{device.type}}"
-                            data-index="{{index}}"
-                            data-appliance-code="{{device.applianceCode}}"
-                            data-all="{{device}}"
-                            data-support="support"
-                            data-is-support="{{true}}"
-                            data-from="moudle"
-                            bindtap="goToPlugin"
-                            data-item="{{ device }}"
-                            hover-class="{{tools.filterHoverClass(showHover, device)}}"
-                            bindlongpress="editeLongPress"
+                        <edit-delete-card
+                          id="editDeleteCard"
+                          editList="{{supportEditList}}"
+                          editFlag="{{editFlag}}"
+                          device="{{device}}"
+                          support="support"
+                          wx:if="{{sEInd===index&&showEdit}}"
+                          bind:editBacFun="editBacFun"
+                        ></edit-delete-card>
+                      </module-card>
+                    </view>
+                    <view
+                      wx:else
+                      class="{{tools.device(sEInd, index, showEdit)}} {{sEInd===index&&showAni?'upAni':''}}"
+                      data-type="{{device.type}}"
+                      data-index="{{index}}"
+                      data-appliance-code="{{device.applianceCode}}"
+                      data-all="{{device}}"
+                      data-support="support"
+                      data-is-support="{{true}}"
+                      data-from="plain"
+                      bindtap="goToPlugin"
+                      hover-class="{{tools.filterHoverClass(showHover, device)}}"
+                      bindlongpress="editeLongPress"
+                    >
+                      <view>
+                        <image
+                          class="device-icon"
+                          lazy-load="{{true}}"
+                          src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
+                          binderror="bindSupporteError"
+                          style="{{device.isImgError?'opacity:1':'opacity:'+tools.filterDeviceImgOpacity(device)}}"
+                          data-index="{{index}}"
+                        ></image>
+
+                        <view class="device-name-content" style="opacity:{{tools.filterOpacity(device)}}">
+                          <view class="name" style="max-width:{{tools.getMaxWidth(device)}}">
+                            {{device.name}}
+                            <!-- {{device.allDeviceDescLen>8 ? tools.formatText(device.name, 4) : device.name}} -->
+                          </view>
+                          <view wx:if="{{device.showBluetoothIcon}}">
+                            <image class="bluetoothIcon" src="{{ baseImgUrl }}/home_ic_blueteeth@2x.png"></image>
+                          </view>
+                        </view>
+
+                        <view wx:if="{{device.isAuth}}" class="device-check"> 待验证 </view>
+                        <view wx:else class="device-desc" style="opacity:{{tools.filterOpacity(device)}}">
+                          <view class="roomName"
+                            ><view class="roomName_title">{{device.roomName}}</view
+                            ><view class="roomName_line" wx:if="{{device.onlineStatus}}" space="nbsp"> | </view>
+                          </view>
+                          <view wx:if="{{device.onlineStatus}}" class="onlineStatus">
+                            <text class="onlineStatus-text"
+                              >{{(device.onlineStatus=="1"|| device.bindType==1||device.bindType==3)?"在线":"离线"}}
+                            </text>
+                          </view>
+                          <!--仅支持蓝牙控制的设备，未联网/未上云的设备，bindtype=1和3的设备、蓝牙直连未配网的设备（包括数字遥控器和MSmart协议设备）添加蓝牙图标start-->
+
+                          <!--添加蓝牙图标end-->
+                        </view>
+                      </view>
+                      <edit-delete-card
+                        id="editDeleteCard"
+                        editList="{{supportEditList}}"
+                        editFlag="{{editFlag}}"
+                        device="{{device}}"
+                        support="support"
+                        wx:if="{{sEInd===index&&showEdit}}"
+                        bind:editBacFun="editBacFun"
+                      ></edit-delete-card>
+                      <view class="{{showAni?'blueMask':''}}" wx:if="{{sEInd===index}}"></view>
+                    </view>
+                    <!-- 已购未激活设备卡片start -->
+                    <view
+                      wx:for="{{boughtDevices}}"
+                      wx:key="index"
+                      wx:for-index="index"
+                      wx:for-item="device"
+                      style="opacity: 1"
+                      class="'device-card' {{'bought-device-'+index}} {{bouEInd===index&&showAni?'upAni':''}}"
+                      bindlongpress="editeLongPress"
+                      data-type="boughtDevices"
+                      data-index="{{index}}"
+                      data-all="{{device}}"
+                      data-support="support"
+                    >
+                      <image
+                        bindtap="bindNow"
+                        data-device="{{device}}"
+                        lazy-load="{{true}}"
+                        class="device-icon"
+                        src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
+                        binderror="bindBoughtError"
+                        data-index="{{index}}"
+                      ></image>
+                      <view class="device-desc">
+                        <view class="device-desc-name">
+                          <view class="name-click" bindtap="bindNow" data-device="{{device}}"></view>
+                          <view class="name" style="max-width:{{tools.getMaxWidth(device)}}"
+                            >{{device.applianceName}}</view
                           >
-                            <edit-delete-card
-                              id="editDeleteCard"
-                              editList="{{supportEditList}}"
-                              editFlag="{{editFlag}}"
-                              device="{{device}}"
-                              support="support"
-                              wx:if="{{sEInd===index&&showEdit}}"
-                              bind:editBacFun="editBacFun"
-                            ></edit-delete-card>
-                          </module-card>
                         </view>
                         <view
-                          wx:else
-                          class="{{tools.device(sEInd, index, showEdit)}} {{sEInd===index&&showAni?'upAni':''}}"
-                          data-type="{{device.type}}"
-                          data-index="{{index}}"
-                          data-appliance-code="{{device.applianceCode}}"
-                          data-all="{{device}}"
-                          data-support="support"
-                          data-is-support="{{true}}"
-                          data-from="plain"
-                          bindtap="goToPlugin"
-                          hover-class="{{tools.filterHoverClass(showHover, device)}}"
-                          bindlongpress="editeLongPress"
+                          data-device="{{device}}"
+                          class="delCard"
+                          style="background-image:url({{ baseImgUrl }}/card_ic_close@3x.png)"
                         >
-                          <view>
-                            <image
-                              class="device-icon"
-                              lazy-load="{{true}}"
-                              src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
-                              binderror="bindSupporteError"
-                              style="{{device.isImgError?'opacity:1':'opacity:'+tools.filterDeviceImgOpacity(device)}}"
-                              data-index="{{index}}"
-                            ></image>
-
-                            <view class="device-name-content" style="opacity:{{tools.filterOpacity(device)}}">
-                              <view class="name" style="max-width:{{tools.getMaxWidth(device)}}">
-                                {{device.name}}
-                                <!-- {{device.allDeviceDescLen>8 ? tools.formatText(device.name, 4) : device.name}} -->
-                              </view>
-                              <view wx:if="{{device.showBluetoothIcon}}">
-                                <image class="bluetoothIcon" src="{{ baseImgUrl }}/home_ic_blueteeth@2x.png"></image>
-                              </view>
-                            </view>
-
-                            <view wx:if="{{device.isAuth}}" class="device-check"> 待验证 </view>
-                            <view wx:else class="device-desc" style="opacity:{{tools.filterOpacity(device)}}">
-                              <view class="roomName"
-                                ><view class="roomName_title">{{device.roomName}}</view
-                                ><view class="roomName_line" wx:if="{{device.onlineStatus}}" space="nbsp"> | </view>
-                              </view>
-                              <view wx:if="{{device.onlineStatus}}" class="onlineStatus">
-                                <text class="onlineStatus-text"
-                                  >{{(device.onlineStatus=="1"|| device.bindType==1||device.bindType==3)?"在线":"离线"}}
-                                </text>
-                              </view>
-                              <!--仅支持蓝牙控制的设备，未联网/未上云的设备，bindtype=1和3的设备、蓝牙直连未配网的设备（包括数字遥控器和MSmart协议设备）添加蓝牙图标start-->
-
-                              <!--添加蓝牙图标end-->
-                            </view>
-                          </view>
-                          <edit-delete-card
-                            id="editDeleteCard"
-                            editList="{{supportEditList}}"
-                            editFlag="{{editFlag}}"
-                            device="{{device}}"
-                            support="support"
-                            wx:if="{{sEInd===index&&showEdit}}"
-                            bind:editBacFun="editBacFun"
-                          ></edit-delete-card>
-                          <view class="{{showAni?'blueMask':''}}" wx:if="{{sEInd===index}}"></view>
+                          <view class="delCard-click" data-device="{{device}}" bindtap="delBoughtDeviceCard"></view>
                         </view>
-                        <!-- 已购未激活设备卡片start -->
-                        <view
-                          wx:for="{{boughtDevices}}"
-                          wx:key="index"
-                          wx:for-index="index"
-                          wx:for-item="device"
-                          style="opacity: 1"
-                          class="'device-card' {{'bought-device-'+index}} {{bouEInd===index&&showAni?'upAni':''}}"
-                          bindlongpress="editeLongPress"
-                          data-type="boughtDevices"
-                          data-index="{{index}}"
-                          data-all="{{device}}"
-                          data-support="support"
-                        >
-                          <image
-                            bindtap="bindNow"
-                            data-device="{{device}}"
-                            lazy-load="{{true}}"
-                            class="device-icon"
-                            src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
-                            binderror="bindBoughtError"
-                            data-index="{{index}}"
-                          ></image>
-                          <view class="device-desc">
-                            <view class="device-desc-name">
-                              <view class="name-click" bindtap="bindNow" data-device="{{device}}"></view>
-                              <view class="name" style="max-width:{{tools.getMaxWidth(device)}}"
-                                >{{device.applianceName}}</view
-                              >
-                            </view>
-                            <view
-                              data-device="{{device}}"
-                              class="delCard"
-                              style="background-image:url({{ baseImgUrl }}/card_ic_close@3x.png)"
-                            >
-                              <view class="delCard-click" data-device="{{device}}" bindtap="delBoughtDeviceCard"></view>
-                            </view>
-                          </view>
+                      </view>
 
-                          <view class="bind-desc">
-                            <!-- <view class="onlineStatus">
+                      <view class="bind-desc">
+                        <!-- <view class="onlineStatus">
                             <view class="onlineStatus-click" bindtap="bindNow" data-device="{{device}}"></view>
                             <view class="onlineStatus-text"
                               >{{device.boughtType ? '去扫码绑定' : '待绑定'}} <text space="nbsp">| </text></view
                             >
                           </view> -->
-                            <view bindtap="bindNow" data-device="{{device}}" class="bindNow">
-                              立即绑定
-                              <mx-icon name="play" size="8" />
-                            </view>
-                          </view>
+                        <view bindtap="bindNow" data-device="{{device}}" class="bindNow">
+                          立即绑定
+                          <mx-icon name="play" size="8" />
+                        </view>
+                      </view>
 
-                          <edit-delete-card
-                            id="editDeleteCard"
-                            editList="{{supportEditList}}"
-                            editFlag="{{editFlag}}"
-                            device="{{device}}"
-                            bind:editBacFun="editBacFun"
-                            support="support"
-                            wx:if="{{bouEInd===index&&showEdit}}"
-                          ></edit-delete-card>
-                          <view class="{{showAni?'blueMask':''}}" wx:if="{{bouEInd===index}}"></view>
-                        </view>
-                        <!-- 已购未激活设备卡片end -->
-                      </block>
-                      <view
-                        data-type="card"
-                        wx:if="{{isCanAddDevice}}"
-                        class="'device-card cardlist-add-device'"
-                        hover-class="btn-hover"
-                        bindtap="goAddDeviceJia"
-                      >
-                        <view class="top">
-                          <view class="device-card-add-icon" style="background-image:url({{addIndexDevice}})"></view>
-                          <view class="add-device-text">添加设备</view>
-                        </view>
-                      </view>
-                      <view
-                        wx:else
-                        data-type="card"
-                        class="'device-card cardlist-add-device'"
-                        hover-class="btn-hover"
-                        bindtap="goAddDeviceJia"
-                      >
-                        <view class="top">
-                          <image class="device-card-add-icon" src="{{baseImgUrl + 'shebei_ic_add@3x.png'}}"></image>
-                          <view class="no-can-add-btn">添加设备</view>
-                        </view>
-                        <view class="no-sup-add">
-                          <text class="no-sup-add-text">升级中暂不可用，\n请到其他官方渠道添加</text>
-                        </view>
-                      </view>
+                      <edit-delete-card
+                        id="editDeleteCard"
+                        editList="{{supportEditList}}"
+                        editFlag="{{editFlag}}"
+                        device="{{device}}"
+                        bind:editBacFun="editBacFun"
+                        support="support"
+                        wx:if="{{bouEInd===index&&showEdit}}"
+                      ></edit-delete-card>
+                      <view class="{{showAni?'blueMask':''}}" wx:if="{{bouEInd===index}}"></view>
                     </view>
+                    <!-- 已购未激活设备卡片end -->
+                  </block>
+                  <view
+                    data-type="card"
+                    wx:if="{{isCanAddDevice}}"
+                    class="'device-card cardlist-add-device'"
+                    hover-class="btn-hover"
+                    bindtap="goAddDeviceJia"
+                  >
+                    <view class="top">
+                      <view class="device-card-add-icon" style="background-image:url({{addIndexDevice}})"></view>
+                      <view class="add-device-text">添加设备</view>
+                    </view>
+                  </view>
+                  <view
+                    wx:else
+                    data-type="card"
+                    class="'device-card cardlist-add-device'"
+                    hover-class="btn-hover"
+                    bindtap="goAddDeviceJia"
+                  >
+                    <view class="top">
+                      <image class="device-card-add-icon" src="{{baseImgUrl + 'shebei_ic_add@3x.png'}}"></image>
+                      <view class="no-can-add-btn">添加设备</view>
+                    </view>
+                    <view class="no-sup-add">
+                      <text class="no-sup-add-text">升级中暂不可用，\n请到其他官方渠道添加</text>
+                    </view>
+                  </view>
+                </view>
 
+                <view
+                  wx:if="{{unsupportedApplianceList.length>0}}"
+                  class="no-support-device clearfix"
+                  style="padding-bottom: {{ isIpx ? '230' : '80'}}rpx;"
+                >
+                  <view class="no-support-devices-title">
+                    <view class="no-support-devices-title-click" bindtap="switchNoSupportDeviceList"></view>
+                    <text class="no-support-title-text">以下设备暂不支持控制</text>
+                    <image
+                      class="no-sup-device-icon-triangle"
+                      src="{{isExpandNoSupportDevice ? baseImgUrl+'ic_zhankai.png' : baseImgUrl+'ic_shouqi.png'}}"
+                    ></image>
+                  </view>
+                  <view wx:if="{{isExpandNoSupportDevice}}" class="no-support-device-list">
                     <view
-                      wx:if="{{unsupportedApplianceList.length>0}}"
-                      class="no-support-device clearfix"
-                      style="padding-bottom: {{ isIpx ? '230' : '80'}}rpx;"
+                      class="{{tools.UnDevice(unsEInd,index,showEdit)}} {{unsEInd===index&&showAni?'upAni':''}}"
+                      wx:for="{{unsupportedApplianceList}}"
+                      wx:key="index"
+                      wx:for-index="index"
+                      wx:for-item="device"
+                      data-type="{{device.type}}"
+                      data-index="{{index}}"
+                      data-is-support="{{false}}"
+                      data-appliance-code="{{device.applianceCode}}"
+                      data-all="{{device}}"
+                      bindtap="goToPlugin"
+                      hover-class="{{showHover?'btn-hover':'none'}}"
+                      bindlongpress="editeLongPress"
+                      animation="{{unsEInd===index?animation:''}}"
                     >
-                      <view class="no-support-devices-title">
-                        <view class="no-support-devices-title-click" bindtap="switchNoSupportDeviceList"></view>
-                        <text class="no-support-title-text">以下设备暂不支持控制</text>
-                        <image
-                          class="no-sup-device-icon-triangle"
-                          src="{{isExpandNoSupportDevice ? baseImgUrl+'ic_zhankai.png' : baseImgUrl+'ic_shouqi.png'}}"
-                        ></image>
-                      </view>
-                      <view wx:if="{{isExpandNoSupportDevice}}" class="no-support-device-list">
-                        <view
-                          class="{{tools.UnDevice(unsEInd,index,showEdit)}} {{unsEInd===index&&showAni?'upAni':''}}"
-                          wx:for="{{unsupportedApplianceList}}"
-                          wx:key="index"
-                          wx:for-index="index"
-                          wx:for-item="device"
-                          data-type="{{device.type}}"
-                          data-index="{{index}}"
-                          data-is-support="{{false}}"
-                          data-appliance-code="{{device.applianceCode}}"
-                          data-all="{{device}}"
-                          bindtap="goToPlugin"
-                          hover-class="{{showHover?'btn-hover':'none'}}"
-                          bindlongpress="editeLongPress"
-                          animation="{{unsEInd===index?animation:''}}"
-                        >
-                          <view>
-                            <view class="imageWarp" style="opacity:{{(device.pluginPath || !device.roomId)?1:0.4}}">
-                              <image
-                                class="device-icon"
-                                lazy-load="{{true}}"
-                                src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
-                                binderror="bindInerror"
-                                data-index="{{index}}"
-                              ></image>
-                            </view>
-                            <view
-                              class="device-name-content"
-                              style="opacity:{{(device.pluginPath || !device.roomId)?1:0.4}}"
-                            >
-                              <view style="max-width: 284rpx" class="name"> {{device.name}} </view>
-                            </view>
-
-                            <view class="device-desc" style="opacity:{{(device.pluginPath || !device.roomId)?1:0.4}}">
-                              <view class="roomName" wx:if="{{device.roomId || device.roomName}}">
-                                <view class="roomName_title-sup-app"> {{device.roomName}}</view>
-                              </view>
-                            </view>
-
-                            <view class="{{showAni?'blueMask':''}}" wx:if="{{unsEInd===index}}"></view>
-                          </view>
-                          <edit-delete-card
-                            id="editDeleteCard"
-                            editList="{{supportEditList}}"
-                            editFlag="{{editFlag}}"
-                            device="{{device}}"
-                            wx:if="{{unsEInd===index&&showEdit}}"
-                            bind:editBacFun="editBacFun"
-                          ></edit-delete-card>
+                      <view>
+                        <view class="imageWarp" style="opacity:{{(device.pluginPath || !device.roomId)?1:0.4}}">
+                          <image
+                            class="device-icon"
+                            lazy-load="{{true}}"
+                            src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
+                            binderror="bindInerror"
+                            data-index="{{index}}"
+                          ></image>
                         </view>
+                        <view
+                          class="device-name-content"
+                          style="opacity:{{(device.pluginPath || !device.roomId)?1:0.4}}"
+                        >
+                          <view style="max-width: 284rpx" class="name"> {{device.name}} </view>
+                        </view>
+
+                        <view class="device-desc" style="opacity:{{(device.pluginPath || !device.roomId)?1:0.4}}">
+                          <view class="roomName" wx:if="{{device.roomId || device.roomName}}">
+                            <view class="roomName_title-sup-app"> {{device.roomName}}</view>
+                          </view>
+                        </view>
+
+                        <view class="{{showAni?'blueMask':''}}" wx:if="{{unsEInd===index}}"></view>
                       </view>
+                      <edit-delete-card
+                        id="editDeleteCard"
+                        editList="{{supportEditList}}"
+                        editFlag="{{editFlag}}"
+                        device="{{device}}"
+                        wx:if="{{unsEInd===index&&showEdit}}"
+                        bind:editBacFun="editBacFun"
+                      ></edit-delete-card>
                     </view>
-                    <view wx:if="{{allDevice==0}}" class="noDeviceWarp" style="height:{{noDeviceWarpHeight}}">
-                      <no-device
-                        autoHeight="{{noDeviceHeight}}"
-                        bind:checkNoDeviceBtn="checkNoDeviceBtn"
-                        bind:goToOtherChancel="goToOtherChancel"
-                        isLogon="{{isLogon}}"
-                        type="noDevice"
-                        isCanAddDevice="{{isCanAddDevice}}"
-                      ></no-device>
-                    </view>
-                  </scroll-view>
-                </swiper-item>
-              </swiper>
+                  </view>
+                </view>
+                <view wx:if="{{allDevice==0}}" class="noDeviceWarp" style="height:{{noDeviceWarpHeight}}">
+                  <no-device
+                    autoHeight="{{noDeviceHeight}}"
+                    bind:checkNoDeviceBtn="checkNoDeviceBtn"
+                    bind:goToOtherChancel="goToOtherChancel"
+                    isLogon="{{isLogon}}"
+                    btnConent="去添加"
+                    type="noDevice"
+                    isCanAddDevice="{{isCanAddDevice}}"
+                  ></no-device>
+                </view>
+              </scroll-view>
+              <!-- </swiper-item> -->
+              <!-- </swiper> -->
             </view>
           </block>
         </block>
@@ -331,8 +323,8 @@
             <no-device
               autoHeight="{{noLoginHeight}}"
               bind:checkNoDeviceBtn="checkNoDeviceBtn"
+              btnConent="添加智能设备"
               type="noLogin"
-              btnConent="{{myBtnConent}}"
             ></no-device>
           </view>
         </block>

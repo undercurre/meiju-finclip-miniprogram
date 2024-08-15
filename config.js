@@ -1,6 +1,6 @@
-import environment from './utils/getEnv'
+import getEnv from './utils/getEnv'
 const config = {
-  environment: environment.environment || 'sit',
+  environment: getEnv() || 'sit',
   isMasEnv: true, //是否通过
   masPrefix: '/mas/v5/app/proxy?alias=',
   clientYype: '1',

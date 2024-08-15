@@ -46,6 +46,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    updateValue(val){
+      this.setData({
+        btnConent:val
+      })
+    },
     checkFun() {
       if (this.data.deviceFlag) {
         return
