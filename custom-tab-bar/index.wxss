@@ -3,7 +3,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 96rpx;
+  height: 128rpx;
   /* max-height: 96rpx; */
   background: white;
   display: flex;
@@ -13,7 +13,7 @@
   /* border-top-right-radius: 48rpx; */
 }
 .tab-bar-show {
-  height: 96rpx;
+  height: 128rpx;
 }
 .tab-bar-hide {
   height: 0;

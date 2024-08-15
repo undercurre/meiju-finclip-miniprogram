@@ -723,10 +723,12 @@ Page({
       return
     }
     let that = this
+    let message = '删除设备后，所有家庭成员将不能控制设备，确定删除？'
     Dialog.confirm({
       zIndex: 10001,
       context: this,
-      title: '确定删除选中设备吗？',
+      title: '删除设备',
+      message,
     })
       .then(() => {
         that.setData({

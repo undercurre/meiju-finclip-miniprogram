@@ -1,8 +1,0 @@
-{
-  "usingComponents": {
-    "view-address-dialog": "../components/view-address-dialog/view-address-dialog",
-    "view-address-popup": "../components/view-address-popup/view-address-popup",
-    "dialog": "../components/dialog/dialog"
-  },
-  "navigationBarTitleText": "填写收货地址"
-}

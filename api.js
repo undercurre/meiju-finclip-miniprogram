@@ -954,8 +954,8 @@ let actTemplateImgApi = {
   environment: environment,
   url:
     environment == 'sit' || environment == 'dev'
-      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-lite-assets/actTemp/images/`
-      : `${agreementDomain[`${environment}`]}/projects/meiju-lite-assets/actTemp/images/`,
+      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-finclip-assets/actTemp/images/`
+      : `${agreementDomain[`${environment}`]}/projects/meiju-finclip-assets/actTemp/images/`,
 }
 // 活动模板app活动主页地址
 let actTemplateH5Addr = {
@@ -973,16 +973,16 @@ let imgBaseUrl = {
   environment: environment,
   url:
     environment == 'sit' || environment == 'dev'
-      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-lite-assets`
-      : `${agreementDomain[`${environment}`]}/projects/meiju-lite-assets`,
+      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-finclip-assets`
+      : `${agreementDomain[`${environment}`]}/projects/meiju-finclip-assets`,
 }
 //小程序基础图片存放
 let baseImgApi = {
   environment: environment,
   url:
     environment == 'sit' || environment == 'dev'
-      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-lite-assets/mainContent/images/`
-      : `${agreementDomain[`${environment}`]}/projects/meiju-lite-assets/mainContent/images/`,
+      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-finclip-assets/mainContent/images/`
+      : `${agreementDomain[`${environment}`]}/projects/meiju-finclip-assets/mainContent/images/`,
 }
 
 //设备品类图片存放
@@ -990,16 +990,16 @@ let deviceImgApi = {
   environment: environment,
   url:
     environment == 'sit' || environment == 'dev'
-      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-lite-assets/deviceImg/`
-      : `${agreementDomain[`${environment}`]}/projects/sit/meiju-lite-assets/deviceImg/`,
+      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-finclip-assets/deviceImg/`
+      : `${agreementDomain[`${environment}`]}/projects/sit/meiju-finclip-assets/deviceImg/`,
 }
 //服务中心（图片存放）
 let mideaServiceImgApi = {
   environment: environment,
   url:
     environment == 'sit' || environment == 'dev'
-      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-lite-assets/mideaServices/images/`
-      : `${agreementDomain[`${environment}`]}/projects/meiju-lite-assets/mideaServices/images/`,
+      ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-finclip-assets/mideaServices/images/`
+      : `${agreementDomain[`${environment}`]}/projects/meiju-finclip-assets/mideaServices/images/`,
 }
 
 //通用web-view路径
@@ -1017,8 +1017,8 @@ let publicImg = {
     environment: environment,
     url:
       environment == 'sit' || environment == 'dev'
-        ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-lite-assets/mainContent/images/`
-        : `${agreementDomain[`${environment}`]}/projects/meiju-lite-assets/mainContent/images/`,
+        ? `${agreementDomain[`${environment}`]}/projects/sit/meiju-finclip-assets/mainContent/images/`
+        : `${agreementDomain[`${environment}`]}/projects/meiju-finclip-assets/mainContent/images/`,
   },
   colmo: {
     url: 'https://pic.mdcdn.cn/h5/img/colmomini',
@@ -1026,7 +1026,7 @@ let publicImg = {
 }
 
 // 运营活动静态资源path
-let activitiesAssets = `${config.activitiesDomain}/projects${environment == 'sit' ? '/sit' : ''}/meiju-lite-assets`
+let activitiesAssets = `${config.activitiesDomain}/projects${environment == 'sit' ? '/sit' : ''}/meiju-finclip-assets`
 export {
   environment,
   api,

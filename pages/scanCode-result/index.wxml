@@ -1,4 +1,4 @@
-<mx-nav-bar title="{{title}}" showBg bind:click-left="onClickLeft"></mx-nav-bar>
-<view class="scan-code-container">{{result}}</view>
+<mx-nav-bar title="{{title}}" bind:click-left="onClickLeft"></mx-nav-bar>
+<view style="--height:{{height}}px" class="scan-code-container">{{result}}</view>
 <view class="btn-container" bindtap="clickCopyBtn"> 复制 </view>
 <mx-toast class="home-toast-content" id="mx-toast" />

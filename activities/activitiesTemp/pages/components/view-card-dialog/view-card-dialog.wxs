@@ -1,7 +1,0 @@
-/* eslint-disable */
-var isTrue = function (props) {
-  return props.prizeType == 3 || props.prizeType == 4 || props.type == 3 || props.type == 4
-}
-module.exports = {
-  isTrue: isTrue,
-}

@@ -135,20 +135,6 @@
   "workers": "workers",
   "subpackages": [
     {
-      "name": "wxBindDevice",
-      "root": "sub-package/wx-bind-device",
-      "pages": [
-        "pages/device-list/device-list"
-      ]
-    },
-    {
-      "name": "wxBindDeviceCard",
-      "root": "sub-package/wx-bind-deviceCard",
-      "pages": [
-        "redirect/index"
-      ]
-    },
-    {
       "name": "mideaService",
       "root": "midea-service/",
       "pages": [
@@ -176,79 +162,6 @@
         "pages/branchList/branchList",
         "pages/branchListMap/branchListMap",
         "pages/map/map"
-      ]
-    },
-    {
-      "name": "mideaVirtualPlugin",
-      "root": "midea-virtual-plugin/",
-      "pages": [
-        "pages/virtual-plugin/virtual-plugin",
-        "pages/new-plugin/new-plugin"
-      ],
-      "plugins": {
-        "contactPlugin": {
-          "version": "1.4.3",
-          "provider": "wx104a1a20c3f81ec2"
-        }
-      }
-    },
-    {
-      "name": "mideaReplaceRepair",
-      "root": "midea-replace-repair/",
-      "pages": [
-        "pages/completeInfo/completeInfo",
-        "pages/orderList/orderList",
-        "pages/about/about",
-        "pages/E-InvoiceList/E-InvoiceList",
-        "pages/uploadEvidence/uploadEvidence",
-        "pages/result/result"
-      ]
-    },
-    {
-      "name": "discoverDetailPages",
-      "root": "packageDiscover/",
-      "pages": [
-        "pages/myArticleDetails/myArticleDetails",
-        "pages/graphicDetail/graphicDetail",
-        "pages/menuDetail/menuDetail",
-        "pages/moreComment/moreComment"
-      ],
-      "plugins": {
-        "ylPlugin": {
-          "version": "2.0.5",
-          "provider": "wx0e7661f29ed8566e"
-        }
-      }
-    },
-    {
-      "name": "activitiesTemplates",
-      "root": "activities/activitiesTemp",
-      "pages": [
-        "pages/commonSubPage/commonSubPage",
-        "pages/rewardList/rewardList",
-        "pages/homePage/home",
-        "pages/inviteList/inviteList",
-        "pages/directCharge/directCharge",
-        "pages/beInvite/beInvite",
-        "pages/inviteToFamily/inviteToFamily",
-        "pages/webViewTemp/webViewTemp",
-        "pages/receiveAdress/receiveAdress",
-        "pages/scoreList/scoreList",
-        "pages/rankList/rankList"
-      ]
-    },
-    {
-      "name": "replace-repair",
-      "root": "activities/replace365",
-      "pages": [
-        "pages/home/home"
-      ]
-    },
-    {
-      "name": "common",
-      "root": "activities/common",
-      "pages": [
-        "pages/share/share"
       ]
     }
   ],

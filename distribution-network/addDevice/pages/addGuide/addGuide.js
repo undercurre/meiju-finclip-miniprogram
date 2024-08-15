@@ -661,7 +661,7 @@ Page({
       mac: 'A0:68:1C:BC:38:27', //设备mac combo:'A0:68:1C:74:CC:4A'  一代：'84:7C:9B:77:2D:47' 华凌：'A0:68:1C:BC:38:27'
       type: 'DB', //设备品类 AC
       sn8: '14392',
-      deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/img_wushebei.png', //设备图片
+      deviceImg: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/img_wushebei.png', //设备图片
       moduleType: 1, //模组类型 0：ble 1:ble+weifi
       blueVersion: null, //蓝牙版本 1:1代  2：2代
       mode: 0,

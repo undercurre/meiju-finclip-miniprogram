@@ -5,11 +5,11 @@ Component({
       value: [
         {
           name: '测试中1',
-          src: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/actTemp/images/new-reward-img.png',
+          src: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/actTemp/images/new-reward-img.png',
         },
         {
           name: '测试中2',
-          src: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/actTemp/images/new-reward-img.png',
+          src: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/actTemp/images/new-reward-img.png',
         },
       ],
     },

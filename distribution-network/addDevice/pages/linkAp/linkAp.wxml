@@ -137,11 +137,6 @@
         <view>请到手机系统设置页连上如下无线网络，连接后返回本页面</view>
       </view>
       <view class="info">
-        <!-- <view class="rc" style="margin-bottom: 36rpx">
-          <image class="wifi-img" src="{{wifi}}"></image>
-          <text class="wifi-name">{{brandName}}_{{tools.toLocaleLowerCase(type)}}_</text><text class="sn4">xxxx</text>
-          <text class="pad">(4位数字和字母)</text>
-        </view> -->
         <view class="rc" style="margin-bottom: 36rpx" wx:if="{{originProgramme}}">
           <image class="wifi-img" src="{{wifi}}"></image>
           <text class="wifi-name" wx:if="{{showNormalPaperwork}}">{{brandName}}_{{tools.toLocaleLowerCase(type)}}_</text>
@@ -206,12 +201,9 @@
             <view class="line"></view>
             <view class="detail-four detail-step">
               <text class="detail-text">
-                <text class="step-num">5</text>
+                <text class="step-num">3</text>
                 <text>返回返回美的美居</text>
               </text>
-              <view class="step-four">
-                <image class="detail-img detail-step" src="{{imgBaseUrl+imges.detailStep5}}"></image>
-              </view>
             </view>
           </view>
         </view>

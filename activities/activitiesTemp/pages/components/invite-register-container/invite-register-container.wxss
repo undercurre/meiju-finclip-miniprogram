@@ -1,8 +1,0 @@
-@import '../../common.wxss';
-.bg-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  transform: translateX(-50%);
-}

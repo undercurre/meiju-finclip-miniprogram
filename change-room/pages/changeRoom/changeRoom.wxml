@@ -8,6 +8,7 @@
 <view class="move-device-wrap">
   <mx-cell
     custom-class="home-list-show"
+    value-class="custom-value-class"
     bind:click="onClickHomeList"
     center
     is-link="{{selelectFamilyInfo.roleId=='1001'}}"
@@ -23,6 +24,18 @@
       </view>
     </view>
   </view>
+
+  <view class="btn-container">
+    <!-- <view bindtap="clickCreateBtn" class="click-create-btn"> -->
+    <!-- <mx-icon classPrefix="mx-iconfont" custom-class="custom-plus-class" name="add2" size="14px" color="#267AFF" /> -->
+    <!-- 新建家庭 -->
+    <!-- </view> -->
+    <view bindtap="showAddDialog" class="click-create-btn">
+      <mx-icon classPrefix="mx-iconfont" custom-class="custom-plus-class" name="add2" size="14px" color="#267AFF" />
+      新建房间
+    </view>
+  </view>
+
   <mx-action-sheet
     bind:cancel="toggleActionSheet"
     bind:close="toggleActionSheet"
@@ -38,14 +51,89 @@
         data-homeItem="{{item}}"
         wx:key="index"
         data-index="{{index}}"
-        >{{item.name}}
-        <image
-          style="margin-left: 8rpx"
-          src="{{chooseIco}}"
-          class="chooseIco"
-          wx:if="{{homegroupId==item.homegroupId}}"
-        ></image
+        ><view class="item-content-name"
+          >{{item.name}}
+          <image
+            style="margin-left: 8rpx"
+            src="{{chooseIco}}"
+            class="chooseIco imgage-absoult"
+            wx:if="{{homegroupId==item.homegroupId}}"
+          ></image></view
       ></view>
+      <view class="before-none"></view>
     </view>
   </mx-action-sheet>
+
+  <mx-dialog
+    z-index="10001"
+    use-slot
+    title="家庭名称"
+    show="{{ dialogShow }}"
+    show-cancel-button
+    bind:cancel="onCancel"
+    cancelButtonColor="#267AFF"
+    confirmButtonColor="#267AFF"
+    scale="1"
+    bind:confirm="confirm"
+    autoClose="{{ false }}"
+    top="40%"
+  >
+    <view class="dialog-input">
+      <view class="field-container">
+        <mx-field
+          custom-style="padding: 3px 8px; background: #F9F9F9;border: 1px solid #EEEEEE;font-size:12px"
+          value="{{ familyValue }}"
+          maxlength="{{15}}"
+          type="text"
+          clearable
+          placeholder="请输入家庭名称"
+          border="{{ false }}"
+          bind:input="onChange"
+          bind:click-input="clickInput"
+          input-class="input-class"
+          confirmButtonText="保存"
+          adjust-position="{{false}}"
+          errorMessage="{{errorMessage}}"
+          error-color="{{errorColor}}"
+          focus="{{autoFocus}}"
+        ></mx-field>
+      </view>
+    </view>
+  </mx-dialog>
+
+  <mx-dialog
+    z-index="10001"
+    use-slot
+    title="新建房间名称"
+    show="{{ roomDialogShow }}"
+    show-cancel-button
+    bind:cancel="cancleEdit"
+    cancelButtonColor="#267AFF"
+    confirmButtonColor="#267AFF"
+    confirmButtonText="保存"
+    scale="1"
+    bind:confirm="confirmEdit"
+    autoClose="{{ false }}"
+    top="40%"
+  >
+    <view class="dialog-input">
+      <view class="field-container">
+        <mx-field
+          custom-style="padding: 3px 8px; background: #F9F9F9;border: 1px solid #EEEEEE;font-size:12px"
+          value="{{ roomName }}"
+          maxlength="{{15}}"
+          type="text"
+          clearable
+          placeholder="请输入房间名称"
+          border="{{ false }}"
+          bind:input="onChangeRoom"
+          input-class="input-class"
+          adjust-position="{{false}}"
+          errorMessage="{{errorMessage}}"
+          error-color="{{errorColor}}"
+          focus="{{autoFocus}}"
+        ></mx-field>
+      </view>
+    </view>
+  </mx-dialog>
 </view>

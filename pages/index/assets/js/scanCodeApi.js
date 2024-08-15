@@ -176,7 +176,7 @@ export async function actionScanResultIndex(
     scanRes = await scanCode()
   } catch (error) {
     scanFailTracking({
-      fialReason: '微信扫码接口调用异常',
+      fialReason: '扫码接口调用异常',
       errorCode: error,
     })
   }
@@ -414,7 +414,7 @@ function scanCode() {
       },
       fail(error) {
         // showToast('未发现 有效二维码和条形码', 'none', 3000)
-        Toast({ context: that, position: 'bottom', message: '未发现 有效二维码和条形码' })
+        //Toast({ context: that, position: 'bottom', message: '未发现 有效二维码和条形码' })
         reject(error)
       },
       complete() {

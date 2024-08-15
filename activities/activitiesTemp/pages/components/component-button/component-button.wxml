@@ -1,3 +1,0 @@
-<view class="hotzone-container">
-  <button hover-class="none" class="button" style="height: {{ props.height }}rpx;width: {{ props.width }}rpx;"></button>
-</view>

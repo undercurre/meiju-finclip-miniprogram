@@ -34,13 +34,13 @@
   <mx-dialog
     z-index="10001"
     title="删除房间"
-    message="确定删除该房间吗"
+    message="确定删除此房间"
     show="{{ deleteDialogShow }}"
     show-cancel-button
     bind:close="deleteCancle"
+    confirm-button-text="删除"
     cancelButtonColor="{{publicColor}}"
     confirmButtonColor="{{publicColor}}"
-    scale="1"
     bind:confirm="deleteConfirm"
     messageAlign="{{dialogMessageAlign}}"
   >

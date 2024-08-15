@@ -147,8 +147,8 @@ const config = {
   },
   imgPrefix: {
     dev: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets',
-    sit: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/',
-    prod: 'https://www.smartmidea.net/projects/meiju-lite-assets/',
+    sit: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/',
+    prod: 'https://www.smartmidea.net/projects/meiju-finclip-assets/',
   },
   websocketDomain: {
     dev: 'wss://sse-sit.smartmidea.net',

@@ -19,7 +19,7 @@ Component({
     // 无背景图片 缺省图
     bgImg: {
       type: String,
-      value: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/zwt-img.png',
+      value: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/zwt-img.png',
     },
     direction: {
       type: Boolean,
@@ -36,7 +36,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    // bgImg:'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/zwt-img.png'
+    // bgImg:'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/zwt-img.png'
   },
 
   /**
@@ -49,7 +49,7 @@ Component({
     },
     loadImgError() {
       this.setData({
-        imgSrc: 'https://www.smartmidea.net/projects/sit/meiju-lite-assets/mainContent/images/zwt-img.png',
+        imgSrc: 'https://www.smartmidea.net/projects/sit/meiju-finclip-assets/mainContent/images/zwt-img.png',
       })
     },
   },

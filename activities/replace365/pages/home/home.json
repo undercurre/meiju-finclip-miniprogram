@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "365天换新机",
-  "usingComponents": {
-    "centerDialog": "../../components/sure-center-dialog/sure-center-dialog",
-    "select-device-dialog": "../../components/select-device-dialog/select-device-dialog"
-  }
-}

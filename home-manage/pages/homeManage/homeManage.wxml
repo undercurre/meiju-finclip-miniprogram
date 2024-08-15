@@ -98,7 +98,7 @@
           </view>
         </view>
         <view class="btn-container">
-          <view bindtap="clickCreateBtn">
+          <view bindtap="clickCreateBtn" class="click-create-btn">
             <mx-icon
               classPrefix="mx-iconfont"
               custom-class="custom-plus-class"

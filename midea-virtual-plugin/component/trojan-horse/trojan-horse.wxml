@@ -1,3 +1,0 @@
-<view class="containers0" wx:if="{{isShowHorse}}">
-  <image class="swing" src="/assets/img/loading.png"></image>
-</view>

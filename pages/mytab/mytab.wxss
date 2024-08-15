@@ -317,3 +317,7 @@ button[class='feedback-button']::after {
 .mx-cell__title_title{
   font-weight: 400!important;
 }
+
+.person-box{
+  --cell-vertical-padding:48rpx;
+}

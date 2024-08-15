@@ -16,7 +16,7 @@ Page({
     appVibeTitle: '切换环境',
     vsConsoleTitle: 'vsconsole',
     environment: config.environment,
-    scodeTitle: '打开扫码调试',
+    scodeTitle: '切换扫码调试',
     clearCacheTitle: '清理缓存',
     sdkTitle: 'finClip sdk版本',
     miniProgramTitle: '小程序版本',
@@ -74,6 +74,13 @@ Page({
       show: true,
     })
   },
+  //关闭环境选择
+  toggleActionSheet() {
+    this.setData({
+      show: false,
+    })
+  },
+  //切换环境
   selectItems(e) {
     config.environment = e.detail.name
     ft.changeCustomEnv({ env: e.detail.name })
@@ -94,7 +101,6 @@ Page({
     let self = this
     wx.getSystemInfo({
       success(res) {
-        console.log('获取版本号-----》', res)
         if (res && res.runtimeSDKVersion) {
           self.setData({
             runtimeSDKVersion: res?.runtimeSDKVersion,

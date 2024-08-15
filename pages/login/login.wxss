@@ -21,10 +21,12 @@
 }
 .login-logo {
   position: relative;
+  height: 192rpx;
   z-index: 99;
 }
-.login-logo image {
-  display: block;
+
+.login-logo-image {
+  display: block !important;
   width: 348rpx;
   height: 192rpx;
   margin: 0 auto;
@@ -183,4 +185,7 @@ button::after {
 
 .login-content-privacy{
   width: 100%;
+}
+image{
+  height: auto;
 }

@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "被折叠评论",
-  "navigationBarBackgroundColor": "#FFFFFF",
-  "navigationBarTextStyle": "black",
-  "usingComponents": {
-    "networkoff": "../../components/networkoff/index",
-    "trojanHorse": "/pages/component/trojan-horse/trojan-horse"
-  }
-}

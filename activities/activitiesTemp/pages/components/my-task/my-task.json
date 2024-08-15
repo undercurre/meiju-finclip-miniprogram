@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "view-reward-dialog": "../../components/view-reward-dialog/view-reward-dialog",
-    "hotzone": "../../components/hotzone/hotzone"
-  }
-}

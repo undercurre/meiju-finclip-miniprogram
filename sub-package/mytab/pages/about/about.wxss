@@ -17,12 +17,13 @@ page {
   bottom: 0rpx;
   left: 0rpx;
   width: 750rpx;
-  height: 104rpx;
-  line-height: 104rpx;
-  padding-bottom: 68rpx;
+  height: 128rpx;
+  line-height: 128rpx;
+  padding-bottom: env(safe-area-inset-bottom);
   background: #ffffff;
   font-size: 32rpx;
   text-align: center;
-color: #267AFF;
+  color: #267AFF;
+  font-weight: 500;
 }
 
