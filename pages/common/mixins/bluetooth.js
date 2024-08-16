@@ -1469,7 +1469,7 @@ module.exports = Behavior({
           //微信扫一扫二维码进入配网，没获取到配网指引跳转到下载app页面
           if (app.globalData.fromWechatScan) {
             Dialog.confirm({
-              title: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
+              title: '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待',
               confirmButtonText: '我知道了',
               confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
               showCancelButton: false,
@@ -1508,7 +1508,7 @@ module.exports = Behavior({
       // 校验小程序支持的配网方式
       if (!addDeviceSDK.isSupportAddDeviceMode(app.addDeviceInfo.mode)) {
         if (this.setDialogMixinsData) {
-          this.setDialogMixinsData(true, '该设备暂不支持添加，功能正在迭代升级中，敬请期待', '', false, [
+          this.setDialogMixinsData(true, '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待', '', false, [
             {
               btnText: '我知道了',
               flag: 'confirm',
@@ -1516,13 +1516,13 @@ module.exports = Behavior({
           ])
         } else {
           // wx.showModal({
-          //   content: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
+          //   content: '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待',
           //   confirmText: '我知道了',
           //   confirmColor: '#267aff',
           //   showCancel: false,
           // })
           Dialog.confirm({
-            title: '该设备暂不支持添加，功能正在迭代升级中，敬请期待',
+            title: '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待',
             confirmButtonText: '我知道了',
             confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
             showCancelButton: false,
