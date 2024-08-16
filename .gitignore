@@ -11,6 +11,7 @@ miniprogram_npm/
 plugindevelop.js
 src/modules/module_plugin/T0xBX/
 src/modules/module_plugin/T0xCF/
+src/modules/module_plugin/T0xAC/
 #src/modules/module_plugin/
 #distribution-network/assets/sdk/
 #distribution-network/addDevice/
