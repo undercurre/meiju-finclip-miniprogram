@@ -3,3 +3,5 @@
 #  echo "文件夹【module_plugin/T0x13】删除成功！"
 rm -rf "./src/modules/module_plugin/T0xBX"
 echo "文件夹【module_plugin/T0xBX】删除成功！"
+rm -rf "./src/modules/module_plugin/T0xCF"
+echo "文件夹【module_plugin/T0xCF】删除成功！"
