@@ -43,7 +43,8 @@
     "m-ui": "^2.0.29",
     "m-utilsdk": "1.0.9",
     "@meijuHarmonyOS/T0xBX": "1.2.2",
-    "@meijuHarmonyOS/T0xCF": "^1.0.1"
+    "@meijuHarmonyOS/T0xCF": "^1.0.1",
+    "@meijuHarmonyOS/T0xAC": "1.0.60"
   },
   "lint-staged": {
     "*.js": [
