@@ -27,7 +27,6 @@ var requestService = {
           url = api.urlPrefix + apiName
         }
       }
-
       let MzTdecode_seed = ''
       //品类服透传接口，加密data
       if (apiName == 'MzTransmit') {
@@ -96,7 +95,7 @@ var requestService = {
         terminalId: api.iotTerminalIid,
         iotAppId: api.iotAppId,
         ...headerObj,
-        //'iot-gray-identification': 'alpha', //临时添加alpha泳道
+        'iot-gray-identification': 'beta', //临时添加alpha泳道
       }
       if (getApp() && getApp().globalData && getApp().globalData.userData) {
         let accessToken = getApp().globalData.userData.mdata.accessToken

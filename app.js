@@ -24,6 +24,7 @@ new Tracker({
   tracks: trackConfig,
 })
 
+
 // 配网埋点日志
 import CheckingLog from './miniprogram_npm/m-track/m-track'
 const CKECKING_LOG = new CheckingLog({
@@ -713,7 +714,8 @@ App({
     // 检查网络是否通畅
     return new Promise((resolve, reject) => {
       wx.request({
-        url: 'https://www.smartmidea.net/projects/meiju-finclip-assets/checkingLog/result.json?t=' + new Date().getTime(),
+        url:
+          'https://www.smartmidea.net/projects/meiju-finclip-assets/checkingLog/result.json?t=' + new Date().getTime(),
         data: {},
         header: {
           'content-type': 'application/json',
@@ -737,15 +739,9 @@ App({
     return globalCommonConfig
   },
 
-  //黑白名单获取.appId 先用小程序接口 901，后面会替换到900
+  //黑白名单获取.appId
   getBlackWhiteList(options) {
-    const systemInfo = wx.getSystemInfoSync()
-    let miniProgramenv = api.environment == 'sit' ? 'trial' : 'release'
-    if (systemInfo.platform == 'harmony') {
-      const accountInfo = ft?.getAccountInfoSync()
-      miniProgramenv =
-        accountInfo?.miniProgram?.envVersion == 'develop' ? 'trial' : accountInfo?.miniProgram?.envVersion
-    }
+    let verType=wx.getAccountInfoSync().miniProgram.envVersion=='develop'?'trial':wx.getAccountInfoSync().miniProgram.envVersion
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
       requestService
@@ -755,8 +751,8 @@ App({
             reqId: getReqId(),
             stamp: getStamp(),
             appId: config.iotTerminalIid,
-            // verType: __wxConfig.envVersion,
-            verType: miniProgramenv,
+            //verType: __wxConfig.envVersion,
+            verType: verType,
             ifGrayData: '1',
           },
           'POST'

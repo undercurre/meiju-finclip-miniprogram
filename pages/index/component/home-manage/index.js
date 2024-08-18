@@ -23,7 +23,7 @@ Component({
     homeList: {
       type: Array,
       observer: function (val) {
-        const homePickerHeight = val.length > 5 ? '510rpx' : val.length * 96 + 80 + 'rpx' // 家庭管理弹窗高度
+        const homePickerHeight = val.length > 5 ? '465rpx' : val.length * 86 + 80 + 'rpx' // 家庭管理弹窗高度
         this.data.homePickerHeight = homePickerHeight
         // this.loopHomeGrounpListForRedDot(val)
       },
@@ -175,7 +175,7 @@ Component({
         const iconTriangleAnimation = this.data.iconTriangleAnimation
         const height = this.data.homePickerHeight
         if (showHomeList && homeManageShow) {
-          homePickerAnimation.height(height).width('412rpx').opacity(1).step()
+          homePickerAnimation.height(height).width('432rpx').opacity(1).step()
           iconTriangleAnimation.rotate(180).step()
           //埋点
           clickManageFamily({ familyId: app?.globalData?.applianceHomeData?.homegroupId })

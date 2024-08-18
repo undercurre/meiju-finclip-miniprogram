@@ -1,5 +1,5 @@
 /*
- * @desc:
+ * @desc: 环境变量获取
  * @author: zhucc22
  * @Date: 2024-07-22 16:13:49
  */
@@ -20,6 +20,6 @@ export default function () {
   } catch (error) {
     environment = 'sit'
   }
-  console.log('environment--------->', environment)
+  console.log('getEnv environment--------->', environment)
   return environment
 }
