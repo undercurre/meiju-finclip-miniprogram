@@ -34,12 +34,12 @@ Component({
         joinTest(){
             console.error('参与内测')
             this.triggerEvent('versionUpadte', {
-                detail: {name:'参与内测',type:2}
+                detail: {name:'参与内测',type:3}
             }, {});
         },
         updateNow(){
             this.triggerEvent('versionUpadte', {
-                detail: {name:'立即升级',type:3}
+                detail: {name:'立即升级',type:1}
             }, {});
         },
         togglePoup(){
