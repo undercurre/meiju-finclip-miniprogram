@@ -18,7 +18,7 @@ Component({
             //         开了房见识到了肯德基凯撒
                     
             //         扣法兰看手机卡拉卡`,
-            //         type: 1,    //假定1是可升级， 2是参与内测，3是必须升级
+            //         type: 1,    //1.应用市场， 3.是参与内测
             //     }
             // }
       },
@@ -28,8 +28,10 @@ Component({
       }
     },
 
-
-
+    data:{
+        dialogImgLoaded:true,
+        dialogImg:'./assets/img/version_update.png',
+    },
     methods: {
         joinTest(){
             console.error('参与内测')
@@ -47,6 +49,32 @@ Component({
             this.triggerEvent('versionUpadte', {
                 detail: {name:'暂不升级',type:0}
             }, {});
+        },
+        //图片加载成功
+        dialogImgSuccess(){
+            console.log('弹窗背景图片加载成功')
+            this.setData({
+                dialogImgLoaded: true,
+            })
+        },
+        //图片加载失败
+        dialogImgError(){
+            console.log('弹窗背景图片加载失败')
+            let dialogImg = ''
+            if(this.properties.poupInfomation.type == 1 ){
+    
+                dialogImg = './assets/img/version_update.png'
+    
+            } else if(this.properties.poupInfomation.type == 3) {
+                
+                dialogImg='./assets/img/internal_testing.png'
+    
+            }
+
+            this.setData({
+                dialogImg:dialogImg,
+                dialogImgLoaded:false
+            })
         }
     }
 });

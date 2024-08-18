@@ -216,8 +216,6 @@ Page({
     let params ={}
     wx.getSystemInfo({
       success(res) {
-        console.error('res=================:', res)
-
         params = {
           deviceId: res.deviceId,
           os: res.platform.toLowerCase() == 'harmony' ? 'HarmonyOS' : '',
@@ -226,7 +224,7 @@ Page({
           platform: 3,
           osVersion: res.system,
           version: self.data.appVersion,
-          iotAppId: config.iotAppId[self.data.environment],
+          iotAppId: config.iotAppId[config.environment],
           strategyId: '',
         }
       },
@@ -241,6 +239,7 @@ Page({
         reqId: getReqId(),
         stamp: getStamp(),
       }
+      console.error('reqData=================:', reqData)
       requestService.request(urlName, reqData).then(
         (resp) => {
           console.error('resp----------:',resp)
@@ -2312,10 +2311,24 @@ Page({
     //处理websocket相关逻辑
     console.log('优化 onload', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
     trackLoaded('page_loaded_event', 'pageOnLoad')
-    
     //this.initPushData()
     currentPageOptions = options
     var self = this
+    try {
+      ft.getAppInfo({
+        success: function (res) {
+          console.log('getAppInfo success ------------:',res)
+          self.setData({
+            appVersion: res.data.data.VERSION_NAME,
+          })
+        },
+        fail: function (res) {
+          console.log('getAppInfo fail------:',res)
+        },
+      })
+    } catch (error) {
+      console.log('error---------:',error)
+    }
     app.globalData.invitationCode =
       app.globalData.invitationCode === null || app.globalData.invitationCode === undefined
         ? options.invitationCode
@@ -2344,19 +2357,6 @@ Page({
       try {
         this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-        ft.getAppInfo({
-          success: function (res) {
-            console.log('getAppInfo success ------------')
-            console.log(res)
-            self.setData({
-              appVersion: res.data.data.VERSION_NAME,
-            })
-          },
-          fail: function (res) {
-            console.log('getAppInfo fail')
-            console.log(res)
-          },
-        })
         // if (isAutoLogin) {
         // app.watchLogin(() => {
         // this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭

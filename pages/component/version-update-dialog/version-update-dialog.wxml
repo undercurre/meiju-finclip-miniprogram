@@ -6,7 +6,8 @@
         overlay-style="z-index:10000"
     >
         <view class="poupBox">
-            <image src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img"/>
+            <image wx:if="{{dialogImgLoaded}}" src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img" binderror="deviceImgError" bindload="dialogImgSuccess"/>
+            <image wx:else src="{{dialogImg}}" mode="" class="poupBox-img"/>
             <view class="poupBox-introduce">
                 <text class="poupBox-introduce-text">{{poupInfomation.poupInfo.info}}</text>
             </view>
