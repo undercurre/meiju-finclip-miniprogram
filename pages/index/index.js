@@ -56,6 +56,7 @@ import {
 } from './../../utils/initWebsocket.js'
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
+import config from '../../config.js' //环境及域名基地址配置
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let currentPageOptions = {} // index 页面options
@@ -92,6 +93,8 @@ Page({
       if (app.globalData.isLogon && this.data.currentFamilyDeviceList && this.data.currentFamilyDeviceList.length > 0) {
         await this.getIntervalBatchAuthList(this.data.currentFamilyDeviceList)
       }
+
+      this.checkVersionUpdate()
     }
 
     this.showNetToast() // 无网络提示
@@ -191,6 +194,171 @@ Page({
       })
     }
   },
+  versionUpadte(e) {
+    //子组件传承
+    console.error(e.detail)
+    // this.updateNow()
+    let poupInfomation = this.data.poupInfomation
+    poupInfomation.show = !poupInfomation.show
+    this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
+    this.setData({
+      poupInfomation,
+      showVersionUpdateDialog: this.data.showVersionUpdateDialog,
+    })
+  },
+  updateNow() {
+    try {
+      ft.startAppGalleryDetailAbility()
+    } catch (e) {}
+  },
+  checkVersionUpdate(){
+    let self = this
+    let params ={}
+    wx.getSystemInfo({
+      success(res) {
+        console.error('res=================:', res)
+
+        params = {
+          deviceId: res.deviceId,
+          os: res.platform.toLowerCase() == 'harmony' ? 'HarmonyOS' : '',
+          channel: res.brand.toLowerCase(),
+          deviceName: res.model,
+          platform: 3,
+          osVersion: res.system,
+          version: self.data.appVersion,
+          iotAppId: config.iotAppId[self.data.environment],
+          strategyId: '',
+        }
+      },
+    })
+    return new Promise((resolve, reject) => {
+      let urlName = 'getUpgradeStrategy'
+      if(app.globalData.isLogon){
+          urlName = 'getLoginUpgradeStrategy'
+      }
+      let reqData = {
+        ...params,
+        reqId: getReqId(),
+        stamp: getStamp(),
+      }
+      requestService.request(urlName, reqData).then(
+        (resp) => {
+          console.error('resp----------:',resp)
+          // popType == 0 使用默认规则, 如果是1 或者2 前端首页弹窗都不弹 ，popType == 1 原生 强制更新 原生弹窗
+          if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0){
+            
+            // 查看本地缓存是否有策略id
+            // 如果有策略id
+            // 如果本地缓存记录的次数 == 0 且 间隔 不大于等于 接口返回的间隔，或当前小时不在接口返回的小时范围内 那么就不弹 ，间隔时间默认为 x 自然天
+            let hasDialogId = wx.getStorageInfoSync(resp.data.data.id)
+            let isShowDialog = false //弹窗逻辑标识，为true才弹窗
+            // 获取当前小时
+            let getHour = dateFormat(new Date(), 'hh') *1
+            let isLegiTime = getHour>=resp.data.data.dialogConfig.popPeriodStart*1 && getHour<=resp.data.data.dialogConfig.popPeriodEnd *1 ? true : false
+            //当前小时不在接口返回的小时范围内 
+            if(!isLegiTime){
+              return
+            }
+            if(hasDialogId){
+              // 判断间隔时间是否大于等于 接口返回的间隔
+              let isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime,resp.data.data.dialogConfig.popInterval)
+              // 弹窗次数为0且间隔时间小于 弹窗间隔 不弹窗
+              if(!isPopInterval && hasDialogId.popTimes == 0){
+                return
+              }
+              if(!isPopInterval && hasDialogId.popTimes > 0){
+                //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
+                hasDialogId.popTimes = hasDialogId.popTimes - 1
+                isShowDialog = true
+              }
+              //已符合间隔，即可重置本地缓存
+              if(isPopInterval){
+                hasDialogId.popTimes = resp.data.data.dialogConfig.popTimes - 1
+                hasDialogId.recodeTime = dateFormat(new Date(), 'yyyy-MM-dd')
+                isShowDialog = true
+              }
+              wx.setStorage({
+                key:resp.data.data.id,
+                data:{
+                  popTimes:hasDialogId.popTimes,
+                  recodeTime : hasDialogId.recodeTime
+                },
+                success:()=>{
+                  console.log('有本地缓存弹窗策略保存成功')
+                },
+                fail:()=>{
+                  console.log('有本地缓存弹窗策略保存失败')
+                }
+
+              })
+
+
+            } else {
+              // 本地缓存没有,即可以弹窗
+              // 需要保存信息到本地
+              isShowDialog = true
+              wx.setStorage({
+                key:resp.data.data.id,
+                data:{
+                  popTimes:resp.data.data.dialogConfig.popTimes - 1,
+                  recodeTime : dateFormat(new Date(), 'yyyy-MM-dd')
+                },
+                success:()=>{
+                  console.log('没有本地缓存弹窗策略保存成功')
+                },
+                fail:()=>{
+                  console.log('没有本地缓存弹窗策略保存失败')
+                }
+
+              })
+
+            }
+
+            if(isShowDialog){
+              let poupInfomation = self.data.poupInfomation
+              poupInfomation.show = true
+              poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
+              poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
+    
+              self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
+              self.setData({
+                  poupInfomation,
+                  showVersionUpdateDialog: self.data.showVersionUpdateDialog
+              })
+              resolve(resp)
+              return
+            }
+          } else {
+            reject(resp)
+          }
+
+        },
+        (error) => {
+          console.error('error===========:',error)
+          reject(error)
+        }
+      )
+    })
+  },
+  // 判断记录时间和当前时间的间隔 是否为 interval 自然天 
+  isIntervalDayAfter(recordDate,interval){
+   //将记录时间转为Date对象
+   let recordTime = new Date(recordDate)
+
+   //获取当前时间
+   let todayTime =  new Date()
+   
+   //重置时间，只保留日期
+   recordTime.setHours(0,0,0,0)
+   todayTime.setHours(0,0,0,0)
+   
+   //计算两者之差(毫秒) 再转换天数
+   let timeDifference = (todayTime - recordTime)/(1000 * 60 * 60 * 24);
+  
+   return Math.abs(timeDifference) >= interval*1
+  },
+
+
   onAddToFavorites(res) {
     // webview 页面返回 webViewUrl
     console.log('webViewUrl: ', res.webViewUrl)
@@ -336,9 +504,11 @@ Page({
             开了房见识到了肯德基凯撒
             
             扣法兰看手机卡拉卡`,
-        type: 3, //假定1是可升级， 2是参与内测，3是必须升级
+        type: 1, //1.应用市场， 3.是参与内测
       },
     },
+    showVersionUpdateDialog: false,
+    appVersion: '',
   },
   //长链接推送解析
   async initPushData() {
@@ -2142,6 +2312,7 @@ Page({
     //处理websocket相关逻辑
     console.log('优化 onload', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
     trackLoaded('page_loaded_event', 'pageOnLoad')
+    
     //this.initPushData()
     currentPageOptions = options
     var self = this
@@ -2173,6 +2344,19 @@ Page({
       try {
         this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
+        ft.getAppInfo({
+          success: function (res) {
+            console.log('getAppInfo success ------------')
+            console.log(res)
+            self.setData({
+              appVersion: res.data.data.VERSION_NAME,
+            })
+          },
+          fail: function (res) {
+            console.log('getAppInfo fail')
+            console.log(res)
+          },
+        })
         // if (isAutoLogin) {
         // app.watchLogin(() => {
         // this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭
