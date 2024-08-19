@@ -59,7 +59,6 @@ Page({
     checkPermissionRes: {
       isCanBlue: true,
       isCanLocation: true,
-      isCanWifi:true,// wifi权限
       type: '', //权限类型
       permissionTextAll: null, //权限提示文案
       permissionTypeList: {},
@@ -267,25 +266,27 @@ Page({
     console.error('systemInfo====:',systemInfo)
     let self = this
     let { isCheckGray } = app.addDeviceInfo
-
+    let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
     try {
         this.actionBlue()
         let checkWifiPermissionRes = this.data.checkWifiPermissionRes
         checkWifiPermissionRes.isCanWifi = systemInfo.wifiEnabled,
         checkWifiPermissionRes.permissionTypeList.wifiEnabled = systemInfo.wifiEnabled
-        this.setData({
-          checkWifiPermissionRes:checkWifiPermissionRes
-        })
         if(systemInfo.wifiEnabled){
           
           this.actionWifi()
         } else {
+          this.setData({
+            isCanAddDevice: isCan,
+            checkWifiPermissionRes:checkWifiPermissionRes
+          })
           return
         }
-      let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
-      this.setData({
-        isCanAddDevice: isCan,
-      })
+        this.setData({
+          isCanAddDevice: isCan,
+          checkWifiPermissionRes:checkWifiPermissionRes
+        })
+
       if (!this.data.isCanAddDevice) {
         console.log('用户无权限添加设备')
         return
