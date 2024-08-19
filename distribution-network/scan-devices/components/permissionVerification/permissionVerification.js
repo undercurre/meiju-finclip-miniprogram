@@ -9,10 +9,10 @@ Component({
         checkWifiPermissionRes:{
             type: Object,
             value: {
-                isCanWifi:true,
-                type: 'wifi', //权限类型
-                permissionTextAll: `开启WLAN开关\n以便扫描添加智能设备`, //权限提示文案
-                permissionTypeList: {wifiEnabled:true},
+                // isCanWifi:true,
+                // type: 'wifi', //权限类型
+                // permissionTextAll: `开启WLAN开关\n以便扫描添加智能设备`, //权限提示文案
+                // permissionTypeList: {wifiEnabled:true},
             }
         }
     },
