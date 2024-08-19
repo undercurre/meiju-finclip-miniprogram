@@ -199,8 +199,6 @@ Page({
   },
 
   async openJurisdiction(){ //去开启
-    // let locationRes = await checkPermission.loaction()
-    // let permissionTypeList = locationRes.permissionTypeList
     let blueRes = await checkPermission.blue()
     let permissionTypeList = blueRes.permissionTypeList
     let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList

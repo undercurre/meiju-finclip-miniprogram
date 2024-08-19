@@ -123,8 +123,8 @@ const checkPermission = {
     //蓝牙开关未开
     if (!res[0].bluetoothEnabled) {
     //   permissionText.push('开启手机蓝牙')
-      permissionText.push('开启蓝牙权限')
-      permissionText.push('用于蓝牙连接与控制设备等功能')
+      permissionText.push('开启蓝牙开关')
+      permissionText.push('以便扫描添加智能设备')
       permissionTypeList.bluetoothEnabled = false
     } else {
       permissionTypeList.bluetoothEnabled = true
@@ -133,6 +133,9 @@ const checkPermission = {
     //需要授权蓝牙但未授权
     if (res[0].bluetoothAuthorized != undefined && res[0].bluetoothAuthorized !== 'authorized') {
       // permissionText.push('授予微信使用蓝牙的权限')
+      permissionText = []
+      permissionText.push('开启蓝牙权限')
+      permissionText.push('以便扫描添加智能设备')
       permissionTypeList.bluetoothAuthorized = false
     } else {
       permissionTypeList.bluetoothAuthorized = true
