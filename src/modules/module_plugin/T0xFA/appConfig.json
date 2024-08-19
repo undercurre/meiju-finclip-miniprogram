@@ -1,9 +1,0 @@
-{
-  "subpackages": [
-    {
-      "name": "T0xFA",
-      "root": "plugin/T0xFA",
-      "pages": ["index/index"]
-    }
-  ]
-}
