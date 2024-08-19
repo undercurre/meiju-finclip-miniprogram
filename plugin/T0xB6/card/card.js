@@ -142,6 +142,7 @@ Component({
     bgColorGood: '#EBFAFF',
     bgColorSoso: '#FFF2E9',
     bgColorBad: '#FFEBEA',
+    setting: {}
   },
   methods: {
     getCurrentMode() {
@@ -308,6 +309,10 @@ Component({
           params.wind_type = 5
           params.steaming = 'off'
         }
+      }
+
+      if(this.data.setting.AiDryCleanBtn) {
+        params.power = 'off'
       }
 
       if (params.power == 'off') {
@@ -491,7 +496,7 @@ Component({
       }
       let gearStatus = {}
       if (status.gear && status.gear != 18 && status.gear != 21) {
-        var maxGear = this.data.gear.item[this.data.gear.item.length - 1].gear
+        var maxGear = this.data.gear.items[this.data.gear.items.length - 1].value
         if (status.gear > 4) {
           switch (status.gear) {
             case 121:
@@ -519,7 +524,7 @@ Component({
             default:
               status.gear = maxGear
           }
-          const newIndex = this.data.gear.items.findIndex((x) => x.gear == status.gear)
+          const newIndex = this.data.gear.items.findIndex((x) => x.value == status.gear || x.gear == status.gear)
           gearStatus['gear.index'] = newIndex
           if (this.data.maxGear.used) {
             gearStatus['maxGear.mode'] = this.data.gear.items[newIndex].super ? 'on' : 'off'
@@ -530,7 +535,7 @@ Component({
             }
           }
         } else {
-          const newIndex = this.data.gear.items.findIndex((x) => x.gear == status.gear)
+          const newIndex = this.data.gear.items.findIndex((x) => x.value == status.gear || x.gear == status.gear)
           gearStatus['gear.index'] = newIndex
           if (this.data.maxGear.used) {
             gearStatus['maxGear.mode'] = this.data.gear.items[newIndex].super ? 'on' : 'off'
@@ -834,6 +839,7 @@ Component({
       isElectron: setting.isElectron != undefined ? true : false,
       isOtherOne: isOne,
       electronic_control_version: setting.electronic_control_version || 1,
+      setting: setting
     })
     // if(setting.electronic_control_version == 2) {
 
