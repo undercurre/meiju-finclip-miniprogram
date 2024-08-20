@@ -6,18 +6,19 @@
         overlay-style="z-index:10000"
     >
         <view class="poupBox">
-            <image src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img"/>
+            <image wx:if="{{dialogImgLoaded}}" src="{{poupInfomation.poupInfo.img}}" mode="" class="poupBox-img" binderror="deviceImgError" bindload="dialogImgSuccess"/>
+            <image wx:else src="{{dialogImg}}" mode="" class="poupBox-img"/>
             <view class="poupBox-introduce">
                 <text class="poupBox-introduce-text">{{poupInfomation.poupInfo.info}}</text>
             </view>
             <div class="poupBox-button-wrapper">
-                <view wx:if="{{poupInfomation.poupInfo.type == 2}}">
+                <view wx:if="{{poupInfomation.poupInfo.type == 3}}">
                     <mx-button size="large" type="primary" round="{{true}}" bind:click="joinTest">参与内测</mx-button>
                 </view>
                 <view wx:else>
                     <mx-button size="large" type="primary" round="{{true}}"  bind:click="updateNow">立即升级</mx-button>
                 </view>
-                <view wx:if="{{poupInfomation.poupInfo.type != 3}}">
+                <view>
                     <mx-button size="large" type="weak" round="{{true}}" bind:click="togglePoup">暂不升级</mx-button>
                 </view>
             </div>

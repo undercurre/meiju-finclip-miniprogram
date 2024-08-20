@@ -368,9 +368,9 @@ Page({
       : 4008899315
     let filterList = deviceSetting.funcList.filter((item) => item.key == 'Filter')
     let urlList = []
-    if (buyList.length && deviceSetting.funcList) {
-      urlList = buyList.filter((v) => v.no == filterList[idx].filterNum)
-    }
+    // if (buyList.length && deviceSetting.funcList) {
+    //   urlList = buyList.filter((v) => v.no == filterList[idx].filterNum)
+    // }
     pluginEventTrack('user_behavior_event', null, {
       page_id: 'page_filter',
       page_name: '滤芯详情页',

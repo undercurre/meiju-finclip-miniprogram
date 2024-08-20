@@ -177,38 +177,6 @@ Page({
 
   async getpermissionTextAll(type) {
     let object_name = []
-    // if (type == 'location') {
-    //   let locationRes = await checkPermission.loaction()
-    //   let permissionTypeList = locationRes.permissionTypeList
-    //   let { locationEnabled, locationAuthorized, scopeUserLocation } = permissionTypeList
-    //   if (!locationEnabled) {
-    //     object_name.push('开启定位服务')
-    //   }
-    //   if (!locationAuthorized) {
-    //     object_name.push('允许微信获取位置权限')
-    //   }
-    //   if (!scopeUserLocation) {
-    //     object_name.push('允许小程序使用位置权限')
-    //   }
-    //   object_name = object_name.join('/')
-    // } else if (type == 'blue') {
-    //   let blueRes = await checkPermission.blue()
-    //   let permissionTypeList = blueRes.permissionTypeList
-    //   let { bluetoothEnabled, bluetoothAuthorized, scopeBluetooth } = permissionTypeList
-    //   if (!bluetoothEnabled) {
-    //     // object_name.push('开启蓝牙服务')
-    //     object_name.push('开启蓝牙权限')
-    //   }
-    //   if (!bluetoothAuthorized) {
-    //     // object_name.push('允许微信获取蓝牙权限')
-    //     object_name.push('用于蓝牙连接与控制设备等功能')
-    //   }
-    //   if (!scopeBluetooth) {
-    //     // object_name.push('允许小程序使用蓝牙权限')
-    //     object_name.push('用于蓝牙连接与控制设备等功能')
-    //   }
-    //   object_name = object_name.join('/')
-    // }
     if (type == 'blue') {
       let blueRes = await checkPermission.blue()
       let permissionTypeList = blueRes.permissionTypeList
@@ -231,8 +199,6 @@ Page({
   },
 
   async openJurisdiction(){ //去开启
-    // let locationRes = await checkPermission.loaction()
-    // let permissionTypeList = locationRes.permissionTypeList
     let blueRes = await checkPermission.blue()
     let permissionTypeList = blueRes.permissionTypeList
     let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
@@ -298,25 +264,27 @@ Page({
     console.error('systemInfo====:',systemInfo)
     let self = this
     let { isCheckGray } = app.addDeviceInfo
-
+    let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
     try {
         this.actionBlue()
         let checkWifiPermissionRes = this.data.checkWifiPermissionRes
         checkWifiPermissionRes.isCanWifi = systemInfo.wifiEnabled,
         checkWifiPermissionRes.permissionTypeList.wifiEnabled = systemInfo.wifiEnabled
-        this.setData({
-          checkPermissionRes:checkWifiPermissionRes
-        })
         if(systemInfo.wifiEnabled){
           
           this.actionWifi()
         } else {
+          this.setData({
+            isCanAddDevice: isCan,
+            checkWifiPermissionRes:checkWifiPermissionRes
+          })
           return
         }
-      let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
-      this.setData({
-        isCanAddDevice: isCan,
-      })
+        this.setData({
+          isCanAddDevice: isCan,
+          checkWifiPermissionRes:checkWifiPermissionRes
+        })
+
       if (!this.data.isCanAddDevice) {
         console.log('用户无权限添加设备')
         return
@@ -721,15 +689,6 @@ Page({
         isCanBlue: true
       },
     })
-
-    let wifiPermission = await checkPermission.wifi()
-    console.error('wifiPermission======:',wifiPermission)
-    if (!wifiPermission.isCanWifi) {
-      this.setData({
-        checkPermissionRes: wifiPermission,
-      })
-      return false
-    }
     return true
   },
 
@@ -801,38 +760,6 @@ Page({
     }
     this.data.retryFlag = true
     let { type } = this.data.checkPermissionRes
-    // if (type == 'location') {
-    //   clickEventTracking('user_behavior_event', 'researchDevice', {
-    //     page_id: 'page_open_locate_new',
-    //     page_name: '提示需开启位置权限页面',
-    //     page_path: getFullPageUrl(),
-    //     module: 'appliance',
-    //     widget_id: 'click_research device',
-    //     widget_name: '重新搜索设备',
-    //     object_type: '弹窗类型',
-    //     object_id: '',
-    //     object_name: (await this.getpermissionTextAll('location')) || '',
-    //     device_info: {
-    //       device_session_id: getApp().globalData.deviceSessionId || '',
-    //     },
-    //   })
-    // }
-    // if (type == 'blue') {
-    //   clickEventTracking('user_behavior_event', 'researchDevice', {
-    //     page_id: 'page_page_open_bluetooth_new',
-    //     page_name: '提示需开启蓝牙权限页面',
-    //     page_path: getFullPageUrl(),
-    //     module: 'appliance',
-    //     widget_id: 'click_research device',
-    //     widget_name: '重新搜索设备',
-    //     object_type: '弹窗类型',
-    //     object_id: '',
-    //     object_name: (await this.getpermissionTextAll('blue')) || '',
-    //     device_info: {
-    //       device_session_id: getApp().globalData.deviceSessionId || '',
-    //     },
-    //   })
-    // }
     let permission = await this.permissionCheckTip()
     console.log('[retry permission]', permission)
     if (permission && this.data.checkWifiPermissionRes.isCanWifi) {

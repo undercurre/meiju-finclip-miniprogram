@@ -28,9 +28,9 @@ const imgesList= {
     apName: '/addDeviceAboutImg/wifi_img_guide@3x.png',
     noFound: '/addDeviceAboutImg/img_no found shebei.png',
     noResult: '/addDeviceAboutImg/img_no_result@.png',
-    img_wifi:'/addDeviceAboutImg/img_wifi.png',
-    img_wifi_new:'/addDeviceAboutImg/img_wifi_new.png',
-    android_checkwifi:'/addDeviceAboutImg/android_checkwifi@2x.png',
+    img_wifi:'/addDeviceAboutImg/checkwifi@2x.png',
+    img_wifi_new:'/addDeviceAboutImg/checkwifi@2x.png',
+    android_checkwifi:'/addDeviceAboutImg/checkwifi@2x.png',
     net_ic_phone:'/addDeviceAboutImg/net_ic_phone@3x.png',
     net_ic_fail:'/addDeviceAboutImg/net_ic_fail@3x.png',
 
@@ -56,17 +56,17 @@ const imgesList= {
     noWifiList: '/addDeviceAboutImg/img_no home@3x.png',
 
     //linkAp
-    linkDeviceWifiMidea: '/addDeviceAboutImg/Midea_iOS.gif',
+    linkDeviceWifiMidea: '/addDeviceAboutImg/linkap-midea-harmony.png',
     linkDeviceWifiMidea_new: '/addDeviceAboutImg/link_Device_wifi_midea.png',
-    linkDeviceWifiMidea_colmo: '/addDeviceAboutImg/linkap-colmo-ios.gif',
-    linkDeviceWifiMidea_midea: '/addDeviceAboutImg/linkap-midea-ios.gif',
-    android_ApName: '/addDeviceAboutImg/Midea_android.gif',
-    android_ApName_colmo: '/addDeviceAboutImg/linkap-colmo-Android.gif',
-    android_ApName_midea: '/addDeviceAboutImg/linkap-midea-Android.gif',
+    linkDeviceWifiMidea_colmo: '/addDeviceAboutImg/linkap-colmo-harmony.png',
+    linkDeviceWifiMidea_midea: '/addDeviceAboutImg/linkap-midea-harmony.png',
+    android_ApName: '/addDeviceAboutImg/linkap-midea-harmony.png',
+    android_ApName_colmo: '/addDeviceAboutImg/linkap-colmo-harmony.png',
+    android_ApName_midea: '/addDeviceAboutImg/linkap-midea-harmony.png',
 
 
-    android_linkDeviceWifiBugu: '/addDeviceAboutImg/bugu_Android.gif',
-    linkDeviceWifiBugu: '/addDeviceAboutImg/bugu_iOS.gif',
+    android_linkDeviceWifiBugu: '/addDeviceAboutImg/bugu_harmony.png',
+    linkDeviceWifiBugu: '/addDeviceAboutImg/bugu_harmony.png',
     detailPackUp: '/addDeviceAboutImg/ic_zhankai@3x.png',
     detailExpand: '/addDeviceAboutImg/ic_shouqi@3x.png',
     detailStep2: '/addDeviceAboutImg/img_step2@3x.png',
