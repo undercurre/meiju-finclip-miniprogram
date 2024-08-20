@@ -59,14 +59,13 @@ import { isColmoDeviceBySn8 } from '../../../common/js/device'
 import Dialog from '../../../../miniprogram_npm/m-ui/mx-dialog/dialog'
 import { imgesList } from '../../../assets/js/shareImg.js'
 import { getPluginUrl } from '../../../../utils/getPluginUrl'
-const bluetooth = require('../../../../pages/common/mixins/bluetooth')
 const imgUrl = imgBaseUrl.url + '/shareImg/' + app.globalData.brand
 const brandStyle = require('../../../assets/js/brand.js')
 // console.log('brandStyle:',brandStyle)
 const linkDeviceApTimeOut = 10 //秒
 
 Page({
-  behaviors: [bleNeg, addDeviceMixin, wahinMixin, netWordMixin, computedBehavior, getFamilyPermissionMixin,bluetooth],
+  behaviors: [bleNeg, addDeviceMixin, wahinMixin, netWordMixin, computedBehavior, getFamilyPermissionMixin],
   /**
    * 页面的初始数据
    */
