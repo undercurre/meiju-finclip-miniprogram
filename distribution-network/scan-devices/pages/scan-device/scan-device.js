@@ -94,18 +94,24 @@ Page({
     wx.onBluetoothAdapterStateChange(function (res) {
         console.error('res=====:',res)
         console.error('蓝牙状态已改变333');
-        self.permissionCheckTip()//校验权限
-        if (res.available) {
-            if (res.available) {
-              self.startBluetoothDevicesDiscovery(0)
-              }
-        // 蓝牙已打开并且正在搜索设备
-        console.error('蓝牙已打开，正在搜索设备2');
-        // self.retry()
-        } else {
-        // 蓝牙未打开
-        console.error('蓝牙未打开2');
+        let page = getFullPageUrl()
+        if (page.includes('scan-devices/pages/scan-device/scan-device')){
+          if (res.available) {
+            self.startBluetoothDevicesDiscovery(0)
+            // 蓝牙已打开并且正在搜索设备
+            console.error('蓝牙已打开，正在搜索设备2');
+            if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新校验权限
+              self.permissionCheckTip()//校验权限
+            }
+          } else {
+            // 蓝牙未打开
+            console.error('蓝牙未打开2');
+            if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新校验权限
+              self.permissionCheckTip()//校验权限
+            }
+          }
         }
+
     });
     getApp().onLoadCheckingLog()
     console.log('品牌:', app.globalData.brand)
@@ -348,7 +354,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    console.log('onUnload111')
+    console.log('scna-devices-onUnload111')
     getApp().onUnloadCheckingLog()
 
     this.stopBluetoothDevicesDiscovery()
@@ -360,7 +366,7 @@ Page({
     // this.stopBluetoothDevicesDiscovery()
     this.clearTimer()
     this._clearTimeout()
-
+    wx.offBluetoothAdapterStateChange()
     // wx.offBluetoothDeviceFound()
     // wx.offGetWifiList()
     // this.clearTimer()

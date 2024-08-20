@@ -59,13 +59,14 @@ import { isColmoDeviceBySn8 } from '../../../common/js/device'
 import Dialog from '../../../../miniprogram_npm/m-ui/mx-dialog/dialog'
 import { imgesList } from '../../../assets/js/shareImg.js'
 import { getPluginUrl } from '../../../../utils/getPluginUrl'
+const bluetooth = require('../../../../pages/common/mixins/bluetooth')
 const imgUrl = imgBaseUrl.url + '/shareImg/' + app.globalData.brand
 const brandStyle = require('../../../assets/js/brand.js')
 // console.log('brandStyle:',brandStyle)
 const linkDeviceApTimeOut = 10 //秒
 
 Page({
-  behaviors: [bleNeg, addDeviceMixin, wahinMixin, netWordMixin, computedBehavior, getFamilyPermissionMixin],
+  behaviors: [bleNeg, addDeviceMixin, wahinMixin, netWordMixin, computedBehavior, getFamilyPermissionMixin,bluetooth],
   /**
    * 页面的初始数据
    */
@@ -4134,9 +4135,7 @@ Page({
         self.init()
       }
       if (res.available) {
-        if (res.available) {
-          self.startBluetoothDevicesDiscovery(0)
-        }
+        self.startBluetoothDevicesDiscovery(0)
         // 蓝牙已打开并且正在搜索设备
         console.error('linkDevice蓝牙已打开，正在搜索设备');
         // self.retry()
@@ -4223,7 +4222,7 @@ Page({
     this.data.pageStatus = 'unload'
     app.onUnloadCheckingLog()
     app.globalData.scanObj = {} //配网成功了后，需要清除数据，不然下次自发现会用到旧的数据状态
-    console.log('页面返回清除了定时器')
+    console.log('linkDevice-onUnload-页面返回清除了定时器')
     clearInterval(timer)
     clearInterval(udpCycTimer)
     if(app.addDeviceInfo.mode != 'WB01_bluetooth_connection'){
@@ -4243,6 +4242,7 @@ Page({
       this.finishTcp()
     }
     this.setData({ ishowCableDialog: false })
+    wx.offBluetoothAdapterStateChange()
   },
 
   /**
