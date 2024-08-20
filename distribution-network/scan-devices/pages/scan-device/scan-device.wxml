@@ -5,7 +5,7 @@
   </nav-bar>
   <view wx:if="{{isCanAddDevice}}" class="scan-container">
     <view style="flex: 1">
-      <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue || !checkWifiPermissionRes.isCanWifi}}">
+      <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue}}">
         <!-- <view style="margin-top: 180rpx;">
           <image
             wx:if="{{!checkPermissionRes.isCanLocation}}"
