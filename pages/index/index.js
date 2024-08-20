@@ -197,7 +197,15 @@ Page({
   versionUpadte(e) {
     //子组件传承
     console.error(e.detail)
-    // this.updateNow()
+    if (e.detail.detail.type == 1) {
+      //立即升级
+      console.error('进入立即升级')
+      this.updateNow()
+    } else if (e.detail.detail.type == 3) {
+      //参与内测
+      console.error('进入参与内测')
+      this.joinTest()
+    }
     let poupInfomation = this.data.poupInfomation
     poupInfomation.show = !poupInfomation.show
     this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
@@ -210,6 +218,14 @@ Page({
     try {
       ft.startAppGalleryDetailAbility()
     } catch (e) {}
+  },
+  joinTest() {
+    //ft.startBrowsableAbility({ uri: '' })
+    try {
+      ft.startBrowsableAbility()
+    } catch(e){
+      
+    }
   },
   checkVersionUpdate(){
     let self = this
@@ -239,16 +255,16 @@ Page({
         reqId: getReqId(),
         stamp: getStamp(),
       }
-      console.error('reqData=================:', reqData)
+      console.log('checkVersionUpdate-reqData=================:', reqData)
       requestService.request(urlName, reqData).then(
         (resp) => {
-          console.error('resp----------:',resp)
+          console.error('checkVersionUpdate-resp----------:',resp)
           // popType == 0 使用默认规则, 如果是1 或者2 前端首页弹窗都不弹 ，popType == 1 原生 强制更新 原生弹窗
           if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0){
             
             // 查看本地缓存是否有策略id
             // 如果有策略id
-            // 如果本地缓存记录的次数 == 0 且 间隔 不大于等于 接口返回的间隔，或当前小时不在接口返回的小时范围内 那么就不弹 ，间隔时间默认为 x 自然天
+            // 如果本地缓存记录的次数 == 0 或 间隔 不大于等于 接口返回的间隔，或当前小时不在接口返回的小时范围内 那么就不弹 ，间隔时间默认为 x 自然天
             let hasDialogId = wx.getStorageInfoSync(resp.data.data.id)
             let isShowDialog = false //弹窗逻辑标识，为true才弹窗
             // 获取当前小时
@@ -261,19 +277,13 @@ Page({
             if(hasDialogId){
               // 判断间隔时间是否大于等于 接口返回的间隔
               let isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime,resp.data.data.dialogConfig.popInterval)
-              // 弹窗次数为0且间隔时间小于 弹窗间隔 不弹窗
-              if(!isPopInterval && hasDialogId.popTimes == 0){
+              // 弹窗次数为0 或者 还没到间隔时间 不弹窗
+              if(!isPopInterval || hasDialogId.popTimes == 0){
                 return
               }
-              if(!isPopInterval && hasDialogId.popTimes > 0){
+              if(isPopInterval && hasDialogId.popTimes > 0){
                 //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
                 hasDialogId.popTimes = hasDialogId.popTimes - 1
-                isShowDialog = true
-              }
-              //已符合间隔，即可重置本地缓存
-              if(isPopInterval){
-                hasDialogId.popTimes = resp.data.data.dialogConfig.popTimes - 1
-                hasDialogId.recodeTime = dateFormat(new Date(), 'yyyy-MM-dd')
                 isShowDialog = true
               }
               wx.setStorage({
@@ -333,28 +343,27 @@ Page({
 
         },
         (error) => {
-          console.error('error===========:',error)
+          console.error('checkVersionUpdate-error===========:',error)
           reject(error)
         }
       )
     })
   },
-  // 判断记录时间和当前时间的间隔 是否为 interval 自然天 
+  // 判断记录时间和当前时间的间隔 是否为 interval 自然天 * 24 小时
+  
   isIntervalDayAfter(recordDate,interval){
    //将记录时间转为Date对象
    let recordTime = new Date(recordDate)
 
    //获取当前时间
    let todayTime =  new Date()
+
    
-   //重置时间，只保留日期
-   recordTime.setHours(0,0,0,0)
-   todayTime.setHours(0,0,0,0)
-   
-   //计算两者之差(毫秒) 再转换天数
-   let timeDifference = (todayTime - recordTime)/(1000 * 60 * 60 * 24);
+   //计算两者之差(毫秒),再转换成小时
+   let timeDifference = (todayTime.getTime() - recordTime.getTime())/(1000 * 3600)
+
   
-   return Math.abs(timeDifference) >= interval*1
+   return Math.abs(timeDifference) >= interval*24
   },
 
 

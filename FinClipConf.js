@@ -73,5 +73,11 @@ module.exports = {
       sync: true, //是否为同步api
       params: {},
     },
+    {
+      // 拉起浏览器接口 - 内测升级弹窗
+      name: 'startBrowsableAbility',
+      sync: true, //是否为同步api
+      params: {},
+    },
   ],
 }
