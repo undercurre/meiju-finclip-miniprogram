@@ -52,8 +52,8 @@
           </view>
           <view class="wifiSetting">
             <view class="wifiView" wx:if="{{brand != 'colmo'}}">
-              <image class="wifiImg" style="width:400rpx;height: 360rpx;"  wx:if="{{system=='Android'}}" src="{{android_checkwifi}}"></image>
-              <image class="wifiImg" style="width:400rpx;height: 360rpx;" wx:if="{{system=='iOS'}}" src="{{img_wifi}}"></image>
+              <image class="wifiImg" style="width:686rpx;height: 384rpx;" src="{{android_checkwifi}}"></image>
+             <!--  <image class="wifiImg" style="width:400rpx;height: 360rpx;" wx:if="{{system=='iOS'}}" src="{{img_wifi}}"></image> -->
             </view>
             <view class="wifiView" wx:else style="margin-top:22rpx;width:100%;">
               <image class="wifiImg" src="{{img_wifi}}" style="width:654rpx;margin-left:48rpx;height: 350rpx;"></image>
