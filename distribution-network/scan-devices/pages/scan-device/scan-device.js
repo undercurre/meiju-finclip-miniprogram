@@ -90,29 +90,29 @@ Page({
 
 
     let self = this
-    // 监听蓝牙状态变化
-    wx.onBluetoothAdapterStateChange(function (res) {
-        console.error('res=====:',res)
-        console.error('蓝牙状态已改变333');
-        let page = getFullPageUrl()
-        if (page.includes('scan-devices/pages/scan-device/scan-device')){
-          if (res.available) {
-            self.startBluetoothDevicesDiscovery(0)
-            // 蓝牙已打开并且正在搜索设备
-            console.error('蓝牙已打开，正在搜索设备2');
-            if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新校验权限
-              self.permissionCheckTip()//校验权限
-            }
-          } else {
-            // 蓝牙未打开
-            console.error('蓝牙未打开2');
-            if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新校验权限
-              self.permissionCheckTip()//校验权限
-            }
-          }
-        }
+    // // 监听蓝牙状态变化
+    // wx.onBluetoothAdapterStateChange(function (res) {
+    //     console.error('res=====:',res)
+    //     console.error('蓝牙状态已改变333');
+    //     let page = getFullPageUrl()
+    //     if (page.includes('scan-devices/pages/scan-device/scan-device')){
+    //       if (res.available) {
+    //         self.startBluetoothDevicesDiscovery(0)
+    //         // 蓝牙已打开并且正在搜索设备
+    //         console.error('蓝牙已打开，正在搜索设备2');
+    //         if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新校验权限
+    //           self.permissionCheckTip()//校验权限
+    //         }
+    //       } else {
+    //         // 蓝牙未打开
+    //         console.error('蓝牙未打开2');
+    //         if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新校验权限
+    //           self.permissionCheckTip()//校验权限
+    //         }
+    //       }
+    //     }
 
-    });
+    // });
     getApp().onLoadCheckingLog()
     console.log('品牌:', app.globalData.brand)
     this.data.brand = app.globalData.brand

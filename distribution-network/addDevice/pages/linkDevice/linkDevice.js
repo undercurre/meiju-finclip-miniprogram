@@ -4128,22 +4128,22 @@ Page({
   async onLoad() {
     let self = this
     // 监听蓝牙状态变化
-    wx.onBluetoothAdapterStateChange(function (res) {
-      console.error('linkDeviceres=====:',res)
-      console.error('linkDevice蓝牙状态已改变');
-      if(self.data.isNoOpenBlueFlag){
-        self.init()
-      }
-      if (res.available) {
-        self.startBluetoothDevicesDiscovery(0)
-        // 蓝牙已打开并且正在搜索设备
-        console.error('linkDevice蓝牙已打开，正在搜索设备');
-        // self.retry()
-      } else {
-        // 蓝牙未打开
-        console.error('linkDevice蓝牙未打开');
-      }
-    });
+    // wx.onBluetoothAdapterStateChange(function (res) {
+    //   console.error('linkDeviceres=====:',res)
+    //   console.error('linkDevice蓝牙状态已改变');
+    //   if(self.data.isNoOpenBlueFlag){
+    //     self.init()
+    //   }
+    //   if (res.available) {
+    //     self.startBluetoothDevicesDiscovery(0)
+    //     // 蓝牙已打开并且正在搜索设备
+    //     console.error('linkDevice蓝牙已打开，正在搜索设备');
+    //     // self.retry()
+    //   } else {
+    //     // 蓝牙未打开
+    //     console.error('linkDevice蓝牙未打开');
+    //   }
+    // });
     app.onLoadCheckingLog()
     this.data.brand = app.globalData.brand
     this.setData({
