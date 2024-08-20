@@ -233,56 +233,47 @@ Page({
   },
 
 
-  wifiStateOnChange() {
-    ft.wifiStateOnChange({ success: this.handleRes })
-  },
+//   wifiStateOnChange() {
+//     ft.wifiStateOnChange({ success: this.handleRes })
+//   },
 
-  handleRes(res) {
-    let self = this
-    console.error("调用customEvent success=====:",res);
-    console.error("调用customEventes.data.resultCode=====:",res.data.resultCode);
-    //res.resultCode 0 未激活，1 已激活
-    let openWifi = res.data.resultCode==1?true:false
-    setTimeout(()=>{
-      let checkWifiPermissionRes = self.data.checkWifiPermissionRes
-      checkWifiPermissionRes.isCanWifi = openWifi,
-      checkWifiPermissionRes.permissionTypeList.wifiEnabled = openWifi
-      self.setData({
-        checkWifiPermissionRes:{...checkWifiPermissionRes}
-      })
-      console.error('wifi切换：',checkWifiPermissionRes)
-    },500)
-    this.wifiStateOnChange()
-  },
+//   handleRes(res) {
+//     let self = this
+//     console.error("调用customEvent success=====:",res);
+//     console.error("调用customEventes.data.resultCode=====:",res.data.resultCode);
+//     //res.resultCode 0 未激活，1 已激活
+//     let openWifi = res.data.resultCode==1?true:false
+//     setTimeout(()=>{
+//       let checkWifiPermissionRes = self.data.checkWifiPermissionRes
+//       checkWifiPermissionRes.isCanWifi = openWifi,
+//       checkWifiPermissionRes.permissionTypeList.wifiEnabled = openWifi
+//       self.setData({
+//         checkWifiPermissionRes:{...checkWifiPermissionRes}
+//       })
+//       console.error('wifi切换：',checkWifiPermissionRes)
+//     },500)
+//     this.wifiStateOnChange()
+//   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   async onShow() {
-    this.wifiStateOnChange()
+    // this.wifiStateOnChange()
     const systemInfo = await wx.getSystemInfoSync()
     console.error('systemInfo====:',systemInfo)
     let self = this
     let { isCheckGray } = app.addDeviceInfo
     let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
     try {
+      if(this._discoveryStarted){
+        this._discoveryStarted = false
+      }
         this.actionBlue()
-        let checkWifiPermissionRes = this.data.checkWifiPermissionRes
-        checkWifiPermissionRes.isCanWifi = systemInfo.wifiEnabled,
-        checkWifiPermissionRes.permissionTypeList.wifiEnabled = systemInfo.wifiEnabled
-        if(systemInfo.wifiEnabled){
-          
-          this.actionWifi()
-        } else {
-          this.setData({
-            isCanAddDevice: isCan,
-            checkWifiPermissionRes:checkWifiPermissionRes
-          })
-          return
-        }
+
         this.setData({
           isCanAddDevice: isCan,
-          checkWifiPermissionRes:checkWifiPermissionRes
+        //   checkWifiPermissionRes:checkWifiPermissionRes
         })
 
       if (!this.data.isCanAddDevice) {
@@ -313,19 +304,23 @@ Page({
     if (app.globalData.ifBackFromScan) {
       // 扫码成功时不执行自发现，防止扫码跳转后异常执行自发现
       console.log('@module scan-device.js\n@method onShow\n@desc 扫码成功时不执行自发现')
+      console.error('扫码成功时不执行自发现')
       app.globalData.ifBackFromScan = false
       isScanBlue = false
     }
     if (isScanBlue) {
       //清除ap蓝牙自发现已发现的设备信息
+      console.error('清除ap蓝牙自发现已发现的设备信息this._discoveryStarted:',this._discoveryStarted)
       if (app.globalData.isCanClearFound) {
         app.globalData.isCanClearFound = false //重置状态
         this.setData({
           devices: [],
         })
       }
-      // this.actionBlue()
-    //   this.actionWifi()
+
+    //   this.actionBlue()
+      this.actionWifi()
+
     }
     // this.sendFindFriendOrder() 暂时屏蔽找朋友配网
     this.setTimer()
