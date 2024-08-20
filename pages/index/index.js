@@ -349,15 +349,12 @@ Page({
           closeWebsocket()
         }
         await initWebsocket().then((resp) => {
-          console.log('webscoket index.js链接成功=====>', resp)
           this.receiveSocketData()
         })
         closeReConnect().then((resp) => {
-          console.log('webscoket index.js重连接成功=====>', resp)
           this.receiveSocketData()
         })
         networkChange().then((resp) => {
-          console.log('webscoket index.js监听网络变化=====>', resp)
           this.receiveSocketData()
         })
       } catch (error) {
