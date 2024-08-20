@@ -58,7 +58,7 @@
   font-size: 28rpx;
   color: #8a8a8f;
   text-align: center;
-  line-height: 1;
+  line-height: 40rpx;
   font-weight: 400;
 }
 
