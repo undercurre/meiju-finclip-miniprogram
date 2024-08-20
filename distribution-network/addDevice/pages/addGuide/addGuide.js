@@ -112,36 +112,36 @@ Page({
     wx.offBluetoothAdapterStateChange()
     let self = this
 
-    // 监听蓝牙状态变化
-    wx.onBluetoothAdapterStateChange(function (res) {
-        console.error('Guide蓝牙状态已改变');
-        // let page = getFullPageUrl()
-        // if (page.includes('addDevice/pages/addGuide/addGuide')){
-          if (res.available) {
-            console.error('Guide蓝牙状态已改变11111');
-            self.startBluetoothDevicesDiscovery(0)
-            if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新调初始化函数
-              console.error('Guide蓝牙状态已改变2222isCanBlue:',self.data.checkPermissionRes.isCanBlue);
-              self.setData({
-                'checkPermissionRes.isCanBlue': true,
-              })
-              self.initAddGuide()
-            }          
-          // 蓝牙已打开并且正在搜索设备
-          console.error('Guide蓝牙已打开，正在搜索设备2');
-          } else {
-          // 蓝牙未打开
-            console.error('Guide蓝牙未打开2isCanBlue:',self.data.checkPermissionRes.isCanBlue);
-            if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为true,但监听结果是蓝牙不可以用，重新调初始化函数
-              self.setData({
-                'checkPermissionRes.isCanBlue': false,
-              })
-              self.initAddGuide()
-            }
-          }
-        // }
+    // // 监听蓝牙状态变化
+    // wx.onBluetoothAdapterStateChange(function (res) {
+    //     console.error('Guide蓝牙状态已改变');
+    //     // let page = getFullPageUrl()
+    //     // if (page.includes('addDevice/pages/addGuide/addGuide')){
+    //       if (res.available) {
+    //         console.error('Guide蓝牙状态已改变11111');
+    //         self.startBluetoothDevicesDiscovery(0)
+    //         if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新调初始化函数
+    //           console.error('Guide蓝牙状态已改变2222isCanBlue:',self.data.checkPermissionRes.isCanBlue);
+    //           self.setData({
+    //             'checkPermissionRes.isCanBlue': true,
+    //           })
+    //           self.initAddGuide()
+    //         }          
+    //       // 蓝牙已打开并且正在搜索设备
+    //       console.error('Guide蓝牙已打开，正在搜索设备2');
+    //       } else {
+    //       // 蓝牙未打开
+    //         console.error('Guide蓝牙未打开2isCanBlue:',self.data.checkPermissionRes.isCanBlue);
+    //         if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为true,但监听结果是蓝牙不可以用，重新调初始化函数
+    //           self.setData({
+    //             'checkPermissionRes.isCanBlue': false,
+    //           })
+    //           self.initAddGuide()
+    //         }
+    //       }
+    //     // }
         
-    });
+    // });
     console.log('dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle:', brandStyle.config)
     getApp().onLoadCheckingLog()
     this.data.brand = app.globalData.brand
