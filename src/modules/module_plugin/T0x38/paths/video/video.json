@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTextStyle": "white",
-  "usingComponents": {
-    "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index"
-
-
-  }
-}
