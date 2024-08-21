@@ -68,19 +68,27 @@ Page({
       this.withdrawPrivacyAuth()
     }
   },
+  //撤销隐私协议
   withdrawPrivacyAuth() {
-    const context = this
-    Dialog.confirm({
-      zIndex: 10001,
-      context: this,
-      title: '撤回隐私协议授权将自动退出登录，确定要撤回吗？',
-    })
-      .then((res) => {
-        context.changeWithdrowModal(res)
+    if (app.globalData.isLogon) {
+      const context = this
+      Dialog.confirm({
+        zIndex: 10001,
+        context: this,
+        title: '撤回隐私协议授权将自动退出登录，确定要撤回吗？',
       })
-      .catch((error) => {
-        context.changeWithdrowModal(error)
-      })
+        .then((res) => {
+          context.changeWithdrowModal(res)
+        })
+        .catch((error) => {
+          context.changeWithdrowModal(error)
+        })
+    } else {
+      let data = {
+        action: 'confirm',
+      }
+      this.changeWithdrowModal(data)
+    }
   },
   backPage() {
     wx.navigateBack()

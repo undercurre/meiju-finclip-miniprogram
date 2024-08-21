@@ -650,9 +650,9 @@ button::after {
   line-height: 28rpx;
   font-weight: 500;
 }
-.home-toast-content{
-  --toast-max-width:100%
-}
+/* .home-toast-content{ */
+  /* --toast-max-width:100% */
+/* } */
 .home-nologin-img{
   width: 173rpx;
   height: 87rpx;

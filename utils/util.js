@@ -14,12 +14,11 @@ import { canIUseOpenEmbeddedMiniProgram } from './version'
 import config from '../config'
 import { baseImgApi, deviceImgApi } from '../api.js'
 import { deviceImgMap } from '../utils/deviceImgMap'
+import Toast from 'm-ui/mx-toast/toast'
 
 function getNewSign(obj, apiKey, random, method = 'POST') {
   var paramStr = ''
-  var apiKey = apiKey
   var params = obj
-  var method = method
   var sha256Encode = hmacEncode[config.environment] //HmacSHA256 encode
   if (method.toUpperCase() != 'POST') {
     if (typeof params == 'string') {
@@ -290,18 +289,22 @@ const checkFamilyPermission = (params = {}) => {
   const { currentHomeInfo, permissionText, callback } = params
   if (currentHomeInfo.roleId === '1003') {
     if (permissionText && !isEmptyObject(permissionText)) {
-      wx.showModal({
-        title: permissionText.title,
-        content: permissionText.content,
-        confirmText: permissionText.confirmText,
-        showCancel: false,
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            callback && callback()
-          }
-        },
-      })
+      if (permissionText.showTip && permissionText.showTip == 'toast') {
+        Toast({ context: this, position: 'bottom', message: permissionText.content })
+      } else {
+        wx.showModal({
+          title: permissionText.title,
+          content: permissionText.content,
+          confirmText: permissionText.confirmText,
+          showCancel: false,
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              callback && callback()
+            }
+          },
+        })
+      }
     }
     return false
   }

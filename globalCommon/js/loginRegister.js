@@ -5,6 +5,8 @@ import { requestService, rangersBurialPoint } from '../../utils/requestService'
 import { setTokenStorage, setIsAutoLogin, setUserInfo, removeUserInfo, removeStorageSync } from '../../utils/redis.js'
 import { getPrivateKeys } from '../../utils/getPrivateKeys'
 import { api } from '../../api'
+import Toast from 'm-ui/mx-toast/toast'
+let that = this
 const loginMethods = {
   //获取设备相关信息
   getSystemInfo() {
@@ -253,16 +255,16 @@ const loginMethods = {
           }
           if (noPromptCode.indexOf(err.data.code) === -1) {
             let msg = this.scodeResonse(err.data)
-            showToast(msg)
+            //showToast(msg)
+            Toast({ context: that, position: 'bottom', message: msg })
           }
           reject(err)
         })
     })
   },
 
-  //解析扫码错误
+  //解析登录错误结果
   scodeResonse(data) {
-    console.log('错误吗====》', data)
     const { code, msg } = data
     let label = '未知系统错误'
     switch (code) {

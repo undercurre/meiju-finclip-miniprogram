@@ -128,7 +128,7 @@
   >
     <view class="dialog-demo-input">
       <view class="privacy-des">
-        <text>为保护您的合法权益，清先阅读并同意一下协议</text>
+        <text>为保护您的合法权益，请先阅读并同意一下协议</text>
         <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text>
         <text>和</text>
         <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户协议》</text>

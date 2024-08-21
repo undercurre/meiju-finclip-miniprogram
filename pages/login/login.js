@@ -148,72 +148,6 @@ Page({
       })
     }, 100)
   },
-  /**
-   * 进出场动画
-   * @param flag true/入场 false/出场
-   */
-  handleActionAnimation(flag) {
-    const animation1 = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease',
-    })
-    const animation2 = wx.createAnimation({
-      duration: 500,
-      timingFunction: 'ease',
-    })
-    animation1.translateY(flag ? 0 : -30).step()
-    animation2.translateY(flag ? 0 : -40).step()
-    setTimeout(() => {
-      this.setData({
-        animationLogin1: animation1.export(),
-        animationLogin2: animation2.export(),
-      })
-    }, 100)
-  },
-  /**
-   * 进出场动画
-   * @param flag true/入场 false/出场
-   */
-  handleActionAnimation(flag) {
-    const animation1 = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease',
-    })
-    const animation2 = wx.createAnimation({
-      duration: 500,
-      timingFunction: 'ease',
-    })
-    animation1.translateY(flag ? 0 : -30).step()
-    animation2.translateY(flag ? 0 : -40).step()
-    setTimeout(() => {
-      this.setData({
-        animationLogin1: animation1.export(),
-        animationLogin2: animation2.export(),
-      })
-    }, 100)
-  },
-  /**
-   * 进出场动画
-   * @param flag true/入场 false/出场
-   */
-  handleActionAnimation(flag) {
-    const animation1 = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease',
-    })
-    const animation2 = wx.createAnimation({
-      duration: 500,
-      timingFunction: 'ease',
-    })
-    animation1.translateY(flag ? 0 : -30).step()
-    animation2.translateY(flag ? 0 : -40).step()
-    setTimeout(() => {
-      this.setData({
-        animationLogin1: animation1.export(),
-        animationLogin2: animation2.export(),
-      })
-    }, 100)
-  },
   //不同意隐私协议
   onClose() {
     clickBtnDisAgreeBurialPoint()
@@ -356,6 +290,9 @@ Page({
         loginDisabled: false,
         verImgCode: val.detail,
       })
+      if (this.data.verCode.length > 1) {
+        this.data.isLogin = true
+      }
     } else {
       if (!this.data.timer) {
         this.setData({
@@ -363,6 +300,7 @@ Page({
         })
       }
       this.setData({
+        verImgCode: val.detail,
         loginDisabled: true,
       })
     }
@@ -380,12 +318,17 @@ Page({
       if (vallen.length > 1) {
         return
       }
-      this.setData({
-        loginDisabled: false,
-        isLogin: true,
-      })
+      if (!this.data.imgCodeInputshow || this.data.verImgCode.length > 1) {
+        this.setData({
+          loginDisabled: false,
+          isLogin: true,
+        })
+      }
+
       if (val.detail.length == 6) {
-        this.onClickLogin()
+        if (!this.data.loginDisabled) {
+          this.onClickLogin()
+        }
       }
     } else {
       this.setData({
@@ -467,7 +410,8 @@ Page({
           }, 200)
           return
         }
-        showToast(error.data.msg)
+        Toast({ context: this, position: 'bottom', message: error.data.msg })
+        //showToast(error.data.msg)
       })
   },
   //刷新图形验证码
