@@ -260,7 +260,7 @@ Page({
         (resp) => {
           console.error('checkVersionUpdate-resp----------:',resp)
           // popType == 0 使用默认规则, 如果是1 或者2 前端首页弹窗都不弹 ，popType == 1 原生 强制更新 原生弹窗
-          if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0){
+          if(resp.data.code == 0 &&  (resp.data.data.dialogConfig.popType == 0 || (resp.data.data.dialogConfig.popType == 1 && app.globalData.isLogon))){
             
             // 查看本地缓存是否有策略id
             // 如果有策略id
