@@ -358,7 +358,7 @@ Page({
       console.log('select-model判断是否isSupportPlugin')
       wx.hideLoading()
       Dialog.confirm({
-        title: '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待',
+        title: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
         confirmButtonText: '我知道了',
         confirmButtonColor: this.data.dialogStyle.cancelButtonColor5,
         showCancelButton: false,
@@ -390,7 +390,7 @@ Page({
       console.log('选型 不支持 未测试')
       wx.hideLoading()
       Dialog.confirm({
-        title: '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待',
+        title: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
         confirmButtonText: '我知道了',
         confirmButtonColor: this.data.dialogStyle.cancelButtonColor5,
         showCancelButton: false,
@@ -569,7 +569,7 @@ Page({
            }
         } else {
           Dialog.confirm({
-            title: '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待',
+            title: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
             confirmButtonText: '我知道了',
             confirmButtonColor: this.data.dialogStyle.cancelButtonColor5,
             showCancelButton: false,
@@ -1021,7 +1021,7 @@ Page({
           }
         } else {
           Dialog.confirm({
-            title: '该设备暂不支持在HarmonyOS NEXT系统联网，功能正在迭代升级中，敬请期待',
+            title: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
             confirmButtonText: '我知道了',
             confirmButtonColor: this.data.dialogStyle.cancelButtonColor5,
             showCancelButton: false,
