@@ -1,7 +1,7 @@
 <!--distribution-network/scan-devices/pages/scan-device/scan-device.wxml-->
 <privacy-popup></privacy-popup>
 <view id="{{brand}}">
-  <nav-bar class="navbar" buttonColor="{{brandConfig.backButtonColor}}">
+  <nav-bar class="navbar" navBarName="{{!checkPermissionRes.isCanBlue?'附近设备':''}}" buttonColor="{{brandConfig.backButtonColor}}">
   </nav-bar>
   <view wx:if="{{isCanAddDevice}}" class="scan-container">
     <view style="flex: 1">
