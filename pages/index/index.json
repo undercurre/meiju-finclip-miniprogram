@@ -5,7 +5,6 @@
   "backgroundColor": "#ecf0f6",
   "usingComponents": {
     "index-header": "/pages/component/index-header/index-header",
-    "active-float-dialog": "/sub-package/ads-banner/components/advertisement/index-float/active-float-dialog/active-float-dialog",
     "center-product-dialog": "/pages/component/center-product-dialog/center-product-dialog",
     "trojan-horse": "/pages/component/trojan-horse/trojan-horse",
     "apply-for-family": "/pages/component/apply-for-family/apply-for-family",
@@ -23,7 +22,6 @@
   },
 
   "componentPlaceholder": {
-    "active-float-dialog": "view",
     "advertise-bar": "view",
     "edit-delete-card": "view",
     "center-product-dialog": "view",

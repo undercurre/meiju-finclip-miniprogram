@@ -11,7 +11,6 @@ import {
 import { baseImgApi, privacyApi } from '../../api'
 import { requestService } from '../../utils/requestService'
 import { getFullPageUrl, showToast } from '../../utils/util'
-import { index, virtualPlugin, wetChatMiddlePage } from '../../utils/paths.js'
 import config from '../../config.js' //环境及域名基地址配置
 const loginBtnOff = baseImgApi.url + 'denglu_btn_off.png'
 const loginBtnOn = baseImgApi.url + 'denglu_btn_on.png'
@@ -22,7 +21,7 @@ const phoneSrc = '/assets/img/login/phone.png'
 import loginMethods from '../../globalCommon/js/loginRegister.js'
 import { clickEventTracking } from '../../track/track.js'
 import Toast from 'm-ui/mx-toast/toast'
-const WX_LOG = require('../../utils/log')
+//const WX_LOG = require('../../utils/log')
 const app = getApp()
 // 用户状态, 1：未注销   2：注销成功三天后  3：注销成功3天内   4：注销中  5：注销失败
 const loginStatusMap = {
@@ -50,11 +49,11 @@ Page({
     registerDialogShow: false,
     fms: 2,
     phoneNumber: '',
-    vercode: '',
-    imgcode: '',
-    verImgcode: '',
+    verCode: '',
+    imgCode: '',
+    verImgCode: '',
     randomToken: '',
-    showVercode: false,
+    showVerCode: false,
     verCodeDisabled: true,
     loginDisabled: true,
     verCodeDes: '获取验证码',
@@ -80,6 +79,8 @@ Page({
     autoVerCodeFocus: false,
     userStatue: 'login',
     autoFocus: 'false',
+    animationLogin1: {},
+    animationLogin2: {},
   },
   setLoginLogoTop() {
     //let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
@@ -106,7 +107,9 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {},
+  onReady: function () {
+    this.handleActionAnimation(false)
+  },
 
   /**
    * 生命周期函数--监听页面显示
@@ -124,31 +127,27 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面卸载
+   * 进出场动画
+   * @param flag true/入场 false/出场
    */
-  onUnload: function () {
-    //  虚拟插件页进入登录页面 返回时去首页
-    let pages = getCurrentPages() //页面对象
-    let prevpage = pages[pages.length - 2] //上一个页面对象
-    let lastPath = prevpage.route
-    if (`/${lastPath}` == virtualPlugin) {
-      if (!app.globalData.isLogon) {
-        wx.reLaunch({
-          url: index,
-        })
-      }
-    }
+  handleActionAnimation(flag) {
+    const animation1 = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'ease',
+    })
+    const animation2 = wx.createAnimation({
+      duration: 500,
+      timingFunction: 'ease',
+    })
+    animation1.translateY(flag ? 0 : -30).step()
+    animation2.translateY(flag ? 0 : -40).step()
+    setTimeout(() => {
+      this.setData({
+        animationLogin1: animation1.export(),
+        animationLogin2: animation2.export(),
+      })
+    }, 100)
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
   //不同意隐私协议
   onClose() {
     clickBtnDisAgreeBurialPoint()
@@ -273,8 +272,8 @@ Page({
       if (this.data.timer) clearTimeout(this.data.timer)
       this.setData({
         loginBtnDes: '获取验证码',
-        vercode: '',
-        verImgcode: '',
+        verCode: '',
+        verImgCode: '',
         verCodeInputshow: false,
         imgCodeInputshow: false,
         loginDisabled: true,
@@ -284,13 +283,16 @@ Page({
     }
   },
   //更新图形验证码输入框
-  handleImgcodeInput(val) {
+  handleImgCodeInput(val) {
     if (val.detail.length > 1) {
       this.setData({
         //verCodeDisabled: false,
         loginDisabled: false,
-        verImgcode: val.detail,
+        verImgCode: val.detail,
       })
+      if (this.data.verCode.length > 1) {
+        this.data.isLogin = true
+      }
     } else {
       if (!this.data.timer) {
         this.setData({
@@ -298,29 +300,35 @@ Page({
         })
       }
       this.setData({
+        verImgCode: val.detail,
         loginDisabled: true,
       })
     }
   },
   handlePhoneFocus() {},
   // 更新验证码变量的值
-  handleVercodeInput(val) {
+  handleVerCodeInput(val) {
     let vallen = []
     let value = val.detail.replace(/[^\d]/g, '')
     this.setData({
-      vercode: value,
+      verCode: value,
     })
     if (value.length > 1) {
       vallen.push(val.timeStamp)
       if (vallen.length > 1) {
         return
       }
-      this.setData({
-        loginDisabled: false,
-        isLogin: true,
-      })
+      if (!this.data.imgCodeInputshow || this.data.verImgCode.length > 1) {
+        this.setData({
+          loginDisabled: false,
+          isLogin: true,
+        })
+      }
+
       if (val.detail.length == 6) {
-        this.onClickLogin()
+        if (!this.data.loginDisabled) {
+          this.onClickLogin()
+        }
       }
     } else {
       this.setData({
@@ -340,7 +348,7 @@ Page({
     loginMethods
       .loginSmCode({
         phoneNumber: this.data.phoneNumber,
-        imgCode: this.data.verImgcode,
+        imgCode: this.data.verImgCode,
         randomToken: this.data.randomToken,
       })
       .then(() => {
@@ -349,7 +357,7 @@ Page({
         let time = 60
         this.setTime(time)
         this.setData({
-          vercode: '',
+          verCode: '',
           randomToken: '',
           verCodeInputshow: true, //显示验证码输入框
           loginDisabled: true,
@@ -373,7 +381,7 @@ Page({
             imgCodeInputshow: true, //显示图形验证码输入框
             loginDisabled: true,
             //verCodeDisabled: true,
-            imgcode: error.data.data.imgCode,
+            imgCode: error.data.data.imgCode,
             randomToken: error.data.data.randomToken,
           })
           setTimeout(() => {
@@ -387,7 +395,7 @@ Page({
           let time = 60
           this.setTime(time)
           this.setData({
-            vercode: '',
+            verCode: '',
             randomToken: '',
             verCodeInputshow: true,
             verCodeDisabled: true,
@@ -402,15 +410,16 @@ Page({
           }, 200)
           return
         }
-        showToast(error.data.msg)
+        Toast({ context: this, position: 'bottom', message: error.data.msg })
+        //showToast(error.data.msg)
       })
   },
   //刷新图形验证码
   getImgCode() {
-    this.data.imgcode = ''
+    this.data.imgCode = ''
     this.data.randomToken = ''
     this.setData({
-      verImgcode: '',
+      verImgCode: '',
     })
     this.requestSmsCode()
   },
@@ -434,7 +443,7 @@ Page({
           verCodeDes: '重新获取',
           verCodeDisabled: false,
         })
-        if (this.data.vercode.length < 2) {
+        if (this.data.verCode.length < 2) {
           this.setData({
             loginDisabled: true,
           })
@@ -497,22 +506,6 @@ Page({
             accountAbnorDialogShow: true,
           })
         }
-        // if (data && data.code == 1405) {
-        //注销超过3天
-        // clickEventTracking('user_page_view', null, {
-        // module: '账号',
-        // page_id: 'popups_page_deleted',
-        // page_name: '账号注销成功后弹窗',
-        // })
-        // this.logoutTracking({
-        // ext_info: {
-        // logoutStatus: '注销成功3天后',
-        // },
-        // })
-        // this.setData({
-        // registerDialogShow: true,
-        // })
-        // }
         if (data && data.code === 1404) {
           //注销中
           this.setData({
@@ -548,7 +541,7 @@ Page({
       // let prevPage =
       // fullPageUr === 'sub-package/mytab/pages/about/about' || undefined ? '/pages/index/index' : '/' + fullPageUr
       loginMethods
-        .loginTempAPi({ phoneNumber: this.data.phoneNumber, vercode: this.data.vercode, loginType: loginType })
+        .loginTempAPi({ phoneNumber: this.data.phoneNumber, vercode: this.data.verCode, loginType: loginType })
         .then((resp) => {
           //登录成功
           loginCheckResultBurialPoint({ mobile: this.data.phoneNumber })
@@ -556,24 +549,17 @@ Page({
           //登录成功-进行初始化，同意隐私协议
           this.makeAgreeLatest(this.data.phoneNumber)
           resolve(resp)
-          if (this.data.fms == 1) {
+          setTimeout(() => {
             wx.reLaunch({
-              url: wetChatMiddlePage,
+              url: prevPage,
             })
-            wx.removeStorageSync('fromWetChat')
-          } else {
-            setTimeout(() => {
-              wx.reLaunch({
-                url: prevPage,
-              })
-            }, 100)
-            if (this.data.timer) clearTimeout(this.data.timer)
-          }
+          }, 100)
+          if (this.data.timer) clearTimeout(this.data.timer)
         })
         .catch((err) => {
           this.resetLoginBtnDes()
           console.log(err, 'actionGetphonenumber')
-          WX_LOG.warn('login loginAPi catch', err)
+          //WX_LOG.warn('login loginAPi catch', err)
           setTimeout(() => {
             this.setData({
               loginDisabled: false,
@@ -645,10 +631,4 @@ Page({
     console.log('回退页面清理定时器')
     if (this.data.timer) clearTimeout(this.data.timer)
   },
-  /**
-   * 用户点击右上角分享
-   */
-  // onShareAppMessage: function () {
-
-  // },
 })

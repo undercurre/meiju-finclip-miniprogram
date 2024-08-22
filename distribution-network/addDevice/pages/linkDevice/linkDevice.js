@@ -4127,24 +4127,22 @@ Page({
   async onLoad() {
     let self = this
     // 监听蓝牙状态变化
-    wx.onBluetoothAdapterStateChange(function (res) {
-      console.error('linkDeviceres=====:',res)
-      console.error('linkDevice蓝牙状态已改变');
-      if(self.data.isNoOpenBlueFlag){
-        self.init()
-      }
-      if (res.available) {
-        if (res.available) {
-          self.startBluetoothDevicesDiscovery(0)
-        }
-        // 蓝牙已打开并且正在搜索设备
-        console.error('linkDevice蓝牙已打开，正在搜索设备');
-        // self.retry()
-      } else {
-        // 蓝牙未打开
-        console.error('linkDevice蓝牙未打开');
-      }
-    });
+    // wx.onBluetoothAdapterStateChange(function (res) {
+    //   console.error('linkDeviceres=====:',res)
+    //   console.error('linkDevice蓝牙状态已改变');
+    //   if(self.data.isNoOpenBlueFlag){
+    //     self.init()
+    //   }
+    //   if (res.available) {
+    //     self.startBluetoothDevicesDiscovery(0)
+    //     // 蓝牙已打开并且正在搜索设备
+    //     console.error('linkDevice蓝牙已打开，正在搜索设备');
+    //     // self.retry()
+    //   } else {
+    //     // 蓝牙未打开
+    //     console.error('linkDevice蓝牙未打开');
+    //   }
+    // });
     app.onLoadCheckingLog()
     this.data.brand = app.globalData.brand
     this.setData({
@@ -4223,7 +4221,7 @@ Page({
     this.data.pageStatus = 'unload'
     app.onUnloadCheckingLog()
     app.globalData.scanObj = {} //配网成功了后，需要清除数据，不然下次自发现会用到旧的数据状态
-    console.log('页面返回清除了定时器')
+    console.log('linkDevice-onUnload-页面返回清除了定时器')
     clearInterval(timer)
     clearInterval(udpCycTimer)
     if(app.addDeviceInfo.mode != 'WB01_bluetooth_connection'){
@@ -4243,6 +4241,7 @@ Page({
       this.finishTcp()
     }
     this.setData({ ishowCableDialog: false })
+    wx.offBluetoothAdapterStateChange()
   },
 
   /**

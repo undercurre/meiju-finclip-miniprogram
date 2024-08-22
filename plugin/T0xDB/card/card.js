@@ -5,8 +5,6 @@ import { getReqId, getStamp } from 'm-utilsdk/index'
 import { judgeWayToMiniProgram } from '../../../utils/util'
 import { requestService, rangersBurialPoint } from '../../../utils/requestService'
 import { imageApi, environment } from '../../../api'
-import { openSubscribeModal } from '../../../globalCommon/js/deviceSubscribe.js'
-import { modelIds, templateIds } from '../../../globalCommon/js/templateIds.js'
 import statusToLua from '../db_status_to_lua'
 import luaToStatus from '../db_lua_to_status'
 import deviceUtils from '../utils/deviceUtils'
@@ -572,17 +570,6 @@ Component({
       })
     },
     gotoMall() {
-      if (this.data.applianceData.isAutoInput === true) {
-        openSubscribeModal(
-          modelIds[2],
-          this.data.applianceData.name,
-          this.data.applianceData.sn,
-          [templateIds[22][0], templateIds[8][0]],
-          this.data.applianceData.sn8,
-          this.data.applianceData.type,
-          this.data.applianceData.applianceCode
-        )
-      }
       const currentUid =
         app.globalData.userData && app.globalData.userData.uid && app.globalData.isLogon
           ? app.globalData.userData.uid
@@ -948,15 +935,6 @@ Component({
     },
     powerToggle() {
       //切换电源状态
-      openSubscribeModal(
-        modelIds[2],
-        this.data.applianceData.name,
-        this.data.applianceData.sn,
-        [templateIds[3][0], templateIds[4][0], templateIds[5][0]],
-        this.data.applianceData.sn8,
-        this.data.applianceData.type,
-        this.data.applianceData.applianceCode
-      )
       let self = this
       let power = this.data.applianceStatus.power == 'on' ? 'off' : 'on'
       if (
@@ -981,15 +959,6 @@ Component({
     },
     startToggle() {
       //切换启动状态
-      openSubscribeModal(
-        modelIds[2],
-        this.data.applianceData.name,
-        this.data.applianceData.sn,
-        [templateIds[5][0], templateIds[32][0]],
-        this.data.applianceData.sn8,
-        this.data.applianceData.type,
-        this.data.applianceData.applianceCode
-      )
       let self = this
       let control_status = ''
       let remain_time = '--'
@@ -1066,17 +1035,7 @@ Component({
         })
         return
       }
-
       //切换暂停状态
-      openSubscribeModal(
-        modelIds[2],
-        this.data.applianceData.name,
-        this.data.applianceData.sn,
-        [templateIds[5][0], templateIds[32][0]],
-        this.data.applianceData.sn8,
-        this.data.applianceData.type,
-        this.data.applianceData.applianceCode
-      )
       let self = this
       let control_status = ''
       let remain_time = ''

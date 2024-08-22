@@ -24,7 +24,6 @@ new Tracker({
   tracks: trackConfig,
 })
 
-
 // 配网埋点日志
 import CheckingLog from './miniprogram_npm/m-track/m-track'
 const CKECKING_LOG = new CheckingLog({
@@ -184,23 +183,23 @@ App({
   },
   onLaunch: async function (options) {
     this.selectedHander(options)
-    //全局隐私授权跳转,打开屏蔽 2023-10-08
-    if (wx.onNeedPrivacyAuthorization) {
-      wx.onNeedPrivacyAuthorization((resolve) => {
-        if (typeof privacyHandler === 'function') {
-          privacyHandler(resolve)
-        }
-      })
-    }
-    privacyHandler = (resolve) => {
-      const fullPageUr = '/' + getFullPageUrl()
-      if (fullPageUr.indexOf('privacy') != -1) {
-        return
-      }
-      wx.navigateTo({
-        url: privacy,
-      })
-    }
+    //全局隐私授权跳转,打开屏蔽 2023-10-08  去掉
+    // if (wx.onNeedPrivacyAuthorization) {
+    // wx.onNeedPrivacyAuthorization((resolve) => {
+    // if (typeof privacyHandler === 'function') {
+    // privacyHandler(resolve)
+    // }
+    // })
+    // }
+    // privacyHandler = (resolve) => {
+    // const fullPageUr = '/' + getFullPageUrl()
+    // if (fullPageUr.indexOf('privacy') != -1) {
+    // return
+    // }
+    // wx.navigateTo({
+    // url: privacy,
+    // })
+    // }
 
     console.log('launch options', options)
     // 分包异步加载
@@ -741,7 +740,10 @@ App({
 
   //黑白名单获取.appId
   getBlackWhiteList(options) {
-    let verType=wx.getAccountInfoSync().miniProgram.envVersion=='develop'?'trial':wx.getAccountInfoSync().miniProgram.envVersion
+    let verType =
+      wx.getAccountInfoSync().miniProgram.envVersion == 'develop'
+        ? 'trial'
+        : wx.getAccountInfoSync().miniProgram.envVersion
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
       requestService

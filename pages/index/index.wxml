@@ -334,10 +334,6 @@
       <block>
         <agreement-update-dialog agreementShow="{{isUpdatedAgreement}}"></agreement-update-dialog>
       </block>
-      <!-- 广告 v2.26去掉广告浮窗-->
-      <!-- <block>
-        <active-float-dialog initData="{{ floatDialog.initData }}" id="adFloat"></active-float-dialog>
-      </block> -->
       <!-- 自发现 -->
       <block>
         <center-product-dialog
@@ -389,8 +385,6 @@
     <view class="editApplianceNameTips">{{editPopTip}}</view>
   </mx-dialog>
   <mx-dialog id="mx-dialog" />
-  <view class="home-toast-content">
-    <mx-toast id="mx-toast" />
-  </view>
+  <mx-toast id="mx-toast" />
   <version-update-dialog poupInfomation="{{poupInfomation}}" bindversionUpadte="versionUpadte"></version-update-dialog>
 </view>

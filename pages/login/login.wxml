@@ -1,15 +1,15 @@
 <privacy-popup></privacy-popup>
 <view class="login-main">
   <navbar bind:clickBack="clickBack"></navbar>
-  <view style="height: {{statusBarHeight}}px;"></view>
+  <view style="height: {{statusBarHeight +30}}px;"></view>
   <!-- <view class="topBac" style="margin-top: {{statusBarHeight}}px;"> -->
   <!-- <image src="{{topBacImg}}" class="topBacImg"></image> -->
   <!-- </view> -->
-  <view class="login-logo" style="margin-top:{{logoTop}}rpx">
+  <view animation="{{ animationLogin1 }}" class="login-logo" style="margin-top:{{logoTop}}rpx">
     <image class="login-logo-image" src="{{loginLogoSrc}}"></image>
     <!-- <mx-image custom-class="login-logo-image" src="{{loginLogoSrc}}"></mx-image> -->
   </view>
-  <view class="login-section">
+  <view animation="{{ animationLogin2 }}" class="login-section">
     <mx-cell-group border="{{false}}" custom-class="login-cell-group">
       <mx-field
         class="custom-filed-class"
@@ -37,18 +37,18 @@
           custom-style="border: 1px solid #e5e5e8;margin-top:32rpx;z-index:1000;"
           mx-iconfont="mx-icon"
           left-icon="{{imgCodeSrc}}"
-          bind:input="handleImgcodeInput"
+          bind:input="handleImgCodeInput"
           pattern="light"
           shape="round"
           use-button-slot
-          value="{{ verImgcode }}"
+          value="{{ verImgCode }}"
           focus="{{autoVerImgCodeFocus}}"
           placeholder="请输入图形验证码"
           border="{{ false }}"
           clearable
           ><view class="button-get-imgcode" slot="button"
             ><view class="left-position-border"></view
-            ><image bindtap="getImgCode" class="imgcodever" src="{{imgcode}}"></image></view
+            ><image bindtap="getImgCode" class="imgcodever" src="{{imgCode}}"></image></view
         ></mx-field>
       </mx-transition>
       <mx-transition
@@ -62,12 +62,12 @@
           mx-iconfont="mx-icon"
           left-icon="{{verCodeSrc}}"
           type="number"
-          bind:input="handleVercodeInput"
+          bind:input="handleVerCodeInput"
           maxlength="{{6}}"
           pattern="light"
           shape="round"
           use-button-slot
-          value="{{ vercode }}"
+          value="{{ verCode }}"
           placeholder="请输入验证码"
           focus="{{autoVerCodeFocus}}"
           border="{{ false }}"
@@ -87,23 +87,23 @@
         >
       </mx-transition>
     </mx-cell-group>
-    <!-- <mx-button -->
-    <!-- disabled="{{loginDisabled && verCodeDisabled}}" -->
-    <!-- custom-class="login-btn" -->
-    <!-- hover-class="loginBtnHover" -->
-    <!-- bindclick="onClickLogin" -->
-    <!-- > -->
     <mx-button
       disabled="{{loginDisabled}}"
       custom-class="login-btn"
       hover-class="loginBtnHover"
       bindclick="onClickLogin"
     >
-      <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='登录中' || loginBtnDes=='注册并登录中'}}" />
+      <mx-loading
+        wx:if="{{loginBtnDes=='登录中' || loginBtnDes=='注册并登录中'}}"
+        type="spinner"
+        size="36rpx"
+        color="#fff"
+      />
+      <!-- <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='登录中' || loginBtnDes=='注册并登录中'}}" /> -->
       {{loginBtnDes}}
     </mx-button>
   </view>
-  <view class="login-content-privacy">
+  <view animation="{{ animationLogin2 }}" class="login-content-privacy">
     <view class="content">
       <view class="agreeIcoWarp" catchtap="changeAgree">
         <image class="agree-icon" src="{{agreeFlag ? loginBtnOn : loginBtnOff}}"></image>
@@ -128,7 +128,7 @@
   >
     <view class="dialog-demo-input">
       <view class="privacy-des">
-        <text>为保护您的合法权益，清先阅读并同意一下协议</text>
+        <text>为保护您的合法权益，请先阅读并同意一下协议</text>
         <text class="blue-text" bindtap="goPrivacy" data-type="privacy">《隐私协议》</text>
         <text>和</text>
         <text class="blue-text" bindtap="goPrivacy" data-type="register">《用户协议》</text>
@@ -163,12 +163,4 @@
     bind:confirm="getJwtToken"
   ></mx-dialog>
   <mx-toast id="mx-toast" />
-  <!-- <mx-dedialog -->
-  <!-- show="{{ registerDialogShow }}" -->
-  <!-- title="帐号已注销" -->
-  <!-- content="该帐号已注销，请重新注册后再进行登录" -->
-  <!-- confirmLabel="重新注册登录" -->
-  <!-- textAlign="left" -->
-  <!-- bind:onButtonClicked="reristerLogin" -->
-  <!-- ></mx-dedialog> -->
 </view>

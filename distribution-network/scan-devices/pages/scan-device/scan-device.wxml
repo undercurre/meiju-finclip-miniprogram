@@ -1,11 +1,11 @@
 <!--distribution-network/scan-devices/pages/scan-device/scan-device.wxml-->
 <privacy-popup></privacy-popup>
 <view id="{{brand}}">
-  <nav-bar class="navbar" buttonColor="{{brandConfig.backButtonColor}}">
+  <nav-bar class="navbar" navBarName="{{!checkPermissionRes.isCanBlue?'附近设备':''}}" buttonColor="{{brandConfig.backButtonColor}}">
   </nav-bar>
   <view wx:if="{{isCanAddDevice}}" class="scan-container">
     <view style="flex: 1">
-      <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue || !checkWifiPermissionRes.isCanWifi}}">
+      <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue}}">
         <!-- <view style="margin-top: 180rpx;">
           <image
             wx:if="{{!checkPermissionRes.isCanLocation}}"

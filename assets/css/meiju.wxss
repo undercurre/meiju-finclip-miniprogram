@@ -1241,7 +1241,7 @@ padding-right: 40px;
 
 #meiju .ap-img {
   display: block;
-  width: 480rpx;
+  width: 684rpx;
   height: 384rpx;
   margin: auto;
   margin-bottom: 48rpx;

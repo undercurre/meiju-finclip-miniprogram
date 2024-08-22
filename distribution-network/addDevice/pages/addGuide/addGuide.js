@@ -109,24 +109,39 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    wx.offBluetoothAdapterStateChange()
     let self = this
-    // 监听蓝牙状态变化
-    wx.onBluetoothAdapterStateChange(function (res) {
-        console.error('Guideres=====:',res)
-        console.error('Guide蓝牙状态已改变');
-          self.initAddGuide()
-        if (res.available) {
-          if (res.available) {
-            self.startBluetoothDevicesDiscovery(0)
-          }
-          // 蓝牙已打开并且正在搜索设备
-          console.error('Guide蓝牙已打开，正在搜索设备2');
-          // self.retry()
-        } else {
-          // 蓝牙未打开
-          console.error('Guide蓝牙未打开2');
-        }
-    });
+
+    // // 监听蓝牙状态变化
+    // wx.onBluetoothAdapterStateChange(function (res) {
+    //     console.error('Guide蓝牙状态已改变');
+    //     // let page = getFullPageUrl()
+    //     // if (page.includes('addDevice/pages/addGuide/addGuide')){
+    //       if (res.available) {
+    //         console.error('Guide蓝牙状态已改变11111');
+    //         self.startBluetoothDevicesDiscovery(0)
+    //         if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新调初始化函数
+    //           console.error('Guide蓝牙状态已改变2222isCanBlue:',self.data.checkPermissionRes.isCanBlue);
+    //           self.setData({
+    //             'checkPermissionRes.isCanBlue': true,
+    //           })
+    //           self.initAddGuide()
+    //         }          
+    //       // 蓝牙已打开并且正在搜索设备
+    //       console.error('Guide蓝牙已打开，正在搜索设备2');
+    //       } else {
+    //       // 蓝牙未打开
+    //         console.error('Guide蓝牙未打开2isCanBlue:',self.data.checkPermissionRes.isCanBlue);
+    //         if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为true,但监听结果是蓝牙不可以用，重新调初始化函数
+    //           self.setData({
+    //             'checkPermissionRes.isCanBlue': false,
+    //           })
+    //           self.initAddGuide()
+    //         }
+    //       }
+    //     // }
+        
+    // });
     console.log('dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle:', brandStyle.config)
     getApp().onLoadCheckingLog()
     this.data.brand = app.globalData.brand
@@ -1725,11 +1740,12 @@ Page({
   onUnload: function () {
     getApp().onUnloadCheckingLog()
 
-    console.log('页面返回清除了定时器')
+    console.error('addGuide-onUnload-页面返回清除了定时器')
     this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
     wx.offBluetoothDeviceFound()
     wx.stopBluetoothDevicesDiscovery()
     clearInterval(timer)
+    wx.offBluetoothAdapterStateChange()
   },
 
   /**
