@@ -2015,7 +2015,7 @@ Page({
     if (addDeviceSDK.bluetoothAuthModes.includes(app.addDeviceInfo.mode)) {
       this.bluetoothAuthorize()
     }
-    this.noLoactionTip()
+    // this.noLoactionTip()
     if (this.data.netType == 1) {
       //wifi 状态
       burialPoint.editWifiPageStatus({
