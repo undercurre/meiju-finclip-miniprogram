@@ -320,7 +320,14 @@ Page({
 
   //点击邀请按钮
   clickInviteBtn() {
-    const { homeDetail, homegroupId } = this.data
+    const { homeDetail, homegroupId, memberList } = this.data
+    if (memberList.length >= 20) {
+      wx.showToast({
+        title: '您的家庭成员已经达到20个上限，无法继续新增',
+        icon: 'none',
+      })
+      return
+    }
     //邀请
     this.gotoInvite(homeDetail, homegroupId)
     burialPoint.clickInvitePoint({

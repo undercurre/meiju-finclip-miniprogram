@@ -1,5 +1,5 @@
 import { getStamp, hasKey, CryptoJS, md5 } from 'm-utilsdk/index'
-import { getNewSign } from './util'
+import { getNewSign,showToast } from './util'
 import { api } from '../api'
 import trackApiList from '../track/oneKeyTrack/config/trackApiList.js'
 import { authorizedCommonTrack, trackLoaded } from '../track/track.js'
@@ -180,6 +180,7 @@ var requestService = {
           }
         },
         fail(error) {
+          showToast(error.errMsg)
           ApiTrack(apiName, selectApi, error, 'fail', params)
           if (apiName === 'luaControl') {
             pluginApiTrack('fail', params, error)

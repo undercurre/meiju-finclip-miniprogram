@@ -352,6 +352,7 @@ Page({
         randomToken: this.data.randomToken,
       })
       .then(() => {
+        Toast({ context: this, position: 'bottom', message: '获取成功' })
         //短信验证码获取成功埋点
         getCodeBurialPoint({ mobile: this.data.phoneNumber })
         let time = 60

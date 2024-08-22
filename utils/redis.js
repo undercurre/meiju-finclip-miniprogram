@@ -6,7 +6,7 @@ const setTokenStorage = (token) => {
   const day = 24 * 60 * 60 * 1000
   const hour = 60 * 60 * 1000
   let timestamp = Date.parse(new Date())
-  let appTokenExpiration = timestamp + 2 * hour // 2小时美居APP  token过期，重新获取
+  let appTokenExpiration = timestamp + 4 * hour // 4小时美居APP  token过期，重新获取
   let autoLoginExpiration = timestamp + 30 * day // 30天内自动登录
   // let expiration = timestamp + 10000
   const setStorageList = [
@@ -51,7 +51,7 @@ const setToastIntervalTime = (v, time) => {
     resolve()
   })
 }
-//校验间隔时间是否超过两小时
+//校验间隔时间是否超过4小时
 const checkDialogIntervalTime = (v) => {
   let deadtime = parseInt(wx.getStorageSync(v))
   let timestamp = Date.parse(new Date())
