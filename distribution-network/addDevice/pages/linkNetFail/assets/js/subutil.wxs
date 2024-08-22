@@ -50,7 +50,8 @@ var isNeedWifiConfirmInput = function (itemText) {
 // 是否有查看教程
 var isGuide = function(itemText) {
     var text = itemText || ''
-    if (text.indexOf('本地网络') != -1 || text.indexOf('Mac地址') != -1 || text.indexOf('DHCP') != -1) {
+    // if (text.indexOf('本地网络') != -1 || text.indexOf('Mac地址') != -1 || text.indexOf('DHCP') != -1)
+    if (text.indexOf('Mac地址') != -1 || text.indexOf('DHCP') != -1) {
         return true
     } else {
         return false
