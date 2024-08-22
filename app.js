@@ -48,7 +48,13 @@ import // hasKey,
 // } from '/pages/common/js/getApiPromise.js'
 // import { hasKey, dateFormat } from 'm-utilsdk/index'
 import loginMethods from '/globalCommon/js/loginRegister'
-import { checkTokenExpir, setIsAutoLogin, isAutoLoginTokenValid } from './utils/redis.js'
+import {
+  checkTokenExpir,
+  setIsAutoLogin,
+  isAutoLoginTokenValid,
+  checkTokenExpired,
+  checkTokenPwdExpired,
+} from './utils/redis.js'
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
 //const linkupSDK = require('./distribution-network/assets/sdk/index.js')
@@ -206,44 +212,48 @@ App({
     // }
     //小程序跳转
     this.globalData.isActionAppLaunch = true
-    console.log('launch options4', options)
     try {
       this.initData()
-      console.log('launch options5', options)
       let isAutoLogin = null
       let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
+      let MPTOKEN_USERINFO
       isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
       MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
-      // 有效期内直接登录
+      MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
       if (typeof isAutoLogin !== 'boolean') {
-        console.log('有效期内')
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
-      //否则需要刷新toekn
-      if (isAutoLogin && isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION)) {
-        console.log('刷新token')
-        loginMethods.loginAPi
-          .call(this)
-          .then((res2) => {
-            console.log('app loginAPi sucesss', res2)
-            console.log('app loginAPi sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-            // this.globalData.isLogon = true
-            this.globalData.isActionAppLaunch = false
-            this.globalData.wxExpiration = true
-            if (this.callbackFn) {
-              this.callbackFn()
-            }
-          })
-          .catch((err) => {
-            WX_LOG.warn('app loginAPi catch', err)
-            if (err && err.data && err.data.code == 1406) {
+      //60天内不需要重新登录
+      if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
+        if (isAutoLogin && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+          loginMethods.loginAPi
+            .call(this)
+            .then((res2) => {
+              console.log('app loginAPi sucesss', res2)
+              console.log('app loginAPi sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+              // this.globalData.isLogon = true
+              this.globalData.isActionAppLaunch = false
+              this.globalData.wxExpiration = true
+              if (this.callbackFn) {
+                this.callbackFn()
+              }
+            })
+            .catch((err) => {
+              WX_LOG.warn('app loginAPi catch', err)
+              // if (err && err.data && err.data.code == 1406) {
               this.setLoginFalse()
-            } else {
-              this.setFromMiniProgramData()
-            }
-          })
+              // } else {
+              // this.setFromMiniProgramData()
+              // }
+            })
+        } else if (isAutoLogin && checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+          // 有效期内直接登录
+          loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+        } else {
+          this.setLoginFalse()
+        }
       } else {
         this.globalData.isLogon = false
         this.globalData.wxExpiration = false
@@ -263,22 +273,6 @@ App({
     }
     //获取设备图标
     this.getDcpDeviceImg()
-    //this.setWxUserInfo()
-    // this.getIP() //获取IP地址，用于大数据埋点
-    // 小程序初始化需启动首页自发现
-    // if (options.path == '' || options.path == 'pages/index/index') {
-    // console.log('@module app.js\n@method onLaunch\n@desc 小程序初始化需启动首页自发现')
-    // this.globalData.ifAutoDiscover = true
-    // }
-    // let { launch_source, cid } = options.query
-    //是否有打开小程序的来源字段
-    // if (launch_source) {
-    // this.globalData.launch_source = launch_source
-    // }
-    //是否有打开小程序的投放渠道字段
-    // if (cid) {
-    // this.globalData.cid = cid
-    // }
   },
 
   onShow: async function (options) {

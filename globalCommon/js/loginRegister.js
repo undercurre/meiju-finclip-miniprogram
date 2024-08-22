@@ -2,7 +2,14 @@ import { getTimeStamp, getReqId, getUID, getStamp, hasKey } from 'm-utilsdk/inde
 import { showToast } from '../../utils/util.js'
 import { closeWebsocket } from '../../utils/initWebsocket.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
-import { setTokenStorage, setIsAutoLogin, setUserInfo, removeUserInfo, removeStorageSync } from '../../utils/redis.js'
+import {
+  setTokenStorage,
+  setIsAutoLogin,
+  setUserInfo,
+  removeUserInfo,
+  removeStorageSync,
+  setTokenPwdStorge,
+} from '../../utils/redis.js'
 import { getPrivateKeys } from '../../utils/getPrivateKeys'
 import { api } from '../../api'
 import Toast from 'm-ui/mx-toast/toast'
@@ -116,7 +123,7 @@ const loginMethods = {
               app.globalData.wxExpiration = true
               removeUserInfo()
               setUserInfo(userInfo)
-              setTokenStorage(res.data.data.accessToken)
+              setTokenStorage(res.data.data.accessToken, res.data.data.expired)
               setIsAutoLogin(true)
               if (userInfo.region || String(userInfo.region) == '0') {
                 app.globalData.userRegion = userInfo.region
@@ -152,6 +159,21 @@ const loginMethods = {
       app.globalData.isLogon = false
     }
     // })
+  },
+  //获取缓存信息
+  getUserInfo(userInfo) {
+    let app = getApp() || this
+    app.globalData.userData = userInfo
+    app.globalData.phoneNumber = userInfo.userInfo.mobile
+    app.globalData.isLogon = true
+    app.globalData.wxExpiration = true
+    setUserInfo(userInfo)
+    //setTokenStorage(userInfo.mdata.accessToken)
+    setIsAutoLogin(true)
+    if (userInfo.region || String(userInfo.region) == '0') {
+      app.globalData.userRegion = userInfo.region
+      wx.setStorageSync('userRegion', userInfo.region) //存储
+    }
   },
   // //获取验证码
   loginSmCode(params) {
@@ -228,7 +250,8 @@ const loginMethods = {
             app.globalData.wxExpiration = true
             console.log('储存用户信息', res.data.data)
             setUserInfo(res.data.data)
-            setTokenStorage(res.data.data.mdata.accessToken)
+            setTokenStorage(res.data.data.mdata.accessToken, res.data.data.mdata.expired)
+            setTokenPwdStorge(res.data.data.mdata.tokenPwdInfo.expiredDate, res.data.data.mdata.tokenPwdInfo.tokenPwd)
             setIsAutoLogin(true)
             if (res.data.data.region || String(res.data.data.region) == '0') {
               app.globalData.userRegion = res.data.data.region
