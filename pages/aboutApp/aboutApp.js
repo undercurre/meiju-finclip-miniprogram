@@ -102,6 +102,7 @@ Page({
         reqId: getReqId(),
         stamp: getTimeStamp(new Date()),
       }
+      console.log('reqData===========:', reqData)
       requestService.request(urlName, reqData).then(
         (resp) => {
           if (resp.data.code == 0 && self.compareVersion(resp.data.data.versionName, reqData.version)) {
@@ -120,7 +121,6 @@ Page({
           }
         },
         (error) => {
-          console.error('reqData===========:', reqData)
           console.error('error===========:', error)
           reject(error)
         }
@@ -151,6 +151,8 @@ Page({
       this.updateNow()
     } else if (e.detail.detail.type == 3) {
       //参与内测
+      console.error('进入参与内测')
+      this.joinTest()
     }
     let poupInfomation = this.data.poupInfomation
     poupInfomation.show = !poupInfomation.show
@@ -163,7 +165,14 @@ Page({
   backPage() {
     wx.navigateBack()
   },
-  joinTest() {},
+  joinTest() {
+    //ft.startBrowsableAbility({ uri: '' })
+    try {
+      ft.startBrowsableAbility()
+    } catch(e){
+      
+    }
+  },
   updateNow() {
     try {
       console.log('11111')
