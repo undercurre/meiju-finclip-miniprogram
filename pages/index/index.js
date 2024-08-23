@@ -54,6 +54,7 @@ import {
 } from './../../utils/initWebsocket.js'
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
+import { config } from '../../config'
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let currentPageOptions = {} // index 页面options

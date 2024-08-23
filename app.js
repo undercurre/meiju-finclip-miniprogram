@@ -9,13 +9,10 @@ import { deviceInfoReport } from './track/track.js'
 import { requestService, rangersBurialPoint } from './utils/requestService'
 import { isEmptyObject, hasKey, dateFormat, getReqId, getStamp } from 'm-utilsdk/index'
 import { getWxSystemInfo, getWxGetSetting } from './utils/wx/index.js'
-import { checkCanIUserWxApi } from './utils/wx/utils.js'
 import weixinApi from './utils/weixin/weixin.api'
 import cloudMethods from '/globalCommon/js/cloud.js'
 const WX_LOG = require('./utils/log')
 import getBrand from './utils/getBrand'
-let privacyHandler
-import { getFullPageUrl } from './utils/util'
 import { privacy, index as homeIndex } from './utils/paths'
 import { removeCloudSync } from './utils/redis'
 import { initWebsocket, closeWebsocket } from './utils/initWebsocket.js'
@@ -39,14 +36,7 @@ const Performance_Track = new PerformanceTrack(rangersBurialPoint)
 // 配网品牌配置
 import brandConfig from './distribution-network/assets/js/brand.js'
 
-import // hasKey,
-// getReqId,
-// getStamp,
-'./utils/util.js'
-// import {
-//   service
-// } from '/pages/common/js/getApiPromise.js'
-// import { hasKey, dateFormat } from 'm-utilsdk/index'
+import { onNetworkStatusChange } from './utils/util.js'
 import loginMethods from '/globalCommon/js/loginRegister'
 import {
   checkTokenExpir,
@@ -190,6 +180,7 @@ App({
   onLaunch: async function (options) {
     this.selectedHander(options)
     console.log('launch options', options)
+    onNetworkStatusChange.call(this)
     // 分包异步加载
     //this.globalData.linkupSDK = linkupSDK // 存入全局变量，其他包可以直接引用
     // 全局加载蓝牙
@@ -286,7 +277,6 @@ App({
     console.log('scene', options.scene)
     console.log('options:', options)
     console.log('微信自发现options:', options)
-    this.getWxIotOptions(options)
     try {
       let isAutoLogin = null
       let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
@@ -400,38 +390,6 @@ App({
       this.globalData.isPx = true
     }
   },
-  setWxUserInfo() {
-    // 获取用户信息
-    getWxGetSetting({
-      withSubscriptions: true,
-      success: (res) => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: (res) => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            },
-          })
-        }
-        if (res.authSetting['scope.writePhotosAlbum']) {
-          this.globalData.hasAuthWritePhotosAlbum = true
-        }
-        if (res.authSetting['scope.userLocation']) {
-          this.globalData.hasAuthLocation = true
-        }
-        if (res.authSetting['scope.bluetooth']) {
-          this.globalData.hasAuthBluetooth = true
-        }
-        this.globalData.subscriptionsSetting = Object.keys(res.subscriptionsSetting)
-      },
-    })
-  },
   setLoginFalse() {
     this.globalData.isLogon = false
     this.globalData.isActionAppLaunch = false
@@ -527,24 +485,6 @@ App({
         return this._isLogon == undefined ? isLogin : this._isLogon
       },
     })
-  },
-  getWxIotOptions(options) {
-    if (options.scene == 1036) {
-      this.globalData.share = true
-    } else {
-      this.globalData.share = ''
-    }
-    //小程序跳转
-    if (options.scene == 1037) {
-      this.globalData.fromMiniProgramData = options.referrerInfo.extraData
-    } else {
-      this.globalData.fromMiniProgramData = {}
-    }
-    if (options.scene == 1037 || options.scene == 1038) {
-      this.globalData.fromWxMiniProgramData = options
-    } else {
-      this.globalData.fromWxMiniProgramData = {}
-    }
   },
   //新登录流程校验调用
   checkGlobalExpiration() {
@@ -798,6 +738,7 @@ App({
     applianceAuthList: [], //确权状态列表
     bathAuthTimer: null, //轮询确权状态标识
     selectTab: 0,
+    noNetwork: false, //判断是否有网络
   },
   scanDeviceMap: {},
   addDeviceInfo: {

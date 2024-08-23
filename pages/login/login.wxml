@@ -93,12 +93,7 @@
       hover-class="loginBtnHover"
       bindclick="onClickLogin"
     >
-      <mx-loading
-        wx:if="{{loginBtnDes=='登录中' || loginBtnDes=='注册并登录中'}}"
-        type="spinner"
-        size="36rpx"
-        color="#fff"
-      />
+      <mx-loading wx:if="{{loading}}" type="spinner" size="36rpx" color="#fff" />
       <!-- <image src="{{loadingIco}}" class="loadingIco" wx:if="{{loginBtnDes=='登录中' || loginBtnDes=='注册并登录中'}}" /> -->
       {{loginBtnDes}}
     </mx-button>

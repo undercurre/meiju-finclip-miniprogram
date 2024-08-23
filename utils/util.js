@@ -370,6 +370,40 @@ function checkNetwork(callback) {
   })
 }
 
+//网络全局监听网络情况
+function onNetworkStatusChange() {
+  var that = this
+  wx.getNetworkType({
+    success: function (res) {
+      const networkType = res.networkType
+      //不为none代表有网络
+      if (networkType != 'none' || networkType != 'unknown') {
+        that.globalData.noNetwork = false
+        //网络状态变化事件的回调函数   开启网络监听，监听小程序的网络变化
+        wx.onNetworkStatusChange(function (resp) {
+          if (resp.isConnected) {
+            //网络变为有网s
+            that.globalData.noNetwork = false
+          } else {
+            //网络变为无网
+            that.globalData.noNetwork = true
+          }
+        })
+      } else {
+        that.globalData.noNetwork = true
+        //无网状态
+        wx.onNetworkStatusChange(function (resp) {
+          if (resp.isConnected) {
+            that.globalData.noNetwork = false
+          } else {
+            that.globalData.noNetwork = true
+          }
+        })
+      }
+    },
+  })
+}
+
 module.exports = {
   getNewSign, //new sign
   getMarketSign,
@@ -392,4 +426,5 @@ module.exports = {
   checkFamilyPermission,
   getIcon,
   checkNetwork,
+  onNetworkStatusChange,
 }

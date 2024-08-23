@@ -81,6 +81,7 @@ Page({
     autoFocus: 'false',
     animationLogin1: {},
     animationLogin2: {},
+    loading: false,
   },
   setLoginLogoTop() {
     //let marginHeight = (app.globalData.systemInfo.screenHeight * 2 * 140) / 1624
@@ -343,6 +344,9 @@ Page({
   },
   //发送验证码请求
   requestSmsCode() {
+    this.setData({
+      loading: true,
+    })
     //点击获取验证码埋点
     clickBthVerifyBurialPoint()
     loginMethods
@@ -358,6 +362,7 @@ Page({
         let time = 60
         this.setTime(time)
         this.setData({
+          loading: false,
           verCode: '',
           randomToken: '',
           verCodeInputshow: true, //显示验证码输入框
@@ -374,6 +379,9 @@ Page({
         }, 200)
       })
       .catch((error) => {
+        this.setData({
+          loading: false,
+        })
         console.log(error)
         if (error.data.code == 65011) {
           //获取图形验证码
@@ -411,6 +419,7 @@ Page({
           }, 200)
           return
         }
+
         Toast({ context: this, position: 'bottom', message: error.data.msg })
         //showToast(error.data.msg)
       })
@@ -535,6 +544,9 @@ Page({
 
   //登录注册
   miniAppLogin(loginType) {
+    this.setData({
+      loading: true,
+    })
     return new Promise((resolve, reject) => {
       const fullPageUr = getFullPageUrl('prev')
       console.log('跳转 fullPageUr', fullPageUr)
@@ -544,6 +556,9 @@ Page({
       loginMethods
         .loginTempAPi({ phoneNumber: this.data.phoneNumber, vercode: this.data.verCode, loginType: loginType })
         .then((resp) => {
+          this.setData({
+            loading: false,
+          })
           //登录成功
           loginCheckResultBurialPoint({ mobile: this.data.phoneNumber })
           this.resetLoginBtnDes()
@@ -563,6 +578,7 @@ Page({
           //WX_LOG.warn('login loginAPi catch', err)
           setTimeout(() => {
             this.setData({
+              loading: false,
               loginDisabled: false,
             })
           }, 1000)
