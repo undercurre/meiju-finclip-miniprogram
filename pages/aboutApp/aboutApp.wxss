@@ -67,3 +67,16 @@ page {
   right: 60rpx;
   top: 44rpx;
 }
+.about-copyright{
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #8A8A8F;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 12px;
+  font-weight: 400;
+  position: fixed;
+  bottom: calc(20rpx + var(--iphonex-fix-bottom));
+  right: 0;
+  left: 0;
+}

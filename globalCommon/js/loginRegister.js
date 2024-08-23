@@ -216,6 +216,7 @@ const loginMethods = {
       let timestamp = getStamp()
       let reqId = getReqId()
       let reqData = {
+        clientType: 6,
         appKey: '46579c15',
         appVersion: '9.0,',
         osVersion: '',
@@ -227,6 +228,7 @@ const loginMethods = {
         timestamp: timestamp,
         data: reqData,
         iotData: {
+          clientType: 6,
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,

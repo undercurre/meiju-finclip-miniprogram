@@ -1825,7 +1825,7 @@ Page({
   },
 
   // 获取设备图片
-  async getIotDeviceV3() {
+  getIotDeviceV3() {
     let dcpDeviceImgList = []
     let sceneIconList = wx.getStorageSync('dcpDeviceImgList')
     this.data.sceneIconList = sceneIconList

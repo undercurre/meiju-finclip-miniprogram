@@ -381,6 +381,7 @@ function onNetworkStatusChange() {
         that.globalData.noNetwork = false
         //网络状态变化事件的回调函数   开启网络监听，监听小程序的网络变化
         wx.onNetworkStatusChange(function (resp) {
+          console.log('监听网络变化11111--------》', resp)
           if (resp.isConnected) {
             //网络变为有网s
             that.globalData.noNetwork = false
@@ -393,6 +394,7 @@ function onNetworkStatusChange() {
         that.globalData.noNetwork = true
         //无网状态
         wx.onNetworkStatusChange(function (resp) {
+          console.log('监听网络变化222222--------》', resp)
           if (resp.isConnected) {
             that.globalData.noNetwork = false
           } else {
