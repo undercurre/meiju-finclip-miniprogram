@@ -7,7 +7,7 @@ import { pluginEventTrack } from '../globalCommon/js/commomPlugin'
 import { openSubscribeModal } from '../globalCommon/js/deviceSubscribe'
 import { modelIds, templateIds } from '../globalCommon/js/templateIds'
 import { requestService, requestBurialPoint, rangersBurialPoint } from './requestService'
-import { environment, api, baseImgApi, imgBaseUrl, deviceImgApi, commonH5Api, actTemplateImgApi } from './../api'
+import { environment, api, baseImgApi, imgBaseUrl, deviceImgApi, commonH5Api, actTemplateImgApi,imageApi } from './../api'
 import { getDeviceSn, getDeviceSn8 } from './../pages/common/js/device.js'
 import paths from './paths'
 import wxList from './../globalCommon/js/wxList.js'
@@ -45,7 +45,8 @@ const globalCommonConfig = {
   registerBLEConnectionStateChange,
   paesrBleResponData,
   constructionBleControlOrder,
-  config: config
+  config: config,
+  imageApi,
 }
 
 module.exports = {

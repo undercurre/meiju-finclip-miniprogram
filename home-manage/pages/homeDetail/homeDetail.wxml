@@ -35,7 +35,12 @@
         /></view>
       </view>
       <view class="avatar-container">
-        <view wx:for="{{ memberList }}" wx:key="uid" class="avatar" wx:if="{{index<6}}">
+        <view
+          wx:for="{{ memberList }}"
+          wx:key="uid"
+          class="avatar"
+          wx:if="{{(roleId!=1003 && index<6) || (roleId==1003 && index<7)}}"
+        >
           <view class="avatar-box">
             <mx-image round fit="cover" plate="{{plate}}" src="{{ item.headImgUrl }}"></mx-image>
             <text wx:if="{{ item.roleId==1002 }}">管理员</text>
@@ -43,7 +48,10 @@
           </view>
           <text>{{ item.nickname }}</text>
         </view>
-        <view class="avatar" wx:if="{{ memberList.length>6 }}">
+        <view
+          class="avatar"
+          wx:if="{{ (roleId!=1003 && memberList.length>6) || (roleId==1003 && memberList.length>7) }}"
+        >
           <button bindtap="goToMemberManage" class="add-icon" style="background-image: url({{moreIcon}})"></button>
           <text>更多成员</text>
         </view>

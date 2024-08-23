@@ -1,5 +1,5 @@
 import { getStamp, hasKey, CryptoJS, md5 } from 'm-utilsdk/index'
-import { getNewSign } from './util'
+import { getNewSign, showToast } from './util'
 import { api } from '../api'
 import trackApiList from '../track/oneKeyTrack/config/trackApiList.js'
 import { authorizedCommonTrack, trackLoaded } from '../track/track.js'
@@ -27,7 +27,6 @@ var requestService = {
           url = api.urlPrefix + apiName
         }
       }
-
       let MzTdecode_seed = ''
       //品类服透传接口，加密data
       if (apiName == 'MzTransmit') {
@@ -96,7 +95,7 @@ var requestService = {
         terminalId: api.iotTerminalIid,
         iotAppId: api.iotAppId,
         ...headerObj,
-        //'iot-gray-identification': 'alpha', //临时添加alpha泳道
+        // 'iot-gray-identification': 'beta', //临时添加alpha泳道
       }
       if (getApp() && getApp().globalData && getApp().globalData.userData) {
         let accessToken = getApp().globalData.userData.mdata.accessToken
@@ -181,6 +180,8 @@ var requestService = {
           }
         },
         fail(error) {
+          getApp().checkNetLocal()
+          showToast(error.errMsg)
           ApiTrack(apiName, selectApi, error, 'fail', params)
           if (apiName === 'luaControl') {
             pluginApiTrack('fail', params, error)

@@ -1,4 +1,10 @@
+/*
+ * @desc:
+ * @author: zhucc22
+ * @Date: 2024-06-17 16:59:38
+ */
 import { showToast } from '../../../utils/util.js'
+const app = getApp()
 // import { baseImgApi } from '../../../api'
 Component({
   behaviors: [],
@@ -43,6 +49,7 @@ Component({
         if (networkType === 'none') {
           showToast('网络异常，请稍后再试')
         } else {
+          app.globalData.noNetwork = false
           this.triggerEvent('refreshPage')
         }
       })

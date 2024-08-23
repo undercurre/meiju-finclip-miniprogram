@@ -9,5 +9,5 @@
     <van-cell wx:for="{{list}}" wx:key="index" title="{{item.title}}" value="{{list[index].rightText}}" is-link="true"
       data-index="{{index}}" border="{{index+1!==list.length}}" bind:click="onTempCellClick" />
   </block>
-  <c-picker show="{{showPicker}}" range="{{pickerRange}}" value="{{pickerValue}}" unit="{{pickerUnit}}" bind:confirm="onConfirm" bind:cancel="onCancel"></c-picker>
+  <c-picker wx:if="{{showPicker}}" show="{{showPicker}}" range="{{pickerRange}}" value="{{pickerValue}}" unit="{{pickerUnit}}" bind:confirm="onConfirm" bind:cancel="onCancel"></c-picker>
 </view>

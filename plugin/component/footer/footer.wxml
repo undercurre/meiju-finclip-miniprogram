@@ -5,4 +5,4 @@
   </button>
   <text>解锁更多功能</text>
 </view>
-<view wx:if="{{!fromApp}}" class="openMeiJuAPpp">更多功能尽在美的美居App</view>
+<!-- <view wx:if="{{!fromApp}}" class="openMeiJuAPpp">更多功能尽在美的美居App</view> -->

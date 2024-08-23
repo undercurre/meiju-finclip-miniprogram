@@ -161,7 +161,7 @@ Page({
           isLogon: false,
         })
         wx.switchTab({
-          url: '../../../../pages/index/index',
+          url: '/pages/mytab/mytab',
         })
       }
     })

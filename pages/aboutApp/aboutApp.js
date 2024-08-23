@@ -48,7 +48,7 @@ Page({
             开了房见识到了肯德基凯撒
             
             扣法兰看手机卡拉卡`,
-        type: 1, //假定1是可升级， 2是参与内测，3是必须升级
+        type: 1, //1.应用市场， 3.是参与内测
       },
     },
     showVersionUpdateDialog: false,
@@ -102,6 +102,7 @@ Page({
         reqId: getReqId(),
         stamp: getTimeStamp(new Date()),
       }
+      console.log('reqData===========:', reqData)
       requestService.request(urlName, reqData).then(
         (resp) => {
           if (resp.data.code == 0 && self.compareVersion(resp.data.data.versionName, reqData.version)) {
@@ -109,6 +110,7 @@ Page({
 
             poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
             poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
+            poupInfomation.poupInfo.type = resp.data.data.upgradeType
             self.setData({
               hasUpadteVersion: true,
               poupInfomation,
@@ -119,7 +121,6 @@ Page({
           }
         },
         (error) => {
-          console.error('reqData===========:', reqData)
           console.error('error===========:', error)
           reject(error)
         }
@@ -144,12 +145,14 @@ Page({
   versionUpadte(e) {
     //子组件传承
     console.error(e.detail)
-    if (e.detail.detail.type == 3) {
+    if (e.detail.detail.type == 1) {
       //立即升级
       console.error('进入立即升级')
       this.updateNow()
-    } else if (e.detail.detail.type == 2) {
+    } else if (e.detail.detail.type == 3) {
       //参与内测
+      console.error('进入参与内测')
+      this.joinTest()
     }
     let poupInfomation = this.data.poupInfomation
     poupInfomation.show = !poupInfomation.show
@@ -162,7 +165,14 @@ Page({
   backPage() {
     wx.navigateBack()
   },
-  joinTest() {},
+  joinTest() {
+    //ft.startBrowsableAbility({ uri: '' })
+    try {
+      ft.startBrowsableAbility()
+    } catch(e){
+      
+    }
+  },
   updateNow() {
     try {
       console.log('11111')

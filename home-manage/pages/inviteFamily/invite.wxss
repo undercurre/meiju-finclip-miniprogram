@@ -49,7 +49,7 @@ page{
   align-items: center;
   padding-bottom: 48rpx;
   font-size: 28rpx;
-  color: #000000;
+  color: #8A8A8F;
   letter-spacing: 0;
   line-height: 28rpx;
   font-weight: 400;

@@ -1,7 +1,0 @@
-<!--components/popup/popup.wxml-->
-<view class="container">
-  <view class="mask" bindtap="onTapClose"></view>
-  <view class="popup-box">
-    <slot></slot>
-  </view>
-</view>

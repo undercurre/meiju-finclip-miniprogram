@@ -248,9 +248,25 @@ Page({
 
   //点击邀请按钮
   clickInviteBtn(e) {
-    console.log(e)
     let { homegroupid, homeitem } = e.currentTarget.dataset
-    this.gotoInvite(homeitem, homegroupid)
+    let that = this
+    this.homeMemberGet(this.data.homegroupId)
+      .then((res) => {
+        console.log(res, 'res')
+        if (res.data.data.list.length >= 20) {
+          wx.showToast({
+            title: '您的家庭成员已经达到20个上限，无法继续新增',
+            icon: 'none',
+          })
+          return
+        }
+        console.log(e)
+        that.gotoInvite(homeitem, homegroupid)
+      })
+      .catch((err) => {
+        console.log(err, 'err')
+        that.gotoInvite(homeitem, homegroupid)
+      })
     //burialPoint.clickInvitePoint()
   },
   // 获取列表内容高度
@@ -309,6 +325,24 @@ Page({
     })
   },
 
+  homeMemberGet(id) {
+    let reqData = {
+      homegroupId: id,
+      reqId: getReqId(),
+      stamp: getStamp(),
+      uid: app.globalData.userData.uid,
+    }
+    return new Promise((resolve, reject) => {
+      requestService
+        .request('homeMemberGet', reqData)
+        .then((resp) => {
+          resolve(resp)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

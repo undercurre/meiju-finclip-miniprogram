@@ -33,6 +33,8 @@
     </view>
   </view>
 
+  <view class="about-copyright">Copyright © 2015-2024 Midea. All Rights Reserved.</view>
+
   <!-- <mx-popup
         show="{{false}}"    
         round

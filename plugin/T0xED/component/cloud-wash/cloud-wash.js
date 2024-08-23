@@ -90,7 +90,8 @@ Component({
       )
       if (this.data.checked) {
         wx.showModal({
-          title: 'AI冲洗有利于滤芯保养及维持过滤效果,不建议关闭',
+          title: '提示',
+          content: 'AI冲洗有利于滤芯保养及维持过滤效果,不建议关闭',
           confirmText: '关闭',
           success: (res) => {
             if (res.confirm) {
