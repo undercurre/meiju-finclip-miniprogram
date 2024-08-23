@@ -54,7 +54,7 @@ import {
 } from './../../utils/initWebsocket.js'
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
-import { config } from '../../config'
+import  config from '../../config'
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let currentPageOptions = {} // index 页面options
@@ -224,8 +224,13 @@ Page({
     }
   },
   checkVersionUpdate(){
+    console.error('进入checkVersionUpdate')
     let self = this
     let params ={}
+    let iotAppIdObj = config['iotAppId']
+    let iotAppId = iotAppIdObj[config.environment]
+    console.error('iotAppId----------:',iotAppId)
+    console.error('config.iotAppId[config.environment]---------:',config.iotAppId[config.environment])
     wx.getSystemInfo({
       success(res) {
         params = {
@@ -236,7 +241,7 @@ Page({
           platform: 3,
           osVersion: res.system,
           version: self.data.appVersion,
-          iotAppId: config.iotAppId[config.environment],
+          iotAppId: iotAppId,
           strategyId: '',
         }
       },
@@ -253,37 +258,46 @@ Page({
       }
       console.log('checkVersionUpdate-reqData=================:', reqData)
       requestService.request(urlName, reqData).then(
-        (resp) => {
+       async (resp) => {
           console.error('checkVersionUpdate-resp----------:',resp)
           // popType == 0 使用默认规则, 如果是1 或者2 前端首页弹窗都不弹 ，popType == 1 原生 强制更新 原生弹窗
-          if(resp.data.code == 0 &&  (resp.data.data.dialogConfig.popType == 0 || (resp.data.data.dialogConfig.popType == 1 && app.globalData.isLogon))){
+          if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0 ){
             
             // 查看本地缓存是否有策略id
             // 如果有策略id
             // 如果本地缓存记录的次数 == 0 或 间隔 不大于等于 接口返回的间隔，或当前小时不在接口返回的小时范围内 那么就不弹 ，间隔时间默认为 x 自然天
-            let hasDialogId = wx.getStorageInfoSync(resp.data.data.id)
-            let isShowDialog = false //弹窗逻辑标识，为true才弹窗
-            // 获取当前小时
-            let getHour = dateFormat(new Date(), 'hh') *1
-            let isLegiTime = getHour>=resp.data.data.dialogConfig.popPeriodStart*1 && getHour<=resp.data.data.dialogConfig.popPeriodEnd *1 ? true : false
-            //当前小时不在接口返回的小时范围内 
-            if(!isLegiTime){
-              return
+            
+            let hasDialogId = await wx.getStorageSync(resp.data.data.id+'version')
+            let isShowDialog = false
+            // 有配置popPeriodStart才进行判断
+            if(resp.data.data.dialogConfig.popPeriodStart){
+              // 获取当前小时
+              let getHour = dateFormat(new Date(), 'hh') *1
+              let isLegiTime = getHour>=resp.data.data.dialogConfig.popPeriodStart*1 && getHour<=resp.data.data.dialogConfig.popPeriodEnd *1 ? true : false
+              //当前小时不在接口返回的小时范围内 
+              if(!isLegiTime){
+                return
+              }
             }
+            console.error('测试通过时间区间-----hasDialogId----:',hasDialogId)
             if(hasDialogId){
+              console.error('有缓存！！！！！')
               // 判断间隔时间是否大于等于 接口返回的间隔
               let isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime,resp.data.data.dialogConfig.popInterval)
+
+              console.error('间隔判断！！！！！isPopInterval：',isPopInterval)
               // 弹窗次数为0 或者 还没到间隔时间 不弹窗
               if(!isPopInterval || hasDialogId.popTimes == 0){
                 return
               }
+              console.error('通过弹窗次数为0 或者 还没到间隔时间 不弹窗')
               if(isPopInterval && hasDialogId.popTimes > 0){
                 //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
                 hasDialogId.popTimes = hasDialogId.popTimes - 1
                 isShowDialog = true
               }
               wx.setStorage({
-                key:resp.data.data.id,
+                key:resp.data.data.id+'version',
                 data:{
                   popTimes:hasDialogId.popTimes,
                   recodeTime : hasDialogId.recodeTime
@@ -299,11 +313,12 @@ Page({
 
 
             } else {
+              console.error('本地缓存没有,即可以弹窗')
               // 本地缓存没有,即可以弹窗
               // 需要保存信息到本地
               isShowDialog = true
               wx.setStorage({
-                key:resp.data.data.id,
+                key:resp.data.data.id+'version',
                 data:{
                   popTimes:resp.data.data.dialogConfig.popTimes - 1,
                   recodeTime : dateFormat(new Date(), 'yyyy-MM-dd')
@@ -317,9 +332,11 @@ Page({
 
               })
 
+              console.error('本地缓存没有结束')
             }
 
             if(isShowDialog){
+              console.error('开始弹窗')
               let poupInfomation = self.data.poupInfomation
               poupInfomation.show = true
               poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
@@ -2267,14 +2284,29 @@ Page({
     })
   },
   async onLoad(options) {
-    console.error('版本号：202408409081')
+    console.error('版本号：202408409082')
     //处理websocket相关逻辑
     console.log('优化 onload', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
     trackLoaded('page_loaded_event', 'pageOnLoad')
-    this.checkVersionUpdate()
     //this.initPushData()
     currentPageOptions = options
     var self = this
+    try {
+      ft.getAppInfo({
+        success: function (res) {
+          console.log('getAppInfo success ------------')
+          console.log(res)
+          self.setData({
+            appVersion: res.data.data.VERSION_NAME,
+          })
+          self.checkVersionUpdate()
+        },
+        fail: function (res) {
+          console.log('getAppInfo fail')
+          console.log(res)
+        },
+      })
+    } catch (error) {}
     self.data.gdt_vid = options.gdt_vid || (options.query && options.query.gdt_vid) || ''
     getWxSystemInfo((res) => {
       this.setData({
