@@ -103,45 +103,15 @@ Page({
       permissionTextAll: null, //权限提示文案
       permissionTypeList: {},
     },
+    switchTackend:false,//切换到后台的标识符
+    monitorBluetoothFalg:false,//监听蓝牙标识符
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    wx.offBluetoothAdapterStateChange()
     let self = this
-
-    // // 监听蓝牙状态变化
-    // wx.onBluetoothAdapterStateChange(function (res) {
-    //     console.error('Guide蓝牙状态已改变');
-    //     // let page = getFullPageUrl()
-    //     // if (page.includes('addDevice/pages/addGuide/addGuide')){
-    //       if (res.available) {
-    //         console.error('Guide蓝牙状态已改变11111');
-    //         self.startBluetoothDevicesDiscovery(0)
-    //         if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新调初始化函数
-    //           console.error('Guide蓝牙状态已改变2222isCanBlue:',self.data.checkPermissionRes.isCanBlue);
-    //           self.setData({
-    //             'checkPermissionRes.isCanBlue': true,
-    //           })
-    //           self.initAddGuide()
-    //         }          
-    //       // 蓝牙已打开并且正在搜索设备
-    //       console.error('Guide蓝牙已打开，正在搜索设备2');
-    //       } else {
-    //       // 蓝牙未打开
-    //         console.error('Guide蓝牙未打开2isCanBlue:',self.data.checkPermissionRes.isCanBlue);
-    //         if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为true,但监听结果是蓝牙不可以用，重新调初始化函数
-    //           self.setData({
-    //             'checkPermissionRes.isCanBlue': false,
-    //           })
-    //           self.initAddGuide()
-    //         }
-    //       }
-    //     // }
-        
-    // });
     console.log('dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle:', brandStyle.config)
     getApp().onLoadCheckingLog()
     this.data.brand = app.globalData.brand
@@ -1724,15 +1694,92 @@ Page({
    */
   onReady: function () { },
 
+
+    //封装蓝牙监听
+  monitorBluetooth(){
+    let self = this
+    wx.onBluetoothAdapterStateChange(async function (res) {
+      if (res.available && !self.data.checkPermissionRes.isCanBlue) {
+        console.error('// 证明开启蓝牙,状态 没变')
+        self.data.checkPermissionRes.isCanBlue = true
+        self.initAddGuide()
+      } else if(!res.available && self.data.checkPermissionRes.isCanBlue){
+        console.error('// ----证明关闭蓝牙,状态 没变')
+        self.data.checkPermissionRes.isCanBlue = false
+        // self.initAddGuide()
+        await self.checkBluetoothAuth()
+        clearInterval(timer)
+        wx.offBluetoothDeviceFound()
+        wx.stopBluetoothDevicesDiscovery()
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {},
+  onShow: async function () {
+    console.error('进入addGuideonShow')
+    let {mode} = app.addDeviceInfo
+    if (addDeviceSDK.bluetoothAuthModes.includes(mode)) {
+      this.data.currPageLength = getCurrentPages().length
+      await this.addGuideOpenBluetooth()
+      let isCanBlue = await this.checkBluetoothAuth()
+      console.error('onShow- isCanBlue:',isCanBlue)
+      console.error('onShow- this.data.switchTackend:',this.data.switchTackend)
+      try {
+        if(!this.data.monitorBluetoothFalg){
+          this.data.monitorBluetoothFalg = true
+          this.monitorBluetooth()
+        }
+        if(!isCanBlue){
+          this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
+          clearInterval(timer)
+        }
+        if(isCanBlue && this.data.switchTackend){
+          this.data.switchTackend = false
+          let blueRes = await checkPermission.blue()
+          let permissionTypeList = blueRes.permissionTypeList
+          let { bluetoothAuthorized } = permissionTypeList
+          console.error('进入了后台切换前台，打开app授权bluetoothAuthorized：',bluetoothAuthorized)
+          if(bluetoothAuthorized){
+            this.initAddGuide()
+          }
+        }
+      } catch (error) {
+        console.error('onShow-tryCatch---------:',error)
+      }
+
+
+    }
+
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () { },
+  onHide:function () {
+    console.error('addGuide onHide----')
+    setTimeout(async ()=>{
+      console.error('this.data.currPageLength:',this.data.currPageLength)
+      let onHidePage = getCurrentPages().length
+      if(onHidePage != this.data.currPageLength){ //标识页面切换
+        this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
+        clearInterval(timer)
+        // wx.offBluetoothAdapterStateChange()
+        this.data.switchTackend = false
+        this.data.monitorBluetoothFalg = false
+      } else {
+        console.log('切换后台 addGuideonHide-------')
+        let blueRes = await checkPermission.blue()
+        let permissionTypeList = blueRes.permissionTypeList
+        let {bluetoothAuthorized } = permissionTypeList
+        if(!bluetoothAuthorized) {
+          this.data.switchTackend = true
+        }
+      }
+    },500)
+  },
 
   /**
    * 生命周期函数--监听页面卸载
@@ -1746,6 +1793,21 @@ Page({
     wx.stopBluetoothDevicesDiscovery()
     clearInterval(timer)
     wx.offBluetoothAdapterStateChange()
+    this.data.monitorBluetoothFalg = false
+    this.data.switchTackend = false
+
+    // setTimeout(()=>{
+    //   console.error('this.data.currPageLength:',this.data.currPageLength)
+    //   let onUnload = getCurrentPages().length
+    //   console.error('onUnload:',onUnload)
+    //   if(onUnload != this.data.currPageLength){
+    //     this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
+    //     wx.offBluetoothDeviceFound()
+    //     wx.stopBluetoothDevicesDiscovery()
+    //     clearInterval(timer)
+    //     wx.offBluetoothAdapterStateChange()
+    //   }
+    // },500)
   },
 
   /**

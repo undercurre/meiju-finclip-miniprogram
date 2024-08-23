@@ -80,6 +80,7 @@ Page({
     retryFlag: false,
     showPopup:false,
     wifiGuideGifShow:false,//开启wifigif图标识
+    monitorBluetoothFalg:false,//监听蓝牙标识符
   },
   ifBackFromScan: false, // 从扫码页返回标识
 
@@ -262,11 +263,10 @@ Page({
 
 //封装蓝牙监听
 monitorBluetooth(){
-  this.data.currPageLength = getCurrentPages().length
+  
   let self = this 
   wx.onBluetoothAdapterStateChange(async (res)=> {
     console.error('蓝牙状态已改变333');
-    console.error('indexNumm:',indexNumm++)
     if (res.available && !self.data.checkPermissionRes.isCanBlue) {
         console.error('// 证明开启蓝牙,状态 没变')
         self.data.checkPermissionRes.isCanBlue = true
@@ -292,17 +292,17 @@ monitorBluetooth(){
    * 生命周期函数--监听页面显示
    */
   async onShow() {
-    // this.wifiStateOnChange()
-    this.monitorBluetooth()
-    console.error('scan-device onShow getCurrentPages()', getCurrentPages().length)
+    this.data.currPageLength = getCurrentPages().length
+    if(!this.data.monitorBluetoothFalg){
+      this.data.monitorBluetoothFalg = true
+      this.monitorBluetooth()
+    }
+    console.error('scan-device onShow getCurrentPages()', this.data.currPageLength)
     const systemInfo = await wx.getSystemInfoSync()
     console.error('systemInfo====:',systemInfo)
     let { isCheckGray } = app.addDeviceInfo
     let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
     try {
-    //   if(this._discoveryStarted){
-    //     this._discoveryStarted = false
-    //   }
         this.actionBlue()
 
         this.setData({
@@ -366,11 +366,11 @@ monitorBluetooth(){
    */
   onHide: function () {
     // this.closeBluetoothAdapter()
-    console.error('scan-device onhide getCurrentPages():', getCurrentPages().length)
     setTimeout(()=>{
         let hidePageLength =  getCurrentPages().length
-        console.error('scan-device onhide getCurrentPages()2222:', getCurrentPages().length)
-        if(this.data.currPageLength != hidePageLength){
+        console.error('scan-device onhide getCurrentPages()2222:', hidePageLength)
+        if(this.data.currPageLength != hidePageLength){ //标识页面切换
+          this.data.monitorBluetoothFalg = false
           wx.offBluetoothAdapterStateChange()
           this.stopBluetoothDevicesDiscovery()
           this.clearMixinsTime()
@@ -409,6 +409,7 @@ monitorBluetooth(){
     this.clearTimer()
     this._clearTimeout()
     wx.offBluetoothAdapterStateChange()
+    this.data.monitorBluetoothFalg = false
   },
 
   clearTimer() {
