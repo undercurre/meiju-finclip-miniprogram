@@ -9,13 +9,10 @@ import { deviceInfoReport } from './track/track.js'
 import { requestService, rangersBurialPoint } from './utils/requestService'
 import { isEmptyObject, hasKey, dateFormat, getReqId, getStamp } from 'm-utilsdk/index'
 import { getWxSystemInfo, getWxGetSetting } from './utils/wx/index.js'
-import { checkCanIUserWxApi } from './utils/wx/utils.js'
 import weixinApi from './utils/weixin/weixin.api'
 import cloudMethods from '/globalCommon/js/cloud.js'
 const WX_LOG = require('./utils/log')
 import getBrand from './utils/getBrand'
-let privacyHandler
-import { getFullPageUrl } from './utils/util'
 import { privacy, index as homeIndex } from './utils/paths'
 import { removeCloudSync } from './utils/redis'
 import { initWebsocket, closeWebsocket } from './utils/initWebsocket.js'
@@ -39,16 +36,15 @@ const Performance_Track = new PerformanceTrack(rangersBurialPoint)
 // 配网品牌配置
 import brandConfig from './distribution-network/assets/js/brand.js'
 
-import // hasKey,
-// getReqId,
-// getStamp,
-'./utils/util.js'
-// import {
-//   service
-// } from '/pages/common/js/getApiPromise.js'
-// import { hasKey, dateFormat } from 'm-utilsdk/index'
+import { onNetworkStatusChange } from './utils/util.js'
 import loginMethods from '/globalCommon/js/loginRegister'
-import { checkTokenExpir, setIsAutoLogin, isAutoLoginTokenValid } from './utils/redis.js'
+import {
+  checkTokenExpir,
+  setIsAutoLogin,
+  isAutoLoginTokenValid,
+  checkTokenExpired,
+  checkTokenPwdExpired,
+} from './utils/redis.js'
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
 //const linkupSDK = require('./distribution-network/assets/sdk/index.js')
@@ -183,25 +179,8 @@ App({
   },
   onLaunch: async function (options) {
     this.selectedHander(options)
-    //全局隐私授权跳转,打开屏蔽 2023-10-08  去掉
-    // if (wx.onNeedPrivacyAuthorization) {
-    // wx.onNeedPrivacyAuthorization((resolve) => {
-    // if (typeof privacyHandler === 'function') {
-    // privacyHandler(resolve)
-    // }
-    // })
-    // }
-    // privacyHandler = (resolve) => {
-    // const fullPageUr = '/' + getFullPageUrl()
-    // if (fullPageUr.indexOf('privacy') != -1) {
-    // return
-    // }
-    // wx.navigateTo({
-    // url: privacy,
-    // })
-    // }
-
     console.log('launch options', options)
+    onNetworkStatusChange.call(this)
     // 分包异步加载
     //this.globalData.linkupSDK = linkupSDK // 存入全局变量，其他包可以直接引用
     // 全局加载蓝牙
@@ -222,81 +201,50 @@ App({
     // if (!wx.getStorageSync('userRegion') && !wx.getStorageSync('cloudGlobalModule')) {
     this.initCloudData() //20230605屏蔽多云的入口调用，20230612打开多云入口
     // }
-    //this.initData()
     //小程序跳转
-    if (options.scene == 1037) {
-      this.globalData.fromMiniProgramData = options.referrerInfo.extraData
-    } else {
-      this.globalData.fromMiniProgramData = {}
-    }
     this.globalData.isActionAppLaunch = true
-    console.log('launch options4', options)
     try {
       this.initData()
-      console.log('launch options5', options)
-      // const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
       let isAutoLogin = null
       let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
+      let MPTOKEN_USERINFO
       isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
       MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
-      //await loginMethods.getOpendId.call(this, { reqGetOpenIdChannel: 'app' })
-      // 有效期内直接登录
+      MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
       if (typeof isAutoLogin !== 'boolean') {
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
-      if (isAutoLogin && isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION)) {
-        loginMethods.loginAPi
-          .call(this)
-          .then((res2) => {
-            console.log('app loginAPi sucesss', res2)
-            console.log('app loginAPi sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-            // this.globalData.isLogon = true
-            this.globalData.isActionAppLaunch = false
-            this.globalData.wxExpiration = true
-            if (this.callbackFn) {
-              this.callbackFn()
-            }
-            // 建立websocket链接，移到首页
-            // initWebsocket()
-          })
-          .catch((err) => {
-            WX_LOG.warn('app loginAPi catch', err)
-            if (err && err.data && err.data.code == 1406) {
+      //60天内不需要重新登录
+      if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
+        if (isAutoLogin && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+          loginMethods.loginAPi
+            .call(this)
+            .then((res2) => {
+              console.log('app loginAPi sucesss', res2)
+              console.log('app loginAPi sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+              // this.globalData.isLogon = true
+              this.globalData.isActionAppLaunch = false
+              this.globalData.wxExpiration = true
+              if (this.callbackFn) {
+                this.callbackFn()
+              }
+            })
+            .catch((err) => {
+              WX_LOG.warn('app loginAPi catch', err)
+              // if (err && err.data && err.data.code == 1406) {
               this.setLoginFalse()
-            } else {
-              this.setFromMiniProgramData()
-            }
-          })
-      } else if (
-        getApp() &&
-        getApp().globalData.fromMiniProgramData &&
-        getApp().globalData.fromMiniProgramData.jp_c4a_uid
-      ) {
-        loginMethods.loginAPi
-          .call(this)
-          .then((res2) => {
-            console.log('app loginAPi sucesss', res2)
-            // this.globalData.isLogon = true
-            this.globalData.isActionAppLaunch = false
-            this.globalData.wxExpiration = true
-            if (this.callbackFn) {
-              this.callbackFn()
-            }
-            // 建立websocket链接，移到首页
-            // initWebsocket()
-          })
-          .catch((err) => {
-            WX_LOG.warn('app loginAPi fromMiniProgramData err', err)
-            if (err.data.code == 1406) {
-              this.setLoginFalse()
-            } else {
-              this.setFromMiniProgramData()
-            }
-            console.log('app loginAPi err', err)
-          })
-        // 其他小程序跳转过来
+              // } else {
+              // this.setFromMiniProgramData()
+              // }
+            })
+        } else if (isAutoLogin && checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+          // 有效期内直接登录
+          loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+        } else {
+          this.setLoginFalse()
+        }
       } else {
         this.globalData.isLogon = false
         this.globalData.wxExpiration = false
@@ -314,53 +262,10 @@ App({
         this.callbackFn()
       }
     }
+    //获取设备图标
+    this.getDcpDeviceImg()
+  },
 
-    await this.getDcpDeviceImg()
-    this.setWxUserInfo()
-    // this.getIP() //获取IP地址，用于大数据埋点
-    console.log('删除调用获取IP地址接口')
-    this.canUpdate()
-    // 小程序初始化需启动首页自发现
-    if (options.path == '' || options.path == 'pages/index/index') {
-      console.log('@module app.js\n@method onLaunch\n@desc 小程序初始化需启动首页自发现')
-      this.globalData.ifAutoDiscover = true
-    }
-    let { launch_source, cid } = options.query
-    //是否有打开小程序的来源字段
-    if (launch_source) {
-      this.globalData.launch_source = launch_source
-    }
-    //是否有打开小程序的投放渠道字段
-    if (cid) {
-      this.globalData.cid = cid
-    }
-  },
-  // 微信更新
-  canUpdate() {
-    if (wx.canIUse('getUpdateManager')) {
-      const updateManager = wx.getUpdateManager()
-      if (updateManager) {
-        updateManager.onCheckForUpdate(function (result) {
-          console.log(result)
-          if (result.hasUpdate) {
-            loginMethods
-              .checkIsUpdate()
-              .then((res2) => {
-                console.log(res2)
-                if (res2.imposed == 1) {
-                  updateManager.onUpdateReady(function () {
-                    updateManager.applyUpdate()
-                  })
-                }
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-          }
-        })
-      }
-    }
-  },
   onShow: async function (options) {
     this.selectedHander(options)
     //息屏后重连
@@ -368,16 +273,11 @@ App({
       initWebsocket()
     }
     console.log('优化 onShow start', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-    if (options.scene !== 1089) {
-      this.globalData.invitationCode = null
-    }
     this.globalData.options = options
     console.log('scene', options.scene)
     console.log('options:', options)
     console.log('微信自发现options:', options)
-    this.getWxIotOptions(options)
     try {
-      // const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
       let isAutoLogin = null
       let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
@@ -400,7 +300,6 @@ App({
         loginMethods.loginAPi
           .call(this)
           .then(() => {
-            // this.globalData.isLogon = true
             this.globalData.wxExpiration = true
             if (this.callbackFn) {
               this.callbackFn()
@@ -413,18 +312,14 @@ App({
             if (this.callbackFn) {
               this.callbackFn()
             }
-            //关闭websocket
-            //closeWebsocket()
           })
       }
     } catch (error) {
-      //关闭websocket
-      //closeWebsocket()
       console.log(error, 'onshow try cache')
     }
-    this.getShutDownNoticeData().then((shutDownNoticeData) => {
-      this.checkIsShutDownTime({ shutDownNoticeData, showToast: true })
-    })
+    // this.getShutDownNoticeData().then((shutDownNoticeData) => {
+    // this.checkIsShutDownTime({ shutDownNoticeData, showToast: true })
+    // })
     this.setMiniProgramData()
     //启动app不需要弹蓝牙和位置授权信息
     //this.triggerWxAuth()
@@ -443,7 +338,6 @@ App({
     let that = this
     wx.getSystemInfo({
       success(res) {
-        console.log('获取版本号-----》', res)
         that.globalData.appSystemInfo = res
       },
     })
@@ -496,38 +390,6 @@ App({
       this.globalData.isPx = true
     }
   },
-  setWxUserInfo() {
-    // 获取用户信息
-    getWxGetSetting({
-      withSubscriptions: true,
-      success: (res) => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: (res) => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            },
-          })
-        }
-        if (res.authSetting['scope.writePhotosAlbum']) {
-          this.globalData.hasAuthWritePhotosAlbum = true
-        }
-        if (res.authSetting['scope.userLocation']) {
-          this.globalData.hasAuthLocation = true
-        }
-        if (res.authSetting['scope.bluetooth']) {
-          this.globalData.hasAuthBluetooth = true
-        }
-        this.globalData.subscriptionsSetting = Object.keys(res.subscriptionsSetting)
-      },
-    })
-  },
   setLoginFalse() {
     this.globalData.isLogon = false
     this.globalData.isActionAppLaunch = false
@@ -536,7 +398,7 @@ App({
       this.callbackFn()
     }
     //关闭websocket
-    closeWebsocket()
+    //closeWebsocket()
   },
   setFromMiniProgramData() {
     if (getApp() && getApp().globalData.fromMiniProgramData && getApp().globalData.fromMiniProgramData.jp_c4a_uid) {
@@ -624,24 +486,6 @@ App({
       },
     })
   },
-  getWxIotOptions(options) {
-    if (options.scene == 1036) {
-      this.globalData.share = true
-    } else {
-      this.globalData.share = ''
-    }
-    //小程序跳转
-    if (options.scene == 1037) {
-      this.globalData.fromMiniProgramData = options.referrerInfo.extraData
-    } else {
-      this.globalData.fromMiniProgramData = {}
-    }
-    if (options.scene == 1037 || options.scene == 1038) {
-      this.globalData.fromWxMiniProgramData = options
-    } else {
-      this.globalData.fromWxMiniProgramData = {}
-    }
-  },
   //新登录流程校验调用
   checkGlobalExpiration() {
     let app = this
@@ -705,7 +549,6 @@ App({
       },
       fail(err) {
         console.log('初始化获取网络状态API调用失败', err)
-        log.info('初始化获取网络状态API调用失败', err)
       },
     })
   },
@@ -895,6 +738,7 @@ App({
     applianceAuthList: [], //确权状态列表
     bathAuthTimer: null, //轮询确权状态标识
     selectTab: 0,
+    noNetwork: false, //判断是否有网络
   },
   scanDeviceMap: {},
   addDeviceInfo: {

@@ -1,8 +1,0 @@
-<view class="continer-copy" style="padding-top:{{statusBarHeight+40}}px;{{onlineStatus == 0?'height: 91vh;':''}}">
-    <ca-navbar backTo="{{backTo}}" navTitle="{{titleName}}"></ca-navbar>
-    <view class="device-card" bindtap="pushMsgSubscribe">
-        <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"
-            bindmodeChange="modeChange"></device-card>
-    </view>
-<!--    <footer fromApp="{{fromApp}}" appParameter="{{appParameter}}" style="margin-bottom: 30rpx;" wx:if="{{onlineStatus == 1}}"></footer>-->
-</view>

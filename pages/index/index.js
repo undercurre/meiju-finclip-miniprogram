@@ -219,9 +219,7 @@ Page({
     //ft.startBrowsableAbility({ uri: '' })
     try {
       ft.startBrowsableAbility()
-    } catch(e){
-      
-    }
+    } catch (e) {}
   },
   checkVersionUpdate(){
     console.error('进入checkVersionUpdate')
@@ -248,8 +246,8 @@ Page({
     })
     return new Promise((resolve, reject) => {
       let urlName = 'getUpgradeStrategy'
-      if(app.globalData.isLogon){
-          urlName = 'getLoginUpgradeStrategy'
+      if (app.globalData.isLogon) {
+        urlName = 'getLoginUpgradeStrategy'
       }
       let reqData = {
         ...params,
@@ -287,7 +285,7 @@ Page({
 
               console.error('间隔判断！！！！！isPopInterval：',isPopInterval)
               // 弹窗次数为0 或者 还没到间隔时间 不弹窗
-              if(!isPopInterval || hasDialogId.popTimes == 0){
+              if (!isPopInterval || hasDialogId.popTimes == 0) {
                 return
               }
               console.error('通过弹窗次数为0 或者 还没到间隔时间 不弹窗')
@@ -302,16 +300,13 @@ Page({
                   popTimes:hasDialogId.popTimes,
                   recodeTime : hasDialogId.recodeTime
                 },
-                success:()=>{
+                success: () => {
                   console.log('有本地缓存弹窗策略保存成功')
                 },
-                fail:()=>{
+                fail: () => {
                   console.log('有本地缓存弹窗策略保存失败')
-                }
-
+                },
               })
-
-
             } else {
               console.error('本地缓存没有,即可以弹窗')
               // 本地缓存没有,即可以弹窗
@@ -323,13 +318,12 @@ Page({
                   popTimes:resp.data.data.dialogConfig.popTimes - 1,
                   recodeTime : dateFormat(new Date(), 'yyyy-MM-dd')
                 },
-                success:()=>{
+                success: () => {
                   console.log('没有本地缓存弹窗策略保存成功')
                 },
-                fail:()=>{
+                fail: () => {
                   console.log('没有本地缓存弹窗策略保存失败')
-                }
-
+                },
               })
 
               console.error('本地缓存没有结束')
@@ -341,11 +335,11 @@ Page({
               poupInfomation.show = true
               poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
               poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
-    
+
               self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
               self.setData({
-                  poupInfomation,
-                  showVersionUpdateDialog: self.data.showVersionUpdateDialog
+                poupInfomation,
+                showVersionUpdateDialog: self.data.showVersionUpdateDialog,
               })
               resolve(resp)
               return
@@ -353,32 +347,28 @@ Page({
           } else {
             reject(resp)
           }
-
         },
         (error) => {
-          console.error('checkVersionUpdate-error===========:',error)
+          console.error('checkVersionUpdate-error===========:', error)
           reject(error)
         }
       )
     })
   },
   // 判断记录时间和当前时间的间隔 是否为 interval 自然天 * 24 小时
-  
-  isIntervalDayAfter(recordDate,interval){
-   //将记录时间转为Date对象
-   let recordTime = new Date(recordDate)
 
-   //获取当前时间
-   let todayTime =  new Date()
+  isIntervalDayAfter(recordDate, interval) {
+    //将记录时间转为Date对象
+    let recordTime = new Date(recordDate)
 
-   
-   //计算两者之差(毫秒),再转换成小时
-   let timeDifference = (todayTime.getTime() - recordTime.getTime())/(1000 * 3600)
+    //获取当前时间
+    let todayTime = new Date()
 
-  
-   return Math.abs(timeDifference) >= interval*24
+    //计算两者之差(毫秒),再转换成小时
+    let timeDifference = (todayTime.getTime() - recordTime.getTime()) / (1000 * 3600)
+
+    return Math.abs(timeDifference) >= interval * 24
   },
-
 
   onAddToFavorites(res) {
     // webview 页面返回 webViewUrl
@@ -2329,16 +2319,16 @@ Page({
       try {
         this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-        // if (isAutoLogin) {
-        // app.watchLogin(() => {
-        // if (app.globalData.uid) {
-        // this.setData({
-        // uid: app.globalData.uid,
-        // })
-        // app.globalData.uid = ''
-        // }
-        // }, this)
-        // }
+        if (isAutoLogin) {
+          app.watchLogin(() => {
+            if (app.globalData.uid) {
+              this.setData({
+                uid: app.globalData.uid,
+              })
+              app.globalData.uid = ''
+            }
+          }, this)
+        }
       } catch (e) {
         console.log(e)
       }
