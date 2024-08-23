@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "月度使用报告",
-  "usingComponents": {
-    "agreement-update-dialog":"/pages/component/agreement-update-dialog/agreement-update-dialog"
-  }
-}
