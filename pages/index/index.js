@@ -227,8 +227,6 @@ Page({
     let params ={}
     let iotAppIdObj = config['iotAppId']
     let iotAppId = iotAppIdObj[config.environment]
-    console.error('iotAppId----------:',iotAppId)
-    console.error('config.iotAppId[config.environment]---------:',config.iotAppId[config.environment])
     wx.getSystemInfo({
       success(res) {
         params = {
@@ -520,6 +518,7 @@ Page({
       },
     },
     intervalApp: null,
+    isWifiNetWork:false
   },
   //长链接推送解析
   async initPushData() {
@@ -1230,6 +1229,15 @@ Page({
         title: '网络未连接，请检查您的网络设置',
         icon: 'none',
         duration: 3000,
+      })
+    }
+    if(netType == 'wifi'){
+      this.setData({
+        isWifiNetWork: true,
+      })
+    } else {
+      this.setData({
+        isWifiNetWork: false,
       })
     }
   },
