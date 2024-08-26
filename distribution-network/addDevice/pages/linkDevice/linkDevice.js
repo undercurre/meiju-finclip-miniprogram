@@ -2148,7 +2148,7 @@ Page({
         // setTimeout(() => { // colmo 点击我知道了按钮，效果不明显，美居没问题，加个定时器影响不大
         //   self.init()
         // }, 500)
-        if(type == '1' || type == '3'){
+        if(type == '2' || type == '3'){
           wx.openAppAuthorizeSetting({
             success (res) {
             console.log(res)

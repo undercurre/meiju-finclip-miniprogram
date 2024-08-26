@@ -80,6 +80,7 @@ Page({
     retryFlag: false,
     showPopup:false,
     wifiGuideGifShow:false,//开启wifigif图标识
+    monitorBluetoothFalg:false,//监听蓝牙标识符
   },
   ifBackFromScan: false, // 从扫码页返回标识
 
@@ -87,8 +88,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   async onLoad(options) {
-
-
     let self = this
     // // 监听蓝牙状态变化
     // wx.onBluetoothAdapterStateChange(function (res) {
@@ -113,6 +112,7 @@ Page({
     //     }
 
     // });
+
     getApp().onLoadCheckingLog()
     console.log('品牌:', app.globalData.brand)
     this.data.brand = app.globalData.brand
@@ -261,20 +261,48 @@ Page({
 //     this.wifiStateOnChange()
 //   },
 
+//封装蓝牙监听
+monitorBluetooth(){
+  
+  let self = this 
+  wx.onBluetoothAdapterStateChange(async (res)=> {
+    console.error('蓝牙状态已改变333');
+    if (res.available && !self.data.checkPermissionRes.isCanBlue) {
+        console.error('// 证明开启蓝牙,状态 没变')
+        self.data.checkPermissionRes.isCanBlue = true
+        
+        await self.permissionCheckTip()//校验权限
+        await self.retry()
+    } else if(!res.available&& self.data.checkPermissionRes.isCanBlue){
+        console.error('// 证明关闭蓝牙,状态 没变')
+        self.data.checkPermissionRes.isCanBlue = false
+        await self.permissionCheckTip()//校验权限
+        self.stopBluetoothDevicesDiscovery()
+        self.clearMixinsTime()
+        //关闭自动搜索
+        wx.offBluetoothDeviceFound()
+        wx.offGetWifiList()
+        self.clearTimer()
+        self._clearTimeout()
+    }
+  })
+},
+
   /**
    * 生命周期函数--监听页面显示
    */
   async onShow() {
-    // this.wifiStateOnChange()
+    this.data.currPageLength = getCurrentPages().length
+    if(!this.data.monitorBluetoothFalg){
+      this.data.monitorBluetoothFalg = true
+      this.monitorBluetooth()
+    }
+    console.error('scan-device onShow getCurrentPages()', this.data.currPageLength)
     const systemInfo = await wx.getSystemInfoSync()
     console.error('systemInfo====:',systemInfo)
-    let self = this
     let { isCheckGray } = app.addDeviceInfo
     let isCan = await addDeviceSDK.isGrayUser(isCheckGray)
     try {
-      if(this._discoveryStarted){
-        this._discoveryStarted = false
-      }
         this.actionBlue()
 
         this.setData({
@@ -338,23 +366,38 @@ Page({
    */
   onHide: function () {
     // this.closeBluetoothAdapter()
-    console.log('scan-device onhide')
+    setTimeout(()=>{
+        let hidePageLength =  getCurrentPages().length
+        console.error('scan-device onhide getCurrentPages()2222:', hidePageLength)
+        if(this.data.currPageLength != hidePageLength){ //标识页面切换
+          this.data.monitorBluetoothFalg = false
+          wx.offBluetoothAdapterStateChange()
+          this.stopBluetoothDevicesDiscovery()
+          this.clearMixinsTime()
+          wx.offBluetoothDeviceFound()
+          wx.offGetWifiList()
+          this.clearTimer()
+          this._clearTimeout()
+        } else {
+          //代表小程序切到后台 - 不做处理
+        }
+    },500)
     // this.stopBluetoothDevicesDiscovery()
     // this.closeWifiScan()
-    this.clearMixinsTime()
-    //关闭自动搜索
-    // wx.offBluetoothDeviceFound()
-    wx.offGetWifiList() // todo:Yoram930
-    // this.stopBluetoothDevicesDiscovery()
-    this.clearTimer()
-    this._clearTimeout()
+    // this.clearMixinsTime()
+    // //关闭自动搜索
+    // // wx.offBluetoothDeviceFound()
+    // wx.offGetWifiList() // todo:Yoram930
+    // // this.stopBluetoothDevicesDiscovery()
+    // this.clearTimer()
+    // this._clearTimeout()
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    console.log('scna-devices-onUnload111')
+    console.error('scna-devices-onUnload111')
     getApp().onUnloadCheckingLog()
 
     this.stopBluetoothDevicesDiscovery()
@@ -363,14 +406,10 @@ Page({
     //关闭自动搜索
     wx.offBluetoothDeviceFound()
     wx.offGetWifiList()// todo:Yoram930
-    // this.stopBluetoothDevicesDiscovery()
     this.clearTimer()
     this._clearTimeout()
     wx.offBluetoothAdapterStateChange()
-    // wx.offBluetoothDeviceFound()
-    // wx.offGetWifiList()
-    // this.clearTimer()
-    // this._clearTimeout()
+    this.data.monitorBluetoothFalg = false
   },
 
   clearTimer() {
