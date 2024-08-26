@@ -76,6 +76,7 @@ Page({
     ishowFocus: false, //打开新建房间后，自动聚焦   
     roomFlag: false, // 全空格标识符,
     isFromSubDeviceNetWork: false, // 是否来自子设备配网
+    showContainer:false
   },
   /**
    * 不用于页面渲染的数据
@@ -141,6 +142,11 @@ Page({
     this.setData({
       brand: this.data.brand,
       isFromSubDeviceNetWork: options.fromSubDeviceNetwork ? true : false
+    })
+    wx.nextTick(()=>{
+      this.setData({
+        showContainer:true
+      })
     })
     try {
       if (!app.globalData.linkupSDK) {
