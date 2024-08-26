@@ -243,11 +243,6 @@
         "pages": []
       },
       {
-        "name": "sdk",
-        "root": "distribution-network/assets/sdk",
-        "pages": []
-      },
-      {
         "name": "T0xB9",
         "root": "plugin/T0xB9",
         "pages": [
@@ -427,12 +422,7 @@
       }
   ],
   "preloadRule": {
-    "distribution-network/scan-devices/pages/scan-device/scan-device": {
-        "network": "all",
-        "packages": [
-          "addDevicePage"
-        ]
-      }
+
   },
   "tabBar": {
     "custom": true,
