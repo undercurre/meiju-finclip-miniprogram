@@ -110,11 +110,11 @@ const init = () => {
   findTargetFiles.forEach((item) => {
     const getTargetAppConfig = getAppConfig(item)
     console.log('获取模块配置文件：', getTargetAppConfig)
-    if(appJson.isSubpackage) { // 配网指明是分包，按分包加载
+    if(appJson.isSubpackage || typeof(appJson.isSubpackage) == 'undefined') { // 配网指明是分包，或者没有配置（默认分包），按分包加载
         getTargetAppConfig.subpackages.forEach((configItem) => {
             integrationConfig(configItem) // 查找添加分包配置信息
           })
-    } else { // 未指明是分包，或者没有配置，默认当主包
+    } else { // 配置了非分包，则添加主包
         getTargetAppConfig.subpackages && getTargetAppConfig.subpackages.forEach((configItem) => {
             integrationMainConfig(configItem) // 查找添加主包配置信息
         })
