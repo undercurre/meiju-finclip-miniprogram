@@ -48,13 +48,6 @@
       ]
     },
     {
-      "name": "commonPackage",
-      "root": "sub-package/common-package",
-      "pages": [
-        "pages/index/index"
-      ]
-    },
-    {
       "name": "component",
       "root": "common-packages/plugin/component",
       "pages": [
@@ -438,7 +431,7 @@
         "network": "all",
       "packages": ["T0xAC", "T0xE2", "T0xDB", "T0xCA", "T0xB8", "T0xEA","homeManage"]
     },
-    "pages/mytab/maytab": {
+    "pages/mytab/mytab": {
       "network": "all",
       "packages": ["personalCenter", "privacyAndSafa", "privacySetting", "aboutApp", "checkPhone", "changePhone","checkValidecode","bindPhone", "accountSafe","testPage"]
   },
