@@ -40,7 +40,6 @@
     "@meijuHarmonyOS/T0xCA": "1.0.2"
   },
   "dependencies": {
-    "@datarangers/sdk-mp": "^2.9.0",
     "m-ble-crypto": "1.0.0",
     "m-harmonyos-services": "1.0.18",
     "m-miniCommonSDK": "1.0.12",

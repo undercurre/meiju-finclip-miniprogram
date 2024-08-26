@@ -5,7 +5,8 @@
  */
 import { environment } from '../api'
 
-import $$Rangers from '@datarangers/sdk-mp'
+// import $$Rangers from '@datarangers/sdk-mp'
+const $$Rangers = require('./rangers')
 const rangersInit = () => {
   $$Rangers.init({
     app_id: environment === 'dev' || environment === 'sit' ? 10000652 : 10000651, // APP_ID区分环境
