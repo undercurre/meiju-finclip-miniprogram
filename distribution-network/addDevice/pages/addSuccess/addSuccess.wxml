@@ -3,7 +3,7 @@
 <wxs src="../utils/filter.wxs" module="tools" />
 <view id="{{brand}}">
   <link-device-header wx:if="{{(combinedStatus>-1 && combinedStatus!=1) || isFromSubDeviceNetWork}}" bind:clickCancel="clickBack" buttonColor="{{brandConfig.backButtonColor}}"></link-device-header>
-  <view class="addsuccess-container">
+  <view class="addsuccess-container" wx:if="{{showContainer}}">
   <view class="addsuccess-page" style="margin-top:{{statusBarHeight+40}}px;padding-bottom:{{isIpx?'160rpx':'122rpx'}};">
     <view class="addSuccess-header">
       <image class="success-img block" src="{{successRight}}"></image>
