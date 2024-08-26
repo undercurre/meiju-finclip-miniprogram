@@ -2,38 +2,12 @@
   "pages": [
     "pages/index/index",
     "pages/mytab/mytab",
-    "pages/privacyAndSafa/privacyAndSafa",
-    "pages/privacySetting/privacySetting",
-    "pages/aboutApp/aboutApp",
-    "pages/checkPhone/checkPhone",
-    "pages/changePhone/changePhone",
-    "pages/checkValidecode/checkValidecode",
-    "pages/bindPhone/bindPhone",
-    "pages/accountSafe/accountSafe",
-    "pages/download/download",
     "pages/unSupportDevice/unSupportDevice",
     "pages/login/login",
     "pages/webView/webView",
-    "pages/midea-service/midea-service",
-    "pages/transition/transition",
     "pages/faultInfo/faultInfo",
     "pages/scanCode-result/index",
-    "pages/testPage/index",
-    "pages/openShoppingLite/openShoppingLite",
-    "sub-package/privacy/privacy",
-    "miniprogram_npm/m-services/services/index",
-    "sub-package/common-package/pages/index/index",
-    "sub-package/personal-center/personalCenter/personalCenter",
-    "sub-package/webview/defaultWebview/defaultWebview",
-    "sub-package/mytab/pages/about/about",
-    "change-room/pages/changeRoom/changeRoom",
-    "home-manage/pages/homeManage/homeManage",
-    "home-manage/pages/homeDetail/homeDetail",
-    "home-manage/pages/roomAndDevices/roomAndDevices",
-    "home-manage/pages/roomDetail/roomDetail",
-    "home-manage/pages/memberManage/memberManage",
-    "home-manage/pages/inviteFamily/invite",
-    "common-packages/plugin/component/webToMP/web-to-mp"
+    "miniprogram_npm/m-services/services/index"
   ],
   "embeddedAppIdList": [
     "wx255b67a1403adbc2",
@@ -71,6 +45,141 @@
         "pages/branchList/branchList",
         "pages/branchListMap/branchListMap",
         "pages/map/map"
+      ]
+    },
+    {
+      "name": "commonPackage",
+      "root": "sub-package/common-package",
+      "pages": [
+        "pages/index/index"
+      ]
+    },
+    {
+      "name": "component",
+      "root": "common-packages/plugin/component",
+      "pages": [
+        "webToMP/web-to-mp"
+      ]
+    },
+    {
+      "name": "homeManage",
+      "root": "home-manage/",
+      "pages": [
+        "pages/homeManage/homeManage",
+        "pages/homeDetail/homeDetail",
+        "pages/roomAndDevices/roomAndDevices",
+        "pages/roomDetail/roomDetail",
+        "pages/inviteFamily/invite",
+        "pages/memberManage/memberManage"
+      ]
+    },
+    {
+      "name": "changeRoom/",
+      "root": "change-room/",
+      "pages": [
+        "pages/changeRoom/changeRoom"
+      ]
+    },
+    {
+      "name": "personalCenter",
+      "root": "sub-package/",
+      "pages": [
+        "personal-center/personalCenter/personalCenter",
+        "webview/defaultWebview/defaultWebview",
+        "mytab/pages/about/about",
+        "common-package/pages/index/index",
+        "privacy/privacy"
+      ]
+    },
+    {
+      "name": "privacyAndSafa",
+      "root": "pages/privacyAndSafa/",
+      "pages": [
+        "privacyAndSafa"
+      ]
+    },
+    {
+      "name": "privacySetting",
+      "root": "pages/privacySetting/",
+      "pages": [
+        "privacySetting"
+      ]
+    },
+    {
+      "name": "aboutApp",
+      "root": "pages/aboutApp/",
+      "pages": [
+        "aboutApp"
+      ]
+    },
+    {
+      "name": "checkPhone",
+      "root": "pages/checkPhone/",
+      "pages": [
+        "checkPhone"
+      ]
+    },
+    {
+      "name": "changePhone",
+      "root": "pages/changePhone/",
+      "pages": [
+        "changePhone"
+      ]
+    },
+    {
+      "name": "checkValidecode",
+      "root": "pages/checkValidecode/",
+      "pages": [
+        "checkValidecode"
+      ]
+    },
+    {
+      "name": "bindPhone",
+      "root": "pages/bindPhone/",
+      "pages": [
+        "bindPhone"
+      ]
+    },
+    {
+      "name": "accountSafe",
+      "root": "pages/accountSafe/",
+      "pages": [
+        "accountSafe"
+      ]
+    },
+    {
+      "name": "download",
+      "root": "pages/download/",
+      "pages": [
+        "download"
+      ]
+    },
+    {
+      "name": "transition",
+      "root": "pages/transition/",
+      "pages": [
+        "transition"
+      ]
+    },
+    {
+      "name": "testPage",
+      "root": "pages/testPage/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "name": "openShoppingLite",
+      "root": "pages/openShoppingLite/",
+      "pages": [
+        "openShoppingLite"
+      ]
+    },
+    {
+      "name": "midea-service-page",
+      "root": "pages/midea-service/",
+      "pages": [
+        "midea-service"
       ]
     },
     {
@@ -129,6 +238,11 @@
           "pages/location-guide/location-guide",
           "pages/blue-guide/blue-guide"
         ]
+      },
+      {
+        "name": "muijs",
+        "root": "miniprogram_npm/m-ui/subpage",
+        "pages": []
       },
       {
         "name": "crypto",
@@ -322,14 +436,12 @@
   "preloadRule": {
     "pages/index/index": {
         "network": "all",
-        "packages": ["T0xAC", "T0xE2", "T0xDB", "T0xCA", "T0xB8", "T0xEA"]
+      "packages": ["T0xAC", "T0xE2", "T0xDB", "T0xCA", "T0xB8", "T0xEA","homeManage"]
     },
-    "pages/midea-service/midea-service": {
+    "pages/mytab/maytab": {
       "network": "all",
-      "packages": [
-        "mideaService"
-      ]
-    },
+      "packages": ["personalCenter", "privacyAndSafa", "privacySetting", "aboutApp", "checkPhone", "changePhone","checkValidecode","bindPhone", "accountSafe","testPage"]
+  },
     "distribution-network/scan-devices/pages/scan-device/scan-device": {
         "network": "all",
         "packages": [
@@ -346,10 +458,6 @@
       {
         "pagePath": "pages/index/index",
         "text": "设备"
-      },
-      {
-        "pagePath": "pages/midea-service/midea-service",
-        "text": "服务"
       },
       {
         "pagePath": "pages/mytab/mytab",
