@@ -1,9 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "view-no-reward-dialog": "../../components/view-no-reward-dialog/view-no-reward-dialog",
-    "hotzone": "../../components/hotzone/hotzone",
-    "marquee": "../../components/marquee/marquee",
-    "scratch-canvas": "../scratch-canvas/scratch-canvas"
-  }
-}

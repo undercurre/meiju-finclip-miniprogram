@@ -1,5 +1,0 @@
-/* activities/activitiesTemplates/pages/InviteToFamily/InviteToFamily.wxss */
-@import '../common.wxss';
-page {
-  background: #f4f4f4;
-}

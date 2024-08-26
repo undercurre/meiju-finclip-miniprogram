@@ -5,8 +5,6 @@ import { getReqId, getStamp } from 'm-utilsdk/index'
 import { judgeWayToMiniProgram } from '../../../utils/util'
 import { requestService, rangersBurialPoint } from '../../../utils/requestService'
 import { imageApi, environment } from '../../../api'
-import { openSubscribeModal } from '../../../globalCommon/js/deviceSubscribe.js'
-import { modelIds, templateIds } from '../../../globalCommon/js/templateIds.js'
 import statusToLua from '../dc_status_to_lua'
 import luaToStatus from '../dc_lua_to_status'
 import deviceUtils from '../utils/deviceUtils'
@@ -852,15 +850,6 @@ Component({
     },
     powerToggle() {
       //切换电源状态
-      openSubscribeModal(
-        modelIds[1],
-        this.data.applianceData.name,
-        this.data.applianceData.sn,
-        [templateIds[1][0], templateIds[2][0]],
-        this.data.applianceData.sn8,
-        this.data.applianceData.type,
-        this.data.applianceData.applianceCode
-      )
       let self = this
       let power = this.data.applianceStatus.power == 'on' ? 'off' : 'on'
       if (
@@ -886,15 +875,6 @@ Component({
     },
     startToggle() {
       //切换启动状态
-      openSubscribeModal(
-        modelIds[1],
-        this.data.applianceData.name,
-        this.data.applianceData.sn,
-        [templateIds[1][0], templateIds[2][0]],
-        this.data.applianceData.sn8,
-        this.data.applianceData.type,
-        this.data.applianceData.applianceCode
-      )
       let self = this
       let control_status = ''
       let remain_time = '--'
@@ -968,15 +948,6 @@ Component({
       }
 
       //切换暂停状态
-      openSubscribeModal(
-        modelIds[1],
-        this.data.applianceData.name,
-        this.data.applianceData.sn,
-        [templateIds[1][0], templateIds[2][0]],
-        this.data.applianceData.sn8,
-        this.data.applianceData.type,
-        this.data.applianceData.applianceCode
-      )
       let self = this
       let control_status = ''
       let remain_time = ''

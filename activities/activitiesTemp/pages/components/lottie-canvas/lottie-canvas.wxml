@@ -1,9 +1,0 @@
-<view wx:if="{{isShowLottie}}" class="shadow" capture-catch:touchmove="preventdefault">
-  <canvas
-    wx:if="{{isShowLottie}}"
-    id="lottieCanvas"
-    class="canvas"
-    type="2d"
-    style="width:{{width}}rpx;height:{{height}}rpx"
-  ></canvas>
-</view>

@@ -1,7 +1,7 @@
 // change-room/pages/changeRoom/changeRoom.js
 const app = getApp()
 import { requestService, rangersBurialPoint } from '../../../utils/requestService'
-import { getReqId, getStamp } from 'm-utilsdk/index'
+import { getReqId, getStamp, validateFun } from 'm-utilsdk/index'
 import { baseImgApi } from '../../../api'
 import { index } from '../../../utils/paths.js'
 Page({
@@ -19,6 +19,44 @@ Page({
     actions: [],
     selelectFamilyInfo: {},
     selected: '',
+    dialogShow: false,
+    autoFocus: false, //自动聚焦
+    ownHomeNum: null,
+    familyValue: '',
+    errorMessage: '',
+    errorColor: '#FF8225',
+    roomDialogShow: false, //新建房间弹窗
+    roomName: '', //新建房间名称
+    roomNameList: [
+      '客厅',
+      '主卧',
+      '厨房',
+      '花园',
+      '主卧卫生间',
+      '婴儿房',
+      '院子',
+      '地下室',
+      '浴室',
+      '书房',
+      '儿童房',
+      '衣帽间',
+      '游戏室',
+      '家庭影院',
+      '办公室',
+      '卧室',
+      '次卧',
+      '客卧',
+      '父母房',
+      '餐厅',
+      '男孩房',
+      '女孩房',
+      '卫生间',
+      '公共卫生间',
+      '阳台',
+      '储物间',
+      '车库',
+      '保姆房',
+    ],
   },
   //返回
   onClickLeft() {
@@ -172,6 +210,297 @@ Page({
         console.log(err, 'applianceListAggregate')
       })
   },
+
+  //显示添加房间按钮
+  showAddDialog() {
+    //点击房间弹窗
+    if (this.data.roomList.length >= 20) {
+      wx.showToast({
+        title: '房间数已达上限',
+        icon: 'none',
+        mask: true,
+      })
+      return
+    }
+    this.setData({
+      errorMessage: '',
+      roomDialogShow: true,
+    })
+    setTimeout(() => {
+      this.setData({
+        autoFocus: true,
+      })
+    }, 200)
+    // 埋点
+  },
+  //取消添加房间
+  cancleEdit() {
+    //取消保存弹窗
+    this.setData({
+      roomName: '',
+      roomDialogShow: false,
+      autoFocus: false,
+      errorMessage: '',
+    })
+  },
+
+  //确认添加房间
+  confirmEdit() {
+    //取消保存弹窗
+    const errorMsg = this.validtaRoomFunc(this.data.roomName)
+    if (errorMsg) {
+      this.setData({
+        errorMessage: errorMsg,
+      })
+      return
+    }
+    this.addRoom()
+      .then((res) => {
+        console.log(res, '新建房间成功')
+        if (res.data.code === 0) {
+          this.setData({
+            roomName: '',
+            roomDialogShow: false,
+            autoFocus: false,
+          })
+          this.getRoomAndDevicesList(this.data.homegroupId)
+        }
+      })
+      .catch((err) => {
+        console.log(err, '新建房间失败')
+        if (err.data.code == 1211) {
+          wx.showToast({
+            title: '该房间已存在',
+            icon: 'none',
+          })
+        } else {
+          wx.showToast({
+            title: '新建房间失败',
+            icon: 'none',
+          })
+        }
+      })
+  },
+  //房间输入校验
+  validtaRoomFunc(val) {
+    var validator = new validateFun()
+    validator.add(val, [
+      { ruleName: 'isNonEmpty', errorMsg: '房间名称不能为空' },
+      { ruleName: 'isValidInput', errorMsg: '房间名称仅支持中文、英文、数字' },
+    ])
+    var errorMsg = validator.start()
+    return errorMsg
+  },
+  //输入房间名称
+  onChangeRoom(e) {
+    const errorMsg = this.validtaFunc(e.detail || '')
+    if (errorMsg) {
+      this.setData({
+        errorMessage: errorMsg,
+      })
+    } else {
+      !!this.data.errorMessage &&
+        this.setData({
+          errorMessage: '',
+        })
+    }
+    this.data.roomName = e.detail
+  },
+  //添加房间
+  addRoom() {
+    //若房间名在24个房间以内，则取其index；若不在，则传1
+    let n =
+      this.data.roomNameList.indexOf(this.data.roomName) < 0
+        ? 1
+        : this.data.roomNameList.indexOf(this.data.roomName) + 1
+    let reqData = {
+      reqId: getReqId(),
+      stamp: getStamp(),
+      uid: app.globalData.userData.uid,
+      homegroupId: this.data.homegroupId,
+      name: this.data.roomName,
+      icon: `${n}`,
+    }
+    return new Promise((resolve, reject) => {
+      requestService
+        .request('addRoom', reqData)
+        .then((resp) => {
+          resolve(resp)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  //点击创建家庭
+  clickCreateBtn() {
+    //点击新建家庭
+    if (this.data.homeList.length >= 20) {
+      wx.showToast({
+        title: '您的家庭数量达到20个上限，无法继续新增',
+        icon: 'none',
+      })
+    } else {
+      if (this.data.ownHomeNum >= 10) {
+        wx.showToast({
+          title: '您创建的家庭已经达到10个上限，无法继续新增',
+          icon: 'none',
+        })
+      } else {
+        this.setData({
+          dialogShow: true,
+        })
+        setTimeout(() => {
+          this.setData({
+            autoFocus: true,
+          })
+        }, 200)
+        //新建家庭浏览
+      }
+    }
+  },
+  //计算自己创建的家庭
+  calcOwnHomeNum() {
+    console.log(this.data.homeList)
+    let filterArr = this.data.homeList.filter((item) => {
+      return item.createUserUid === app.globalData.userData.uid
+    })
+    this.setData({
+      ownHomeNum: filterArr.length,
+    })
+  },
+  //添加家庭
+  addFamily() {
+    let reqData = {
+      uid: app.globalData.userData.uid,
+      name: this.data.familyValue,
+      reqId: getReqId(),
+      stamp: getStamp(),
+    }
+    return new Promise((resolve, reject) => {
+      requestService
+        .request('addFamily', reqData)
+        .then((resp) => {
+          resolve(resp)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  //校验输入框
+  validtaFunc(val) {
+    var validator = new validateFun()
+    validator.add(val, [{ ruleName: 'isNonEmpty', errorMsg: '家庭名称不能为空' }])
+    var errorMsg = validator.start()
+    return errorMsg
+  },
+  //取消
+  onCancel() {
+    //取消新建家庭
+    this.setData({
+      errorMessage: '',
+      familyValue: '',
+      dialogShow: false,
+      autoFocus: false,
+    })
+  },
+  //输入内容
+  onChange(e) {
+    const errorMsg = this.validtaFunc(e.detail || '')
+    if (errorMsg) {
+      this.setData({
+        errorMessage: errorMsg,
+      })
+    } else {
+      !!this.data.errorMessage &&
+        this.setData({
+          errorMessage: '',
+        })
+    }
+    this.data.familyValue = e.detail
+  },
+  //确定添加
+  confirm() {
+    const errorMsg = this.validtaFunc(this.data.familyValue)
+    if (errorMsg) {
+      this.setData({
+        errorMessage: errorMsg,
+      })
+      return
+    }
+    this.addFamily()
+      .then((res) => {
+        app.globalData.ifRefreshHomeList = true
+        console.log(res, '创建家庭成功')
+        this.setData({
+          dialogShow: false,
+          autoFocus: false,
+        })
+        this.getHomeGrouplistService()
+          .then((res) => {
+            app.globalData.homeGrounpList = res
+            this.setData({
+              familyValue: '',
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      })
+      .catch((err) => {
+        if (err.data.code === 1210) {
+          wx.showToast({
+            title: '家庭名称重复',
+            icon: 'none',
+          })
+        } else {
+          wx.showToast({
+            title: '添加家庭失败',
+            icon: 'none',
+          })
+        }
+      })
+  },
+  //获取家庭列表
+  getHomeGrouplistService() {
+    let reqData = {
+      reqId: getReqId(),
+      stamp: getStamp(),
+    }
+    return new Promise((resolve, reject) => {
+      requestService
+        .request('homeList', reqData)
+        .then((resp) => {
+          console.log('获取家庭列表', resp)
+          if (resp.data.code == 0) {
+            app.globalData.homeGrounpList = resp.data.data.homeList
+            let actions = getApp().globalData.homeGrounpList.filter((item) => {
+              return item.roleId == '1001'
+            })
+            this.setData({
+              homeList: resp.data.data.homeList,
+              actions,
+            })
+            this.calcOwnHomeNum()
+            resolve(resp.data.data.homeList)
+          } else {
+            wx.showToast({
+              title: '获取家庭失败',
+              icon: 'none',
+            })
+            reject(resp)
+          }
+        })
+        .catch((error) => {
+          wx.showToast({
+            title: '获取家庭失败',
+            icon: 'none',
+          })
+          reject(error)
+        })
+    })
+  },
   //页面浏览埋点
   changeRoomViewBurialPoint() {
     console.log('浏览埋点', app.globalData.applianceItem, getCurrentPages())
@@ -235,6 +564,7 @@ Page({
       homegroupId: options.homeGrounpId,
     })
     this.gethomeList()
+    this.getHomeGrouplistService()
     this.changeRoomViewBurialPoint()
   },
 

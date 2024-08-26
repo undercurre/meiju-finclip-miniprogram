@@ -47,19 +47,19 @@ Component({
     ],
   },
   created() {
-    this.setData({
-      selected: app.globalData.selectTab,
-    })
+    // this.setData({
+    // selected: app.globalData.selectTab,
+    // })
   },
   methods: {
     switchTab(e) {
       const data = e.currentTarget.dataset
       const url = data.path
-      app.globalData.selectTab = data.index
-      const selected = data.index
-      this.setData({
-        selected,
-      })
+      // app.globalData.selectTab = data.index
+      // const selected = data.index
+      // this.setData({
+      // selected,
+      // })
       const currentUid =
         app.globalData.userData && app.globalData.userData.uid && app.globalData.isLogon
           ? app.globalData.userData.uid

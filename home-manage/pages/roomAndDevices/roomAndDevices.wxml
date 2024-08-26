@@ -2,6 +2,7 @@
 <view class="main-container">
   <mx-cell-group>
     <mx-cell
+      value-class="custom-value-class"
       wx:for="{{roomList}}"
       wx:key="index"
       wx:for-index="index"
@@ -20,6 +21,7 @@
   </mx-cell-group>
   <view class="btn-container" bindtap="showAddDialog" wx:if="{{ roleId!=1003 }}">
     <mx-button
+      custom-class="custom-button-class"
       nohover-class
       type="text"
       size="large"
@@ -28,13 +30,15 @@
       color="{{publicColor}}"
       custom-style="background-color: transparent;"
       block
-      ><mx-icon
-        classPrefix="mx-iconfont"
-        custom-class="custom-plus-class"
-        name="add2"
-        size="14"
-        color="{{publicColor}}"
-      />新建房间</mx-button
+      ><view class="btn-create-room"
+        ><mx-icon
+          classPrefix="mx-iconfont"
+          custom-class="custom-plus-class"
+          name="add2"
+          size="14"
+          color="{{publicColor}}"
+        />新建房间</view
+      ></mx-button
     >
   </view>
   <mx-dialog

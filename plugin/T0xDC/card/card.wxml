@@ -140,18 +140,6 @@
                   <image class="viewIconRight" src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_arrowright.png"></image>
                 </view>
               </block>
-              <block>
-                <view class="footer-view-gapline"></view>
-                <view class="footer-view-item">
-                  <view class="footer-view-content" bindtap="gotoMall">
-                    <image class="viewIconLeft" src="http://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/haocai.png"></image>
-                    <view class="view-descs">
-                      <text class="">耗材购买</text>
-                    </view>
-                  </view>
-                  <image class="viewIconRight" src="http://ismart.zhinengxiyifang.cn/midea_json_new/activity/meiju_lite_arrowright.png"></image>
-                </view>
-              </block>
             </view>
 
           </view>

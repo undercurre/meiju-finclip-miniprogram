@@ -1,5 +1,5 @@
 /*
- * @desc:
+ * @desc: 环境变量获取
  * @author: zhucc22
  * @Date: 2024-07-22 16:13:49
  */
@@ -8,18 +8,18 @@ export default function () {
   try {
     ft.getAppInfo({
       success: function (res) {
-        console.log('getAppInfo success ------------>', res)
+        console.log('config getAppInfo success ------------>', res)
         let env = res.data.data.ENV == 'sit' ? res.data.data.ENV : 'prod'
         environment = env
       },
       fail: function (res) {
-        console.log('getAppInfo fail--------->', res)
+        console.log('config getAppInfo fail--------->', res)
         environment = 'sit'
       },
     })
   } catch (error) {
     environment = 'sit'
   }
-  console.log('environment--------->', environment)
+  console.log('getEnv environment--------->', environment)
   return environment
 }

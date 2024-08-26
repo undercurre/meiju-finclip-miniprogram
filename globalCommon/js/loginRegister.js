@@ -2,63 +2,30 @@ import { getTimeStamp, getReqId, getUID, getStamp, hasKey } from 'm-utilsdk/inde
 import { showToast } from '../../utils/util.js'
 import { closeWebsocket } from '../../utils/initWebsocket.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
-import { authorizedCommonTrack } from '../../track/track.js'
-import { setTokenStorage, setIsAutoLogin, setUserInfo, removeUserInfo, removeStorageSync } from '../../utils/redis.js'
+import {
+  setTokenStorage,
+  setIsAutoLogin,
+  setUserInfo,
+  removeUserInfo,
+  removeStorageSync,
+  setTokenPwdStorge,
+} from '../../utils/redis.js'
 import { getPrivateKeys } from '../../utils/getPrivateKeys'
 import { api } from '../../api'
+import Toast from 'm-ui/mx-toast/toast'
 let that = this
 const loginMethods = {
-  checkSession() {
+  //获取设备相关信息
+  getSystemInfo() {
     return new Promise((resolve, reject) => {
-      wx.checkSession({
+      wx.getSystemInfo({
         success(res) {
-          //session_key 未过期，并且在本生命周期一直有效
-          resolve(res)
-        },
-        fail(err) {
-          // session_key 已经失效，需要重新执行登录流程
-          reject(err)
-        },
-      })
-    })
-  },
-  updateCode() {
-    return new Promise((resolve, reject) => {
-      wx.login({
-        success: (res) => {
           resolve(res)
         },
         fail: (err) => {
           reject(err)
         },
       })
-    })
-  },
-  //后台解密手机号
-  decryptPhoneNumberApi(e) {
-    return new Promise((resolve, reject) => {
-      //只要包含了fail文案就认为失败，不调用后面的解密接口
-      const msg = e.detail.errMsg
-      const errno = e.detail.errno
-      authorizedCommonTrack('user_behavior_event', 'click_btn_confirm', e.detail)
-      let encryptedData = e.detail.encryptedData
-      let iv = e.detail.iv
-      let phoneCode = e.detail.code ? e.detail.code : ''
-      let data = {
-        timestamp: getStamp(),
-        data: null,
-        iotData: {
-          iotAppId: api.iotAppId,
-          // "wxLoginCode": this.data.code,
-          wxAccessToken: getApp().globalData.wxAccessToken || '',
-          encryptedData: encryptedData,
-          iv: iv,
-          reqId: getReqId(),
-          stamp: getTimeStamp(new Date()),
-          code: phoneCode,
-        },
-      }
-      getApp().globalData.phoneNumber = e
     })
   },
   //绑定帐号
@@ -110,9 +77,15 @@ const loginMethods = {
     })
   },
   //发送网络请求登陆小程序(自动登陆)
-  loginAPi() {
+  async loginAPi() {
+    // this.getSystemInfo().then((system) => {
+    let system
+    await wx.getSystemInfo({
+      success(res) {
+        system = res
+      },
+    })
     let userInfo = wx.getStorageSync('userInfo')
-    console.log('wx.getStorage(userInfo)', wx.getStorageSync('userInfo'))
     let app = getApp() || this
     if (userInfo) {
       const noPromptCode = [1000, 1110, 1105, 1217, 1219, 1403, 1404, 1407, 1406, 65012]
@@ -126,7 +99,7 @@ const loginMethods = {
           platform: 110,
           iotAppId: api.iotAppId,
           rule: 1,
-          deviceId: userInfo.userInfo.mobile || '',
+          deviceId: system.deviceId || userInfo.userInfo.mobile || '',
           tokenPwd: userInfo.mdata.tokenPwdInfo.tokenPwd || '',
           uid: userInfo.uid || '',
           nickname: (userInfo.userInfo && userInfo.userInfo.nickName) || '',
@@ -150,7 +123,7 @@ const loginMethods = {
               app.globalData.wxExpiration = true
               removeUserInfo()
               setUserInfo(userInfo)
-              setTokenStorage(res.data.data.accessToken)
+              setTokenStorage(res.data.data.accessToken, res.data.data.expired)
               setIsAutoLogin(true)
               if (userInfo.region || String(userInfo.region) == '0') {
                 app.globalData.userRegion = userInfo.region
@@ -185,16 +158,33 @@ const loginMethods = {
     } else {
       app.globalData.isLogon = false
     }
+    // })
+  },
+  //获取缓存信息
+  getUserInfo(userInfo) {
+    let app = getApp() || this
+    app.globalData.userData = userInfo
+    app.globalData.phoneNumber = userInfo.userInfo.mobile
+    app.globalData.isLogon = true
+    app.globalData.wxExpiration = true
+    setUserInfo(userInfo)
+    //setTokenStorage(userInfo.mdata.accessToken)
+    setIsAutoLogin(true)
+    if (userInfo.region || String(userInfo.region) == '0') {
+      app.globalData.userRegion = userInfo.region
+      wx.setStorageSync('userRegion', userInfo.region) //存储
+    }
   },
   // //获取验证码
   loginSmCode(params) {
     return new Promise((resolve, reject) => {
+      let app = getApp() || this
       let data = {
         data: {
           appKey: '46579c15',
           imgCode: params.imgCode,
           randomToken: params.randomToken,
-          deviceId: params.phoneNumber,
+          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         },
         iotData: {
           iotAppId: api.iotAppId,
@@ -218,27 +208,31 @@ const loginMethods = {
   },
   //验证码和手机号请求注册登陆小程序
   loginTempAPi(params) {
+    // let systemInfo = wx.getSystemInfo()
+    console.log('获取设备ID------.', getApp().globalData.appSystemInfo)
     const noPromptCode = [1000, 1110, 1105, 1217, 1219, 1403, 1404, 1407, 1406]
     return new Promise((resolve, reject) => {
       let app = getApp() || this
       let timestamp = getStamp()
       let reqId = getReqId()
       let reqData = {
+        clientType: 6,
         appKey: '46579c15',
         appVersion: '9.0,',
         osVersion: '',
         platform: 110,
-        deviceId: params.phoneNumber,
+        deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         smsCode: params.vercode,
       }
       let data = {
         timestamp: timestamp,
         data: reqData,
         iotData: {
+          clientType: 6,
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,
-          deviceId: params.phoneNumber,
+          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
@@ -258,7 +252,8 @@ const loginMethods = {
             app.globalData.wxExpiration = true
             console.log('储存用户信息', res.data.data)
             setUserInfo(res.data.data)
-            setTokenStorage(res.data.data.mdata.accessToken)
+            setTokenStorage(res.data.data.mdata.accessToken, res.data.data.mdata.expired)
+            setTokenPwdStorge(res.data.data.mdata.tokenPwdInfo.expiredDate, res.data.data.mdata.tokenPwdInfo.tokenPwd)
             setIsAutoLogin(true)
             if (res.data.data.region || String(res.data.data.region) == '0') {
               app.globalData.userRegion = res.data.data.region
@@ -285,16 +280,16 @@ const loginMethods = {
           }
           if (noPromptCode.indexOf(err.data.code) === -1) {
             let msg = this.scodeResonse(err.data)
-            showToast(msg)
+            //showToast(msg)
+            Toast({ context: that, position: 'bottom', message: msg })
           }
           reject(err)
         })
     })
   },
 
-  //解析扫码错误
+  //解析登录错误结果
   scodeResonse(data) {
-    console.log('错误吗====》', data)
     const { code, msg } = data
     let label = '未知系统错误'
     switch (code) {
@@ -323,260 +318,6 @@ const loginMethods = {
     return label
   },
 
-  //验证码和手机号请求登陆小程序,遗弃
-  loginTwoTempAPi(params) {
-    const noPromptCode = [1000, 1110, 1105, 1217, 1219, 1404, 1407, 1406]
-    return new Promise((resolve, reject) => {
-      let app = getApp() || this
-      let timestamp = getStamp()
-      let reqId = getReqId()
-      let reqData = {
-        appKey: '46579c15',
-        appVersion: '1.0.0',
-        osVersion: '',
-        platform: 110,
-        deviceId: params.phoneNumber,
-        smsCode: params.vercode,
-      }
-      let data = {
-        timestamp: timestamp,
-        data: reqData,
-        iotData: {
-          iotAppId: api.iotAppId,
-          loginAccount: params.phoneNumber,
-          smsCode: params.vercode,
-          nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
-          reqId: reqId,
-          stamp: getTimeStamp(new Date()),
-        },
-      }
-      // 发起网络请求
-      requestService
-        .request('mobileLogin', data)
-        .then((res) => {
-          if (res.data.code === 0) {
-            console.log('loginMuc sucess res：', res)
-            app.globalData.userData = res.data.data
-            app.globalData.phoneNumber = res.data.data.userInfo.mobile
-            app.globalData.isLogon = true
-            app.globalData.wxExpiration = true
-            console.log('储存用户信息', res.data.data)
-            setUserInfo(res.data.data)
-            setTokenStorage(res.data.data.mdata.accessToken)
-            setIsAutoLogin(true)
-            if (res.data.data.region || String(res.data.data.region) == '0') {
-              app.globalData.userRegion = res.data.data.region
-              wx.setStorageSync('userRegion', res.data.data.region) //存储
-            }
-            getPrivateKeys.getPrivateKeyAfterLogin()
-            resolve(res.data.data)
-          } else {
-            console.log('login fail res :', res.data)
-            app.globalData.isLogon = false
-            reject(res)
-          }
-        })
-        .catch((err) => {
-          console.log('login catch res :', err)
-          //getApp().globalData.isLogon = false
-          if (!hasKey(err, 'data')) {
-            reject(err)
-            return
-          }
-          if (!hasKey(err.data, 'code')) {
-            reject(err)
-            return
-          }
-          if (noPromptCode.indexOf(err.data.code) === -1) {
-            showToast(err.data.msg)
-          }
-          reject(err)
-        })
-    })
-  },
-  //注册接口
-  registerApi(params = {}) {
-    return new Promise((resolve, reject) => {
-      // this.updateCode().then(res => {
-      let data = {
-        timestamp: getStamp(),
-        data: {
-          appKey: '46579c15',
-          appVersion: '2.9.4',
-          osVersion: '',
-          platform: 110,
-        },
-        iotData: {
-          iotAppId: api.iotAppId,
-          nickname: (getApp().globalData.userInfo && getApp().globalData.userInfo.nickName) || '',
-          // "wxLoginCode": res.code,
-          wxAccessToken: getApp().globalData.wxAccessToken || '',
-          mobile: getApp().globalData.phoneNumber,
-          // "mobile": 15000000067,
-          // "randomCode": this.data.randomCode,
-          invitationCode: '', //getApp().globalData.invitationCode || "",
-          // "prebind": this.data.bypassSms ? true : false || false, //bypassSms验证码
-          prebind: true,
-          reqId: getReqId(),
-          stamp: getTimeStamp(new Date()),
-          isFirstReq: params.isFirstReq || false,
-
-          // "activityId": this.data.activityId,
-        },
-      }
-      requestService
-        .request('rigisterMuc', data)
-        .then((resp) => {
-          if (resp.data.code == 0) {
-            wx.showToast({
-              title: '注册成功',
-              icon: 'none',
-              duration: 2000,
-            })
-            getApp().globalData.uid = resp.data.data.uid
-            getApp().globalData.isLogon = true
-            resolve(resp.data.data)
-          } else {
-            reject(resp.data.data)
-          }
-          resolve(resp)
-        })
-        .catch((err) => {
-          // showToast(err.errMsg)
-          //出错时toast错误信息
-          wx.showToast({
-            icon: 'none',
-            title: err.data.msg || '程序员小哥哥植发去了，请稍后重试',
-          })
-          reject(err)
-        })
-    })
-    // })
-  },
-  //其他小程序带登陆态跳转
-  bingApi(params = {}) {
-    return new Promise((resolve, reject) => {
-      this.updateCode().then((res) => {
-        let timestamp = getStamp()
-        let reqId = getReqId()
-        let ramdom = getStamp()
-        let reqData = {
-          appKey: '46579c15',
-          appVersion: '1.0.0',
-          deviceId: ramdom, //getApp().globalData.fromMiniProgramData.jp_rand,
-          osVersion: '',
-          platform: 110,
-        }
-        let data = {
-          timestamp: timestamp,
-          data: reqData,
-          iotData: {
-            iotAppId: api.iotAppId,
-            wxLoginCode: res.code,
-            nickname: (getApp().globalData.userInfo && getApp().globalData.userInfo.nickName) || '',
-            invitationCode: '',
-            reqId: reqId,
-            stamp: getTimeStamp(new Date()),
-            uid: getApp().globalData.fromMiniProgramData.jp_c4a_uid,
-            isFirstReq: params.isFirstReq || true,
-          },
-        }
-        // 发起网络请求
-        requestService
-          .request('bing', data)
-          .then((res) => {
-            if (res.data.code === 0) {
-              getApp().globalData.userData = res.data.data
-              getApp().globalData.phoneNumber = res.data.data.userInfo.mobile
-              getApp().globalData.isLogon = true
-              console.log('app onshow11 setTokenStorage bing')
-              setTokenStorage(res.data.data.mdata.accessToken)
-              setIsAutoLogin(true)
-              console.log('loginMuc sucess res：', res)
-              getApp().globalData.wxExpiration = true
-              console.log('bing success res :', res.data)
-              getPrivateKeys.getPrivateKeyAfterLogin()
-              resolve(res.data.data)
-            } else {
-              console.log('bing fail res :', res.data)
-
-              reject(res.data.data)
-            }
-          })
-          .catch((err) => {
-            console.log('bing fail catch res :', err)
-            getApp().globalData.isLogon = false
-            // showToast(err.errMsg)
-            reject(err)
-          })
-      })
-    })
-  },
-  otherLogin() {
-    return new Promise((resolve, reject) => {
-      //判断是否从其他小程序跳转过来,是否带有登录态
-      if (getApp().globalData.fromMiniProgramData && getApp().globalData.fromMiniProgramData.jp_c4a_uid) {
-        this.bingApi()
-          .then((res) => {
-            resolve(res.data.data)
-          })
-          .catch((err) => {
-            // showToast(err.errMsg)
-            reject(err)
-          })
-      } else {
-        reject()
-      }
-    })
-  },
-  checkHasOpenId() {
-    let app = getApp() || this
-    app.globalData.openId = wx.getStorageSync('openId') || ''
-    return app.globalData.openId ? true : false
-  },
-  //获取opendId
-  getOpendId(params = { reqGetOpenIdChannel: 'app' }) {
-    console.log('enter opneid')
-    let app = getApp() || this
-    return new Promise((resolve, reject) => {
-      wx.login({
-        success: (res) => {
-          console.log('enter opneid res', res)
-          // that.updateCode().then((res) => {
-          let resq = {
-            iotAppId: api.iotAppId,
-            wxLoginCode: res.code,
-            reqId: getUID(),
-            stamp: getTimeStamp(new Date()),
-          }
-          app.globalData.reqGetOpenIdChannel = params && params.reqGetOpenIdChannel
-          requestService
-            .request('getOpendId2', resq)
-            .then((resp) => {
-              if (resp.data.code == 0) {
-                app.globalData.cssToken = resp.data.data.cssToken
-                app.globalData.openId = resp.data.data.openId
-                app.globalData.unionid = resp.data.data.unionid
-                app.globalData.wxAccessToken = resp.data.data.wxAccessToken
-                app.globalData.isGetOpenId = true
-                app.$$Rangers.config({
-                  evtParams: {
-                    open_id: resp.data.data.openId,
-                  },
-                })
-                wx.setStorageSync('openId', resp.data.data.openId)
-                resolve(resp)
-              }
-              reject(resp)
-            })
-            .catch((err) => {
-              reject(err)
-              // showToast(err.errMsg)
-            })
-        },
-      })
-    })
-  },
   getPhoneNumber(e) {
     console.log('隐私测试', e)
     return new Promise((resolve, reject) => {

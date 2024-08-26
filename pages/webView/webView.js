@@ -13,6 +13,7 @@ Page({
   data: {
     pageUrl: '',
     options: '',
+    noNetwork: app.globalData.noNetwork,
   },
 
   /**
@@ -22,35 +23,20 @@ Page({
     this.setData({
       options: options,
     })
-    const webViewUrl = decodeURIComponent(this.getWebViewUrl())
-    console.log(webViewUrl, 'webViewUrl')
-    if (webViewUrl.indexOf('loginState') > -1 || options.loginState) {
-      aesEncryptUrl('Y', webViewUrl).then((data) => {
-        if (data) {
-          console.log('webViewUrl', data)
-          this.setData({
-            pageUrl: data,
-          })
-          console.log('新webViewUrl-last-pageUrl', this.data.pageUrl)
-        }
-      })
-    } else {
-      this.setData({
-        pageUrl: webViewUrl,
-      })
-      console.log('新webViewUrl-else-pageUrl', this.data.pageUrl, typeof this.data.pageUrl)
-    }
     const pageTitle = options && options.pageTitle
-    //const res = await this.checkSystem()
-    // if (res) {
     pageTitle && this.setNavBarTitle(pageTitle)
-    // }
+    this.onloadWebview(options)
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {},
+
+  refreshPage() {
+    const { options } = this.data
+    this.onloadWebview(options)
+  },
 
   /**
    * 生命周期函数--监听页面显示
@@ -122,12 +108,37 @@ Page({
       title,
     })
   },
-  checkSystem() {
-    return new Promise(async (resolve) => {
-      const systemInfo = await getWxSystemInfo()
-      const platform = systemInfo && systemInfo.platform
-      const result = platform.indexOf('ios') > -1 ? true : false
-      resolve(result)
+
+  //加载webview
+  onloadWebview(options) {
+    this.setData({
+      noNetwork: app.globalData.noNetwork,
     })
+    const webViewUrl = decodeURIComponent(this.getWebViewUrl())
+    console.log(webViewUrl, 'webViewUrl')
+    if (webViewUrl.indexOf('loginState') > -1 || options.loginState) {
+      aesEncryptUrl('Y', webViewUrl).then((data) => {
+        if (data) {
+          console.log('webViewUrl', data)
+          this.setData({
+            pageUrl: data,
+          })
+          console.log('新webViewUrl-last-pageUrl', this.data.pageUrl)
+        }
+      })
+    } else {
+      this.setData({
+        pageUrl: webViewUrl,
+      })
+      console.log('新webViewUrl-else-pageUrl', this.data.pageUrl, typeof this.data.pageUrl)
+    }
   },
+  // checkSystem() {
+  // return new Promise(async (resolve) => {
+  // const systemInfo = await getWxSystemInfo()
+  // const platform = systemInfo && systemInfo.platform
+  // const result = platform.indexOf('ios') > -1 ? true : false
+  // resolve(result)
+  // })
+  // },
 })

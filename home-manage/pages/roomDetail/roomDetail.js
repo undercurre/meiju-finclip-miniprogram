@@ -5,6 +5,7 @@ import { getReqId, getStamp, validateFun, singleton } from 'm-utilsdk/index'
 import burialPoint from '../../assets/burialPoint'
 import { plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
+import { getIcon } from '../../../utils/util'
 const commonBehavior = require('../../assets/behavior')
 Page({
   behaviors: [commonBehavior],
@@ -192,8 +193,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let roomDetail = JSON.parse(decodeURIComponent(options.detail))
+    //获取设备图标
+    roomDetail.applianceList.forEach((item) => {
+      item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, roomDetail.applianceList)
+    })
     this.setData({
-      roomDetail: JSON.parse(decodeURIComponent(options.detail)),
+      roomDetail: roomDetail,
       roleId: options.roleId,
       homegroupId: options.homegroupId,
     })

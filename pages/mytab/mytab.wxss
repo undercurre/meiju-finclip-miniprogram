@@ -1,4 +1,5 @@
 /* pages/mytab/mytab.wxss */
+@import '../assets/common.wxss';
 page {
   /* min-height: 100vh; */
   background-color: #f9f9f9;
@@ -316,4 +317,8 @@ button[class='feedback-button']::after {
 }
 .mx-cell__title_title{
   font-weight: 400!important;
+}
+
+.person-box{
+  --cell-vertical-padding:48rpx;
 }

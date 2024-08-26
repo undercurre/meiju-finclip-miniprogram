@@ -1,1 +1,0 @@
-<view bindtap="onTap" class="weui-mask {{!receiveDialog ? 'weui-mask_hidden' : '' }}"></view>

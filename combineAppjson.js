@@ -95,6 +95,14 @@ const integrationConfig = (obj) => {
     appJson.subpackages.push(obj)
   }
 }
+//appjson 文件是否有配置主包信息，有的话就忽略，没有的话就新增
+const integrationMainConfig = (obj) => {
+    obj.pages.forEach((item) => {
+        if(!appJson.pages.includes('src/modules/module_plugin/' + obj.name + '/' + item)) {
+            appJson.pages.push('src/modules/module_plugin/' +  obj.name + '/' + item)
+        }
+    })
+}
 const init = () => {
   const findTargetFiles = findFiles(dirname, filename)
   console.log('获取到匹配的文件：', findTargetFiles)
@@ -102,9 +110,15 @@ const init = () => {
   findTargetFiles.forEach((item) => {
     const getTargetAppConfig = getAppConfig(item)
     console.log('获取模块配置文件：', getTargetAppConfig)
-    getTargetAppConfig.subpackages.forEach((configItem) => {
-      integrationConfig(configItem)
-    })
+    if(appJson.isSubpackage || typeof(appJson.isSubpackage) == 'undefined') { // 配网指明是分包，或者没有配置（默认分包），按分包加载
+        getTargetAppConfig.subpackages.forEach((configItem) => {
+            integrationConfig(configItem) // 查找添加分包配置信息
+          })
+    } else { // 配置了非分包，则添加主包
+        getTargetAppConfig.subpackages && getTargetAppConfig.subpackages.forEach((configItem) => {
+            integrationMainConfig(configItem) // 查找添加主包配置信息
+        })
+    }  
   })
 
   writeAppJson()

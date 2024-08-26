@@ -3,6 +3,12 @@
 @import 'assets/css/meiju.wxss';
 @import 'assets/css/toshiba.wxss';
 /* @import 'assets/css/colmo.wxss'; */
+page {
+  --toast-max-width: 100%;
+  --toast-fit-width-webkit-content: -webkit-max-content;
+  --toast-fit-width-content: max-content;
+}
+
 .shadow {
   position: fixed;
   top:0;
@@ -13,6 +19,7 @@
   z-index:9999;
   opacity: 0.5;
 }
+
 .text-overflow2 {
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;

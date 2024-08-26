@@ -23,7 +23,7 @@ Component({
     homeList: {
       type: Array,
       observer: function (val) {
-        const homePickerHeight = val.length > 5 ? '600rpx' : val.length * 96 + 80 + 'rpx' // 家庭管理弹窗高度
+        const homePickerHeight = val.length > 5 ? '465rpx' : val.length * 86 + 80 + 'rpx' // 家庭管理弹窗高度
         this.data.homePickerHeight = homePickerHeight
         // this.loopHomeGrounpListForRedDot(val)
       },
@@ -151,13 +151,13 @@ Component({
     // 家庭管理  可优化 切换家庭管理的显示和隐藏
     switchShowHomeList() {
       if (this.data.homeList.length == 1) {
-        const { homeList, ownHomeNum } = this.data
-        let target = homeList[0]
-        let homeitem = JSON.stringify(target)
-        wx.navigateTo({
-          url: `${homeDetail}?homegroupId=${target.homegroupId}&name=${target.name}&roleId=${target.roleId}&ownHomeNum=${ownHomeNum}&homeitem=${homeitem}`,
-        })
-        return
+        // const { homeList, ownHomeNum } = this.data
+        // let target = homeList[0]
+        // let homeitem = JSON.stringify(target)
+        // wx.navigateTo({
+        // url: `${homeDetail}?homegroupId=${target.homegroupId}&name=${target.name}&roleId=${target.roleId}&ownHomeNum=${ownHomeNum}&homeitem=${homeitem}`,
+        // })
+        // return
       }
       this.data.homeManageClicked = true
       this.homeGrounpListViewPoint()
@@ -175,7 +175,7 @@ Component({
         const iconTriangleAnimation = this.data.iconTriangleAnimation
         const height = this.data.homePickerHeight
         if (showHomeList && homeManageShow) {
-          homePickerAnimation.height(height).width('412rpx').opacity(1).step()
+          homePickerAnimation.height(height).width('432rpx').opacity(1).step()
           iconTriangleAnimation.rotate(180).step()
           //埋点
           clickManageFamily({ familyId: app?.globalData?.applianceHomeData?.homegroupId })

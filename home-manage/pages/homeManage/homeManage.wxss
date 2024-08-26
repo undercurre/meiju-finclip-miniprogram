@@ -137,7 +137,7 @@ page {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  padding: 0 32rpx calc(var(--iphonex-fix-bottom));
   background-color: #fff;
   z-index: 1;
   height: 128rpx;
@@ -241,4 +241,7 @@ page {
 .home-manage-container{
   width: 100%;
   overflow: hidden;
+}
+.click-create-btn{
+  display: flex;
 }

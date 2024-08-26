@@ -1,7 +1,0 @@
-<!--m-ui/mx-footer/mx-footer.wxml-->
-<view class="container">
-  <view class="footer-wrap">
-    <text class="label" catchtap="labelClicked">{{label}}</text>
-    <image wx:if="{{hasArrow}}" class="arrow" src="{{arrowSrc}}"></image>
-  </view>
-</view>

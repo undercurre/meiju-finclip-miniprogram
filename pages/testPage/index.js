@@ -7,7 +7,6 @@ import { setIsAutoLogin, removeUserInfo, clearStorageSync } from '../../utils/re
 import { closeWebsocket } from '../../utils/initWebsocket.js'
 import Toast from 'm-ui/mx-toast/toast'
 import config from '../../config.js'
-// pages/testPage/index.js
 Page({
   /**
    * 页面的初始数据
@@ -16,7 +15,7 @@ Page({
     appVibeTitle: '切换环境',
     vsConsoleTitle: 'vsconsole',
     environment: config.environment,
-    scodeTitle: '打开扫码调试',
+    scodeTitle: '切换扫码调试',
     clearCacheTitle: '清理缓存',
     sdkTitle: 'finClip sdk版本',
     miniProgramTitle: '小程序版本',
@@ -42,7 +41,14 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {},
+  onLoad() {},
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+    this.getSdkVersion()
+  },
+  //页面回退
   backPage() {
     wx.navigateBack()
   },
@@ -74,6 +80,19 @@ Page({
       show: true,
     })
   },
+  //关闭环境选择
+  toggleActionSheet() {
+    this.setData({
+      show: false,
+    })
+  },
+  //取消
+  toggleCloseActionSheet() {
+    this.setData({
+      show: false,
+    })
+  },
+  //切换环境
   selectItems(e) {
     config.environment = e.detail.name
     ft.changeCustomEnv({ env: e.detail.name })
@@ -83,18 +102,11 @@ Page({
       url: '/pages/index/index',
     })
   },
-  toggleCloseActionSheet() {
-    this.setData({
-      show: false,
-    })
-  },
-
   //获取sdk版本号
   getSdkVersion() {
     let self = this
     wx.getSystemInfo({
       success(res) {
-        console.log('获取版本号-----》', res)
         if (res && res.runtimeSDKVersion) {
           self.setData({
             runtimeSDKVersion: res?.runtimeSDKVersion,
@@ -120,40 +132,4 @@ Page({
       enableDebug: !this.data.enableDebug,
     })
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-    this.getSdkVersion()
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {},
 })

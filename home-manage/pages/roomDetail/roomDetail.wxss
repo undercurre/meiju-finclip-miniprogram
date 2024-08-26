@@ -10,11 +10,13 @@ page {
   padding-bottom: calc(204rpx + var(--iphonex-fix-bottom));
 }
 .room-name{
-  width: 280rpx;
   text-overflow: ellipsis;
   vertical-align: middle;
   overflow: hidden;
   white-space: nowrap;
+  font-size: 24rpx;
+  color: #8A8A8F;
+  font-weight: 400;
 }
 .device-list-title{
   margin: 16rpx 0 16rpx 0;
@@ -28,7 +30,7 @@ page {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 80rpx 32rpx calc(32rpx + var(--iphonex-fix-bottom));
+  padding: 80rpx 32rpx calc(var(--iphonex-fix-bottom));
   background-color: #f9f9f9;
 }
 .dialog-input{
@@ -52,4 +54,7 @@ page {
   --nav-bar-text-color:#000000;
   --nav-bar-text-margin:0 32rpx;
   --nav-bar-text-padding:0
+}
+.main-container .mx-cell__title_title{
+  font-weight: 400!important;
 }

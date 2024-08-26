@@ -1,39 +1,44 @@
 <!--distribution-network/scan-devices/pages/scan-device/scan-device.wxml-->
 <privacy-popup></privacy-popup>
 <view id="{{brand}}">
-  <nav-bar class="navbar" buttonColor="{{brandConfig.backButtonColor}}">
+  <nav-bar class="navbar" navBarName="{{!checkPermissionRes.isCanBlue?'附近设备':''}}" buttonColor="{{brandConfig.backButtonColor}}">
   </nav-bar>
   <view wx:if="{{isCanAddDevice}}" class="scan-container">
     <view style="flex: 1">
-      <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue||!checkPermissionRes.isCanLocation}}">
-        <view style="margin-top: 180rpx;">
-          <!-- <view>'permissionImg':{{ permissionImg }}</view> -->
-          <!-- <view>{{ baseImgUrl }}/permission/common/img_dakaidingwei.png</view> -->
-          <!-- <view>{{ baseImgUrl }}/permission/common/img_dakailanya.png</view> -->
-          <!-- <image
+      <view class="device-not-open" wx:if="{{!checkPermissionRes.isCanBlue}}">
+        <!-- <view style="margin-top: 180rpx;">
+          <image
             wx:if="{{!checkPermissionRes.isCanLocation}}"
             src="{{ permissionImg }}"
             class="device-not-open-img"
-          ></image> -->
-          <!-- <image wx:else src="{{ permissionImg }}" class="device-not-open-img"></image> -->
-          <image src="./assest/img/defaultImage.png" class="device-default-image"></image>
+          ></image>
+          <image wx:else src="{{ permissionImg }}" class="device-not-open-img"></image>
         </view>
         <view class="device-not-open-describe">
           <text class="tip">{{checkPermissionRes.permissionTextAll}}</text>
         </view>
-        <!-- <view class="scan-look-guide" bindtap="goToGuide">
+        <view class="scan-look-guide" bindtap="goToGuide">
           <text class="text">查看操作指引</text>
-        </view> -->
-        <!-- <view class="retry3">
+        </view>
+        <view class="retry3">
           <view>已开启？</view>
           <view class="retry-btn" bindtap="retry">
             <text>重新搜索设备</text>
             <image class="retry-img" src="{{reSearchIcon}}"></image>
           </view>
         </view> -->
+        
+        <!-- <view style="margin-top: 180rpx;">
+          <image src="./assest/img/defaultImage.png" class="device-default-image"></image>
+        </view>
+        <view class="device-not-open-describe">
+          <text class="tip">{{checkPermissionRes.permissionTextAll}}</text>
+          <text class="tip" wx:if="{{!checkPermissionRes.permissionTextAll}}">{{checkWifiPermissionRes.permissionTextAll}}</text>
+        </view>
         <view class="scan-look-guide" bindtap="openJurisdiction">
           <text class="text">去开启</text>
-        </view>
+        </view>-->
+        <permissionVerification checkPermissionRes="{{checkPermissionRes}}"  checkWifiPermissionRes="{{checkWifiPermissionRes}}" bindopenJurisdiction="openJurisdiction"></permissionVerification>
       </view>
       <block wx:else>
         <!-- color:'+brand=='colom'?'#fff':'#000'+' -->
@@ -177,9 +182,6 @@
   </view>
   <view wx:else class="no-can-add-device">
     <no-can-add-device></no-can-add-device>
-  </view>
-  <view class="blueGuideGif" wx:if="{{blueGuideGifShow}}" bindtap="closeBlueGuid">
-    <image class="blueGuideGif-img" src="./assest/img/blueGuide.gif" mode=""></image>
   </view>
   <mx-dialog id="mx-dialog" />
   <mx-dialog id="mx-cellularType" show="{{ishowDialog}}" useSlot showCancelButton cancelButtonColor="#000" bind:confirm="scanQRcode" confirmButtonText="重新扫描" bind:cancel="onClickOverlay"

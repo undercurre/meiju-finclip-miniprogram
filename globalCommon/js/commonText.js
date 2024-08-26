@@ -1,3 +1,8 @@
+/*
+ * @desc: '提示类‘
+ * @author: zhucc22
+ * @Date: 2024-06-17 16:59:38
+ */
 const globalErrText = {
   errText: '程序员小哥哥植发去了，请稍后重试',
 }
@@ -28,6 +33,10 @@ const familyPermissionText = {
     title: '普通成员不支持添加设备',
     content: '您为当前家庭的普通成员，暂不支持添加设备。请家庭管理员更改角色权限后再试~',
     confirmText: '返回首页',
+  },
+  addDeviceText: {
+    showTip: 'toast',
+    content: '您当前家庭身份为普通成员,无法操作添加设备',
   },
 }
 

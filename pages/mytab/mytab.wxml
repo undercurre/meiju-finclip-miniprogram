@@ -1,11 +1,8 @@
 <!-- pages/mytab/mytab.wxml -->
 <wxs src="./assets/js/tools.wxs" module="tools" />
 <privacy-popup></privacy-popup>
-<view class="person-box" style="height: 100vh;background-size: 100% 100%;background-image:url({{indexSrc}})">
+<view class="person-box inner-wrap-backgruop" style="height: 100vh; background-size: 100% 100%">
   <view class="shadow" wx:if="{{ isLoading }}"></view>
-  <!-- <view class="topBacWarp" wx:if="{{isLogon}}"> -->
-  <!-- <image src="{{topBac}}"></image> -->
-  <!-- </view> -->
   <view style="height: {{statusBarHeight +66}}px;"></view>
   <view
     class="content"
@@ -21,32 +18,8 @@
           </view>
           <view class="userinfo-detail">
             <view class="user-nick-name text-overflow2">{{nickName}}</view>
-            <!-- <view class="vip-level"> -->
-            <!-- <image -->
-            <!-- class="vip-level-img" -->
-            <!-- src="{{ imgUrl }}/mainContent/images/my/vip_{{vipLevel}}.png" -->
-            <!-- mode="aspectFit" -->
-            <!-- /> -->
-            <!-- <image -->
-            <!-- wx:if="{{paymentMember}}" -->
-            <!-- class="vip-level-pro" -->
-            <!-- src="{{ imgUrl }}/mainContent/images/my/pro.png" -->
-            <!-- mode="aspectFit" -->
-            <!-- /> -->
-            <!-- </view> -->
           </view>
         </view>
-        <!-- <view -->
-        <!-- class="top_check_in" -->
-        <!-- catchtap="gotoSign" -->
-        <!-- wx:if="{{ signData.IsRegister == 0 || signData.IsRegister == 1 }}" -->
-        <!-- > -->
-        <!-- <view wx:if="{{ signData.IsRegister == 0 }}" class="top_check_in_icon"> -->
-        <!-- <image src="{{signIco}}" class="signIco"></image> -->
-        <!-- <view class="sign-text">签到</view> -->
-        <!-- </view> -->
-        <!-- <view class="check-in-text" wx:if="{{ signData.IsRegister == 1 }}">{{ signData.text }}</view> -->
-        <!-- </view> -->
       </view>
     </view>
     <view wx:else>
@@ -79,7 +52,7 @@
       </block>
     </mx-cell-group>
 
-    <view class="startAppletByQrCode" bindtap="startAppletByQrCode"></view>
+    <!-- <view class="startAppletByQrCode" bindtap="startAppletByQrCode"></view> -->
   </view>
   <!-- 协议确认弹窗 -->
   <block>

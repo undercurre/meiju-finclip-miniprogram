@@ -1,9 +1,0 @@
-<!--plugin/T0x38/index/index.wxml-->
-<view class="t0x38" style="background-image: url({{backgroundImage}});background-color: {{deviceInfo.onlineStatus == 1?'#0F0F24':'#8691A4'}};">
-  <mx-nav-bar title="{{navBarName}}" 
-              show-bg="true" 
-              style="--nav-bar-title-text-color: #fff"
-              left-arrow-color="#fff"
-              bind:click-left="gotoBack"></mx-nav-bar>
-  <device-card0 wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"></device-card0>
-</view>

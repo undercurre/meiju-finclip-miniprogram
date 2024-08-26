@@ -2,13 +2,7 @@
  * 设置
  * v 值value
  */
-const setTokenStorage = (token) => {
-  const day = 24 * 60 * 60 * 1000
-  const hour = 60 * 60 * 1000
-  let timestamp = Date.parse(new Date())
-  let appTokenExpiration = timestamp + 2 * hour // 2小时美居APP  token过期，重新获取
-  let autoLoginExpiration = timestamp + 30 * day // 30天内自动登录
-  // let expiration = timestamp + 10000
+const setTokenStorage = (token, expired) => {
   const setStorageList = [
     {
       key: 'MPTOKEN',
@@ -16,11 +10,28 @@ const setTokenStorage = (token) => {
     },
     {
       key: 'MPTOKEN_EXPIRATION',
-      value: appTokenExpiration,
+      value: expired,
     },
+  ]
+  wx.nextTick(() => {
+    for (let i = 0, len = setStorageList.length; i < len; i++) {
+      wx.setStorage({
+        key: setStorageList[i].key,
+        data: setStorageList[i].value,
+      })
+    }
+  })
+}
+//保存tokenPwd
+const setTokenPwdStorge = (expiredDate, tokenPwd) => {
+  const setStorageList = [
     {
       key: 'MPTOKEN_AUTOLOGIN_EXPIRATION',
-      value: autoLoginExpiration,
+      value: expiredDate,
+    },
+    {
+      key: 'MPTOKENPWD',
+      value: tokenPwd,
     },
   ]
   wx.nextTick(() => {
@@ -51,7 +62,7 @@ const setToastIntervalTime = (v, time) => {
     resolve()
   })
 }
-//校验间隔时间是否超过两小时
+//校验间隔时间是否超过4小时
 const checkDialogIntervalTime = (v) => {
   let deadtime = parseInt(wx.getStorageSync(v))
   let timestamp = Date.parse(new Date())
@@ -84,14 +95,9 @@ const setToastIntervalOneDayOneTime = (v) => {
  * k 键key
  */
 const checkTokenExpir = (mptoken, MPTOKEN_EXPIRATION) => {
-  // return new Promise((resolve,reject) => {
-  // let mptoken = wx.getStorageSync('MPTOKEN')
-  // let deadtime = parseInt(wx.getStorageSync('MPTOKEN_EXPIRATION'))
-
   let deadtime = parseInt(MPTOKEN_EXPIRATION)
   let timestamp = Date.parse(new Date())
   return mptoken && deadtime > timestamp ? true : false
-  // })
 }
 
 /**
@@ -135,7 +141,9 @@ const removeStorageSync = () => {
     return filterList.every((f) => f != a)
   })
   clearInfoList.map((item) => {
-    wx.removeStorageSync(item)
+    if(!item.includes('version_')){ // 版本升级有本地缓存，退出登录会清除记录，所以不能清掉
+      wx.removeStorageSync(item)
+    }
   })
 }
 
@@ -192,17 +200,29 @@ const removeAutoInfo = () => {
  *
  */
 const isAutoLoginTokenValid = (MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION) => {
-  // return new Promise((resolve,reject) => {
-  // const autoLoginDeadTime = parseInt(wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION'))
-  // let appTokenDeadTime = parseInt(wx.getStorageSync('MPTOKEN_EXPIRATION'))
   const autoLoginDeadTime = parseInt(MPTOKEN_AUTOLOGIN_EXPIRATION)
   let appTokenDeadTime = parseInt(MPTOKEN_EXPIRATION)
   const timestamp = Date.parse(new Date())
+  console.log('timestamp', timestamp)
+  console.log('MPTOKEN_AUTOLOGIN_EXPIRATION', MPTOKEN_AUTOLOGIN_EXPIRATION)
+  console.log('MPTOKEN_EXPIRATION', MPTOKEN_EXPIRATION)
   if (!autoLoginDeadTime) {
     return appTokenDeadTime && appTokenDeadTime > timestamp ? true : false
   }
   return autoLoginDeadTime > timestamp ? true : false
-  // })
+}
+
+//token过期
+const checkTokenExpired = (MPTOKEN_USERINFO, MPTOKEN_EXPIRATION) => {
+  let appTokenDeadTime = parseInt(MPTOKEN_EXPIRATION)
+  const timestamp = Date.parse(new Date())
+  return MPTOKEN_USERINFO && appTokenDeadTime && appTokenDeadTime > timestamp ? true : false
+}
+//token刷新过期
+const checkTokenPwdExpired = (MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) => {
+  let appTokenDeadTime = parseInt(MPTOKEN_AUTOLOGIN_EXPIRATION)
+  const timestamp = Date.parse(new Date())
+  return MPTOKEN_USERINFO && appTokenDeadTime && appTokenDeadTime > timestamp ? true : false
 }
 
 module.exports = {
@@ -223,4 +243,7 @@ module.exports = {
   removeAutoInfo,
   setUserInfo,
   removeUserInfo,
+  checkTokenExpired,
+  setTokenPwdStorge,
+  checkTokenPwdExpired,
 }

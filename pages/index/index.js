@@ -8,7 +8,8 @@ import { getPluginUrl } from '../../utils/getPluginUrl'
 import { creatDeviceSessionId, getFullPageUrl, showToast, checkFamilyPermission, getIcon } from '../../utils/util'
 import { getWxSystemInfo } from '../../utils/wx/index.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
-//const indexSrc = '../../assets/img/index/index.png'
+const indexSrc = '/assets/img/index/index.png'
+//const indexSrc = imgBaseUrl.url + '/harmonyos/index/index.png'
 import { actionScanResultIndex } from 'assets/js/scanCodeApi'
 import { service, scodeResonse } from 'assets/js/service'
 import Toast from 'm-ui/mx-toast/toast'
@@ -23,11 +24,9 @@ import {
 } from '../../utils/pluginFilter'
 import wxList from '../../globalCommon/js/wxList.js'
 import {
-  joinResultBurialPoint,
   indexViewBurialPoint,
   clickOpenPluginBurialPoint,
   clickSwitchFamilyBurialPoint,
-  intoFamilyResultBurialPoint,
   editAndDeleteApplianceViewBurialPoint,
   editAndDeleteApplianceClickBurialPoint,
   checkFamilyPermissionBurialPoint,
@@ -55,8 +54,8 @@ import {
 } from './../../utils/initWebsocket.js'
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
+import  config from '../../config'
 const homeStorage = new HomeStorage()
-const indexSrc = imgBaseUrl.url + '/harmonyos/index/index.png'
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let currentPageOptions = {} // index 页面options
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
@@ -65,9 +64,6 @@ let hasInitedHomeIdList = [] // 已缓存的家庭id
 Page({
   behaviors: [bluetooth],
   async onShow() {
-    this.setData({
-      myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
-    })
     if (getApp().globalData.gloabalWebSocket && getApp().globalData.gloabalWebSocket._isClosed) {
       this.initPushData()
     }
@@ -93,7 +89,7 @@ Page({
     } else {
       //恢复确权轮询
       if (app.globalData.isLogon && this.data.currentFamilyDeviceList && this.data.currentFamilyDeviceList.length > 0) {
-        await this.getIntervalBatchAuthList(this.data.currentFamilyDeviceList)
+        await this.getIntervalBatcApplicList()
       }
     }
 
@@ -194,6 +190,186 @@ Page({
       })
     }
   },
+  versionUpadte(e) {
+    //子组件传承
+    console.error(e.detail)
+    if (e.detail.detail.type == 1) {
+      //立即升级
+      console.error('进入立即升级')
+      this.updateNow()
+    } else if (e.detail.detail.type == 3) {
+      //参与内测
+      console.error('进入参与内测')
+      this.joinTest()
+    }
+    let poupInfomation = this.data.poupInfomation
+    poupInfomation.show = !poupInfomation.show
+    this.data.showVersionUpdateDialog = !this.data.showVersionUpdateDialog
+    this.setData({
+      poupInfomation,
+      showVersionUpdateDialog: this.data.showVersionUpdateDialog,
+    })
+  },
+  updateNow() {
+    try {
+      ft.startAppGalleryDetailAbility()
+    } catch (e) {}
+  },
+  joinTest() {
+    //ft.startBrowsableAbility({ uri: '' })
+    try {
+      ft.startBrowsableAbility()
+    } catch (e) {}
+  },
+  checkVersionUpdate(){
+    console.error('进入checkVersionUpdate')
+    let self = this
+    let params ={}
+    let iotAppIdObj = config['iotAppId']
+    let iotAppId = iotAppIdObj[config.environment]
+    wx.getSystemInfo({
+      success(res) {
+        params = {
+          deviceId: res.deviceId,
+          os: res.platform.toLowerCase() == 'harmony' ? 'HarmonyOS' : '',
+          channel: res.brand.toLowerCase(),
+          deviceName: res.model,
+          platform: 3,
+          osVersion: res.system,
+          version: self.data.appVersion,
+          iotAppId: iotAppId,
+          strategyId: '',
+        }
+      },
+    })
+    return new Promise((resolve, reject) => {
+      let urlName = 'getUpgradeStrategy'
+      if (app.globalData.isLogon) {
+        urlName = 'getLoginUpgradeStrategy'
+      }
+      let reqData = {
+        ...params,
+        reqId: getReqId(),
+        stamp: getStamp(),
+      }
+      console.log('checkVersionUpdate-reqData=================:', reqData)
+      requestService.request(urlName, reqData).then(
+       async (resp) => {
+          console.error('checkVersionUpdate-resp----------:',resp)
+          // popType == 0 使用默认规则, 如果是1 或者2 前端首页弹窗都不弹 ，popType == 1 原生 强制更新 原生弹窗
+          if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0 ){
+            
+            // 查看本地缓存是否有策略id
+            // 如果有策略id
+            // 如果本地缓存记录的次数 == 0 或 间隔 不大于等于 接口返回的间隔，或当前小时不在接口返回的小时范围内 那么就不弹 ，间隔时间默认为 x 自然天
+            // console.log(wx.getStorageInfoSync())
+            let getStorageInfoSync = await wx.getStorageInfoSync()
+            console.error('保存信息getStorageInfoSync--------:',getStorageInfoSync)
+            let hasDialogId = await wx.getStorageSync(`version_${resp.data.data.id}`)
+            let isShowDialog = false
+            // 有配置popPeriodStart才进行判断
+            if(resp.data.data.dialogConfig.popPeriodStart){
+              // 获取当前小时
+              let getHour = dateFormat(new Date(), 'hh') *1
+              let isLegiTime = getHour>=resp.data.data.dialogConfig.popPeriodStart*1 && getHour<=resp.data.data.dialogConfig.popPeriodEnd *1 ? true : false
+              //当前小时不在接口返回的小时范围内 
+              if(!isLegiTime){
+                return
+              }
+            }
+            console.error('测试通过时间区间-----hasDialogId----:',hasDialogId)
+            if(hasDialogId){
+              console.error('有缓存！！！！！')
+              // 判断间隔时间是否大于等于 接口返回的间隔
+              let isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime,resp.data.data.dialogConfig.popInterval)
+
+              console.error('间隔判断！！！！！isPopInterval：',isPopInterval)
+              // 弹窗次数为0 或者 还没到间隔时间 不弹窗
+              if (!isPopInterval || hasDialogId.popTimes == 0) {
+                return
+              }
+              console.error('通过弹窗次数为0 或者 还没到间隔时间 不弹窗')
+              if(isPopInterval && hasDialogId.popTimes > 0){
+                //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
+                hasDialogId.popTimes = hasDialogId.popTimes - 1
+                isShowDialog = true
+              }
+              wx.setStorage({
+                key:`version_${resp.data.data.id}`,
+                data:{
+                  popTimes:hasDialogId.popTimes,
+                  recodeTime : hasDialogId.recodeTime
+                },
+                success: () => {
+                  console.log('有本地缓存弹窗策略保存成功')
+                },
+                fail: () => {
+                  console.log('有本地缓存弹窗策略保存失败')
+                },
+              })
+            } else {
+              console.error('本地缓存没有,即可以弹窗')
+              // 本地缓存没有,即可以弹窗
+              // 需要保存信息到本地
+              isShowDialog = true
+              wx.setStorage({
+                key:`version_${resp.data.data.id}`,
+                data:{
+                  popTimes:resp.data.data.dialogConfig.popTimes - 1,
+                  recodeTime : dateFormat(new Date(), 'yyyy-MM-dd')
+                },
+                success: () => {
+                  console.log('没有本地缓存弹窗策略保存成功')
+                },
+                fail: () => {
+                  console.log('没有本地缓存弹窗策略保存失败')
+                },
+              })
+
+              console.error('本地缓存没有结束')
+            }
+
+            if(isShowDialog){
+              console.error('开始弹窗')
+              let poupInfomation = self.data.poupInfomation
+              poupInfomation.show = true
+              poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
+              poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
+
+              self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
+              self.setData({
+                poupInfomation,
+                showVersionUpdateDialog: self.data.showVersionUpdateDialog,
+              })
+              resolve(resp)
+              return
+            }
+          } else {
+            reject(resp)
+          }
+        },
+        (error) => {
+          console.error('checkVersionUpdate-error===========:', error)
+          reject(error)
+        }
+      )
+    })
+  },
+  // 判断记录时间和当前时间的间隔 是否为 interval 自然天 * 24 小时
+
+  isIntervalDayAfter(recordDate, interval) {
+    //将记录时间转为Date对象
+    let recordTime = new Date(recordDate)
+
+    //获取当前时间
+    let todayTime = new Date()
+
+    //计算两者之差(毫秒),再转换成小时
+    let timeDifference = (todayTime.getTime() - recordTime.getTime()) / (1000 * 3600)
+
+    return Math.abs(timeDifference) >= interval * 24
+  },
+
   onAddToFavorites(res) {
     // webview 页面返回 webViewUrl
     console.log('webViewUrl: ', res.webViewUrl)
@@ -205,6 +381,7 @@ Page({
   },
   onHide() {
     if (app.globalData.bathAuthTimer) clearInterval(app.globalData.bathAuthTimer)
+    if (this.data.intervalApp) clearInterval(this.data.intervalApp)
     this.data.isOnHide = true
     this.data.isNfcFirstInit = false
     this.setData({
@@ -312,7 +489,7 @@ Page({
     scollTop: 0,
     showHover: true, //设备点击态样式
     allDevice: [],
-    myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
+    //myBtnConent: app.globalData.isLogon ? '去添加' : '添加智能设备',
     // myBtnConent: '添加智能设备',
     isCanAddDevice: true, //是否可配网,灰度下架，写死为true
     clickFLag: false, //防重复点击
@@ -342,6 +519,8 @@ Page({
         type: 3, //假定1是可升级， 2是参与内测，3是必须升级
       },
     },
+    intervalApp: null,
+    isWifiNetWork:false
   },
   //长链接推送解析
   async initPushData() {
@@ -352,15 +531,12 @@ Page({
           closeWebsocket()
         }
         await initWebsocket().then((resp) => {
-          console.log('webscoket index.js链接成功=====>', resp)
           this.receiveSocketData()
         })
         closeReConnect().then((resp) => {
-          console.log('webscoket index.js重连接成功=====>', resp)
           this.receiveSocketData()
         })
         networkChange().then((resp) => {
-          console.log('webscoket index.js监听网络变化=====>', resp)
           this.receiveSocketData()
         })
       } catch (error) {
@@ -419,27 +595,6 @@ Page({
       this.getTabBar().setData({
         selected: 0,
       })
-    }
-  },
-  // 通过小程序分享加入家庭
-  joinFamilyFromShare() {
-    // 家庭邀请码验证
-    if (app.globalData.invitationCode) {
-      this.verifyInviteCodeFun()
-        .then((resp) => {
-          let data = resp.data.data
-          this.invitedLoginFamily(data)
-          joinResultBurialPoint({
-            code: app.globalData.invitationCode,
-            msg: app.globalData.userData.invitationTips || '',
-            channel: app.globalData.share ? 'APP' : '小程序',
-          })
-        })
-        .catch((response) => {
-          if (!hasKey(response, 'data')) return
-          if (!hasKey(response.data, 'code')) return
-          this.invitedFamilyFail(response)
-        })
     }
   },
   // 组件回调执行对应方法
@@ -723,10 +878,12 @@ Page({
       return
     }
     let that = this
+    let message = '删除设备后，所有家庭成员将不能控制设备，确定删除？'
     Dialog.confirm({
       zIndex: 10001,
       context: this,
-      title: '确定删除选中设备吗？',
+      title: '删除设备',
+      message,
     })
       .then(() => {
         that.setData({
@@ -938,25 +1095,6 @@ Page({
     shouldGetDeviceDataFromStorage = false
     this.getApplianceHomeDataService(id).then((resp) => {
       this.getAwaitCurrentFamilyDeviceList(resp)
-      // let currentFamilyDeviceList = this.getCurrentFamilyDeviceList(resp) // 当前家庭设备列表
-      // let composeApplianceCodeList = []
-      // currentFamilyDeviceList.forEach((item) => {
-      //   if (item.type == '0x4E') {
-      //     item.singleAppliances.forEach((it) => {
-      //       composeApplianceCodeList.push(it)
-      //     })
-      //   }
-      // })
-      // // 隐藏组合设备子设备
-      // currentFamilyDeviceList = currentFamilyDeviceList.filter((item) => {
-      //   return !composeApplianceCodeList.includes(parseInt(item.applianceCode))
-      // })
-      // this.setData({
-      //   currentFamilyDeviceList: currentFamilyDeviceList,
-      // })
-      // this.filterSupportedAppliance()
-      // //更新首页卡片进插件页不需要调用查询确权状态接口的applianceCode缓存列表
-      // this.updateNoCheckAuthCodeList(currentFamilyDeviceList)
     })
     //获取当前用户下的空调设备
     this.getUserTypeDevice('0xAC').then((res) => {
@@ -1093,6 +1231,15 @@ Page({
         title: '网络未连接，请检查您的网络设置',
         icon: 'none',
         duration: 3000,
+      })
+    }
+    if(netType == 'wifi'){
+      this.setData({
+        isWifiNetWork: true,
+      })
+    } else {
+      this.setData({
+        isWifiNetWork: false,
       })
     }
   },
@@ -1474,14 +1621,6 @@ Page({
           console.log('优化 小木马消失 切换家庭', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
         }
         this.getCurrentModuleFamilyDeviceList(resp)
-        // let currentFamilyDeviceList = this.getCurrentFamilyDeviceList(resp) // 当前家庭设备列表
-        // this.setData({
-        //   currentFamilyDeviceList: currentFamilyDeviceList,
-        // })
-        // //过滤支持的设备
-        // this.filterSupportedAppliance()
-        // //更新首页卡片进插件页不需要调用查询确权状态接口的applianceCode缓存列表
-        // this.updateNoCheckAuthCodeList(currentFamilyDeviceList)
       })
       .catch((e) => {
         wx.hideNavigationBarLoading()
@@ -1602,6 +1741,7 @@ Page({
       }
     })
     currentFamilyDeviceList.forEach((item) => {
+      //console.log('缓存------>sceneIconList', this.data.sceneIconList)
       //v2.17 使用设备icon新接口
       item.deviceImg = getIcon(item, this.data.sceneIconList, currentFamilyDeviceList)
     })
@@ -1609,7 +1749,7 @@ Page({
     currentFamilyDeviceList = currentFamilyDeviceList.filter((item) => {
       return !composeApplianceCodeList.includes(parseInt(item.applianceCode))
     })
-    console.log(currentFamilyDeviceList, '9999999')
+    console.log('当前家庭设备列表===== ', currentFamilyDeviceList)
     if (applianceList.bluetooth) {
       //存在 遥控设备
       currentFamilyDeviceList = this.addRemoteBindDevice(currentFamilyDeviceList, applianceList.bluetooth) //添加遥控设备卡片
@@ -1692,9 +1832,21 @@ Page({
         })
     })
   },
+  //设备图标处理
+  setIotDeviceV3() {
+    this.data.supportedApplianceList.forEach((item) => {
+      item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, this.data.supportedApplianceList)
+    })
+    this.data.unsupportedApplianceList.forEach((item) => {
+      item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, this.data.unsupportedApplianceList)
+    })
+  },
+
   // 获取设备图片
   getIotDeviceV3() {
     let dcpDeviceImgList = []
+    let sceneIconList = wx.getStorageSync('dcpDeviceImgList')
+    this.data.sceneIconList = sceneIconList
     return new Promise((resolve, reject) => {
       if (!isEmptyObject(app.globalData.dcpDeviceImgList)) {
         dcpDeviceImgList = app.globalData.dcpDeviceImgList
@@ -1709,8 +1861,15 @@ Page({
         service
           .getIotDeviceV3()
           .then((resp) => {
+            console.log('获取设备图标 首页内')
             this.data.sceneIconList = resp.data.data.iconList
             app.globalData.dcpDeviceImgList = resp.data.data.iconList
+            this.setIotDeviceV3()
+            this.setData({
+              supportedApplianceList: this.data.supportedApplianceList,
+              unsupportedApplianceList: this.data.unsupportedApplianceList,
+            })
+            // this.refreshApplianceData()
             try {
               wx.setStorageSync('dcpDeviceImgList', resp.data.data.iconList) //部分手机可能因为长度设置失败
             } catch (error) {
@@ -1755,7 +1914,7 @@ Page({
   async filterSupportedAppliance() {
     let supportedApplianceList = []
     let unsupportedApplianceList = []
-    await this.getIntervalBatchAuthList(this.data.currentFamilyDeviceList)
+    await this.getBatchAuthList(this.data.currentFamilyDeviceList)
     const currentHomeGroupId = this.data.currentHomeGroupId
     if (shouldGetDeviceDataFromStorage && hasInitedHomeIdList.includes(currentHomeGroupId)) {
       supportedApplianceList = homeStorage.getStorage({
@@ -1866,6 +2025,7 @@ Page({
       isHourse: false,
     })
     this.getMainDevices(supportedApplianceList) //获取当前家庭的主设备
+    this.getIntervalBatcApplicList()
     console.log('优化 小木马消失 filterSupportedAppliance', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
   },
   //delete ?? 不懂
@@ -1881,19 +2041,17 @@ Page({
     }
     return currentAppliance
   },
-  //循环拉取确权状态
-  async getIntervalBatchAuthList(currentFamilyDeviceList) {
-    let applianceCodeList = currentFamilyDeviceList.map((applianceItem) => {
-      return applianceItem.applianceCode
-    })
-    //同app逻辑，每次间隔60秒去获取确权状态
-    if (app.globalData.bathAuthTimer) {
-      clearInterval(app.globalData.bathAuthTimer)
+  //循环拉设备状态
+  async getIntervalBatcApplicList() {
+    //同app逻辑，每次间隔60秒去拉取设备
+    if (this.data.intervalApp) {
+      clearInterval(this.data.intervalApp)
     }
+    //每隔60s去刷线设备
     let _this = this
-    await this.getBatchAuthList(applianceCodeList)
-    app.globalData.bathAuthTimer = setInterval(() => {
-      _this.getBatchAuthList(applianceCodeList)
+    if (this.data.intervalApp) clearInterval(this.data.intervalApp)
+    this.data.intervalApp = setInterval(() => {
+      _this.refreshApplianceData()
     }, 60000)
   },
   //获取当前设备是否需要确权
@@ -2125,18 +2283,30 @@ Page({
       },
     })
   },
-  onLoad(options) {
-    console.error('版本号：20240801')
+  async onLoad(options) {
+    console.error('版本号：202408409082')
     //处理websocket相关逻辑
     console.log('优化 onload', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
     trackLoaded('page_loaded_event', 'pageOnLoad')
     //this.initPushData()
     currentPageOptions = options
     var self = this
-    app.globalData.invitationCode =
-      app.globalData.invitationCode === null || app.globalData.invitationCode === undefined
-        ? options.invitationCode
-        : app.globalData.invitationCode
+    try {
+      ft.getAppInfo({
+        success: function (res) {
+          console.log('getAppInfo success ------------')
+          console.log(res)
+          self.setData({
+            appVersion: res.data.data.VERSION_NAME,
+          })
+          self.checkVersionUpdate()
+        },
+        fail: function (res) {
+          console.log('getAppInfo fail')
+          console.log(res)
+        },
+      })
+    } catch (error) {}
     self.data.gdt_vid = options.gdt_vid || (options.query && options.query.gdt_vid) || ''
     getWxSystemInfo((res) => {
       this.setData({
@@ -2149,8 +2319,6 @@ Page({
     })
     if (app.globalData.isLogon) {
       this.initPushData()
-      //this.scanCodeJoinFamily(app.globalData.isLogon)
-      //this.joinFamilyFromShare() // 通过邀请加入家庭
       if (app.globalData.uid) {
         this.setData({
           uid: app.globalData.uid,
@@ -2161,18 +2329,16 @@ Page({
       try {
         this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-        // if (isAutoLogin) {
-        // app.watchLogin(() => {
-        // this.scanCodeJoinFamily(app.globalData.isLogon) //扫码加入家庭
-        // this.joinFamilyFromShare() // 通过邀请加入家庭
-        // if (app.globalData.uid) {
-        // this.setData({
-        // uid: app.globalData.uid,
-        // })
-        // app.globalData.uid = ''
-        // }
-        // }, this)
-        // }
+        if (isAutoLogin) {
+          app.watchLogin(() => {
+            if (app.globalData.uid) {
+              this.setData({
+                uid: app.globalData.uid,
+              })
+              app.globalData.uid = ''
+            }
+          }, this)
+        }
       } catch (e) {
         console.log(e)
       }
@@ -2298,9 +2464,6 @@ Page({
               getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo))
             )
             wx.navigateTo({
-              // url:
-              //   `/plugin/T${getCommonType(type)}/index/index?deviceInfo=` +
-              //   encodeURIComponent(JSON.stringify(currDeviceInfo)),
               url: getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo)),
               complete() {
                 self.data.isGoToPlugin = true
@@ -2314,9 +2477,6 @@ Page({
             getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo))
           )
           wx.navigateTo({
-            // url:
-            //   `/plugin/T${getCommonType(type)}/index/index?deviceInfo=` +
-            //   encodeURIComponent(JSON.stringify(currDeviceInfo)),
             url: getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo)),
             complete() {
               self.data.isGoToPlugin = true
@@ -2345,20 +2505,12 @@ Page({
     return new Promise((resolve, reject) => {
       wx.getNetworkType({
         success(res) {
-          console.log('网络提示zhucc=========================>', res)
           resolve(res.networkType)
         },
         fail(error) {
-          console.log('获取当前网络状况错误=================>', error)
           reject(error)
         },
       })
-    })
-  },
-
-  goTodownloadPage() {
-    wx.navigateTo({
-      url: '/pages/download/download?fm=' + 'index',
     })
   },
 
@@ -2476,7 +2628,7 @@ Page({
     }
     const hasFamilyPermission = checkFamilyPermission({
       currentHomeInfo: this.data.currentHomeInfo,
-      permissionText: familyPermissionText.addDevice,
+      permissionText: familyPermissionText.addDeviceText,
     })
     if (!hasFamilyPermission) {
       checkFamilyPermissionAddBurialPoint()
@@ -2736,17 +2888,6 @@ Page({
         is_near: item.isSameSn8Nearest ? 1 : 0,
       },
     })
-    // if (!this.checkWxVersion()) {
-    //   Dialog.alert({
-    //     zIndex: 10001,
-    //     context: this,
-    //     message: '你的微信版本过低，请升级至最新版本后再试',
-    //     confirmButtonText: '我知道了',
-    //   })
-    //   getApp().setMethodFailedCheckingLog('goNetwork', '当前微信版本过低不通过')
-    //   self.data.clickFLag = false
-    //   return
-    // }
     if (!this.checkIfGoNetwork(item)) {
       getApp().setMethodFailedCheckingLog('goNetwork', '选取的是不支持配网设备')
       self.data.clickFLag = false
@@ -2816,146 +2957,7 @@ Page({
       }
     }, 500)
   },
-  //邀请家庭接口 home-manage
-  invitedLoginFamily(resp) {
-    Dialog.alert({
-      zIndex: 10001,
-      context: this,
-      message: resp.tips,
-      confirmButtonText: '我知道了',
-    })
-    if (resp.code == 0) {
-      this.intoFamilyResultBurialPointFun(resp)
-      this.init()
-    }
-    app.globalData.invitationCode = ''
-  },
-  //邀请家庭 verifyInviteCodeFun失败错误处理 home-manage
-  invitedFamilyFail(response) {
-    if (response.data.code == 1217 || response.data.code == 1220 || response.data.code == 1219) {
-      //the invitationCode is invalid
-      if (response.data.code !== 1217) {
-        this.intoFamilyResultBurialPointFun(response)
-      }
-      joinResultBurialPoint({
-        code: 1217,
-        msg: '邀请码失效',
-        channel: app.globalData.share ? 'APP' : '小程序',
-      })
-      this.setData({
-        isBluetoothMixinNotOpen: false,
-      })
-      let DialogObj = {
-        zIndex: 10001,
-        context: this,
-        message: requestService.getErrorMessage(response.data.code),
-        confirmButtonText: '我知道了',
-      }
-      if (response.data.code === 1220 || response.data.code === 1219) {
-        DialogObj.confirmOpenType = 'exit'
-        DialogObj.confirmButtonTarget = 'miniProgram'
-      }
-      Dialog.alert(DialogObj)
-      this.getTabBar().setData({
-        isShow: false,
-      })
-      app.globalData.isLogon = false
-      app.globalData.invitationCode = ''
-      this.setData({
-        isLogon: false,
-      })
-    } else {
-      app.globalData.isLogon = false
-      this.setData({
-        isLogon: false,
-      })
-    }
-  },
-  // 加入家庭结果弹窗埋点 home-manage
-  intoFamilyResultBurialPointFun(res) {
-    let invitedCode = app.globalData.invitationCode
-    let tip = res.tips ? res.tips : requestService.getErrorMessage(res.data.code)
-    let code = res.code == 0 ? res.code : res.data.code
-    let param = {
-      invitedCode: invitedCode,
-      tip: tip,
-    }
-    let relation = [
-      {
-        page_id: 'popups_join_family_success',
-        page_name: '你已成功加入家庭弹窗',
-        code: 0,
-      },
-      {
-        page_id: 'popups_join_family_time_out',
-        page_name: '该加入家庭邀请已过期弹窗',
-        code: 1220,
-      },
-      {
-        page_id: 'popups_join_family_occupied',
-        page_name: '该加入家庭邀请已被其它用户使用弹窗',
-        code: 1219,
-      },
-    ]
-    for (let i = 0; i < relation.length; i++) {
-      if (Number(code) === relation[i].code) {
-        param.page_id = relation[i].page_id
-        param.page_name = relation[i].page_name
-      }
-    }
-    intoFamilyResultBurialPoint(param)
-  },
-  // 小程序扫app生成的二维码加入家庭
-  scanCodeJoinFamily(isLogin) {
-    if (!isLogin || this.data.hasScand) return
-    this.data.hasScand = true
-    const scanCodeUrlData = currentPageOptions && currentPageOptions.q
-    console.log('面对面扫一扫 scanCodeJoinFamily scanCodeUrlData:', scanCodeUrlData)
-    var defineOptions = '' //解析后的参数
-    defineOptions = decodeURIComponent(scanCodeUrlData) // 处理options 扫码进入
-    if (!scanCodeUrlData) {
-      return false
-    }
 
-    let params = {
-      scancodeUrl: defineOptions,
-      reqId: getReqId(),
-      stamp: getStamp(),
-    }
-    requestService.request('scanCodeJoinFamily', params).then(
-      (res) => {
-        Dialog.alert({
-          zIndex: 10001,
-          context: this,
-          title: '加入家庭成功',
-          confirmButtonColor: '#267aff',
-        })
-        let homeId = res.data.data.homegroupId
-        // 加入成功后先更新家庭列表再自动切换到扫码加入的家庭
-        this.getHomeGrouplistService().then((data) => {
-          // eslint-disable-next-line no-unused-vars
-          const currentIndex = data.forEach((item, index) => {
-            if (item.homegroupId == homeId) {
-              this.init(index)
-              return index
-            }
-          })
-        })
-      },
-      (error) => {
-        console.log('0000000000000000000扫码加入家庭 error', error)
-        var code = error.data.code
-        var label = 'code未知系统错误'
-        label = scodeResonse(code)
-        Dialog.alert({
-          zIndex: 10001,
-          context: this,
-          message: `扫码加入家庭失败，${label}`,
-          confirmButtonColor: '#267aff',
-        })
-      }
-    )
-  },
   //处理nfc 过来的数据
   actionFromNfc() {
     let self = this
@@ -3210,7 +3212,7 @@ Page({
     requestService
       .request('multiNetworkGuide', param)
       .then((res) => {
-        let netWorking = resp.data.data.cableNetWorking ? 'cableNetWorking' : 'wifiNetWorking'
+        let netWorking = res.data.data.cableNetWorking ? 'cableNetWorking' : 'wifiNetWorking'
         let mode = res.data.data[netWorking].mainConnectinfoList[0].mode
         let guideInfo = res.data.data[netWorking].mainConnectinfoList
         item['mode'] = mode
@@ -3416,7 +3418,7 @@ Page({
     requestService
       .request('multiNetworkGuide', param)
       .then((res) => {
-        let netWorking = resp.data.data.cableNetWorking ? 'cableNetWorking' : 'wifiNetWorking'
+        let netWorking = res.data.data.cableNetWorking ? 'cableNetWorking' : 'wifiNetWorking'
         let mode = res.data.data[netWorking].mainConnectinfoList[0].mode
         let guideInfo = res.data.data[netWorking].mainConnectinfoList
         if (mode == 1 || mode == '') {
@@ -3507,8 +3509,11 @@ Page({
       })
   },
   //批量获取后确权状态
-  async getBatchAuthList(applianceCodeList) {
+  async getBatchAuthList(currentFamilyDeviceList) {
     // return new Promise((resolve, reject) => {
+    let applianceCodeList = currentFamilyDeviceList.map((applianceItem) => {
+      return applianceItem.applianceCode
+    })
     await service
       .getBatchAuthList(applianceCodeList)
       .then((resp) => {

@@ -1,7 +1,7 @@
 <view class="filter-status" wx:if="{{filterList != '' && filterList.length > 0 }}">
   <view class="flex align_center justify_between" style="margin-bottom: 30rpx;">
     <text class="filter-status-text">滤芯状态</text>
-    <text class="filter-buy-text" catchtap="buyFilter">滤芯购买</text>
+    <!-- <text class="filter-buy-text" catchtap="buyFilter">滤芯购买</text> -->
   </view>
   <text wx:if="{{isShowFilterLoading}}"
     style="color: #999;font-size: 24rpx;text-align:center;display: block;">加载中...</text>

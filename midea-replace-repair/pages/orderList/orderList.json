@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "选择订单",
-  "usingComponents": {
-    "mp-dialog": "weui-miniprogram/dialog/dialog",
-    "centerDialog": "../../components/sure-center-dialog/sure-center-dialog"
-  }
-}

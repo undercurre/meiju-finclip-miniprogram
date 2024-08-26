@@ -35,7 +35,12 @@
         /></view>
       </view>
       <view class="avatar-container">
-        <view wx:for="{{ memberList }}" wx:key="uid" class="avatar" wx:if="{{index<6}}">
+        <view
+          wx:for="{{ memberList }}"
+          wx:key="uid"
+          class="avatar"
+          wx:if="{{(roleId!=1003 && index<6) || (roleId==1003 && index<7)}}"
+        >
           <view class="avatar-box">
             <mx-image round fit="cover" plate="{{plate}}" src="{{ item.headImgUrl }}"></mx-image>
             <text wx:if="{{ item.roleId==1002 }}">管理员</text>
@@ -43,7 +48,10 @@
           </view>
           <text>{{ item.nickname }}</text>
         </view>
-        <view class="avatar" wx:if="{{ memberList.length>6 }}">
+        <view
+          class="avatar"
+          wx:if="{{ (roleId!=1003 && memberList.length>6) || (roleId==1003 && memberList.length>7) }}"
+        >
           <button bindtap="goToMemberManage" class="add-icon" style="background-image: url({{moreIcon}})"></button>
           <text>更多成员</text>
         </view>
@@ -59,33 +67,39 @@
       </mx-cell>
       <mx-cell center imageSize="32" is-link title="房间与设备" border="{{ false }}" bindtap="goToRoomList" />
     </mx-cell-group>
-    <view class="delete-btn-container" bindtap="showDeleteDialog" data-option="delete" wx:if="{{ roleId==1001 }}">
+    <view class="delete-btn-container">
       <mx-button
+        bindtap="showDeleteDialog"
+        data-option="exit"
+        custom-class="custom-button-class"
         nohover-class
         type="text"
         size="large"
         round
         block
         plain
-        color="{{publicColor}}"
-        custom-style="background-color: transparent;"
+        color="{{buttonColor}}"
+        >退出家庭</mx-button
+      >
+      <mx-button
+        bindtap="showDeleteDialog"
+        data-option="delete"
+        wx:if="{{ roleId==1001 }}"
+        custom-class="custom-button-class"
+        nohover-class
+        type="text"
+        size="large"
+        round
+        block
+        plain
+        color="{{buttonColor}}"
         >删除家庭</mx-button
       >
     </view>
-    <view class="delete-btn-container" bindtap="showDeleteDialog" data-option="exit" wx:else>
-      <mx-button
-        nohover-class
-        type="text"
-        size="large"
-        round
-        block
-        plain
-        color="{{publicColor}}"
-        custom-style="background-color: transparent;"
-        >退出家庭</mx-button
-      >
-    </view>
+    <!-- <view class="delete-btn-container" bindtap="showDeleteDialog" data-option="delete" wx:if="{{ roleId==1001 }}"> -->
+    <!-- </view> -->
     <mx-dialog
+      custom-class="exit-dialog-class"
       z-index="10001"
       title="{{ dialogTitle }}"
       message=" {{ dialogMessage }}"
@@ -95,7 +109,6 @@
       bind:cancel="cancelDialog"
       cancelButtonColor="{{publicColor}}"
       confirmButtonColor="{{publicColor}}"
-      scale="1"
       bind:confirm="confirm"
       messageAlign="{{dialogMessageAlign}}"
     >
@@ -109,7 +122,7 @@
       bind:cancel="cancleEdit"
       cancelButtonColor="{{publicColor}}"
       confirmButtonColor="{{publicColor}}"
-      confirmButtonText="保存"
+      confirmButtonText="确定"
       scale="1"
       bind:confirm="confirmEdit"
       autoClose="{{ false }}"

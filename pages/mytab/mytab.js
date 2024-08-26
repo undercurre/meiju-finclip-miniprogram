@@ -80,12 +80,10 @@ Page({
           {
             isLogon: app.globalData.isLogon,
           },
-          () => {
-            //this.inviteFun()
-          }
+          () => {}
         )
       })
-     app.watchLogin(this.watchBack, this) //kkk add 非刷新页面监听登录态
+    app.watchLogin(this.watchBack, this) //kkk add 非刷新页面监听登录态
     //当前tab页面检查协议是否已更新，已更新则关闭已渲染的协议更新弹窗（由于自定义遮罩层不能覆盖原生的tabbar，所以协议新弹窗出现时，可以点击tabbar，以至于tab页面都会渲染协议更新的弹窗）
     this.setData({
       isUpdatedAgreement: app.globalData.isUpdateAgreement,
@@ -98,28 +96,6 @@ Page({
         selected: 1,
       })
     }
-
-    //更新头部样式
-    let repeat = 3
-    let timer = setInterval(() => {
-      if (repeat == 0) {
-        clearInterval(timer)
-      } else {
-        var pages = getCurrentPages() //获取加载的页面
-        var currentPage = pages[pages.length - 1] //获取当前页面的对象
-        var url = currentPage.route //当前页面url
-        if (url == 'pages/mytab/mytab') {
-          //避免头部颜色闪动
-          wx.setNavigationBarColor({
-            frontColor: '#000000',
-            backgroundColor: '#ffffff',
-          })
-        }
-        repeat--
-      }
-    }, 1000)
-
-    //this.pointsEntranceAbtest()
   },
   trackTab() {
     clickEventTracking('user_behavior_event', 'trackTab')
@@ -139,7 +115,7 @@ Page({
     currentHomeGroupId: '',
     currentHomeInfo: {},
     homeList: null,
-    headImgUrl: '/assets/img/about/header-login.png',
+    headImgUrl: '',
     nickName: '',
     vipGrow: '',
     isRegister: false,
@@ -197,13 +173,9 @@ Page({
   goToSettingPage() {
     //埋点
     clickSeetingMenuSettingBurialPoint()
-    // if (!this.data.isLogon) {
-    // this.goLogin()
-    // } else {
     wx.navigateTo({
       url: '/sub-package/mytab/pages/about/about',
     })
-    // }
   },
   /**
    * 跳转到隐私协议页面
@@ -224,7 +196,6 @@ Page({
   },
 
   getVipUserInfo: function () {
-    console.log('enter onShow222')
     if (!app.globalData.isLogon) return
     let data = {
       // brand: 1,
@@ -240,7 +211,6 @@ Page({
     requestService.request('getVipUserInfo', data).then((resp) => {
       const vipData = resp?.data?.data
       app.globalData.userData.grade = vipData?.grade
-      console.log('vipData----->', vipData)
       this.setData({
         headImgUrl: vipData?.userCustomize?.headImgUrl,
         nickName: vipData?.userCustomize?.nickName,
@@ -248,8 +218,6 @@ Page({
         paymentMember: vipData?.paymentMember,
         levelName: vipData?.levelName,
       })
-      console.log('vipData----->', this.data.headImgUrl)
-      console.log('vipData----->', this.data.headImgUrl)
     })
   },
 
@@ -273,7 +241,6 @@ Page({
             const LoginRsp = resData.data.data.LoginRsp
             const cookieData = `sukey=${LoginRsp.CurSession};uid=${LoginRsp.Uid}`
             self.data.mucuserloginCookie = cookieData
-
             wx.setStorageSync('sessionid', cookieData)
             // wx.setStorageSync("sessionid", resData.header["Set-Cookie"]); // + ";CurSession=" + resData.data.data.LoginRsp.CurSession
             resolve(resData.data)
@@ -436,21 +403,6 @@ Page({
   },
 
   /**
-   * 邀请成员埋点
-   */
-  burdpointInvitation() {
-    this.clickBurdPoint('invitabtion_mytab')
-    clickEventTracking('user_behavior_event', 'burdpointInvitation')
-    const wxExptInfoSync = this.data.wxExptInfoSync
-    console.log(wxExptInfoSync, 'setabtest wxExptInfoSync')
-    wx.reportEvent('my_invite_click', {
-      uid: (getApp().globalData.userData && getApp().globalData.userData.uid) || '',
-      time: new Date().getTime(),
-      my_invite_click: wxExptInfoSync?.expt_1656577723,
-    })
-  },
-
-  /**
    * 点击事件埋点
    */
   clickBurdPoint(clickType) {
@@ -470,16 +422,9 @@ Page({
   },
   //登录状态回调
   watchBack(isLogon, that) {
-    console.log('test islogin------>')
-    if (isLogon) {
-      // that.getAdvertisement() // 新广告接口 v2.6去掉广告位
-      //that.setBindDeviceToWxData(app.globalData.phoneNumber)
-    }
     this.setData({
       isLogon: app.globalData.isLogon,
     })
-    // this.setWithDrawDataIsShow(app.globalData.isLogon)
-    //this.setBindDeviceToWxDataIsShow(app.globalData.isLogon)
   },
 
   goLogin: function () {
@@ -493,14 +438,8 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      //this.trackTab()
-      this.getTabBar().setData({
-        selected: 1,
-      })
-    }
-  },
+  onReady: function () {},
+
   onAddToFavorites() {
     // webview 页面返回 webViewUrl
     return {
