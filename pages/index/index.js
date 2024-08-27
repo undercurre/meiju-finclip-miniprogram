@@ -227,8 +227,6 @@ Page({
     let params ={}
     let iotAppIdObj = config['iotAppId']
     let iotAppId = iotAppIdObj[config.environment]
-    console.error('iotAppId----------:',iotAppId)
-    console.error('config.iotAppId[config.environment]---------:',config.iotAppId[config.environment])
     wx.getSystemInfo({
       success(res) {
         params = {
@@ -264,8 +262,10 @@ Page({
             // 查看本地缓存是否有策略id
             // 如果有策略id
             // 如果本地缓存记录的次数 == 0 或 间隔 不大于等于 接口返回的间隔，或当前小时不在接口返回的小时范围内 那么就不弹 ，间隔时间默认为 x 自然天
-            
-            let hasDialogId = await wx.getStorageSync(resp.data.data.id+'version')
+            // console.log(wx.getStorageInfoSync())
+            let getStorageInfoSync = await wx.getStorageInfoSync()
+            console.error('保存信息getStorageInfoSync--------:',getStorageInfoSync)
+            let hasDialogId = await wx.getStorageSync(`version_${resp.data.data.id}`)
             let isShowDialog = false
             // 有配置popPeriodStart才进行判断
             if(resp.data.data.dialogConfig.popPeriodStart){
@@ -295,7 +295,7 @@ Page({
                 isShowDialog = true
               }
               wx.setStorage({
-                key:resp.data.data.id+'version',
+                key:`version_${resp.data.data.id}`,
                 data:{
                   popTimes:hasDialogId.popTimes,
                   recodeTime : hasDialogId.recodeTime
@@ -313,7 +313,7 @@ Page({
               // 需要保存信息到本地
               isShowDialog = true
               wx.setStorage({
-                key:resp.data.data.id+'version',
+                key:`version_${resp.data.data.id}`,
                 data:{
                   popTimes:resp.data.data.dialogConfig.popTimes - 1,
                   recodeTime : dateFormat(new Date(), 'yyyy-MM-dd')
@@ -520,6 +520,7 @@ Page({
       },
     },
     intervalApp: null,
+    isWifiNetWork:false
   },
   //长链接推送解析
   async initPushData() {
@@ -1230,6 +1231,15 @@ Page({
         title: '网络未连接，请检查您的网络设置',
         icon: 'none',
         duration: 3000,
+      })
+    }
+    if(netType == 'wifi'){
+      this.setData({
+        isWifiNetWork: true,
+      })
+    } else {
+      this.setData({
+        isWifiNetWork: false,
       })
     }
   },

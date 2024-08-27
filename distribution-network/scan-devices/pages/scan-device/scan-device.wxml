@@ -183,9 +183,6 @@
   <view wx:else class="no-can-add-device">
     <no-can-add-device></no-can-add-device>
   </view>
-  <view class="wifiGuideGif" wx:if="{{wifiGuideGifShow}}" bindtap="closeWifiGuid">
-    <image class="wifiGuideGif-img" src="./assest/img/openWLAN.gif" mode=""></image>
-  </view>
   <mx-dialog id="mx-dialog" />
   <mx-dialog id="mx-cellularType" show="{{ishowDialog}}" useSlot showCancelButton cancelButtonColor="#000" bind:confirm="scanQRcode" confirmButtonText="重新扫描" bind:cancel="onClickOverlay"
   cancelButtonColor="{{dialogStyle.cancelButtonColor}}"  confirmButtonColor="{{dialogStyle.confirmButtonColor2}}" custom-style="padding-top:40rpx;padding-left:40rpx;padding-right:40rpx;" onClickOverlay="onClickOverlay" message-align="left" messageSize='16' >

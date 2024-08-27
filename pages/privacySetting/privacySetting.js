@@ -84,10 +84,18 @@ Page({
           context.changeWithdrowModal(error)
         })
     } else {
-      let data = {
-        action: 'confirm',
+      //喂登录直接清除缓存
+      wx.showLoading({
+        mask: true,
+        title: '加载中',
+      })
+      this.logout()
+      try {
+        ft.clearAppCache()
+        ft.restartApp()
+      } catch (e) {
+        console.log('error', e)
       }
-      this.changeWithdrowModal(data)
     }
   },
   backPage() {
