@@ -5,6 +5,7 @@
     <mx-cell title="{{appVibeTitle}}(当前环境:{{environment}})" bind:click="switchEnvironment" is-link />
     <mx-cell title="{{enableDebug?'关闭':'打开'}}{{vsConsoleTitle}}" bind:click="switchVsconsole" is-link />
     <mx-cell title="{{scodeTitle}}" bind:click="startAppletByQrCode" is-link />
+    <mx-cell title="{{openMiniProgramTitle}}" bind:click="openMiniProgramActionSheet" is-link />
     <mx-cell title="{{clearCacheTitle}}" bind:click="clearCache" is-link />
     <mx-cell wx:if="{{runtimeSDKVersion}}" title="{{sdkTitle}}" value="{{runtimeSDKVersion}}" is-link />
     <mx-cell wx:if="{{version}}" title="{{miniProgramTitle}}" value="{{version}}" is-link />
@@ -18,5 +19,15 @@
   show="{{ show }}"
   z-index="10001"
   actions="{{ actions }}"
+  cancel-text="取消"
+/>
+
+<mx-action-sheet
+  bind:cancel="closeMiniProgramActionSheet"
+  bind:close="closeMiniProgramActionSheet"
+  bind:select="selectMiniProgramItems"
+  show="{{ selectMiniProgramShow }}"
+  z-index="10001"
+  actions="{{ miniProgramList }}"
   cancel-text="取消"
 />
