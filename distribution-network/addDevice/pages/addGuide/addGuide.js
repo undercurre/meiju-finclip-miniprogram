@@ -194,13 +194,23 @@ Page({
     let blueRes = await checkPermission.blue()
     let permissionTypeList = blueRes.permissionTypeList
     let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
+
+    if(!bluetoothAuthorized || !bluetoothEnabled){
+      burialPoint.clickBluetoothAuthorized({
+        deviceSessionId: app.globalData.deviceSessionId,
+        sn8: app.addDeviceInfo.sn8,
+        type: app.addDeviceInfo.type,
+        moduleVersion: app.addDeviceInfo.blueVersion,
+        linkType: app.addDeviceInfo.linkType,
+      })
+    }
     if(!bluetoothAuthorized){
-        wx.openAppAuthorizeSetting({
-            success (res) {
-            console.log(res)
-            }
-        })
-        return
+      wx.openAppAuthorizeSetting({
+          success (res) {
+          console.log(res)
+          }
+      })
+      return
     }
     if(!bluetoothEnabled){
       ft.changeBlueTooth({ enable: true })
@@ -1585,6 +1595,8 @@ Page({
     // }
     // return result
     let blueRes = await checkPermission.blue()
+    let permissionTypeList = blueRes.permissionTypeList
+    let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
     this.data.guideBlueRes = blueRes
     console.log('[blueRes]', blueRes)
     if (!blueRes.isCanBlue) {
@@ -1602,6 +1614,27 @@ Page({
       //   ishowBlueRes: true,
       //   bluePermissionTextAll: blueRes.permissionTextAll,
       // })
+
+      if(!bluetoothAuthorized){
+        burialPoint.bluetoothAuthorizedView({
+          deviceSessionId: app.globalData.deviceSessionId,
+          sn8: app.addDeviceInfo.sn8,
+          type: app.addDeviceInfo.type,
+          moduleVersion: app.addDeviceInfo.blueVersion,
+          linkType: app.addDeviceInfo.linkType,
+        })
+      }
+  
+      if(!bluetoothEnabled){
+        burialPoint.bluetoothEnableView({
+          deviceSessionId: app.globalData.deviceSessionId,
+          sn8: app.addDeviceInfo.sn8,
+          type: app.addDeviceInfo.type,
+          moduleVersion: app.addDeviceInfo.blueVersion,
+          linkType: app.addDeviceInfo.linkType,
+        }) 
+      }
+
       this.setData({
         checkPermissionRes: blueRes,
       })
