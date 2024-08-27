@@ -48,7 +48,7 @@ import {
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
 //const linkupSDK = require('./distribution-network/assets/sdk/index.js')
-const pkg = require('./miniprogram_npm/m-ble-crypto/bluetooth-crypto.js')
+const pkg = "" //require('./miniprogram_npm/m-ble-crypto/bluetooth-crypto.js')
 const cardSDK = require('./moudle-card/index.js')
 let getBlackWhiteListTime = 0 //获取插件黑白名单次数
 // let resolveCallBack, rejectCallBack = null;

@@ -31,23 +31,22 @@
     "lint-staged": "^11.2.6",
     "miniprogram-ci": "^1.9.8",
     "prettier": "^2.5.1",
-    "simple-git": "^3.19.1"
+    "simple-git": "^3.19.1",
+    "@meijuHarmonyOS/T0x13": "2.2.3",
+    "@meijuHarmonyOS/T0xBX": "1.2.4",
+    "@meijuHarmonyOS/T0xCF": "^1.0.1",
+    "@meijuHarmonyOS/T0xAC": "1.0.62",
+    "@meijuHarmonyOS/T0xFA": "1.0.1",
+    "@meijuHarmonyOS/T0x38": "1.0.8",
+    "@meijuHarmonyOS/T0xCA": "1.0.2"
   },
   "dependencies": {
-    "@datarangers/sdk-mp": "^2.9.0",
-    "m-ble-crypto": "1.0.0",
     "m-harmonyos-services": "1.0.18",
     "m-miniCommonSDK": "1.0.12",
     "m-performance": "^1.0.0",
     "m-track": "^1.0.0",
     "m-ui": "^2.0.31",
-    "m-utilsdk": "1.0.9",
-    "@meijuHarmonyOS/T0xBX": "1.2.4",
-    "@meijuHarmonyOS/T0xCF": "^1.0.1",
-    "@meijuHarmonyOS/T0xAC": "1.0.61",
-    "@meijuHarmonyOS/T0xFA": "1.0.1",
-    "@meijuHarmonyOS/T0x38": "1.0.7",
-    "@meijuHarmonyOS/T0xCA": "1.0.2"
+    "m-utilsdk": "1.0.9"
   },
   "lint-staged": {
     "*.js": [
