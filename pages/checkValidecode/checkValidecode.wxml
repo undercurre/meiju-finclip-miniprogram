@@ -4,7 +4,7 @@
         <view class="container-title">验证身份</view>
         <view class="container-tips">我们已发送一条验证码至{{antiMobile}}</view>
         <view class="input-wrapper-box">
-            <input type="number" class="input-wrapper-hidden" placeholder="请输入短信验证码" placeholder-style="color:#C7C7CC;" value="{{inputValue}}" bindinput="inputPhone" maxlength="11"/>
+            <input type="number" class="input-wrapper-hidden" placeholder="请输入短信验证码" placeholder-style="color:#C7C7CC;" value="{{inputValue}}" bindinput="inputPhone" maxlength="6"/>
             <image wx:if="{{inputValue.length > 0}}" src="/assets/img/about/personal-center/deleteIcon.png" mode="" class="deleteIcon" bindtap="clearCode"/>
             <view class="{{resendFlag}}" bindtap="resendCode">重新获取<text class="timeCount" wx:if="{{timeCount > 0}}">({{timeCount}})</text></view>
         </view>

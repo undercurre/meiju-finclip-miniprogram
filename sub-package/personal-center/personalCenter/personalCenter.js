@@ -125,7 +125,7 @@ Page({
     this.setData({
       _checkAuthList: _checkAuthList,
     })
-    this.togglePictureSelect()
+    // this.togglePictureSelect()
 
     if (isTakePhoto) {
       this.takePhotoForHeadImgCheck()
@@ -244,23 +244,34 @@ Page({
       sourceType: sourceType,
       success(res) {
         console.log(res)
-        let tempFiles = res.tempFiles[0]
-        let base64 = 'data:image/png;base64,' + wx.getFileSystemManager().readFileSync(tempFiles.tempFilePath, 'base64')
-        wx.showLoading({
-          title: '新头像上传中',
-          mask: true,
+        wx.getNetworkType({
+            success(networkInfo){
+                console.log(`networkInfo=${JSON.stringify(networkInfo)}`)
+                if(['unknown', 'none'].includes(networkInfo.networkType)){
+                    showToast('图片上传失败')
+                }else{
+                    let tempFiles = res.tempFiles[0]
+                    let base64 = 'data:image/png;base64,' + wx.getFileSystemManager().readFileSync(tempFiles.tempFilePath, 'base64')
+                    wx.showLoading({
+                        title: '新头像上传中',
+                        mask: true,
+                    })
+                    let reqItem = {
+                        fileName: tempFiles.tempFilePath,
+                        imgMeta: 'data:image/png;base64,',
+                        contentStr: wx.getFileSystemManager().readFileSync(tempFiles.tempFilePath, 'base64'),
+                        imgUrl: base64,
+                        size: tempFiles.size,
+                    }
+                    // 调用接口上传图片到美云销服务器
+                    that.uploadImg(reqItem)
+                }
+            }
         })
-        let reqItem = {
-          fileName: tempFiles.tempFilePath,
-          imgMeta: 'data:image/png;base64,',
-          contentStr: wx.getFileSystemManager().readFileSync(tempFiles.tempFilePath, 'base64'),
-          imgUrl: base64,
-          size: tempFiles.size,
-        }
-        // 调用接口上传图片到美云销服务器
-        that.uploadImg(reqItem)
+        
       },
     })
+    this.togglePictureSelect()
   },
   // 上传图片到美云销
   uploadImg(params) {
