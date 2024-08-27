@@ -41,7 +41,7 @@
     "@meijuHarmonyOS/T0xCA": "1.0.2"
   },
   "dependencies": {
-    "m-harmonyos-services": "1.0.18",
+    "m-harmonyos-services": "1.0.19",
     "m-miniCommonSDK": "1.0.12",
     "m-performance": "^1.0.0",
     "m-track": "^1.0.0",
