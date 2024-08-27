@@ -25,6 +25,7 @@ Page({
     pickerValue: 0,
     pickerUnit: '',
     changing: false,
+    canShowPicker: false
   },
   computed: {
     list() {
@@ -109,10 +110,18 @@ Page({
       page_id: type === 'quantifySet' ? 'page_quantify' : 'page_temp',
       page_name: type === 'quantifySet' ? '定量页' : '定温页',
     })
+    setTimeout(() => {
+        this.setData({
+            canShowPicker: true
+        })
+    },1000)
   },
 
   onUnload: function () {
     // 页面销毁时执行
+    this.setData({
+        canShowPicker: false
+    })
     assistant.popPageTrack()
   },
 
@@ -134,8 +143,12 @@ Page({
       pickerValue: quantifyIndex,
       pickerUnit: quantifyLabel.length ? '' : 'ml',
       active: index,
-      showPicker: true,
     })
+    setTimeout(() => {
+        this.setData({
+            showPicker: true,
+        })
+    },50)
   },
 
   onTempCellClick({
@@ -248,8 +261,12 @@ Page({
       pickerValue: idx,
       pickerUnit: temperatureLabel.length ? '' : '℃',
       active: index,
-      showPicker: true,
     })
+    setTimeout(() => {
+        this.setData({
+            showPicker: true,
+        })
+    },50)
   },
 
   //picker确认

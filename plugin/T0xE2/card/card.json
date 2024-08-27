@@ -5,7 +5,7 @@
   "navigationBarTextStyle": "black",
   "backgroundColor":"#f9f9f9",
   "usingComponents": {
-    "offline": "../component/offline/offline",
+    "offline": "/pages/component/offline/offline",
     "van-cell": "/pages/component/vant/cell/index",
     "van-switch": "/common-packages/plugin/component/new-vant/switch/index",
     "c-picker":"/common-packages/plugin/component/picker/picker",
