@@ -36,6 +36,7 @@ Page({
     errorColor: ERROR,
     creatList: [],
     inviteList: [],
+    isButtonClicked: false,
   },
   // 获取数据-家庭列表和邀请码
   getInitData() {
@@ -187,6 +188,10 @@ Page({
     this.addFamily()
       .then((res) => {
         app.globalData.ifRefreshHomeList = true
+        wx.showToast({
+          title: '创建家庭成功',
+          icon: 'none',
+        })
         console.log(res, '创建家庭成功')
         this.setData({
           dialogShow: false,
@@ -248,6 +253,15 @@ Page({
 
   //点击邀请按钮
   clickInviteBtn(e) {
+    //防止暴击
+    if (this.data.isButtonClicked) {
+      return
+    }
+    this.data.isButtonClicked = true
+    // 执行按钮点击事件的操作
+    setTimeout(() => {
+      this.data.isButtonClicked = false
+    }, 1000)
     let { homegroupid, homeitem } = e.currentTarget.dataset
     let that = this
     this.homeMemberGet(this.data.homegroupId)

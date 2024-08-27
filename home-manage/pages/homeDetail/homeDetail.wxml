@@ -67,7 +67,7 @@
       </mx-cell>
       <mx-cell center imageSize="32" is-link title="房间与设备" border="{{ false }}" bindtap="goToRoomList" />
     </mx-cell-group>
-    <view class="delete-btn-container">
+    <view wx:if="{{homeGrounpList.length>1}}" class="delete-btn-container">
       <mx-button
         bindtap="showDeleteDialog"
         data-option="exit"
