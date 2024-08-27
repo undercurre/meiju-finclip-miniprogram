@@ -7,6 +7,7 @@
     "pages/webView/webView",
     "pages/faultInfo/faultInfo",
     "pages/scanCode-result/index",
+    "common-packages/plugin/component/webToMP/web-to-mp",
     "miniprogram_npm/m-services/services/index"
   ],
   "embeddedAppIdList": [
@@ -45,13 +46,6 @@
         "pages/branchList/branchList",
         "pages/branchListMap/branchListMap",
         "pages/map/map"
-      ]
-    },
-    {
-      "name": "component",
-      "root": "common-packages/plugin/component",
-      "pages": [
-        "webToMP/web-to-mp"
       ]
     },
     {
