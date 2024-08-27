@@ -299,6 +299,7 @@ Page({
               if(isPopInterval && hasDialogId.popTimes > 0){
                 //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
                 hasDialogId.popTimes = hasDialogId.popTimes - 1
+                hasDialogId.recodeTime = dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S')
                 isShowDialog = true
               }
               wx.setStorage({
@@ -323,7 +324,7 @@ Page({
                 key:`version_${resp.data.data.id}`,
                 data:{
                   popTimes:resp.data.data.dialogConfig.popTimes - 1,
-                  recodeTime : dateFormat(new Date(), 'yyyy-MM-dd')
+                  recodeTime : dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S')
                 },
                 success: () => {
                   console.log('没有本地缓存弹窗策略保存成功')
