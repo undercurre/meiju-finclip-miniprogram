@@ -2717,6 +2717,7 @@ padding-right: 40px;
 #meiju .wifiGuide-step-img{
   margin-top: 24rpx;
   border-radius: 20rpx;
+  width:686rpx;
 }
 #meiju .wifiGuide-btn{
   width:686rpx;
