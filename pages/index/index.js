@@ -257,7 +257,8 @@ Page({
        async (resp) => {
           console.error('checkVersionUpdate-resp----------:',resp)
           // popType == 0 使用默认规则, 如果是1 或者2 前端首页弹窗都不弹 ，popType == 1 原生 强制更新 原生弹窗
-          if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0 ){
+          // 且接口返回的版本必须比本地版本高
+          if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0 && self.compareVersion(resp.data.data.versionName, reqData.version)){
             
             // 查看本地缓存是否有策略id
             // 如果有策略id
@@ -281,14 +282,20 @@ Page({
             if(hasDialogId){
               console.error('有缓存！！！！！')
               // 判断间隔时间是否大于等于 接口返回的间隔
-              let isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime,resp.data.data.dialogConfig.popInterval)
+              let isPopInterval = true
+              //popInterval不存在或者为 0 的时候，间隔不限制，只需要计算弹窗总数
+              //popInterval 存在且不为0，需要判断时间是否达到间隔时间
+              if(resp.data.data.dialogConfig.popInterval && resp.data.data.dialogConfig.popInterval != 0){ 
+                console.error('resp.data.data.dialogConfig.popInterval:',resp.data.data.dialogConfig.popInterval)
+                isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime,resp.data.data.dialogConfig.popInterval)
+              }
 
               console.error('间隔判断！！！！！isPopInterval：',isPopInterval)
               // 弹窗次数为0 或者 还没到间隔时间 不弹窗
               if (!isPopInterval || hasDialogId.popTimes == 0) {
+                console.error('通过弹窗次数为0 或者 还没到间隔时间 不弹窗')
                 return
               }
-              console.error('通过弹窗次数为0 或者 还没到间隔时间 不弹窗')
               if(isPopInterval && hasDialogId.popTimes > 0){
                 //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
                 hasDialogId.popTimes = hasDialogId.popTimes - 1
@@ -368,6 +375,22 @@ Page({
     let timeDifference = (todayTime.getTime() - recordTime.getTime()) / (1000 * 3600)
 
     return Math.abs(timeDifference) >= interval * 24
+  },
+
+  //输出1，则v1版本号比v2大
+  compareVersion(v1, v2) {
+    const version1 = v1.split('.').map(Number)
+    const version2 = v2.split('.').map(Number)
+
+    for (let i = 0; i < Math.max(version1.length, version2.length); i++) {
+      const num1 = version1[i] || 0
+      const num2 = version2[i] || 0
+
+      if (num1 > num2) return 1
+      if (num1 < num2) return -1
+    }
+
+    return 0 // 版本号相等
   },
 
   onAddToFavorites(res) {
