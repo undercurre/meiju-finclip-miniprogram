@@ -4,8 +4,8 @@
     <view class="headImg-container">
       <span class="headimg-container-title">头像</span>
       <view class="headImg-container-rightPart" bindtap="togglePictureSelect">
-        <mx-image round fit="cover" plate="meiju" class="avatar" custom-class="avatar" src="{{ headImgUrl }}">
-        </mx-image>
+        <image round mode="aspectFill"  class="avatar" src="{{ headImgUrl }}">
+        </image>
         <image
           src="/assets/img/about/personal-center/right_arrow_headimg.png"
           mode=""

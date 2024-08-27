@@ -32,7 +32,7 @@ Page({
         _checkName: 'bluetoothAuthorized',
         _closeApiName: 'closeBluetoothAdapter',
         rightText: '',
-        desc: '获用于语音控制设备，带语音功能的家电进行通话',
+        desc: '用于语音控制设备，带语音功能的家电进行通话',
       },
       {
         id: 4,

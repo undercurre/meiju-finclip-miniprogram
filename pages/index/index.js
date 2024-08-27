@@ -1591,7 +1591,9 @@ Page({
   //切换家庭
   updateHomeGroup(index, homegourpId) {
     console.log('优化 updateHomeGroup 切换家庭 shart', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-    const currentHomeInfo = this.data.homeList[index]
+    const currentHomeInfo = this.data.homeList.splice(index, 1)[0]
+    this.data.homeList.unshift(currentHomeInfo)
+    index = 0
     //重置设备列表数据
     this.setData({
       currentHomeInfo: currentHomeInfo,
