@@ -2,7 +2,7 @@
   "component": true,
   "backgroundColor":"#f9f9f9",
   "usingComponents": {
-    "offline": "../component/offline/offline",
+    "offline": "/pages/component/offline/offline",
     "status-bar": "../component/status-bar/status-bar",
     "temp-set": "../component/temp-set/temp-set",
     "banner-panel": "../component/banner-panel/banner-pannel",
