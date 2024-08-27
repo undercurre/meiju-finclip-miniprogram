@@ -50,8 +50,8 @@ Page({
       },
 
     },
-    // contentHeight:systemInfo.windowHeight - statusBarHeight - 112 - 120
-    contentHeight:1200,
+    contentHeight:systemInfo.windowHeight - statusBarHeight - 110,
+    // contentHeight:900,
     clickShow:false
   },  
 
