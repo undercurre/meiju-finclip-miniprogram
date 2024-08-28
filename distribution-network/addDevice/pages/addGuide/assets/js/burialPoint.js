@@ -964,7 +964,7 @@ export const burialPoint = {
     })
   },
   /**
-   * 配网指引页-蓝牙开关
+   * 配网指引页-蓝牙开关没有开启
    */
   bluetoothEnableView:(param)=>{
     rangersBurialPoint('user_page_view', {

@@ -279,6 +279,7 @@ Page({
       let isCanBlue = await this.checkBluetoothAuth()
       console.log('[是否可以使用蓝牙]', isCanBlue)
       if (!isCanBlue) {
+        console.error('addGuide-ifNearby-----------:',ifNearby)
         clearInterval(timer)
         // 修改没有开蓝牙时，靠近确权页会跑到配网指引页的问题
         if (

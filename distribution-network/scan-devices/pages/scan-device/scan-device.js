@@ -208,6 +208,7 @@ Page({
     let blueRes = await checkPermission.blue()
     let permissionTypeList = blueRes.permissionTypeList
     let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
+    burialPoint.openkBluetooth()
     if(!bluetoothAuthorized){
         wx.openAppAuthorizeSetting({
             success (res) {
@@ -702,12 +703,22 @@ monitorBluetooth(){
     //   return false
     // }
     let bluePermission = await checkPermission.blue()
+    let permissionTypeList = bluePermission.permissionTypeList
+    let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
     console.error('[bluePermission]', bluePermission)
     if (!bluePermission.isCanBlue) {
       this.setData({
         checkPermissionRes: bluePermission,
         permissionImg: imgUrl + imgesList['img_dakailanya'],
       })
+
+      if(!bluetoothEnabled){
+        burialPoint.bluetoothEnableView()
+      }
+  
+      if(!bluetoothAuthorized){
+        burialPoint.bluetoothAuthorizedView()
+      }
       rangersBurialPoint('user_page_view', {
         page_id: 'page_open_bluetooth_new',
         page_name: '提示需开启蓝牙权限页面',
