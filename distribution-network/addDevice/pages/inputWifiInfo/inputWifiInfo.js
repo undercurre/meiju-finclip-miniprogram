@@ -176,7 +176,7 @@ Page({
       brand: this.data.brand,
       guideImg: imgUrl + imgesList['linkGuide'],
       isSupport5G: this.data.isSupport5G,
-      wifiConnect:(this.data.isSupport5G&&this.data.brand == 'colmo')?imgUrl + imgesList['wifiConnect_5G']: imgUrl + imgesList['wifiConnect'],
+      wifiConnect:(this.data.isSupport5G&&this.data.brand != 'toshiba')?imgUrl + imgesList['wifiConnect_5G']: imgUrl + imgesList['wifiConnect'],
       questinoImg: imgUrl + imgesList['questino_new'],
       net_ic_fail: imgUrl + imgesList['net_ic_fail'],
       wifiShowImg: imgUrl + imgesList['wifiShow'],

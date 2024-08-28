@@ -190,7 +190,19 @@ App({
     this.globalData.brand = getBrand() // 存入全局变量，其他包可以直接引用
     this.globalData.brandConfig = brandConfig.config // 存入全局变量，其他包可以直接引用
     try {
-      this.getBlackWhiteList(options)
+        let env = 'sit'
+        let self = this
+        ft.getAppInfo({
+            success: function (res) {
+                console.log('Yoram getAppInfo success ------------>', res)
+                env = res.data.data.ENV
+                self.getBlackWhiteList(options, env)
+            },
+            fail: function (res) {
+                console.log('Yoram getAppInfo fail--------->', res)
+                self.getBlackWhiteList(options, env)
+            },
+            })
     } catch (error) {
       console.log(error)
     }
@@ -582,11 +594,12 @@ App({
   },
 
   //黑白名单获取.appId
-  getBlackWhiteList(options) {
-    let verType =
-      wx.getAccountInfoSync().miniProgram.envVersion == 'develop'
-        ? 'trial'
-        : wx.getAccountInfoSync().miniProgram.envVersion
+  getBlackWhiteList(options, env) {
+    let verType = 'trial'
+    if(env == 'prod') {
+        verType = 'release'
+    }
+    console.log("插件黑白名单参数：verType:", verType)
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
       requestService
@@ -604,6 +617,7 @@ App({
         )
         .then((res) => {
           if (res.data.code == 0) {
+            console.log("插件黑白名单：", res)
             this.globalData.brandConfig[this.globalData.brand].pluginFilter_SN8 = res.data.data.pluginFilter_SN8
             this.globalData.brandConfig[this.globalData.brand].pluginFilter_type = res.data.data.pluginFilter_type
             this.globalData.getBlackWhiteListError = false

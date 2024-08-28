@@ -17,31 +17,47 @@ Page({
     environment: config.environment,
     scodeTitle: '切换扫码调试',
     clearCacheTitle: '清理缓存',
-    sdkTitle: 'finClip sdk版本',
-    miniProgramTitle: '小程序版本',
+    sdkTitle: '小程序SDK版本',
+    frameworkVersionTitle: '小程序基础库版本',
+    miniProgramTitle: '小程序迭代版本',
     miniProgramEnvTitle: '小程序环境',
+    openMiniProgramTitle: '打开其他专用小程序',
+    showSystemInfoTitle: '获取系统信息',
     runtimeSDKVersion: '',
+    frameworkVersion: '',
     version: '',
     miniProgramenv: '',
     show: false,
     enableDebug: true,
-    actions: [
-      {
-        name: 'sit',
-      },
-      {
-        name: 'uat',
-      },
-      {
-        name: 'prod',
-      },
+    actions: [{ name: 'sit' }, { name: 'uat' }, { name: 'prod' }],
+    selectMiniProgramShow: false,
+    miniProgramList: [
+      { appId: 'fc2316279645914437', name: 'AIRC测试小程序' },
+      { appId: 'fc2330714995934981', name: '家用测试小程序' },
+      { appId: 'fc2330715168212741', name: '冰箱测试小程序' },
+      { appId: 'fc2336533899872005', name: '洗衣机测试小程序' },
+      { appId: 'fc2336533704263429', name: '生电测试小程序' },
+      { appId: 'fc2336534944827141', name: '厨热测试小程序' },
+      { appId: 'fc2330714814252805', name: '微清测试小程序' },
+      { appId: 'fc2336573280585477', name: '美智测试小程序' },
+      { appId: 'scanCode', name: '扫码录入小程序ID' },
     ],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {},
+  onLoad() {
+    let self = this
+    ft.getAppInfo({
+      success: function (res) {
+        console.log('getAppInfo success ------------' + JSON.stringify(res))
+        self.setData({
+          environment: res.data.data.ENV,
+        })
+      },
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -80,14 +96,8 @@ Page({
       show: true,
     })
   },
-  //关闭环境选择
-  toggleActionSheet() {
-    this.setData({
-      show: false,
-    })
-  },
-  //取消
-  toggleCloseActionSheet() {
+  //取消/关闭环境选择
+  closeActionSheet() {
     this.setData({
       show: false,
     })
@@ -111,6 +121,7 @@ Page({
           self.setData({
             runtimeSDKVersion: res?.runtimeSDKVersion,
             enableDebug: res.enableDebug,
+            frameworkVersion: res.frameworkVersion,
           })
         }
       },
@@ -131,5 +142,68 @@ Page({
     this.setData({
       enableDebug: !this.data.enableDebug,
     })
+  },
+  showSystemInfo() {
+    let self = this
+    ft.getSystemInfo({
+      success(res) {
+        ft.showModal({
+          title: '系统信息',
+          content: JSON.stringify(res, null, 4),
+        })
+      },
+    })
+  },
+
+  closeMiniProgramActionSheet() {
+    this.setData({
+      selectMiniProgramShow: false,
+    })
+  },
+  openMiniProgramActionSheet() {
+    this.setData({
+      selectMiniProgramShow: true,
+    })
+  },
+  selectMiniProgramItems(e) {
+    let that = this
+    let appId = e.detail.appId
+    if (appId == 'scanCode') {
+      ft.scanCode({
+        success(res) {
+          console.log(res)
+          let scanAppId = res.result
+          ft.navigateToMiniProgram({
+            appId: scanAppId,
+            success(res) {
+              // 跳转成功后，在最后面新增且最多新增一条最新记录
+              let tempList = that.data.miniProgramList
+              let lastItem = tempList[tempList.length - 1]
+              if (lastItem.appId !== scanAppId) {
+                tempList.push({ appId: scanAppId, name: scanAppId })
+                that.setData({
+                  miniProgramList: tempList,
+                })
+              }
+              console.log('成功：' + JSON.stringify(res))
+            },
+            fail(res) {
+              console.log('失败' + JSON.stringify(res))
+            },
+          })
+        },
+      })
+    } else {
+      ft.navigateToMiniProgram({
+        appId: appId,
+        success(res) {
+          Toast({ context: that, position: 'bottom', message: '成功打开：' + e.detail.name })
+          console.log('成功：' + JSON.stringify(res))
+        },
+        fail(res) {
+          console.log('失败' + JSON.stringify(res))
+        },
+      })
+    }
   },
 })

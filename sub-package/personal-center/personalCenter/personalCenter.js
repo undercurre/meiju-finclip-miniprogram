@@ -11,7 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    headImgUrl: '',
+    headImgUrl: '/assets/img/headFix.png',
     nickName: '',
     dialogShow: false,
     errorMessage: '',

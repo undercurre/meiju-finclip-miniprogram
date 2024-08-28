@@ -1,9 +1,0 @@
-<!--破壁机-->
-<view class="continer">
-	<mx-nav-bar title="{{title}}" bind:click-left="onClickLeft" bgColor="#F9F9F9" />
-	<view class="device-card">
-		<device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" />
-	</view>
-</view>
-<midea-toast id="media-toast" />
-
