@@ -895,9 +895,9 @@ const brand = {
       combinedCancelColor:'#999999',
     },
     unSupportDialogData:{
-      showCancelButton: true,
-      title: '该设备暂无法在小程序控制',
-      message: '该设备的控制功能正在建设中，请问需要继续进行设备联网吗？（完成联网后，需到美的美居APP进行设备控制）',
+      showCancelButton: false,
+      title: '该设备暂无法添加',
+      message: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
       confirmButtonText: '继续联网',
       cancelButtonText: '放弃',
     },

@@ -54,7 +54,7 @@ import {
 } from './../../utils/initWebsocket.js'
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
-import  config from '../../config'
+import config from '../../config'
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let currentPageOptions = {} // index 页面options
@@ -221,10 +221,10 @@ Page({
       ft.startBrowsableAbility()
     } catch (e) {}
   },
-  checkVersionUpdate(){
+  checkVersionUpdate() {
     console.error('进入checkVersionUpdate')
     let self = this
-    let params ={}
+    let params = {}
     let iotAppIdObj = config['iotAppId']
     let iotAppId = iotAppIdObj[config.environment]
     wx.getSystemInfo({
@@ -254,58 +254,65 @@ Page({
       }
       console.log('checkVersionUpdate-reqData=================:', reqData)
       requestService.request(urlName, reqData).then(
-       async (resp) => {
-          console.error('checkVersionUpdate-resp----------:',resp)
+        async (resp) => {
+          console.error('checkVersionUpdate-resp----------:', resp)
           // popType == 0 使用默认规则, 如果是1 或者2 前端首页弹窗都不弹 ，popType == 1 原生 强制更新 原生弹窗
           // 且接口返回的版本必须比本地版本高
-          if(resp.data.code == 0 &&  resp.data.data.dialogConfig.popType == 0 && self.compareVersion(resp.data.data.versionName, reqData.version)){
-            
+          if (
+            resp.data.code == 0 &&
+            resp.data.data.dialogConfig.popType == 0 &&
+            self.compareVersion(resp.data.data.versionName, reqData.version)
+          ) {
             // 查看本地缓存是否有策略id
             // 如果有策略id
             // 如果本地缓存记录的次数 == 0 或 间隔 不大于等于 接口返回的间隔，或当前小时不在接口返回的小时范围内 那么就不弹 ，间隔时间默认为 x 自然天
             // console.log(wx.getStorageInfoSync())
             let getStorageInfoSync = await wx.getStorageInfoSync()
-            console.error('保存信息getStorageInfoSync--------:',getStorageInfoSync)
+            console.error('保存信息getStorageInfoSync--------:', getStorageInfoSync)
             let hasDialogId = await wx.getStorageSync(`version_${resp.data.data.id}`)
             let isShowDialog = false
             // 有配置popPeriodStart才进行判断
-            if(resp.data.data.dialogConfig.popPeriodStart){
+            if (resp.data.data.dialogConfig.popPeriodStart) {
               // 获取当前小时
-              let getHour = dateFormat(new Date(), 'hh') *1
-              let isLegiTime = getHour>=resp.data.data.dialogConfig.popPeriodStart*1 && getHour<=resp.data.data.dialogConfig.popPeriodEnd *1 ? true : false
-              //当前小时不在接口返回的小时范围内 
-              if(!isLegiTime){
+              let getHour = dateFormat(new Date(), 'hh') * 1
+              let isLegiTime =
+                getHour >= resp.data.data.dialogConfig.popPeriodStart * 1 &&
+                getHour <= resp.data.data.dialogConfig.popPeriodEnd * 1
+                  ? true
+                  : false
+              //当前小时不在接口返回的小时范围内
+              if (!isLegiTime) {
                 return
               }
             }
-            console.error('测试通过时间区间-----hasDialogId----:',hasDialogId)
-            if(hasDialogId){
+            console.error('测试通过时间区间-----hasDialogId----:', hasDialogId)
+            if (hasDialogId) {
               console.error('有缓存！！！！！')
               // 判断间隔时间是否大于等于 接口返回的间隔
               let isPopInterval = true
               //popInterval不存在或者为 0 的时候，间隔不限制，只需要计算弹窗总数
               //popInterval 存在且不为0，需要判断时间是否达到间隔时间
-              if(resp.data.data.dialogConfig.popInterval && resp.data.data.dialogConfig.popInterval != 0){ 
-                console.error('resp.data.data.dialogConfig.popInterval:',resp.data.data.dialogConfig.popInterval)
-                isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime,resp.data.data.dialogConfig.popInterval)
+              if (resp.data.data.dialogConfig.popInterval && resp.data.data.dialogConfig.popInterval != 0) {
+                console.error('resp.data.data.dialogConfig.popInterval:', resp.data.data.dialogConfig.popInterval)
+                isPopInterval = self.isIntervalDayAfter(hasDialogId.recodeTime, resp.data.data.dialogConfig.popInterval)
               }
 
-              console.error('间隔判断！！！！！isPopInterval：',isPopInterval)
+              console.error('间隔判断！！！！！isPopInterval：', isPopInterval)
               // 弹窗次数为0 或者 还没到间隔时间 不弹窗
               if (!isPopInterval || hasDialogId.popTimes == 0) {
                 console.error('通过弹窗次数为0 或者 还没到间隔时间 不弹窗')
                 return
               }
-              if(isPopInterval && hasDialogId.popTimes > 0){
+              if (isPopInterval && hasDialogId.popTimes > 0) {
                 //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
                 hasDialogId.popTimes = hasDialogId.popTimes - 1
                 isShowDialog = true
               }
               wx.setStorage({
-                key:`version_${resp.data.data.id}`,
-                data:{
-                  popTimes:hasDialogId.popTimes,
-                  recodeTime : hasDialogId.recodeTime
+                key: `version_${resp.data.data.id}`,
+                data: {
+                  popTimes: hasDialogId.popTimes,
+                  recodeTime: hasDialogId.recodeTime,
                 },
                 success: () => {
                   console.log('有本地缓存弹窗策略保存成功')
@@ -320,10 +327,10 @@ Page({
               // 需要保存信息到本地
               isShowDialog = true
               wx.setStorage({
-                key:`version_${resp.data.data.id}`,
-                data:{
-                  popTimes:resp.data.data.dialogConfig.popTimes - 1,
-                  recodeTime : dateFormat(new Date(), 'yyyy-MM-dd')
+                key: `version_${resp.data.data.id}`,
+                data: {
+                  popTimes: resp.data.data.dialogConfig.popTimes - 1,
+                  recodeTime: dateFormat(new Date(), 'yyyy-MM-dd'),
                 },
                 success: () => {
                   console.log('没有本地缓存弹窗策略保存成功')
@@ -336,7 +343,7 @@ Page({
               console.error('本地缓存没有结束')
             }
 
-            if(isShowDialog){
+            if (isShowDialog) {
               console.error('开始弹窗')
               let poupInfomation = self.data.poupInfomation
               poupInfomation.show = true
@@ -543,7 +550,7 @@ Page({
       },
     },
     intervalApp: null,
-    isWifiNetWork:false
+    isWifiNetWork: false,
   },
   //长链接推送解析
   async initPushData() {
@@ -1256,7 +1263,7 @@ Page({
         duration: 3000,
       })
     }
-    if(netType == 'wifi'){
+    if (netType == 'wifi') {
       this.setData({
         isWifiNetWork: true,
       })
@@ -1545,8 +1552,8 @@ Page({
   // 家庭管理弹窗 选择家庭进行切换
   selectHomeGroupOption(e) {
     //选择新家庭
-    let currentHomeGroupIndex = e?.detail?.currentTarget?.dataset?.bindex
-    let selectedHomeGroupId = e?.detail?.currentTarget?.dataset?.homegroupid
+    let currentHomeGroupIndex = e.detail ? e.detail.currentTarget.dataset.bindex : e.bindex
+    let selectedHomeGroupId = e.detail ? e.detail.currentTarget.dataset.homegroupid : e.homegroupid
     this.setData({
       resetScrollTop: 0,
     })
@@ -2601,7 +2608,44 @@ Page({
         that.getHomeGrouplistService().then((data) => {
           data.forEach((item, index) => {
             if (item.homegroupId == homeId) {
-              that.init(index)
+              let data = {
+                bindex: index,
+                homegroupid: homeId,
+              }
+              service
+                .getHomeGroupMemberStatus(homeId)
+                .then(() => {
+                  //保存当前访问家庭供下次登录使用
+                  service
+                    .homegroupDefaultSetService(homeId)
+                    .then(() => {
+                      this.updateHomeGroup(index, homeId)
+                    })
+                    .catch((error) => {
+                      console.log('切换家庭失败', error)
+                      this.setData({
+                        isHourse: false,
+                      })
+                      wx.showToast({
+                        title: '切换家庭失败',
+                        icon: 'none',
+                      })
+                    })
+                })
+                .catch((e) => {
+                  const code = e?.data?.code
+                  if (code === 1200) {
+                    showToast('已退出/被移除家庭，切换失败')
+                  }
+                  if (code === 1203) {
+                    showToast('该家庭已被删除，切换失败')
+                  }
+                  this.setData({
+                    isHourse: false,
+                  })
+                })
+              //this.selectHomeGroupOption(data)
+              //that.init(index)
             }
           })
         })

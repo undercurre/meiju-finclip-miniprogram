@@ -11,6 +11,7 @@ import { receiveSocketMessage } from '../../../utils/initWebsocket.js'
 import { imgBaseUrl } from '../../../api'
 const inviteIcon = imgBaseUrl.url + '/harmonyos/index/invite.png'
 import { index } from '../../../utils/paths.js'
+
 Page({
   /**
    * 页面的初始数据
@@ -21,6 +22,8 @@ Page({
     inviteIcon,
     title: '',
     codeUrl: '',
+    timer: null,
+    resferTime: 5,
   },
 
   /**
@@ -33,7 +36,7 @@ Page({
       // roleId: options.roleId,
     })
     this.getMemberQrcode(options.homegroupid)
-    this.receiveSocketData()
+    //this.receiveSocketData()
   },
   //接收推送
   receiveSocketData() {
@@ -45,6 +48,24 @@ Page({
         console.log('websocket onReceivedMsg invite.js推送测试收到服务器内容message==>', pushData.data.current)
       }
     })
+  },
+  //验证码倒计时
+  setTime(time) {
+    //let that = this
+    if (this.data.timer) clearTimeout(this.data.timer)
+    this.data.timer = setTimeout(() => {
+      if (time > 1) {
+        time--
+        this.setData({
+          resferTime: time,
+        })
+        // 迭代调用
+        this.setTime(time)
+      } else {
+        // 倒计时结束重新刷新
+        this.getMemberQrcode(this.data.homegroupId)
+      }
+    }, 60000)
   },
   //返回
   onClickLeft() {
@@ -67,6 +88,10 @@ Page({
       .then((res) => {
         wx.hideLoading()
         this.drawImgQrcode(res.data.data.codeUrl)
+        this.setData({
+          resferTime: 5,
+        })
+        this.setTime(5)
         // this.setData({
         //渲染图形验证吗
         // codeUrl: res.data.data.codeUrl,
@@ -74,7 +99,13 @@ Page({
       })
       .catch((error) => {
         wx.hideLoading()
-        Toast({ context: this, position: 'bottom', message: error.data.data.msg })
+        if (error.data.code == '1202' || error.data.code == '1203') {
+          Toast({ context: this, position: 'bottom', message: '已失效' })
+        } else {
+          if (!getApp().globalData.noNetwork) {
+            Toast({ context: this, position: 'bottom', message: error.data.msg })
+          }
+        }
         console.log(error)
       })
   },
@@ -105,7 +136,9 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide() {},
+  onHide() {
+    if (this.data.timer) clearTimeout(this.data.timer)
+  },
 
   /**
    * 生命周期函数--监听页面卸载

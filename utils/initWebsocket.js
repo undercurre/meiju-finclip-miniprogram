@@ -27,7 +27,7 @@ function deviceTypeName(type) {
 }
 //解析连接url
 function getSeeUrl(reqId) {
-  let deviceId = wx.getSystemInfoSync().platform == 'devtools' ? getStamp() : getApp().globalData.openId
+  let deviceId = wx.getSystemInfoSync().platform == 'devtools' ? getStamp() : getApp().globalData.appSystemInfo.deviceId
   let accessToken
   if (getApp() && getApp().globalData && getApp().globalData.userData) {
     accessToken = getApp().globalData.userData.mdata.accessToken
