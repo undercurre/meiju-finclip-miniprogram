@@ -38,7 +38,7 @@
     "@meijuHarmonyOS/T0xAC": "1.0.62",
     "@meijuHarmonyOS/T0xFA": "1.0.1",
     "@meijuHarmonyOS/T0x38": "1.0.8",
-    "@meijuHarmonyOS/T0xCA": "1.0.2"
+    "@meijuHarmonyOS/T0xCA": "1.0.3"
   },
   "dependencies": {
     "m-harmonyos-services": "1.0.19",
