@@ -3238,14 +3238,28 @@ Page({
   },
   // 家庭加载失败 重新加载首页
   async initHomeInfo() {
-    await app.getBlackWhiteList({ path: 'pages/index/index' })
+    if (!app.globalData.noNetwork) {
+      this.setData({
+        isHourse: true,
+        homeInfoFailFlag: false,
+      })
+    }
+    await app
+      .getBlackWhiteList({ path: 'pages/index/index' })
+      .then((res) => {})
+      .catch((error) => {
+        this.setData({
+          isHourse: false,
+          homeInfoFailFlag: true,
+        })
+      })
     app.checkGlobalExpiration().then(() => {
       const isLogin = app.globalData.isLogon
       if (isLogin) {
-        this.setData({
-          isHourse: true,
-          homeInfoFailFlag: false,
-        })
+        // this.setData({
+        // isHourse: true,
+        // homeInfoFailFlag: false,
+        // })
         this.init()
       } else {
         this.setData({

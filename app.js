@@ -613,13 +613,7 @@ App({
         })
         .catch((error) => {
           this.globalData.getBlackWhiteListError = true
-          if (options.path == 'pages/index/index') {
-            wx.showToast({
-              title: '系统繁忙，请稍后再试',
-              icon: 'none',
-              duration: 3000,
-            })
-          } else {
+          if (options.path != 'pages/index/index') {
             Dialog.confirm({
               zIndex: 10001,
               title: '系统繁忙，请稍后再试',
@@ -633,7 +627,6 @@ App({
               }
             })
           }
-
           reject(error)
         })
     })
@@ -739,6 +732,7 @@ App({
     bathAuthTimer: null, //轮询确权状态标识
     selectTab: 0,
     noNetwork: false, //判断是否有网络
+    appEnv:'' //宿主的环境
   },
   scanDeviceMap: {},
   addDeviceInfo: {
