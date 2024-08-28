@@ -151,13 +151,13 @@ Component({
     // 家庭管理  可优化 切换家庭管理的显示和隐藏
     switchShowHomeList() {
       if (this.data.homeList.length == 1) {
-        const { homeList, ownHomeNum } = this.data
-        let target = homeList[0]
-        let homeitem = JSON.stringify(target)
-        wx.navigateTo({
-          url: `${homeDetail}?homegroupId=${target.homegroupId}&name=${target.name}&roleId=${target.roleId}&ownHomeNum=${ownHomeNum}&homeitem=${homeitem}`,
-        })
-        return
+        // const { homeList, ownHomeNum } = this.data
+        // let target = homeList[0]
+        // let homeitem = JSON.stringify(target)
+        // wx.navigateTo({
+        // url: `${homeDetail}?homegroupId=${target.homegroupId}&name=${target.name}&roleId=${target.roleId}&ownHomeNum=${ownHomeNum}&homeitem=${homeitem}`,
+        // })
+        // return
       }
       this.data.homeManageClicked = true
       this.homeGrounpListViewPoint()

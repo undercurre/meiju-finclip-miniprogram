@@ -248,6 +248,7 @@ Page({
   },
   // 更新phoneNumber变量的值
   handlePhoneNumberInput(val) {
+    console.log(`当前输入的值：${val.detail}`)
     let value = val.detail.replace(/[^\d]/g, '')
     // 只允许输入数字
     // if (!/^[0-9]*$/.test(value)) {

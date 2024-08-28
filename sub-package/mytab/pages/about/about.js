@@ -156,12 +156,26 @@ Page({
       title: '确定要退出登录吗？',
     }).then((res) => {
       if (res.action == 'confirm') {
-        loginMethods.logout()
-        that.setData({
-          isLogon: false,
-        })
-        wx.switchTab({
-          url: '/pages/mytab/mytab',
+        wx.getNetworkType({
+            success(res){
+                const networkType = res.networkType
+                if(['unknown', 'none'].includes(networkType)){
+                    setTimeout(() => {
+                        showToast('退出登录失败')
+                    }, 0)
+                }else{
+                    loginMethods.logout()
+                    that.setData({
+                        isLogon: false,
+                    })
+                    setTimeout(() => {
+                        showToast('退出成功')
+                    }, 0)
+                    wx.switchTab({
+                        url: '/pages/mytab/mytab',
+                    })
+                }
+            }
         })
       }
     })

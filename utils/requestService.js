@@ -180,8 +180,12 @@ var requestService = {
           }
         },
         fail(error) {
-          getApp().checkNetLocal()
-          showToast(error.errMsg)
+          console.log('error-----', error)
+          if (getApp().globalData.noNetwork) {
+            getApp().checkNetLocal()
+          } else {
+            showToast('网络请求失败')
+          }
           ApiTrack(apiName, selectApi, error, 'fail', params)
           if (apiName === 'luaControl') {
             pluginApiTrack('fail', params, error)

@@ -2,7 +2,7 @@
     <mx-nav-bar title="绑定手机" bgColor="#FFFFFF" bind:click-left="backPage"></mx-nav-bar>
     <view class="main-container">
         <view class="bindcontainer">
-            <image src="{{headImgUrl}}" mode="" class="headImage"/>
+            <image src="{{headImgUrl}}" mode="aspectFill" class="headImage"/>
             <view class="hasbindMobile">当前绑定手机：{{targetMobile}}</view>
             <mx-button type="primary" custom-class="changePhoneBtn" size="large" round="{{true}}" bind:click="changePhone">修改手机号</mx-button>
         </view>

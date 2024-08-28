@@ -42,6 +42,7 @@ Page({
     errorColor: ERROR,
     plate: plate,
     homeDetail: {},
+    homeGrounpList: app.globalData.homeGrounpList,
   },
   homeMemberGet(id) {
     let reqData = {
@@ -368,6 +369,9 @@ Page({
       .catch((err) => {
         console.log(err, 'err')
       })
+    this.setData({
+      homeGrounpList: app.globalData.homeGrounpList,
+    })
     burialPoint.pagefamilydetailBurialPoint()
   },
 

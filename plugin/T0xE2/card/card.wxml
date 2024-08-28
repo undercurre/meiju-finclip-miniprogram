@@ -115,5 +115,7 @@
     <!-- 活动弹窗 -->
   </block>
 
-  <offline wx:else></offline>
+  <block wx:else>
+    <offline class="offline"></offline>
+  </block>
 </view>

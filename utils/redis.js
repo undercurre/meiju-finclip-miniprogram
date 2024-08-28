@@ -141,7 +141,9 @@ const removeStorageSync = () => {
     return filterList.every((f) => f != a)
   })
   clearInfoList.map((item) => {
-    wx.removeStorageSync(item)
+    if(!item.includes('version_')){ // 版本升级有本地缓存，退出登录会清除记录，所以不能清掉
+      wx.removeStorageSync(item)
+    }
   })
 }
 

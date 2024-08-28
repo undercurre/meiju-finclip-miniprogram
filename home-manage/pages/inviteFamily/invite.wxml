@@ -21,7 +21,7 @@
       <!-- <image src="{{codeUrl}}" /> -->
     </view>
     <view class="invite-refresh"
-      >二维码 5 分钟内有效 <text bindtap="refreshCode" class="invite-refresh-text">刷新</text></view
+      >二维码 {{resferTime}} 分钟内有效 <text bindtap="refreshCode" class="invite-refresh-text">刷新</text></view
     >
   </view>
   <view class="home-toast-content">

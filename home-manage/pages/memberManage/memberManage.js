@@ -204,6 +204,13 @@ Page({
       page_id: 'page_family_Memberlist',
       page_name: '成员列表页',
     })
+    if (this.data.memberList.length >= 20) {
+      wx.showToast({
+        title: '您的家庭成员已经达到20个上限，无法继续新增',
+        icon: 'none',
+      })
+      return
+    }
     const { homeDetail, homegroupId } = this.data
     this.gotoInvite(homeDetail, homegroupId)
   },
