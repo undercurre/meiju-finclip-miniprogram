@@ -51,15 +51,10 @@ Page({
     let self = this
     ft.getAppInfo({
       success: function (res) {
-        console.log('getAppInfo success ------------')
-        console.log(res)
+        console.log('getAppInfo success ------------' + JSON.stringify(res))
         self.setData({
-          environment: res.data.data.VERSION_NAME,
+          environment: res.data.data.ENV,
         })
-      },
-      fail: function (res) {
-        console.log('getAppInfo fail')
-        console.log(res)
       },
     })
   },
