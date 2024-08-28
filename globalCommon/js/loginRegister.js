@@ -293,6 +293,9 @@ const loginMethods = {
     const { code, msg } = data
     let label = '未知系统错误'
     switch (code) {
+      case 1100:
+        label = '验证码已过期'
+        break
       case 1104:
         label = '手机号不正确'
         break
