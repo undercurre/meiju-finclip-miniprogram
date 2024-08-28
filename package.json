@@ -36,9 +36,25 @@
     "@meijuHarmonyOS/T0xBX": "1.2.5",
     "@meijuHarmonyOS/T0xCF": "^1.0.1",
     "@meijuHarmonyOS/T0xAC": "1.0.62",
-    "@meijuHarmonyOS/T0xFA": "1.0.1",
     "@meijuHarmonyOS/T0x38": "1.0.8",
-    "@meijuHarmonyOS/T0xCA": "1.0.3"
+    "@meijuHarmonyOS/T0xCA": "1.0.3",
+    "@meijuHarmonyOS/T0x3D": "1.0.0",
+    "@meijuHarmonyOS/T0x15": "1.0.0",
+    "@meijuHarmonyOS/T0x32": "1.0.0",
+    "@meijuHarmonyOS/T0x33": "1.0.0",
+    "@meijuHarmonyOS/T0xC0": "1.0.0",
+    "@meijuHarmonyOS/T0xE7": "1.0.0",
+    "@meijuHarmonyOS/T0xE8": "1.0.0",
+    "@meijuHarmonyOS/T0xE9": "1.0.0",
+    "@meijuHarmonyOS/T0xEA": "1.0.0",
+    "@meijuHarmonyOS/T0xEB": "1.0.0",
+    "@meijuHarmonyOS/T0xEC": "1.0.0",
+    "@meijuHarmonyOS/T0xF1": "1.0.0",
+    "@meijuHarmonyOS/T0xFA": "1.0.2",
+    "@meijuHarmonyOS/T0xFB": "1.0.0",
+    "@meijuHarmonyOS/T0xFC": "1.0.1",
+    "@meijuHarmonyOS/T0xFD": "1.0.0"
+
   },
   "dependencies": {
     "m-harmonyos-services": "1.0.19",

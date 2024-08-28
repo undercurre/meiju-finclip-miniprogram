@@ -1,5 +1,0 @@
-<!--pages/component/circle-button-image/circle-button-image.wxml-->
-<view class='content'>
-  <image src='{{src}}' class='image'></image>
-  <slot/>
-</view>
