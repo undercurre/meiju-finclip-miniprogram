@@ -182,12 +182,22 @@ var requestService = {
         fail(error) {
           console.log('error-----', error)
           console.log('当前网络error-----》', getApp().globalData.noNetwork)
+          let pages = getCurrentPages()
+          let currentPage = pages[pages.length - 1]
+          let isDistributionMode = false
+          if(currentPage.route.includes('inputWifiInfo') || currentPage.route.includes('linkAp') || currentPage.route.includes('linkDevice')){
+            isDistributionMode = true
+          }
           if (getApp().globalData.noNetwork) {
             getApp().checkNetLocal()
           } else if (error.errMsg == 'request:fail timeout' || error.errMsg == 'request:fail') {
-            showToast('网络请求失败')
+            if(!isDistributionMode){
+              showToast('网络请求失败')
+            }
           } else {
-            showToast('系统繁忙，请稍后再试')
+            if(!isDistributionMode){
+              showToast('系统繁忙，请稍后再试')
+            }
           }
           ApiTrack(apiName, selectApi, error, 'fail', params)
           if (apiName === 'luaControl') {
