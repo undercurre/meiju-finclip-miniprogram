@@ -6,6 +6,8 @@ import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 const commonBehavior = require('../../assets/behavior')
+import { debounce } from '../../../utils/util'
+let inviteDebounce = null
 Page({
   behaviors: [commonBehavior],
   /**
@@ -199,20 +201,26 @@ Page({
       )
     })
   },
-  inviteMembers() {
+  inviteMembersNew() {
     burialPoint.clickInvitePoint({
-      page_id: 'page_family_Memberlist',
-      page_name: '成员列表页',
-    })
-    if (this.data.memberList.length >= 20) {
-      wx.showToast({
-        title: '您的家庭成员已经达到20个上限，无法继续新增',
-        icon: 'none',
+        page_id: 'page_family_Memberlist',
+        page_name: '成员列表页',
       })
-      return
+      if (this.data.memberList.length >= 20) {
+        wx.showToast({
+          title: '您的家庭成员已经达到20个上限，无法继续新增',
+          icon: 'none',
+        })
+        return
+      }
+      const { homeDetail, homegroupId } = this.data
+      this.gotoInvite(homeDetail, homegroupId)
+  },
+  inviteMembers() {
+    if(!inviteDebounce){
+        inviteDebounce = debounce(this.inviteMembersNew, 300)
     }
-    const { homeDetail, homegroupId } = this.data
-    this.gotoInvite(homeDetail, homegroupId)
+    inviteDebounce()
   },
   /**
    * 生命周期函数--监听页面加载

@@ -405,7 +405,15 @@ function onNetworkStatusChange() {
     },
   })
 }
-
+function debounce(fn, delay) {
+    let timer = null;
+    return function() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn()
+      }, delay);
+    };
+}
 module.exports = {
   getNewSign, //new sign
   getMarketSign,
@@ -429,4 +437,5 @@ module.exports = {
   getIcon,
   checkNetwork,
   onNetworkStatusChange,
+  debounce
 }

@@ -9,7 +9,7 @@
           animation="{{iconTriangleAnimationData}}"
           id="iconTriangle"
           class="icon-triangle"
-          src="{{baseImgUrl + 'ic_xiala.png'}}"
+          src="../../../../assets/img/ic_xiala.png"
         ></image>
         <!-- <view class="red-dot home-manage-red-dot" wx:if="{{showHomeTitleRedDot}}"></view> -->
       </view>
