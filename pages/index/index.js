@@ -2428,7 +2428,9 @@ Page({
     let start = new Date()
     let self = this
     if (!this.data.isGoToPlugin) return
-    this.data.isGoToPlugin = false
+    this.setData({
+        isGoToPlugin: false
+    })
     let type = e.currentTarget.dataset.type && e.currentTarget.dataset.type != null ? e.currentTarget.dataset.type : ''
     let applianceCode = e.currentTarget.dataset.applianceCode
     let currDeviceInfo = e?.currentTarget?.dataset?.all
@@ -2485,8 +2487,10 @@ Page({
             wx.navigateTo({
               url: '/distribution-network/addDevice/pages/afterCheck/afterCheck',
               complete() {
-                self.data.isGoToPlugin = true
-                self.data.isActionPlugin = true
+                self.setData({
+                    isGoToPlugin: true,
+                    isActionPlugin: true,
+                })
               },
             })
             console.log('跳插件前花费时长====', new Date() - start)
@@ -2498,8 +2502,10 @@ Page({
             wx.navigateTo({
               url: getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo)),
               complete() {
-                self.data.isGoToPlugin = true
-                self.data.isActionPlugin = true
+                self.setData({
+                    isGoToPlugin: true,
+                    isActionPlugin: true,
+                })
               },
             })
           }
@@ -2511,14 +2517,18 @@ Page({
           wx.navigateTo({
             url: getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo)),
             complete() {
-              self.data.isGoToPlugin = true
-              self.data.isActionPlugin = true
+                self.setData({
+                    isGoToPlugin: true,
+                    isActionPlugin: true,
+                })
             },
           })
         }
       } catch (error) {
         console.log('设备确权接口异常', error)
-        self.data.isGoToPlugin = true
+        self.setData({
+            isGoToPlugin: true,
+        })
         showToast('打开失败,请稍后重试')
       }
     } else {
@@ -2526,8 +2536,10 @@ Page({
       wx.navigateTo({
         url: '/pages/unSupportDevice/unSupportDevice?deviceInfo=' + encodeURIComponent(JSON.stringify(currDeviceInfo)),
         complete() {
-          self.data.isGoToPlugin = true
-          self.data.isActionPlugin = true
+            self.setData({
+                isGoToPlugin: true,
+                isActionPlugin: true,
+            })
         },
       })
     }
