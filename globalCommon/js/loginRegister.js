@@ -94,7 +94,7 @@ const loginMethods = {
         let reqId = getReqId()
         let reqData = {
           appKey: '46579c15',
-          appVersion: '1.0.0',
+          appVersion: app.globalData.appVersion || '1.0.0',
           osVersion: '',
           platform: 110,
           iotAppId: api.iotAppId,
@@ -218,7 +218,7 @@ const loginMethods = {
       let reqData = {
         clientType: 6,
         appKey: '46579c15',
-        appVersion: '9.0,',
+        appVersion: app.globalData.appVersion || '9.0,',
         osVersion: '',
         platform: 110,
         deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
@@ -236,7 +236,7 @@ const loginMethods = {
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
-          appVersion: '9.0,',
+          appVersion: app.globalData.appVersion || '9.0,',
           loginType: params.loginType, //0：正常登录流程 （不传默认0） 1:  跳过过判断三天内不能重新注册流程
         },
       }
@@ -281,7 +281,7 @@ const loginMethods = {
           if (noPromptCode.indexOf(err.data.code) === -1) {
             let msg = this.scodeResonse(err.data)
             //showToast(msg)
-            Toast({ context: that, position: 'bottom', message: msg })
+            Toast({ context: that, position: 'bottom', message: '系统异常，请稍后重试' })
           }
           reject(err)
         })

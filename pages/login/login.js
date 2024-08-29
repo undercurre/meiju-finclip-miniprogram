@@ -364,7 +364,6 @@ Page({
         let time = 60
         this.setTime(time)
         this.setData({
-          loginDisabled: false,
           loading: false,
           verCode: '',
           randomToken: '',
@@ -421,6 +420,11 @@ Page({
               autoVerCodeFocus: true,
             })
           }, 200)
+          return
+        }
+
+        if (error.data.code == 1129) {
+          Toast({ context: this, position: 'bottom', message: '获取频繁，请稍后重新' })
           return
         }
 
