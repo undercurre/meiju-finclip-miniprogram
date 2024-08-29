@@ -346,6 +346,7 @@ Page({
   //发送验证码请求
   requestSmsCode() {
     this.setData({
+      loginDisabled: true,
       loading: true,
     })
     //点击获取验证码埋点
@@ -381,6 +382,7 @@ Page({
       })
       .catch((error) => {
         this.setData({
+          loginDisabled: false,
           loading: false,
         })
         console.log(error)
@@ -421,7 +423,12 @@ Page({
           return
         }
 
-        Toast({ context: this, position: 'bottom', message: error.data.msg })
+        if (error.data.code == 1129) {
+          Toast({ context: this, position: 'bottom', message: '获取频繁，请稍后重新' })
+          return
+        }
+
+        Toast({ context: this, position: 'bottom', message: '操作失败，请重新再试' })
         //showToast(error.data.msg)
       })
   },
@@ -546,6 +553,7 @@ Page({
   //登录注册
   miniAppLogin(loginType) {
     this.setData({
+      loginDisabled: true,
       loading: true,
     })
     return new Promise((resolve, reject) => {
@@ -558,6 +566,7 @@ Page({
         .loginTempAPi({ phoneNumber: this.data.phoneNumber, vercode: this.data.verCode, loginType: loginType })
         .then((resp) => {
           this.setData({
+            loginDisabled: false,
             loading: false,
           })
           //登录成功
@@ -646,6 +655,13 @@ Page({
     })
   },
   clickBack() {
+    if (getCurrentPages().length > 1) {
+      wx.navigateBack()
+    } else {
+      wx.switchTab({
+        url: '/pages/index/index',
+      })
+    }
     console.log('回退页面清理定时器')
     if (this.data.timer) clearTimeout(this.data.timer)
   },

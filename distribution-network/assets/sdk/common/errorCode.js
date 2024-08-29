@@ -94,7 +94,6 @@ const failTextData = {
     guideDesc: [
       '请确保家庭WiFi与密码填写正确，并确保该WiFi网络畅通 测试一下',
       '请将路由器尽量靠近设备',
-      '请确认已开启“本地网络”系统授权；（仅iOS展示）',
       '若路由器设置了Mac地址白名单，请解除白名单，或将XX的Mac地址添加到白名单',
       '请确保路由器的DHCP功能已开启',
     ],
@@ -224,7 +223,6 @@ const failTextData = {
     guideDesc: [
       '请将手机尽量靠近设备',
       '请在系统的WiFi设置页面中关闭“自动切换WiFi”等类似开关设置',
-      '请确认已开启“本地网络”系统授权。（仅iOS展示）',
     ],
     isTest: false, //是否有测试一下
     isNeedInputPsw: false,
@@ -239,7 +237,6 @@ const failTextData = {
     guideDesc: [
       '请确保家庭WiFi与密码填写正确，并确保该WiFi网络畅通 测试一下',
       '请将路由器尽量靠近设备',
-      '请确认已开启“本地网络”系统授权（仅iOS展示）',
       '若路由器设置了Mac地址白名单，请将解除白名单，或将XX的Mac地址添加到白名单',
       '请确保路由器的DHCP功能已开启',
     ],
@@ -854,7 +851,6 @@ const cableNetworkingFailTextData = {
     nextTitle: 'XX无法接连路由器',
     guideDesc: [
       '请确认设备已插入网线，并确保家庭路由器网络畅通',
-      '请确认已开启“本地网络”系统授权；（仅iOS展示）',
     ],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
@@ -867,7 +863,6 @@ const cableNetworkingFailTextData = {
     nextTitle: 'XX无法接连路由器',
     guideDesc: [
       '请确认设备已插入网线，并确保家庭路由器网络畅通',
-      '请确认已开启“本地网络”系统授权；（仅iOS展示）',
     ],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
@@ -887,7 +882,7 @@ const cableNetworkingFailTextData = {
     errorCode: '2001',
     mainTitle: 'XX联网失败',
     nextTitle: 'XX无法接连路由器或路由器无法连接网络',
-    guideDesc: ['请确保家庭路由器网络畅通', '请确认已开启“本地网络”系统授权。（仅iOS展示）'],
+    guideDesc: ['请确保家庭路由器网络畅通'],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
   },
@@ -899,7 +894,6 @@ const cableNetworkingFailTextData = {
     nextTitle: '手机无法连接设备',
     guideDesc: [
       '请将手机尽量靠近设备',
-      '请确认已开启“本地网络”系统授权。（仅iOS展示）',
     ],
     isTest: false, //是否有测试一下
     isNeedInputPsw: false,
@@ -912,8 +906,7 @@ const cableNetworkingFailTextData = {
     mainTitle: 'XX联网失败',
     nextTitle: 'XX无法接连路由器',
     guideDesc: [
-      '请确认设备已插入网线，并确保家庭路由器网络畅通',
-      '请确认已开启“本地网络”系统授权（仅iOS展示）',
+      '请确认设备已插入网线，并确保家庭路由器网络畅通'
     ],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
@@ -951,8 +944,7 @@ const cableNetworkingFailTextData = {
     mainTitle: 'XX联网失败',
     nextTitle: 'XX无法接连路由器',
     guideDesc: [
-      '请确保家庭路由器网络畅通',
-      '请确认已开启“本地网络”系统授权（仅iOS展示）',
+      '请确保家庭路由器网络畅通'
     ],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
@@ -995,7 +987,7 @@ const cableNetworkingFailTextData = {
     errorCode: '4057',
     mainTitle: 'XX联网失败',
     nextTitle: 'XX无法接连路由器',
-    guideDesc: ['请确保家庭路由器网络畅通', '请确认已开启“本地网络”系统授权。（仅iOS展示）'],
+    guideDesc: ['请确保家庭路由器网络畅通'],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
   },
@@ -1014,7 +1006,7 @@ const cableNetworkingFailTextData = {
     errorCode: '4135',
     mainTitle: 'XX联网失败',
     nextTitle: 'XX无法接连路由器',
-    guideDesc: ['请确保家庭路由器网络畅通', '请确认已开启“本地网络”系统授权。（仅iOS展示）'],
+    guideDesc: ['请确保家庭路由器网络畅通'],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
   },

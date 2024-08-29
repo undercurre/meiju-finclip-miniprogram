@@ -90,7 +90,7 @@ var requestService = {
         random: timestamp,
         secretVersion: '1.0',
         sign: getNewSign(params, api.apiKey, timestamp, method), //new
-        version: '8.5',
+        version: getApp().globalData.appVersion || '8.5',
         appId: api.iotAppId,
         terminalId: api.iotTerminalIid,
         iotAppId: api.iotAppId,
@@ -181,10 +181,13 @@ var requestService = {
         },
         fail(error) {
           console.log('error-----', error)
+          console.log('当前网络error-----》', getApp().globalData.noNetwork)
           if (getApp().globalData.noNetwork) {
             getApp().checkNetLocal()
-          } else {
+          } else if (error.errMsg == 'request:fail timeout' || error.errMsg == 'request:fail') {
             showToast('网络请求失败')
+          } else {
+            showToast('系统繁忙，请稍后再试')
           }
           ApiTrack(apiName, selectApi, error, 'fail', params)
           if (apiName === 'luaControl') {

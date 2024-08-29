@@ -193,4 +193,69 @@ export const burialPoint = {
       ext_info: {},
     })
   },
+
+
+  /**
+ * 添加设备页-蓝牙授权
+ */
+  bluetoothAuthorizedView:()=>{
+    rangersBurialPoint('user_page_view', {
+      module: 'appliance',
+      page_id: 'nearby_authorize_bluetooth', //参考接口请求参数“pageId”
+      page_name: '附近设备页提示需开启蓝牙权限页面', 
+      widget_id: '',
+      widget_name: '',
+      device_info: {
+        device_session_id: '', //一次配网事件标识
+        sn: '', //sn码
+        sn8: '', //sn8码
+        a0:'',
+        widget_cate: '', //设备品类-
+        wifi_model_version:'',
+        link_type:''
+      },
+    })
+  },
+  /**
+   * 添加设备页-蓝牙开关没有开启
+   */
+  bluetoothEnableView:()=>{
+    rangersBurialPoint('user_page_view', {
+      module: 'appliance',
+      page_id: 'nearby_open_bluetooth_switch', //参考接口请求参数“pageId”
+      page_name: '附近设备页提示开启蓝牙开关', 
+      widget_id: '',
+      widget_name: '',
+      device_info: {
+        device_session_id: '', //一次配网事件标识
+        sn: '', //sn码
+        sn8: '', //sn8码
+        a0:'',
+        widget_cate: '', //设备品类-
+        wifi_model_version:'',
+        link_type:''
+      },
+    })
+  },
+  /**
+   * 添加设备页-蓝牙打开开关
+   */
+  openkBluetooth:()=>{
+    rangersBurialPoint('user_behavior_event', {
+      module: 'appliance',
+      page_id: '', //参考接口请求参数“pageId”
+      page_name: '', 
+      widget_id: 'nearby_authorize_bluetooth_enable_button',
+      widget_name: '附近设备蓝牙权限去开启按钮',
+      device_info: {
+        device_session_id: '', //一次配网事件标识
+        sn: '', //sn码
+        sn8: '', //sn8码
+        a0:'',
+        widget_cate: '', //设备品类-
+        wifi_model_version:'',
+        link_type:''
+      },
+    })
+  },
 }

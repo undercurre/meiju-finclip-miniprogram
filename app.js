@@ -48,7 +48,7 @@ import {
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
 //const linkupSDK = require('./distribution-network/assets/sdk/index.js')
-const pkg = "" //require('./miniprogram_npm/m-ble-crypto/bluetooth-crypto.js')
+const pkg = '' //require('./miniprogram_npm/m-ble-crypto/bluetooth-crypto.js')
 const cardSDK = require('./moudle-card/index.js')
 let getBlackWhiteListTime = 0 //获取插件黑白名单次数
 // let resolveCallBack, rejectCallBack = null;
@@ -190,19 +190,19 @@ App({
     this.globalData.brand = getBrand() // 存入全局变量，其他包可以直接引用
     this.globalData.brandConfig = brandConfig.config // 存入全局变量，其他包可以直接引用
     try {
-        let env = 'sit'
-        let self = this
-        ft.getAppInfo({
-            success: function (res) {
-                console.log('Yoram getAppInfo success ------------>', res)
-                env = res.data.data.ENV
-                self.getBlackWhiteList(options, env)
-            },
-            fail: function (res) {
-                console.log('Yoram getAppInfo fail--------->', res)
-                self.getBlackWhiteList(options, env)
-            },
-            })
+      let env = 'sit'
+      let self = this
+      ft.getAppInfo({
+        success: function (res) {
+          console.log('Yoram getAppInfo success ------------>', res)
+          env = res.data.data.ENV
+          self.getBlackWhiteList(options, env)
+        },
+        fail: function (res) {
+          console.log('Yoram getAppInfo fail--------->', res)
+          self.getBlackWhiteList(options, env)
+        },
+      })
     } catch (error) {
       console.log(error)
     }
@@ -596,10 +596,10 @@ App({
   //黑白名单获取.appId
   getBlackWhiteList(options, env) {
     let verType = 'trial'
-    if(env == 'prod') {
-        verType = 'release'
+    if (env == 'prod') {
+      verType = 'release'
     }
-    console.log("插件黑白名单参数：verType:", verType)
+    console.log('插件黑白名单参数：verType:', verType)
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
       requestService
@@ -617,7 +617,7 @@ App({
         )
         .then((res) => {
           if (res.data.code == 0) {
-            console.log("插件黑白名单：", res)
+            console.log('插件黑白名单：', res)
             this.globalData.brandConfig[this.globalData.brand].pluginFilter_SN8 = res.data.data.pluginFilter_SN8
             this.globalData.brandConfig[this.globalData.brand].pluginFilter_type = res.data.data.pluginFilter_type
             this.globalData.getBlackWhiteListError = false
@@ -627,13 +627,7 @@ App({
         })
         .catch((error) => {
           this.globalData.getBlackWhiteListError = true
-          if (options.path == 'pages/index/index') {
-            wx.showToast({
-              title: '系统繁忙，请稍后再试',
-              icon: 'none',
-              duration: 3000,
-            })
-          } else {
+          if (options.path != 'pages/index/index') {
             Dialog.confirm({
               zIndex: 10001,
               title: '系统繁忙，请稍后再试',
@@ -647,7 +641,6 @@ App({
               }
             })
           }
-
           reject(error)
         })
     })
@@ -753,6 +746,8 @@ App({
     bathAuthTimer: null, //轮询确权状态标识
     selectTab: 0,
     noNetwork: false, //判断是否有网络
+    appEnv: '', //宿主的环境
+    appVersion: '',
   },
   scanDeviceMap: {},
   addDeviceInfo: {

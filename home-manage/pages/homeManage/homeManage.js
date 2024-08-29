@@ -115,7 +115,12 @@ Page({
   },
   //输入内容
   onChange(e) {
-    const errorMsg = this.validtaFunc(e.detail || '')
+    let errorMsg = this.validtaFunc(e.detail || '')
+    var regu = '^[ ]+$'
+    var re = new RegExp(regu)
+    if (re.test(e.detail)) {
+      errorMsg = '家庭名称不能为空'
+    }
     if (errorMsg) {
       this.setData({
         errorMessage: errorMsg,
@@ -178,7 +183,12 @@ Page({
   //确定
   confirm() {
     burialPoint.confirmclickbthCreatingFamilyBurialPoint()
-    const errorMsg = this.validtaFunc(this.data.familyValue)
+    let errorMsg = this.validtaFunc(this.data.familyValue)
+    var regu = '^[ ]+$'
+    var re = new RegExp(regu)
+    if (re.test(this.data.familyValue)) {
+      errorMsg = '家庭名称不能为空'
+    }
     if (errorMsg) {
       this.setData({
         errorMessage: errorMsg,
@@ -191,6 +201,7 @@ Page({
         wx.showToast({
           title: '创建家庭成功',
           icon: 'none',
+          duration: 5000,
         })
         console.log(res, '创建家庭成功')
         this.setData({

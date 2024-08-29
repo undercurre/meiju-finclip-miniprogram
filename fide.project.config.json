@@ -71,12 +71,16 @@
     ]
   },
   "setting": {
+    "es6": true,
+    "minify": true,
+    "minifyWXSS": true,
+    "autoPrefixWXSS": true,
+    "obfuscate": false,
     "bundle": false,
     "userConfirmedBundleSwitch": false,
     "urlCheck": true,
     "scopeDataCheck": false,
     "coverView": true,
-    "es6": true,
     "postcss": true,
     "compileHotReLoad": false,
     "lazyloadPlaceholderEnable": false,
@@ -99,7 +103,6 @@
       }
     ],
     "enableEngineNative": false,
-    "minifyWXSS": true,
     "showES6CompileOption": false,
     "minifyWXML": true,
     "useStaticServer": true,

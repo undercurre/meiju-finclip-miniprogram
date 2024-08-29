@@ -9,6 +9,8 @@ export default function () {
     ft.getAppInfo({
       success: function (res) {
         console.log('config getAppInfo success ------------>', res)
+        getApp().globalData.appEnv = res.data.data.ENV
+        getApp().globalData.appVersion = res.data.data.VERSION_NAME
         let env = res.data.data.ENV == 'sit' ? res.data.data.ENV : 'prod'
         environment = env
       },
