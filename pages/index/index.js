@@ -43,7 +43,6 @@ import { setPluginDeviceInfo } from '../../track/pluginTrack.js'
 import { addDeviceSDK } from '../../utils/addDeviceSDK'
 import { actionScanResult } from '../../utils/scanCodeApi'
 import { familyPermissionText } from '../../globalCommon/js/commonText.js'
-import { checkPermission } from '../common/js/permissionAbout/checkPermissionTip'
 import HomeStorage from './assets/js/storage.js'
 import {
   initWebsocket,
@@ -57,10 +56,10 @@ import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templat
 import config from '../../config'
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
-let currentPageOptions = {} // index 页面options
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
 let forceUpdateWhenOnshow = false // 触发onshow是否需要更新
 let hasInitedHomeIdList = [] // 已缓存的家庭id
+import { setApplianceListConfig } from '../../utils/redis.js'
 Page({
   behaviors: [bluetooth],
   async onShow() {
@@ -1642,6 +1641,7 @@ Page({
         this.dealBoughtDevices(resp.notActive || [], resp.applianceType || []) //处理未激活设备
         let data = resp.appliance[0]
         this.data.applianceHomeData = data
+        console.log('当前家庭设备-------------->', data)
         //更新全局applianceHomeData
         app.globalData.applianceHomeData = data
         //从nfc进入-数据处理，nfc的加载小木马等nfc处理后再消失
@@ -1877,8 +1877,6 @@ Page({
   // 获取设备图片
   getIotDeviceV3() {
     let dcpDeviceImgList = []
-    let sceneIconList = wx.getStorageSync('dcpDeviceImgList')
-    this.data.sceneIconList = sceneIconList
     return new Promise((resolve, reject) => {
       if (!isEmptyObject(app.globalData.dcpDeviceImgList)) {
         dcpDeviceImgList = app.globalData.dcpDeviceImgList
@@ -1893,7 +1891,6 @@ Page({
         service
           .getIotDeviceV3()
           .then((resp) => {
-            console.log('获取设备图标 首页内')
             this.data.sceneIconList = resp.data.data.iconList
             app.globalData.dcpDeviceImgList = resp.data.data.iconList
             this.setIotDeviceV3()
@@ -1901,7 +1898,6 @@ Page({
               supportedApplianceList: this.data.supportedApplianceList,
               unsupportedApplianceList: this.data.unsupportedApplianceList,
             })
-            // this.refreshApplianceData()
             try {
               wx.setStorageSync('dcpDeviceImgList', resp.data.data.iconList) //部分手机可能因为长度设置失败
             } catch (error) {
@@ -2042,6 +2038,9 @@ Page({
     let aLLDeviceLength =
       supportedApplianceList.length + unsupportedApplianceList.length + this.data.boughtDevices.length
     let allUnsupportedApplianceList = unsupportedApplianceList
+    console.log('缓存家庭')
+    //缓存当前家庭设备信息
+    setApplianceListConfig(currentHomeGroupId, supportedApplianceList, unsupportedApplianceList)
     homeStorage.setStorage({ homeId: currentHomeGroupId, name: 'supportedApplianceList', data: supportedApplianceList })
     homeStorage.setStorage({
       homeId: currentHomeGroupId,
@@ -2321,7 +2320,7 @@ Page({
     console.log('优化 onload', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
     trackLoaded('page_loaded_event', 'pageOnLoad')
     //this.initPushData()
-    currentPageOptions = options
+    //let currentPageOptions = options
     var self = this
     try {
       ft.getAppInfo({
@@ -2608,10 +2607,6 @@ Page({
         that.getHomeGrouplistService().then((data) => {
           data.forEach((item, index) => {
             if (item.homegroupId == homeId) {
-              let data = {
-                bindex: index,
-                homegroupid: homeId,
-              }
               service
                 .getHomeGroupMemberStatus(homeId)
                 .then(() => {

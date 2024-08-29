@@ -10,6 +10,7 @@ import qs from './qs/index'
 
 var requestService = {
   request: (apiName, params, method, headerObj, timeout) => {
+    let app = getApp() || this
     return new Promise((resolve, reject) => {
       let timestamp = getStamp()
       let apiObj = api[apiName]
@@ -90,7 +91,7 @@ var requestService = {
         random: timestamp,
         secretVersion: '1.0',
         sign: getNewSign(params, api.apiKey, timestamp, method), //new
-        version: getApp().globalData.appVersion || '8.5',
+        version: app?.globalData?.appVersion || '8.5',
         appId: api.iotAppId,
         terminalId: api.iotTerminalIid,
         iotAppId: api.iotAppId,

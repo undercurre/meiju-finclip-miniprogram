@@ -43,6 +43,51 @@ const setTokenPwdStorge = (expiredDate, tokenPwd) => {
     }
   })
 }
+//缓存黑白名单
+const setPluginFilter = (pluginFilterS_N8, pluginFilter_type) => {
+  const setStorageList = [
+    {
+      key: 'pluginFilterS_N8',
+      value: pluginFilterS_N8,
+    },
+    {
+      key: 'pluginFilter_type',
+      value: pluginFilter_type,
+    },
+  ]
+  wx.nextTick(() => {
+    for (let i = 0, len = setStorageList.length; i < len; i++) {
+      wx.setStorage({
+        key: setStorageList[i].key,
+        data: setStorageList[i].value,
+      })
+    }
+  })
+}
+//缓存家庭和设备相关的信息
+const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedApplianceList) => {
+  let getApplianceListConfig = {}
+  if (wx.getStorageSync('applianceListConfig')) {
+    getApplianceListConfig = wx.getStorageSync('applianceListConfig')
+  }
+  let homeStorage = {}
+  if (!homeStorage[homeId]) {
+    homeStorage[homeId] = {
+      supportedApplianceList: [],
+      unsupportedApplianceList: [],
+    }
+  }
+  homeStorage[homeId]['supportedApplianceList'] = supportedApplianceList
+  homeStorage[homeId]['unsupportedApplianceList'] = unsupportedApplianceList
+  let applianceListConfig = {
+    ...homeStorage,
+    ...getApplianceListConfig,
+  }
+  console.log('缓存家庭设备信息', applianceListConfig)
+  wx.setStorageSync('applianceListConfig', applianceListConfig)
+  wx.setStorageSync('currentHomeGroupId', homeId)
+}
+
 //设置弹框显示的间隔时间
 const setDialogIntervalTime = (v) => {
   return new Promise((resolve) => {
@@ -141,7 +186,8 @@ const removeStorageSync = () => {
     return filterList.every((f) => f != a)
   })
   clearInfoList.map((item) => {
-    if(!item.includes('version_')){ // 版本升级有本地缓存，退出登录会清除记录，所以不能清掉
+    if (!item.includes('version_')) {
+      // 版本升级有本地缓存，退出登录会清除记录，所以不能清掉
       wx.removeStorageSync(item)
     }
   })
@@ -246,4 +292,6 @@ module.exports = {
   checkTokenExpired,
   setTokenPwdStorge,
   checkTokenPwdExpired,
+  setPluginFilter,
+  setApplianceListConfig,
 }

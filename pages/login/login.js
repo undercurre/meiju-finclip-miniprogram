@@ -428,7 +428,7 @@ Page({
           return
         }
 
-        Toast({ context: this, position: 'bottom', message: '操作失败，请重新再试' })
+        Toast({ context: this, position: 'bottom', message: error.data.msg })
         //showToast(error.data.msg)
       })
   },
