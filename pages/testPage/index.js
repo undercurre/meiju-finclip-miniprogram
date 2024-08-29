@@ -17,26 +17,19 @@ Page({
     environment: config.environment,
     scodeTitle: '切换扫码调试',
     clearCacheTitle: '清理缓存',
-    sdkTitle: 'finClip sdk版本',
-    miniProgramTitle: '小程序版本',
+    sdkTitle: '小程序SDK版本',
+    frameworkVersionTitle: '小程序基础库版本',
+    miniProgramTitle: '小程序迭代版本',
     miniProgramEnvTitle: '小程序环境',
     openMiniProgramTitle: '打开其他专用小程序',
+    showSystemInfoTitle: '获取系统信息',
     runtimeSDKVersion: '',
+    frameworkVersion: '',
     version: '',
     miniProgramenv: '',
     show: false,
     enableDebug: true,
-    actions: [
-      {
-        name: 'sit',
-      },
-      {
-        name: 'uat',
-      },
-      {
-        name: 'prod',
-      },
-    ],
+    actions: [{ name: 'sit' }, { name: 'uat' }, { name: 'prod' }],
     selectMiniProgramShow: false,
     miniProgramList: [
       { appId: 'fc2316279645914437', name: 'AIRC测试小程序' },
@@ -54,7 +47,17 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {},
+  onLoad() {
+    let self = this
+    ft.getAppInfo({
+      success: function (res) {
+        console.log('getAppInfo success ------------' + JSON.stringify(res))
+        self.setData({
+          environment: res.data.data.ENV,
+        })
+      },
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -93,14 +96,8 @@ Page({
       show: true,
     })
   },
-  //关闭环境选择
-  toggleActionSheet() {
-    this.setData({
-      show: false,
-    })
-  },
-  //取消
-  toggleCloseActionSheet() {
+  //取消/关闭环境选择
+  closeActionSheet() {
     this.setData({
       show: false,
     })
@@ -124,6 +121,7 @@ Page({
           self.setData({
             runtimeSDKVersion: res?.runtimeSDKVersion,
             enableDebug: res.enableDebug,
+            frameworkVersion: res.frameworkVersion,
           })
         }
       },
@@ -143,6 +141,17 @@ Page({
     ft.changeIsShowVConsole()
     this.setData({
       enableDebug: !this.data.enableDebug,
+    })
+  },
+  showSystemInfo() {
+    let self = this
+    ft.getSystemInfo({
+      success(res) {
+        ft.showModal({
+          title: '系统信息',
+          content: JSON.stringify(res, null, 4),
+        })
+      },
     })
   },
 

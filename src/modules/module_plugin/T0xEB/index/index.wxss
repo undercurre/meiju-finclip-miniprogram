@@ -1,8 +1,0 @@
-/* T0xAC//index/index.wxss */
-@import "/assets/css/plugin.wxss";
-
-.device-card {
-    width: 750rpx;
-    overflow: hidden;
-    margin: 0 auto;
-}

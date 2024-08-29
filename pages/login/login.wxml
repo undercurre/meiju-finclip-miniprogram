@@ -1,7 +1,8 @@
-<privacy-popup></privacy-popup>
+<!-- <privacy-popup></privacy-popup> -->
 <view class="login-main">
+  <mx-nav-bar show-bg bind:click-left="clickBack" />
   <navbar bind:clickBack="clickBack"></navbar>
-  <view style="height: {{statusBarHeight +30}}px;"></view>
+  <view style="height: {{statusBarHeight}}rpx;"></view>
   <!-- <view class="topBac" style="margin-top: {{statusBarHeight}}px;"> -->
   <!-- <image src="{{topBacImg}}" class="topBacImg"></image> -->
   <!-- </view> -->

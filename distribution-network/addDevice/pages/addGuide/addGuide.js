@@ -194,13 +194,23 @@ Page({
     let blueRes = await checkPermission.blue()
     let permissionTypeList = blueRes.permissionTypeList
     let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
+
+    if(!bluetoothAuthorized || !bluetoothEnabled){
+      burialPoint.clickBluetoothAuthorized({
+        deviceSessionId: app.globalData.deviceSessionId,
+        sn8: app.addDeviceInfo.sn8,
+        type: app.addDeviceInfo.type,
+        moduleVersion: app.addDeviceInfo.blueVersion,
+        linkType: app.addDeviceInfo.linkType,
+      })
+    }
     if(!bluetoothAuthorized){
-        wx.openAppAuthorizeSetting({
-            success (res) {
-            console.log(res)
-            }
-        })
-        return
+      wx.openAppAuthorizeSetting({
+          success (res) {
+          console.log(res)
+          }
+      })
+      return
     }
     if(!bluetoothEnabled){
       ft.changeBlueTooth({ enable: true })
@@ -268,7 +278,9 @@ Page({
       await this.addGuideOpenBluetooth()
       let isCanBlue = await this.checkBluetoothAuth()
       console.log('[是否可以使用蓝牙]', isCanBlue)
+      console.error('addGuide-ifNearby-----------:',ifNearby)
       if (!isCanBlue) {
+        
         clearInterval(timer)
         // 修改没有开蓝牙时，靠近确权页会跑到配网指引页的问题
         if (
@@ -468,7 +480,7 @@ Page({
         type: type,
         moduleVison: blueVersion,
       })
-      if (mode == 3 || mode == 18) app.addDeviceInfo.ifNearby = false
+      if (mode == 3 || mode == 18) 
       // this.setData({
       //   guideType: 'near',
       // })
@@ -488,6 +500,9 @@ Page({
           if (page.includes('addDevice/pages/addGuide/addGuide')){
             wx.navigateTo({
               url: paths.linkDevice,
+              success:()=>{
+                app.addDeviceInfo.ifNearby = false
+              }
             })
           }
         }, 2000)
@@ -1585,6 +1600,8 @@ Page({
     // }
     // return result
     let blueRes = await checkPermission.blue()
+    let permissionTypeList = blueRes.permissionTypeList
+    let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
     this.data.guideBlueRes = blueRes
     console.log('[blueRes]', blueRes)
     if (!blueRes.isCanBlue) {
@@ -1602,6 +1619,27 @@ Page({
       //   ishowBlueRes: true,
       //   bluePermissionTextAll: blueRes.permissionTextAll,
       // })
+
+      if(!bluetoothAuthorized){
+        burialPoint.bluetoothAuthorizedView({
+          deviceSessionId: app.globalData.deviceSessionId,
+          sn8: app.addDeviceInfo.sn8,
+          type: app.addDeviceInfo.type,
+          moduleVersion: app.addDeviceInfo.blueVersion,
+          linkType: app.addDeviceInfo.linkType,
+        })
+      }
+  
+      if(!bluetoothEnabled){
+        burialPoint.bluetoothEnableView({
+          deviceSessionId: app.globalData.deviceSessionId,
+          sn8: app.addDeviceInfo.sn8,
+          type: app.addDeviceInfo.type,
+          moduleVersion: app.addDeviceInfo.blueVersion,
+          linkType: app.addDeviceInfo.linkType,
+        }) 
+      }
+
       this.setData({
         checkPermissionRes: blueRes,
       })
