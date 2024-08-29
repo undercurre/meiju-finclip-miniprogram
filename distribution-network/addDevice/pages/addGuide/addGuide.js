@@ -480,7 +480,7 @@ Page({
         type: type,
         moduleVison: blueVersion,
       })
-      if (mode == 3 || mode == 18) 
+      if (mode == 3 || mode == 18){}
       // this.setData({
       //   guideType: 'near',
       // })
@@ -501,7 +501,9 @@ Page({
             wx.navigateTo({
               url: paths.linkDevice,
               success:()=>{
-                app.addDeviceInfo.ifNearby = false
+                if (mode == 3 || mode == 18) {
+                  app.addDeviceInfo.ifNearby = false
+                }
               }
             })
           }
