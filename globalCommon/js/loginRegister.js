@@ -281,7 +281,7 @@ const loginMethods = {
           if (noPromptCode.indexOf(err.data.code) === -1) {
             let msg = this.scodeResonse(err.data)
             //showToast(msg)
-            Toast({ context: that, position: 'bottom', message: '系统异常，请稍后重试' })
+            Toast({ context: that, position: 'bottom', message: msg })
           }
           reject(err)
         })
@@ -315,7 +315,7 @@ const loginMethods = {
         label = '验证码错误，请重新输入'
         break
       default:
-        label = msg
+        label = '操作失败，请重新再试'
         break
     }
     return label
