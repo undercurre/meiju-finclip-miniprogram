@@ -27,6 +27,6 @@
   "deprecated": false,
   "description": "V1.0.0：增加V12/V13/8B新的型号，并完成NPM改造",
   "license": "ISC",
-  "name": "@meijuLite/T0xB8",
+  "name": "@meijuHarmonyOS/T0xB8",
   "version": "1.0.4"
 }
