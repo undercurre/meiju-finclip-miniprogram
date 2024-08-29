@@ -278,8 +278,9 @@ Page({
       await this.addGuideOpenBluetooth()
       let isCanBlue = await this.checkBluetoothAuth()
       console.log('[是否可以使用蓝牙]', isCanBlue)
+      console.error('addGuide-ifNearby-----------:',ifNearby)
       if (!isCanBlue) {
-        console.error('addGuide-ifNearby-----------:',ifNearby)
+        
         clearInterval(timer)
         // 修改没有开蓝牙时，靠近确权页会跑到配网指引页的问题
         if (
@@ -479,7 +480,7 @@ Page({
         type: type,
         moduleVison: blueVersion,
       })
-      if (mode == 3 || mode == 18) app.addDeviceInfo.ifNearby = false
+      if (mode == 3 || mode == 18) 
       // this.setData({
       //   guideType: 'near',
       // })
@@ -499,6 +500,9 @@ Page({
           if (page.includes('addDevice/pages/addGuide/addGuide')){
             wx.navigateTo({
               url: paths.linkDevice,
+              success:()=>{
+                app.addDeviceInfo.ifNearby = false
+              }
             })
           }
         }, 2000)
