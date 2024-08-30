@@ -1968,8 +1968,8 @@ Page({
       let applianceItem = this.data.currentFamilyDeviceList[indexA]
       let isSupport = false
       let type = applianceItem.type
-      let sn8 = applianceItem.sn8
-      let A0 = applianceItem.modelNumber
+      let sn8 = applianceItem.sn8 || applianceItem.smartProductId
+      let A0 = applianceItem.modelNumber || applianceItem.smartProductId
       // console.log('过滤优化==》', type, sn8, A0, applianceItem.isOtherEquipment, applianceItem.cardType)
       isSupport = filterSupportedPlugin(type, sn8, A0, applianceItem.isOtherEquipment, applianceItem.cardType)
       //并去掉在线离线状态
