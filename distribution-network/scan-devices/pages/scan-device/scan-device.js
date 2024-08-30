@@ -63,12 +63,6 @@ Page({
       permissionTextAll: null, //权限提示文案
       permissionTypeList: {},
     },
-    checkWifiPermissionRes: { // wifi权限
-      isCanWifi:true,
-      type: '', //权限类型
-      permissionTextAll: `开启WLAN开关\n以便扫描添加智能设备`, //权限提示文案
-      permissionTypeList: {wifiEnabled:true},
-    },
     isScanHint: false,
     brand: '',
     scanImg: '', //扫描动图
@@ -79,8 +73,10 @@ Page({
     guideFalg: false,
     retryFlag: false,
     showPopup:false,
-    wifiGuideGifShow:false,//开启wifigif图标识
     monitorBluetoothFalg:false,//监听蓝牙标识符
+    isjumpPageFalg:false,//是否跳转页面标识符
+
+
   },
   ifBackFromScan: false, // 从扫码页返回标识
 
@@ -221,14 +217,6 @@ Page({
       ft.changeBlueTooth({ enable: true })
       return
     }
-
-    if(!this.data.checkWifiPermissionRes.isCanWifi){
-      console.error('去打开wifi')
-      this.setData({
-        wifiGuideGifShow:true
-      })
-    }
-
   },
 
   closeWifiGuid(){
@@ -239,28 +227,6 @@ Page({
     }
   },
 
-
-//   wifiStateOnChange() {
-//     ft.wifiStateOnChange({ success: this.handleRes })
-//   },
-
-//   handleRes(res) {
-//     let self = this
-//     console.error("调用customEvent success=====:",res);
-//     console.error("调用customEventes.data.resultCode=====:",res.data.resultCode);
-//     //res.resultCode 0 未激活，1 已激活
-//     let openWifi = res.data.resultCode==1?true:false
-//     setTimeout(()=>{
-//       let checkWifiPermissionRes = self.data.checkWifiPermissionRes
-//       checkWifiPermissionRes.isCanWifi = openWifi,
-//       checkWifiPermissionRes.permissionTypeList.wifiEnabled = openWifi
-//       self.setData({
-//         checkWifiPermissionRes:{...checkWifiPermissionRes}
-//       })
-//       console.error('wifi切换：',checkWifiPermissionRes)
-//     },500)
-//     this.wifiStateOnChange()
-//   },
 
 //封装蓝牙监听
 monitorBluetooth(){
@@ -293,12 +259,12 @@ monitorBluetooth(){
    * 生命周期函数--监听页面显示
    */
   async onShow() {
-    this.data.currPageLength = getCurrentPages().length
+    this.data.isjumpPageFalg = false
+    console.error('monitorBluetoothFalg====:',this.data.monitorBluetoothFalg)
     if(!this.data.monitorBluetoothFalg){
       this.data.monitorBluetoothFalg = true
       this.monitorBluetooth()
     }
-    console.error('scan-device onShow getCurrentPages()', this.data.currPageLength)
     const systemInfo = await wx.getSystemInfoSync()
     console.error('systemInfo====:',systemInfo)
     let { isCheckGray } = app.addDeviceInfo
@@ -308,7 +274,6 @@ monitorBluetooth(){
 
         this.setData({
           isCanAddDevice: isCan,
-        //   checkWifiPermissionRes:checkWifiPermissionRes
         })
 
       if (!this.data.isCanAddDevice) {
@@ -367,10 +332,9 @@ monitorBluetooth(){
    */
   onHide: function () {
     // this.closeBluetoothAdapter()
-    setTimeout(()=>{
-        let hidePageLength =  getCurrentPages().length
-        console.error('scan-device onhide getCurrentPages()2222:', hidePageLength)
-        if(this.data.currPageLength != hidePageLength){ //标识页面切换
+    // setTimeout(()=>{
+        console.error('this.data.isjumpPageFalg:', this.data.isjumpPageFalg)
+        if(this.data.isjumpPageFalg){ //标识页面切换
           this.data.monitorBluetoothFalg = false
           wx.offBluetoothAdapterStateChange()
           this.stopBluetoothDevicesDiscovery()
@@ -382,7 +346,7 @@ monitorBluetooth(){
         } else {
           //代表小程序切到后台 - 不做处理
         }
-    },500)
+    // },0)
     // this.stopBluetoothDevicesDiscovery()
     // this.closeWifiScan()
     // this.clearMixinsTime()
@@ -529,6 +493,7 @@ monitorBluetooth(){
   },
 
   async makeSure(e) {
+    let self = this
     this.locationAndBluetoothClickTrack(e.detail.flag) //位置和蓝牙弹窗提示点击埋点
     e = e.detail
     console.log('kkkkkkkkk', e)
@@ -541,6 +506,12 @@ monitorBluetooth(){
       if (e.type == 'blue') {
         wx.navigateTo({
           url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(e.permissionTypeList)}`,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('跳转失败-----：',error)
+          }
         })
       }
     }
@@ -745,6 +716,7 @@ monitorBluetooth(){
 
   async goToGuide() {
     if (this.data.guideFalg) return
+    let self = this
     this.data.guideFalg = true
     let { type, permissionTypeList } = this.data.checkPermissionRes
     if (type == 'location') {
@@ -799,6 +771,12 @@ monitorBluetooth(){
       })
       wx.navigateTo({
         url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(permissionTypeList)}`,
+        success:()=>{
+          self.data.isjumpPageFalg = true
+        },
+        fail:(error)=>{
+          console.log('跳转蓝牙指引页失败:',error)
+        }
       })
     }
     setTimeout(() => {
@@ -813,7 +791,7 @@ monitorBluetooth(){
     let { type } = this.data.checkPermissionRes
     let permission = await this.permissionCheckTip()
     console.log('[retry permission]', permission)
-    if (permission && this.data.checkWifiPermissionRes.isCanWifi) {
+    if (permission) {
       this.actionBlue()
       this.actionWifi()
     } 
@@ -861,6 +839,7 @@ monitorBluetooth(){
       console.log('[防重阻止]')
       return
     }
+    let self = this
     this.data.selectModelClickFlag = true
     this.stopBluetoothDevicesDiscovery()
     wx.offGetWifiList() //Yoram TODO 930
@@ -871,6 +850,12 @@ monitorBluetooth(){
     }, 1500)
     wx.navigateTo({
       url: paths.selectDevice,
+      success:()=>{
+        self.data.isjumpPageFalg = true
+      },
+      fail:(error)=>{
+        console.log('跳转选型页error:',error)
+      }
     })
   },
   clickAddByTypeViewTrack() {
@@ -893,6 +878,7 @@ monitorBluetooth(){
     this.jumpQRcodeGuide()
   },
   jumpQRcodeGuide() {
+    let self = this
     const brandConfig = app.globalData.brandConfig[app.globalData.brand]
     let guideUrl =
       brandConfig.QRcodeGuideUrl ||
@@ -908,6 +894,12 @@ monitorBluetooth(){
     }
     wx.navigateTo({
       url: guideUrl,
+      success:()=>{
+        self.data.isjumpPageFalg = true
+      },
+      fail:(error)=>{
+        console.log('跳转设备的二维码error:',error)
+      }
     })
   },
 
@@ -1219,6 +1211,7 @@ monitorBluetooth(){
 
   //发送给设备配网指令
   friendDeviceNetwork(device) {
+    let self = this
     let reqData = {
       reqId: getReqId(),
       stamp: getStamp(),
@@ -1237,6 +1230,12 @@ monitorBluetooth(){
         device = JSON.stringify(device)
         wx.navigateTo({
           url: paths.friendDeviceNetWork + `?device=${device}`,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('跳转页面error:',error)
+          }
         })
       })
       .catch((error) => {
@@ -1248,6 +1247,7 @@ monitorBluetooth(){
   },
 
   checkOp(){
+    let self = this
     const brandConfig = app.globalData.brandConfig[app.globalData.brand]
     let guideUrl =
       brandConfig.QRcodeGuideUrl ||
@@ -1263,6 +1263,12 @@ monitorBluetooth(){
     }
     wx.navigateTo({
       url: guideUrl,
+      success:()=>{
+        self.data.isjumpPageFalg = true
+      },
+      fail:(error)=>{
+        console.log('跳转设备二维码页error:',error)
+      }
     })
   },
   scanQRcode(){
