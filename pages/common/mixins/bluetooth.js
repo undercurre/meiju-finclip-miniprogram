@@ -1204,6 +1204,7 @@ module.exports = Behavior({
     },
     //指引获取失败处理-微信自发现
     getGuideFailWX() {
+      this.data.isjumpPageFalg = true
       Dialog.confirm({
         title: '未获取到设备操作指引，请检查网络后重试，若仍失败请联系客服处理',
         confirmButtonText: '回到首页',
@@ -1361,6 +1362,7 @@ module.exports = Behavior({
     async actionGoNetwork(item) {
       // 节流
       if (this.actionGoNetworkLock) return
+      let self = this
       this.actionGoNetworkLock = setTimeout(() => {
         this.actionGoNetworkLock = null
       }, 1000)
@@ -1475,6 +1477,7 @@ module.exports = Behavior({
               showCancelButton: false,
             }).then((res) => {
               if (res.action == 'confirm') {
+                self.data.isjumpPageFalg = true
                 wx.switchTab({
                   url: homePage,
                 })
@@ -1551,16 +1554,34 @@ module.exports = Behavior({
         app.addDeviceInfo.mode = 'WB01_bluetooth_connection'
         wx.navigateTo({
           url: addGuide,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('直连后配网跳转页面失败:',error)
+          }
         })
       }
       let mode = app.addDeviceInfo.mode
       if (mode == 0 || mode == 3) {
         wx.navigateTo({
           url: inputWifiInfo,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('mode == 0 || mode == 3页面失败:',error)
+          }
         })
       } else if (mode == 5 || mode == 9 || mode == 10 || mode == 'air_conditioning_bluetooth_connection' || mode == 100 || mode == 103) {
         wx.navigateTo({
           url: addGuide,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log("mode == 5 || mode == 9 || mode == 10 || mode == 'air_conditioning_bluetooth_connection' || mode == 100 || mode == 103页面失败:",error)
+          }
         })
       } else if (mode == 8) {
         app.addDeviceInfo.linkType = 'NB-IOT'
@@ -1578,6 +1599,12 @@ module.exports = Behavior({
         })
         wx.navigateTo({
           url: linkDevice,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log("mode == 8页面失败:",error)
+          }
         })
       }
     },
