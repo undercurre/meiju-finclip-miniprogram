@@ -64,13 +64,18 @@ const setPluginFilter = (pluginFilterS_N8, pluginFilter_type) => {
     }
   })
 }
-//缓存家庭和设备相关的信息
+//缓存当前家庭id和设备列表的信息
 const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedApplianceList) => {
   let getApplianceListConfig = {}
   if (wx.getStorageSync('applianceListConfig')) {
     getApplianceListConfig = wx.getStorageSync('applianceListConfig')
+    if (getApplianceListConfig.uid != getApp().globalData.userData.uid) {
+      getApplianceListConfig = {}
+    }
   }
-  let homeStorage = {}
+  let homeStorage = {
+    uid: getApp().globalData.userData.uid,
+  }
   if (!homeStorage[homeId]) {
     homeStorage[homeId] = {
       supportedApplianceList: [],
@@ -86,6 +91,40 @@ const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedAppli
   console.log('缓存家庭设备信息', applianceListConfig)
   wx.setStorageSync('applianceListConfig', applianceListConfig)
   wx.setStorageSync('currentHomeGroupId', homeId)
+}
+//保存会员信息
+const setVipUserInfo = (vipUserInfo) => {
+  //先清除，再保存
+  if (wx.getStorageSync('vipUserInfo')) wx.removeStorageSync('vipUserInfo')
+  wx.setStorageSync('vipUserInfo', vipUserInfo)
+}
+//缓存当前家庭
+const getCurrentHomeGroupId = () => {
+  return wx.getStorageSync('currentHomeGroupId')
+}
+//获取当前家庭设备数据
+const getApplianceListConfig = () => {
+  return wx.getStorageSync('applianceListConfig')
+}
+//缓存家庭列表
+const setHomeGrounpList = (homeList) => {
+  //先清除，再保存
+  if (wx.getStorageSync('homeGrounpList')) wx.removeStorageSync('homeGrounpList')
+  wx.setStorageSync('homeGrounpList', homeList)
+}
+//获取混存家庭列表
+const getStrogeHomeGrounpList = () => {
+  return wx.getStorageSync('homeGrounpList')
+}
+//缓存确权状态
+const setBatchAuthList = (batchAuthList) => {
+  //先清除，再保存
+  if (wx.getStorageSync('batchAuthList')) wx.removeStorageSync('batchAuthList')
+  wx.setStorageSync('batchAuthList', batchAuthList)
+}
+//获取换确权状态
+const getStrogeBatchAuthList = () => {
+  return wx.getStorageSync('batchAuthList')
 }
 
 //设置弹框显示的间隔时间
@@ -227,7 +266,7 @@ const setAutonInfo = (phoneNumber, tokenPwd, uid) => {
   ]
   wx.nextTick(() => {
     for (let i = 0, len = setStorageList.length; i < len; i++) {
-      wx.setStoragesync({
+      wx.setStorage({
         key: setStorageList[i].key,
         data: setStorageList[i].value,
       })
@@ -294,4 +333,11 @@ module.exports = {
   checkTokenPwdExpired,
   setPluginFilter,
   setApplianceListConfig,
+  setHomeGrounpList,
+  getStrogeHomeGrounpList,
+  setBatchAuthList,
+  getStrogeBatchAuthList,
+  getApplianceListConfig,
+  getCurrentHomeGroupId,
+  setVipUserInfo,
 }

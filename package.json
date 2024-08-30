@@ -52,7 +52,7 @@
 
   },
   "dependencies": {
-    "m-harmonyos-services": "1.0.19",
+    "m-harmonyos-services": "1.0.20",
     "m-miniCommonSDK": "1.0.12",
     "m-performance": "^1.0.0",
     "m-track": "^1.0.0",

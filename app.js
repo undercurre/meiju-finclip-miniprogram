@@ -107,7 +107,7 @@ App({
         try {
           //部分手机会因为长度超限制设置失败
           wx.nextTick(() => {
-            wx.setStorageSync({
+            wx.setStorage({
               key: 'dcpDeviceImgList',
               data: res,
             })

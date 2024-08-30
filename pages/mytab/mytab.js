@@ -15,6 +15,7 @@ import {
   clickSeetingMenuSettingBurialPoint,
   myPageViewBurialPoint,
 } from './assets/js/burialPoint.js'
+import { setVipUserInfo } from '../../utils/redis.js'
 import computedBehavior from '../../utils/miniprogram-computed'
 const indexSrc = imgBaseUrl.url + '/harmonyos/index/index.png'
 const headerImg = '/assets/img/about/header.png'
@@ -197,6 +198,14 @@ Page({
 
   getVipUserInfo: function () {
     if (!app.globalData.isLogon) return
+    //先从缓存拿
+    if (wx.getStorageSync('vipUserInfo')) {
+      const vipData = wx.getStorageSync('vipUserInfo')
+      this.setData({
+        headImgUrl: vipData?.userCustomize?.headImgUrl,
+        nickName: vipData?.userCustomize?.nickName,
+      })
+    }
     let data = {
       // brand: 1,
       // sourceSys: 'IOT'
@@ -211,6 +220,7 @@ Page({
     requestService.request('getVipUserInfo', data).then((resp) => {
       const vipData = resp?.data?.data
       app.globalData.userData.grade = vipData?.grade
+      setVipUserInfo(vipData)
       this.setData({
         headImgUrl: vipData?.userCustomize?.headImgUrl,
         nickName: vipData?.userCustomize?.nickName,
