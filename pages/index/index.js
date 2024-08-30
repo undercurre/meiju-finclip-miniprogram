@@ -58,6 +58,7 @@ const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
 let forceUpdateWhenOnshow = false // 触发onshow是否需要更新
+let isGoToPlugin = true
 let hasInitedHomeIdList = [] // 已缓存的家庭id
 import { setApplianceListConfig } from '../../utils/redis.js'
 Page({
@@ -455,7 +456,6 @@ Page({
     sHeight: 'height:calc(100% - 113rpx)',
     sceneIconList: [], //场景icon列表
     isExpandNoSupportDevice: false,
-    isGoToPlugin: true, //跳转插件页防重
     isHourse: true,
     isShowApplyForFamily: false,
     nfcData: {},
@@ -1867,10 +1867,10 @@ Page({
   //设备图标处理
   setIotDeviceV3() {
     this.data.supportedApplianceList.forEach((item) => {
-      item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, this.data.supportedApplianceList)
+      item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, this.data.supportedApplianceList, app.globalData.spidDeviceImgList)
     })
     this.data.unsupportedApplianceList.forEach((item) => {
-      item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, this.data.unsupportedApplianceList)
+        item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, this.data.unsupportedApplianceList, app.globalData.spidDeviceImgList)
     })
   },
 
@@ -1893,6 +1893,7 @@ Page({
           .then((resp) => {
             this.data.sceneIconList = resp.data.data.iconList
             app.globalData.dcpDeviceImgList = resp.data.data.iconList
+            app.globalData.spidDeviceImgList = resp.data.data.smartProductIdList
             this.setIotDeviceV3()
             this.setData({
               supportedApplianceList: this.data.supportedApplianceList,
@@ -1952,6 +1953,12 @@ Page({
       unsupportedApplianceList = homeStorage.getStorage({
         homeId: currentHomeGroupId,
         name: 'unsupportedApplianceList',
+      })
+      supportedApplianceList.forEach(item => {
+            item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, supportedApplianceList, app.globalData.spidDeviceImgList)
+      })
+      unsupportedApplianceList.forEach(item => {
+        item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, unsupportedApplianceList, app.globalData.spidDeviceImgList)
       })
       let aLLDeviceLength = supportedApplianceList.length + unsupportedApplianceList.length
       const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(supportedApplianceList)
@@ -2048,6 +2055,12 @@ Page({
       data: allUnsupportedApplianceList,
     })
     const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(supportedApplianceList)
+    supportedApplianceList.forEach(item => {
+        item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, supportedApplianceList, app.globalData.spidDeviceImgList)
+  })
+  allUnsupportedApplianceList.forEach(item => {
+    item.deviceImg = getIcon(item, app.globalData.dcpDeviceImgList, allUnsupportedApplianceList, app.globalData.spidDeviceImgList)
+  })
     this.setData({
       isExpandNoSupportDevice,
       supportedApplianceList: supportedApplianceList,
@@ -2426,10 +2439,8 @@ Page({
     console.log('小木马跳插件开始', parseInt(Date.now()))
     let start = new Date()
     let self = this
-    if (!this.data.isGoToPlugin) return
-    this.setData({
-        isGoToPlugin: false
-    })
+    if (!isGoToPlugin) return
+    isGoToPlugin = false
     let type = e.currentTarget.dataset.type && e.currentTarget.dataset.type != null ? e.currentTarget.dataset.type : ''
     let applianceCode = e.currentTarget.dataset.applianceCode
     let currDeviceInfo = e?.currentTarget?.dataset?.all
@@ -2486,8 +2497,8 @@ Page({
             wx.navigateTo({
               url: '/distribution-network/addDevice/pages/afterCheck/afterCheck',
               complete() {
+                isGoToPlugin = true
                 self.setData({
-                    isGoToPlugin: true,
                     isActionPlugin: true,
                 })
               },
@@ -2501,8 +2512,8 @@ Page({
             wx.navigateTo({
               url: getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo)),
               complete() {
+                isGoToPlugin = true
                 self.setData({
-                    isGoToPlugin: true,
                     isActionPlugin: true,
                 })
               },
@@ -2516,8 +2527,8 @@ Page({
           wx.navigateTo({
             url: getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo)),
             complete() {
+                isGoToPlugin = true
                 self.setData({
-                    isGoToPlugin: true,
                     isActionPlugin: true,
                 })
             },
@@ -2525,9 +2536,7 @@ Page({
         }
       } catch (error) {
         console.log('设备确权接口异常', error)
-        self.setData({
-            isGoToPlugin: true,
-        })
+        isGoToPlugin = true
         showToast('打开失败,请稍后重试')
       }
     } else {
@@ -2535,8 +2544,8 @@ Page({
       wx.navigateTo({
         url: '/pages/unSupportDevice/unSupportDevice?deviceInfo=' + encodeURIComponent(JSON.stringify(currDeviceInfo)),
         complete() {
+            isGoToPlugin = true
             self.setData({
-                isGoToPlugin: true,
                 isActionPlugin: true,
             })
         },

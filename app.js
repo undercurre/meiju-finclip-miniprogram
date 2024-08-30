@@ -99,7 +99,9 @@ App({
   getDcpDeviceImg() {
     let that = this
     let sceneIconList = wx.getStorageSync('dcpDeviceImgList')
+    let spidDeviceImgList = wx.getStorageSync('spidDeviceImgList')
     this.globalData.dcpDeviceImgList = sceneIconList
+    this.globalData.spidDeviceImgList = spidDeviceImgList
     loginMethods
       .getDcpDeviceImgs()
       .then((res) => {
@@ -109,13 +111,18 @@ App({
           wx.nextTick(() => {
             wx.setStorageSync({
               key: 'dcpDeviceImgList',
-              data: res,
+              data: res.iconList,
+            })
+            wx.setStorageSync({
+                key: 'spidDeviceImgList',
+                data: res.smartProductIdList,
             })
           })
         } catch (error) {
           console.log('setStorage error', error)
         }
-        that.globalData.dcpDeviceImgList = res
+        that.globalData.dcpDeviceImgList = res.iconList
+        that.globalData.spidDeviceImgList = res.smartProductIdList
       })
       .catch((err) => {
         console.log(err)
@@ -595,6 +602,7 @@ App({
     bleSessionSecret: '',
     deviceSessionId: '',
     dcpDeviceImgList: {},
+    spidDeviceImgList: {},
     isUpdateAgreement: false, //是否已经更新协议
     wahinDecorator: {}, //华凌serve
     selectedProductCurrIndex: 1,

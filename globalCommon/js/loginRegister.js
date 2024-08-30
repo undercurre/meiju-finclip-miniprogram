@@ -489,7 +489,7 @@ const loginMethods = {
         .then((res) => {
           console.log('列表查询', res)
           if (res.data.code == 0) {
-            resolve(res.data.data.iconList)
+            resolve(res.data.data)
             // wx.setStorageSync('dcpDeviceImgList', res.data.data.iconList)
             // that.globalData.dcpDeviceImgList = res.data.data.iconList
           }
