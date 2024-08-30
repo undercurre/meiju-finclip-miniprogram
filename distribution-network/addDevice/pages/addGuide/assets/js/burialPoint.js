@@ -942,4 +942,90 @@ export const burialPoint = {
     })
   },
 
+  /**
+   * 配网指引页-蓝牙授权
+   */
+  bluetoothAuthorizedView:(param)=>{
+    rangersBurialPoint('user_page_view', {
+      module: 'appliance',
+      page_id: 'guide_authorize_bluetooth', //参考接口请求参数“pageId”
+      page_name: '配网指引页提示需开启蓝牙权限页面', 
+      widget_id: '',
+      widget_name: '',
+      device_info: {
+        device_session_id: param.device_session_id, //一次配网事件标识
+        sn: param.sn, //sn码
+        sn8: param.sn8, //sn8码
+        a0:param.a0,
+        widget_cate: param.widget_cate, //设备品类-
+        wifi_model_version:param.wifi_model_version,
+        link_type:param.link_type
+      },
+    })
+  },
+  /**
+   * 配网指引页-蓝牙开关没有开启
+   */
+  bluetoothEnableView:(param)=>{
+    rangersBurialPoint('user_page_view', {
+      module: 'appliance',
+      page_id: 'guide_open_bluetooth_switch', //参考接口请求参数“pageId”
+      page_name: '配网指引页提示开启蓝牙开关', 
+      widget_id: '',
+      widget_name: '',
+      device_info: {
+        device_session_id: param.device_session_id, //一次配网事件标识
+        sn: param.sn, //sn码
+        sn8: param.sn8, //sn8码
+        a0:param.a0,
+        widget_cate: param.widget_cate, //设备品类-
+        wifi_model_version:param.wifi_model_version,
+        link_type:param.link_type
+      },
+    })
+  },
+
+  /**
+ * 配网指引页-蓝牙授权-点击去开启
+ */
+  clickBluetoothAuthorized:(param)=>{
+    rangersBurialPoint('user_behavior_event', {
+      module: 'appliance',
+      page_id: '', //参考接口请求参数“pageId”
+      page_name: '', 
+      widget_id: 'guide_authorize_bluetooth_enable_button',
+      widget_name: '配网指引蓝牙权限去开启按钮',
+      device_info: {
+        device_session_id: param.device_session_id, //一次配网事件标识
+        sn: param.sn, //sn码
+        sn8: param.sn8, //sn8码
+        a0:param.a0,
+        widget_cate: param.widget_cate, //设备品类-
+        wifi_model_version:param.wifi_model_version,
+        link_type:param.link_type
+      },
+    })
+  },
+  /**
+ * 配网指引页-蓝牙开关-点击去开启
+ */
+  clickBluetoothEnable:(param)=>{
+    rangersBurialPoint('user_behavior_event', {
+      module: 'appliance',
+      page_id: '', //参考接口请求参数“pageId”
+      page_name: '', 
+      widget_id: 'guide_authorize_bluetooth_enable_button',
+      widget_name: '配网指引蓝牙权限去开启按钮',
+      device_info: {
+        device_session_id: param.device_session_id, //一次配网事件标识
+        sn: param.sn, //sn码
+        sn8: param.sn8, //sn8码
+        a0:param.a0,
+        widget_cate: param.widget_cate, //设备品类-
+        wifi_model_version:param.wifi_model_version,
+        link_type:param.link_type
+      },
+    })
+  },
+
 }

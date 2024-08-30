@@ -64,6 +64,7 @@ Page({
       .then((res) => {
         console.log(res, '修改房间名成功')
         app.globalData.ifRefreshHomeList = true
+        this.data.roomDetail.name = this.data.roomValue
         this.setData({
           roomName: this.data.roomValue,
           editDialogShow: false,

@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "media-card": "../component/media-card/media-card",
-    "mx-popup": "/miniprogram_npm/m-ui/mx-popup/index"
-  }
-}

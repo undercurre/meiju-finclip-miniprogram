@@ -36,6 +36,7 @@ Page({
     errorColor: ERROR,
     creatList: [],
     inviteList: [],
+    isButtonClicked: false,
   },
   // 获取数据-家庭列表和邀请码
   getInitData() {
@@ -114,7 +115,12 @@ Page({
   },
   //输入内容
   onChange(e) {
-    const errorMsg = this.validtaFunc(e.detail || '')
+    let errorMsg = this.validtaFunc(e.detail || '')
+    var regu = '^[ ]+$'
+    var re = new RegExp(regu)
+    if (re.test(e.detail)) {
+      errorMsg = '家庭名称不能为空'
+    }
     if (errorMsg) {
       this.setData({
         errorMessage: errorMsg,
@@ -177,7 +183,12 @@ Page({
   //确定
   confirm() {
     burialPoint.confirmclickbthCreatingFamilyBurialPoint()
-    const errorMsg = this.validtaFunc(this.data.familyValue)
+    let errorMsg = this.validtaFunc(this.data.familyValue)
+    var regu = '^[ ]+$'
+    var re = new RegExp(regu)
+    if (re.test(this.data.familyValue)) {
+      errorMsg = '家庭名称不能为空'
+    }
     if (errorMsg) {
       this.setData({
         errorMessage: errorMsg,
@@ -187,6 +198,11 @@ Page({
     this.addFamily()
       .then((res) => {
         app.globalData.ifRefreshHomeList = true
+        wx.showToast({
+          title: '创建家庭成功',
+          icon: 'none',
+          duration: 5000,
+        })
         console.log(res, '创建家庭成功')
         this.setData({
           dialogShow: false,
@@ -248,9 +264,34 @@ Page({
 
   //点击邀请按钮
   clickInviteBtn(e) {
-    console.log(e)
+    //防止暴击
+    if (this.data.isButtonClicked) {
+      return
+    }
+    this.data.isButtonClicked = true
+    // 执行按钮点击事件的操作
+    setTimeout(() => {
+      this.data.isButtonClicked = false
+    }, 1000)
     let { homegroupid, homeitem } = e.currentTarget.dataset
-    this.gotoInvite(homeitem, homegroupid)
+    let that = this
+    this.homeMemberGet(this.data.homegroupId)
+      .then((res) => {
+        console.log(res, 'res')
+        if (res.data.data.list.length >= 20) {
+          wx.showToast({
+            title: '您的家庭成员已经达到20个上限，无法继续新增',
+            icon: 'none',
+          })
+          return
+        }
+        console.log(e)
+        that.gotoInvite(homeitem, homegroupid)
+      })
+      .catch((err) => {
+        console.log(err, 'err')
+        that.gotoInvite(homeitem, homegroupid)
+      })
     //burialPoint.clickInvitePoint()
   },
   // 获取列表内容高度
@@ -309,6 +350,24 @@ Page({
     })
   },
 
+  homeMemberGet(id) {
+    let reqData = {
+      homegroupId: id,
+      reqId: getReqId(),
+      stamp: getStamp(),
+      uid: app.globalData.userData.uid,
+    }
+    return new Promise((resolve, reject) => {
+      requestService
+        .request('homeMemberGet', reqData)
+        .then((resp) => {
+          resolve(resp)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

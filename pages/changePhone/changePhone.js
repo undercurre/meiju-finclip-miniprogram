@@ -119,7 +119,9 @@ Page({
       stamp: getStamp(new Date()),
       timestamp: getStamp(new Date()),
     }
-    this.setData({ isLoading: true })
+    wx.showLoading({
+        title: '加载中'
+    })
     // 请求后台，更换手机号码
     requestService
       .request('gitSmsCode', params)
@@ -130,7 +132,7 @@ Page({
         this.handleResult(res)
       })
       .finally(() => {
-        this.setData({ isLoading: false })
+        wx.hideLoading()
       })
   },
   getVipUserInfo() {

@@ -94,7 +94,7 @@ const loginMethods = {
         let reqId = getReqId()
         let reqData = {
           appKey: '46579c15',
-          appVersion: '1.0.0',
+          appVersion: app.globalData.appVersion || '1.0.0',
           osVersion: '',
           platform: 110,
           iotAppId: api.iotAppId,
@@ -216,8 +216,9 @@ const loginMethods = {
       let timestamp = getStamp()
       let reqId = getReqId()
       let reqData = {
+        clientType: 6,
         appKey: '46579c15',
-        appVersion: '9.0,',
+        appVersion: app.globalData.appVersion || '9.0,',
         osVersion: '',
         platform: 110,
         deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
@@ -227,6 +228,7 @@ const loginMethods = {
         timestamp: timestamp,
         data: reqData,
         iotData: {
+          clientType: 6,
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,
@@ -234,7 +236,7 @@ const loginMethods = {
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
-          appVersion: '9.0,',
+          appVersion: app.globalData.appVersion || '9.0,',
           loginType: params.loginType, //0：正常登录流程 （不传默认0） 1:  跳过过判断三天内不能重新注册流程
         },
       }
@@ -291,6 +293,9 @@ const loginMethods = {
     const { code, msg } = data
     let label = '未知系统错误'
     switch (code) {
+      case 1100:
+        label = '验证码已过期'
+        break
       case 1104:
         label = '手机号不正确'
         break
@@ -310,7 +315,7 @@ const loginMethods = {
         label = '验证码错误，请重新输入'
         break
       default:
-        label = msg
+        label = '操作失败，请重新再试'
         break
     }
     return label

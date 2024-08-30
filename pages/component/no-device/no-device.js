@@ -5,6 +5,8 @@
  */
 // pages/component/no-device/no-device.js
 import { baseImgApi } from '../../../api'
+const home_img_jiadian_low = '../../../assets/img/index/home_img_jiadian_low.png'
+const normalPic = baseImgApi.url + 'home_img_jiadian.png'
 Component({
   /**
    * 组件的属性列表
@@ -37,7 +39,7 @@ Component({
    */
   data: {
     img: {
-      addDeviceImg: baseImgApi.url + 'home_img_jiadian.png',
+      addDeviceImg: normalPic,
       deviceFlag: false,
     },
   },
@@ -46,6 +48,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    errorImgLoad() {
+        this.setData({
+            addDeviceImg: home_img_jiadian_low
+        })
+    },
     updateValue(val){
       this.setData({
         btnConent:val

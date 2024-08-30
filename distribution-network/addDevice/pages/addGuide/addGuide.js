@@ -103,45 +103,16 @@ Page({
       permissionTextAll: null, //权限提示文案
       permissionTypeList: {},
     },
+    switchTackend:false,//切换到后台的标识符
+    monitorBluetoothFalg:false,//监听蓝牙标识符
+    isjumpPageFalg:false,//是否跳转页面标识符
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    wx.offBluetoothAdapterStateChange()
     let self = this
-
-    // // 监听蓝牙状态变化
-    // wx.onBluetoothAdapterStateChange(function (res) {
-    //     console.error('Guide蓝牙状态已改变');
-    //     // let page = getFullPageUrl()
-    //     // if (page.includes('addDevice/pages/addGuide/addGuide')){
-    //       if (res.available) {
-    //         console.error('Guide蓝牙状态已改变11111');
-    //         self.startBluetoothDevicesDiscovery(0)
-    //         if(!self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为false,但监听结果是蓝牙可以用，重新调初始化函数
-    //           console.error('Guide蓝牙状态已改变2222isCanBlue:',self.data.checkPermissionRes.isCanBlue);
-    //           self.setData({
-    //             'checkPermissionRes.isCanBlue': true,
-    //           })
-    //           self.initAddGuide()
-    //         }          
-    //       // 蓝牙已打开并且正在搜索设备
-    //       console.error('Guide蓝牙已打开，正在搜索设备2');
-    //       } else {
-    //       // 蓝牙未打开
-    //         console.error('Guide蓝牙未打开2isCanBlue:',self.data.checkPermissionRes.isCanBlue);
-    //         if(self.data.checkPermissionRes.isCanBlue){ //蓝牙状态为true,但监听结果是蓝牙不可以用，重新调初始化函数
-    //           self.setData({
-    //             'checkPermissionRes.isCanBlue': false,
-    //           })
-    //           self.initAddGuide()
-    //         }
-    //       }
-    //     // }
-        
-    // });
     console.log('dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle:', brandStyle.config)
     getApp().onLoadCheckingLog()
     this.data.brand = app.globalData.brand
@@ -224,13 +195,23 @@ Page({
     let blueRes = await checkPermission.blue()
     let permissionTypeList = blueRes.permissionTypeList
     let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
+
+    if(!bluetoothAuthorized || !bluetoothEnabled){
+      burialPoint.clickBluetoothAuthorized({
+        deviceSessionId: app.globalData.deviceSessionId,
+        sn8: app.addDeviceInfo.sn8,
+        type: app.addDeviceInfo.type,
+        moduleVersion: app.addDeviceInfo.blueVersion,
+        linkType: app.addDeviceInfo.linkType,
+      })
+    }
     if(!bluetoothAuthorized){
-        wx.openAppAuthorizeSetting({
-            success (res) {
-            console.log(res)
-            }
-        })
-        return
+      wx.openAppAuthorizeSetting({
+          success (res) {
+          console.log(res)
+          }
+      })
+      return
     }
     if(!bluetoothEnabled){
       ft.changeBlueTooth({ enable: true })
@@ -298,7 +279,9 @@ Page({
       await this.addGuideOpenBluetooth()
       let isCanBlue = await this.checkBluetoothAuth()
       console.log('[是否可以使用蓝牙]', isCanBlue)
+      console.error('addGuide-ifNearby-----------:',ifNearby)
       if (!isCanBlue) {
+        
         clearInterval(timer)
         // 修改没有开蓝牙时，靠近确权页会跑到配网指引页的问题
         if (
@@ -450,17 +433,35 @@ Page({
                   app.addDeviceInfo.isCheck = true
                   wx.navigateTo({
                     url: paths.linkDevice,
+                    success:()=>{
+                      self.data.isjumpPageFalg = true
+                    },
+                    fail:(error)=>{
+                      console.log('设备已确权跳转失败-----：',error)
+                    }
                   })
                 } else if (app.addDeviceInfo.blueVersion == 1) {
                   // 一代蓝牙
                   wx.navigateTo({
                     url: paths.linkDevice,
+                    success:()=>{
+                      self.data.isjumpPageFalg = true
+                    },
+                    fail:(error)=>{
+                      console.log('一代蓝牙跳转失败-----：',error)
+                    }
                   })
                 } else {
                   // 二代蓝牙
                   app.addDeviceInfo.ifNearby = true
                   wx.redirectTo({
                     url: paths.addGuide,
+                    success:()=>{
+                      self.data.isjumpPageFalg = true
+                    },
+                    fail:(error)=>{
+                      console.log('二代蓝牙跳转失败-----：',error)
+                    }
                   })
                 }
               }
@@ -498,7 +499,7 @@ Page({
         type: type,
         moduleVison: blueVersion,
       })
-      if (mode == 3 || mode == 18) app.addDeviceInfo.ifNearby = false
+      if (mode == 3 || mode == 18){}
       // this.setData({
       //   guideType: 'near',
       // })
@@ -518,6 +519,15 @@ Page({
           if (page.includes('addDevice/pages/addGuide/addGuide')){
             wx.navigateTo({
               url: paths.linkDevice,
+              success:()=>{
+                self.data.isjumpPageFalg = true
+                if (mode == 3 || mode == 18) {
+                  app.addDeviceInfo.ifNearby = false
+                }
+              },
+              fail:(error)=>{
+                console.log('搜索到设备跳转失败-----：',error)
+              }
             })
           }
         }, 2000)
@@ -634,6 +644,12 @@ Page({
         setTimeout(() => {
           wx.navigateTo({
             url: paths.linkDevice,
+            success:()=>{
+              this_.data.isjumpPageFalg = true
+            },
+            fail:(error)=>{
+              console.log('重试靠近确权跳转失败-----：',error)
+            },
             complete() {
               this_.retryClickFlag = false
             },
@@ -852,6 +868,12 @@ Page({
                     app.addDeviceInfo.isCheck = false
                     wx.navigateTo({
                       url: paths.linkDevice,
+                      success:()=>{
+                        self.data.isjumpPageFalg = true
+                      },
+                      fail:(error)=>{
+                        console.log('跳过步骤跳转失败-----：',error)
+                      }
                     })
                     burialPoint.clickAbandonNearSkip({
                       deviceSessionId: app.globalData.deviceSessionId,
@@ -916,6 +938,7 @@ Page({
   },
   //ap完成手动确权
   async next() {
+    let self = this
     let { mode, ssid, sn8, fm, hadChangeBlue } = app.addDeviceInfo
     if (!this.data.isFinishUpAp) {
       showToast('请先勾选')
@@ -939,6 +962,12 @@ Page({
     if(mode == 20){
       wx.navigateTo({
         url: paths.linkDevice,
+        success:()=>{
+          self.data.isjumpPageFalg = true
+        },
+        fail:(error)=>{
+          console.log('mode == 20跳转失败-----：',error)
+        }
       })
       return
     }
@@ -953,7 +982,15 @@ Page({
         if (this.data.isFromPlugin) {
           gatewaySearchUrl = `${gatewaySearchUrl}?isFromPlugin=true`
         }
-        return wx.navigateTo({ url: gatewaySearchUrl })
+        return wx.navigateTo({ 
+          url: gatewaySearchUrl,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('搜索子设备跳转失败-----：',error)
+          }
+        })
       }
       
       //ap
@@ -976,6 +1013,12 @@ Page({
               }
             },
           },
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('手动连接ap页跳转失败-----：',error)
+          }
         })
       }
     }
@@ -986,6 +1029,7 @@ Page({
     this.data.loadGuideImg = true
   },
   async retry() {
+    let self = this
     this.setData({
       noFound: false,
       ['checkGuideInfo.connectUrlA']: this.data.loadGuideImg ? this.data.checkGuideInfo.connectUrlA : this.data.checkGuideInfo.connectUrlA + '',
@@ -1008,6 +1052,12 @@ Page({
         setTimeout(() => {
           wx.navigateTo({
             url: paths.linkDevice,
+            success:()=>{
+              self.data.isjumpPageFalg = true
+            },
+            fail:(error)=>{
+              console.log('点击重试跳转失败-----：',error)
+            }
           })
         }, 2000)
       })
@@ -1084,6 +1134,7 @@ Page({
     if (!this.data.isFinishUpAp) {
       return
     }
+    let self = this
     let { deviceName, type, sn,mode } = app.addDeviceInfo
     if (mode == 20){
       this.setData({
@@ -1144,6 +1195,12 @@ Page({
             //确定
             wx.navigateTo({
               url: paths.linkDevice,
+              success:()=>{
+                self.data.isjumpPageFalg = true
+              },
+              fail:(error)=>{
+                console.log('扫码失败跳转失败-----：',error)
+              }
             })
             burialPoint.touchScreenDiologConfirm({
               deviceSessionId: app.globalData.deviceSessionId,
@@ -1322,7 +1379,13 @@ Page({
               if (app.addDeviceInfo.mode == 18 && !packInfo.isNetworkCable) {
                 // 有线配网&&未插入网线 ==>> 跳转网线连接页
                 wx.navigateTo({
-                  url: wireding
+                  url: wireding,
+                  success:()=>{
+                    self.data.isjumpPageFalg = true
+                  },
+                  fail:(error)=>{
+                    console.log('有线配网&&未插入网线跳转失败-----：',error)
+                  }
                 })
               } else if((app.addDeviceInfo.mode == 18 && packInfo.isNetworkCable) || (app.addDeviceInfo.mode == 3 && isSupDevice)) {
                 // (有线配网&&已插入网线 || 无线配网&&超级网关) ==>> 跳转靠近确权页
@@ -1333,6 +1396,12 @@ Page({
                 // 原有逻辑 ==>> 跳联网进度页
                 wx.navigateTo({
                   url: paths.linkDevice,
+                  success:()=>{
+                    self.data.isjumpPageFalg = true
+                  },
+                  fail:(error)=>{
+                    console.log('原有逻辑 ==>> 跳联网进度页跳转失败-----：',error)
+                  }
                 })
               }
             } else {
@@ -1554,6 +1623,12 @@ Page({
         console.log('跳过清除了定时器')
         wx.navigateTo({
           url: paths.linkDevice,
+          success:()=>{
+            this_.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('skipNear跳转失败-----：',error)
+          },
           complete() {
             this_.clickFLag = false
           },
@@ -1615,6 +1690,8 @@ Page({
     // }
     // return result
     let blueRes = await checkPermission.blue()
+    let permissionTypeList = blueRes.permissionTypeList
+    let { bluetoothEnabled,bluetoothAuthorized } = permissionTypeList
     this.data.guideBlueRes = blueRes
     console.log('[blueRes]', blueRes)
     if (!blueRes.isCanBlue) {
@@ -1632,6 +1709,27 @@ Page({
       //   ishowBlueRes: true,
       //   bluePermissionTextAll: blueRes.permissionTextAll,
       // })
+
+      if(!bluetoothAuthorized){
+        burialPoint.bluetoothAuthorizedView({
+          deviceSessionId: app.globalData.deviceSessionId,
+          sn8: app.addDeviceInfo.sn8,
+          type: app.addDeviceInfo.type,
+          moduleVersion: app.addDeviceInfo.blueVersion,
+          linkType: app.addDeviceInfo.linkType,
+        })
+      }
+  
+      if(!bluetoothEnabled){
+        burialPoint.bluetoothEnableView({
+          deviceSessionId: app.globalData.deviceSessionId,
+          sn8: app.addDeviceInfo.sn8,
+          type: app.addDeviceInfo.type,
+          moduleVersion: app.addDeviceInfo.blueVersion,
+          linkType: app.addDeviceInfo.linkType,
+        }) 
+      }
+
       this.setData({
         checkPermissionRes: blueRes,
       })
@@ -1683,6 +1781,7 @@ Page({
   //查看指引
   clickLink(e) {
     console.log('[clich Link]', e)
+    let self = this
     e = e.detail
     if (e.flag == 'lookGuide') {
       if (e.type == 'blue') {
@@ -1696,6 +1795,12 @@ Page({
         })
         wx.navigateTo({
           url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(e.permissionTypeList)}`,
+          success:()=>{
+            self.data.isjumpPageFalg = true
+          },
+          fail:(error)=>{
+            console.log('查看指引跳转失败-----：',error)
+          }
         })
       }
     }
@@ -1724,28 +1829,119 @@ Page({
    */
   onReady: function () { },
 
+
+    //封装蓝牙监听
+  monitorBluetooth(){
+    let self = this
+    wx.onBluetoothAdapterStateChange(async function (res) {
+      if (res.available && !self.data.checkPermissionRes.isCanBlue) {
+        console.error('// 证明开启蓝牙,状态 没变')
+        self.data.checkPermissionRes.isCanBlue = true
+        self.initAddGuide()
+      } else if(!res.available && self.data.checkPermissionRes.isCanBlue){
+        console.error('// ----证明关闭蓝牙,状态 没变')
+        self.data.checkPermissionRes.isCanBlue = false
+        // self.initAddGuide()
+        await self.checkBluetoothAuth()
+        clearInterval(timer)
+        wx.offBluetoothDeviceFound()
+        wx.stopBluetoothDevicesDiscovery()
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {},
+  onShow: async function () {
+    console.error('进入addGuideonShow')
+    let {mode} = app.addDeviceInfo
+    this.data.isjumpPageFalg = false
+    if (addDeviceSDK.bluetoothAuthModes.includes(mode)) {
+      this.data.currPageLength = getCurrentPages().length
+      await this.addGuideOpenBluetooth()
+      let isCanBlue = await this.checkBluetoothAuth()
+      console.error('onShow- isCanBlue:',isCanBlue)
+      console.error('onShow- this.data.switchTackend:',this.data.switchTackend)
+      try {
+        if(!this.data.monitorBluetoothFalg){
+          this.data.monitorBluetoothFalg = true
+          this.monitorBluetooth()
+        }
+        if(!isCanBlue){
+          this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
+          clearInterval(timer)
+        }
+        if(isCanBlue && this.data.switchTackend){
+          this.data.switchTackend = false
+          let blueRes = await checkPermission.blue()
+          let permissionTypeList = blueRes.permissionTypeList
+          let { bluetoothAuthorized } = permissionTypeList
+          console.error('进入了后台切换前台，打开app授权bluetoothAuthorized：',bluetoothAuthorized)
+          if(bluetoothAuthorized){
+            this.initAddGuide()
+          }
+        }
+      } catch (error) {
+        console.error('onShow-tryCatch---------:',error)
+      }
+
+
+    }
+
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () { },
+  onHide:async function () {
+    console.error('addGuide onHide----')
+    // setTimeout(async ()=>{
+     
+      if(this.data.isjumpPageFalg){ //标识页面切换
+        this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
+        clearInterval(timer)
+        // wx.offBluetoothAdapterStateChange()
+        this.data.switchTackend = false
+        this.data.monitorBluetoothFalg = false
+      } else {
+        console.log('切换后台 addGuideonHide-------')
+        let blueRes = await checkPermission.blue()
+        let permissionTypeList = blueRes.permissionTypeList
+        let {bluetoothAuthorized } = permissionTypeList
+        if(!bluetoothAuthorized) {
+          this.data.switchTackend = true
+        }
+      }
+    // },500)
+  },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
     getApp().onUnloadCheckingLog()
-
     console.error('addGuide-onUnload-页面返回清除了定时器')
     this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
     wx.offBluetoothDeviceFound()
     wx.stopBluetoothDevicesDiscovery()
     clearInterval(timer)
     wx.offBluetoothAdapterStateChange()
+    this.data.monitorBluetoothFalg = false
+    this.data.switchTackend = false
+    this.data.isjumpPageFalg = false
+    // setTimeout(()=>{
+    //   console.error('this.data.currPageLength:',this.data.currPageLength)
+    //   let onUnload = getCurrentPages().length
+    //   console.error('onUnload:',onUnload)
+    //   if(onUnload != this.data.currPageLength){
+    //     this.searchBlueStopTimeout && clearTimeout(this.searchBlueStopTimeout)
+    //     wx.offBluetoothDeviceFound()
+    //     wx.stopBluetoothDevicesDiscovery()
+    //     clearInterval(timer)
+    //     wx.offBluetoothAdapterStateChange()
+    //   }
+    // },500)
   },
 
   /**
@@ -1769,13 +1965,21 @@ Page({
   },
 
   goHome() {
+    let self = this
     if (this.data.brand != 'colmo') {
+      self.data.isjumpPageFalg = true
       wx.switchTab({
         url: paths.index,
       })
     } else {
       wx.navigateTo({
         url: paths.index,
+        success:()=>{
+          self.data.isjumpPageFalg = true
+        },
+        fail:(error)=>{
+          console.log('goHome跳转失败-----：',error)
+        }
       })
     }
   },
@@ -1794,12 +1998,19 @@ Page({
 
   async checkGuide() {
     if (this.data.guideFlag) return
+    let self = this
     this.data.guideFlag = true
     // let blueRes = await checkPermission.blue()
     let blueRes = this.data.guideBlueRes
     log.info('蓝牙权限弹窗', blueRes)
     wx.navigateTo({
       url: paths.blueGuide + `?permissionTypeList=${JSON.stringify(blueRes.permissionTypeList)}`,
+      success:()=>{
+        self.data.isjumpPageFalg = true
+      },
+      fail:(error)=>{
+        console.log('checkGuide跳转失败-----：',error)
+      }
     })
     setTimeout(() => {
       this.data.guideFlag = false
@@ -1829,6 +2040,7 @@ Page({
   },
 
   checkOp(){
+    let self = this
     this.cellularTypeGuideTracking()
     const brandConfig = app.globalData.brandConfig[app.globalData.brand]
     let guideUrl =
@@ -1845,6 +2057,12 @@ Page({
     }
     wx.navigateTo({
       url: guideUrl,
+      success:()=>{
+        self.data.isjumpPageFalg = true
+      },
+      fail:(error)=>{
+        console.log('checkOp跳转失败-----：',error)
+      }
     })
   },
   scanQRcode(){

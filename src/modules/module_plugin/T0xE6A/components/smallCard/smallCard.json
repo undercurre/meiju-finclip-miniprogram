@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "mx-button": "/miniprogram_npm/m-ui/mx-button/index"
-  }
-}

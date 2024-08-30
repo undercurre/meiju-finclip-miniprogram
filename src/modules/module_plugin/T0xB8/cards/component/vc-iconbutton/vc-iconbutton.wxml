@@ -1,4 +1,0 @@
-<view class="container" bindtap="buttonTap">
-    <image class = "imgStyle" src = "{{propIcon}}" style="width:{{propIconWidth}}; height: {{propIconHeight}}"></image>
-    <text class = "textStyle" style = "{{propStyle}}">{{propTitle}}</text>
-</view>

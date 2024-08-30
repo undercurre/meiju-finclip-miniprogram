@@ -5,16 +5,13 @@ const $$Rangers = rangersInit()
 import Tracker from './track/oneKeyTrack/libs/index'
 import trackConfig from './track/oneKeyTrack/config/index'
 import { deviceInfoReport } from './track/track.js'
-// import websocket from './utils/websocket.js'
 import { requestService, rangersBurialPoint } from './utils/requestService'
 import { isEmptyObject, hasKey, dateFormat, getReqId, getStamp } from 'm-utilsdk/index'
-import { getWxSystemInfo, getWxGetSetting } from './utils/wx/index.js'
 import weixinApi from './utils/weixin/weixin.api'
 import cloudMethods from '/globalCommon/js/cloud.js'
-const WX_LOG = require('./utils/log')
 import getBrand from './utils/getBrand'
-import { privacy, index as homeIndex } from './utils/paths'
-import { removeCloudSync } from './utils/redis'
+import { index as homeIndex } from './utils/paths'
+import { removeCloudSync, setPluginFilter } from './utils/redis'
 import { initWebsocket, closeWebsocket } from './utils/initWebsocket.js'
 import { api } from './api'
 new Tracker({
@@ -28,10 +25,6 @@ const CKECKING_LOG = new CheckingLog({
   checkingPath: 'distribution-network',
   rangersBurialPoint: rangersBurialPoint,
 })
-
-// 性能埋点上报
-import PerformanceTrack from './miniprogram_npm/m-performance/m-performance'
-const Performance_Track = new PerformanceTrack(rangersBurialPoint)
 
 // 配网品牌配置
 import brandConfig from './distribution-network/assets/js/brand.js'
@@ -48,7 +41,7 @@ import {
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
 //const linkupSDK = require('./distribution-network/assets/sdk/index.js')
-const pkg = require('./miniprogram_npm/m-ble-crypto/bluetooth-crypto.js')
+const pkg = '' //require('./miniprogram_npm/m-ble-crypto/bluetooth-crypto.js')
 const cardSDK = require('./moudle-card/index.js')
 let getBlackWhiteListTime = 0 //获取插件黑白名单次数
 // let resolveCallBack, rejectCallBack = null;
@@ -102,84 +95,35 @@ App({
     this.globalData.phoneNumber = ''
     this.globalData.isLogon = false
   },
-  checkIsShutDownTime({ shutDownNoticeData, showToast }) {
-    const data = shutDownNoticeData.data
-    if (data && +data.code === 0) {
-      const shutDownNoticeData = data.data
-      if (!shutDownNoticeData) return false
-      const shutDownStartTime = shutDownNoticeData.startTime.replace(/-/g, '/')
-      const shutDownEndTime = shutDownNoticeData.endTime.replace(/-/g, '/')
-      const currTime = new Date().getTime()
-      const startTime = new Date(shutDownStartTime).getTime()
-      const endTime = new Date(shutDownEndTime).getTime()
-      if (showToast && shutDownNoticeData.status === 1 && currTime >= startTime && currTime <= endTime) {
-        wx.showModal({
-          title: shutDownNoticeData.title,
-          showCancel: false,
-          content: shutDownNoticeData.content,
-          success(res) {
-            if (res.confirm) {
-              wx.exitMiniProgram()
-            }
-          },
-        })
-        return true
-      }
-      return false
-    }
-    return false
-  },
   // 请求iot的设备icon
-  async getDcpDeviceImg() {
+  getDcpDeviceImg() {
     let that = this
-    let dcpDeviceImgList = []
-    if (!isEmptyObject(this.globalData.dcpDeviceImgList)) {
-      dcpDeviceImgList = this.globalData.dcpDeviceImgList
-      try {
-        //部分手机会因为长度超限制设置失败
-        wx.nextTick(() => {
-          wx.setStorage({
-            key: 'dcpDeviceImgList',
-            data: dcpDeviceImgList,
-          })
-        })
-      } catch (error) {
-        console.log('setStorage error', error)
-      }
-    } else {
-      await loginMethods
-        .getDcpDeviceImgs()
-        .then((res) => {
-          console.log('获取设备图标 app内')
-          try {
-            //部分手机会因为长度超限制设置失败
-            wx.nextTick(() => {
-              wx.setStorage({
-                key: 'dcpDeviceImgList',
-                data: res,
-              })
+    let sceneIconList = wx.getStorageSync('dcpDeviceImgList')
+    this.globalData.dcpDeviceImgList = sceneIconList
+    loginMethods
+      .getDcpDeviceImgs()
+      .then((res) => {
+        console.log('获取设备图标 app内')
+        try {
+          //部分手机会因为长度超限制设置失败
+          wx.nextTick(() => {
+            wx.setStorageSync({
+              key: 'dcpDeviceImgList',
+              data: res,
             })
-          } catch (error) {
-            console.log('setStorage error', error)
-          }
-          that.globalData.dcpDeviceImgList = res
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
-  },
-  selectedHander(options) {
-    const { path } = options
-    if (path && path.indexOf('mytab') != -1) {
-      this.globalData.selectTab = 1
-    } else {
-      this.globalData.selectTab = 0
-    }
+          })
+        } catch (error) {
+          console.log('setStorage error', error)
+        }
+        that.globalData.dcpDeviceImgList = res
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   onLaunch: async function (options) {
-    this.selectedHander(options)
     console.log('launch options', options)
+    //监听网络变化
     onNetworkStatusChange.call(this)
     // 分包异步加载
     //this.globalData.linkupSDK = linkupSDK // 存入全局变量，其他包可以直接引用
@@ -189,18 +133,27 @@ App({
     this.globalData.cardSDK = cardSDK.moduleCard // 存入全局变量，其他包可以直接引用
     this.globalData.brand = getBrand() // 存入全局变量，其他包可以直接引用
     this.globalData.brandConfig = brandConfig.config // 存入全局变量，其他包可以直接引用
+    let env = 'sit'
     try {
-      this.getBlackWhiteList(options)
+      let self = this
+      ft.getAppInfo({
+        success: function (res) {
+          console.log('Yoram getAppInfo success ------------>', res)
+          env = res.data.data.ENV
+          self.getBlackWhiteList(options, env)
+        },
+        fail: function (res) {
+          console.log('Yoram getAppInfo fail--------->', res)
+          self.getBlackWhiteList(options, env)
+        },
+      })
     } catch (error) {
+      this.getBlackWhiteList(options, env)
       console.log(error)
     }
-    //Performance_Track.getPerformanceData()
     this.$$Rangers = $$Rangers
     CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日志
-    //多云协议
-    // if (!wx.getStorageSync('userRegion') && !wx.getStorageSync('cloudGlobalModule')) {
-    this.initCloudData() //20230605屏蔽多云的入口调用，20230612打开多云入口
-    // }
+    this.initCloudData() //多云协议
     //小程序跳转
     this.globalData.isActionAppLaunch = true
     try {
@@ -218,13 +171,13 @@ App({
       }
       //60天内不需要重新登录
       if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
+        //4小时不操作需要刷新用户token
         if (isAutoLogin && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
           loginMethods.loginAPi
             .call(this)
             .then((res2) => {
               console.log('app loginAPi sucesss', res2)
               console.log('app loginAPi sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-              // this.globalData.isLogon = true
               this.globalData.isActionAppLaunch = false
               this.globalData.wxExpiration = true
               if (this.callbackFn) {
@@ -232,12 +185,8 @@ App({
               }
             })
             .catch((err) => {
-              WX_LOG.warn('app loginAPi catch', err)
-              // if (err && err.data && err.data.code == 1406) {
+              console.log('app loginAPi catch', err)
               this.setLoginFalse()
-              // } else {
-              // this.setFromMiniProgramData()
-              // }
             })
         } else if (isAutoLogin && checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
           // 有效期内直接登录
@@ -253,8 +202,7 @@ App({
         }
       }
     } catch (error) {
-      console.log(error, 'onLaunch try cache')
-      WX_LOG.warn('app onLaunch try cache', error)
+      console.log(error, 'app onLaunch try cache', error)
       this.globalData.isLogon = false
       this.globalData.isActionAppLaunch = false
       this.globalData.wxExpiration = false
@@ -267,7 +215,6 @@ App({
   },
 
   onShow: async function (options) {
-    this.selectedHander(options)
     //息屏后重连
     if (this.globalData.gloabalWebSocket && this.globalData.gloabalWebSocket._isClosed && this.globalData.isLogin) {
       initWebsocket()
@@ -276,7 +223,6 @@ App({
     this.globalData.options = options
     console.log('scene', options.scene)
     console.log('options:', options)
-    console.log('微信自发现options:', options)
     try {
       let isAutoLogin = null
       let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
@@ -317,21 +263,11 @@ App({
     } catch (error) {
       console.log(error, 'onshow try cache')
     }
-    // this.getShutDownNoticeData().then((shutDownNoticeData) => {
-    // this.checkIsShutDownTime({ shutDownNoticeData, showToast: true })
-    // })
     this.setMiniProgramData()
     //启动app不需要弹蓝牙和位置授权信息
     //this.triggerWxAuth()
+    //获取设备信息
     this.getSystemInfo()
-    // 埋点上报罗盘等信息
-    deviceInfoReport('user_behavior_event', null, {
-      page_id: 'startup',
-      module: 'data',
-      ext_info: {
-        if_sys: 1,
-      },
-    })
   },
   //获取设备相关信息
   getSystemInfo() {
@@ -358,20 +294,20 @@ App({
     }
     wx.openBluetoothAdapter({
       success: (res) => {
-        console.log('lmn>>> 初始化蓝牙模块成功', res)
+        console.log('app >>> 初始化蓝牙模块成功', res)
       },
       fail: (err) => {
-        console.log('lmn>>> 初始化蓝牙模块失败', err)
+        console.log('app >>> 初始化蓝牙模块失败', err)
       },
     })
     wx.getLocation({
       type: 'wgs84', //返回可以用于wx.openLocation的经纬度
       success(res) {
-        console.log('lmn>>> 初始化地址模块成功', res)
+        console.log('app >>> 初始化地址模块成功', res)
         wx.openLocation()
       },
       fail: (err) => {
-        console.log('lmn>>> 初始化地址模块失败', err)
+        console.log('app >>> 初始化地址模块失败', err)
       },
     })
   },
@@ -396,33 +332,6 @@ App({
     this.globalData.wxExpiration = false
     if (this.callbackFn) {
       this.callbackFn()
-    }
-    //关闭websocket
-    //closeWebsocket()
-  },
-  setFromMiniProgramData() {
-    if (getApp() && getApp().globalData.fromMiniProgramData && getApp().globalData.fromMiniProgramData.jp_c4a_uid) {
-      loginMethods
-        .otherLogin()
-        .then(() => {
-          // this.globalData.isLogon = true
-          this.globalData.isActionAppLaunch = false
-          this.globalData.wxExpiration = true
-          if (this.callbackFn) {
-            this.callbackFn()
-          }
-          // 建立websocket链接
-          // initWebsocket()
-          // //重练
-          // closeReConnect()
-          // networkChange()
-        })
-        .catch((e) => {
-          console.log(e, 'register')
-          this.setLoginFalse()
-        })
-    } else {
-      this.setLoginFalse()
     }
   },
   setMiniProgramData() {
@@ -582,11 +491,20 @@ App({
   },
 
   //黑白名单获取.appId
-  getBlackWhiteList(options) {
-    let verType =
-      wx.getAccountInfoSync().miniProgram.envVersion == 'develop'
-        ? 'trial'
-        : wx.getAccountInfoSync().miniProgram.envVersion
+  getBlackWhiteList(options, env) {
+    let verType = 'release'
+    if (env != 'prod') {
+      verType = 'trial'
+    }
+    console.log('插件黑白名单参数：verType:', verType)
+    //先去缓存读取数据
+    let pluginFilter_SN8 = wx.getStorageSync('pluginFilterS_N8'),
+      pluginFilter_type = wx.getStorageSync('pluginFilter_type')
+    if (pluginFilter_SN8 && pluginFilter_type) {
+      this.globalData.getBlackWhiteListError = false
+      this.globalData.brandConfig[this.globalData.brand].pluginFilter_SN8 = pluginFilter_SN8
+      this.globalData.brandConfig[this.globalData.brand].pluginFilter_type = pluginFilter_type
+    }
     getBlackWhiteListTime = getBlackWhiteListTime + 1
     return new Promise((resolve, reject) => {
       requestService
@@ -604,22 +522,18 @@ App({
         )
         .then((res) => {
           if (res.data.code == 0) {
+            console.log('插件黑白名单：', res)
             this.globalData.brandConfig[this.globalData.brand].pluginFilter_SN8 = res.data.data.pluginFilter_SN8
             this.globalData.brandConfig[this.globalData.brand].pluginFilter_type = res.data.data.pluginFilter_type
             this.globalData.getBlackWhiteListError = false
-
+            //存入本地缓存
+            setPluginFilter(res.data.data.pluginFilter_SN8, res.data.data.pluginFilter_type)
             resolve(res.data)
           }
         })
         .catch((error) => {
           this.globalData.getBlackWhiteListError = true
-          if (options.path == 'pages/index/index') {
-            wx.showToast({
-              title: '系统繁忙，请稍后再试',
-              icon: 'none',
-              duration: 3000,
-            })
-          } else {
+          if (options.path != 'pages/index/index') {
             Dialog.confirm({
               zIndex: 10001,
               title: '系统繁忙，请稍后再试',
@@ -633,7 +547,6 @@ App({
               }
             })
           }
-
           reject(error)
         })
     })
@@ -739,6 +652,8 @@ App({
     bathAuthTimer: null, //轮询确权状态标识
     selectTab: 0,
     noNetwork: false, //判断是否有网络
+    appEnv: '', //宿主的环境
+    appVersion: '',
   },
   scanDeviceMap: {},
   addDeviceInfo: {

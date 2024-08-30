@@ -32,7 +32,7 @@ Page({
         _checkName: 'bluetoothAuthorized',
         _closeApiName: 'closeBluetoothAdapter',
         rightText: '',
-        desc: '获用于语音控制设备，带语音功能的家电进行通话',
+        desc: '用于语音控制设备，带语音功能的家电进行通话',
       },
       {
         id: 4,
@@ -84,10 +84,18 @@ Page({
           context.changeWithdrowModal(error)
         })
     } else {
-      let data = {
-        action: 'confirm',
+      //喂登录直接清除缓存
+      wx.showLoading({
+        mask: true,
+        title: '加载中',
+      })
+      this.logout()
+      try {
+        ft.clearAppCache()
+        ft.restartApp()
+      } catch (e) {
+        console.log('error', e)
       }
-      this.changeWithdrowModal(data)
     }
   },
   backPage() {

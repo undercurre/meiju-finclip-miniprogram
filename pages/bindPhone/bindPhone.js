@@ -10,7 +10,7 @@ Page({
    */
   data: {
     mobile: '', //手机号码
-    headImgUrl: '', //用户头像
+    headImgUrl: '/assets/img/headFix.png', //用户头像
     targetMobile: ''
   },
   backPage() {

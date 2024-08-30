@@ -10,6 +10,7 @@ import qs from './qs/index'
 
 var requestService = {
   request: (apiName, params, method, headerObj, timeout) => {
+    let app = getApp() || this
     return new Promise((resolve, reject) => {
       let timestamp = getStamp()
       let apiObj = api[apiName]
@@ -90,7 +91,7 @@ var requestService = {
         random: timestamp,
         secretVersion: '1.0',
         sign: getNewSign(params, api.apiKey, timestamp, method), //new
-        version: '8.5',
+        version: app?.globalData?.appVersion || '8.5',
         appId: api.iotAppId,
         terminalId: api.iotTerminalIid,
         iotAppId: api.iotAppId,
@@ -180,8 +181,25 @@ var requestService = {
           }
         },
         fail(error) {
-          getApp().checkNetLocal()
-          showToast(error.errMsg)
+          console.log('error-----', error)
+          console.log('当前网络error-----》', getApp().globalData.noNetwork)
+          let pages = getCurrentPages()
+          let currentPage = pages[pages.length - 1]
+          let isDistributionMode = false
+          if(currentPage.route.includes('inputWifiInfo') || currentPage.route.includes('linkAp') || currentPage.route.includes('linkDevice')){
+            isDistributionMode = true
+          }
+          if (getApp().globalData.noNetwork) {
+            getApp().checkNetLocal()
+          } else if (error.errMsg == 'request:fail timeout' || error.errMsg == 'request:fail') {
+            if(!isDistributionMode){
+              showToast('网络请求失败')
+            }
+          } else {
+            if(!isDistributionMode){
+              showToast('系统繁忙，请稍后再试')
+            }
+          }
           ApiTrack(apiName, selectApi, error, 'fail', params)
           if (apiName === 'luaControl') {
             pluginApiTrack('fail', params, error)

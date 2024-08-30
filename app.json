@@ -2,129 +2,13 @@
   "pages": [
     "pages/index/index",
     "pages/mytab/mytab",
-    "pages/privacyAndSafa/privacyAndSafa",
-    "pages/privacySetting/privacySetting",
-    "pages/aboutApp/aboutApp",
-    "pages/checkPhone/checkPhone",
-    "pages/changePhone/changePhone",
-    "pages/checkValidecode/checkValidecode",
-    "pages/bindPhone/bindPhone",
-    "pages/accountSafe/accountSafe",
-    "pages/download/download",
     "pages/unSupportDevice/unSupportDevice",
     "pages/login/login",
     "pages/webView/webView",
-    "pages/midea-service/midea-service",
-    "pages/transition/transition",
     "pages/faultInfo/faultInfo",
     "pages/scanCode-result/index",
-    "pages/testPage/index",
-    "pages/openShoppingLite/openShoppingLite",
-    "sub-package/privacy/privacy",
-    "miniprogram_npm/m-services/services/index",
-    "distribution-network/addDevice/pages/inputWifiInfo/inputWifiInfo",
-    "distribution-network/addDevice/pages/addGuide/addGuide",
-    "distribution-network/addDevice/pages/linkDevice/linkDevice",
-    "distribution-network/addDevice/pages/addSuccess/addSuccess",
-    "distribution-network/addDevice/pages/notFound/notFound",
-    "distribution-network/addDevice/pages/addFail/addFail",
-    "distribution-network/addDevice/pages/linkNetFail/linkNetFail",
-    "distribution-network/addDevice/pages/afterCheck/afterCheck",
-    "distribution-network/addDevice/pages/authTimeout/authTimeout",
-    "distribution-network/addDevice/pages/wifiSuccessSimple/wifiSuccessSimple",
-    "distribution-network/addDevice/pages/linkAp/linkAp",
-    "distribution-network/addDevice/pages/lowApVersion/lowApVersion",
-    "distribution-network/addDevice/pages/friendDeviceNetWork/friendDeviceNetWork",
-    "distribution-network/addDevice/pages/friendDeviceNetworkFail/friendDeviceNetworkFail",
-    "distribution-network/addDevice/pages/batchNetwork/batchNetwork",
-    "distribution-network/addDevice/pages/editBoundDevice/editBoundDevice",
-    "distribution-network/addDevice/pages/feedback/feedback",
-    "distribution-network/addDevice/pages/localNetGuide/localNetGuide",
-    "distribution-network/addDevice/pages/inviteFamily/inviteFamily",
-    "distribution-network/addDevice/pages/linkCombinedDevice/linkCombinedDevice",
-    "distribution-network/addDevice/pages/linkCombinedFail/linkCombinedFail",
-    "distribution-network/addDevice/pages/reLinkCombined/reLinkCombined",
-    "distribution-network/addDevice/pages/wifiGuide/wifiGuide",
-    "distribution-network/scan-devices/pages/qrcode-guide/qrcode-guide",
-    "distribution-network/scan-devices/pages/scan-device/scan-device",
-    "distribution-network/scan-devices/pages/scan-help/scan-help",
-    "distribution-network/scan-devices/pages/wetChat-middlePage/wetChat-middlePage",
-    "distribution-network/select-devices/pages/select-device/select-device",
-    "distribution-network/select-devices/pages/search-device/search-device",
-    "distribution-network/select-devices/pages/select-model/select-model",
-    "distribution-network/user-gudie/pages/frequency-guide/frequency-guide",
-    "distribution-network/user-gudie/pages/location-guide/location-guide",
-    "distribution-network/user-gudie/pages/blue-guide/blue-guide",
-    "sub-package/common-package/pages/index/index",
-    "sub-package/personal-center/personalCenter/personalCenter",
-    "sub-package/webview/defaultWebview/defaultWebview",
-    "sub-package/mytab/pages/about/about",
-    "change-room/pages/changeRoom/changeRoom",
-    "home-manage/pages/homeManage/homeManage",
-    "home-manage/pages/homeDetail/homeDetail",
-    "home-manage/pages/roomAndDevices/roomAndDevices",
-    "home-manage/pages/roomDetail/roomDetail",
-    "home-manage/pages/memberManage/memberManage",
-    "home-manage/pages/inviteFamily/invite",
     "common-packages/plugin/component/webToMP/web-to-mp",
-    "plugin/T0xB9/index/index",
-    "plugin/T0x21/index/index",
-    "plugin/T0xB3/index/index",
-    "plugin/T0xB3/mode-select/mode-select",
-    "plugin/T0xB6/index/index",
-    "plugin/T0xB6/stewardServe/stewardServe",
-    "plugin/T0xB7/index/index",
-    "plugin/T0xB7/setTemperature/temperature",
-    "plugin/T0x9C/index/index",
-    "plugin/T0xCC/index/index",
-    "plugin/T0xCD/index/index",
-    "plugin/T0xCE/index/index",
-    "plugin/T0xD9/index/index",
-    "plugin/T0xD9/pages/insurance-card/insurance-card",
-    "plugin/T0xD9/pages/insurance-regulations/insurance-regulations",
-    "plugin/T0xD9/pages/save-water/save-water-main/save-water-main",
-    "plugin/T0xD9/pages/save-water/save-water-detail/save-water-detail",
-    "plugin/T0xD9/pages/save-water/save-water-list/save-water-list",
-    "plugin/T0xD9/pages/save-water/save-water-history/save-water-history",
-    "plugin/T0xDA/index/index",
-    "plugin/T0xDA/pages/insurance-card/insurance-card",
-    "plugin/T0xDA/pages/insurance-regulations/insurance-regulations",
-    "plugin/T0xDA/pages/save-water/save-water-main/save-water-main",
-    "plugin/T0xDA/pages/save-water/save-water-detail/save-water-detail",
-    "plugin/T0xDA/pages/save-water/save-water-list/save-water-list",
-    "plugin/T0xDA/pages/save-water/save-water-history/save-water-history",
-    "plugin/T0xDB/index/index",
-    "plugin/T0xDB/pages/insurance-card/insurance-card",
-    "plugin/T0xDB/pages/insurance-regulations/insurance-regulations",
-    "plugin/T0xDB/pages/save-water/save-water-main/save-water-main",
-    "plugin/T0xDB/pages/save-water/save-water-detail/save-water-detail",
-    "plugin/T0xDB/pages/save-water/save-water-list/save-water-list",
-    "plugin/T0xDB/pages/save-water/save-water-history/save-water-history",
-    "plugin/T0xDC/index/index",
-    "plugin/T0xDC/pages/insurance-card/insurance-card",
-    "plugin/T0xDC/pages/insurance-regulations/insurance-regulations",
-    "plugin/T0xDC/pages/save-water/save-water-main/save-water-main",
-    "plugin/T0xDC/pages/save-water/save-water-detail/save-water-detail",
-    "plugin/T0xDC/pages/save-water/save-water-list/save-water-list",
-    "plugin/T0xDC/pages/save-water/save-water-history/save-water-history",
-    "plugin/T0xE1/index/index",
-    "plugin/T0xE1/appointment/index",
-    "plugin/T0xE2/index/index",
-    "plugin/T0xE2/appointment/list/index",
-    "plugin/T0xE2/appointment/add/index",
-    "plugin/T0xE2/appointment/listHoliday/index",
-    "plugin/T0xE2/appointment/addHoliday/index",
-    "plugin/T0xE3/index/index",
-    "plugin/T0xE3/ai-cold-water/ai-cold-water",
-    "plugin/T0xE3/device-water-appoint/device-water-appoint",
-    "plugin/T0xE6/index/index",
-    "plugin/T0xE6/heat-appoint/index",
-    "plugin/T0xE6/heat-appoint/edit/index",
-    "plugin/T0xED/index/index",
-    "plugin/T0xED/filter-page/filter-page",
-    "plugin/T0xED/multiple-select-page/multiple-select-page",
-    "plugin/T0x26/index/index",
-    "plugin/T0x40/index/index"
+    "miniprogram_npm/m-services/services/index"
   ],
   "embeddedAppIdList": [
     "wx255b67a1403adbc2",
@@ -163,15 +47,385 @@
         "pages/branchListMap/branchListMap",
         "pages/map/map"
       ]
-    }
+    },
+    {
+      "name": "homeManage",
+      "root": "home-manage/",
+      "pages": [
+        "pages/homeManage/homeManage",
+        "pages/homeDetail/homeDetail",
+        "pages/roomAndDevices/roomAndDevices",
+        "pages/roomDetail/roomDetail",
+        "pages/inviteFamily/invite",
+        "pages/memberManage/memberManage"
+      ]
+    },
+    {
+      "name": "changeRoom/",
+      "root": "change-room/",
+      "pages": [
+        "pages/changeRoom/changeRoom"
+      ]
+    },
+    {
+      "name": "personalCenter",
+      "root": "sub-package/",
+      "pages": [
+        "personal-center/personalCenter/personalCenter",
+        "webview/defaultWebview/defaultWebview",
+        "mytab/pages/about/about",
+        "common-package/pages/index/index",
+        "privacy/privacy"
+      ]
+    },
+    {
+      "name": "privacyAndSafa",
+      "root": "pages/privacyAndSafa/",
+      "pages": [
+        "privacyAndSafa"
+      ]
+    },
+    {
+      "name": "privacySetting",
+      "root": "pages/privacySetting/",
+      "pages": [
+        "privacySetting"
+      ]
+    },
+    {
+      "name": "aboutApp",
+      "root": "pages/aboutApp/",
+      "pages": [
+        "aboutApp"
+      ]
+    },
+    {
+      "name": "checkPhone",
+      "root": "pages/checkPhone/",
+      "pages": [
+        "checkPhone"
+      ]
+    },
+    {
+      "name": "changePhone",
+      "root": "pages/changePhone/",
+      "pages": [
+        "changePhone"
+      ]
+    },
+    {
+      "name": "checkValidecode",
+      "root": "pages/checkValidecode/",
+      "pages": [
+        "checkValidecode"
+      ]
+    },
+    {
+      "name": "bindPhone",
+      "root": "pages/bindPhone/",
+      "pages": [
+        "bindPhone"
+      ]
+    },
+    {
+      "name": "accountSafe",
+      "root": "pages/accountSafe/",
+      "pages": [
+        "accountSafe"
+      ]
+    },
+    {
+      "name": "download",
+      "root": "pages/download/",
+      "pages": [
+        "download"
+      ]
+    },
+    {
+      "name": "transition",
+      "root": "pages/transition/",
+      "pages": [
+        "transition"
+      ]
+    },
+    {
+      "name": "testPage",
+      "root": "pages/testPage/",
+      "pages": [
+        "index"
+      ]
+    },
+    {
+      "name": "openShoppingLite",
+      "root": "pages/openShoppingLite/",
+      "pages": [
+        "openShoppingLite"
+      ]
+    },
+    {
+      "name": "midea-service-page",
+      "root": "pages/midea-service/",
+      "pages": [
+        "midea-service"
+      ]
+    },
+    {
+        "name": "addDevicePage",
+        "root": "distribution-network/addDevice/",
+        "pages": [
+          "pages/inputWifiInfo/inputWifiInfo",
+          "pages/addGuide/addGuide",
+          "pages/linkDevice/linkDevice",
+          "pages/addSuccess/addSuccess",
+          "pages/notFound/notFound",
+          "pages/addFail/addFail",
+          "pages/linkNetFail/linkNetFail",
+          "pages/afterCheck/afterCheck",
+          "pages/authTimeout/authTimeout",
+          "pages/wifiSuccessSimple/wifiSuccessSimple",
+          "pages/linkAp/linkAp",
+          "pages/lowApVersion/lowApVersion",
+          "pages/friendDeviceNetWork/friendDeviceNetWork",
+          "pages/friendDeviceNetworkFail/friendDeviceNetworkFail",
+          "pages/batchNetwork/batchNetwork",
+          "pages/editBoundDevice/editBoundDevice",
+          "pages/feedback/feedback",
+          "pages/localNetGuide/localNetGuide",
+          "pages/inviteFamily/inviteFamily",
+          "pages/linkCombinedDevice/linkCombinedDevice",
+          "pages/linkCombinedFail/linkCombinedFail",
+          "pages/reLinkCombined/reLinkCombined",
+          "pages/wifiGuide/wifiGuide"
+        ]
+      },
+      {
+        "name": "scan-devices",
+        "root": "distribution-network/scan-devices",
+        "pages": [
+          "pages/qrcode-guide/qrcode-guide",
+          "pages/scan-device/scan-device",
+          "pages/scan-help/scan-help",
+          "pages/wetChat-middlePage/wetChat-middlePage"
+        ]
+      },
+      {
+        "name": "select-devices",
+        "root": "distribution-network/select-devices",
+        "pages": [
+          "pages/select-device/select-device",
+          "pages/search-device/search-device",
+          "pages/select-model/select-model"
+        ]
+      },
+      {
+        "name": "user-gudie",
+        "root": "distribution-network/user-gudie",
+        "pages": [
+          "pages/frequency-guide/frequency-guide",
+          "pages/location-guide/location-guide",
+          "pages/blue-guide/blue-guide"
+        ]
+      },
+      {
+        "name": "muijs",
+        "root": "miniprogram_npm/m-ui/subpage",
+        "pages": []
+      },
+      {
+        "name": "crypto",
+        "root": "distribution-network/assets/asyncSubpackages/crypto",
+        "pages": []
+      },
+      {
+        "name": "T0xB9",
+        "root": "plugin/T0xB9",
+        "pages": [
+          "index/index"
+        ]
+      },
+      {
+        "name": "T0x21",
+        "root": "plugin/T0x21",
+        "pages": [
+          "index/index"
+        ]
+      },
+      {
+        "name": "T0xB3",
+        "root": "plugin/T0xB3",
+        "pages": [
+          "index/index",
+          "mode-select/mode-select"
+        ]
+      },
+      {
+        "name": "T0xB6",
+        "root": "plugin/T0xB6",
+        "pages": [
+          "index/index",
+          "stewardServe/stewardServe"
+        ]
+      },
+      {
+        "name": "T0xB7",
+        "root": "plugin/T0xB7",
+        "pages": [
+          "index/index",
+          "setTemperature/temperature"
+        ]
+      },
+      {
+        "name": "T0x9C",
+        "root": "plugin/T0x9C",
+        "pages": [
+          "index/index"
+        ]
+      },
+      {
+        "name": "T0xCC",
+        "root": "plugin/T0xCC",
+        "pages": [
+          "index/index"
+        ]
+      },
+      {
+        "name": "T0xCD",
+        "root": "plugin/T0xCD",
+        "pages": [
+          "index/index"
+        ]
+      },
+      {
+        "name": "T0xCE",
+        "root": "plugin/T0xCE",
+        "pages": [
+          "index/index"
+        ]
+      },
+      {
+        "name": "T0xD9",
+        "root": "plugin/T0xD9",
+        "pages": [
+          "index/index",
+          "pages/insurance-card/insurance-card",
+          "pages/insurance-regulations/insurance-regulations",
+          "pages/save-water/save-water-main/save-water-main",
+          "pages/save-water/save-water-detail/save-water-detail",
+          "pages/save-water/save-water-list/save-water-list",
+          "pages/save-water/save-water-history/save-water-history"
+        ]
+      },
+      {
+        "name": "T0xDA",
+        "root": "plugin/T0xDA",
+        "pages": [
+          "index/index",
+          "pages/insurance-card/insurance-card",
+          "pages/insurance-regulations/insurance-regulations",
+          "pages/save-water/save-water-main/save-water-main",
+          "pages/save-water/save-water-detail/save-water-detail",
+          "pages/save-water/save-water-list/save-water-list",
+          "pages/save-water/save-water-history/save-water-history"
+        ]
+      },
+      {
+        "name": "T0xDB",
+        "root": "plugin/T0xDB",
+        "pages": [
+          "index/index",
+          "pages/insurance-card/insurance-card",
+          "pages/insurance-regulations/insurance-regulations",
+          "pages/save-water/save-water-main/save-water-main",
+          "pages/save-water/save-water-detail/save-water-detail",
+          "pages/save-water/save-water-list/save-water-list",
+          "pages/save-water/save-water-history/save-water-history"
+        ]
+      },
+      {
+        "name": "T0xDC",
+        "root": "plugin/T0xDC",
+        "pages": [
+          "index/index",
+          "pages/insurance-card/insurance-card",
+          "pages/insurance-regulations/insurance-regulations",
+          "pages/save-water/save-water-main/save-water-main",
+          "pages/save-water/save-water-detail/save-water-detail",
+          "pages/save-water/save-water-list/save-water-list",
+          "pages/save-water/save-water-history/save-water-history"
+        ]
+      },
+      {
+        "name": "T0xE1",
+        "root": "plugin/T0xE1",
+        "pages": [
+          "index/index",
+          "appointment/index"
+        ]
+      },
+      {
+        "name": "T0xE2",
+        "root": "plugin/T0xE2",
+        "pages": [
+          "index/index",
+          "appointment/list/index",
+          "appointment/add/index",
+          "appointment/listHoliday/index",
+          "appointment/addHoliday/index"
+        ]
+      },
+      {
+        "name": "T0xE3",
+        "root": "plugin/T0xE3",
+        "pages": [
+          "index/index",
+          "ai-cold-water/ai-cold-water",
+          "device-water-appoint/device-water-appoint"
+        ]
+      },
+      {
+        "name": "T0xE6",
+        "root": "plugin/T0xE6",
+        "pages": [
+          "index/index",
+          "heat-appoint/index",
+          "heat-appoint/edit/index"
+        ]
+      },
+      {
+        "name": "T0xED",
+        "root": "plugin/T0xED",
+        "pages": [
+          "index/index",
+          "filter-page/filter-page",
+          "multiple-select-page/multiple-select-page"
+        ]
+      },
+      {
+        "name": "T0x26",
+        "root": "plugin/T0x26",
+        "pages": [
+          "index/index"
+        ]
+      },
+      {
+        "name": "T0x40",
+        "root": "plugin/T0x40",
+        "pages": [
+          "index/index"
+        ]
+      }
   ],
   "preloadRule": {
-    "pages/midea-service/midea-service": {
-      "network": "all",
-      "packages": [
-        "mideaService"
-      ]
-    }
+    "pages/index/index": {
+        "network": "all",
+      "packages": ["scan-devices","T0xAC", "T0xE2", "T0xDB", "T0xCA", "T0xB8", "T0xEA","homeManage"]
+    },
+    "distribution-network/scan-devices/pages/scan-device/scan-device": {
+        "network": "all",
+        "packages": [
+          "addDevicePage"
+        ]
+      }
   },
   "tabBar": {
     "custom": true,
@@ -182,10 +436,6 @@
       {
         "pagePath": "pages/index/index",
         "text": "设备"
-      },
-      {
-        "pagePath": "pages/midea-service/midea-service",
-        "text": "服务"
       },
       {
         "pagePath": "pages/mytab/mytab",

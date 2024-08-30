@@ -624,7 +624,9 @@ Page({
     this.setData({
       appoint,
     })
-    wx.hideLoading()
+    setTimeout(() => {
+        wx.hideLoading()
+    },1000)
   },
 
   //0变为00,1变为01

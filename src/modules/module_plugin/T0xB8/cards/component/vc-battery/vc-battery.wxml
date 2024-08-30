@@ -1,9 +1,0 @@
-<view class="container">
-<view class="icon">
-    <image class="battertStyle" src="{{propBatteryImg}}"></image>
-    <view wx:if="{{!propIsCharge}}" class="electric-quantity" style="width:{{ propWidth+ 'px'}};background-color:{{ propColor}};"></view>
-</view>
-<view class="value" wx:if="{{propIsM6}}">
-    {{propBattery}}%
-</view>
-</view>

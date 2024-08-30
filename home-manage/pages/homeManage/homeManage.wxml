@@ -17,10 +17,8 @@
           >
             <view class="container">
               <view class="title">
-                <view class="{{uid == item.createUserUid?'homeName homeNameEllipsis':'homeName'}}"
-                  >{{item.name}}
-                  <mx-icon custom-class="custom-icon-class" classPrefix="mx-iconfont" name="right" size="12"
-                /></view>
+                <view class="homeName homeNameEllipsis'}}">{{item.name}} </view>
+                <mx-icon custom-class="custom-icon-class" classPrefix="mx-iconfont" name="right" size="12" />
               </view>
               <view class="numList">
                 <view class="itemWarp">
@@ -64,7 +62,7 @@
           >
             <view class="container">
               <view class="title">
-                <view class="{{uid == item.createUserUid?'homeName homeNameEllipsis':'homeName'}}">{{item.name}}</view>
+                <view class="{{homeName}}">{{item.name}}</view>
                 <text class="myHome" wx:if="{{uid == item.createUserUid}}">（我创建的）</text>
               </view>
               <view class="numList">

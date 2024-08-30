@@ -10,6 +10,7 @@ const imgesList= {
     right: '/addDeviceAboutImg/right.png',
 
     wifiConnect: '/addDeviceAboutImg/wifi_ic_img_connect.png',
+    wifiConnect_5G: '/addDeviceAboutImg/wifi_ic_img_connect_5G.png',
     wifiShow: '/addDeviceAboutImg/WiFi_ic_kejian.png',
     wifiHide: '/addDeviceAboutImg/wifi_ic_bukejian.png',
 

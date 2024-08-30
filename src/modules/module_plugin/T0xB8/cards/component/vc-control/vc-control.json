@@ -1,7 +1,0 @@
-{
-    "component": true,
-    "usingComponents": {
-        "vcControlRow": "../../component/vc-control-row/vc-control-row"
-        
-      }
-}
