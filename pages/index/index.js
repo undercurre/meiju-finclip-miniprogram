@@ -306,6 +306,7 @@ Page({
               if (isPopInterval && hasDialogId.popTimes > 0) {
                 //上次记录到今天还没符合间隔，但还有弹窗次数，次数 -1 并保存到本地，本地缓存日期不处理
                 hasDialogId.popTimes = hasDialogId.popTimes - 1
+                hasDialogId.recodeTime = dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S')
                 isShowDialog = true
               }
               wx.setStorage({
@@ -327,10 +328,10 @@ Page({
               // 需要保存信息到本地
               isShowDialog = true
               wx.setStorage({
-                key: `version_${resp.data.data.id}`,
-                data: {
-                  popTimes: resp.data.data.dialogConfig.popTimes - 1,
-                  recodeTime: dateFormat(new Date(), 'yyyy-MM-dd'),
+                key:`version_${resp.data.data.id}`,
+                data:{
+                  popTimes:resp.data.data.dialogConfig.popTimes - 1,
+                  recodeTime : dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S')
                 },
                 success: () => {
                   console.log('没有本地缓存弹窗策略保存成功')
@@ -349,7 +350,7 @@ Page({
               poupInfomation.show = true
               poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
               poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
-
+              poupInfomation.poupInfo.type = resp.data.data.upgradeType
               self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
               self.setData({
                 poupInfomation,
@@ -1975,8 +1976,8 @@ Page({
       let applianceItem = this.data.currentFamilyDeviceList[indexA]
       let isSupport = false
       let type = applianceItem.type
-      let sn8 = applianceItem.sn8
-      let A0 = applianceItem.modelNumber
+      let sn8 = applianceItem.sn8 || applianceItem.smartProductId
+      let A0 = applianceItem.modelNumber || applianceItem.smartProductId
       // console.log('过滤优化==》', type, sn8, A0, applianceItem.isOtherEquipment, applianceItem.cardType)
       isSupport = filterSupportedPlugin(type, sn8, A0, applianceItem.isOtherEquipment, applianceItem.cardType)
       //并去掉在线离线状态

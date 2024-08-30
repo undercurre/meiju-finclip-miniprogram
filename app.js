@@ -499,9 +499,9 @@ App({
 
   //黑白名单获取.appId
   getBlackWhiteList(options, env) {
-    let verType = 'trial'
-    if (env == 'prod') {
-      verType = 'release'
+    let verType = 'release'
+    if (env != 'prod') {
+      verType = 'trial'
     }
     console.log('插件黑白名单参数：verType:', verType)
     //先去缓存读取数据
