@@ -74,7 +74,7 @@
             <view class="tip-text">{{spaceTip}}</view>
           </view>
           <view class="tip-list-fail">
-            <view class="tip-fail"> 
+            <view class="tip-fail" wx:if="{{!isSupport5G}}"> 
               <text class="link-fail-circle"></text> 
               <text class="tip-fail-content">仅支持 2.4GHz WiFi</text> 
             </view>
