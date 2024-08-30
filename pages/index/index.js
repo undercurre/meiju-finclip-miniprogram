@@ -54,6 +54,9 @@ import {
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
 import config from '../../config'
+import { debounce } from '../../utils/util'
+let jumpPluginDebounce = null
+let jumpEventObj = null
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
@@ -2436,10 +2439,11 @@ Page({
       },
     })
   },
-  async goToPlugin(e) {
+  async goToPluginReal(){
     console.log('小木马跳插件开始', parseInt(Date.now()))
     let start = new Date()
     let self = this
+    let e = jumpEventObj
     if (!isGoToPlugin) return
     isGoToPlugin = false
     let type = e.currentTarget.dataset.type && e.currentTarget.dataset.type != null ? e.currentTarget.dataset.type : ''
@@ -2552,6 +2556,13 @@ Page({
         },
       })
     }
+  },
+  async goToPlugin(e) {
+    if(!jumpPluginDebounce){
+        jumpPluginDebounce = debounce(this.goToPluginReal, 300)
+    }
+    jumpEventObj = e
+    jumpPluginDebounce()
   },
   //当前手机网络状态
   nowNetType() {
