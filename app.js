@@ -99,7 +99,9 @@ App({
   getDcpDeviceImg() {
     let that = this
     let sceneIconList = wx.getStorageSync('dcpDeviceImgList')
+    let spidDeviceImgList = wx.getStorageSync('spidDeviceImgList')
     this.globalData.dcpDeviceImgList = sceneIconList
+    this.globalData.spidDeviceImgList = spidDeviceImgList
     loginMethods
       .getDcpDeviceImgs()
       .then((res) => {
@@ -109,13 +111,18 @@ App({
           wx.nextTick(() => {
             wx.setStorage({
               key: 'dcpDeviceImgList',
-              data: res,
+              data: res.iconList,
+            })
+            wx.setStorageSync({
+                key: 'spidDeviceImgList',
+                data: res.smartProductIdList,
             })
           })
         } catch (error) {
           console.log('setStorage error', error)
         }
-        that.globalData.dcpDeviceImgList = res
+        that.globalData.dcpDeviceImgList = res.iconList
+        that.globalData.spidDeviceImgList = res.smartProductIdList
       })
       .catch((err) => {
         console.log(err)
@@ -492,9 +499,9 @@ App({
 
   //黑白名单获取.appId
   getBlackWhiteList(options, env) {
-    let verType = 'trial'
-    if (env == 'prod') {
-      verType = 'release'
+    let verType = 'release'
+    if (env != 'prod') {
+      verType = 'trial'
     }
     console.log('插件黑白名单参数：verType:', verType)
     //先去缓存读取数据
@@ -595,6 +602,7 @@ App({
     bleSessionSecret: '',
     deviceSessionId: '',
     dcpDeviceImgList: {},
+    spidDeviceImgList: {},
     isUpdateAgreement: false, //是否已经更新协议
     wahinDecorator: {}, //华凌serve
     selectedProductCurrIndex: 1,
