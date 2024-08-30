@@ -343,7 +343,7 @@ Page({
               poupInfomation.show = true
               poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
               poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
-
+              poupInfomation.poupInfo.type = resp.data.data.upgradeType
               self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
               self.setData({
                 poupInfomation,
