@@ -1088,7 +1088,7 @@ Page({
       console.log('scanResult==================:', scanResult)
     } catch (error) {
       console.log('扫码失败====', error)
-      if (!error.errMsg.includes('fail cancel')) {
+      if (!error.errMsg.includes('fail cancel') || !error.errMsg.includes('fail The user canceled the barcode scanning')) {
         Dialog.confirm({
           title: '该二维码无法识别，请扫描设备屏幕二维码',
           confirmButtonText: '我知道了',
