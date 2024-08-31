@@ -74,29 +74,29 @@ const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedAppli
     // if (getApplianceListConfig.uid != getApp().globalData.userData.uid) {
     // getApplianceListConfig = {}
     // }
-    // }
-    let homeStorage = {
-      // uid: getApp().globalData.userData.uid,
-    }
-    if (!homeStorage[homeId]) {
-      homeStorage[homeId] = {
-        supportedApplianceList: [],
-        unsupportedApplianceList: [],
-        boughtDevices: [],
-      }
-    }
-    homeStorage[homeId]['supportedApplianceList'] = supportedApplianceList
-    homeStorage[homeId]['unsupportedApplianceList'] = unsupportedApplianceList
-    homeStorage[homeId]['boughtDevices'] = boughtDevices
-    // let applianceListConfig = {
-    // ...homeStorage,
-    // ...getApplianceListConfig,
-    // }
-    console.log('缓存家庭设备信息', homeStorage)
-    wx.setStorageSync('applianceListConfig', homeStorage)
-    wx.setStorageSync('currentHomeGroupId', homeId)
   }
+  let homeStorage = {
+    // uid: getApp().globalData.userData.uid,
+  }
+  if (!homeStorage[homeId]) {
+    homeStorage[homeId] = {
+      supportedApplianceList: [],
+      unsupportedApplianceList: [],
+      boughtDevices: [],
+    }
+  }
+  homeStorage[homeId]['supportedApplianceList'] = supportedApplianceList
+  homeStorage[homeId]['unsupportedApplianceList'] = unsupportedApplianceList
+  homeStorage[homeId]['boughtDevices'] = boughtDevices
+  // let applianceListConfig = {
+  // ...homeStorage,
+  // ...getApplianceListConfig,
+  // }
+  console.log('缓存家庭设备信息', homeStorage)
+  wx.setStorageSync('applianceListConfig', homeStorage)
+  wx.setStorageSync('currentHomeGroupId', homeId)
 }
+
 //保存会员信息
 const setVipUserInfo = (vipUserInfo) => {
   //先清除，再保存
