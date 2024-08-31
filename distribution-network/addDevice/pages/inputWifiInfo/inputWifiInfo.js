@@ -353,6 +353,7 @@ Page({
   selectWifi(e) {
     getApp().setActionCheckingLog('selectWifi', '点击选取wifi列表中的wifi')
     let res = e.detail
+    console.error('wifi 列表选取wifi -e:',e)
     let that = this
     let { type, sn8, linkType } = app.addDeviceInfo
     burialPoint.clickLinkFamilyWifi({
