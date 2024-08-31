@@ -1139,9 +1139,13 @@ Page({
     this.showRouttingImg(false)
   },
   // wifi输入框失焦
-  SSIDBlur() {
+  SSIDBlur(e) {
     this.data.focusWifiName = true
     this.showRouttingImg(true)
+    let SSIDContent = e.detail.value
+    this.setData({
+      'bindWifiTest.SSIDContent': SSIDContent,
+    })
   },
   //密码输入框聚焦
   pswFocus() {
@@ -1640,6 +1644,22 @@ Page({
     //     linkType: app.addDeviceInfo.linkType
     // })
     console.log('上报了wifi ssid and chain', BSSID, chain)
+  },
+
+  //鸿蒙与小程序不同，setData 的值又会更新到节点上，原生组件逻辑对这个场景有优化，这个鸿蒙现在是 web input 所以没有优化
+  initBindWifiHarmony(BSSID, SSIDContent, SSIDLength, EncryptType, chain, signalStrength, frequency) {
+    SSIDLength = string2Uint8Array(SSIDContent).length
+    this.setData({
+      'bindWifiTest.BSSID': BSSID,
+      // 'bindWifiTest.SSIDContent': SSIDContent,
+      'bindWifiTest.SSIDLength': SSIDLength,
+      'bindWifiTest.EncryptType': EncryptType,
+      'bindWifiTest.chain': chain,
+      'bindWifiTest.signalStrength': signalStrength, //Wi-Fi 信号强度, 安卓取值 0 ～ 100 ，iOS 取值 0 ～ 1 ，值越大强度越大
+      'bindWifiTest.frequency': frequency, //Wi-Fi 频段单位 MHz
+    })
+
+    console.log('initBindWifiHarmony上报了wifi ssid and chain', BSSID, chain)
   },
   showToast(text) {
     wx.showToast({
@@ -2299,11 +2319,10 @@ Page({
   },
   //手动输入wifi名
   inputSSIDContent(e) {
-    // console.log(e)
     let SSIDContent = e.detail.value
-    this.setData({
-      'bindWifiTest.SSIDContent': SSIDContent,
-    })
+    // this.setData({
+    //   'bindWifiTest.SSIDContent': SSIDContent,
+    // })
     let BSSID = '00:00:00:00:00:00'
     let that = this
     let storageWifiListV1 = wx.getStorageSync('storageWifiListV1')
@@ -2334,7 +2353,7 @@ Page({
         })
 
         //赋值wifi显示
-        that.initBindWifiTest(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
+        that.initBindWifiHarmony(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
       }
     } else {
       //没有wifi缓存
@@ -2342,7 +2361,7 @@ Page({
       that.setData({
         'bindWifiTest.PswContent': '', //移除密码
       })
-      that.initBindWifiTest(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
+      that.initBindWifiHarmony(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
     }
   },
   //跳转wifi 指引
