@@ -86,6 +86,9 @@ Page({
       case 1104:
         showToast(`${this.data.inputValue}手机号已注册，请更换新手机号`)
         break
+      case 1100:
+        showToast('验证码已过期')
+        break
       default:
         showToast(res.data.msg || '系统错误，请稍后重试')
         break
@@ -120,7 +123,7 @@ Page({
       timestamp: getStamp(new Date()),
     }
     wx.showLoading({
-        title: '加载中'
+      title: '加载中',
     })
     // 请求后台，更换手机号码
     requestService

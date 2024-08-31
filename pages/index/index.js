@@ -71,6 +71,7 @@ import {
   getStrogeBatchAuthList,
   getApplianceListConfig,
   getCurrentHomeGroupId,
+  setDcpDeviceImg,
 } from '../../utils/redis.js'
 Page({
   behaviors: [bluetooth],
@@ -1892,6 +1893,7 @@ Page({
     return new Promise((resolve, reject) => {
       if (!isEmptyObject(app.globalData.dcpDeviceImgList)) {
         dcpDeviceImgList = app.globalData.dcpDeviceImgList
+        console.log('设备图标缓----》', dcpDeviceImgList)
         this.data.sceneIconList = dcpDeviceImgList
         try {
           wx.setStorageSync('dcpDeviceImgList', dcpDeviceImgList) //部分手机可能因为长度设置失败
@@ -1903,21 +1905,25 @@ Page({
         service
           .getIotDeviceV3()
           .then((resp) => {
+            console.log('获取设备图标 首页内', resp)
             this.data.sceneIconList = resp.data.data.iconList
             app.globalData.dcpDeviceImgList = resp.data.data.iconList
             app.globalData.spidDeviceImgList = resp.data.data.smartProductIdList
-            this.setIotDeviceV3()
-            this.setData({
-              supportedApplianceList: this.data.supportedApplianceList,
-              unsupportedApplianceList: this.data.unsupportedApplianceList,
-            })
-            setApplianceListConfig(
-              this.data.currentHomeGroupId,
-              this.supportedApplianceList,
-              this.unsupportedApplianceList
-            )
+            if (this.data.isLogin) {
+              this.setIotDeviceV3()
+              this.setData({
+                supportedApplianceList: this.data.supportedApplianceList,
+                unsupportedApplianceList: this.data.unsupportedApplianceList,
+              })
+              setApplianceListConfig(
+                this.data.currentHomeGroupId,
+                this.supportedApplianceList,
+                this.unsupportedApplianceList,
+                this.data.boughtDevices
+              )
+            }
             try {
-              wx.setStorageSync('dcpDeviceImgList', resp.data.data.iconList) //部分手机可能因为长度设置失败
+              setDcpDeviceImg(resp.data.data.iconList, resp.data.data.smartProductIdList) //部分手机可能因为长度设置失败
             } catch (error) {
               console.log(error)
             }
@@ -1976,6 +1982,7 @@ Page({
         homeId: currentHomeGroupId,
         name: 'unsupportedApplianceList',
       })
+      console.log('渲染获取图标----->', app.globalData.dcpDeviceImgList)
       supportedApplianceList.forEach((item) => {
         item.deviceImg = getIcon(
           item,
@@ -2079,7 +2086,12 @@ Page({
     let allUnsupportedApplianceList = unsupportedApplianceList
     console.log('缓存家庭')
     //缓存当前家庭设备信息
-    setApplianceListConfig(currentHomeGroupId, supportedApplianceList, unsupportedApplianceList)
+    setApplianceListConfig(
+      currentHomeGroupId,
+      supportedApplianceList,
+      unsupportedApplianceList,
+      this.data.boughtDevices
+    )
     homeStorage.setStorage({ homeId: currentHomeGroupId, name: 'supportedApplianceList', data: supportedApplianceList })
     homeStorage.setStorage({
       homeId: currentHomeGroupId,
@@ -2545,7 +2557,10 @@ Page({
             isAuth = await addDeviceSDK.checkDeviceAuth(applianceCode)
           }
           //let isAuth = await addDeviceSDK.checkDeviceAuth(applianceCode)
-          if (isAuth) {
+          if (
+            isAuth &&
+            (currDeviceInfo.onlineStatus == '1' || currDeviceInfo.bindType == 1 || currDeviceInfo.bindType == 3)
+          ) {
             app.addDeviceInfo.cloudBackDeviceInfo = currDeviceInfo
             app.addDeviceInfo.sn8 = sn8 //修改不按顺序确权获取不到确权指引的问题
             console.log('hahhah', app.addDeviceInfo.cloudBackDeviceInfo)
@@ -3651,10 +3666,12 @@ Page({
       const deviceConfig = getApplianceListConfig()
       this.data.supportedApplianceList = deviceConfig[CurrentHomeGroupId].supportedApplianceList
       this.data.unsupportedApplianceList = deviceConfig[CurrentHomeGroupId].unsupportedApplianceList
+      this.data.boughtDevices = deviceConfig[CurrentHomeGroupId].boughtDevices
       const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(
         deviceConfig[CurrentHomeGroupId].supportedApplianceList
       )
-      let aLLDeviceLength = this.data.supportedApplianceList.length + this.data.unsupportedApplianceList.length
+      let aLLDeviceLength =
+        this.data.supportedApplianceList.length + this.data.unsupportedApplianceList.length + this.data.boughtDevices
       this.setData({
         isHomeListLoaded: true,
         isLogon: app.globalData.isLogon,
@@ -3679,6 +3696,7 @@ Page({
         isExpandNoSupportDevice,
         supportedApplianceList: deviceConfig[CurrentHomeGroupId].supportedApplianceList,
         unsupportedApplianceList: deviceConfig[CurrentHomeGroupId].unsupportedApplianceList,
+        boughtDevices: deviceConfig[CurrentHomeGroupId].boughtDevices,
         isHourse: false,
       })
     }

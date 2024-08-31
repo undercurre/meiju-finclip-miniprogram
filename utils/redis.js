@@ -65,32 +65,36 @@ const setPluginFilter = (pluginFilterS_N8, pluginFilter_type) => {
   })
 }
 //缓存当前家庭id和设备列表的信息
-const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedApplianceList) => {
-  let getApplianceListConfig = {}
-  if (wx.getStorageSync('applianceListConfig')) {
-    getApplianceListConfig = wx.getStorageSync('applianceListConfig')
-    if (getApplianceListConfig.uid != getApp().globalData.userData.uid) {
-      getApplianceListConfig = {}
+const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedApplianceList, boughtDevices) => {
+  if (getApp().globalData?.userData?.uid) {
+    let getApplianceListConfig = {}
+    if (wx.getStorageSync('applianceListConfig')) {
+      getApplianceListConfig = wx.getStorageSync('applianceListConfig')
+      if (getApplianceListConfig.uid != getApp().globalData.userData.uid) {
+        getApplianceListConfig = {}
+      }
     }
-  }
-  let homeStorage = {
-    uid: getApp().globalData.userData.uid,
-  }
-  if (!homeStorage[homeId]) {
-    homeStorage[homeId] = {
-      supportedApplianceList: [],
-      unsupportedApplianceList: [],
+    let homeStorage = {
+      uid: getApp().globalData.userData.uid,
     }
+    if (!homeStorage[homeId]) {
+      homeStorage[homeId] = {
+        supportedApplianceList: [],
+        unsupportedApplianceList: [],
+        boughtDevices: [],
+      }
+    }
+    homeStorage[homeId]['supportedApplianceList'] = supportedApplianceList
+    homeStorage[homeId]['unsupportedApplianceList'] = unsupportedApplianceList
+    homeStorage[homeId]['boughtDevices'] = boughtDevices
+    let applianceListConfig = {
+      ...homeStorage,
+      ...getApplianceListConfig,
+    }
+    console.log('缓存家庭设备信息', applianceListConfig)
+    wx.setStorageSync('applianceListConfig', applianceListConfig)
+    wx.setStorageSync('currentHomeGroupId', homeId)
   }
-  homeStorage[homeId]['supportedApplianceList'] = supportedApplianceList
-  homeStorage[homeId]['unsupportedApplianceList'] = unsupportedApplianceList
-  let applianceListConfig = {
-    ...homeStorage,
-    ...getApplianceListConfig,
-  }
-  console.log('缓存家庭设备信息', applianceListConfig)
-  wx.setStorageSync('applianceListConfig', applianceListConfig)
-  wx.setStorageSync('currentHomeGroupId', homeId)
 }
 //保存会员信息
 const setVipUserInfo = (vipUserInfo) => {
@@ -125,6 +129,15 @@ const setBatchAuthList = (batchAuthList) => {
 //获取换确权状态
 const getStrogeBatchAuthList = () => {
   return wx.getStorageSync('batchAuthList')
+}
+
+//缓存设备图标
+const setDcpDeviceImg = (dcpDeviceImgList, spidDeviceImgList) => {
+  //先清除，再保存
+  if (wx.getStorageSync('dcpDeviceImgList')) wx.removeStorageSync('dcpDeviceImgList')
+  if (wx.getStorageSync('spidDeviceImgList')) wx.removeStorageSync('spidDeviceImgList')
+  wx.setStorageSync('dcpDeviceImgList', dcpDeviceImgList)
+  wx.setStorageSync('spidDeviceImgList', spidDeviceImgList)
 }
 
 //设置弹框显示的间隔时间
@@ -340,4 +353,5 @@ module.exports = {
   getApplianceListConfig,
   getCurrentHomeGroupId,
   setVipUserInfo,
+  setDcpDeviceImg,
 }
