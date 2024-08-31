@@ -14,6 +14,7 @@ import { actionScanResultIndex } from 'assets/js/scanCodeApi'
 import { service, scodeResonse } from 'assets/js/service'
 import Toast from 'm-ui/mx-toast/toast'
 const indexHeader = '/assets/img/index/index-header.png'
+const imgLoading = '/assets/img/headFix.png'
 console.log(`getSystemInfoSync：${JSON.stringify(wx.getSystemInfoSync())}`)
 import {
   supportedApplianceTypes,
@@ -481,6 +482,7 @@ Page({
     boughtDevices: [], //已购未激活设备列表
     dcpDeviceImgList: [],
     isActionPlugin: false,
+    imgLoading: imgLoading,
     smartEditList: [
       {
         // 智能设备编辑列表
@@ -1909,7 +1911,8 @@ Page({
             this.data.sceneIconList = resp.data.data.iconList
             app.globalData.dcpDeviceImgList = resp.data.data.iconList
             app.globalData.spidDeviceImgList = resp.data.data.smartProductIdList
-            if (this.data.isLogin) {
+            const isLogin = app.globalData.isLogon
+            if (isLogin) {
               this.setIotDeviceV3()
               this.setData({
                 supportedApplianceList: this.data.supportedApplianceList,
@@ -1983,22 +1986,35 @@ Page({
         name: 'unsupportedApplianceList',
       })
       console.log('渲染获取图标----->', app.globalData.dcpDeviceImgList)
-      supportedApplianceList.forEach((item) => {
-        item.deviceImg = getIcon(
-          item,
-          app.globalData.dcpDeviceImgList,
-          supportedApplianceList,
-          app.globalData.spidDeviceImgList
-        )
-      })
-      unsupportedApplianceList.forEach((item) => {
-        item.deviceImg = getIcon(
-          item,
-          app.globalData.dcpDeviceImgList,
-          unsupportedApplianceList,
-          app.globalData.spidDeviceImgList
-        )
-      })
+      if (app.globalData.dcpDeviceImgList) {
+        supportedApplianceList.forEach((item) => {
+          item.deviceImg = getIcon(
+            item,
+            app.globalData.dcpDeviceImgList,
+            supportedApplianceList,
+            app.globalData.spidDeviceImgList
+          )
+        })
+        unsupportedApplianceList.forEach((item) => {
+          item.deviceImg = getIcon(
+            item,
+            app.globalData.dcpDeviceImgList,
+            unsupportedApplianceList,
+            app.globalData.spidDeviceImgList
+          )
+        })
+      } else {
+        supportedApplianceList.forEach((item) => {
+          var newArr = this.data.supportedApplianceList.filter((subItem) => item.applianceCode == subItem.applianceCode)
+          item.deviceImg = newArr[0].deviceImg
+        })
+        unsupportedApplianceList.forEach((item) => {
+          var newArr = this.data.unsupportedApplianceList.filter(
+            (subItem) => item.applianceCode == subItem.applianceCode
+          )
+          item.deviceImg = newArr[0].deviceImg
+        })
+      }
       let aLLDeviceLength = supportedApplianceList.length + unsupportedApplianceList.length
       const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(supportedApplianceList)
       this.setData({
@@ -2085,13 +2101,6 @@ Page({
       supportedApplianceList.length + unsupportedApplianceList.length + this.data.boughtDevices.length
     let allUnsupportedApplianceList = unsupportedApplianceList
     console.log('缓存家庭')
-    //缓存当前家庭设备信息
-    setApplianceListConfig(
-      currentHomeGroupId,
-      supportedApplianceList,
-      unsupportedApplianceList,
-      this.data.boughtDevices
-    )
     homeStorage.setStorage({ homeId: currentHomeGroupId, name: 'supportedApplianceList', data: supportedApplianceList })
     homeStorage.setStorage({
       homeId: currentHomeGroupId,
@@ -2099,22 +2108,33 @@ Page({
       data: allUnsupportedApplianceList,
     })
     const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(supportedApplianceList)
-    supportedApplianceList.forEach((item) => {
-      item.deviceImg = getIcon(
-        item,
-        app.globalData.dcpDeviceImgList,
-        supportedApplianceList,
-        app.globalData.spidDeviceImgList
-      )
-    })
-    allUnsupportedApplianceList.forEach((item) => {
-      item.deviceImg = getIcon(
-        item,
-        app.globalData.dcpDeviceImgList,
-        allUnsupportedApplianceList,
-        app.globalData.spidDeviceImgList
-      )
-    })
+    if (app.globalData.dcpDeviceImgList) {
+      supportedApplianceList.forEach((item) => {
+        item.deviceImg = getIcon(
+          item,
+          app.globalData.dcpDeviceImgList,
+          supportedApplianceList,
+          app.globalData.spidDeviceImgList
+        )
+      })
+      unsupportedApplianceList.forEach((item) => {
+        item.deviceImg = getIcon(
+          item,
+          app.globalData.dcpDeviceImgList,
+          unsupportedApplianceList,
+          app.globalData.spidDeviceImgList
+        )
+      })
+    } else {
+      supportedApplianceList.forEach((item) => {
+        var newArr = this.data.supportedApplianceList.filter((subItem) => item.applianceCode == subItem.applianceCode)
+        item.deviceImg = newArr[0].deviceImg
+      })
+      allUnsupportedApplianceList.forEach((item) => {
+        var newArr = this.data.unsupportedApplianceList.filter((subItem) => item.applianceCode == subItem.applianceCode)
+        item.deviceImg = newArr[0].deviceImg
+      })
+    }
     this.setData({
       isExpandNoSupportDevice,
       supportedApplianceList: supportedApplianceList,
@@ -2122,6 +2142,13 @@ Page({
       allDevice: aLLDeviceLength,
       isHourse: false,
     })
+    //缓存当前家庭设备信息
+    setApplianceListConfig(
+      currentHomeGroupId,
+      supportedApplianceList,
+      unsupportedApplianceList,
+      this.data.boughtDevices
+    )
     this.getMainDevices(supportedApplianceList) //获取当前家庭的主设备
     this.getIntervalBatcApplicList()
     console.log('优化 小木马消失 filterSupportedAppliance', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))

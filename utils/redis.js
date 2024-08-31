@@ -66,16 +66,17 @@ const setPluginFilter = (pluginFilterS_N8, pluginFilter_type) => {
 }
 //缓存当前家庭id和设备列表的信息
 const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedApplianceList, boughtDevices) => {
-  if (getApp().globalData?.userData?.uid) {
-    let getApplianceListConfig = {}
-    if (wx.getStorageSync('applianceListConfig')) {
-      getApplianceListConfig = wx.getStorageSync('applianceListConfig')
-      if (getApplianceListConfig.uid != getApp().globalData.userData.uid) {
-        getApplianceListConfig = {}
-      }
-    }
+  // if (getApp().globalData?.userData?.uid) {
+  //let getApplianceListConfig = {}
+  if (wx.getStorageSync('applianceListConfig')) {
+    wx.removeStorageSync('applianceListConfig')
+    // getApplianceListConfig = wx.getStorageSync('applianceListConfig')
+    // if (getApplianceListConfig.uid != getApp().globalData.userData.uid) {
+    // getApplianceListConfig = {}
+    // }
+    // }
     let homeStorage = {
-      uid: getApp().globalData.userData.uid,
+      // uid: getApp().globalData.userData.uid,
     }
     if (!homeStorage[homeId]) {
       homeStorage[homeId] = {
@@ -87,12 +88,12 @@ const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedAppli
     homeStorage[homeId]['supportedApplianceList'] = supportedApplianceList
     homeStorage[homeId]['unsupportedApplianceList'] = unsupportedApplianceList
     homeStorage[homeId]['boughtDevices'] = boughtDevices
-    let applianceListConfig = {
-      ...homeStorage,
-      ...getApplianceListConfig,
-    }
-    console.log('缓存家庭设备信息', applianceListConfig)
-    wx.setStorageSync('applianceListConfig', applianceListConfig)
+    // let applianceListConfig = {
+    // ...homeStorage,
+    // ...getApplianceListConfig,
+    // }
+    console.log('缓存家庭设备信息', homeStorage)
+    wx.setStorageSync('applianceListConfig', homeStorage)
     wx.setStorageSync('currentHomeGroupId', homeId)
   }
 }
