@@ -1920,8 +1920,8 @@ Page({
               })
               setApplianceListConfig(
                 this.data.currentHomeGroupId,
-                this.supportedApplianceList,
-                this.unsupportedApplianceList,
+                this.data.supportedApplianceList,
+                this.data.unsupportedApplianceList,
                 this.data.boughtDevices
               )
             }
@@ -2100,7 +2100,6 @@ Page({
     let aLLDeviceLength =
       supportedApplianceList.length + unsupportedApplianceList.length + this.data.boughtDevices.length
     let allUnsupportedApplianceList = unsupportedApplianceList
-    console.log('缓存家庭')
     homeStorage.setStorage({ homeId: currentHomeGroupId, name: 'supportedApplianceList', data: supportedApplianceList })
     homeStorage.setStorage({
       homeId: currentHomeGroupId,
@@ -2117,7 +2116,7 @@ Page({
           app.globalData.spidDeviceImgList
         )
       })
-      unsupportedApplianceList.forEach((item) => {
+      allUnsupportedApplianceList.forEach((item) => {
         item.deviceImg = getIcon(
           item,
           app.globalData.dcpDeviceImgList,
@@ -2135,6 +2134,15 @@ Page({
         item.deviceImg = newArr[0].deviceImg
       })
     }
+    //缓存当前家庭设备信息
+    console.log('缓存家庭')
+    setApplianceListConfig(
+      currentHomeGroupId,
+      supportedApplianceList,
+      allUnsupportedApplianceList,
+      this.data.boughtDevices
+    )
+    console.log('重新刷新 or 没有缓存')
     this.setData({
       isExpandNoSupportDevice,
       supportedApplianceList: supportedApplianceList,
@@ -2142,13 +2150,7 @@ Page({
       allDevice: aLLDeviceLength,
       isHourse: false,
     })
-    //缓存当前家庭设备信息
-    setApplianceListConfig(
-      currentHomeGroupId,
-      supportedApplianceList,
-      unsupportedApplianceList,
-      this.data.boughtDevices
-    )
+
     this.getMainDevices(supportedApplianceList) //获取当前家庭的主设备
     this.getIntervalBatcApplicList()
     console.log('优化 小木马消失 filterSupportedAppliance', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
@@ -3686,14 +3688,14 @@ Page({
   },
   //读取缓存数据{}
   getStrogeIndex() {
-    if (getApplianceListConfig() && getStrogeHomeGrounpList()) {
-      console.log('使用缓存数据-----》')
+    if (getApplianceListConfig() && getStrogeHomeGrounpList() && getCurrentHomeGroupId()) {
+      console.log('获取缓存数据----》')
       const CurrentHomeGroupId = getCurrentHomeGroupId()
       const homeList = getStrogeHomeGrounpList()
       const deviceConfig = getApplianceListConfig()
-      this.data.supportedApplianceList = deviceConfig[CurrentHomeGroupId].supportedApplianceList
-      this.data.unsupportedApplianceList = deviceConfig[CurrentHomeGroupId].unsupportedApplianceList
-      this.data.boughtDevices = deviceConfig[CurrentHomeGroupId].boughtDevices
+      this.data.supportedApplianceList = deviceConfig[CurrentHomeGroupId].supportedApplianceList || []
+      this.data.unsupportedApplianceList = deviceConfig[CurrentHomeGroupId].unsupportedApplianceList || []
+      this.data.boughtDevices = deviceConfig[CurrentHomeGroupId].boughtDevices || []
       const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(
         deviceConfig[CurrentHomeGroupId].supportedApplianceList
       )
