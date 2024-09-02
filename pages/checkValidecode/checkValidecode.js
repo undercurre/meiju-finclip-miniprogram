@@ -74,6 +74,7 @@ Page({
     })
   },
   handleResult(res){
+    console.log(`请求返回结果：${JSON.stringify(res)}`)
     switch(Number(res.data.code)) {
         case 0: 
             this.setData({
