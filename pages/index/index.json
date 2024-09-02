@@ -17,6 +17,7 @@
     "home-manage": "/pages/index/component/home-manage/index",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
     "mx-field": "/miniprogram_npm/m-ui/mx-field/index",
+    "mx-image": "/miniprogram_npm/m-ui/mx-image/index",
     "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
     "device-card-tips": "./component/device-card-tips/index",
     "module-card": "./assets/module-card-templates/card/index",

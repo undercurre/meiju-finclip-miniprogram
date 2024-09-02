@@ -565,6 +565,7 @@ Page({
     },
     intervalApp: null,
     isWifiNetWork: false,
+    clickAfterCompletion: false,
   },
   //长链接推送解析
   async initPushData() {
@@ -1633,6 +1634,7 @@ Page({
       currentHomeGroupIndex: index,
       currentHomeGroupId: homegourpId,
       homeList: this.data.homeList,
+      clickAfterCompletion: true,
     })
     //更新全局currentHomeGroupId
     app.globalData.currentHomeGroupId = homegourpId
@@ -1669,6 +1671,7 @@ Page({
           isLogon: !isLogout,
           isHourse: false,
           homeInfoFailFlag: true,
+          clickAfterCompletion: false,
         })
       })
   },
@@ -2023,6 +2026,7 @@ Page({
         unsupportedApplianceList,
         allDevice: aLLDeviceLength,
         isHourse: false,
+        clickAfterCompletion: false,
       })
       return
     }
@@ -2149,8 +2153,8 @@ Page({
       unsupportedApplianceList: allUnsupportedApplianceList,
       allDevice: aLLDeviceLength,
       isHourse: false,
+      clickAfterCompletion: false,
     })
-
     this.getMainDevices(supportedApplianceList) //获取当前家庭的主设备
     this.getIntervalBatcApplicList()
     console.log('优化 小木马消失 filterSupportedAppliance', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
@@ -3693,41 +3697,47 @@ Page({
       const CurrentHomeGroupId = getCurrentHomeGroupId()
       const homeList = getStrogeHomeGrounpList()
       const deviceConfig = getApplianceListConfig()
-      this.data.supportedApplianceList = deviceConfig[CurrentHomeGroupId].supportedApplianceList || []
-      this.data.unsupportedApplianceList = deviceConfig[CurrentHomeGroupId].unsupportedApplianceList || []
-      this.data.boughtDevices = deviceConfig[CurrentHomeGroupId].boughtDevices || []
-      const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(
-        deviceConfig[CurrentHomeGroupId].supportedApplianceList
-      )
-      let aLLDeviceLength =
-        this.data.supportedApplianceList.length + this.data.unsupportedApplianceList.length + this.data.boughtDevices
-      this.setData({
-        isHomeListLoaded: true,
-        isLogon: app.globalData.isLogon,
-        allDevice: aLLDeviceLength,
-      })
-      this.data.homeList = homeList
-      let currentHomeGroupIndex = this.data.homeList.findIndex((item) => {
-        return item.homegroupId == CurrentHomeGroupId
-      })
-      const currentHomeInfo = this.data.homeList.splice(currentHomeGroupIndex, 1)[0]
-      this.data.homeList.unshift(currentHomeInfo)
-      currentHomeGroupIndex = 0
-      this.data.currentHomeInfo = currentHomeInfo
-      app.globalData.currentHomeGroupId = currentHomeInfo.homegroupId
-      app.globalData.homeRoleId = this.data.currentHomeInfo.roleId //是否是当前家庭的创建者
-      console.log('渲染缓存数据----》')
-      this.setData({
-        currentHomeInfo: currentHomeInfo,
-        currentHomeGroupIndex: currentHomeGroupIndex,
-        currentHomeGroupId: currentHomeInfo.homegroupId,
-        homeList: this.data.homeList,
-        isExpandNoSupportDevice,
-        supportedApplianceList: deviceConfig[CurrentHomeGroupId].supportedApplianceList,
-        unsupportedApplianceList: deviceConfig[CurrentHomeGroupId].unsupportedApplianceList,
-        boughtDevices: deviceConfig[CurrentHomeGroupId].boughtDevices,
-        isHourse: false,
-      })
+      if (
+        deviceConfig[CurrentHomeGroupId].supportedApplianceList &&
+        deviceConfig[CurrentHomeGroupId].unsupportedApplianceList
+      ) {
+        this.data.supportedApplianceList = deviceConfig[CurrentHomeGroupId].supportedApplianceList || []
+        this.data.unsupportedApplianceList = deviceConfig[CurrentHomeGroupId].unsupportedApplianceList || []
+        this.data.boughtDevices = deviceConfig[CurrentHomeGroupId].boughtDevices || []
+        const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(
+          deviceConfig[CurrentHomeGroupId].supportedApplianceList
+        )
+        let aLLDeviceLength =
+          this.data.supportedApplianceList.length + this.data.unsupportedApplianceList.length + this.data.boughtDevices
+        //处理页面显示逻辑
+        this.setData({
+          isHomeListLoaded: true,
+          isLogon: app.globalData.isLogon,
+          allDevice: aLLDeviceLength,
+        })
+        this.data.homeList = homeList
+        let currentHomeGroupIndex = this.data.homeList.findIndex((item) => {
+          return item.homegroupId == CurrentHomeGroupId
+        })
+        const currentHomeInfo = this.data.homeList.splice(currentHomeGroupIndex, 1)[0]
+        this.data.homeList.unshift(currentHomeInfo)
+        currentHomeGroupIndex = 0
+        this.data.currentHomeInfo = currentHomeInfo
+        app.globalData.currentHomeGroupId = currentHomeInfo.homegroupId
+        app.globalData.homeRoleId = this.data.currentHomeInfo.roleId //是否是当前家庭的创建者
+        console.log('渲染缓存数据----》')
+        this.setData({
+          currentHomeInfo: currentHomeInfo,
+          currentHomeGroupIndex: currentHomeGroupIndex,
+          currentHomeGroupId: currentHomeInfo.homegroupId,
+          homeList: this.data.homeList,
+          isExpandNoSupportDevice,
+          supportedApplianceList: deviceConfig[CurrentHomeGroupId].supportedApplianceList,
+          unsupportedApplianceList: deviceConfig[CurrentHomeGroupId].unsupportedApplianceList,
+          boughtDevices: deviceConfig[CurrentHomeGroupId].boughtDevices,
+          isHourse: false,
+        })
+      }
     }
     console.log('渲染缓存数据完成----》')
   },

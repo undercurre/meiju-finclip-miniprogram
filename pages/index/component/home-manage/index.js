@@ -28,6 +28,13 @@ Component({
         // this.loopHomeGrounpListForRedDot(val)
       },
     },
+    clickAfterCompletion: {
+      type: Boolean,
+      value: false,
+      observer: function (val) {
+        console.log('clickAfterCompletion是否可以点击', val)
+      },
+    },
     currentHomeGroupIndex: {
       type: Number,
     },
@@ -150,6 +157,7 @@ Component({
     },
     // 家庭管理  可优化 切换家庭管理的显示和隐藏
     switchShowHomeList() {
+      if (this.data.clickAfterCompletion) return
       if (this.data.homeList.length == 1) {
         // const { homeList, ownHomeNum } = this.data
         // let target = homeList[0]
