@@ -166,6 +166,9 @@ Page({
             case 1101:
                 showToast('验证码错误，请重新输入')
                 break;
+            case 1100:
+                showToast('验证码已过期')
+                break
             default:
                 showToast(res.data.msg || '系统错误，请稍后重试')
                 break;
