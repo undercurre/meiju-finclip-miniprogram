@@ -482,7 +482,7 @@ Page({
         //直连 绑定
         systemInfo = await this.wxGetSystemInfo()
         systemInfo.bluetoothAuthorized = bluetoothAuthorized
-        if (!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') {
+        if (!systemInfo.bluetoothEnabled || !systemInfo.bluetoothAuthorized) {
           //未打开蓝牙
           this.noOpenBlue(systemInfo)
           return
@@ -537,9 +537,10 @@ Page({
       case 3:
       case 18:
         systemInfo = await this.wxGetSystemInfo()
-        console.log("===Yoram===systemInfo",systemInfo)
         systemInfo.bluetoothAuthorized = bluetoothAuthorized
-        if (!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') {
+        console.log("===Yoram===systemInfo",systemInfo)
+        if (!systemInfo.bluetoothEnabled || !systemInfo.bluetoothAuthorized) {
+          console.error('进入打开蓝牙弹窗')
           //未打开蓝牙
           this.noOpenBlue()
           return
