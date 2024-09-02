@@ -62,7 +62,7 @@ page{
   display: -webkit-box; 
   -webkit-line-clamp: 1; 
   -webkit-box-orient: vertical; 
-  overflow: hidden;   
+  overflow-x: hidden;   
   text-overflow: ellipsis;
   word-break: break-all;
 }
@@ -137,6 +137,12 @@ page{
   margin-bottom: 16rpx;
   margin-left: 26rpx;
   margin-top: 20rpx;
+}
+
+.device-icon-loading{
+  border-radius: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .noDeviceWarp {

@@ -19,6 +19,7 @@
             data-type="more"
             id="home-manage"
             homeList="{{homeList}}"
+            click-after-completion="{{clickAfterCompletion}}"
             currentHomeInfo="{{currentHomeInfo}}"
             currentHomeGroupIndex="{{currentHomeGroupIndex}}"
             currentHomeGroupId="{{currentHomeGroupId}}"
@@ -93,6 +94,18 @@
                       bindlongpress="editeLongPress"
                     >
                       <view>
+                        <!-- <mx-image -->
+                        <!-- custom-class="device-icon" -->
+                        <!-- useLoadingSlot -->
+                        <!-- lazy-load="{{true}}" -->
+                        <!-- plate="meiju" -->
+                        <!-- src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}" -->
+                        <!-- binderror="bindSupporteError" -->
+                        <!-- style="{{device.isImgError?'opacity:1':'opacity:'+tools.filterDeviceImgOpacity(device)}}" -->
+                        <!-- data-index="{{index}}" -->
+                        <!-- > -->
+                        <!-- <image slot="loading" class="device-icon-loaading" src="{{imgLoading}}" /> -->
+                        <!-- </mx-image> -->
                         <image
                           class="device-icon"
                           lazy-load="{{true}}"
