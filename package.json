@@ -56,7 +56,7 @@
     "m-miniCommonSDK": "1.0.12",
     "m-performance": "^1.0.0",
     "m-track": "^1.0.0",
-    "m-ui": "^2.0.31",
+    "m-ui": "^2.0.33",
     "m-utilsdk": "1.0.9"
   },
   "lint-staged": {
