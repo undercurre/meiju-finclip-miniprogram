@@ -1555,6 +1555,10 @@ Page({
   },
   // 家庭管理弹窗 选择家庭进行切换
   selectHomeGroupOption(e) {
+    if (this.data.clickAfterCompletion) return
+    this.setData({
+      clickAfterCompletion: true,
+    })
     //选择新家庭
     let currentHomeGroupIndex = e.detail ? e.detail.currentTarget.dataset.bindex : e.bindex
     let selectedHomeGroupId = e.detail ? e.detail.currentTarget.dataset.homegroupid : e.homegroupid
@@ -1634,7 +1638,6 @@ Page({
       currentHomeGroupIndex: index,
       currentHomeGroupId: homegourpId,
       homeList: this.data.homeList,
-      clickAfterCompletion: true,
     })
     //更新全局currentHomeGroupId
     app.globalData.currentHomeGroupId = homegourpId

@@ -53,7 +53,7 @@ page{
 
 .name {
   display: inline-block;
-  height: 28rpx;
+  height: 32rpx;
   font-size: 26rpx;
   color: #000000;
   line-height: 28rpx;
@@ -662,6 +662,11 @@ button::after {
 .home-nologin-img{
   width: 173rpx;
   height: 87rpx;
+}
+.inner-wrap-backgruop{
+  /* --field-icon-clear-position: absolute; */
+  /* --field-icon-clear-right: 16rpx; */
+  /* --filed-body-dialpay:inline-block; */
 }
 
 /* .index-content-box{ */
