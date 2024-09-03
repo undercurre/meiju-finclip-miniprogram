@@ -218,7 +218,7 @@ Page({
   },
   inviteMembers() {
     if(!inviteDebounce){
-        inviteDebounce = debounce(this.inviteMembersNew, 300)
+        inviteDebounce = debounce(this.inviteMembersNew, 300, 300)
     }
     inviteDebounce()
   },

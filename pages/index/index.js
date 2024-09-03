@@ -2660,7 +2660,7 @@ Page({
   },
   async goToPlugin(e) {
     if (!jumpPluginDebounce) {
-      jumpPluginDebounce = debounce(this.goToPluginReal, 300)
+      jumpPluginDebounce = debounce(this.goToPluginReal, 300, 300)
     }
     jumpEventObj = e
     jumpPluginDebounce()
