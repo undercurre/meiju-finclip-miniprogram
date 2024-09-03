@@ -236,13 +236,13 @@ Component({
           for (let j in modesArr) {
             let tempMode = modesArr[j];
             if (tempMode && tempMode.value === modeValue) {
-              if (this.data.pickerCategoryModeIndex && parseInt(this.data.pickerCategoryModeIndex[0]) !== i) {
+            //   if (this.data.pickerCategoryModeIndex && parseInt(this.data.pickerCategoryModeIndex[0]) !== i) {
                 this.data.pickerModeNamesArray = this.getModesInCategory(i, true);
-              }
+            //   }
               this.data.pickerCategoryModeIndex = [i, j];
               this.setData({
-                pickerCategoryModeIndex: this.data.pickerCategoryModeIndex,
-                pickerModeNamesArray: this.data.pickerModeNamesArray
+                pickerModeNamesArray: this.data.pickerModeNamesArray,
+                pickerCategoryModeIndex: this.data.pickerCategoryModeIndex
               })
               return;
             }
@@ -620,11 +620,6 @@ Component({
     },
     modeToggle() {
       let applianceStatus = this.data.applianceStatus;
-      if (this.data.selectedMode && this.data.selectedMode.value >= 0) {
-        this.refreshCategoryModeIndex(this.data.selectedMode.value);
-      } else {
-        this.refreshCategoryModeIndex(-1);
-      }
       if (
         applianceStatus.power == 'on' &&
         applianceStatus.running_status !== 'start' &&
@@ -653,6 +648,13 @@ Component({
           //showHint
         }
       }
+      setTimeout(() => {
+        if (this.data.selectedMode && this.data.selectedMode.value >= 0) {
+            this.refreshCategoryModeIndex(this.data.selectedMode.value);
+          } else {
+            this.refreshCategoryModeIndex(-1);
+          }
+      }, 300)
     },
     closeModePop() {
       this.setData({
@@ -904,33 +906,6 @@ Component({
         param['req_id'] = reqId
         this.rangersBurialPointClick('plugin_function_click_result', param)
         // end 添加字节埋点：电源开关
-        setTimeout(
-          function () {
-            this.luaQuery(true)
-              .then((res) => {
-                let result = res.data.data
-                if (result.remain_time === 65535) {
-                  remain_time = '--'
-                } else {
-                  remain_time = result.remain_time
-                }
-                result.remain_time = remain_time
-                this.setData(
-                  {
-                    applianceStatus: result,
-                  },
-                  () => {
-                    self.checkRunningAnimation()
-                    self.computeStatus()
-                    self.renderRemainTime()
-                    self.computeButtons()
-                  }
-                )
-              })
-              .catch((err) => {})
-          }.bind(this),
-          1000
-        )
       })
     },
     powerToggle() {
@@ -995,33 +970,6 @@ Component({
           param['req_id'] = reqId
           this.rangersBurialPointClick('plugin_function_click_result', param)
           // end 添加字节埋点：启动设备
-          setTimeout(
-            function () {
-              this.luaQuery(true)
-                .then((res) => {
-                  let result = res.data.data
-                  if (result.remain_time === 65535) {
-                    remain_time = '--'
-                  } else {
-                    remain_time = result.remain_time
-                  }
-                  result.remain_time = remain_time
-                  this.setData(
-                    {
-                      applianceStatus: result,
-                    },
-                    () => {
-                      self.checkRunningAnimation()
-                      self.computeStatus()
-                      self.renderRemainTime()
-                      self.computeButtons()
-                    }
-                  )
-                })
-                .catch((err) => {})
-            }.bind(this),
-            1000
-          )
         })
       } else {
         return //启动后禁止点击
@@ -1064,33 +1012,6 @@ Component({
           param['req_id'] = reqId
           this.rangersBurialPointClick('plugin_function_click_result', param)
           // end 添加字节埋点：暂停设备
-          setTimeout(
-            function () {
-              this.luaQuery(true)
-                .then((res) => {
-                  let result = res.data.data
-                  if (result.remain_time === 65535) {
-                    remain_time = '--'
-                  } else {
-                    remain_time = result.remain_time
-                  }
-                  result.remain_time = remain_time
-                  this.setData(
-                    {
-                      applianceStatus: result,
-                    },
-                    () => {
-                      self.checkRunningAnimation()
-                      self.computeStatus()
-                      self.renderRemainTime()
-                      self.computeButtons()
-                    }
-                  )
-                })
-                .catch((err) => {})
-            }.bind(this),
-            1000
-          )
         })
       } else {
         return //暂停后禁止点击
