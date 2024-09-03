@@ -515,8 +515,12 @@ Page({
         clearInterval(timer)
         this.nearDeviceAnimate()
         setTimeout(() => {
+          console.error('靠近设备，准备跳联网进度页')
           let page = getFullPageUrl() // 搜索到设备 瞬间返回上一层页面后，又自动跳转到联网进度页的问题修复
+          console.error('靠近设备，准备跳联网进度页page：',page)
+          console.error('靠近设备，判断当前是配网指引页1：',page.includes('addDevice/pages/addGuide/addGuide'))
           if (page.includes('addDevice/pages/addGuide/addGuide')){
+            console.error('靠近设备，判断当前是配网指引页2：',page.includes('addDevice/pages/addGuide/addGuide'))
             wx.navigateTo({
               url: paths.linkDevice,
               success:()=>{
@@ -1154,7 +1158,7 @@ Page({
       console.log('scanResult==================:', scanResult)
     } catch (error) {
       console.log('扫码失败====', error)
-      if (!error.errMsg.includes('fail cancel')) {
+      if (!error.errMsg.includes('fail cancel') && !error.errMsg.includes('fail The user canceled the barcode scanning')) {
         Dialog.confirm({
           title: '该二维码无法识别，请扫描设备屏幕二维码',
           confirmButtonText: '我知道了',

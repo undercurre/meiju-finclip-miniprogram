@@ -3,7 +3,7 @@ const app = getApp() //获取应用实例
 const service = require('./assets/js/service')
 const imgBaseUrlMixins = require('../common/mixins/base-img-mixins.js')
 import { getReqId, getStamp, hasKey } from 'm-utilsdk/index'
-import { getFullPageUrl } from '../../utils/util'
+import { getFullPageUrl, debounce } from '../../utils/util'
 import { requestService } from '../../utils/requestService'
 import { logonStatusApi, baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking } from '../../track/track.js'
@@ -15,6 +15,7 @@ import {
   clickSeetingMenuSettingBurialPoint,
   myPageViewBurialPoint,
 } from './assets/js/burialPoint.js'
+import { setVipUserInfo } from '../../utils/redis.js'
 import computedBehavior from '../../utils/miniprogram-computed'
 const indexSrc = imgBaseUrl.url + '/harmonyos/index/index.png'
 const headerImg = '/assets/img/about/header.png'
@@ -59,7 +60,9 @@ let defaultPageListData = [
     openType: '',
   },
 ]
-
+let jumpSettingDebounce = null
+let jumpAboutDebounce = null
+let jumpSafeDebounce = null
 Page({
   behaviors: [service, imgBaseUrlMixins, computedBehavior],
   onShow() {
@@ -171,32 +174,55 @@ Page({
 
   //点击跳转设置页面
   goToSettingPage() {
-    //埋点
-    clickSeetingMenuSettingBurialPoint()
-    wx.navigateTo({
-      url: '/sub-package/mytab/pages/about/about',
-    })
+    if(!jumpSettingDebounce){
+        jumpSettingDebounce = debounce(() => {
+             //埋点
+            clickSeetingMenuSettingBurialPoint()
+            wx.navigateTo({
+                url: '/sub-package/mytab/pages/about/about',
+            })
+        }, 300, 300)
+    }
+    jumpSettingDebounce()
   },
   /**
    * 跳转到隐私协议页面
    */
   gotoPrivcayPage() {
-    clickSeetingMenuPrivcyBurialPoint()
-    wx.navigateTo({
-      url: '/pages/privacyAndSafa/privacyAndSafa',
-    })
+    if(!jumpSafeDebounce){
+        jumpSafeDebounce = debounce(() => {
+            clickSeetingMenuPrivcyBurialPoint()
+            wx.navigateTo({
+                url: '/pages/privacyAndSafa/privacyAndSafa',
+            })
+        }, 300, 300)
+    }
+    jumpSafeDebounce()
   },
   //点击跳转关于页面
   gotoAoutPage() {
-    //埋点
-    clickSeetingMenuAboutBurialPoint()
-    wx.navigateTo({
-      url: '/pages/aboutApp/aboutApp',
-    })
+    if(!jumpAboutDebounce){
+        jumpAboutDebounce = debounce(() => {
+            //埋点
+            clickSeetingMenuAboutBurialPoint()
+            wx.navigateTo({
+                url: '/pages/aboutApp/aboutApp',
+            })
+        }, 300, 300)
+    }
+    jumpAboutDebounce()
   },
 
   getVipUserInfo: function () {
     if (!app.globalData.isLogon) return
+    //先从缓存拿
+    if (wx.getStorageSync('vipUserInfo')) {
+      const vipData = wx.getStorageSync('vipUserInfo')
+      this.setData({
+        headImgUrl: vipData?.userCustomize?.headImgUrl,
+        nickName: vipData?.userCustomize?.nickName,
+      })
+    }
     let data = {
       // brand: 1,
       // sourceSys: 'IOT'
@@ -211,6 +237,7 @@ Page({
     requestService.request('getVipUserInfo', data).then((resp) => {
       const vipData = resp?.data?.data
       app.globalData.userData.grade = vipData?.grade
+      setVipUserInfo(vipData)
       this.setData({
         headImgUrl: vipData?.userCustomize?.headImgUrl,
         nickName: vipData?.userCustomize?.nickName,

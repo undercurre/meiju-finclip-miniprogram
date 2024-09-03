@@ -312,13 +312,16 @@ const checkFamilyPermission = (params = {}) => {
 }
 
 // v1版本获取icon
-function getIcon(device, iconArr, currApplianceList) {
+function getIcon(device, iconArr, currApplianceList, spidList = {}) {
+    if(device.name.includes('小天鹅双洗站')){
+        debugger
+    }
   let defaultImg = baseImgApi.url + 'scene/sence_img_lack.png'
   let imgPath = ''
   let sn8 = ''
   let deviceModelNumber = ''
   // eslint-disable-next-line no-unused-vars
-  let { applianceType, modelNum, applianceCode } = device
+  let { applianceType, modelNum, applianceCode, smartProductId } = device
   applianceType = applianceType || device['type']
   currApplianceList.forEach((item) => {
     if (item.applianceCode == applianceCode) {
@@ -338,7 +341,10 @@ function getIcon(device, iconArr, currApplianceList) {
   if (!list) {
     return defaultImg
   }
-  if (Object.keys(list).includes(keyName)) {
+  let spidObj = smartProductId && spidList ? spidList[smartProductId] : null
+  if(spidObj){
+    imgPath = spidObj.icon
+  }else if (Object.keys(list).includes(keyName)) {
     imgPath = list[keyName]['icon']
   } else if (list.common.icon) {
     imgPath = list.common.icon
@@ -405,7 +411,7 @@ function onNetworkStatusChange() {
     },
   })
 }
-function debounce(fn, delay) {
+function debounce(fn, delay = 300) {
     let timer = null;
     return function() {
       clearTimeout(timer);

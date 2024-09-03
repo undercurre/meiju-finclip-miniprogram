@@ -59,6 +59,7 @@ import { isColmoDeviceBySn8 } from '../../../common/js/device'
 import Dialog from '../../../../miniprogram_npm/m-ui/mx-dialog/dialog'
 import { imgesList } from '../../../assets/js/shareImg.js'
 import { getPluginUrl } from '../../../../utils/getPluginUrl'
+import { checkPermission } from '../../../../pages/common/js/permissionAbout/checkPermissionTip'
 const imgUrl = imgBaseUrl.url + '/shareImg/' + app.globalData.brand
 const brandStyle = require('../../../assets/js/brand.js')
 // console.log('brandStyle:',brandStyle)
@@ -325,6 +326,7 @@ Page({
       mode: mode,
       currentHomeGroupId: app.globalData.currentHomeGroupId,
     })
+    console.error('读取wifi缓存信息curWifiInfo===:',curWifiInfo)
     //统一读取wifi缓存信息
     if (curWifiInfo) {
       // this.data.bindWifiInfo = this.apUtils.decodeWifi(wx.getStorageSync('bindWifiInfo'))
@@ -336,6 +338,16 @@ Page({
    
     let judgingConditions  = this.judgingConditionsMode(mode)
     console.log('查看配网方式----------------：',judgingConditions)
+    let blueRes =''
+    let permissionTypeList = ''
+    let bluetoothAuthorized = ''
+    if(mode == 3 || mode == 18 || mode == 5){
+      blueRes = await checkPermission.blue()
+      permissionTypeList = blueRes.permissionTypeList
+      bluetoothAuthorized = permissionTypeList.bluetoothAuthorized
+    }
+
+
     switch (judgingConditions) {
       case 20:
         this.cellularNetwork()
@@ -469,7 +481,8 @@ Page({
       case 5:
         //直连 绑定
         systemInfo = await this.wxGetSystemInfo()
-        if ((!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') && 1==2) {
+        systemInfo.bluetoothAuthorized = bluetoothAuthorized
+        if (!systemInfo.bluetoothEnabled || !systemInfo.bluetoothAuthorized) {
           //未打开蓝牙
           this.noOpenBlue(systemInfo)
           return
@@ -524,8 +537,10 @@ Page({
       case 3:
       case 18:
         systemInfo = await this.wxGetSystemInfo()
+        systemInfo.bluetoothAuthorized = bluetoothAuthorized
         console.log("===Yoram===systemInfo",systemInfo)
-        if ((!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') && 1==2) {
+        if (!systemInfo.bluetoothEnabled || !systemInfo.bluetoothAuthorized) {
+          console.error('进入打开蓝牙弹窗')
           //未打开蓝牙
           this.noOpenBlue()
           return
@@ -1656,6 +1671,7 @@ Page({
     if (decodeMsg.type == '8070') {
       //配网指令上行
       let code = parseInt(decodeMsg.body, 16)
+      console.error('配网指令上行------:',code)
       if (code == 0) {
         // showToast('模组收到wifi信息')
         console.log('模组响应收到wifi信息')
@@ -2409,12 +2425,13 @@ Page({
         BSSID: app.addDeviceInfo.BSSID,
       })
     } else {
-      console.log('[unsupport tcp bind wifi]')
       const self = this
       wx.getNetworkType({
         success(res) {
           const networkType = res.networkType
+          console.error('networkType========:',networkType)
           if (networkType == 'wifi') {
+            console.error('当前已经连接wifi,则直接连接')
             //如果当前已经连接wifi,则直接连接
             self.tcp.connect({
               address: address,
@@ -3755,10 +3772,22 @@ Page({
         if (data.data.status == '1' || data.data.status == '2') {
           wx.reLaunch({
             url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&randomCode=${self.data.blueRandomCode || self.data.randomCode}&identifierPage=linkDevice`,
+            success:()=>{
+              console.log('linkDevice组合设备跳转后确权页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice组合设备跳转后确权页面失败:',error)
+            }
           })
         } else { // 已确权
           wx.reLaunch({
             url: `${paths.linkCombinedDevice}?randomCode=${self.data.blueRandomCode || self.data.randomCode}`,
+            success:()=>{
+              console.log('linkDevice组合设备已确权跳转页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice组合设备已确权跳转页面成功失败:',error)
+            }
           })
         }
       } else { //非组合配网 未确权先跳 后确权页面
@@ -3766,12 +3795,24 @@ Page({
         console.log('### 接口查询确权状态：', data.data.status)
         if (data.data.status == '1' || data.data.status == '2') { //未确权
           wx.reLaunch({
-            url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`
+            url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`,
+            success:()=>{
+              console.log('linkDevice非组合设备跳转后确权页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice非组合设备跳转后确权页面失败:',error)
+            }
           })
         } else { // 已确权
           console.error('准备跳转curStep11111111111=========:', this.data.curStep)
           wx.reLaunch({
             url: paths.addSuccess,
+            success:()=>{
+              console.log('linkDevice非组合设备已确权跳转页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice非组合设备已确权跳转页面失败:',error)
+            }
           })
         }
       }
@@ -3784,6 +3825,12 @@ Page({
       if (this.data.curStep == 2) { // 绑定设备到家庭成功，但是获取确权状态报错了，直接跳转到成功页
         wx.reLaunch({
           url: paths.addSuccess,
+          success:()=>{
+            console.log('linkDevice跳转保存页面成功')
+          },
+          fail:(error)=>{
+            console.log('linkDevice跳转保存页面失败:',error)
+          }
         })
       }
     }

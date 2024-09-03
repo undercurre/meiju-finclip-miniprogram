@@ -1,8 +1,11 @@
 {
   "navigationStyle": "custom",
-  "navigationBarRightButton": {"hide": true},
+  "navigationBarRightButton": {
+    "hide": true
+  },
   "navigationBarTitleText": "美的美居",
   "backgroundColor": "#ecf0f6",
+  "cache": true,
   "usingComponents": {
     "index-header": "/pages/component/index-header/index-header",
     "center-product-dialog": "/pages/component/center-product-dialog/center-product-dialog",
@@ -14,13 +17,13 @@
     "home-manage": "/pages/index/component/home-manage/index",
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
     "mx-field": "/miniprogram_npm/m-ui/mx-field/index",
+    "mx-image": "/miniprogram_npm/m-ui/mx-image/index",
     "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
     "device-card-tips": "./component/device-card-tips/index",
     "module-card": "./assets/module-card-templates/card/index",
-    "mx-toast":"m-ui/mx-toast/index",
-    "version-update-dialog":"../component/version-update-dialog/version-update-dialog"
+    "mx-toast": "m-ui/mx-toast/index",
+    "version-update-dialog": "../component/version-update-dialog/version-update-dialog"
   },
-
   "componentPlaceholder": {
     "advertise-bar": "view",
     "edit-delete-card": "view",

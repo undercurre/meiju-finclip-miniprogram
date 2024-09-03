@@ -201,7 +201,7 @@ Page({
         wx.showToast({
           title: '创建家庭成功',
           icon: 'none',
-          duration: 5000,
+          duration: 2500,
         })
         console.log(res, '创建家庭成功')
         this.setData({
@@ -221,9 +221,11 @@ Page({
             })
             let homeitem = JSON.stringify(target[0])
             //新建完家庭后跳转至该家庭详情页面
-            wx.navigateTo({
-              url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${target[0].name}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,
-            })
+            setTimeout(function () {
+              wx.navigateTo({
+                url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${target[0].name}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,
+              })
+            }, 2500) //延迟2秒时间
           })
           .catch((err) => {
             console.log(err)

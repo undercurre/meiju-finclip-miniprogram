@@ -159,11 +159,13 @@ Page({
         wx.getNetworkType({
             success(res){
                 const networkType = res.networkType
+                console.log(`退出登录-----networkType=${networkType}`)
                 if(['unknown', 'none'].includes(networkType)){
                     setTimeout(() => {
                         showToast('退出登录失败')
                     }, 0)
                 }else{
+                    console.log(`退出登录-----loginMethods.logout`)
                     loginMethods.logout()
                     that.setData({
                         isLogon: false,
@@ -171,6 +173,7 @@ Page({
                     setTimeout(() => {
                         showToast('退出成功')
                     }, 0)
+                    console.log(`退出登录-----switchTab, /pages/mytab/mytab`)
                     wx.switchTab({
                         url: '/pages/mytab/mytab',
                     })

@@ -206,7 +206,9 @@ module.exports = Behavior({
                 state: true,
                 success(res) {
                   console.log('notifyBLECharacteristicValueChange success', res)
-                  self.writeData(self.data.currentOrder) // 将发送数据放到notifyBLECharacteristicValueChange回调中确保indicate/notify开关已打开
+                  setTimeout(()=>{ //加定时器，看看还有没有10007的报错
+                    self.writeData(self.data.currentOrder) // 将发送数据放到notifyBLECharacteristicValueChange回调中确保indicate/notify开关已打开
+                  },1000)
                 },
               })
             }
