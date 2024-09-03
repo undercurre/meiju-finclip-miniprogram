@@ -153,7 +153,7 @@ Page({
       } else {
         this.setData({
           dialogTitle: '退出家庭',
-          dialogMessage: '确定要退出该家庭吗',
+          dialogMessage: '退出后将无法控制家庭中的设备，可以让创建者再次邀请你加入。',
           dialogShow: true,
           option: 'exit',
           dialogMessageAlign: 'center',
@@ -184,6 +184,10 @@ Page({
       this.homeDelete()
         .then((res) => {
           console.log(res.data.code, '删除家庭成功')
+          wx.showToast({
+            title: '删除家庭成功',
+            icon: 'none',
+          })
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })
@@ -199,6 +203,10 @@ Page({
       this.homeQuit()
         .then((res) => {
           console.log(res, '退出家庭成功')
+          wx.showToast({
+            title: '退出家庭成功',
+            icon: 'none',
+          })
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })

@@ -92,7 +92,7 @@ const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedAppli
   // ...homeStorage,
   // ...getApplianceListConfig,
   // }
-  console.log('缓存家庭设备信息', homeStorage)
+  //console.log('缓存家庭设备信息', homeStorage)
   wx.setStorageSync('applianceListConfig', homeStorage)
   wx.setStorageSync('currentHomeGroupId', homeId)
 }

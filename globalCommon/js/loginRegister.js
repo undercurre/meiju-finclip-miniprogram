@@ -131,6 +131,15 @@ const loginMethods = {
               }
               getPrivateKeys.getPrivateKeyAfterLogin()
               resolve(userInfo)
+              //设置宿主缓存
+              try {
+                ft?.setPreferences({
+                  key: 'finClipLoginInfo',
+                  val: userInfo,
+                })
+              } catch (error) {
+                console.log('设置宿主缓存error', error)
+              }
             } else {
               console.log('login fail res :', res.data)
               app.globalData.isLogon = false
@@ -260,6 +269,15 @@ const loginMethods = {
               wx.setStorageSync('userRegion', res.data.data.region) //存储
             }
             getPrivateKeys.getPrivateKeyAfterLogin()
+            //设置宿主缓存
+            try {
+              ft?.setPreferences({
+                key: 'finClipLoginInfo',
+                val: res.data.data,
+              })
+            } catch (error) {
+              console.log('设置宿主缓存error', error)
+            }
             resolve(res.data.data)
           } else {
             console.log('login fail res :', res.data)
@@ -461,6 +479,15 @@ const loginMethods = {
     // clearStorageSync()
     setIsAutoLogin(false)
     removeUserInfo()
+    //清除宿主缓存
+    try {
+      ft?.setPreferences({
+        key: 'finClipLoginInfo',
+        val: '',
+      })
+    } catch (error) {
+      console.log('delete宿主缓存error', error)
+    }
   },
   // 获取是否在c4a提交注销
   getLogoutStatus() {

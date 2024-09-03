@@ -174,14 +174,19 @@ Page({
     requestService
       .request('deleteRoom', reqData)
       .then((res) => {
+        wx.showToast({
+          title: '删除房间成功',
+          icon: 'none',
+        })
         app.globalData.ifRefreshHomeList = true
         console.log(res, '删除房间成功')
         wx.navigateBack()
       })
       .catch((err) => {
         console.log(err, '删除房间失败')
+        let msg = err.data.code == 1216 ? '您至少保留一个房间' : '删除房间失败'
         wx.showToast({
-          title: '删除房间失败',
+          title: msg,
           icon: 'none',
         })
       })

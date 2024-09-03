@@ -172,8 +172,9 @@ Page({
       })
       .catch((error) => {
         console.log('changRoom失败', error)
+        let msg = error.data.code == 1202 ? '只有家庭创建者才允许操作' : '移动设备失败'
         wx.showToast({
-          title: '移动设备失败',
+          title: msg,
           icon: 'none',
         })
       })

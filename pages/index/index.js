@@ -1570,6 +1570,9 @@ Page({
     this.switchShowHomeList()
     //选择当前家庭，不做处理
     if (selectedHomeGroupId == this.data.currentHomeGroupId) {
+      this.setData({
+        clickAfterCompletion: false,
+      })
       return
     }
     this.setData({
@@ -1645,6 +1648,7 @@ Page({
     wx.showNavigationBarLoading()
     return this.getApplianceHomeDataService(homegourpId)
       .then((resp) => {
+        Toast({ context: this, position: 'bottom', message: '切换家庭成功' })
         wx.stopPullDownRefresh()
         wx.hideNavigationBarLoading()
         this.dealBoughtDevices(resp.notActive || [], resp.applianceType || []) //处理未激活设备
@@ -1756,7 +1760,6 @@ Page({
       }
     })
     currentFamilyDeviceList.forEach((item) => {
-      console.log(item)
       if (item.type == '0x09') {
         item.onlineStatus = '1'
       }
@@ -1901,7 +1904,6 @@ Page({
     return new Promise((resolve, reject) => {
       if (!isEmptyObject(app.globalData.dcpDeviceImgList)) {
         dcpDeviceImgList = app.globalData.dcpDeviceImgList
-        console.log('设备图标缓----》', dcpDeviceImgList)
         this.data.sceneIconList = dcpDeviceImgList
         try {
           wx.setStorageSync('dcpDeviceImgList', dcpDeviceImgList) //部分手机可能因为长度设置失败
