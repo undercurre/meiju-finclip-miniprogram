@@ -225,14 +225,18 @@ Page({
   },
   updateNow() {
     try {
-      ft.startAppGalleryDetailAbility()
-    } catch (e) {}
+      ft.startAppGalleryDetailAbility({ uri:this.data.updateUrl})
+    } catch (e) {
+      console.error('updateNow - e:',e)
+    }
   },
   joinTest() {
     //ft.startBrowsableAbility({ uri: '' })
     try {
-      ft.startBrowsableAbility()
-    } catch (e) {}
+      ft.startBrowsableAbility({ uri:this.data.updateUrl})
+    } catch (e) {
+      console.error('joinTest - e:',e)
+    }
   },
   checkVersionUpdate() {
     console.error('进入checkVersionUpdate')
@@ -365,6 +369,13 @@ Page({
               poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
               poupInfomation.poupInfo.type = resp.data.data.upgradeType
               self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
+              if(resp.data.data.upgradeType == 1){
+                //版本升级
+                self.data.updateUrl = resp.data.data.appStoreUrl
+              } else if(resp.data.data.upgradeType == 3){
+                //内测
+                self.data.updateUrl = resp.data.data.testFlightUrl
+              }
               self.setData({
                 poupInfomation,
                 showVersionUpdateDialog: self.data.showVersionUpdateDialog,
@@ -565,6 +576,7 @@ Page({
     },
     intervalApp: null,
     isWifiNetWork: false,
+    updateUrl:'',//版本升级url
     clickAfterCompletion: false,
   },
   //长链接推送解析

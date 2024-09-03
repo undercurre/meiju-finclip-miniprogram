@@ -55,6 +55,7 @@ Page({
     appVersion: '',
     hasUpadteVersion: false,
     isWifiNetWork: false,
+    updateUrl:'',//版本升级url
   },
   togglePoup() {
     if (this.data.hasUpadteVersion) {
@@ -111,6 +112,14 @@ Page({
             poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
             poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
             poupInfomation.poupInfo.type = resp.data.data.upgradeType
+            if(resp.data.data.upgradeType == 1){
+              //版本升级
+              self.data.updateUrl = resp.data.data.appStoreUrl
+            } else if(resp.data.data.upgradeType == 3){
+              //内测
+              self.data.updateUrl = resp.data.data.testFlightUrl
+            }
+
             self.setData({
               hasUpadteVersion: true,
               poupInfomation,
@@ -168,7 +177,7 @@ Page({
   joinTest() {
     //ft.startBrowsableAbility({ uri: '' })
     try {
-      ft.startBrowsableAbility()
+      ft.startBrowsableAbility({uri:this.data.updateUrl})
     } catch(e){
       
     }
@@ -176,7 +185,7 @@ Page({
   updateNow() {
     try {
       console.log('11111')
-      ft.startAppGalleryDetailAbility()
+      ft.startAppGalleryDetailAbility({uri:this.data.updateUrl})
     } catch (e) {
       console.error('e=========:', e)
     }
