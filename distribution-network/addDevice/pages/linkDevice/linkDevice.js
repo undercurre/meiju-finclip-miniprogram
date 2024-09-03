@@ -3772,10 +3772,22 @@ Page({
         if (data.data.status == '1' || data.data.status == '2') {
           wx.reLaunch({
             url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&randomCode=${self.data.blueRandomCode || self.data.randomCode}&identifierPage=linkDevice`,
+            success:()=>{
+              console.log('linkDevice组合设备跳转后确权页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice组合设备跳转后确权页面失败:',error)
+            }
           })
         } else { // 已确权
           wx.reLaunch({
             url: `${paths.linkCombinedDevice}?randomCode=${self.data.blueRandomCode || self.data.randomCode}`,
+            success:()=>{
+              console.log('linkDevice组合设备已确权跳转页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice组合设备已确权跳转页面成功失败:',error)
+            }
           })
         }
       } else { //非组合配网 未确权先跳 后确权页面
@@ -3783,12 +3795,24 @@ Page({
         console.log('### 接口查询确权状态：', data.data.status)
         if (data.data.status == '1' || data.data.status == '2') { //未确权
           wx.reLaunch({
-            url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`
+            url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`,
+            success:()=>{
+              console.log('linkDevice非组合设备跳转后确权页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice非组合设备跳转后确权页面失败:',error)
+            }
           })
         } else { // 已确权
           console.error('准备跳转curStep11111111111=========:', this.data.curStep)
           wx.reLaunch({
             url: paths.addSuccess,
+            success:()=>{
+              console.log('linkDevice非组合设备已确权跳转页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice非组合设备已确权跳转页面失败:',error)
+            }
           })
         }
       }
@@ -3801,6 +3825,12 @@ Page({
       if (this.data.curStep == 2) { // 绑定设备到家庭成功，但是获取确权状态报错了，直接跳转到成功页
         wx.reLaunch({
           url: paths.addSuccess,
+          success:()=>{
+            console.log('linkDevice跳转保存页面成功')
+          },
+          fail:(error)=>{
+            console.log('linkDevice跳转保存页面失败:',error)
+          }
         })
       }
     }
