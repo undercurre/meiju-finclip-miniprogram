@@ -7,6 +7,7 @@ import { setIsAutoLogin, removeUserInfo, clearStorageSync } from '../../utils/re
 import { closeWebsocket } from '../../utils/initWebsocket.js'
 import Toast from 'm-ui/mx-toast/toast'
 import config from '../../config.js'
+const app = getApp() //获取应用实例
 Page({
   /**
    * 页面的初始数据
@@ -14,7 +15,7 @@ Page({
   data: {
     appVibeTitle: '切换环境',
     vsConsoleTitle: 'vsconsole',
-    environment: config.environment,
+    environment: app.globalData.appEnv,
     scodeTitle: '切换扫码调试',
     clearCacheTitle: '清理缓存',
     sdkTitle: '小程序SDK版本',

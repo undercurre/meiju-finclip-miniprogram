@@ -3,25 +3,17 @@
  * @author: zhucc22
  * @Date: 2024-07-22 16:13:49
  */
-let environment = 'sit'
 export default function () {
+  let environment = 'prod'
   try {
-    ft.getAppInfo({
-      success: function (res) {
-        console.log('config getAppInfo success ------------>', res)
-        getApp().globalData.appEnv = res.data.data.ENV
-        getApp().globalData.appVersion = res.data.data.VERSION_NAME
-        let env = res.data.data.ENV == 'sit' ? res.data.data.ENV : 'prod'
-        environment = env
-      },
-      fail: function (res) {
-        console.log('config getAppInfo fail--------->', res)
-        environment = 'sit'
-      },
-    })
+    const res = ft.getAppInfoSync()
+    console.log('同步获取app版本相关信息---->', res)
+    let env = res.data.ENV == 'sit' ? res.data.ENV : 'prod'
+    environment = env
   } catch (error) {
-    environment = 'sit'
+    console.log('同步获取app版本error---->', error)
+    environment = 'prod'
   }
-  console.log('getEnv environment--------->', environment)
+  console.log('当前环境版本------》', environment)
   return environment
 }
