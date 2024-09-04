@@ -173,6 +173,7 @@ App({
       if (typeof isAutoLogin !== 'boolean') {
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
+      //冷启动登录逻辑校验
       //60天内不需要重新登录
       if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
         //4小时不操作需要刷新用户token
@@ -231,38 +232,51 @@ App({
       let isAutoLogin = null
       let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
-      let mptoken = null
+      //let mptoken = null
+      let MPTOKEN_USERINFO
       isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
       MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
-      mptoken = wx.getStorageSync('MPTOKEN')
+      MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+      //mptoken = wx.getStorageSync('MPTOKEN')
       if (typeof isAutoLogin !== 'boolean') {
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
-      let isloginTrue =
-        isAutoLogin &&
-        isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION) &&
-        !this.globalData.isActionAppLaunch &&
-        !this.checkActionAppShow(mptoken, MPTOKEN_EXPIRATION)
-      if (isloginTrue) {
-        this.globalData.isActionAppLaunch = false
-        this.globalData.wxExpiration = null
-        loginMethods.loginAPi
-          .call(this)
-          .then(() => {
-            this.globalData.wxExpiration = true
-            if (this.callbackFn) {
-              this.callbackFn()
-            }
-          })
-          .catch(() => {
-            this.globalData.wxExpiration = true
-            this.globalData.isLogon = false
-            this.globalData.wxExpiration = false
-            if (this.callbackFn) {
-              this.callbackFn()
-            }
-          })
+      //热启动阶段，热启动和热启动逻辑和小程序存在较大差异
+      //如果超过60天，需要重新登陆
+      if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) && !this.globalData.isActionAppLaunch) {
+        //4小时需要刷新token
+        if (
+          isAutoLogin &&
+          !this.globalData.isActionAppLaunch &&
+          !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)
+        ) {
+          this.globalData.isActionAppLaunch = false
+          this.globalData.wxExpiration = null
+          loginMethods.loginAPi
+            .call(this)
+            .then(() => {
+              this.globalData.wxExpiration = true
+              if (this.callbackFn) {
+                this.callbackFn()
+              }
+            })
+            .catch(() => {
+              this.globalData.wxExpiration = true
+              this.globalData.isLogon = false
+              if (this.callbackFn) {
+                this.callbackFn()
+              }
+            })
+        }
+        //有效期内不需要特殊处理
+      } else {
+        //如果登陆超过60天
+        this.globalData.isLogon = false
+        this.globalData.wxExpiration = false
+        if (this.callbackFn) {
+          this.callbackFn()
+        }
       }
     } catch (error) {
       console.log(error, 'onshow try cache')
