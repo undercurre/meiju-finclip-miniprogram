@@ -113,6 +113,7 @@ Page({
         break
     }
   },
+
   changeValideCode(event) {
     let valideCodeInfo = this.data.valideCodeInfo
     valideCodeInfo.imgCode = event.detail
@@ -142,6 +143,7 @@ Page({
     }
   },
   checkSmsCode() {
+    wx.showLoading({ title: '绑定中', icon: 'loading', duration: 10000 })
     let params = {
       iotData: {
         iotAppId: api.iotAppId,
@@ -161,9 +163,11 @@ Page({
     requestService
       .request('verifyUserCode', params)
       .then((res) => {
+        wx.hideLoading()
         this.handleVerifyResult(res)
       })
       .catch((res) => {
+        wx.hideLoading()
         this.handleVerifyResult(res)
       })
   },
@@ -177,12 +181,25 @@ Page({
         showToast('验证码错误，请重新输入')
         break
       case 1100:
-        showToast('验证码已过期')
+        this.handExpire()
         break
       default:
         showToast(res.data.msg || '系统错误，请稍后重试')
         break
     }
+  },
+  //过期处理
+  handExpire() {
+    wx.showToast({
+      title: '验证码已过期',
+      icon: 'none',
+      duration: 2000,
+    })
+    setTimeout(function () {
+      wx.navigateBack({
+        delta: 4,
+      })
+    }, 2000)
   },
   bindPhone(randomCodeNew) {
     let params = {

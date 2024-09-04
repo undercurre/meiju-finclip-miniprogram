@@ -151,6 +151,9 @@ App({
           self.getBlackWhiteList(options, env)
         },
       })
+      const accountInfo = ft.getAccountInfoSync()
+      console.log('当前小程序版本信息-------->', accountInfo.miniProgram)
+      this.globalData.miniProgram = accountInfo.miniProgram
     } catch (error) {
       this.getBlackWhiteList(options, env)
       console.log(error)
@@ -243,8 +246,7 @@ App({
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
       //热启动阶段，热启动和热启动逻辑和小程序存在较大差异
-      console.log()
-      //如果超过60天，需要重新登陆
+      //如果超过60天，无需特殊处理
       //if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) && !this.globalData.isActionAppLaunch) {
       //4小时需要刷新token
       if (
@@ -666,7 +668,8 @@ App({
     selectTab: 0,
     noNetwork: false, //判断是否有网络
     appEnv: '', //宿主的环境
-    appVersion: '',
+    appVersion: '', //宿主的版本号
+    miniProgram: {}, //小程序信息
   },
   scanDeviceMap: {},
   addDeviceInfo: {

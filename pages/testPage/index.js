@@ -127,12 +127,12 @@ Page({
         }
       },
     })
-    const accountInfo = ft.getAccountInfoSync()
+    //const accountInfo = ft.getAccountInfoSync()
     this.setData({
-      version: accountInfo.miniProgram.version,
-      miniProgramenv: accountInfo.miniProgram.envVersion,
+      version: app.miniProgram.version,
+      miniProgramenv: app.miniProgram.envVersion,
     })
-    console.log('获取小程序信息', accountInfo.miniProgram) // 小程序信息
+    console.log('获取小程序信息', app.miniProgram) // 小程序信息
   },
   //切换vsconsole调试
   switchVsconsole() {

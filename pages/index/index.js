@@ -1868,8 +1868,8 @@ Page({
         })
         app.globalData.roomList = applianceHomeData.appliance[0].roomList
         app.globalData.curFamilyInfo = applianceHomeData.appliance[0]
-        app.globalData.currentRoomId = applianceHomeData.appliance[0].roomList[0].roomId //默认房间
-        app.globalData.currentRoomName = applianceHomeData.appliance[0].roomList[0].name //默认房间名
+        app.globalData.currentRoomId = applianceHomeData.appliance[0].roomList[0]?.roomId //默认房间
+        app.globalData.currentRoomName = applianceHomeData.appliance[0].roomList[0]?.name //默认房间名
         app.globalData.isCreateFamily = applianceHomeData.appliance[0].roleId == '1001' //是否是当前家庭
         resolve(applianceHomeData)
         return
@@ -1879,8 +1879,8 @@ Page({
         .then((resp) => {
           app.globalData.roomList = resp.appliance[0].roomList
           app.globalData.curFamilyInfo = resp.appliance[0]
-          app.globalData.currentRoomId = resp.appliance[0].roomList[0].roomId //默认房间
-          app.globalData.currentRoomName = resp.appliance[0].roomList[0].name //默认房间名
+          app.globalData.currentRoomId = resp.appliance[0].roomList[0]?.roomId //默认房间
+          app.globalData.currentRoomName = resp.appliance[0].roomList[0]?.name //默认房间名
           app.globalData.isCreateFamily = resp.appliance[0].roleId == '1001' || resp.appliance[0].roleId == '1002' //是否是当前家庭
           homeStorage.setStorage({ homeId: homegroupId, name: 'applianceHomeData', data: resp })
           resolve(resp)
