@@ -225,17 +225,17 @@ Page({
   },
   updateNow() {
     try {
-      ft.startAppGalleryDetailAbility({ uri:this.data.updateUrl})
+      ft.startAppGalleryDetailAbility({ uri: this.data.updateUrl })
     } catch (e) {
-      console.error('updateNow - e:',e)
+      console.error('updateNow - e:', e)
     }
   },
   joinTest() {
     //ft.startBrowsableAbility({ uri: '' })
     try {
-      ft.startBrowsableAbility({ uri:this.data.updateUrl})
+      ft.startBrowsableAbility({ uri: this.data.updateUrl })
     } catch (e) {
-      console.error('joinTest - e:',e)
+      console.error('joinTest - e:', e)
     }
   },
   checkVersionUpdate() {
@@ -369,10 +369,10 @@ Page({
               poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
               poupInfomation.poupInfo.type = resp.data.data.upgradeType
               self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
-              if(resp.data.data.upgradeType == 1){
+              if (resp.data.data.upgradeType == 1) {
                 //版本升级
                 self.data.updateUrl = resp.data.data.appStoreUrl
-              } else if(resp.data.data.upgradeType == 3){
+              } else if (resp.data.data.upgradeType == 3) {
                 //内测
                 self.data.updateUrl = resp.data.data.testFlightUrl
               }
@@ -576,7 +576,7 @@ Page({
     },
     intervalApp: null,
     isWifiNetWork: false,
-    updateUrl:'',//版本升级url
+    updateUrl: '', //版本升级url
     clickAfterCompletion: false,
   },
   //长链接推送解析
@@ -1597,6 +1597,7 @@ Page({
         service
           .homegroupDefaultSetService(selectedHomeGroupId)
           .then(() => {
+            Toast({ context: this, position: 'bottom', message: '切换家庭成功' })
             this.updateHomeGroup(currentHomeGroupIndex, selectedHomeGroupId)
           })
           .catch((error) => {
@@ -1660,7 +1661,6 @@ Page({
     wx.showNavigationBarLoading()
     return this.getApplianceHomeDataService(homegourpId)
       .then((resp) => {
-        Toast({ context: this, position: 'bottom', message: '切换家庭成功' })
         wx.stopPullDownRefresh()
         wx.hideNavigationBarLoading()
         this.dealBoughtDevices(resp.notActive || [], resp.applianceType || []) //处理未激活设备
