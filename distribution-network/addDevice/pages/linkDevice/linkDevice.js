@@ -2648,6 +2648,11 @@ Page({
         order.bssid = bindWifiInfo.BSSID.split(':').join('')
       } else {
         console.error('bindWifiInfo.BSSID为空', bindWifiInfo)
+        bindWifiInfo.BSSID = '00:00:00:00:00:00'
+        this.data.bindWifiInfo.BSSID = '00:00:00:00:00:00'
+        order.bssidLen = toHexString([bindWifiInfo.BSSID.split(':').join('').length / 2])
+        order.bssid = bindWifiInfo.BSSID.split(':').join('')
+        console.error('bindWifiInfo.BSSID为空改成00:00:00:00:00:00', bindWifiInfo)
         getApp().setMethodFailedCheckingLog('bindWifiInfo.BSSID为空', `bindWifiInfo=${JSON.stringify(bindWifiInfo)}`)
       }
       order.gbkssidLen = toHexString([bindWifiInfo.SSIDLength]) //backUp ssid
