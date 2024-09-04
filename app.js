@@ -142,8 +142,8 @@ App({
         success: function (res) {
           console.log('Yoram getAppInfo success ------------>', res)
           env = res.data.data.ENV
-          this.globalData.appEnv = res.data.data.ENV
-          this.globalData.appVersion = res.data.data.VERSION_NAME
+          self.globalData.appEnv = res.data.data.ENV
+          self.globalData.appVersion = res.data.data.VERSION_NAME
           self.getBlackWhiteList(options, env)
         },
         fail: function (res) {
