@@ -442,7 +442,17 @@ module.exports = Behavior({
           ifSN8Matching = false
         }
       } else {
-        ifSN8Matching = true
+        // ifSN8Matching = true
+        if (brandConfig.pluginFilter_SN8 && Object.keys(brandConfig.pluginFilter_SN8).length > 0) {
+          console.error('进入蓝牙插件黑白名单校验')
+          if (Object.values(brandConfig.pluginFilter_SN8).some((item) => item['SN8']?.includes(deviceParam.sn8))) {
+            ifSN8Matching = true
+          } else {
+            ifSN8Matching = false
+          }
+        } else {
+          ifSN8Matching = true
+        }
       }
       return ifSN8Matching
     },
