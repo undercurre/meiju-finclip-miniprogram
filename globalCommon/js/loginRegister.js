@@ -332,6 +332,9 @@ const loginMethods = {
       case 65009:
         label = '验证码错误，请重新输入'
         break
+      case 65027:
+        label = '该用户在线登录设备已超过上限,请更换账号登录'
+        break
       default:
         label = '操作失败，请重新再试'
         break

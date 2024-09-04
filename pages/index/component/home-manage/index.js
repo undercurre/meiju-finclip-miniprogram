@@ -23,7 +23,8 @@ Component({
     homeList: {
       type: Array,
       observer: function (val) {
-        const homePickerHeight = val.length > 5 ? '465rpx' : val.length * 86 + 40 + 'rpx' // 家庭管理弹窗高度
+        const homePickerHeight =
+          val.length > 5 ? '465rpx' : val.length == 5 ? val.length * 86 + 40 + 'rpx' : val.length * 86 + 80 + 'rpx' // 家庭管理弹窗高度
         this.data.homePickerHeight = homePickerHeight
         // this.loopHomeGrounpListForRedDot(val)
       },
