@@ -648,6 +648,7 @@ Page({
             !this.data.autoCloseBleConnection
           ) {
             console.log('[重新连接]')
+            wx.offBLECharacteristicValueChange()
             this.bleNegotiation(deviceId, isDirectCon, moduleType, negType)
           }
         })

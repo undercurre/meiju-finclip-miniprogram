@@ -43,6 +43,10 @@ module.exports = Behavior({
     groudOrder: null,
     orderLen: 0,
     wifi_version: '', //蓝牙配网模组版本，用于配网数据上报
+    step0_default_value: '',
+    step1_default_value: '',
+    step2_default_value: '',
+    step3_default_value: ''
   },
   created: function () {
     // console.log('[my-component] created')
@@ -219,6 +223,11 @@ module.exports = Behavior({
         },
       })
       // 操作之前先监听，保证第一时间获取数据
+      console.log("========Yoram9999=======")
+      this.data.step0_default_value = '';
+      this.data.step1_default_value = '';
+      this.data.step2_default_value = '';
+      this.data.step3_default_value = '';
       wx.onBLECharacteristicValueChange((characteristic) => {
         console.log('收到设备消息---000', characteristic)
         console.log('收到设备消息---', ab2hex(characteristic.value))
@@ -305,6 +314,8 @@ module.exports = Behavior({
       let respTempData = value
       if (this.data.progress == 0) {
         console.log('上报云端返回公钥--------0', formatStr(respTempData))
+        if(this.data.step0_default_value == value) return //过滤重复推送数据
+        this.data.step0_default_value = value
         let publicKey = formatStr(respTempData)
         let reqData = {
           publicKey: publicKey,
@@ -323,6 +334,8 @@ module.exports = Behavior({
       if (this.data.progress == 1) {
         //获取设备信息指令
         console.log('发送密钥协商结果给云端-------------1')
+        if(this.data.step1_default_value == value) return //过滤重复推送数据
+        this.data.step1_default_value = value
         let reqData = {
           order: formatStr(respTempData),
           reqId: getReqId(),
@@ -354,6 +367,8 @@ module.exports = Behavior({
       if (this.data.progress == 2) {
         //获取绑定码指令
         console.log('模组返回设备信息指令----------2', respTempData)
+        if(this.data.step2_default_value == value) return //过滤重复推送数据
+        this.data.step2_default_value = value
         let modelType = this.data.moduleType === 'ble' ? 1 : 2
         let reqData = {
           sn: formatStr(respTempData),
@@ -396,6 +411,8 @@ module.exports = Behavior({
       if (this.data.progress == 3) {
         //绑定码校验结果
         // console.log("绑定码校验结果", respTempData)
+        if(this.data.step3_default_value == value) return //过滤重复推送数据
+        this.data.step3_default_value = value
         let reqData = {
           order: formatStr(respTempData.slice(0, 44)),
           reqId: getReqId(),
