@@ -129,8 +129,8 @@ Page({
     })
     //const accountInfo = ft.getAccountInfoSync()
     this.setData({
-      version: app.miniProgram.version,
-      miniProgramenv: app.miniProgram.envVersion,
+      version: app.globalData.miniProgram.version,
+      miniProgramenv: app.globalData.miniProgram.envVersion,
     })
     console.log('获取小程序信息', app.miniProgram) // 小程序信息
   },
