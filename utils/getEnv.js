@@ -4,7 +4,7 @@
  * @Date: 2024-07-22 16:13:49
  */
 export default function () {
-  let environment = 'sit'
+  let environment = 'prod'
   try {
     const res = ft.getAppInfoSync()
     console.log('同步获取app版本相关信息------>', res.data)
@@ -13,7 +13,7 @@ export default function () {
     environment = env
   } catch (error) {
     console.log('同步获取app版本error------->', error)
-    environment = 'sit'
+    environment = 'prod'
   }
   console.log('当前小程序环境-------->', environment)
   return environment
