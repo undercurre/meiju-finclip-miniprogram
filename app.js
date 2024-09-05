@@ -178,14 +178,20 @@ App({
       }
       //冷启动登录逻辑校验
       //60天内不需要重新登录
+      console.log(
+        '冷启动 checkTokenPwdExpired---->',
+        checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)
+      )
+      console.log('冷启动 checkTokenExpired---->', !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION))
       if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
         //4小时不操作需要刷新用户token
-        if (isAutoLogin && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+          console.log('冷启动 超过4小时刷新token---->')
           loginMethods.loginAPi
             .call(this)
             .then((res2) => {
-              console.log('app loginAPi sucesss', res2)
-              console.log('app loginAPi sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+              console.log('app onLaunch resfreshToken sucesss', res2)
+              console.log('app onLaunch resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
               this.globalData.isActionAppLaunch = false
               this.globalData.wxExpiration = true
               if (this.callbackFn) {
@@ -196,27 +202,18 @@ App({
               console.log('app loginAPi catch', err)
               this.setLoginFalse()
             })
-        } else if (isAutoLogin && checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+          console.log('冷启动 无需刷新token---->')
           // 有效期内直接登录
+          this.globalData.isActionAppLaunch = false
           loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
-        } else {
-          this.setLoginFalse()
         }
       } else {
-        this.globalData.isLogon = false
-        this.globalData.wxExpiration = false
-        if (this.callbackFn) {
-          this.callbackFn()
-        }
+        this.setLoginFalse()
       }
     } catch (error) {
       console.log(error, 'app onLaunch try cache', error)
-      this.globalData.isLogon = false
-      this.globalData.isActionAppLaunch = false
-      this.globalData.wxExpiration = false
-      if (this.callbackFn) {
-        this.callbackFn()
-      }
+      this.setLoginFalse()
     }
     //获取设备图标
     this.getDcpDeviceImg()
@@ -246,19 +243,20 @@ App({
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
       //热启动阶段，热启动和热启动逻辑和小程序存在较大差异
-      //如果超过60天，无需特殊处理
+      //热启动如果超过60天，无需特殊处理
       //if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) && !this.globalData.isActionAppLaunch) {
       //4小时需要刷新token
-      if (
-        isAutoLogin &&
-        !this.globalData.isActionAppLaunch &&
-        !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)
-      ) {
+      console.log('热启动 isActionAppLaunch---->', !this.globalData.isActionAppLaunch)
+      console.log('热启动 checkTokenExpired---->', !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION))
+      if (!this.globalData.isActionAppLaunch && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        console.log('热启动 超过4小时刷新token---->')
         this.globalData.isActionAppLaunch = false
         this.globalData.wxExpiration = null
         loginMethods.loginAPi
           .call(this)
           .then(() => {
+            console.log('app onshow resfreshToken sucesss')
+            console.log('app onshow resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
             this.globalData.wxExpiration = true
             if (this.callbackFn) {
               this.callbackFn()
