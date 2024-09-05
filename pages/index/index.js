@@ -2455,7 +2455,7 @@ Page({
           console.log('getAppInfo success ------------')
           console.log(res)
           self.setData({
-            appVersion: res.data.data.VERSION_NAME,
+            appVersion: `${res.data.data.VERSION_NAME}.${res.data.data.VERSION_CODE}`,
           })
           self.checkVersionUpdate()
         },
