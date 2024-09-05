@@ -83,7 +83,11 @@ module.exports = Behavior({
       })
     },
     createBLEConnection(deviceId) {
+      const self = this
       this.data.deviceId = deviceId
+      wx.closeBLEConnection({
+        deviceId: this.data.deviceId,
+      })
       wx.createBLEConnection({
         deviceId,
         success: (res) => {
@@ -103,6 +107,7 @@ module.exports = Behavior({
                   mtu: 250,
                   success: () => {
                     console.log('设置MTU成功+++++++++++++++++++++++++')
+                    self.getBLEDeviceServices(deviceId, 'FF80')
                   },
                   fail: (error) => {
                     console.error('设置MTU失败+++++++++++++++++++++++++', error)
@@ -111,7 +116,7 @@ module.exports = Behavior({
               }
             },
           })
-          this.getBLEDeviceServices(deviceId, 'FF80')
+        //   this.getBLEDeviceServices(deviceId, 'FF80')  // 需要放到setMTU回调里面
 
           wx.onBLEConnectionStateChange((res) => {
             // 该方法回调中可以用于处理连接意外断开等异常情况
