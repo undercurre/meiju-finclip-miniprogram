@@ -192,7 +192,7 @@
             </view>
             <view class="detail-four detail-step">
               <text class="detail-text">
-                温馨提示：若没有发现类似无线网络，可关闭无线局域网开关再打开，刷新列表
+                温馨提示：若没有发现类似无线网络，可关闭WLAN开关再打开，刷新列表
               </text>
               <view class="step-four">
                 <image class="detail-img detail-step" src="{{imgBaseUrl+imges.detailStep4_1}}"></image>
