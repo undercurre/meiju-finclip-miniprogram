@@ -2709,7 +2709,7 @@ Page({
     let isLinkFamilyWifi = false
     let res = wx.getSystemInfoSync()
     console.log('res=====', res)
-    if (res.system.includes('Android')) {
+    if (res.system.includes('Android') || res.system.includes('harmony')) {
       isLinkFamilyWifi = true
     }
     return isLinkFamilyWifi
