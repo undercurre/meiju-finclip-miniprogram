@@ -417,6 +417,7 @@ Page({
         //有这个wifi的storage
         that.setData({
           bindWifiTest: storageWifiList[wifiNum],
+          'bindWifiTest.BSSID': res.BSSID
         })
         // console.error('that.data.bindWifiTest.BSSID1:',that.data.bindWifiTest)
         // if(that.data.bindWifiTest.BSSID == ''){
