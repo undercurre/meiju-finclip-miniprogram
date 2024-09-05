@@ -1628,11 +1628,13 @@ Page({
               currentHomeGroupIndex: homeGroupIndex,
               homeList: this.data.homeList,
               isHourse: false,
+              clickAfterCompletion: false,
             })
           })
           return
         }
         this.setData({
+          clickAfterCompletion: false,
           isHourse: false,
         })
       })
@@ -1853,6 +1855,7 @@ Page({
           this.setData({
             isHomeListLoaded: true,
             isLogon: app.globalData.isLogon,
+            clickAfterCompletion: false,
           })
           reject(error)
         })
@@ -2478,7 +2481,7 @@ Page({
       isNfcFirstInit: true,
     })
     if (app.globalData.isLogon) {
-      this.initPushData()
+      //this.initPushData()
       if (app.globalData.uid) {
         this.setData({
           uid: app.globalData.uid,
@@ -2487,7 +2490,7 @@ Page({
       }
     } else {
       try {
-        this.initPushData()
+        //this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
         if (isAutoLogin) {
           app.watchLogin(() => {

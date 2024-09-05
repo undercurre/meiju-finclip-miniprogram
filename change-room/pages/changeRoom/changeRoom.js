@@ -257,7 +257,10 @@ Page({
     }
     this.addRoom()
       .then((res) => {
-        console.log(res, '新建房间成功')
+        wx.showToast({
+          title: '新建房间成功',
+          icon: 'none',
+        })
         if (res.data.code === 0) {
           this.setData({
             roomName: '',

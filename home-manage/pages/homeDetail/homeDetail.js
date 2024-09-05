@@ -7,6 +7,7 @@ import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 import { roomAndDevices, memberManage } from '../../../utils/paths.js'
+import { showToast } from 'm-miniCommonSDK/index'
 const commonBehavior = require('../../assets/behavior')
 // const roomIco = '/assets/img/index/room.png'
 // const equipmentIco = '/assets/img/index/device.png'
@@ -183,11 +184,9 @@ Page({
       burialPoint.clickpopupconfirmBurialPoint()
       this.homeDelete()
         .then((res) => {
-          console.log(res.data.code, '删除家庭成功')
-          wx.showToast({
-            title: '删除家庭成功',
-            icon: 'none',
-          })
+          setTimeout(() => {
+            showToast('删除家庭成功')
+          }, 0)
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })
@@ -202,11 +201,9 @@ Page({
       burialPoint.confirmQuitFamilyClick()
       this.homeQuit()
         .then((res) => {
-          console.log(res, '退出家庭成功')
-          wx.showToast({
-            title: '退出家庭成功',
-            icon: 'none',
-          })
+          setTimeout(() => {
+            showToast('退出家庭成功')
+          }, 0)
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })

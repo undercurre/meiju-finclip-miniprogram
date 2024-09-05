@@ -7,6 +7,7 @@ import { plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 import { getIcon } from '../../../utils/util'
 const commonBehavior = require('../../assets/behavior')
+import { showToast } from 'm-miniCommonSDK/index'
 Page({
   behaviors: [commonBehavior],
   /**
@@ -62,7 +63,7 @@ Page({
     }
     this.editRoom()
       .then((res) => {
-        console.log(res, '修改房间名成功')
+        showToast('修改房间名成功')
         app.globalData.ifRefreshHomeList = true
         this.data.roomDetail.name = this.data.roomValue
         this.setData({
@@ -174,10 +175,9 @@ Page({
     requestService
       .request('deleteRoom', reqData)
       .then((res) => {
-        wx.showToast({
-          title: '删除房间成功',
-          icon: 'none',
-        })
+        setTimeout(() => {
+          showToast('删除房间成功')
+        }, 0)
         app.globalData.ifRefreshHomeList = true
         console.log(res, '删除房间成功')
         wx.navigateBack()

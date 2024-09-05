@@ -190,16 +190,12 @@ Page({
   },
   //过期处理
   handExpire() {
-    wx.showToast({
-      title: '验证码已过期',
-      icon: 'none',
-      duration: 2000,
+    setTimeout(() => {
+      showToast('验证码已过期')
+    }, 0)
+    wx.navigateBack({
+      delta: 4,
     })
-    setTimeout(function () {
-      wx.navigateBack({
-        delta: 4,
-      })
-    }, 2000)
   },
   bindPhone(randomCodeNew) {
     let params = {

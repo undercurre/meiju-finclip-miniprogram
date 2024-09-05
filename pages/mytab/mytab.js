@@ -174,14 +174,18 @@ Page({
 
   //点击跳转设置页面
   goToSettingPage() {
-    if(!jumpSettingDebounce){
-        jumpSettingDebounce = debounce(() => {
-             //埋点
-            clickSeetingMenuSettingBurialPoint()
-            wx.navigateTo({
-                url: '/sub-package/mytab/pages/about/about',
-            })
-        }, 300, 300)
+    if (!jumpSettingDebounce) {
+      jumpSettingDebounce = debounce(
+        () => {
+          //埋点
+          clickSeetingMenuSettingBurialPoint()
+          wx.navigateTo({
+            url: '/sub-package/mytab/pages/about/about',
+          })
+        },
+        300,
+        300
+      )
     }
     jumpSettingDebounce()
   },
@@ -189,26 +193,34 @@ Page({
    * 跳转到隐私协议页面
    */
   gotoPrivcayPage() {
-    if(!jumpSafeDebounce){
-        jumpSafeDebounce = debounce(() => {
-            clickSeetingMenuPrivcyBurialPoint()
-            wx.navigateTo({
-                url: '/pages/privacyAndSafa/privacyAndSafa',
-            })
-        }, 300, 300)
+    if (!jumpSafeDebounce) {
+      jumpSafeDebounce = debounce(
+        () => {
+          clickSeetingMenuPrivcyBurialPoint()
+          wx.navigateTo({
+            url: '/pages/privacyAndSafa/privacyAndSafa',
+          })
+        },
+        300,
+        300
+      )
     }
     jumpSafeDebounce()
   },
   //点击跳转关于页面
   gotoAoutPage() {
-    if(!jumpAboutDebounce){
-        jumpAboutDebounce = debounce(() => {
-            //埋点
-            clickSeetingMenuAboutBurialPoint()
-            wx.navigateTo({
-                url: '/pages/aboutApp/aboutApp',
-            })
-        }, 300, 300)
+    if (!jumpAboutDebounce) {
+      jumpAboutDebounce = debounce(
+        () => {
+          //埋点
+          clickSeetingMenuAboutBurialPoint()
+          wx.navigateTo({
+            url: '/pages/aboutApp/aboutApp',
+          })
+        },
+        300,
+        300
+      )
     }
     jumpAboutDebounce()
   },
