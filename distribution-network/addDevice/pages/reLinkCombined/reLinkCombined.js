@@ -204,7 +204,10 @@ Page({
       this.deviceInfo.composeApplianceList = app.composeApplianceList
       setPluginDeviceInfo(this.deviceInfo)
       // 跳转插件页
-      goTopluginPage(this.deviceInfo, '/pages/index/index', true)
+      // goTopluginPage(this.deviceInfo, '/pages/index/index', true)
+      wx.reLaunch({
+        url: '/pages/index/index'
+      })
     }
   },
   /**
