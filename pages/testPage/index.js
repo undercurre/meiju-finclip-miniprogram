@@ -18,6 +18,7 @@ Page({
     environment: app.globalData.appEnv,
     scodeTitle: '切换扫码调试',
     clearCacheTitle: '清理缓存',
+    appVersionTitle: 'App版本',
     sdkTitle: '小程序SDK版本',
     frameworkVersionTitle: '小程序基础库版本',
     miniProgramTitle: '小程序迭代版本',
@@ -26,6 +27,7 @@ Page({
     showSystemInfoTitle: '获取系统信息',
     runtimeSDKVersion: '',
     frameworkVersion: '',
+    appVersion: '',
     version: '',
     miniProgramenv: '',
     show: false,
@@ -55,6 +57,7 @@ Page({
         console.log('getAppInfo success ------------' + JSON.stringify(res))
         self.setData({
           environment: res.data.data.ENV,
+          appVersion: `${res.data.data.VERSION_NAME}.${res.data.data.VERSION_CODE}`,
         })
       },
     })

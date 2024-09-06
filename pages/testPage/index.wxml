@@ -8,6 +8,7 @@
     <mx-cell title="{{openMiniProgramTitle}}" bind:click="openMiniProgramActionSheet" is-link />
     <mx-cell title="{{clearCacheTitle}}" bind:click="clearCache" is-link />
     <mx-cell title="{{showSystemInfoTitle}}" bind:click="showSystemInfo" is-link />
+    <mx-cell wx:if="{{appVersion}}" title="{{appVersionTitle}}" value="{{appVersion}}" />
     <mx-cell wx:if="{{runtimeSDKVersion}}" title="{{sdkTitle}}" value="{{runtimeSDKVersion}}" />
     <mx-cell wx:if="{{frameworkVersion}}" title="{{frameworkVersionTitle}}" value="{{frameworkVersion}}" />
     <mx-cell wx:if="{{version}}" title="{{miniProgramTitle}}" value="{{version}}" />
