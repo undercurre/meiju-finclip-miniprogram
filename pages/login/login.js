@@ -552,6 +552,11 @@ Page({
 
   //登录注册
   miniAppLogin(loginType) {
+    setTimeout(() => {
+      this.setData({
+        autoVerCodeFocus: false,
+      })
+    }, 200)
     this.setData({
       loginDisabled: true,
       loading: true,

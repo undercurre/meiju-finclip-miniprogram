@@ -126,7 +126,10 @@ Page({
       requestService
         .request('changRoom', reqData)
         .then((resp) => {
-          console.log('changRoom成功', resp)
+          wx.showToast({
+            title: '移动设备成功',
+            icon: 'none',
+          })
           wx.hideLoading()
           if (resp.data.code === 0) {
             wx.navigateBack()
@@ -134,10 +137,10 @@ Page({
           resolve(resp)
         })
         .catch((error) => {
-          console.log('changRoom失败', error)
+          let msg = error.data.code == 1202 ? '只有家庭创建者才允许操作' : '移动设备失败'
           wx.hideLoading()
           wx.showToast({
-            title: '移动设备失败',
+            title: msg,
             icon: 'none',
           })
           reject(error)

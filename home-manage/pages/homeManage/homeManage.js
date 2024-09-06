@@ -199,6 +199,9 @@ Page({
     this.addFamily()
       .then((res) => {
         app.globalData.ifRefreshHomeList = true
+        setTimeout(() => {
+          showToast('创建家庭成功')
+        }, 0)
         console.log(res, '创建家庭成功')
         this.setData({
           dialogShow: false,
@@ -216,9 +219,6 @@ Page({
               familyValue: '',
             })
             let homeitem = JSON.stringify(target[0])
-            setTimeout(() => {
-              showToast('创建家庭成功')
-            }, 20)
             //新建完家庭后跳转至该家庭详情页面
             wx.navigateTo({
               url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${target[0].name}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,

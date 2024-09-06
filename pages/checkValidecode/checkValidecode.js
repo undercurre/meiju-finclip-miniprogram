@@ -2,9 +2,10 @@ const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import { api } from '../../api'
 import { getReqId, getStamp } from 'm-utilsdk/index'
-import { showToast } from '../../utils/util'
+import { showToast, debounce } from '../../utils/util'
 import loginMethods from '../../globalCommon/js/loginRegister'
 const timeLimit = 60
+let checkSmsCodeDebounce = null
 Page({
   /**
    * 页面的初始数据
@@ -26,6 +27,7 @@ Page({
       imgDataCode: '',
     },
   },
+
   backPage() {
     wx.navigateBack()
   },
@@ -142,7 +144,22 @@ Page({
       })
     }
   },
+
+  //防重
   checkSmsCode() {
+    if (!checkSmsCodeDebounce) {
+      checkSmsCodeDebounce = debounce(
+        () => {
+          this.checkSmsCodeRequest()
+        },
+        300,
+        300
+      )
+    }
+    checkSmsCodeDebounce()
+  },
+
+  checkSmsCodeRequest() {
     wx.showLoading({ title: '绑定中', icon: 'loading', duration: 10000 })
     let params = {
       iotData: {
@@ -181,7 +198,7 @@ Page({
         showToast('验证码错误，请重新输入')
         break
       case 1100:
-        this.handExpire()
+        showToast('验证码已过期')
         break
       default:
         showToast(res.data.msg || '系统错误，请稍后重试')

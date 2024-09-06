@@ -268,6 +268,7 @@ Page({
     this.familyNameEdit()
       .then((res) => {
         console.log(res, '修改家庭名称成功')
+        showToast('修改家庭名称成功')
         app.globalData.ifRefreshHomeList = true
         this.setData({
           familyDialogShow: false,
