@@ -186,11 +186,13 @@ var requestService = {
           let pages = getCurrentPages()
           let currentPage = pages[pages.length - 1]
           let isDistributionMode = false
-          if(currentPage.route.includes('inputWifiInfo') || currentPage.route.includes('linkAp') || currentPage.route.includes('linkDevice')){
+          if(currentPage.route.includes('inputWifiInfo') || currentPage.route.includes('linkAp') || currentPage.route.includes('linkDevice') ||currentPage.route.includes('linkNetFail')){
             isDistributionMode = true
           }
           if (getApp().globalData.noNetwork) {
-            getApp().checkNetLocal()
+            if(!isDistributionMode){
+              getApp().checkNetLocal()
+            }
           } else if (error.errMsg == 'request:fail timeout' || error.errMsg == 'request:fail') {
             if(!isDistributionMode){
               showToast('网络请求失败')
