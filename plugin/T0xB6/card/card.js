@@ -311,9 +311,7 @@ Component({
         }
       }
 
-      if(this.data.setting.AiDryCleanBtn) {
-        params.power = 'off'
-      }
+      params.power = 'off'
 
       if (params.power == 'off') {
         this.setData({
