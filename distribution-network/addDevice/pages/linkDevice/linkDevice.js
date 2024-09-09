@@ -3441,6 +3441,9 @@ Page({
       // 有线配网不需要bindWifiInfo信息 兼容处理
       let bssid,encryptType,ssidLengthAndPswLength,ssidAndPsw,ssidAndPsw8Arr,ssidAndPswHex,chainHex
       if (bindWifiInfo && Object.keys(this.data.bindWifiTest).length) {
+        if(!this.data.bindWifiTest.BSSID) {
+            this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+        }
         bssid = this.data.bindWifiTest.BSSID.split(':').join('')
         encryptType = this.data.bindWifiTest.EncryptType
         let lengthArr = []
@@ -3541,6 +3544,9 @@ Page({
   remoteSendWifiInfo(bindWifiInfo) {
     this.data.bindWifiTest = bindWifiInfo
     console.log('kkkkkkkk', this.data.bindWifiTest)
+    if(!this.data.bindWifiTest.BSSID) {
+        this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+    }
     let bssid = this.data.bindWifiTest.BSSID.split(':').join('')
     let encryptType = this.data.bindWifiTest.EncryptType
     let lengthArr = []
