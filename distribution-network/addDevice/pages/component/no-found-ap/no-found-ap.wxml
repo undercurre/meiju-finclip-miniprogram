@@ -40,11 +40,11 @@
         </view>
         <view class="main">
           <view class="step no-found-step">
-            <text class="step-text" wx:if="{{brand != 'colmo'}}">1、请尝试关闭{{system=='Android'?'WLAN开关':'无线局域网开关'}}，再打开，刷新列表，找到“{{wifi+'_xxxx'}}”，进行连接。</text><text class="btn" bindtap="goLinkDeviceWifi" wx:if="{{brand != 'colmo'}}">去连接</text>
+            <text class="step-text" wx:if="{{brand != 'colmo'}}">1、请尝试关闭{{system=='Android'?'WLAN开关':'WLAN开关'}}，再打开，刷新列表，找到“{{wifi+'_xxxx'}}”，进行连接。</text><text class="btn" bindtap="goLinkDeviceWifi" wx:if="{{brand != 'colmo'}}">去连接</text>
             <view  wx:if="{{brand == 'colmo'}}" class="step-text colmo-style-step">
               <view class="num">1</view>
               <view>
-                <text>请尝试关闭{{system=='Android'?'WLAN开关':'无线局域网开关'}}，再打开，刷新列表，找到“{{wifi+'_xxxx'}}”，进行连接。<text class="btn no-found-btn" bindtap="goLinkDeviceWifi">去连接</text></text>
+                <text>请尝试关闭{{system=='Android'?'WLAN开关':'WLAN开关'}}，再打开，刷新列表，找到“{{wifi+'_xxxx'}}”，进行连接。<text class="btn no-found-btn" bindtap="goLinkDeviceWifi">去连接</text></text>
                 
               </view>
               
