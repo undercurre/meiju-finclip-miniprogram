@@ -242,20 +242,23 @@ Page({
       }
       if (this.data.time == 0) {
         clearInterval(timer)
-
+        console.log('后确权页面倒计时为0')
         // 子设备新增逻辑
         if (this.data.isFromSubDeviceNetWork) {
           this.subDevicehandleTimeOutFn()
           return;
         }
-
-        let url = `/distribution-network/addDevice/pages/authTimeout/authTimeout`
-        if(this.data.stopTemporarily){
-          url = `/distribution-network/addDevice/pages/authTimeout/authTimeout?&identifierPage=linkDevice`
+        let page = getFullPageUrl()
+        let currentPage = page[page.length - 1]
+        if(currentPage.route.includes('afterCheck')){
+          let url = `/distribution-network/addDevice/pages/authTimeout/authTimeout`
+          if(this.data.stopTemporarily){
+            url = `/distribution-network/addDevice/pages/authTimeout/authTimeout?&identifierPage=linkDevice`
+          }
+          wx.redirectTo({
+            url: url,
+          })
         }
-        wx.redirectTo({
-          url: url,
-        })
       }
     }, 1000)
   },

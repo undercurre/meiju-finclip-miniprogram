@@ -32,12 +32,12 @@
     "miniprogram-ci": "^1.9.8",
     "prettier": "^2.5.1",
     "simple-git": "^3.19.1",
-    "@meijuHarmonyOS/T0x13": "2.2.3",
+    "@meijuHarmonyOS/T0x13": "2.2.6",
     "@meijuHarmonyOS/T0xBX": "1.2.8",
     "@meijuHarmonyOS/T0xCF": "^1.0.1",
     "@meijuHarmonyOS/T0xAC": "1.0.67",
     "@meijuHarmonyOS/T0x38": "1.0.8",
-    "@meijuHarmonyOS/T0xCA": "1.0.4",
+    "@meijuHarmonyOS/T0xCA": "1.0.5",
     "@meijuHarmonyOS/T0x3D": "1.0.2",
     "@meijuHarmonyOS/T0x32": "1.0.1",
     "@meijuHarmonyOS/T0x33": "1.0.3",
@@ -49,7 +49,7 @@
     "@meijuHarmonyOS/T0xFC": "1.0.3",
     "@meijuHarmonyOS/T0xFD": "1.0.0",
     "@meijuHarmonyOS/T0xB8": "1.0.8",
-    "@meijuHarmonyOS/T0x4E": "1.0.0"
+    "@meijuHarmonyOS/T0x4E": "1.0.1"
   },
   "dependencies": {
     "m-harmonyos-services": "1.0.20",
