@@ -45,6 +45,7 @@ Page({
       { appId: 'fc2336573280585477', name: '美智测试小程序' },
       { appId: 'scanCode', name: '扫码录入小程序ID' },
     ],
+    isEnableHttpResponseLog: !!app.globalData.isEnableHttpResponseLog,
   },
 
   /**
@@ -209,5 +210,19 @@ Page({
         },
       })
     }
+  },
+  swtichHttpResponseLog() {
+    let result = !this.data.isEnableHttpResponseLog
+
+    this.setData({
+      isEnableHttpResponseLog: result,
+    })
+
+    getApp().globalData.isEnableHttpResponseLog = result
+
+    wx.setStorage({
+      key: 'isEnableHttpResponseLog',
+      data: result,
+    })
   },
 })

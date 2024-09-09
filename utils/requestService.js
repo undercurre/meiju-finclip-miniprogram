@@ -132,6 +132,10 @@ var requestService = {
         method: method || 'POST',
         timeout: timeout || 15000, //lisin 新增接口超时时间传参
         success(resData) {
+          if (getApp().globalData.isEnableHttpResponseLog) {
+            // 只显示在Hilog，而不显示在vconsole
+            ft.showHiLog({ tag: 'http response success', url: url, content: resData.data })
+          }
           ApiTrack(apiName, selectApi, resData, 'success', params)
           trackLoaded('page_loaded_event', apiName, resData, 1, 'end')
           if (apiName === 'luaControl') {
@@ -181,24 +185,33 @@ var requestService = {
           }
         },
         fail(error) {
+          if (getApp().globalData.isEnableHttpResponseLog) {
+            // 只显示在Hilog，而不显示在vconsole
+            ft.showHiLog({ tag: 'http response error', url: url, content: error })
+          }
           console.log('error-----', error)
           console.log('当前网络error-----》', getApp().globalData.noNetwork)
           let pages = getCurrentPages()
           let currentPage = pages[pages.length - 1]
           let isDistributionMode = false
-          if(currentPage.route.includes('inputWifiInfo') || currentPage.route.includes('linkAp') || currentPage.route.includes('linkDevice') ||currentPage.route.includes('linkNetFail')){
+          if (
+            currentPage.route.includes('inputWifiInfo') ||
+            currentPage.route.includes('linkAp') ||
+            currentPage.route.includes('linkDevice') ||
+            currentPage.route.includes('linkNetFail')
+          ) {
             isDistributionMode = true
           }
           if (getApp().globalData.noNetwork) {
-            if(!isDistributionMode){
+            if (!isDistributionMode) {
               getApp().checkNetLocal()
             }
           } else if (error.errMsg == 'request:fail timeout' || error.errMsg == 'request:fail') {
-            if(!isDistributionMode){
+            if (!isDistributionMode) {
               showToast('网络请求失败')
             }
           } else {
-            if(!isDistributionMode){
+            if (!isDistributionMode) {
               showToast('系统繁忙，请稍后再试')
             }
           }

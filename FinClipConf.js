@@ -91,5 +91,11 @@ module.exports = {
       sync: false, //是否为同步api
       params: {},
     },
+    {
+      // 打印HiLog日志
+      name: 'showHiLog',
+      sync: false, //是否为同步api
+      params: {},
+    },
   ],
 }

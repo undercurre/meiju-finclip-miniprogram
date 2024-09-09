@@ -154,6 +154,13 @@ App({
       const accountInfo = ft.getAccountInfoSync()
       console.log('当前小程序版本信息-------->', accountInfo.miniProgram)
       this.globalData.miniProgram = accountInfo.miniProgram
+      // 网络请求返回日志标识
+      wx.getStorage({
+        key: 'isEnableHttpResponseLog',
+        success(res) {
+          self.globalData.isEnableHttpResponseLog = res.data
+        },
+      })
     } catch (error) {
       this.getBlackWhiteList(options, env)
       console.log(error)
@@ -668,6 +675,7 @@ App({
     appEnv: '', //宿主的环境
     appVersion: '', //宿主的版本号
     miniProgram: {}, //小程序信息
+    isEnableHttpResponseLog: false, //开启hilog记录网络接口返回
   },
   scanDeviceMap: {},
   addDeviceInfo: {
