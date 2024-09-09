@@ -27,6 +27,7 @@
     <mx-dialog
       show="{{showValideCodeDialog}}"
       showCancelButton="{{true}}"
+      autoClose="{{ false }}"
       confirm-button-color="{{valideCodeInfo.imgCode.length > 0 ? '#267AFF' : 'rgba(38,122,255,0.3)'}}"
       use-slot
       bind:cancel="toggleValideCode"

@@ -8,9 +8,9 @@ import {
   photoCodeEventBurialPoint,
   userPageViewTrack,
 } from 'assets/burialPoint'
-import { baseImgApi, privacyApi } from '../../api'
+import { baseImgApi, privacyApi, imgBaseUrl } from '../../api'
 import { requestService } from '../../utils/requestService'
-import { getFullPageUrl, showToast } from '../../utils/util'
+import { getFullPageUrl } from '../../utils/util'
 import config from '../../config.js' //环境及域名基地址配置
 const loginBtnOff = baseImgApi.url + 'denglu_btn_off.png'
 const loginBtnOn = baseImgApi.url + 'denglu_btn_on.png'
@@ -18,6 +18,7 @@ const loginLogoSrc = '/assets/img/login/login.png'
 const verCodeSrc = '/assets/img/login/vercode.png'
 const imgCodeSrc = '/assets/img/login/imgcode.png'
 const phoneSrc = '/assets/img/login/phone.png'
+const videoSrc = imgBaseUrl.url + '/video/login.mp4'
 import loginMethods from '../../globalCommon/js/loginRegister.js'
 import { clickEventTracking } from '../../track/track.js'
 import Toast from 'm-ui/mx-toast/toast'
@@ -40,6 +41,7 @@ Page({
     phoneSrc,
     loginBtnOff,
     loginBtnOn,
+    videoSrc,
     agreeFlag: false,
     titleResult: [],
     topBacImg: baseImgApi.url + 'denglu_img_bk@2x.png',
@@ -133,7 +135,7 @@ Page({
    */
   handleActionAnimation(flag) {
     const animation1 = wx.createAnimation({
-      duration: 400,
+      duration: 500,
       timingFunction: 'ease',
     })
     const animation2 = wx.createAnimation({

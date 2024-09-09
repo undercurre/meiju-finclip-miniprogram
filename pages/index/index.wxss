@@ -5,6 +5,8 @@ page{
 .box {
   overflow: hidden;
   height: 100vh;
+  position: relative;
+  z-index: 2;
   /* background-image: linear-gradient(0deg, #f6f6f6 33%, #ecf0f6 100%); */
 }
 
@@ -673,3 +675,13 @@ button::after {
   /* background: url('../../assets/img/index/index.png') no-repeat center center; */
   /* background-size: 100% 100%; */
 /* } */
+
+
+.index-bg-video {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}

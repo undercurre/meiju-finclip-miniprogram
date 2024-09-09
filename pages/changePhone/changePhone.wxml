@@ -1,36 +1,48 @@
 <view>
-    <mx-nav-bar title=""  bind:click-left="backPage"></mx-nav-bar>
-    <view class="main-container">
-        <view class="container-title">验证身份</view>
-        <view class="container-tips">请输入新手机号</view>
-        <view class="input-wrapper-box">
-            <view class="input-wrapper-show">{{targetMobile}}</view>
-            <input type="number" class="input-wrapper-hidden" value="{{inputValue}}" bindinput="inputPhone" maxlength="11"/>
-        </view>
-        <mx-dialog 
-            show="{{showValideCodeDialog}}" 
-            showCancelButton="{{true}}" 
-            confirm-button-color="{{valideCodeInfo.imgCode.length > 0 ? '#267AFF' : 'rgba(38,122,255,0.3)'}}"
-            use-slot
-            bind:cancel="toggleValideCode"
-            bind:confirm="recheckPhone">
-            <view>
-                <view class="smscode-title">今日获取短信次数过多，需进行图形验证</view>
-                <view class="smscodeWrapper">
-                    <mx-field 
-                        type="text" 
-                        class="smscodeWrapper-input"
-                        maxlength="6" 
-                        value="{{ valideCodeInfo.imgCode }}" 
-                        bind:input="changeValideCode"
-                        custom-style="padding-top: 0;padding-bottom: 0;padding-left:12rpx;" border="{{ false }}"
-                        clearable="{{true}}"
-                        adjust-position="{{ false }}">
-                    </mx-field>
-                    <image src="{{valideCodeInfo.imgDataCode}}" bind:tap="reflashCode" mode="" class="smscodeWrapper-image"/>
-                </view>
-            </view>
-        </mx-dialog>
-        <mx-button size="large" type="primary" custom-class="{{classForButton}}" round="{{true}}" bind:click="checkPhone" disabled="{{!hasFixlength}}">下一步</mx-button>
+  <mx-nav-bar title="" bind:click-left="backPage"></mx-nav-bar>
+  <view class="main-container">
+    <view class="container-title">验证身份</view>
+    <view class="container-tips">请输入新手机号</view>
+    <view class="input-wrapper-box">
+      <view class="input-wrapper-show">{{targetMobile}}</view>
+      <input type="number" class="input-wrapper-hidden" value="{{inputValue}}" bindinput="inputPhone" maxlength="11" />
     </view>
+    <mx-dialog
+      show="{{showValideCodeDialog}}"
+      showCancelButton="{{true}}"
+      autoClose="{{ false }}"
+      confirm-button-color="{{valideCodeInfo.imgCode.length > 0 ? '#267AFF' : 'rgba(38,122,255,0.3)'}}"
+      use-slot
+      bind:cancel="toggleValideCode"
+      bind:confirm="recheckPhone"
+    >
+      <view>
+        <view class="smscode-title">今日获取短信次数过多，需进行图形验证</view>
+        <view class="smscodeWrapper">
+          <mx-field
+            type="text"
+            class="smscodeWrapper-input"
+            maxlength="6"
+            value="{{ valideCodeInfo.imgCode }}"
+            bind:input="changeValideCode"
+            custom-style="padding-top: 0;padding-bottom: 0;padding-left:12rpx;"
+            border="{{ false }}"
+            clearable="{{true}}"
+            adjust-position="{{ false }}"
+          >
+          </mx-field>
+          <image src="{{valideCodeInfo.imgDataCode}}" bind:tap="reflashCode" mode="" class="smscodeWrapper-image" />
+        </view>
+      </view>
+    </mx-dialog>
+    <mx-button
+      size="large"
+      type="primary"
+      custom-class="{{classForButton}}"
+      round="{{true}}"
+      bind:click="checkPhone"
+      disabled="{{!hasFixlength}}"
+      >下一步</mx-button
+    >
+  </view>
 </view>

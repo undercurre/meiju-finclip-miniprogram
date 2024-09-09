@@ -191,6 +191,10 @@
   border-radius: 0 0 24rpx 24rpx;
 }
 
+.icon-home-manage-icon {
+  margin-right: 8rpx;
+}
+
 .icon-home-manage {
   display: block;
   width: 36rpx;

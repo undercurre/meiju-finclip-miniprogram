@@ -22,6 +22,10 @@ page {
   opacity: 0.5;
 }
 
+image{
+  height: auto;
+}
+
 .text-overflow2 {
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
@@ -32,11 +36,11 @@ page {
   -webkit-box-orient: vertical;
   word-wrap:break-word;
 }
-.mx-nav-bar__title{}
+
 .mx-nav-bar__title{
     --nav-bar-title-font-size: 32rpx;
 }
-.mx-nav-bar__left{}
+
 .mx-nav-bar__left{
     --padding-md: 32rpx;
 }

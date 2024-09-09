@@ -32,7 +32,7 @@ Page({
     wx.navigateBack()
   },
   recheckPhone() {
-    if (this.data.valideCodeInfo.imgCode.length <= 0) {
+    if (this.data.valideCodeInfo.imgCode.length <= 0 || !this.data.valideCodeInfo.imgCode) {
       return
     }
     this.checkPhone({
@@ -42,12 +42,9 @@ Page({
     this.toggleValideCode()
   },
   toggleValideCode() {
-    this.setData(
-      {},
-      {
-        showValideCodeDialog: false,
-      }
-    )
+    this.setData({
+      showValideCodeDialog: false,
+    })
   },
   checkPhone(requestParam) {
     let params = {
@@ -107,8 +104,14 @@ Page({
       case 1006:
         showToast('手机号输入有误，请重新输入')
         break
+      case 1100:
+        showToast('验证码已过期')
+        break
       case 1104:
         showToast(`${this.data.mobile}手机号已注册，请更换新手机号`)
+        break
+      case 1129:
+        showToast('获取频繁，请稍后再试！')
         break
       default:
         showToast(res.data.msg || '系统错误，请稍后重试')
@@ -160,6 +163,7 @@ Page({
   },
 
   checkSmsCodeRequest() {
+    if (!this.data.inputValue) return
     wx.showLoading({ title: '绑定中', icon: 'loading', duration: 10000 })
     let params = {
       iotData: {

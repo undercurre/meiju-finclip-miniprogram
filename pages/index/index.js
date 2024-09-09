@@ -60,6 +60,7 @@ let jumpPluginDebounce = null
 let jumpEventObj = null
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
+const videoSrc = imgBaseUrl.url + '/video/login.mp4'
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
 let forceUpdateWhenOnshow = false // 触发onshow是否需要更新
 let isGoToPlugin = true
@@ -449,6 +450,7 @@ Page({
   },
   data: {
     indexHeader,
+    videoSrc,
     indexSrc,
     addIndexDevice,
     resetScrollTop: 0,

@@ -60,7 +60,13 @@
         </view>
       </scroll-view>
       <view class="home-manage" catchtap="gotoHomeManage">
-        <image class="icon-home-manage" mode="widthFix" src="{{manageImg}}"></image>
+        <mx-icon
+          custom-class="icon-home-manage-icon"
+          size="16"
+          name="{{manageImg}}"
+          classPrefix="mx-iconfont"
+        ></mx-icon>
+        <!-- <image class="icon-home-manage" mode="widthFix" src="{{manageImg}}"></image> -->
         家庭管理
       </view>
     </view>

@@ -36,7 +36,7 @@ Page({
     })
   },
   recheckPhone() {
-    if (this.data.valideCodeInfo.imgCode.length <= 0) {
+    if (this.data.valideCodeInfo.imgCode.length <= 0 || !this.data.valideCodeInfo.imgCode) {
       return
     }
     this.checkPhone(
@@ -49,12 +49,9 @@ Page({
     this.toggleValideCode()
   },
   toggleValideCode() {
-    this.setData(
-      {},
-      {
-        showValideCodeDialog: false,
-      }
-    )
+    this.setData({
+      showValideCodeDialog: false,
+    })
   },
   changeValideCode(event) {
     let valideCodeInfo = this.data.valideCodeInfo
@@ -90,6 +87,9 @@ Page({
           break
         case 1100:
           showToast('验证码已过期')
+          break
+        case 1129:
+          showToast('获取频繁，请稍后再试！')
           break
         default:
           showToast(res.data.msg || '系统错误，请稍后重试')
