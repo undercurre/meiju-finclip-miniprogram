@@ -232,7 +232,7 @@ export async function actionScanResult(
   wx.showLoading() //解析等待loading
   let scanCodeRes = scanRes.result
   if (scanCodeRes) {
-    const map = ['3', '5', '0', '100', '103']
+    const map = ['3', '5', '0', '100', '103','20','17']
     let result = scanCodeRes.replace(/\s*/g, '') //移除空格
     //如果链接里没有mode，补上默认mode=0
     if (!result.includes('mode=')) {
@@ -370,7 +370,7 @@ export async function actionScanResult(
       getApp().setMethodFailedCheckingLog('actionScan', '非智能设备不支持小程序配网')
       return
     }
-    if (!map.includes((data.mode + '').toString())) {
+    if (!map.includes((data.mode + '').toString()) && data.mode != 20) {
       wx.hideLoading()
       console.log('扫码 不支持 的配网方式')
       justAppSupport()
