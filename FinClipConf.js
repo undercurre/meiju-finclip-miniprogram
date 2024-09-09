@@ -79,5 +79,17 @@ module.exports = {
       sync: true, //是否为同步api
       params: {},
     },
+    {
+      // 获取app版本号
+      name: 'getAppInfoSync',
+      sync: true, //是否为同步api
+      params: {},
+    },
+    {
+      // 获取app版本号
+      name: 'setPreferences',
+      sync: false, //是否为同步api
+      params: {},
+    },
   ],
 }

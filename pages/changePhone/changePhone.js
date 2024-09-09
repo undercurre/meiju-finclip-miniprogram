@@ -65,38 +65,38 @@ Page({
   },
   handleResult(res) {
     console.log(`请求返回结果：${JSON.stringify(res)}`)
-    if(res.data && typeof res.data.code !== 'undefined'){
-        switch (Number(res.data.code)) {
-            case 0:
-                wx.navigateTo({
-                    url: `../checkValidecode/checkValidecode?mobile=${this.data.inputValue}&oldMobile=${this.data.oldMobile}`,
-                })
-                break
-            case 65011:
-                this.setData({
-                    showValideCodeDialog: true,
-                    valideCodeInfo: {
-                    randomToken: res.data.data.randomToken,
-                    imgCode: '',
-                    imgDataCode: res.data.data.imgCode,
-                    },
-                })
-                break
-            case 1006:
-                showToast('手机号输入有误，请重新输入')
-                break
-            case 1104:
-                showToast(`${this.data.inputValue}手机号已注册，请更换新手机号`)
-                break
-            case 1100:
-                showToast('验证码已过期')
-                break
-            default:
-                showToast(res.data.msg || '系统错误，请稍后重试')
-                break
-        }
-    }else{
-        showToast(res.msg || '系统错误，请稍后重试')
+    if (res.data && typeof res.data.code !== 'undefined') {
+      switch (Number(res.data.code)) {
+        case 0:
+          wx.navigateTo({
+            url: `../checkValidecode/checkValidecode?mobile=${this.data.inputValue}&oldMobile=${this.data.oldMobile}`,
+          })
+          break
+        case 65011:
+          this.setData({
+            showValideCodeDialog: true,
+            valideCodeInfo: {
+              randomToken: res.data.data.randomToken,
+              imgCode: '',
+              imgDataCode: res.data.data.imgCode,
+            },
+          })
+          break
+        case 1006:
+          showToast('手机号输入有误，请重新输入')
+          break
+        case 1104:
+          showToast(`${this.data.inputValue}手机号已注册，请更换新手机号`)
+          break
+        case 1100:
+          showToast('验证码已过期')
+          break
+        default:
+          showToast(res.data.msg || '系统错误，请稍后重试')
+          break
+      }
+    } else {
+      showToast(res.msg || '系统错误，请稍后重试')
     }
   },
   checkPhone(event, requestParam) {

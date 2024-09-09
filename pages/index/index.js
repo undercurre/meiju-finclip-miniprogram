@@ -225,14 +225,18 @@ Page({
   },
   updateNow() {
     try {
-      ft.startAppGalleryDetailAbility()
-    } catch (e) {}
+      ft.startAppGalleryDetailAbility({ uri: this.data.updateUrl })
+    } catch (e) {
+      console.error('updateNow - e:', e)
+    }
   },
   joinTest() {
     //ft.startBrowsableAbility({ uri: '' })
     try {
-      ft.startBrowsableAbility()
-    } catch (e) {}
+      ft.startBrowsableAbility({ uri: this.data.updateUrl })
+    } catch (e) {
+      console.error('joinTest - e:', e)
+    }
   },
   checkVersionUpdate() {
     console.error('进入checkVersionUpdate')
@@ -365,6 +369,13 @@ Page({
               poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
               poupInfomation.poupInfo.type = resp.data.data.upgradeType
               self.data.showVersionUpdateDialog = !self.data.showVersionUpdateDialog
+              if (resp.data.data.upgradeType == 1) {
+                //版本升级
+                self.data.updateUrl = resp.data.data.appStoreUrl
+              } else if (resp.data.data.upgradeType == 3) {
+                //内测
+                self.data.updateUrl = resp.data.data.testFlightUrl
+              }
               self.setData({
                 poupInfomation,
                 showVersionUpdateDialog: self.data.showVersionUpdateDialog,
@@ -565,6 +576,7 @@ Page({
     },
     intervalApp: null,
     isWifiNetWork: false,
+    updateUrl: '', //版本升级url
     clickAfterCompletion: false,
   },
   //长链接推送解析
@@ -1570,6 +1582,9 @@ Page({
     this.switchShowHomeList()
     //选择当前家庭，不做处理
     if (selectedHomeGroupId == this.data.currentHomeGroupId) {
+      this.setData({
+        clickAfterCompletion: false,
+      })
       return
     }
     this.setData({
@@ -1582,6 +1597,7 @@ Page({
         service
           .homegroupDefaultSetService(selectedHomeGroupId)
           .then(() => {
+            Toast({ context: this, position: 'bottom', message: '切换家庭成功' })
             this.updateHomeGroup(currentHomeGroupIndex, selectedHomeGroupId)
           })
           .catch((error) => {
@@ -1612,11 +1628,13 @@ Page({
               currentHomeGroupIndex: homeGroupIndex,
               homeList: this.data.homeList,
               isHourse: false,
+              clickAfterCompletion: false,
             })
           })
           return
         }
         this.setData({
+          clickAfterCompletion: false,
           isHourse: false,
         })
       })
@@ -1756,7 +1774,6 @@ Page({
       }
     })
     currentFamilyDeviceList.forEach((item) => {
-      console.log(item)
       if (item.type == '0x09') {
         item.onlineStatus = '1'
       }
@@ -1838,6 +1855,7 @@ Page({
           this.setData({
             isHomeListLoaded: true,
             isLogon: app.globalData.isLogon,
+            clickAfterCompletion: false,
           })
           reject(error)
         })
@@ -1853,8 +1871,8 @@ Page({
         })
         app.globalData.roomList = applianceHomeData.appliance[0].roomList
         app.globalData.curFamilyInfo = applianceHomeData.appliance[0]
-        app.globalData.currentRoomId = applianceHomeData.appliance[0].roomList[0].roomId //默认房间
-        app.globalData.currentRoomName = applianceHomeData.appliance[0].roomList[0].name //默认房间名
+        app.globalData.currentRoomId = applianceHomeData.appliance[0].roomList[0]?.roomId //默认房间
+        app.globalData.currentRoomName = applianceHomeData.appliance[0].roomList[0]?.name //默认房间名
         app.globalData.isCreateFamily = applianceHomeData.appliance[0].roleId == '1001' //是否是当前家庭
         resolve(applianceHomeData)
         return
@@ -1864,8 +1882,8 @@ Page({
         .then((resp) => {
           app.globalData.roomList = resp.appliance[0].roomList
           app.globalData.curFamilyInfo = resp.appliance[0]
-          app.globalData.currentRoomId = resp.appliance[0].roomList[0].roomId //默认房间
-          app.globalData.currentRoomName = resp.appliance[0].roomList[0].name //默认房间名
+          app.globalData.currentRoomId = resp.appliance[0].roomList[0]?.roomId //默认房间
+          app.globalData.currentRoomName = resp.appliance[0].roomList[0]?.name //默认房间名
           app.globalData.isCreateFamily = resp.appliance[0].roleId == '1001' || resp.appliance[0].roleId == '1002' //是否是当前家庭
           homeStorage.setStorage({ homeId: homegroupId, name: 'applianceHomeData', data: resp })
           resolve(resp)
@@ -1901,7 +1919,6 @@ Page({
     return new Promise((resolve, reject) => {
       if (!isEmptyObject(app.globalData.dcpDeviceImgList)) {
         dcpDeviceImgList = app.globalData.dcpDeviceImgList
-        console.log('设备图标缓----》', dcpDeviceImgList)
         this.data.sceneIconList = dcpDeviceImgList
         try {
           wx.setStorageSync('dcpDeviceImgList', dcpDeviceImgList) //部分手机可能因为长度设置失败
@@ -2443,7 +2460,7 @@ Page({
           console.log('getAppInfo success ------------')
           console.log(res)
           self.setData({
-            appVersion: res.data.data.VERSION_NAME,
+            appVersion: `${res.data.data.VERSION_NAME}.${res.data.data.VERSION_CODE}`,
           })
           self.checkVersionUpdate()
         },
@@ -2464,7 +2481,7 @@ Page({
       isNfcFirstInit: true,
     })
     if (app.globalData.isLogon) {
-      this.initPushData()
+      //this.initPushData()
       if (app.globalData.uid) {
         this.setData({
           uid: app.globalData.uid,
@@ -2473,7 +2490,7 @@ Page({
       }
     } else {
       try {
-        this.initPushData()
+        //this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
         if (isAutoLogin) {
           app.watchLogin(() => {

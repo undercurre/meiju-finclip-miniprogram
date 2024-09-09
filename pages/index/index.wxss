@@ -53,16 +53,16 @@ page{
 
 .name {
   display: inline-block;
-  height: 32rpx;
+  height: 30rpx;
   font-size: 26rpx;
   color: #000000;
-  line-height: 28rpx;
+  line-height: 30rpx;
   font-weight: 500;
   max-width: 234rpx;
   display: -webkit-box; 
   -webkit-line-clamp: 1; 
   -webkit-box-orient: vertical; 
-  overflow-x: hidden;   
+  overflow: hidden;   
   text-overflow: ellipsis;
   word-break: break-all;
 }

@@ -442,7 +442,12 @@ module.exports = Behavior({
           ifSN8Matching = false
         }
       } else {
-        ifSN8Matching = true
+        // ifSN8Matching = true
+        let formatType = deviceParam.category.includes('0x')?deviceParam.category:'0x' + deviceParam.category.toLocaleUpperCase()
+        if (isSupportPlugin(formatType, deviceParam.sn8)) {
+          ifSN8Matching = true
+        }
+        console.log('formatType是否通过----：',formatType,deviceParam.sn8,ifSN8Matching)
       }
       return ifSN8Matching
     },

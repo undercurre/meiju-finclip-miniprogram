@@ -55,6 +55,8 @@ Page({
     appVersion: '',
     hasUpadteVersion: false,
     isWifiNetWork: false,
+    updateUrl: '', //版本升级url
+    appEnv: app.globalData.appEnv,
   },
   togglePoup() {
     if (this.data.hasUpadteVersion) {
@@ -111,6 +113,14 @@ Page({
             poupInfomation.poupInfo.info = resp.data.data.dialogConfig.content
             poupInfomation.poupInfo.img = resp.data.data.dialogConfig.imageUrl
             poupInfomation.poupInfo.type = resp.data.data.upgradeType
+            if (resp.data.data.upgradeType == 1) {
+              //版本升级
+              self.data.updateUrl = resp.data.data.appStoreUrl
+            } else if (resp.data.data.upgradeType == 3) {
+              //内测
+              self.data.updateUrl = resp.data.data.testFlightUrl
+            }
+
             self.setData({
               hasUpadteVersion: true,
               poupInfomation,
@@ -168,15 +178,13 @@ Page({
   joinTest() {
     //ft.startBrowsableAbility({ uri: '' })
     try {
-      ft.startBrowsableAbility()
-    } catch(e){
-      
-    }
+      ft.startBrowsableAbility({ uri: this.data.updateUrl })
+    } catch (e) {}
   },
   updateNow() {
     try {
       console.log('11111')
-      ft.startAppGalleryDetailAbility()
+      ft.startAppGalleryDetailAbility({ uri: this.data.updateUrl })
     } catch (e) {
       console.error('e=========:', e)
     }
@@ -219,7 +227,7 @@ Page({
     }
   },
   onClickRight() {
-    if (this.data.environment == 'sit') {
+    if (this.data.appEnv != 'prod') {
       wx.navigateTo({
         url: '/pages/testPage/index',
       })
@@ -249,7 +257,7 @@ Page({
           console.log('getAppInfo success ------------')
           console.log(res)
           self.setData({
-            appVersion: res.data.data.VERSION_NAME,
+            appVersion: `${res.data.data.VERSION_NAME}.${res.data.data.VERSION_CODE}`,
           })
           self.versionInfo()
         },

@@ -7,6 +7,7 @@ import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 import { roomAndDevices, memberManage } from '../../../utils/paths.js'
+import { showToast } from 'm-miniCommonSDK/index'
 const commonBehavior = require('../../assets/behavior')
 // const roomIco = '/assets/img/index/room.png'
 // const equipmentIco = '/assets/img/index/device.png'
@@ -153,7 +154,7 @@ Page({
       } else {
         this.setData({
           dialogTitle: '退出家庭',
-          dialogMessage: '确定要退出该家庭吗',
+          dialogMessage: '退出后将无法控制家庭中的设备，可以让创建者再次邀请你加入。',
           dialogShow: true,
           option: 'exit',
           dialogMessageAlign: 'center',
@@ -183,7 +184,9 @@ Page({
       burialPoint.clickpopupconfirmBurialPoint()
       this.homeDelete()
         .then((res) => {
-          console.log(res.data.code, '删除家庭成功')
+          setTimeout(() => {
+            showToast('删除家庭成功')
+          }, 0)
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })
@@ -198,7 +201,9 @@ Page({
       burialPoint.confirmQuitFamilyClick()
       this.homeQuit()
         .then((res) => {
-          console.log(res, '退出家庭成功')
+          setTimeout(() => {
+            showToast('退出家庭成功')
+          }, 0)
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })
@@ -263,6 +268,7 @@ Page({
     this.familyNameEdit()
       .then((res) => {
         console.log(res, '修改家庭名称成功')
+        showToast('修改家庭名称成功')
         app.globalData.ifRefreshHomeList = true
         this.setData({
           familyDialogShow: false,

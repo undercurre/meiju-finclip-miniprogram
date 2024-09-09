@@ -413,10 +413,17 @@ Page({
         }
       })
       if (isHasPsw) {
+        console.error('storageWifiList[wifiNum]:',storageWifiList[wifiNum])
         //有这个wifi的storage
         that.setData({
           bindWifiTest: storageWifiList[wifiNum],
+          'bindWifiTest.BSSID': res.BSSID
         })
+        // console.error('that.data.bindWifiTest.BSSID1:',that.data.bindWifiTest)
+        // if(that.data.bindWifiTest.BSSID == ''){
+        //   console.error('that.data.bindWifiTest.BSSID2:',that.data.bindWifiTest)
+        //   that.data.bindWifiTest.BSSID = res.BSSID
+        // }
       } else {
         that.setData({
           'bindWifiTest.PswContent': '', //移除密码
@@ -1317,6 +1324,7 @@ Page({
     //   }, 1500)
     //   return
     // }
+
     setWifiStorage(this.data.bindWifiTest)
     app.addDeviceInfo.curWifiInfo = this.data.bindWifiTest //共享选取的wifi
     getApp().setMethodCheckingLog('保存wifi信息', `curWifiInfo=${JSON.stringify(app.addDeviceInfo.curWifiInfo)}`)

@@ -7,6 +7,7 @@ import { setIsAutoLogin, removeUserInfo, clearStorageSync } from '../../utils/re
 import { closeWebsocket } from '../../utils/initWebsocket.js'
 import Toast from 'm-ui/mx-toast/toast'
 import config from '../../config.js'
+const app = getApp() //获取应用实例
 Page({
   /**
    * 页面的初始数据
@@ -14,9 +15,10 @@ Page({
   data: {
     appVibeTitle: '切换环境',
     vsConsoleTitle: 'vsconsole',
-    environment: config.environment,
+    environment: app.globalData.appEnv,
     scodeTitle: '切换扫码调试',
     clearCacheTitle: '清理缓存',
+    appVersionTitle: 'App版本',
     sdkTitle: '小程序SDK版本',
     frameworkVersionTitle: '小程序基础库版本',
     miniProgramTitle: '小程序迭代版本',
@@ -25,6 +27,7 @@ Page({
     showSystemInfoTitle: '获取系统信息',
     runtimeSDKVersion: '',
     frameworkVersion: '',
+    appVersion: '',
     version: '',
     miniProgramenv: '',
     show: false,
@@ -54,6 +57,7 @@ Page({
         console.log('getAppInfo success ------------' + JSON.stringify(res))
         self.setData({
           environment: res.data.data.ENV,
+          appVersion: `${res.data.data.VERSION_NAME}.${res.data.data.VERSION_CODE}`,
         })
       },
     })
@@ -126,12 +130,12 @@ Page({
         }
       },
     })
-    const accountInfo = ft.getAccountInfoSync()
+    //const accountInfo = ft.getAccountInfoSync()
     this.setData({
-      version: accountInfo.miniProgram.version,
-      miniProgramenv: accountInfo.miniProgram.envVersion,
+      version: app.globalData.miniProgram.version,
+      miniProgramenv: app.globalData.miniProgram.envVersion,
     })
-    console.log('获取小程序信息', accountInfo.miniProgram) // 小程序信息
+    console.log('获取小程序信息', app.miniProgram) // 小程序信息
   },
   //切换vsconsole调试
   switchVsconsole() {

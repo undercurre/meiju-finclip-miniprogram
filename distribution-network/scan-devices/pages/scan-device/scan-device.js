@@ -75,6 +75,7 @@ Page({
     showPopup:false,
     monitorBluetoothFalg:false,//监听蓝牙标识符
     isjumpPageFalg:false,//是否跳转页面标识符
+    isShowContent:false,//是否显示内容标识符
 
 
   },
@@ -283,6 +284,11 @@ monitorBluetooth(){
     } catch (error) {
       console.log('[isGrayUser error]', error)
     }
+    wx.nextTick(()=>{
+      this.setData({
+        isShowContent:true
+      })
+    })
     console.log('on show')
     let isScanBlue = await this.permissionCheckTip() //权限校验提示
     // await this.checkSystemInfo()

@@ -131,6 +131,15 @@ const loginMethods = {
               }
               getPrivateKeys.getPrivateKeyAfterLogin()
               resolve(userInfo)
+              //设置宿主缓存
+              try {
+                ft?.setPreferences({
+                  key: 'finClipLoginInfo',
+                  val: userInfo,
+                })
+              } catch (error) {
+                console.log('设置宿主缓存error', error)
+              }
             } else {
               console.log('login fail res :', res.data)
               app.globalData.isLogon = false
@@ -260,6 +269,15 @@ const loginMethods = {
               wx.setStorageSync('userRegion', res.data.data.region) //存储
             }
             getPrivateKeys.getPrivateKeyAfterLogin()
+            //设置宿主缓存
+            try {
+              ft?.setPreferences({
+                key: 'finClipLoginInfo',
+                val: res.data.data,
+              })
+            } catch (error) {
+              console.log('设置宿主缓存error', error)
+            }
             resolve(res.data.data)
           } else {
             console.log('login fail res :', res.data)
@@ -313,6 +331,9 @@ const loginMethods = {
         break
       case 65009:
         label = '验证码错误，请重新输入'
+        break
+      case 65027:
+        label = '该用户在线登录设备已超过上限,请更换账号登录'
         break
       default:
         label = '操作失败，请重新再试'
@@ -461,6 +482,15 @@ const loginMethods = {
     // clearStorageSync()
     setIsAutoLogin(false)
     removeUserInfo()
+    //清除宿主缓存
+    try {
+      ft?.setPreferences({
+        key: 'finClipLoginInfo',
+        val: '',
+      })
+    } catch (error) {
+      console.log('delete宿主缓存error', error)
+    }
   },
   // 获取是否在c4a提交注销
   getLogoutStatus() {

@@ -92,7 +92,7 @@ const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedAppli
   // ...homeStorage,
   // ...getApplianceListConfig,
   // }
-  console.log('缓存家庭设备信息', homeStorage)
+  //console.log('缓存家庭设备信息', homeStorage)
   wx.setStorageSync('applianceListConfig', homeStorage)
   wx.setStorageSync('currentHomeGroupId', homeId)
 }
@@ -317,7 +317,7 @@ const checkTokenExpired = (MPTOKEN_USERINFO, MPTOKEN_EXPIRATION) => {
   const timestamp = Date.parse(new Date())
   return MPTOKEN_USERINFO && appTokenDeadTime && appTokenDeadTime > timestamp ? true : false
 }
-//token刷新过期
+//tokenPwd过期
 const checkTokenPwdExpired = (MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) => {
   let appTokenDeadTime = parseInt(MPTOKEN_AUTOLOGIN_EXPIRATION)
   const timestamp = Date.parse(new Date())
