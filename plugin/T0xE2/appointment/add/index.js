@@ -184,7 +184,7 @@ Page({
     });
   },
   openTempPicker() {
-    this.setData({ isShowTemPicker: true });
+    this.setData({ isShowTemPicker: true, "multiIndex[0]": this.data.tempIndex });
   },
 
   openStartTimePicker() {
@@ -284,7 +284,7 @@ Page({
       // 自定义
       this.setData({ "task.isRepeat": true });
     }
-    this.setData({ "task.week": selectedDays.join(",") });
+    this.setData({ "task.week": selectedDays.join(","), defaultWeekdaySelectList: selectedDays });
   },
 
   onWeekdayItemClick({ detail: weekdaySelectList }) {
