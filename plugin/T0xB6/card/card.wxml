@@ -190,7 +190,7 @@
                     <view class="deviceB6ContentClose">关</view>
                 </view>
                 <view class="deviceB6SliderAreas">
-                    <slider class="deviceB6Slider" bindchange="sliderChange" min="0" max="{{gear.item.length-1}}" step="1" activeColor='#7C879B' block-color='#7C879B' backgroundColor='#F2F2F2' block-size='{{20}}' value="0"></slider>
+                    <slider disabled="{{!isPowerOn}}" class="deviceB6Slider" bindchange="sliderChange" min="0" max="{{gear.item.length-1}}" step="1" activeColor='#7C879B' block-color='#7C879B' backgroundColor='#F2F2F2' block-size='{{20}}' value="0"></slider>
                     <view class="deviceB6SliderTitleArea">
                     <block wx:for="{{gear.item}}" wx:key="gearKey">
                         <text wx:if="{{index == 0}}" class="deviceB6SliderTitleLeft">{{item.name}}</text>
