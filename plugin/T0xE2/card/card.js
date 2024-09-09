@@ -1078,9 +1078,12 @@ Component({
     initTemperatureIndex() {
       const { selections, status } = this.data
       let minTemp = selections[0]
-      const temperatureIndex = Math.round((status.temperature - minTemp) / 5)
+      let temperatureIndex = Math.round((status.temperature - minTemp) / 5)
+      if(status.temperature == 80){
+        temperatureIndex = selections.length-1
+      }
       this.setData({
-        'multiIndex[0]': temperatureIndex,
+        'multiIndex[0]': temperatureIndex<0 ? 0 : temperatureIndex,
       })
     },
 

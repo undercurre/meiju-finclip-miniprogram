@@ -53,7 +53,7 @@ Component({
   methods: {
     handleLoopItemClick({ currentTarget: { dataset } }) {
       const { index } = dataset;
-      this.setData({ weekdaySelectList: [], loopIndex: index });
+      this.setData({ loopIndex: index });
       this.triggerEvent("loopitemclick", index);
     },
     handleWeekDayItemClick({ currentTarget: { dataset } }) {
