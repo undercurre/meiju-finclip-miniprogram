@@ -105,11 +105,11 @@ Component({
       if (!setting || !setting.coldCardList) return
       return setting.coldCardList.some((item) => item.key === 'coldWaterMaster' || item.key === 'coldWater')
     },
-    isShowAiColdWater() {
-      const { setting } = this.data
-      if (!setting || !setting.coldCardList) return
-      return setting.coldCardList.some((item) => item.key === 'aiColdWater')
-    },
+    // isShowAiColdWater() {
+    //   const { setting } = this.data
+    //   if (!setting || !setting.coldCardList) return
+    //   return setting.coldCardList.some((item) => item.key === 'aiColdWater')
+    // },
     isPowerOffStatus() {
       return this.data.status.power == 'off'
     },

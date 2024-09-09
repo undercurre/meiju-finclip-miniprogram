@@ -17,9 +17,9 @@
                     setting="{{setting}}" iconColor="{{iconColor}}" status="{{status}}" applianceData="{{applianceData}}" disabled="{{isPowerOffStatus}}" deviceStatus="{{deviceStatus}}"
                     bindsetColdWaterMaster="setColdWaterMaster" />
                 <!-- AI定时零冷水 -->
-                <ai-cold-water wx:if="{{isShowAiColdWater}}" title="定时零冷水" desc="预约时段启动零冷水" cellStyle="bottom-cell" setting="{{setting}}"
+                <!-- <ai-cold-water wx:if="{{isShowAiColdWater}}" title="定时零冷水" desc="预约时段启动零冷水" cellStyle="bottom-cell" setting="{{setting}}"
                     iconColor="{{iconColor}}" status="{{status}}" applianceData="{{applianceData}}" border="{{false}}"
-                    disabled="{{isPowerOffStatus}}" deviceStatus="{{deviceStatus}}" />
+                    disabled="{{isPowerOffStatus}}" deviceStatus="{{deviceStatus}}" /> -->
                 <!-- 滤芯状态 -->
             </view>
             <filter-info wx:if="{{isShowFilterInfo}}" status="{{status}}" applianceData="{{applianceData}}"
