@@ -60,7 +60,7 @@
         </view>
       </scroll-view>
       <view class="home-manage" catchtap="gotoHomeManage">
-        <image class="icon-home-manage" mode="widthFix" src="{{baseImgUrl + 'ic_guanli.png'}}"></image>
+        <image class="icon-home-manage" mode="widthFix" src="{{manageImg}}"></image>
         家庭管理
       </view>
     </view>

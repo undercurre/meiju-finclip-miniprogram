@@ -86,7 +86,7 @@ module.exports = {
       params: {},
     },
     {
-      // 获取app版本号
+      // 设置缓存
       name: 'setPreferences',
       sync: false, //是否为同步api
       params: {},

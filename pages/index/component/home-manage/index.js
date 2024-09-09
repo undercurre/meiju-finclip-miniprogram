@@ -12,6 +12,7 @@ const addSelect = '/assets/img/index/add_select.png'
 const addNoSelect = '/assets/img/index/add_no_select.png'
 const addDevice = '/assets/img/index/add_device.png'
 const addScan = '/assets/img/index/add_scan.png'
+const manageImg = '/assets/img/index/ic_guanli.png'
 import Toast from 'm-ui/mx-toast/toast'
 import { homeManage, homeDetail } from '../../../../utils/paths.js'
 const app = getApp()
@@ -55,6 +56,7 @@ Component({
     addNoSelect,
     addDevice,
     addScan,
+    manageImg,
     addSelectIcon: '',
     baseImgUrl: baseImgApi.url,
     uid: null,
@@ -217,7 +219,7 @@ Component({
         timingFunction: 'ease',
       })
       const addPickerAnimation = wx.createAnimation({
-        duration: 100,
+        duration: 200,
         timingFunction: 'ease',
       })
       const iconTriangleAnimation = wx.createAnimation({

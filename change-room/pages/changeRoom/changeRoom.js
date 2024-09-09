@@ -398,7 +398,7 @@ Page({
   //校验输入框
   validtaFunc(val) {
     var validator = new validateFun()
-    validator.add(val, [{ ruleName: 'isNonEmpty', errorMsg: '家庭名称不能为空' }])
+    validator.add(val, [{ ruleName: 'isNonEmpty', errorMsg: '房间名称不能为空' }])
     var errorMsg = validator.start()
     return errorMsg
   },

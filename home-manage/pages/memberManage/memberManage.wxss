@@ -20,7 +20,7 @@ page {
   max-width: 344rpx;
   text-overflow: ellipsis;
   white-space: nowrap;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 ::-webkit-scrollbar {
   width: 0;

@@ -1,6 +1,6 @@
 <mx-nav-bar title="{{title}}" bind:click-left="onClickLeft"> </mx-nav-bar>
 <view class="main-container">
-  <mx-cell-group>
+  <mx-cell-group border="{{ false }}">
     <mx-cell
       value-class="custom-value-class"
       wx:for="{{roomList}}"

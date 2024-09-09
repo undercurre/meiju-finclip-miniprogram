@@ -275,6 +275,7 @@ button[class='inviteButton']::after {
   color: #000;
   display: flex;
   align-items: center;
+  white-space:nowrap;
 }
 
 .add-picker-options-wrapper {

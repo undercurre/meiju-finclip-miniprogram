@@ -7,6 +7,8 @@ page {
   --toast-max-width: 100%;
   --toast-fit-width-webkit-content: -webkit-max-content;
   --toast-fit-width-content: max-content;
+  --toast-border-radius:20px;
+  /* --field-icon-padding:'32px 16rpx 32px 16rpx' */
 }
 
 .shadow {

@@ -313,9 +313,9 @@ const checkFamilyPermission = (params = {}) => {
 
 // v1版本获取icon
 function getIcon(device, iconArr, currApplianceList, spidList = {}) {
-    if(device.name.includes('小天鹅双洗站')){
-        debugger
-    }
+  if (device.name.includes('小天鹅双洗站')) {
+    debugger
+  }
   let defaultImg = baseImgApi.url + 'scene/sence_img_lack.png'
   let imgPath = ''
   let sn8 = ''
@@ -342,9 +342,9 @@ function getIcon(device, iconArr, currApplianceList, spidList = {}) {
     return defaultImg
   }
   let spidObj = smartProductId && spidList ? spidList[smartProductId] : null
-  if(spidObj){
+  if (spidObj) {
     imgPath = spidObj.icon
-  }else if (Object.keys(list).includes(keyName)) {
+  } else if (Object.keys(list).includes(keyName)) {
     imgPath = list[keyName]['icon']
   } else if (list.common.icon) {
     imgPath = list.common.icon
@@ -387,7 +387,7 @@ function onNetworkStatusChange() {
         that.globalData.noNetwork = false
         //网络状态变化事件的回调函数   开启网络监听，监听小程序的网络变化
         wx.onNetworkStatusChange(function (resp) {
-          console.log('监听网络变化11111--------》', resp)
+          console.log('监听网络变化11111-------->', resp)
           if (resp.isConnected) {
             //网络变为有网s
             that.globalData.noNetwork = false
@@ -400,7 +400,7 @@ function onNetworkStatusChange() {
         that.globalData.noNetwork = true
         //无网状态
         wx.onNetworkStatusChange(function (resp) {
-          console.log('监听网络变化222222--------》', resp)
+          console.log('监听网络变化222222-------->', resp)
           if (resp.isConnected) {
             that.globalData.noNetwork = false
           } else {
@@ -412,13 +412,13 @@ function onNetworkStatusChange() {
   })
 }
 function debounce(fn, delay = 300) {
-    let timer = null;
-    return function() {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        fn()
-      }, delay);
-    };
+  let timer = null
+  return function () {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn()
+    }, delay)
+  }
 }
 module.exports = {
   getNewSign, //new sign
@@ -443,5 +443,5 @@ module.exports = {
   getIcon,
   checkNetwork,
   onNetworkStatusChange,
-  debounce
+  debounce,
 }
