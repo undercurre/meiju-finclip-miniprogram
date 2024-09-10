@@ -207,7 +207,7 @@ App({
             })
             .catch((err) => {
               console.log('app loginAPi catch', err)
-              this.setLoginFalse()
+              //this.setLoginFalse()
             })
         } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
           console.log('冷启动 无需刷新token---->')

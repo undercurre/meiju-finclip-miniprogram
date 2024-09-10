@@ -346,12 +346,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    console.log('')
     this.setData({
-      homeDetail: JSON.parse(options.homeitem),
+      homeDetail: JSON.parse(decodeURIComponent(options.homeitem)),
       homegroupId: options.homegroupId,
-      name: options.name,
+      name: decodeURIComponent(options.name),
       roleId: options.roleId,
-      familyValue: options.name,
+      familyValue: decodeURIComponent(options.name),
       ownHomeNum: options.ownHomeNum,
     })
   },

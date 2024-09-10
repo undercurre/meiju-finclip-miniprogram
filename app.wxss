@@ -22,10 +22,6 @@ page {
   opacity: 0.5;
 }
 
-image{
-  height: auto;
-}
-
 .text-overflow2 {
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;

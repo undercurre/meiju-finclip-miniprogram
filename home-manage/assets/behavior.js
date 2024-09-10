@@ -44,7 +44,7 @@ module.exports = Behavior({
     },
     //跳转邀请页面
     gotoInvite(homeItem, homegroupid) {
-      const item = JSON.stringify(homeItem)
+      const item = JSON.stringify(encodeURIComponent(homeItem))
       wx.navigateTo({
         url: `${inviteHomeFamily}?homeItem=${item}&homegroupid=${homegroupid}`,
       })

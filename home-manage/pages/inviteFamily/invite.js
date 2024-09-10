@@ -32,7 +32,7 @@ Page({
   onLoad(options) {
     this.setData({
       homegroupId: options.homegroupid,
-      homeItem: JSON.parse(options.homeItem),
+      homeItem: JSON.parse(decodeURIComponent(options.homeItem)),
       // roleId: options.roleId,
     })
     this.getMemberQrcode(options.homegroupid)

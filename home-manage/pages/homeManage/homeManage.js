@@ -332,7 +332,8 @@ Page({
   },
   goToDetail(e) {
     let { name, homegroupid, roleid, ownhomenum, homeitem } = e.currentTarget.dataset
-    homeitem = JSON.stringify(homeitem)
+    homeitem = JSON.stringify(encodeURIComponent(homeitem))
+    name = encodeURIComponent(name)
     burialPoint.clickbthFamilyDetailBurialPoint()
     wx.navigateTo({
       url: `${homeDetail}?homegroupId=${homegroupid}&name=${name}&roleId=${roleid}&ownHomeNum=${ownhomenum}&homeitem=${homeitem}`,
