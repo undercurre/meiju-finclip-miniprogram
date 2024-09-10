@@ -2132,6 +2132,7 @@ Page({
       name: 'unsupportedApplianceList',
       data: allUnsupportedApplianceList,
     })
+    console.log('设置缓存 计算长度=====', aLLDeviceLength)
     const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(supportedApplianceList)
     if (app.globalData.dcpDeviceImgList) {
       supportedApplianceList.forEach((item) => {
@@ -2150,7 +2151,7 @@ Page({
           app.globalData.spidDeviceImgList
         )
       })
-    } else {
+    } else if (getCurrentHomeGroupId() == currentHomeGroupId) {
       supportedApplianceList.forEach((item) => {
         var newArr = this.data.supportedApplianceList.filter((subItem) => item.applianceCode == subItem.applianceCode)
         item.deviceImg = newArr[0].deviceImg
@@ -2159,6 +2160,9 @@ Page({
         var newArr = this.data.unsupportedApplianceList.filter((subItem) => item.applianceCode == subItem.applianceCode)
         item.deviceImg = newArr[0].deviceImg
       })
+    } else {
+      console.log('重新拉取图片')
+      this.getIotDeviceV3()
     }
     //缓存当前家庭设备信息
     console.log('缓存家庭')

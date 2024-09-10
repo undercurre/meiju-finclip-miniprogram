@@ -152,7 +152,9 @@ App({
         },
       })
       const accountInfo = ft.getAccountInfoSync()
+      const deviceId = ft.getDeviceIdSync().data.id
       console.log('当前小程序版本信息-------->', accountInfo.miniProgram)
+      this.globalData.deviceId = deviceId
       this.globalData.miniProgram = accountInfo.miniProgram
       // 网络请求返回日志标识
       wx.getStorage({
@@ -185,15 +187,9 @@ App({
       }
       //冷启动登录逻辑校验
       //60天内不需要重新登录
-      console.log(
-        '冷启动 checkTokenPwdExpired---->',
-        checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)
-      )
-      console.log('冷启动 checkTokenExpired---->', !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION))
       if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
         //4小时不操作需要刷新用户token
         if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-          console.log('冷启动 超过4小时刷新token---->')
           loginMethods.loginAPi
             .call(this)
             .then((res2) => {
@@ -207,10 +203,12 @@ App({
             })
             .catch((err) => {
               console.log('app loginAPi catch', err)
+              //先保持登录状态
+              this.globalData.isActionAppLaunch = false
+              loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
               //this.setLoginFalse()
             })
         } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-          console.log('冷启动 无需刷新token---->')
           // 有效期内直接登录
           this.globalData.isActionAppLaunch = false
           loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
@@ -253,10 +251,7 @@ App({
       //热启动如果超过60天，无需特殊处理
       //if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) && !this.globalData.isActionAppLaunch) {
       //4小时需要刷新token
-      console.log('热启动 isActionAppLaunch---->', !this.globalData.isActionAppLaunch)
-      console.log('热启动 checkTokenExpired---->', !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION))
       if (!this.globalData.isActionAppLaunch && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-        console.log('热启动 超过4小时刷新token---->')
         this.globalData.isActionAppLaunch = false
         this.globalData.wxExpiration = null
         loginMethods.loginAPi
@@ -676,6 +671,7 @@ App({
     appVersion: '', //宿主的版本号
     miniProgram: {}, //小程序信息
     isEnableHttpResponseLog: false, //开启hilog记录网络接口返回
+    deviceId: '',
   },
   scanDeviceMap: {},
   addDeviceInfo: {

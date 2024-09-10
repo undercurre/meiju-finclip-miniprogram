@@ -97,5 +97,11 @@ module.exports = {
       sync: false, //是否为同步api
       params: {},
     },
+    {
+      // 获取设备ID
+      name: 'getDeviceIdSync',
+      sync: true, //是否为同步api
+      params: {},
+    },
   ],
 }

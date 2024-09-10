@@ -57,7 +57,7 @@ Page({
         stamp: getStamp(new Date()),
       },
       data: {
-        deviceId: this.data.oldMobile,
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || this.data.oldMobile,
         appKey: '46579c15',
         ...requestParam,
       },

@@ -119,7 +119,7 @@ Page({
         stamp: getStamp(new Date()),
       },
       data: {
-        deviceId: app.globalData.appSystemInfo.deviceId || this.data.inputValue,
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || this.data.inputValue,
         appKey: '46579c15',
         ...requestParam,
       },

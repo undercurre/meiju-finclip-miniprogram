@@ -5,7 +5,8 @@ import trackApiList from '../track/oneKeyTrack/config/trackApiList.js'
 import { authorizedCommonTrack, trackLoaded } from '../track/track.js'
 import { pluginRequestTrack } from '../track/pluginTrack.js'
 import cloudMethods from '../globalCommon/js/cloud.js'
-
+import { checkTokenExpired, checkTokenPwdExpired } from './redis.js'
+import loginMethods from '../globalCommon/js/loginRegister'
 import qs from './qs/index'
 
 var requestService = {
@@ -175,7 +176,9 @@ var requestService = {
           } else {
             //登录态过期返回40002
             if (resData.data.errorCode == 40002 || resData.code == 40002 || resData.data.code == 40002) {
-              getApp().globalData.isLogon = false
+              //
+              refreshRoken()
+              // getApp().globalData.isLogon = false
             }
             ///mjl/v1/device/status/lua/get接口报1321错误码，进入后确权页面
             if (apiName == 'luaGet' && resData.data.code == '1321') {
@@ -259,6 +262,37 @@ var requestService = {
       })
     })
   },
+}
+//刷新token
+var refreshRoken = function () {
+  try {
+    let MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION'),
+      MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION'),
+      MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+    //60天内不需要重新登录
+    if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
+      //4小时不操作需要刷新用户token
+      if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        loginMethods
+          .loginAPi()
+          .then(() => {
+            getApp().globalData.wxExpiration = true
+          })
+          .catch((err) => {
+            console.log('app loginAPi catch', err)
+            //先保持登录状态
+            loginMethods.getUserInfo.call(MPTOKEN_USERINFO)
+          })
+      } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        // 有效期内直接登录
+        loginMethods.getUserInfo(MPTOKEN_USERINFO)
+      }
+    } else {
+      getApp().globalData.isLogon = false
+    }
+  } catch {
+    getApp().globalData.isLogon = false
+  }
 }
 
 //上传文件接口通用封装

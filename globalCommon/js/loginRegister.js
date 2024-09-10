@@ -79,12 +79,7 @@ const loginMethods = {
   //发送网络请求登陆小程序(自动登陆)
   async loginAPi() {
     // this.getSystemInfo().then((system) => {
-    let system
-    await wx.getSystemInfo({
-      success(res) {
-        system = res
-      },
-    })
+    let system = wx.getSystemInfoSync()
     let userInfo = wx.getStorageSync('userInfo')
     let app = getApp() || this
     if (userInfo) {
@@ -99,7 +94,8 @@ const loginMethods = {
           platform: 110,
           iotAppId: api.iotAppId,
           rule: 1,
-          deviceId: system.deviceId || userInfo.userInfo.mobile || '',
+          deviceId: app.globalData.deviceId || system.deviceId || userInfo.userInfo.mobile || '',
+          deviceName: system.model || '',
           tokenPwd: userInfo.mdata.tokenPwdInfo.tokenPwd || '',
           uid: userInfo.uid || '',
           nickname: (userInfo.userInfo && userInfo.userInfo.nickName) || '',
@@ -193,7 +189,8 @@ const loginMethods = {
           appKey: '46579c15',
           imgCode: params.imgCode,
           randomToken: params.randomToken,
-          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+          deviceName: app.globalData.appSystemInfo.model || '',
+          deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         },
         iotData: {
           iotAppId: api.iotAppId,
@@ -230,7 +227,8 @@ const loginMethods = {
         appVersion: app.globalData.appVersion || '9.0,',
         osVersion: '',
         platform: 110,
-        deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+        deviceName: app.globalData.appSystemInfo.model || '',
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         smsCode: params.vercode,
       }
       let data = {
@@ -241,7 +239,8 @@ const loginMethods = {
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,
-          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+          deviceName: app.globalData.appSystemInfo.model || '',
+          deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
