@@ -77,7 +77,11 @@ import {
 } from '../../utils/redis.js'
 Page({
   behaviors: [bluetooth],
+  onReady() {
+    console.log(`page performance onReady start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
+  },
   async onShow() {
+    console.log(`page performance onShow start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
     if (getApp().globalData.gloabalWebSocket && getApp().globalData.gloabalWebSocket._isClosed) {
       this.initPushData()
     }
@@ -203,6 +207,7 @@ Page({
         isDeviceLength: false,
       })
     }
+    console.log(`page performance onShow end ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
   },
   versionUpadte(e) {
     //子组件传承
@@ -2452,6 +2457,7 @@ Page({
     })
   },
   async onLoad(options) {
+    console.log(`page performance onLoad start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
     //获取缓存数据
     this.getStrogeIndex()
     //获取设备图标
@@ -2528,6 +2534,7 @@ Page({
         if_sys: 1, //本需求固定为1
       },
     })
+    console.log(`page performance onLoad end ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
   },
 
   //获取当前用户下的空调设备

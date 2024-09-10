@@ -124,6 +124,7 @@ App({
       })
   },
   onLaunch: async function (options) {
+    console.log(`performance onLaunch start ${new Date().getTime() - this.globalData.performanceStartTime}`)
     console.log('launch options', options)
     //监听网络变化
     onNetworkStatusChange.call(this)
@@ -222,9 +223,12 @@ App({
     }
     //获取设备图标
     this.getDcpDeviceImg()
+
+    console.log(`performance onLaunch end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },
 
   onShow: async function (options) {
+    console.log(`performance onShow start ${new Date().getTime() - this.globalData.performanceStartTime}`)
     //息屏后重连
     if (this.globalData.gloabalWebSocket && this.globalData.gloabalWebSocket._isClosed && this.globalData.isLogin) {
       initWebsocket()
@@ -282,6 +286,8 @@ App({
     //this.triggerWxAuth()
     //获取设备信息
     this.getSystemInfo()
+
+    console.log(`performance onShow end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },
   //获取设备相关信息
   getSystemInfo() {
@@ -672,6 +678,7 @@ App({
     miniProgram: {}, //小程序信息
     isEnableHttpResponseLog: false, //开启hilog记录网络接口返回
     deviceId: '',
+    performanceStartTime: new Date().getTime(),
   },
   scanDeviceMap: {},
   addDeviceInfo: {
