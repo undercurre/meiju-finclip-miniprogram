@@ -1516,12 +1516,21 @@ module.exports = Behavior({
       // 校验小程序支持的配网方式
       if (!addDeviceSDK.isSupportAddDeviceMode(app.addDeviceInfo.mode)) {
         if (this.setDialogMixinsData) {
-          this.setDialogMixinsData(true, '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待', '', false, [
-            {
-              btnText: '我知道了',
-              flag: 'confirm',
-            },
-          ])
+          // this.setDialogMixinsData(true, '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待', '', false, [
+          //   {
+          //     btnText: '我知道了',
+          //     flag: 'confirm',
+          //   },
+          // ])
+          Dialog.confirm({
+            title: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
+            confirmButtonText: '我知道了',
+            confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+            showCancelButton: false,
+          }).then((res) => {
+            if (res.action == 'confirm') {
+            }
+          })
         } else {
           // wx.showModal({
           //   content: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
