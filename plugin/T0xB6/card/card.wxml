@@ -248,10 +248,6 @@
         </block>
     </block>
     <block wx:else>
-        <view class="container">
-            <!-- 顶部区域：设备信息,cardHeader组件使用时，传image即可，title、desc的值已经从applianceData得到，不需要再做改动 -->
-            <cardHeader image="{{images.header}}" title="{{applianceData.name}}" desc="{{applianceData.roomName}}" />
-            <offline></offline>
-        </view>
+      <offline></offline>
     </block>
 </view>

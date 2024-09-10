@@ -13,6 +13,7 @@
   width: 686rpx;
   height: calc(100% + 212rpx);
   margin: 0rpx auto 0;
+  margin-top: 28px;
 }
 .openMeiJuApp {
   height: 40rpx;
