@@ -288,15 +288,15 @@ Component({
         } else if (!this.data.isDelayPower) {
           params.power = 'off'
         } else if (this.data.delayPowerOff.mode === 'off') {
-          params.power = 'delay_off'
+          params.power = 'off'
         } else if (this.data.isZhigan && this.data.delayPowerOff.mode === 'on') {
           params.power = 'off'
         } else {
-          params.power = 'delay_off'
+          params.power = 'off'
         }
       }
 
-      if (this.data.electronicControlVersion == 2) {
+      if (this.data._applianceDataStatus.electronic_control_version == 2) {
         params.type = 'b6'
         params.b6_action = 'control'
         params.electronic_control_version = 2
@@ -305,13 +305,11 @@ Component({
         if (this.data._applianceDataStatus.work_status_desc == 'hotclean') {
           params.type = 'b6'
           params.b6_action = 'control'
-          params.electronic_control_version = 1
+          params.electronic_control_version = 2
           params.wind_type = 5
           params.steaming = 'off'
         }
       }
-
-      params.power = 'off'
 
       if (params.power == 'off') {
         this.setData({
@@ -367,7 +365,7 @@ Component({
     lightToggle() {
       let params = {}
       params.light = this.data._applianceDataStatus.light == 'on' ? 'off' : 'on'
-      if (this.data.electronicControlVersion == 2) {
+      if (this.data._applianceDataStatus.electronic_control_version == 2) {
         params.type = 'b6'
         params.b6_action = 'setting'
         params.setting = 'light'
@@ -385,7 +383,7 @@ Component({
     zhiganToggle() {
       var zhiganState = this.data.isAidry.mode == 'on' ? 'off' : 'on'
       let params = { aidry: zhiganState }
-      if (this.data.electronicControlVersion == 2) {
+      if (this.data._applianceDataStatus.electronic_control_version == 2) {
         params.type = 'b6'
         params.b6_action = 'control'
         params.electronic_control_version = 2
@@ -420,7 +418,7 @@ Component({
 
     // 延时关机按钮
     delayPowerOffToggle() {
-      if (this.data.electronicControlVersion == 2) {
+      if (this.data._applianceDataStatus.electronic_control_version == 2) {
       } else {
         try {
           const code = this.properties.applianceData.applianceCode
