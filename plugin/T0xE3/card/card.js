@@ -76,7 +76,7 @@ Component({
         (status.temperature < 40 && getColor('yellow')) ||
         (status.temperature < 60 && getColor('yellow')) ||
         (status.temperature >= 60 && getColor('yellow')) ||
-        '' // 加载未完成时不显示，以免旋转动画失效或界面闪现不同颜色影响观感
+        getColor('yellow') // 加载未完成时不显示，以免旋转动画失效或界面闪现不同颜色影响观感
       )
     },
     color() {
