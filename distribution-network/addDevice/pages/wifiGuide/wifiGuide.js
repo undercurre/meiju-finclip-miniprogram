@@ -241,7 +241,7 @@ Page({
               moduleVison: app.addDeviceInfo.moduleVersion,
             })
             Dialog.confirm({
-              title: `该二维码对应的WiFi名为”${wifiName}“，与当前手机连接的WiFi ”${self.data.currentWiFiName}“不一致，请重新扫描二维码，或更换连接WiFi`,
+              title: `该二维码对应的WiFi名为“${wifiName}”，与当前手机连接的WiFi “${self.data.currentWiFiName}”不一致，请重新扫描二维码，或更换连接WiFi`,
               confirmButtonText: '重新扫描',
               cancelButtonText:'取消',
               confirmButtonColor: self.data.brandConfig.confirmButtonColor2,
