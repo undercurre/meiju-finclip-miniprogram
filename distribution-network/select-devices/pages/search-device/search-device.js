@@ -67,6 +67,7 @@ Page({
     scanMessage:"请扫描设备机身上携带 “智能产品” 标识的二维码，以进行安全验证",
     scanButton:'去扫描',
     scanDsn:'',//保存扫码的dsn
+    isShowContent:false,//是否显示页面内容
   },
   computed: {
     convertedProductList() {
@@ -154,7 +155,13 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () { },
+  onShow: function () { 
+    wx.nextTick(()=>{
+      this.setData({
+        isShowContent:true
+      })
+    })
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

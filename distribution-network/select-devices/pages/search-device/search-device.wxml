@@ -1,4 +1,4 @@
-<view id="{{brand}}">
+<view id="{{brand}}" wx:if="{{isShowContent}}">
   <view class="search-page">
   <view class="product-search">
     <view style="margin-top:{{ statusBarHeight + 40 }}px">

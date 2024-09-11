@@ -264,8 +264,9 @@ Page({
   computed: {
     //距离底部多远
     bottomPadding() {
-      let { isIphoneX } = this.data
-      return isIphoneX ? '100' : '70'
+      // let { isIphoneX } = this.data
+      // return isIphoneX ? '100' : '70'
+      return '150'
     },
   },
   /**
@@ -880,7 +881,7 @@ Page({
     let { heightArr, scrollHeight, lastActive, endIndexFlag } = this.data
     let scrollTopFlag = false
     if (scrollTop >= heightArr[heightArr.length - 1] - scrollTop / 2 + 500) {
-      scrollTopFlag = true
+      // scrollTopFlag = true
     }
     if (scrollTopFlag) {
       return

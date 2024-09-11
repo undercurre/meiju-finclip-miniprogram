@@ -797,7 +797,7 @@ Component({
     const code = this.properties.applianceData.applianceCode
     let setting = await getSetting(this.properties.applianceData.sn8)
     if (setting.funcList) {
-        setting.funcList = []
+        setting.funcList = [{ name: '照明', desc: 'lights', type: this.getImage('lights') }]
     //   setting.funcList.map((i) => {
     //     let desc = i
     //     i = { desc }

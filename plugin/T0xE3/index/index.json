@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "燃气热水器",
+  "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#F9F9F9",
   "navigationBarTextStyle": "black",
   "backgroundColor":"#f9f9f9",
