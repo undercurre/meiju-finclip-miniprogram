@@ -2456,6 +2456,7 @@ Page({
         success: function (res) {
           console.log('getAppInfo success ------------')
           console.log(res)
+          app.globalData.appInfoVersion = `${res.data.data.VERSION_NAME}.${res.data.data.VERSION_CODE}`
           self.setData({
             appVersion: `${res.data.data.VERSION_NAME}.${res.data.data.VERSION_CODE}`,
           })
