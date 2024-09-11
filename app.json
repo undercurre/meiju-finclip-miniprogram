@@ -423,7 +423,8 @@
     "distribution-network/scan-devices/pages/scan-device/scan-device": {
         "network": "all",
         "packages": [
-          "addDevicePage"
+          "addDevicePage",
+          "select-devices"
         ]
       }
   },
