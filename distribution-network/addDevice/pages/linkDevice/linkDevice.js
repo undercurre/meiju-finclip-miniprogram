@@ -3441,8 +3441,11 @@ Page({
       // 有线配网不需要bindWifiInfo信息 兼容处理
       let bssid,encryptType,ssidLengthAndPswLength,ssidAndPsw,ssidAndPsw8Arr,ssidAndPswHex,chainHex
       if (bindWifiInfo && Object.keys(this.data.bindWifiTest).length) {
-        if(!this.data.bindWifiTest.BSSID) {
+        if(!this.data.bindWifiTest.BSSID) { // 处理BSSID获取不到的情况
             this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+        }
+        if(!this.data.bindWifiTest.PswContent) { // 处理wifi密码为空的情况
+            this.data.bindWifiTest.PswLength = 0
         }
         bssid = this.data.bindWifiTest.BSSID.split(':').join('')
         encryptType = this.data.bindWifiTest.EncryptType
