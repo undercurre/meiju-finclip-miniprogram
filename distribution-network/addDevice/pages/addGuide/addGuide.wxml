@@ -28,7 +28,7 @@
           <button class="open-plugin" bindtap="openPlugin">下载并打开{{deviceName}}插件</button>
         </view>
         <view wx:if="{{mode==0 || mode==100 || mode == 6 || mode == 20}}" class="check-finish"
-          style="margin-bottom:{{brand=='colmo'?(showSwitchFlag?'32rpx':'68rpx'):'40rpx'}}">
+          style="margin-bottom:{{brand=='colmo'?(showSwitchFlag?'32rpx':'68rpx'):'68rpx'}}">
           <view class="finish-sel flex-r" bindtap="finish">
             <image class="sel" src="{{isFinishUpAp?sel:noSel}}"></image>
             <text class="sel-text {{isFinishUpAp?'theme-font-color':''}}">已完成上述步骤</text>
@@ -48,7 +48,7 @@
           </block>
         </view>
 
-        <view wx:if="{{bigScreenBind  && mode == '103'}}"  class="check-finish" style="margin-bottom:{{brand=='colmo'?(showSwitchFlag?'32rpx':'68rpx'):'40rpx'}}">
+        <view wx:if="{{bigScreenBind  && mode == '103'}}"  class="check-finish" style="margin-bottom:{{brand=='colmo'?(showSwitchFlag?'32rpx':'68rpx'):'68rpx'}}">
           <view class="finish-sel flex-r" bindtap="finish">
             <image class="sel" src="{{isFinishUpAp?sel:noSel}}"></image>
             <text class="sel-text {{isFinishUpAp?'theme-font-color':''}}">已完成上述步骤</text>
