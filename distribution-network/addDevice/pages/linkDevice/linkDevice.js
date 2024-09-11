@@ -2654,6 +2654,9 @@ Page({
     try {
       if (!this.data.bindWifiInfo) return
       let bindWifiInfo = this.data.bindWifiInfo
+      if(!bindWifiInfo.PswContent) { // 密码为空的情况，重置密码长度
+        bindWifiInfo.PswLength = 0
+      }
       let order = {}
       order.randomCode = getRandomString(32).toLocaleLowerCase() //'241205fca8bb549178cd1e5b7c4f8893'
       this.data.randomCode = order.randomCode
@@ -3547,8 +3550,11 @@ Page({
   remoteSendWifiInfo(bindWifiInfo) {
     this.data.bindWifiTest = bindWifiInfo
     console.log('kkkkkkkk', this.data.bindWifiTest)
-    if(!this.data.bindWifiTest.BSSID) {
+    if(!this.data.bindWifiTest.BSSID) { // 处理BSSID获取不到的情况
         this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+    }
+    if(!this.data.bindWifiTest.PswContent) { // 处理wifi密码为空的情况
+        this.data.bindWifiTest.PswLength = 0
     }
     let bssid = this.data.bindWifiTest.BSSID.split(':').join('')
     let encryptType = this.data.bindWifiTest.EncryptType
