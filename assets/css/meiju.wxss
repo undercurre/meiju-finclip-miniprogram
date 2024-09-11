@@ -154,7 +154,7 @@
   font-family: PingFangSC-Medium;
   font-size: 28rpx;
   color: #000;
-  width: 384rpx;
+  width: 392rpx;
   text-align: center;
 }
 
@@ -1114,7 +1114,8 @@ padding-right: 40px;
 }
 
 #meiju .check-finish {
-  margin-bottom: 40rpx;
+ /* margin-bottom: 40rpx;*/
+ margin-bottom: 68rpx;
 }
 
 
@@ -1209,7 +1210,7 @@ padding-right: 40px;
 
 #meiju .switch-set {
   text-align: center;
-  padding-bottom: 40rpx;
+  padding-bottom: 68rpx;
   font-size: 28rpx;
   display: flex;
   align-items: center;
