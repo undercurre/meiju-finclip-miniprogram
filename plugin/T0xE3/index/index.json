@@ -5,7 +5,7 @@
   "navigationBarTextStyle": "black",
   "backgroundColor":"#f9f9f9",
   "usingComponents": {
-    "plugin-navbar": "/pages/component/plugin-navbar/plugin-navbar",
+    "navbar": "../../../common-packages/plugin/component/navbar/navbar",
     "device-card": "/plugin/T0xE3/card/card",
     "mbutton": "/pages/component/mbutton/mbutton"
   }

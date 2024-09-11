@@ -6,6 +6,6 @@
   "backgroundColor":"#f9f9f9",
   "usingComponents": {
     "device-card": "/plugin/T0xE2/card/card",
-    "plugin-navbar": "/pages/component/plugin-navbar/plugin-navbar"
+    "navbar": "../../../common-packages/plugin/component/navbar/navbar"
   }
 }

@@ -32,5 +32,4 @@
   width: 686rpx;
   height: calc(100% - 212rpx);
   margin: 0rpx auto 72rpx;
-  margin-top: 28px;
 }
