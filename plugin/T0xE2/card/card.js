@@ -1668,11 +1668,6 @@ Component({
             this.updateUI()
             if(switchStatus == 1){
               this.closeOther()
-              wx.showModal({
-                title: '温馨提示',
-                content: '云管家已开启，将在下一个整点开始智能控温',
-                showCancel: false,
-              })
             }
           } else {
             wx.showToast({ title: '网络较差，请稍后重试' })
