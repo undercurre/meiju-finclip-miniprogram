@@ -268,7 +268,6 @@ Page({
 
   // 子设备超时打开弹窗
   subDevicehandleTimeOutFn() {
-    console.error('子设备超时打开弹窗')
     Dialog.confirm({
       title: '未在限定时间内完成设置，你还不能控制设备',
       confirmButtonText: '重新设置',

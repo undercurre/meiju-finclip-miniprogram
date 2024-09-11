@@ -440,6 +440,7 @@ var rangersBurialPoint = function (apiName, param) {
   // app.$$Rangers = $$Rangers //挂载到全局实例
   if (apiName && param && app && app.globalData) {
     param.harmonyAppVersion = app.globalData.miniProgram.version
+    param.harmonyAppInfoVersion = app.globalData.appInfoVersion //app完整的版本号
     //设置启动小程序来源埋点
     param.launch_source = app.globalData.launch_source
     //设置启动小程序投放渠道cid参数
