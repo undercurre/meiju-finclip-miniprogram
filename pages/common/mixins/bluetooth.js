@@ -1429,6 +1429,9 @@ module.exports = Behavior({
           if (item.fm == 'scanCode') {
             //扫码去后台配置的配网方式
             app.addDeviceInfo.mode = guideInfo.data.data[netWorking].mainConnectinfoList[0].mode //重置配网方式
+            if(guideInfo.data.data[netWorking].mainConnectinfoList[0].mode == '17'){
+              app.addDeviceInfo.mode = 0
+            }
             app.addDeviceInfo.dataSource = guideInfo.data.data[netWorking].dataSource
             app.addDeviceInfo.brandTypeInfo = guideInfo.data.data[netWorking].brand // 保存设备的品牌
           }
@@ -1516,12 +1519,21 @@ module.exports = Behavior({
       // 校验小程序支持的配网方式
       if (!addDeviceSDK.isSupportAddDeviceMode(app.addDeviceInfo.mode)) {
         if (this.setDialogMixinsData) {
-          this.setDialogMixinsData(true, '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待', '', false, [
-            {
-              btnText: '我知道了',
-              flag: 'confirm',
-            },
-          ])
+          // this.setDialogMixinsData(true, '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待', '', false, [
+          //   {
+          //     btnText: '我知道了',
+          //     flag: 'confirm',
+          //   },
+          // ])
+          Dialog.confirm({
+            title: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
+            confirmButtonText: '我知道了',
+            confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+            showCancelButton: false,
+          }).then((res) => {
+            if (res.action == 'confirm') {
+            }
+          })
         } else {
           // wx.showModal({
           //   content: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
