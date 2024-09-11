@@ -280,8 +280,9 @@ var refreshRoken = function () {
           })
           .catch((err) => {
             console.log('app loginAPi catch', err)
+            getApp().globalData.isLogon = false
             //先保持登录状态
-            loginMethods.getUserInfo.call(MPTOKEN_USERINFO)
+            //loginMethods.getUserInfo(MPTOKEN_USERINFO)
           })
       } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
         // 有效期内直接登录

@@ -38,6 +38,7 @@ Page({
     creatList: [],
     inviteList: [],
     isButtonClicked: false,
+    isButtonDetailClicked: false,
   },
   // 获取数据-家庭列表和邀请码
   getInitData() {
@@ -331,8 +332,17 @@ Page({
     })
   },
   goToDetail(e) {
+    //防止暴击
+    if (this.data.isButtonDetailClicked) {
+      return
+    }
+    this.data.isButtonDetailClicked = true
+    // 执行按钮点击事件的操作
+    setTimeout(() => {
+      this.data.isButtonDetailClicked = false
+    }, 1000)
     let { name, homegroupid, roleid, ownhomenum, homeitem } = e.currentTarget.dataset
-    homeitem = JSON.stringify(encodeURIComponent(homeitem))
+    homeitem = encodeURIComponent(JSON.stringify(homeitem))
     name = encodeURIComponent(name)
     burialPoint.clickbthFamilyDetailBurialPoint()
     wx.navigateTo({
