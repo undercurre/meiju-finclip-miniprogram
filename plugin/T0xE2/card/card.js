@@ -1285,6 +1285,350 @@ Component({
         })
     },
 
+     // 
+     getCloseList({ setting, appData, data }) {
+      if (!setting || !appData) {
+        return []
+      }
+      let arr = []
+      if (data && data.funName) {
+        let listObject = {
+          cloudManager: [
+            'superWater', // 超大水量
+            'eCapacity', // E+增容/净肤洗/多人洗
+            'bigWaterPart', // E+增容/超大水量 分段控制
+            'nightElectricity', // 峰谷夜电
+            'nightElectricityCloud', // 峰谷夜电(云端)
+            'saveMode', // 节能模式/低耗保温/中温保温/低耗节能（ECO图标）/ECO/随时浴
+            'tHeat', // 单人瞬热
+            'speedWash', // 极速洗
+            'summerMode', // 夏季模式
+            'winterMode', // 冬季模式
+            'fastHotWashing',//瞬热洗
+            'intelligentScaleInhibition', // 智能抑垢
+          ],
+          oneKeyAi: [
+            'superWater', // 超大水量
+            'eCapacity', // E+增容/净肤洗/多人洗
+            'bigWaterPart', // E+增容/超大水量 分段控制
+            'nightElectricity', // 峰谷夜电
+            'nightElectricityCloud', // 峰谷夜电(云端)
+            'saveMode', // 节能模式/低耗保温/中温保温/低耗节能（ECO图标）/ECO/随时浴
+            'smartSterilize', // 电控智能杀菌
+            'smartHome', // 智能省电
+            'smartSaving', // 智能省电
+            'smartSavingCloud', // 智能省电
+            'tHeat', // 单人瞬热
+            'speedWash', // 极速洗
+            'summerMode', // 夏季模式
+            'winterMode', // 冬季模式
+            'fastHotWashing',//瞬热洗
+            'intelligentScaleInhibition', // 智能抑垢
+          ],
+        }
+        arr = listObject[data.funName]
+      } else if (data && data.arr && data.arr.length > 0) {
+        arr = data.arr
+      }
+      if (setting.funcList.length < 1 || arr.length < 1) {
+        return []
+      }
+  
+      let hasfun = setting.funcList.map(i => arr.includes(i.key) ? i.key : "").filter(j => j != "")
+      if (hasfun.length > 0) {
+        let list = []
+        hasfun.forEach(key => {
+          if (key == 'superWater') { // 超大水量
+            let isOn = appData.big_water == 'on'
+            if (isOn) {
+              let params = {
+                "big_water": "off",
+                "control_type": setting.isNew ? "part" : ""
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'eCapacity' || key == 'bigWaterPart') { // E+增容/净肤洗/多人洗/超大水量 分段控制
+            let isOn = appData.eplus == 'on' || appData.mode == 'eplus'
+            if (isOn) {
+              let params = null
+              if (setting.isNew) {
+                let obj = setting.funcList.find(i => i.key == 'eCapacity' || i.key == 'bigWaterPart')
+                let isPart = obj.isPart || false
+                params = {
+                  "control_type": "part",
+                  [isPart ? 'eplus_part' : 'eplus']: "off"
+                }
+              } else {
+                params = {
+                  "mode": "none"
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'nightElectricity') { // 峰谷夜电
+            let isOn = appData.night == 'on' || appData.mode == 'night'
+            if (isOn) {
+              let params = null
+              if (setting.specialConfig == 'W7_nightElec') {
+                // W7特殊逻辑
+                params = {
+                  'new_night': "off",
+                  "control_type": 'part',
+                }
+              } else {
+                if (setting.isNew) {
+                  params = {
+                    "night": "off",
+                    "control_type": "part"
+                  }
+                } else {
+                  params = {
+                    "mode": "none"
+                  }
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'saveMode') { // 节能模式/低耗保温/中温保温/低耗节能（ECO图标）/ECO/随时浴
+            let isOn = appData.efficient == 'on' || appData.mode == 'efficient'
+            if (isOn) {
+              let params = null
+              if (setting.isNew) {
+                let obj = setting.funcList.find(i => i.key == 'saveMode')
+                let isPart = obj.isPart || false
+                params = {
+                  [isPart ? 'efficient_part' : 'efficient']: "off",
+                  "control_type": "part"
+                }
+              } else {
+                params = {
+                  "mode": "none"
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'smartSterilize') { // 电控智能杀菌
+            let isOn = appData.smart_sterilize == 'on'
+            if (isOn) {
+              let num = appData.sterilize_cycle_index
+              let sterilizeCycle = num == 1 ? 7 : num == 2 ? 14 : (num == 4 ? 30 : 21)
+              let params = {
+                "smart_sterilize": "off",
+                "sterilize_cycle_days": sterilizeCycle,
+                "sterilize_cycle_index": appData.sterilize_cycle_index,
+                "control_type": "part"
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'smartHome' || key == 'smartSaving') { // 智能省电
+            let isOn = appData.memory === 'on' || appData.mode === 'memory'
+            if (isOn) {
+              let params = null
+              if (setting.isNew) {
+                params = {
+                  "memory": "off",
+                  "control_type": "part"
+                }
+              } else {
+                if (setting.specialConfig == 'GQ3_mutex') {
+                  // CFGQXX32(旧GQ3,A058)特有逻辑，出水断电、智能管家、超大水量互斥
+                  params = {
+                    'mode': "none",
+                    'big_water': 'off',
+                    // 'protect': 'off', // 电控端或lua已经做了互斥
+                  }
+                } else if (setting.specialConfig == 'FT3_mutex' || setting.specialConfig == 'FQ5_mutex') {
+                  // 50FQ5(A079)特殊逻辑, 智能管家、T+瞬热、超大水量互斥
+                  // CFFT4050(旧FT3,A059)特殊逻辑，超大水量、智能管家、T+瞬热、出水断电互斥
+                  params = {
+                    "mode": "none",
+                    "big_water": 'off',
+                    "t_hot": 'off',
+                    // 'protect': 'off' // 电控端或lua已经做了互斥
+                  }
+                } else {
+                  params = {
+                    "mode": "none"
+                  }
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'smartSavingCloud') { // 智能省电
+            let isOn = appData.memory === 'on' || appData.mode === 'memory'
+            if (isOn) {
+              let params = null
+              if(setting.isNew) {  // 新0214分段协议
+                let obj = setting.funcList.find(i => i.key == 'smartSavingCloud')
+                let isPart = obj.isPart || false
+                params = {
+                  "control_type": "part",
+                  [isPart ? 'memory_part' : 'memory']: "off"
+                }
+              } else {   // 旧0204协议
+                params = {
+                  "mode": "none"
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'tHeat') { // 单人瞬热
+            let isOn = appData.t_hot == 'on'
+            if (isOn) {
+              let params = null
+              if (setting.isNew) {
+                params = {
+                  "t_hot": "off",
+                  "control_type": "part"
+                }
+              } else {
+                if (setting.specialConfig == 'FQ5_mutex') {
+                  // 50FQ5(A079)特殊逻辑, 智能管家、T+瞬热、超大水量互斥
+                  params = {
+                    "t_hot": "off",
+                    "mode": 'none',
+                    "big_water": 'off'
+                  }
+                } else {
+                  params = {
+                    "t_hot": "off",
+                  }
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'speedWash') { // 极速洗
+            let isOn = appData.fast_wash == 'on' || appData.mode == 'fast_wash'
+            if (isOn) {
+              let params = null
+              if (setting.isNew) {
+                let obj = setting.funcList.find(i => i.key == 'speedWash')
+                let isPart = obj.isPart || false
+                params = {
+                  [isPart ? 'fast_wash_part' : 'fast_wash']: "off", // isPart通过setting找到对应配置获取
+                  "control_type": "part"
+                }
+              } else {
+                params = {
+                  "mode": "none",
+                  "scene": 'off',
+                  "scene_id": 0,
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'winterMode') { // 冬季模式
+            let isOn = appData.winter == 'on' || appData.mode == 'winter'
+            if (isOn) {
+              let params = null
+              if (setting.isNew) {
+                let obj = setting.funcList.find(i => i.key == 'winterMode')
+                let isPart = obj.isPart || false
+                params = {
+                  [isPart ? 'winter_mode_part' : 'winter']: "off",
+                  "control_type": "part"
+                }
+              } else {
+                params = {
+                  "mode": "none"
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          } else if (key == 'summerMode') { // 夏季模式
+            let isOn = appData.summer == 'on' || appData.mode == 'summer'
+            if (isOn) {
+              let params = null
+              if (setting.isNew) {
+                let obj = setting.funcList.find(i => i.key == 'summerMode')
+                let isPart = obj.isPart || false
+                params = {
+                  [isPart ? 'summer_mode_part' : 'summer']: "off",
+                  "control_type": "part"
+                }
+              } else {
+                params = {
+                  "mode": "none"
+                }
+              }
+              list.push({ key: key, params: params })
+            }
+          }else if(key=='nightElectricityCloud'){ // 峰谷夜电（云端）
+            // this.closeNightElectricityCloud("get")
+            list.push({ key: key , params:'' })
+          }else if (key == 'fastHotWashing') { // 瞬热洗
+            let isOn = appData.fast_hot_washing == 'on'
+            if (isOn) {
+              let params = {
+                "fast_hot_washing": 'off',
+                "control_type": setting.isNew ? "part" : ""
+              }
+              list.push({ key: key, params: params })
+            }
+          }else if (key == 'intelligentScaleInhibition') { // 智能抑垢
+            let isOn = appData.intelligent_scale_inhibition == 'on'
+            if (isOn) {
+              let params = {
+                "intelligent_scale_inhibition": 'off',
+                "control_type": setting.isNew ? "part" : ""
+              }
+              list.push({ key: key, params: params })
+            }
+          }
+        });
+        return list
+      } else {
+        return []
+      }
+    },
+    // 云管家关闭其他互斥功能
+    closeOther(){
+      let closeList = this.getCloseList({
+        setting:this.data.setting,
+        appData:this.data.status,
+        data:{funName:'cloudManager'}
+      })
+      console.log('kjhkgkg',closeList)
+      if(closeList.length<1){
+        this.cloudHomeSetTemp()     
+        return
+      } 
+      let closeList2 = closeList.filter(i=>i.key!='nightElectricityCloud')
+      if(closeList2.length<1){
+        this.cloudHomeSetTemp()
+      }else{
+        for(let i in closeList2){
+          this.luaControl(closeList2[i].params).then((data)=>{
+            if(i==closeList2.length-1){
+              this.setData({ status: data })
+              this.updateUI()
+              this.cloudHomeSetTemp()
+            }
+          })
+        }
+      } 
+      this.closeNightElectricityCloud() // 关闭峰谷夜电
+    },
+    // 
+    closeNightElectricityCloud(){
+      console.log('kjhkgkg','peakvalleyNightElec')
+      requestService.request('e2',{
+        msg: 'peakvalleyNightElec',
+          params: {
+            applianceId: String(this.data.applianceData.applianceCode),
+            platform: this.data.applianceData.sn8,
+            action: 'set',
+            switch: 0,
+          },
+      }).then(res=>{
+        console.log('kjhkgkg',2,'peakvalleyNightElec')
+      })
+    },
+    // 
+    cloudHomeSetTemp(){
+
+    },
+
     // 云管家切换
     cloudAiToggle(switchStatus) {
       this.setData({ changing: true })
@@ -1322,6 +1666,14 @@ Component({
             this.setData({ isCloudOn: switchStatus == 1 })
             this.getTimeLeft()
             this.updateUI()
+            if(switchStatus == 1){
+              this.closeOther()
+              wx.showModal({
+                title: '温馨提示',
+                content: '云管家已开启，将在下一个整点开始智能控温',
+                showCancel: false,
+              })
+            }
           } else {
             wx.showToast({ title: '网络较差，请稍后重试' })
           }

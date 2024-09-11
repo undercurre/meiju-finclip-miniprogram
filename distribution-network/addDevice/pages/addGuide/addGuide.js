@@ -74,8 +74,10 @@ Page({
     dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle, //弹窗样式
     ishowBlueRes: false, //蓝牙权限弹窗
     bluePermissionTextAll: '', //蓝牙权限弹窗-内容
-    sel: imgUrl + imgesList['sel'],
-    noSel: imgUrl + imgesList['noSel'],
+    // sel: imgUrl + imgesList['sel'],
+    // noSel: imgUrl + imgesList['noSel'],
+    sel: "./assets/img/btn_on@3x.png",
+    noSel: "./assets/img/btn_off@3x.png",
     noFoundImg: imgUrl + imgesList['noFound'],
     guideFlag: false,
     guideBlueRes: '',
