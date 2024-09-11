@@ -1,4 +1,5 @@
 <scroll-view class="{{deviceInfoStatus == '1' ? 'mainContainer' : 'offLineContainer'}}">
+    <plugin-navbar navBarName="{{deviceInfo.name}}" backTo="{{backTo}}" style="z-index: 999;"></plugin-navbar>
     <view class="device-card">
         <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}"></device-card>
     </view>

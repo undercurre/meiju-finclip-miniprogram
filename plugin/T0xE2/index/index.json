@@ -1,9 +1,11 @@
 {
   "navigationBarTitleText": "电热水器",
+  "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#F9F9F9",
   "navigationBarTextStyle": "black",
   "backgroundColor":"#f9f9f9",
   "usingComponents": {
-    "device-card": "/plugin/T0xE2/card/card"
+    "device-card": "/plugin/T0xE2/card/card",
+    "plugin-navbar": "/pages/component/plugin-navbar/plugin-navbar"
   }
 }
