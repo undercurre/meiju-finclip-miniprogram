@@ -1429,6 +1429,9 @@ module.exports = Behavior({
           if (item.fm == 'scanCode') {
             //扫码去后台配置的配网方式
             app.addDeviceInfo.mode = guideInfo.data.data[netWorking].mainConnectinfoList[0].mode //重置配网方式
+            if(guideInfo.data.data[netWorking].mainConnectinfoList[0].mode == '17'){
+              app.addDeviceInfo.mode = 0
+            }
             app.addDeviceInfo.dataSource = guideInfo.data.data[netWorking].dataSource
             app.addDeviceInfo.brandTypeInfo = guideInfo.data.data[netWorking].brand // 保存设备的品牌
           }
