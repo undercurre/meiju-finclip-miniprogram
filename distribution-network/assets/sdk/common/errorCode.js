@@ -508,8 +508,8 @@ const failTextData = {
     // 蓝牙配网OD指令返回错误码 连接路由失败，信号弱
     errorCode: '4098',
     mainTitle: 'XX联网失败',
-    nextTitle: 'XX（设备名称）距离路由器太远',
-    guideDesc: ['请将路由器靠近XX（设备名称）'],
+    nextTitle: 'XX距离路由器太远',
+    guideDesc: ['请将路由器靠近XX'],
     isTest: false,
   },
   4099: {
@@ -637,8 +637,8 @@ const failTextData = {
     // 蓝牙配网OD指令返回错误码 连接路由中，但路由信号弱
     errorCode: '4175',
     mainTitle: 'XX联网失败',
-    nextTitle: 'XX（设备名称）距离路由器太远',
-    guideDesc: ['请将路由器靠近XX（设备名称）'],
+    nextTitle: 'XX距离路由器太远',
+    guideDesc: ['请将路由器靠近XX'],
     isTest: false,
   },
   4176: {
