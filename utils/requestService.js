@@ -393,6 +393,8 @@ var rangersBurialPoint = function (apiName, param) {
   if (apiName && param && app && app.globalData) {
     param.harmonyAppVersion = app.globalData.miniProgram.version
     param.harmonyAppInfoVersion = app.globalData.appInfoVersion //app完整的版本号
+    param.harmonySdkVersion = app.globalData.appSystemInfo.runtimeSDKVersion //凡泰SDK版本
+    param.harmonyFrameworkVersion = app.globalData.appSystemInfo.frameworkVersion //基础库版本
     //设置启动小程序来源埋点
     param.launch_source = app.globalData.launch_source
     //设置启动小程序投放渠道cid参数
