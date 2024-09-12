@@ -114,7 +114,7 @@ Page({
         showToast('获取频繁，请稍后再试！')
         break
       default:
-        showToast(res.data.msg || '系统错误，请稍后重试')
+        showToast('系统错误，请稍后重试')
         break
     }
   },
@@ -205,7 +205,7 @@ Page({
         showToast('验证码已过期')
         break
       default:
-        showToast(res.data.msg || '系统错误，请稍后重试')
+        showToast('系统错误，请稍后重试')
         break
     }
   },
@@ -241,12 +241,12 @@ Page({
             })
           })
         } else {
-          showToast(res.data.msg || '系统错误，请稍后重试')
+          showToast('系统错误，请稍后重试')
         }
       })
       .catch((res) => {
-        let msg = res.data.code == 1118 ? '修改手机号失败' : res.data.msg
-        showToast(msg || '系统错误，稍后重试')
+        let msg = res.data.code == 1118 ? '修改手机号失败' : '系统错误，稍后重试'
+        showToast(msg)
       })
       .finally(() => {
         this.setData({ isLoading: false })
@@ -284,6 +284,7 @@ Page({
         console.log(res.data.data.mobile, 'targetres')
       })
       .catch((err) => {
+        showToast('系统错误，请稍后重试')
         wx.hideLoading()
         console.log(err, 'err')
       })

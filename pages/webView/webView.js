@@ -1,5 +1,5 @@
 // "navigationStyle": "custom", 其他与defaultWebview一致
-import { hasKey } from 'm-utilsdk/index'
+import { hasKey, dateFormat } from 'm-utilsdk/index'
 import { aesEncryptUrl, getFullPageUrl } from '../../utils/util.js'
 const app = getApp()
 import loginMethods from '../../globalCommon/js/loginRegister.js'
@@ -38,6 +38,13 @@ Page({
     this.onloadWebview(options)
   },
 
+  //加载页面失败
+  loadError() {
+    console.log('加载失败------>', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+    this.setData({
+      noNetwork: true,
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -109,13 +116,6 @@ Page({
     })
   },
 
-  //加载页面失败
-  loadError() {
-    console.log('加载失败------>')
-    this.setData({
-      noNetwork: true,
-    })
-  },
   //加载webview
   onloadWebview(options) {
     this.setData({

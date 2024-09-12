@@ -176,7 +176,6 @@ var requestService = {
           } else {
             //登录态过期返回40002
             if (resData.data.errorCode == 40002 || resData.code == 40002 || resData.data.code == 40002) {
-              //
               refreshRoken()
               // getApp().globalData.isLogon = false
             }
@@ -214,9 +213,9 @@ var requestService = {
               showToast('网络请求失败')
             }
           } else {
-            if (!isDistributionMode) {
-              showToast('系统繁忙，请稍后再试')
-            }
+            // if (!isDistributionMode) {
+            showToast('系统繁忙，请稍后再试')
+            // }
           }
           ApiTrack(apiName, selectApi, error, 'fail', params)
           if (apiName === 'luaControl') {
@@ -266,33 +265,22 @@ var requestService = {
 //刷新token
 var refreshRoken = function () {
   try {
-    let MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION'),
-      MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION'),
-      MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
     //60天内不需要重新登录
-    if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
-      //4小时不操作需要刷新用户token
-      if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-        loginMethods
-          .loginAPi()
-          .then(() => {
-            getApp().globalData.wxExpiration = true
-          })
-          .catch((err) => {
-            console.log('app loginAPi catch', err)
-            getApp().globalData.isLogon = false
-            //先保持登录状态
-            //loginMethods.getUserInfo(MPTOKEN_USERINFO)
-          })
-      } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-        // 有效期内直接登录
-        loginMethods.getUserInfo(MPTOKEN_USERINFO)
-      }
-    } else {
-      getApp().globalData.isLogon = false
-    }
+    loginMethods
+      .loginAPi()
+      .then(() => {
+        getApp().globalData.wxExpiration = true
+      })
+      .catch((err) => {
+        console.log('app loginAPi catch', err)
+        //续期不成功 直接退出
+        getApp().globalData.isLogon = false
+        wx.clearStorageSync()
+      })
   } catch {
+    //报错直接退出
     getApp().globalData.isLogon = false
+    wx.clearStorageSync()
   }
 }
 

@@ -187,36 +187,40 @@ App({
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
       //冷启动登录逻辑校验
-      //60天内不需要重新登录
-      if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
-        //4小时不操作需要刷新用户token
-        if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-          loginMethods.loginAPi
-            .call(this)
-            .then((res2) => {
-              console.log('app onLaunch resfreshToken sucesss', res2)
-              console.log('app onLaunch resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-              this.globalData.isActionAppLaunch = false
-              this.globalData.wxExpiration = true
-              if (this.callbackFn) {
-                this.callbackFn()
-              }
-            })
-            .catch((err) => {
-              console.log('app loginAPi catch', err)
-              //先保持登录状态
+      //60天内不需要重新登录，和云端确认 60天逻辑无需校验
+      // if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
+      //4小时不操作需要刷新用户token
+      if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        loginMethods.loginAPi
+          .call(this)
+          .then((res2) => {
+            console.log('app onLaunch resfreshToken sucesss', res2)
+            console.log('app onLaunch resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+            this.globalData.isActionAppLaunch = false
+            this.globalData.wxExpiration = true
+            if (this.callbackFn) {
+              this.callbackFn()
+            }
+          })
+          .catch((err) => {
+            console.log('app loginAPi catch', err)
+            //无网络先保持登录状态
+            if (this.globalData.noNetwork) {
               this.globalData.isActionAppLaunch = false
               loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
-              //this.setLoginFalse()
-            })
-        } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-          // 有效期内直接登录
-          this.globalData.isActionAppLaunch = false
-          loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
-        }
-      } else {
-        this.setLoginFalse()
+            } else {
+              //否则直接退出
+              this.setLoginFalse()
+            }
+          })
+      } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        // 有效期内直接登录
+        this.globalData.isActionAppLaunch = false
+        loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
       }
+      // } else {
+      // this.setLoginFalse()
+      // }
     } catch (error) {
       console.log(error, 'app onLaunch try cache', error)
       this.setLoginFalse()

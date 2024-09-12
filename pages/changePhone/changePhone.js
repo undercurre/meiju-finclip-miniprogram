@@ -92,11 +92,11 @@ Page({
           showToast('获取频繁，请稍后再试！')
           break
         default:
-          showToast(res.data.msg || '系统错误，请稍后重试')
+          showToast('系统错误，请稍后重试')
           break
       }
     } else {
-      showToast(res.msg || '系统错误，请稍后重试')
+      showToast('系统错误，请稍后重试')
     }
   },
   checkPhone(event, requestParam) {
@@ -163,6 +163,7 @@ Page({
       })
       .catch((err) => {
         wx.hideLoading()
+        showToast('系统繁忙，请稍后再试')
         console.log(err, 'err')
       })
   },

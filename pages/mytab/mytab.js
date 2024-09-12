@@ -3,7 +3,7 @@ const app = getApp() //获取应用实例
 const service = require('./assets/js/service')
 const imgBaseUrlMixins = require('../common/mixins/base-img-mixins.js')
 import { getReqId, getStamp, hasKey } from 'm-utilsdk/index'
-import { getFullPageUrl, debounce } from '../../utils/util'
+import { getFullPageUrl, debounce, showToast } from '../../utils/util'
 import { requestService } from '../../utils/requestService'
 import { logonStatusApi, baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking } from '../../track/track.js'
@@ -246,18 +246,23 @@ Page({
         mobile: app.globalData.userData.userInfo.mobile,
       },
     }
-    requestService.request('getVipUserInfo', data).then((resp) => {
-      const vipData = resp?.data?.data
-      app.globalData.userData.grade = vipData?.grade
-      setVipUserInfo(vipData)
-      this.setData({
-        headImgUrl: vipData?.userCustomize?.headImgUrl,
-        nickName: vipData?.userCustomize?.nickName,
-        vipLevel: vipData?.grade,
-        paymentMember: vipData?.paymentMember,
-        levelName: vipData?.levelName,
+    requestService
+      .request('getVipUserInfo', data)
+      .then((resp) => {
+        const vipData = resp?.data?.data
+        app.globalData.userData.grade = vipData?.grade
+        setVipUserInfo(vipData)
+        this.setData({
+          headImgUrl: vipData?.userCustomize?.headImgUrl,
+          nickName: vipData?.userCustomize?.nickName,
+          vipLevel: vipData?.grade,
+          paymentMember: vipData?.paymentMember,
+          levelName: vipData?.levelName,
+        })
       })
-    })
+      .catch(() => {
+        showToast('系统繁忙，请稍后再试')
+      })
   },
 
   //获取登录态信息

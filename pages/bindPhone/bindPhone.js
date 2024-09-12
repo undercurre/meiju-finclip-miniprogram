@@ -1,6 +1,11 @@
+/*
+ * @desc:
+ * @author: zhucc22
+ * @Date: 2024-08-28 16:42:05
+ */
 const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
-import {webView} from '../../utils/paths'
+import { webView } from '../../utils/paths'
 import { getReqId, getStamp } from 'm-utilsdk/index'
 import { showToast } from '../../utils/util'
 
@@ -11,20 +16,20 @@ Page({
   data: {
     mobile: '', //手机号码
     headImgUrl: '/assets/img/headFix.png', //用户头像
-    targetMobile: ''
+    targetMobile: '',
   },
   backPage() {
     wx.navigateBack()
   },
-//   注销账号
+  //   注销账号
   cancelAccount() {
     wx.navigateTo({
       url: `${webView}?webViewUrl=${encodeURIComponent('https://www.baidu.com')}`,
     })
   },
-  changePhone(){
+  changePhone() {
     wx.navigateTo({
-        url: '../checkPhone/checkPhone',
+      url: '../checkPhone/checkPhone',
     })
   },
   getVipUserInfo() {
@@ -43,13 +48,14 @@ Page({
         wx.hideLoading()
         console.log(res.data.data.mobile, 'targetres')
         this.setData({
-            mobile: res.data.data.mobile,
-            headImgUrl: res.data.data.userCustomize.headImgUrl,
-            targetMobile: res.data.data.mobile.substring(0, 3) + '****' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
+          mobile: res.data.data.mobile,
+          headImgUrl: res.data.data.userCustomize.headImgUrl,
+          targetMobile: res.data.data.mobile.substring(0, 3) + '****' + res.data.data.mobile.substring(7), //手机号脱敏，暂时先简单处理
         })
       })
       .catch((err) => {
         wx.hideLoading()
+        showToast('系统繁忙，请稍后再试')
         console.log(err, 'err')
       })
   },

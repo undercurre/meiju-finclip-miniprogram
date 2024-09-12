@@ -219,10 +219,12 @@ Page({
             this.setData({
               familyValue: '',
             })
-            let homeitem = JSON.stringify(target[0])
+            let homeitem = encodeURIComponent(JSON.stringify(target[0]))
             //新建完家庭后跳转至该家庭详情页面
             wx.navigateTo({
-              url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${target[0].name}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,
+              url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${encodeURIComponent(
+                target[0].name
+              )}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,
             })
           })
           .catch((err) => {

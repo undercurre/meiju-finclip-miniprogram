@@ -7,6 +7,7 @@ import {
   clickScanBurialPoint,
   clickBtnMoreBurialPoint,
   clickManageFamily,
+  bthAddDeviceBurialPoint,
 } from '../../assets/js/burialPoint'
 const addSelect = '/assets/img/index/add_select.png'
 const addNoSelect = '/assets/img/index/add_no_select.png'
@@ -148,6 +149,7 @@ Component({
     goAddDeviceJia() {
       this.switchShowAddList()
       this.triggerEvent('goAddDeviceJia')
+      bthAddDeviceBurialPoint()
     },
     //扫一扫
     goScanCode() {

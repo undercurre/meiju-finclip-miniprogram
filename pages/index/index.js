@@ -25,14 +25,16 @@ import {
 } from '../../utils/pluginFilter'
 import wxList from '../../globalCommon/js/wxList.js'
 import {
-  indexViewBurialPoint,
   clickOpenPluginBurialPoint,
   clickSwitchFamilyBurialPoint,
   editAndDeleteApplianceViewBurialPoint,
   editAndDeleteApplianceClickBurialPoint,
   checkFamilyPermissionBurialPoint,
   checkFamilyPermissionAddBurialPoint,
-  cardClickPluginBurialPoint,
+  clickCardBurialPoint,
+  clickCardUnsupportedBurialPoint,
+  bthAddDeviceBurialPoint,
+  MideaHomeViewBurialPoint,
 } from 'assets/js/burialPoint'
 import { baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking, trackLoaded } from '../../track/track.js'
@@ -81,6 +83,7 @@ Page({
     console.log(`page performance onReady start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
   },
   async onShow() {
+    MideaHomeViewBurialPoint()
     console.log(`page performance onShow start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
     if (getApp().globalData.gloabalWebSocket && getApp().globalData.gloabalWebSocket._isClosed) {
       this.initPushData()
@@ -2293,13 +2296,13 @@ Page({
         // }
         //2.切换到当前家庭
         this.updateHomeGroup(currentHomeGroupIndex, currentHomeInfo.homegroupId)
-        wx.nextTick(() => {
-          indexViewBurialPoint({
-            familyId: currentHomeInfo.homegroupId,
-            familyName: currentHomeInfo.name,
-            tabName: '设备',
-          })
-        })
+        // wx.nextTick(() => {
+        // indexViewBurialPoint({
+        // familyId: currentHomeInfo.homegroupId,
+        // familyName: currentHomeInfo.name,
+        // tabName: '设备',
+        // })
+        // })
       })
       .catch((e) => {
         trackLoaded('page_loaded_event', 'horseHide')
@@ -2581,27 +2584,6 @@ Page({
     let from = e.currentTarget.dataset.from
     setPluginDeviceInfo(currDeviceInfo)
     console.log('currDeviceInfo', currDeviceInfo, e.currentTarget.dataset)
-    if (from == 'plain') {
-      clickOpenPluginBurialPoint({
-        applianceCode: currDeviceInfo.applianceCode,
-        homegroupId: currDeviceInfo.homegroupId,
-        deviceName: currDeviceInfo.name,
-        onlineStatus: currDeviceInfo.onlineStatus || '',
-        pluginType: currDeviceInfo.type,
-        sn8: currDeviceInfo.sn8,
-      })
-    } else {
-      //物模型卡片点击埋点
-      cardClickPluginBurialPoint({
-        applianceCode: currDeviceInfo.applianceCode,
-        deviceName: currDeviceInfo.name,
-        onlineStatus: currDeviceInfo.onlineStatus || '',
-        pluginType: currDeviceInfo.type,
-        sn8: currDeviceInfo.sn8,
-        ...currDeviceInfo,
-        is_support_current_device: e.currentTarget.dataset.support === 'support' ? 1 : 0,
-      })
-    }
     let bindType = currDeviceInfo.bindType || ''
     let sn8 = currDeviceInfo.sn8
     let formatType = type.includes('0x') ? type.substr(2, 2) : type
@@ -2611,6 +2593,8 @@ Page({
     }
     console.log('是否支持===', isSupperCurrentDevice)
     if (isSupperCurrentDevice) {
+      //支持的设备埋点
+      clickCardBurialPoint(currDeviceInfo)
       try {
         if (isNeedCheckList.indexOf(formatType) == -1) {
           let batchAuthList = wx.getStorageSync('batchAuthList'),
@@ -2641,6 +2625,15 @@ Page({
             })
             console.log('跳插件前花费时长====', new Date() - start)
           } else {
+            //打开插件埋点
+            clickOpenPluginBurialPoint({
+              applianceCode: currDeviceInfo.applianceCode,
+              homegroupId: currDeviceInfo.homegroupId,
+              deviceName: currDeviceInfo.name,
+              pluginType: currDeviceInfo.type,
+              sn8: currDeviceInfo.sn8,
+              smartProductId: currDeviceInfo.smartProductId,
+            })
             console.log(
               '跳转的插件路径：',
               getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo))
@@ -2677,6 +2670,8 @@ Page({
       }
     } else {
       console.log('小木马跳插件就绪2', parseInt(Date.now()))
+      //不支持设备埋点
+      clickCardUnsupportedBurialPoint()
       wx.navigateTo({
         url: '/pages/unSupportDevice/unSupportDevice?deviceInfo=' + encodeURIComponent(JSON.stringify(currDeviceInfo)),
         complete() {
@@ -2825,11 +2820,15 @@ Page({
     })
   },
   //添加设备
-  async goAddDeviceJia() {
+  async goAddDeviceJia(e) {
     // 防爆击处理
     if (!this.data.isGoToScan) return
     this.data.isGoToScan = false
     app.globalData.deviceSessionId = creatDeviceSessionId(app.globalData.userData.uid)
+    let card = e.currentTarget.dataset.card
+    if (card == 'card') {
+      bthAddDeviceBurialPoint()
+    }
     clickEventTracking('user_behavior_event', 'goAddDeviceJia', {
       device_info: {
         device_session_id: app.globalData.deviceSessionId, //一次配网事件标识

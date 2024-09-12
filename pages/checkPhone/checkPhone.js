@@ -1,6 +1,6 @@
 const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
-import {webView} from '../../utils/paths'
+import { webView } from '../../utils/paths'
 import { getReqId, getStamp } from 'm-utilsdk/index'
 import { showToast } from '../../utils/util'
 
@@ -15,20 +15,20 @@ Page({
     inputValue: '',
     inputList: ['', '', '', ''],
     hasFixlength: false,
-    classForButton: 'changePhoneBtn haveSomeOpacity'
+    classForButton: 'changePhoneBtn haveSomeOpacity',
   },
   inputPhone(event) {
     let inputValue = event.detail.value
     let inputList = inputValue.split('')
     let preFixLength = 4 - inputValue.length
-    for(var i = 0; i < preFixLength; i++){
-        inputList.push('')
+    for (var i = 0; i < preFixLength; i++) {
+      inputList.push('')
     }
     this.setData({
-        inputValue: inputValue,
-        inputList: inputList,
-        hasFixlength: preFixLength == 0,
-        classForButton: `changePhoneBtn ${preFixLength != 0 ? 'haveSomeOpacity' : ''}`
+      inputValue: inputValue,
+      inputList: inputList,
+      hasFixlength: preFixLength == 0,
+      classForButton: `changePhoneBtn ${preFixLength != 0 ? 'haveSomeOpacity' : ''}`,
     })
   },
   backPage() {
@@ -36,12 +36,12 @@ Page({
   },
   checkPhone() {
     let checkPhoneNum = `${this.data.mobileLeft}${this.data.inputValue}${this.data.mobileRight}`
-    if(this.data.mobile != checkPhoneNum){
-        showToast('手机号验证失败，请重新输入')
-    }else{
-        wx.navigateTo({
-            url: `../changePhone/changePhone?oldMobile=${checkPhoneNum}`,
-        })
+    if (this.data.mobile != checkPhoneNum) {
+      showToast('手机号验证失败，请重新输入')
+    } else {
+      wx.navigateTo({
+        url: `../changePhone/changePhone?oldMobile=${checkPhoneNum}`,
+      })
     }
   },
   getVipUserInfo() {
@@ -60,13 +60,14 @@ Page({
         wx.hideLoading()
         console.log(res.data.data.mobile, 'targetres')
         this.setData({
-            mobile: res.data.data.mobile,
-            mobileLeft: res.data.data.mobile.substring(0, 3),
-            mobileRight: res.data.data.mobile.substring(7)
+          mobile: res.data.data.mobile,
+          mobileLeft: res.data.data.mobile.substring(0, 3),
+          mobileRight: res.data.data.mobile.substring(7),
         })
       })
       .catch((err) => {
         wx.hideLoading()
+        showToast('系统繁忙，请稍后再试')
         console.log(err, 'err')
       })
   },
