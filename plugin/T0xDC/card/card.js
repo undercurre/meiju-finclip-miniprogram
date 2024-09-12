@@ -119,7 +119,9 @@ Component({
     project_no: 0,
     configs: {},
     statistics: {},
-    retryStatisticsCount: 0
+    retryStatisticsCount: 0,
+    pickerConfirmCount: 0,
+    waitPickerChange: false
   },
   // 组件的方法列表
   methods: {
@@ -527,14 +529,21 @@ Component({
             modeNameShown: currentMode.modeName
           })
         } else {
-          this.data.selectedMode = { value: -1, name: '云程序'}
-          if (this.data.modeNameShown !== '云程序') {
-            this.data.modeNameShown = '云程序'
-            this.setData({
-              selectedMode: this.data.selectedMode,
-              modeNameShown: '云程序',
-            })
-          }
+            if (this.data.selectedMode && this.data.selectedMode.value === -1) {
+                this.data.selectedMode = { value: -1, name: '云程序'}
+                this.data.modeNameShown = '云程序'
+                this.setData({
+                  selectedMode: this.data.selectedMode,
+                  modeNameShown: '云程序',
+                })
+              } else {
+                this.data.selectedMode = { value: -1, name: '云程序'}
+                this.data.modeNameShown = ''
+                this.setData({
+                  selectedMode: this.data.selectedMode,
+                  modeNameShown: '',
+                })
+              }
         }
       }
     },
@@ -576,7 +585,7 @@ Component({
             } else {
                 this.refreshCategoryModeIndex(-1);
             }
-        }, 300)
+        }, 200)
     },
     closeModePop() {
       this.setData({
@@ -587,12 +596,23 @@ Component({
     },
     confirmModePop() {
       this.closeModePop();
+      if (this.data.pickerConfirmCount++ > 6) {
+        return;
+      }
+      if (this.data.waitPickerChange) {
+        setTimeout(() => {
+          this.confirmModePop();
+        }, 500);
+        return;
+      }
+
       let modeInfo = this.getPickerSelectedModeInfo();
       if (modeInfo && modeInfo.value >= 0) {
         setTimeout(() => {
           this.changeMode(modeInfo);
-        }, 500);
+        }, 200);
       }
+      this.data.pickerConfirmCount = 0;
     },
     pickerChange(e) {
       if (e.detail.value && e.detail.value[0] >= 0) {
@@ -603,11 +623,21 @@ Component({
           this.setData({
             pickerCategoryModeIndex: this.data.pickerCategoryModeIndex,
             pickerModeNamesArray: this.data.pickerModeNamesArray
+          }, ()=> {
+            this.data.waitPickerChange = false;
           })
         } else {
           this.data.pickerCategoryModeIndex = e.detail.value;
+          this.data.waitPickerChange = false;
         }
       }
+    },
+    pickerStart(e) {
+      this.data.pickerConfirmCount = 0;
+      this.data.waitPickerChange = true;
+    },
+    pickerEnd(e){
+      this.data.waitPickerChange = false;
     },
     changeMode(mode) {
       if (mode && mode.modeName) {
@@ -986,7 +1016,7 @@ Component({
         })
         setTimeout(() => {
           wx.hideLoading()
-        }, 1500)
+        }, 2500)
         let reqData = {
           applianceCode: this.data.applianceData.applianceCode,
           command: {
