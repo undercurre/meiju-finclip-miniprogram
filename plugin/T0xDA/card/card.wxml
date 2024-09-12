@@ -153,18 +153,18 @@
       <offline></offline>
     </block>
   </block>
-  <movable-view wx:if="{{saveWaterImage!==''}}" style="width: 128rpx; height: 128rpx;" x="600rpx" y="80rpx" direction="all">
+  <!-- <movable-view wx:if="{{saveWaterImage!==''}}" style="width: 128rpx; height: 128rpx;" x="600rpx" y="80rpx" direction="all">
     <view style="width: 128rpx; height: 128rpx;">
       <image src="{{saveWaterImage}}" style="width: 64px; height: 64px;" bindtap="goToSaveWater"></image>
       <image src="http://ismart.zhinengxiyifang.cn/midea_json_new/img/mini-program/close.png" style="width: 32rpx; height: 32rpx; position: absolute; top: 0; right: 0;" bindtap="clickCloseWater"></image>
     </view>
-  </movable-view>
+  </movable-view> -->
 
   <vant-popup show="{{isShowModePicker}}" position="bottom" bind:click-overlay="closeModePop" customStyle="background:#fff;border-top-left-radius: 10px;border-top-right-radius: 10px;">
     <view class="modal-wrapper">
       <view class="pop-title">选择模式</view>
       <view class="pickerViewContent">
-        <picker-view indicator-style="" style="width: 100%; height: 200px;" bindchange="pickerChange" immediate-change="true" value="{{pickerCategoryModeIndex}}">
+        <picker-view indicator-style="" style="width: 100%; height: 200px;" bindchange="pickerChange" bindpickstart="pickerStart" bindpickend="pickerEnd" immediate-change="true" value="{{pickerCategoryModeIndex}}">
           <picker-view-column>
             <view wx:for="{{pickerCategoryNamesArray}}" wx:for-item="itemCategory" wx:key="itemCategory" class="picker-view-item" style="line-height: 72rpx;text-align: center;">
               <view>{{itemCategory}}</view>

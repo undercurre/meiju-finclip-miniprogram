@@ -123,7 +123,30 @@ Component({
     configs: {},
     statistics: {},
     retryStatisticsCount: 0,
-    deviceA0Sn8: ''
+    deviceA0Sn8: '',
+    pickerConfirmCount: 0,
+    waitPickerChange: false
+  },
+  lifetimes: {
+    attached() {
+      //创建运行状态动效
+      this.animationData = wx.createAnimation({
+        // duration: 1780,
+        // delay: 0,
+        // // timingFunction: 'linear',
+        // transformOrigin: '50% 50% 0',
+        // success: function(res) {
+        //   console.log('res');
+        // }
+      })
+      this.initLoad()
+      this.init()
+      this.startTimer()
+    },
+    detached() {
+      this.stopRenderRemainTime()
+      this.stopRenderRunningTimer()
+    }
   },
   // 组件的方法列表
   methods: {
@@ -154,20 +177,6 @@ Component({
 
       // this.loadActivitys();
 
-      //创建运行状态动效
-      this.animationData = wx.createAnimation({
-        // duration: 1780,
-        // delay: 0,
-        // // timingFunction: 'linear',
-        // transformOrigin: '50% 50% 0',
-        // success: function(res) {
-        //   console.log('res');
-        // }
-      })
-
-      this.init()
-      this.startTimer()
-
       // beging 添加字节埋点：进入插件页
       let param = {}
       param['page_name'] = '首页'
@@ -196,7 +205,7 @@ Component({
       if (targetUrl) {
         targetUrl += `?&env=${urlEnv}&applianceId=${this.data.applianceData.applianceCode}&deviceType=DB&deviceSubType=${this.data.project_no}&userId=${app.globalData.userData.iotUserId}&deviceSn8=${this.data.applianceData.sn8}&deviceSoftwareVersion=${this.data.fixedDeviceSoftwareVersion}&loginState=true`;
         let encodeLink = encodeURIComponent(targetUrl)
-        let currUrl = `../../../pages/webView/webView?webViewUrl=${encodeLink}`
+        let currUrl = `/pages/webView/webView?webViewUrl=${encodeLink}`
         wx.navigateTo({
           url: currUrl,
         })
@@ -268,7 +277,7 @@ Component({
       }
       return modeInfo;
     },
-    initCard() {
+    initLoad() {
       let self = this
       //初始化卡片页
       if (!this.data.isInit) {
@@ -374,7 +383,6 @@ Component({
           deviceConfig: res.data,
           categoryArray: this.data.categoryArray,
           categoryModes: this.data.categoryModes,
-          modesArrayInCategory: this.data.modesArrayInCategory,
           modes: this.data.modes,
           modeNames: this.data.modeNames,
           pickerModeNamesArray: this.data.pickerModeNamesArray,
@@ -424,11 +432,6 @@ Component({
         result = true
       }
       return result
-    },
-    getDestoried() {
-      //执行当前页面前后插件的业务逻辑，主要用于一些清除工作
-      this.stopRenderRemainTime()
-      this.stopRenderRunningTimer()
     },
     getActivityConfig() {
       let configFileUrl =
@@ -607,12 +610,19 @@ Component({
             modeNameShown: currentMode.modeName
           })
         } else {
-          this.data.selectedMode = { value: -1, name: '云程序'}
-          if (this.data.modeNameShown !== '云程序') {
+          if (this.data.selectedMode && this.data.selectedMode.value === -1) {
+            this.data.selectedMode = { value: -1, name: '云程序'}
             this.data.modeNameShown = '云程序'
             this.setData({
               selectedMode: this.data.selectedMode,
               modeNameShown: '云程序',
+            })
+          } else {
+            this.data.selectedMode = { value: -1, name: '云程序'}
+            this.data.modeNameShown = ''
+            this.setData({
+              selectedMode: this.data.selectedMode,
+              modeNameShown: '',
             })
           }
         }
@@ -654,7 +664,7 @@ Component({
           } else {
             this.refreshCategoryModeIndex(-1);
           }
-      }, 300)
+      }, 200)
     },
     closeModePop() {
       this.setData({
@@ -665,12 +675,23 @@ Component({
     },
     confirmModePop() {
       this.closeModePop();
+      if (this.data.pickerConfirmCount++ > 6) {
+        return;
+      }
+      if (this.data.waitPickerChange) {
+        setTimeout(() => {
+          this.confirmModePop();
+        }, 500);
+        return;
+      }
+
       let modeInfo = this.getPickerSelectedModeInfo();
       if (modeInfo && modeInfo.value >= 0) {
         setTimeout(() => {
           this.changeMode(modeInfo);
-        }, 500);
+        }, 200);
       }
+      this.data.pickerConfirmCount = 0;
     },
     pickerChange(e) {
       if (e.detail.value && e.detail.value[0] >= 0) {
@@ -681,11 +702,21 @@ Component({
           this.setData({
             pickerCategoryModeIndex: this.data.pickerCategoryModeIndex,
             pickerModeNamesArray: this.data.pickerModeNamesArray
+          }, ()=> {
+            this.data.waitPickerChange = false;
           })
         } else {
           this.data.pickerCategoryModeIndex = e.detail.value;
+          this.data.waitPickerChange = false;
         }
       }
+    },
+    pickerStart(e) {
+      this.data.pickerConfirmCount = 0;
+      this.data.waitPickerChange = true;
+    },
+    pickerEnd(e){
+      this.data.waitPickerChange = false;
     },
     changeMode(mode) {
       if (mode && mode.modeName) {
@@ -1118,7 +1149,7 @@ Component({
         })
         setTimeout(() => {
           wx.hideLoading()
-        }, 1500)
+        }, 2500)
         let reqData = {
           applianceCode: this.data.applianceData.applianceCode,
           command: {
@@ -1185,8 +1216,5 @@ Component({
         })
         .catch((err) => {})
     },
-  },
-  attached() {
-    this.init()
-  },
+  }
 })
