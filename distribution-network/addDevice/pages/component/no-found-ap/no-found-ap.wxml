@@ -23,7 +23,7 @@
               <image class="foundAp-img-image" src="{{imgBaseUrl+imges.noFoundApSwitch}}"></image>
             </view> -->
             <view class="foundAp-img" wx:if="{{brand != 'colmo'}}">
-              <image style="width:400rpx;height: 360rpx;" class="wifiImg" src="{{android_checkwifi}}"></image>
+              <image style="width:686rpx;height: 368rpx;" class="wifiImg" src="{{android_checkwifi}}"></image>
              <!-- <image style="width:400rpx;height: 360rpx;" class="wifiImg" wx:if="{{system=='iOS'}}" src="{{noFoundApSwitch}}"></image> -->
             </view>
             <view class="foundAp-img" wx:else>
