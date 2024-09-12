@@ -1,8 +1,8 @@
-<view id="{{brand}}" wx:if="{{isShowContent}}">
+<view id="{{brand}}">
   <view class="search-page">
   <view class="product-search">
     <view style="margin-top:{{ statusBarHeight + 40 }}px">
-      <search-navbar bind:actionGoBack="actionGoBack" theme-font-color="theme-font-color" search-nav-header='search-nav-header' left-text='left-text'></search-navbar>
+      <search-navbar bind:actionGoBack="actionGoBack" theme-font-color="theme-font-color" search-nav-header='search-nav-header' left-text='left-text' wx:if="{{isShowContent}}"></search-navbar>
       <view class="search-input">
         <view class="input-sec">
           <view wx:if="{{brand != 'colmo'}}" class="input-icon" style="background-image:url({{spritePicture}})"></view>
