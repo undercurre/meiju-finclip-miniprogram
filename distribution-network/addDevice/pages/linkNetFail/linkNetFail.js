@@ -1531,6 +1531,29 @@ Page({
     app.addDeviceInfo.curWifiInfo = this.data.bindWifiInfo
   },
 
+  SSIDBlur(e){
+    let SSIDContent = e.detail.value
+    this.setData({
+      'bindWifiTest.SSIDContent': SSIDContent,
+    })
+    app.addDeviceInfo.curWifiInfo = this.data.bindWifiInfo
+  },
+
+  //鸿蒙与小程序不同，setData 的值又会更新到节点上，原生组件逻辑对这个场景有优化，这个鸿蒙现在是 web input 所以没有优化
+  initBindWifiTestHarmony(BSSID, SSIDContent, SSIDLength, EncryptType, chain, signalStrength, frequency) {
+    SSIDLength = string2Uint8Array(SSIDContent).length
+    this.setData({
+      'bindWifiInfo.BSSID': BSSID,
+      // 'bindWifiInfo.SSIDContent': SSIDContent,
+      'bindWifiInfo.SSIDLength': SSIDLength,
+      'bindWifiInfo.EncryptType': EncryptType,
+      'bindWifiInfo.chain': chain,
+      'bindWifiInfo.signalStrength': signalStrength, //Wi-Fi 信号强度, 安卓取值 0 ～ 100 ，iOS 取值 0 ～ 1 ，值越大强度越大
+      'bindWifiInfo.frequency': frequency, //Wi-Fi 频段单位 MHz
+    })
+    app.addDeviceInfo.curWifiInfo = this.data.bindWifiInfo
+  },
+
   //backToIndex
   backToIndex() {
     let { moduleType, type, sn8, sn, linkType, moduleVersion, plainSn, errorCode } = app.addDeviceInfo
@@ -1667,12 +1690,12 @@ Page({
         })
 
         //赋值wifi显示
-        that.initBindWifiTest(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
+        that.initBindWifiTestHarmony(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
       }
     } else {
       //没有wifi缓存
       console.log('没有对应环境的缓存wifi信息')
-      that.initBindWifiTest(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
+      that.initBindWifiTestHarmony(BSSID, SSIDContent, SSIDContent, '01', '12', '', '')
     }
   },
 
