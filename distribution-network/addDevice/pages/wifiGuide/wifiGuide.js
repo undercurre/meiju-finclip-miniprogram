@@ -50,8 +50,8 @@ Page({
       },
 
     },
-    contentHeight:systemInfo.windowHeight - statusBarHeight - 110,
-    // contentHeight:900,
+    // contentHeight:systemInfo.windowHeight - statusBarHeight - 110,
+    contentHeight:608,//修改系统界面缩放 systemInfo.windowHeight 和 statusBarHeight 数值会不一样，导致内容显示高度变小，内容与下方按钮直接出现较大的白色空间，目前根据mate60和pro来写死608这个值，以后屏幕尺寸出现变化还需要修改
     clickShow:false
   },  
 
@@ -64,6 +64,7 @@ Page({
     this.data.currentWiFiName = options.currentWiFiName
 
     console.log('systemInfo====:',systemInfo)
+    console.log('contentHeight====:',this.data.contentHeight)
 
     // let res = {"charSet": "utf-8", "result": "WIFI:T:WPA;P:test123456;S:ZX_5G;H:false;", "codeVersion": 3, "errMsg": "scanCode:ok", "rawData": "V0lGSTpUOldQQTtQOnRlc3QxMjM0NTY7UzpaWF81RztIOmZhbHNlOw==", "scanType": "QR_CODE"}
     // let res1 = res.result.match(/P:.*?;/g)
