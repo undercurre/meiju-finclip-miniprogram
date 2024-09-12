@@ -24,7 +24,7 @@ Page({
    */
   data: {
     deviceName: '',
-    time: Number,
+    time: 60,
     deviceInfo: '',
     isStopCheck: false,
     backTo: '',
