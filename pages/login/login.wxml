@@ -2,11 +2,11 @@
 <view class="login-main">
   <mx-nav-bar show-bg bind:click-left="clickBack" />
   <navbar bind:clickBack="clickBack"></navbar>
-  <view style="height: {{statusBarHeight}}rpx;"></view>
+  <!-- <view style="height: {{statusBarHeight}}rpx;"></view> -->
   <!-- <view class="topBac" style="margin-top: {{statusBarHeight}}px;"> -->
   <!-- <image src="{{topBacImg}}" class="topBacImg"></image> -->
   <!-- </view> -->
-  <view animation="{{ animationLogin1 }}" class="login-logo" style="margin-top:{{logoTop}}rpx">
+  <view animation="{{ animationLogin1 }}" class="login-logo" style="margin-top:{{logoTop+statusBarHeight}}rpx">
     <image class="login-logo-image" src="{{loginLogoSrc}}"></image>
     <!-- <mx-image custom-class="login-logo-image" src="{{loginLogoSrc}}"></mx-image> -->
   </view>
@@ -160,3 +160,5 @@
   ></mx-dialog>
   <mx-toast id="mx-toast" />
 </view>
+<!-- 视频背景 -->
+<!-- <video src="{{videoSrc}}" autoplay controls loop object-fit="cover" class="login-bg-video" /> -->

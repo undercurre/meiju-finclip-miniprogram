@@ -5,14 +5,19 @@
     <mx-cell title="{{appVibeTitle}}(当前环境:{{environment}})" bind:click="switchEnvironment" is-link />
     <mx-cell title="{{enableDebug?'关闭':'打开'}}{{vsConsoleTitle}}" bind:click="switchVsconsole" is-link />
     <mx-cell title="{{scodeTitle}}" bind:click="startAppletByQrCode" is-link />
-    <mx-cell title="{{openMiniProgramTitle}}" bind:click="openMiniProgramActionSheet" is-link />
     <mx-cell title="{{clearCacheTitle}}" bind:click="clearCache" is-link />
-    <mx-cell title="{{showSystemInfoTitle}}" bind:click="showSystemInfo" is-link />
+    <mx-cell wx:if="{{appVersion}}" title="{{appVersionTitle}}" value="{{appVersion}}" />
     <mx-cell wx:if="{{runtimeSDKVersion}}" title="{{sdkTitle}}" value="{{runtimeSDKVersion}}" />
     <mx-cell wx:if="{{frameworkVersion}}" title="{{frameworkVersionTitle}}" value="{{frameworkVersion}}" />
     <mx-cell wx:if="{{version}}" title="{{miniProgramTitle}}" value="{{version}}" />
-    <mx-cell wx:if="{{miniProgramenv}}" title="{{miniProgramEnvTitle}}" value="{{miniProgramenv}}" /></view
-></view>
+    <mx-cell wx:if="{{miniProgramenv}}" title="{{miniProgramEnvTitle}}" value="{{miniProgramenv}}" />
+    <mx-cell title="{{openMiniProgramTitle}}" bind:click="openMiniProgramActionSheet" is-link />
+    <mx-cell title="开启hilog记录网络接口返回">
+      <switch class="" checked="{{isEnableHttpResponseLog}}" type="switch" bindchange="swtichHttpResponseLog"> </switch>
+    </mx-cell>
+    <mx-cell title="{{showSystemInfoTitle}}" bind:click="showSystemInfo" is-link />
+  </view>
+</view>
 <mx-toast id="mx-toast" />
 <mx-action-sheet
   bind:cancel="closeActionSheet"

@@ -4,8 +4,7 @@
     <view class="headImg-container">
       <span class="headimg-container-title">头像</span>
       <view class="headImg-container-rightPart" bindtap="togglePictureSelect">
-        <image round mode="aspectFill"  class="avatar" src="{{ headImgUrl }}">
-        </image>
+        <image round mode="aspectFill" class="avatar" src="{{ headImgUrl }}"> </image>
         <image
           src="/assets/img/about/personal-center/right_arrow_headimg.png"
           mode=""

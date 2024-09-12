@@ -41,7 +41,7 @@
       <!-- 运行状态 -->
       <view style="width: 100%;" class="flex flex_column align_center">
         <van-cell custom-class="cell" border="{{false}}" title-class="cell-title" style="margin-top:80rpx">
-          <text slot="title" class="van-cell-text">{{deviceStatus==5?'已关机':btnText}}</text>
+          <text slot="title" class="van-cell-text">{{deviceStatus==7?'故障中':deviceStatus==5?'已关机':btnText}}</text>
           <view class="power-img-wrap flex align_center justify_center" slot="right-icon" bindtap="powerToggle"
             style="background:{{deviceStatus<5?(deviceStatus == 1 || deviceStatus == 0 ? '#ffaa10' : '#FF6A4C'):'#7C879B'}}">
             <image src="{{images.powerOn}}" class="power-img" />

@@ -350,9 +350,12 @@ function goTopluginPage(deviceInfo, backPage = '', isRomoveRoute = false, fromPa
       url: getPluginUrl(type, deviceInfo) + `&backTo=${backPage}`,
       success: () => {},
       fail: () => {
-        if (isNoIndex) {
-          showDialog(deviceInfo, hasPageName)
-        }
+        wx.switchTab({
+          url: paths.index,
+        })
+        // if (isNoIndex) {
+        //   showDialog(deviceInfo, hasPageName)
+        // }
       },
     })
   } else {
@@ -361,9 +364,12 @@ function goTopluginPage(deviceInfo, backPage = '', isRomoveRoute = false, fromPa
       url: getPluginUrl(type, deviceInfo) + `&backTo=${backPage}`,
       success: () => {},
       fail: () => {
-        if (isNoIndex) {
-          showDialog(deviceInfo, hasPageName)
-        }
+        wx.switchTab({
+          url: paths.index,
+        })
+        // if (isNoIndex) {
+        //   showDialog(deviceInfo, hasPageName)
+        // }
       },
     })
   }

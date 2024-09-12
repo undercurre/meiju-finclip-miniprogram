@@ -59,6 +59,7 @@ import { isColmoDeviceBySn8 } from '../../../common/js/device'
 import Dialog from '../../../../miniprogram_npm/m-ui/mx-dialog/dialog'
 import { imgesList } from '../../../assets/js/shareImg.js'
 import { getPluginUrl } from '../../../../utils/getPluginUrl'
+import { checkPermission } from '../../../../pages/common/js/permissionAbout/checkPermissionTip'
 const imgUrl = imgBaseUrl.url + '/shareImg/' + app.globalData.brand
 const brandStyle = require('../../../assets/js/brand.js')
 // console.log('brandStyle:',brandStyle)
@@ -325,6 +326,7 @@ Page({
       mode: mode,
       currentHomeGroupId: app.globalData.currentHomeGroupId,
     })
+    console.error('读取wifi缓存信息curWifiInfo===:',curWifiInfo)
     //统一读取wifi缓存信息
     if (curWifiInfo) {
       // this.data.bindWifiInfo = this.apUtils.decodeWifi(wx.getStorageSync('bindWifiInfo'))
@@ -336,6 +338,16 @@ Page({
    
     let judgingConditions  = this.judgingConditionsMode(mode)
     console.log('查看配网方式----------------：',judgingConditions)
+    let blueRes =''
+    let permissionTypeList = ''
+    let bluetoothAuthorized = ''
+    if(mode == 3 || mode == 18 || mode == 5){
+      blueRes = await checkPermission.blue()
+      permissionTypeList = blueRes.permissionTypeList
+      bluetoothAuthorized = permissionTypeList.bluetoothAuthorized
+    }
+
+
     switch (judgingConditions) {
       case 20:
         this.cellularNetwork()
@@ -397,22 +409,6 @@ Page({
         }
         // 不支持插件弹窗提示
         if (isShowUnSupportDialog) {
-          // 设备不支持小程序配网，AP配网联网进度页弹窗样式不正确 BUG2024031194902 统一改成相同的弹窗
-          // if (isShowColmoUnSupportDialog) {  
-          //   Dialog.confirm({
-          //     title: '该设备暂不支持添加，功能正在迭代升级中，敬请期待'
-          //     confirmButtonText: '返回首页',
-          //     confirmButtonColor: this_.data.dialogStyle.confirmButtonColor2,
-          //     cancelButtonColor: this_.data.dialogStyle.cancelButtonColor2,
-          //     showCancelButton:false
-          //   }).then((res) => {
-          //     if (res.action == 'confirm') {
-          //       wx.reLaunch({
-          //         url: paths.index,
-          //       })
-          //     }
-          //   })
-          // } else {
             // 浏览埋点
             burialPoint.unsupportDialogView(burialPointParam)
             app.apNoNetBurialPoint.unsupportDialogView = burialPointParam //暂存
@@ -469,7 +465,8 @@ Page({
       case 5:
         //直连 绑定
         systemInfo = await this.wxGetSystemInfo()
-        if ((!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') && 1==2) {
+        systemInfo.bluetoothAuthorized = bluetoothAuthorized
+        if (!systemInfo.bluetoothEnabled || !systemInfo.bluetoothAuthorized) {
           //未打开蓝牙
           this.noOpenBlue(systemInfo)
           return
@@ -524,8 +521,10 @@ Page({
       case 3:
       case 18:
         systemInfo = await this.wxGetSystemInfo()
+        systemInfo.bluetoothAuthorized = bluetoothAuthorized
         console.log("===Yoram===systemInfo",systemInfo)
-        if ((!systemInfo.bluetoothEnabled || systemInfo.bluetoothAuthorized != 'authorized') && 1==2) {
+        if (!systemInfo.bluetoothEnabled || !systemInfo.bluetoothAuthorized) {
+          console.error('进入打开蓝牙弹窗')
           //未打开蓝牙
           this.noOpenBlue()
           return
@@ -615,6 +614,9 @@ Page({
               app.addDeviceInfo.cloudBackDeviceInfo.sn8 = addDeviceSDK.getDeviceSn8(plainSn)
               wx.reLaunch({
                 url: paths.wifiSuccessSimple,
+                fail:(error)=>{
+                  console.log('fm == bluePugin跳转wifiSuccessSimple页失败:',error,mode)
+                }
               })
             })
             this.resisterBleDataChanged(this.handleBLEDataChanged) // 注册蓝牙信息改变监听
@@ -633,6 +635,7 @@ Page({
             !this.data.autoCloseBleConnection
           ) {
             console.log('[重新连接]')
+            wx.offBLECharacteristicValueChange()
             this.bleNegotiation(deviceId, isDirectCon, moduleType, negType)
           }
         })
@@ -873,6 +876,9 @@ Page({
             // })
             wx.reLaunch({
               url: paths.wifiSuccessSimple,
+              fail:(error)=>{
+                console.log('WB01_bluetooth_connection_network跳转wifiSuccessSimple页失败:',error)
+              }
             })
             clearInterval(timer)
           })
@@ -964,6 +970,9 @@ Page({
               // })
               wx.reLaunch({
                 url: paths.wifiSuccessSimple,
+                fail:(error)=>{
+                  console.log('WB01_bluetooth_connection_network非msmartBleWrite跳转wifiSuccessSimple页失败:',error)
+                }
               })
               clearInterval(timer)
             })
@@ -990,6 +999,9 @@ Page({
           })
           wx.reLaunch({
             url: paths.addSuccess,
+            fail:(error)=>{
+              console.log('mode100跳转成功页失败:',error)
+            }
           })
         } catch (error) {
           console.log('触屏绑定失败====', error)
@@ -1015,6 +1027,9 @@ Page({
           })
           wx.reLaunch({
             url: paths.addSuccess,
+            fail:(error)=>{
+              console.log('mode8跳转成功页失败:',error)
+            }
           })
         } catch (error) {
           this.goLinkDeviceFailPage(1301)
@@ -1165,6 +1180,9 @@ Page({
       if (error.action == 'cancel') {
         wx.reLaunch({
           url: paths.scanDevice,
+          fail:(error)=>{
+            console.log('服务器请求失败取消跳转添加设备页失败:',error)
+          }
         })
       }
     })
@@ -1209,7 +1227,10 @@ Page({
           app.addDeviceInfo.lastBindName = resp.data.data.name
           app.globalData.currentRoomId = resp.data.data.roomId
           wx.reLaunch({
-            url: paths.addSuccess
+            url: paths.addSuccess,
+            fail:(error)=>{
+              console.log('绑定账号成功跳转成功页失败:',error)
+            }
           })
           resolve(resp)
         })
@@ -1261,6 +1282,9 @@ Page({
             if (error.action == 'cancel') {
               wx.reLaunch({
                 url: paths.scanDevice,
+                fail:(error)=>{
+                  console.log('服务器请求失败跳转添加设备页失败2:',error)
+                }
               })
             }
           })
@@ -1656,6 +1680,7 @@ Page({
     if (decodeMsg.type == '8070') {
       //配网指令上行
       let code = parseInt(decodeMsg.body, 16)
+      console.error('配网指令上行------:',code)
       if (code == 0) {
         // showToast('模组收到wifi信息')
         console.log('模组响应收到wifi信息')
@@ -1934,6 +1959,9 @@ Page({
             wx.reLaunch({
               //洗衣机去扫码页
               url: app.addDeviceInfo.isWashingMachine ? paths.scanDevice + '?openScan=true' : paths.addGuide,
+              fail:(error)=>{
+                console.log('洗衣机去扫码页失败:',error)
+              }
             })
           } catch (error) {
             self.guideDialogFail()
@@ -2022,6 +2050,9 @@ Page({
             wx.reLaunch({
               //洗衣机去扫码页
               url: app.addDeviceInfo.isWashingMachine ? paths.scanDevice + '?openScan=true' : paths.addGuide,
+              fail:(error)=>{
+                console.log('洗衣机去扫码页失败2:',error)
+              }
             })
           } catch (error) {
             self.guideDialogFail()
@@ -2032,6 +2063,9 @@ Page({
         if (error.action == 'cancel') {
           wx.reLaunch({
             url: paths.index,
+            fail:(error)=>{
+              console.log('guideDialogFail跳转首页失败:',error)
+            }
           })
         }
       })
@@ -2409,12 +2443,13 @@ Page({
         BSSID: app.addDeviceInfo.BSSID,
       })
     } else {
-      console.log('[unsupport tcp bind wifi]')
       const self = this
       wx.getNetworkType({
         success(res) {
           const networkType = res.networkType
+          console.error('networkType========:',networkType)
           if (networkType == 'wifi') {
+            console.error('当前已经连接wifi,则直接连接')
             //如果当前已经连接wifi,则直接连接
             self.tcp.connect({
               address: address,
@@ -2619,6 +2654,9 @@ Page({
     try {
       if (!this.data.bindWifiInfo) return
       let bindWifiInfo = this.data.bindWifiInfo
+      if(!bindWifiInfo.PswContent) { // 密码为空的情况，重置密码长度
+        bindWifiInfo.PswLength = 0
+      }
       let order = {}
       order.randomCode = getRandomString(32).toLocaleLowerCase() //'241205fca8bb549178cd1e5b7c4f8893'
       this.data.randomCode = order.randomCode
@@ -2631,6 +2669,11 @@ Page({
         order.bssid = bindWifiInfo.BSSID.split(':').join('')
       } else {
         console.error('bindWifiInfo.BSSID为空', bindWifiInfo)
+        bindWifiInfo.BSSID = '00:00:00:00:00:00'
+        this.data.bindWifiInfo.BSSID = '00:00:00:00:00:00'
+        order.bssidLen = toHexString([bindWifiInfo.BSSID.split(':').join('').length / 2])
+        order.bssid = bindWifiInfo.BSSID.split(':').join('')
+        console.error('bindWifiInfo.BSSID为空改成00:00:00:00:00:00', bindWifiInfo)
         getApp().setMethodFailedCheckingLog('bindWifiInfo.BSSID为空', `bindWifiInfo=${JSON.stringify(bindWifiInfo)}`)
       }
       order.gbkssidLen = toHexString([bindWifiInfo.SSIDLength]) //backUp ssid
@@ -2669,7 +2712,7 @@ Page({
     let isLinkFamilyWifi = false
     let res = wx.getSystemInfoSync()
     console.log('res=====', res)
-    if (res.system.includes('Android')) {
+    if (res.system.includes('Android') || res.system.includes('harmony')) {
       isLinkFamilyWifi = true
     }
     return isLinkFamilyWifi
@@ -2954,10 +2997,16 @@ Page({
             if (data.data.status == '1' || data.data.status == '2') {
               wx.reLaunch({
                 url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&randomCode=${self.data.blueRandomCode || self.data.randomCode}&identifierPage=linkDevice`,
+                fail:(error)=>{
+                  console.log('有组合设备未确权跳转失败:',error)
+                }
               })
             } else { // 已确权
               wx.reLaunch({
                 url: `${paths.linkCombinedDevice}?randomCode=${self.data.blueRandomCode || self.data.randomCode}`,
+                fail:(error)=>{
+                  console.log('有组合设备已确权跳转失败:',error)
+                }
               })
             }
           } else { //非组合配网 未确权先跳 后确权页面
@@ -2965,31 +3014,29 @@ Page({
               const { data } = await this.linkDeviceService.getApplianceAuthType(applianceCode)
               if (data.data.status == '1' || data.data.status == '2') { //未确权
                 wx.reLaunch({
-                  url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`
+                  url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`,
+                  fail:(error)=>{
+                    console.log('非组合设备后确权跳转失败:',error)
+                  }
                 })
               } else { // 已确权
                 wx.reLaunch({
                   url: paths.addSuccess,
+                  fail:(error)=>{
+                    console.log('非组合设备已确权跳转失败:',error)
+                  }
                 })
               }
             } catch (error) {
               if (this.data.curStep == 2) { // 获取确权状态报错了，直接跳转到成功页
                 wx.reLaunch({
                   url: paths.addSuccess,
+                  fail:(error)=>{
+                    console.log('非组合设备获取确权状态报错了，跳转到成功页失败:',error)
+                  }
                 })
               }
             }
-
-            // wx.reLaunch({
-            //   url: paths.addSuccess,
-            //   fail(error) {
-            //     getApp().setMethodFailedCheckingLog('wx.reLaunch()', `跳转成功页异常。error=${JSON.stringify(error)}`)
-            //     this.apLogReportEven({
-            //       msg: '跳转配网成功页失败',
-            //       error: error,
-            //     })
-            //   },
-            // })
           }
         } else {
           //绑定设备接口失败，跳转配网失败页
@@ -3129,6 +3176,9 @@ Page({
               clearInterval(timer)
               wx.navigateTo({
                 url: paths.wifiSuccessSimple,
+                fail:(error)=>{
+                  console.log('华凌跳转wifiSuccessSimple页失败，navigateTo API:',error)
+                }
               })
               let btMac = this.data.btMac ? this.data.btMac.toLocaleUpperCase() : ''
               let remoteDeviceList = wx.getStorageSync('remoteDeviceList') ? wx.getStorageSync('remoteDeviceList') : []
@@ -3147,24 +3197,6 @@ Page({
               this.goLinkDeviceFailPage()
             }
           })
-
-          // this.againGetAPExists(this.data.sn, this.data.blueRandomCode, async (respon) => {
-          //   console.log('设备成功连上云', respon)
-          //   console.log('开始绑定设备')
-          //   let resp = await this.bindDeviceToHome()
-          //   console.log('绑定设备至默认家庭房间', resp)
-          //   app.addDeviceInfo.cloudBackDeviceInfo = resp.data.data
-          //   app.addDeviceInfo.cloudBackDeviceInfo.roomName = this.data.currentRoomName
-          //   clearInterval(timer)
-          //   wx.reLaunch({
-          //     url: paths.wifiSuccessSimple,
-          //   })
-          //   let btMac = this.data.btMac ? this.data.btMac.toLocaleUpperCase() : ''
-          //   let remoteDeviceList = wx.getStorageSync('remoteDeviceList') ? wx.getStorageSync('remoteDeviceList') : []
-          //   remoteDeviceList = remoteDeviceList.filter((item) => item.btMac != btMac)
-          //   wx.setStorageSync('remoteDeviceList', remoteDeviceList)
-          //   app.addDeviceInfo.mode = '' //置空模式
-          // })
           return
         }
         app.globalData.DeviceComDecorator.querySN()
@@ -3219,37 +3251,31 @@ Page({
             this.setData({
               curStep: 2,
             })
-            // app.addDeviceInfo.mode = 'air_conditioning_bluetooth_connection_network'
-            // wx.navigateTo({
-            //     url: paths.inputWifiInfo,
-            // })
-            // let type0x = bindRemoteDeviceResp.type
-            // let deviceInfo = encodeURIComponent(JSON.stringify(bindRemoteDeviceResp))
-            // wx.closeBLEConnection({ //断开连接
-            //     deviceId: app.addDeviceInfo.deviceId
-            // })
-            // wx.redirectTo({
-            //     url: `/plugin/T${type0x}/index/index?backTo=/pages/index/index&deviceInfo=${deviceInfo}`
-            // })
-            // wx.navigateTo({
-            //   url: paths.addSuccess,
-            // })
             try {
               let { applianceCode } = app.addDeviceInfo
               const { data } = await this.linkDeviceService.getApplianceAuthType(applianceCode)
               if (data.data.status == '1' || data.data.status == '2') { //未确权
                 wx.reLaunch({ //未确权 先跳后确权页面
-                  url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`
+                  url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`,
+                  fail:(error)=>{
+                    console.log('华凌未确权 先跳后确权页面失败:',error)
+                  }
                 })
               } else { // 已确权
                 wx.reLaunch({
                   url: paths.addSuccess,
+                  fail:(error)=>{
+                    console.log('华凌已确权 跳后成功失败:',error)
+                  }
                 })
               }
             } catch (error) {
               if (this.data.curStep == 2) { // 获取确权状态报错了，直接跳转到成功页
                 wx.reLaunch({
                   url: paths.addSuccess,
+                  fail:(error)=>{
+                    console.log('华凌获取确权状态报错了，直接跳转到成功页失败:',error)
+                  }
                 })
               }
             }
@@ -3418,6 +3444,12 @@ Page({
       // 有线配网不需要bindWifiInfo信息 兼容处理
       let bssid,encryptType,ssidLengthAndPswLength,ssidAndPsw,ssidAndPsw8Arr,ssidAndPswHex,chainHex
       if (bindWifiInfo && Object.keys(this.data.bindWifiTest).length) {
+        if(!this.data.bindWifiTest.BSSID) { // 处理BSSID获取不到的情况
+            this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+        }
+        if(!this.data.bindWifiTest.PswContent) { // 处理wifi密码为空的情况
+            this.data.bindWifiTest.PswLength = 0
+        }
         bssid = this.data.bindWifiTest.BSSID.split(':').join('')
         encryptType = this.data.bindWifiTest.EncryptType
         let lengthArr = []
@@ -3518,6 +3550,12 @@ Page({
   remoteSendWifiInfo(bindWifiInfo) {
     this.data.bindWifiTest = bindWifiInfo
     console.log('kkkkkkkk', this.data.bindWifiTest)
+    if(!this.data.bindWifiTest.BSSID) { // 处理BSSID获取不到的情况
+        this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+    }
+    if(!this.data.bindWifiTest.PswContent) { // 处理wifi密码为空的情况
+        this.data.bindWifiTest.PswLength = 0
+    }
     let bssid = this.data.bindWifiTest.BSSID.split(':').join('')
     let encryptType = this.data.bindWifiTest.EncryptType
     let lengthArr = []
@@ -3645,6 +3683,9 @@ Page({
       wx.reLaunch({
         // url: `/plugin/T${type0x}/index/index?backTo=/pages/index/index&deviceInfo=${deviceInfo}`,
         url: getPluginUrl(type0x) + `?backTo=/pages/index/index&deviceInfo=${deviceInfo}`,
+        fail:(error)=>{
+          console.log('WB01_bluetooth_connection_network，直接跳转到插件页失败:',error)
+        }
       })
       return
     }
@@ -3653,6 +3694,9 @@ Page({
     })
     wx.reLaunch({
       url: paths.index,
+      fail:(error)=>{
+        console.log('discardAdd函数，跳转到首页失败:',error)
+      }
     })
   },
   bindDeviceToHome(bindInfo) {
@@ -3755,10 +3799,22 @@ Page({
         if (data.data.status == '1' || data.data.status == '2') {
           wx.reLaunch({
             url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&randomCode=${self.data.blueRandomCode || self.data.randomCode}&identifierPage=linkDevice`,
+            success:()=>{
+              console.log('linkDevice组合设备跳转后确权页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice组合设备跳转后确权页面失败:',error)
+            }
           })
         } else { // 已确权
           wx.reLaunch({
             url: `${paths.linkCombinedDevice}?randomCode=${self.data.blueRandomCode || self.data.randomCode}`,
+            success:()=>{
+              console.log('linkDevice组合设备已确权跳转页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice组合设备已确权跳转页面成功失败:',error)
+            }
           })
         }
       } else { //非组合配网 未确权先跳 后确权页面
@@ -3766,12 +3822,24 @@ Page({
         console.log('### 接口查询确权状态：', data.data.status)
         if (data.data.status == '1' || data.data.status == '2') { //未确权
           wx.reLaunch({
-            url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`
+            url: `/distribution-network/addDevice/pages/afterCheck/afterCheck?backTo=/pages/index/index&identifierPage=linkDevice`,
+            success:()=>{
+              console.log('linkDevice非组合设备跳转后确权页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice非组合设备跳转后确权页面失败:',error)
+            }
           })
         } else { // 已确权
           console.error('准备跳转curStep11111111111=========:', this.data.curStep)
           wx.reLaunch({
             url: paths.addSuccess,
+            success:()=>{
+              console.log('linkDevice非组合设备已确权跳转页面成功')
+            },
+            fail:(error)=>{
+              console.log('linkDevice非组合设备已确权跳转页面失败:',error)
+            }
           })
         }
       }
@@ -3784,6 +3852,12 @@ Page({
       if (this.data.curStep == 2) { // 绑定设备到家庭成功，但是获取确权状态报错了，直接跳转到成功页
         wx.reLaunch({
           url: paths.addSuccess,
+          success:()=>{
+            console.log('linkDevice跳转保存页面成功')
+          },
+          fail:(error)=>{
+            console.log('linkDevice跳转保存页面失败:',error)
+          }
         })
       }
     }
@@ -4087,10 +4161,16 @@ Page({
       //单蓝牙
       wx.reLaunch({
         url: paths.addFail,
+        fail:(error)=>{
+          console.log('goLinkDeviceFailPage跳转失败页失败:',error,mode)
+        }
       })
     } else {
       wx.reLaunch({
         url: paths.linkNetFail,
+        fail:(error)=>{
+          console.log('goLinkDeviceFailPage非5和air_conditioning_bluetooth_connection跳转失败页失败:',error,mode)
+        }
       })
     }
   },

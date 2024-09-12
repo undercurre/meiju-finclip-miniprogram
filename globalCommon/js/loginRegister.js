@@ -79,12 +79,7 @@ const loginMethods = {
   //发送网络请求登陆小程序(自动登陆)
   async loginAPi() {
     // this.getSystemInfo().then((system) => {
-    let system
-    await wx.getSystemInfo({
-      success(res) {
-        system = res
-      },
-    })
+    let system = wx.getSystemInfoSync()
     let userInfo = wx.getStorageSync('userInfo')
     let app = getApp() || this
     if (userInfo) {
@@ -99,7 +94,8 @@ const loginMethods = {
           platform: 110,
           iotAppId: api.iotAppId,
           rule: 1,
-          deviceId: system.deviceId || userInfo.userInfo.mobile || '',
+          deviceId: app.globalData.deviceId || system.deviceId || userInfo.userInfo.mobile || '',
+          deviceName: system.model || '',
           tokenPwd: userInfo.mdata.tokenPwdInfo.tokenPwd || '',
           uid: userInfo.uid || '',
           nickname: (userInfo.userInfo && userInfo.userInfo.nickName) || '',
@@ -131,6 +127,15 @@ const loginMethods = {
               }
               getPrivateKeys.getPrivateKeyAfterLogin()
               resolve(userInfo)
+              //设置宿主缓存
+              try {
+                ft?.setPreferences({
+                  key: 'finClipLoginInfo',
+                  val: userInfo,
+                })
+              } catch (error) {
+                console.log('设置宿主缓存error', error)
+              }
             } else {
               console.log('login fail res :', res.data)
               app.globalData.isLogon = false
@@ -184,7 +189,8 @@ const loginMethods = {
           appKey: '46579c15',
           imgCode: params.imgCode,
           randomToken: params.randomToken,
-          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+          deviceName: app.globalData.appSystemInfo.model || '',
+          deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         },
         iotData: {
           iotAppId: api.iotAppId,
@@ -221,7 +227,8 @@ const loginMethods = {
         appVersion: app.globalData.appVersion || '9.0,',
         osVersion: '',
         platform: 110,
-        deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+        deviceName: app.globalData.appSystemInfo.model || '',
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         smsCode: params.vercode,
       }
       let data = {
@@ -232,7 +239,8 @@ const loginMethods = {
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,
-          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+          deviceName: app.globalData.appSystemInfo.model || '',
+          deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
@@ -260,6 +268,15 @@ const loginMethods = {
               wx.setStorageSync('userRegion', res.data.data.region) //存储
             }
             getPrivateKeys.getPrivateKeyAfterLogin()
+            //设置宿主缓存
+            try {
+              ft?.setPreferences({
+                key: 'finClipLoginInfo',
+                val: res.data.data,
+              })
+            } catch (error) {
+              console.log('设置宿主缓存error', error)
+            }
             resolve(res.data.data)
           } else {
             console.log('login fail res :', res.data)
@@ -313,6 +330,9 @@ const loginMethods = {
         break
       case 65009:
         label = '验证码错误，请重新输入'
+        break
+      case 65027:
+        label = '该用户在线登录设备已超过上限,请更换账号登录'
         break
       default:
         label = '操作失败，请重新再试'
@@ -461,6 +481,15 @@ const loginMethods = {
     // clearStorageSync()
     setIsAutoLogin(false)
     removeUserInfo()
+    //清除宿主缓存
+    try {
+      ft?.setPreferences({
+        key: 'finClipLoginInfo',
+        val: '',
+      })
+    } catch (error) {
+      console.log('delete宿主缓存error', error)
+    }
   },
   // 获取是否在c4a提交注销
   getLogoutStatus() {
@@ -489,7 +518,7 @@ const loginMethods = {
         .then((res) => {
           console.log('列表查询', res)
           if (res.data.code == 0) {
-            resolve(res.data.data.iconList)
+            resolve(res.data.data)
             // wx.setStorageSync('dcpDeviceImgList', res.data.data.iconList)
             // that.globalData.dcpDeviceImgList = res.data.data.iconList
           }

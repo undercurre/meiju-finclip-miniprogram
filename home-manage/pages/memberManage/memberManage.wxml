@@ -3,7 +3,7 @@
 <mx-nav-bar title="{{title}}" bind:click-left="onClickLeft"> </mx-nav-bar>
 <view class="main-container">
   <view class="member-container">
-    <mx-cell-group>
+    <mx-cell-group border="{{ false }}">
       <mx-cell
         size="large"
         imageSize="48"
@@ -15,6 +15,7 @@
         data-userId="{{ item.userId }}"
         bindtap="showMemberAction"
         is-link="{{roleId < item.roleId}}"
+        border="{{ memberList.length == index+1 ? false:true }}"
       >
         <view slot="icon" class="avatar-box">
           <mx-image custom-class="avatar" round fit="cover" plate="{{plate}}" src="{{ item.headImgUrl }}"></mx-image>

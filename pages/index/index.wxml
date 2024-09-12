@@ -19,6 +19,7 @@
             data-type="more"
             id="home-manage"
             homeList="{{homeList}}"
+            click-after-completion="{{clickAfterCompletion}}"
             currentHomeInfo="{{currentHomeInfo}}"
             currentHomeGroupIndex="{{currentHomeGroupIndex}}"
             currentHomeGroupId="{{currentHomeGroupId}}"
@@ -93,6 +94,18 @@
                       bindlongpress="editeLongPress"
                     >
                       <view>
+                        <!-- <mx-image -->
+                        <!-- custom-class="device-icon" -->
+                        <!-- useLoadingSlot -->
+                        <!-- lazy-load="{{true}}" -->
+                        <!-- plate="meiju" -->
+                        <!-- src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}" -->
+                        <!-- binderror="bindSupporteError" -->
+                        <!-- style="{{device.isImgError?'opacity:1':'opacity:'+tools.filterDeviceImgOpacity(device)}}" -->
+                        <!-- data-index="{{index}}" -->
+                        <!-- > -->
+                        <!-- <image slot="loading" class="device-icon-loaading" src="{{imgLoading}}" /> -->
+                        <!-- </mx-image> -->
                         <image
                           class="device-icon"
                           lazy-load="{{true}}"
@@ -112,7 +125,12 @@
                           </view>
                         </view>
 
-                        <view wx:if="{{device.isAuth}}" class="device-check"> 待验证 </view>
+                        <view
+                          wx:if="{{device.isAuth && (device.onlineStatus =='1'|| device.bindType==1||device.bindType==3)}}"
+                          class="device-check"
+                        >
+                          待验证
+                        </view>
                         <view wx:else class="device-desc" style="opacity:{{tools.filterOpacity(device)}}">
                           <view class="roomName"
                             ><view class="roomName_title">{{device.roomName}}</view
@@ -139,71 +157,69 @@
                       ></edit-delete-card>
                       <view class="{{showAni?'blueMask':''}}" wx:if="{{sEInd===index}}"></view>
                     </view>
-                    <!-- 已购未激活设备卡片start -->
-                    <view
-                      wx:for="{{boughtDevices}}"
-                      wx:key="index"
-                      wx:for-index="index"
-                      wx:for-item="device"
-                      style="opacity: 1"
-                      class="'device-card' {{'bought-device-'+index}} {{bouEInd===index&&showAni?'upAni':''}}"
-                      bindlongpress="editeLongPress"
-                      data-type="boughtDevices"
-                      data-index="{{index}}"
-                      data-all="{{device}}"
-                      data-support="support"
-                    >
-                      <image
-                        bindtap="bindNow"
-                        data-device="{{device}}"
-                        lazy-load="{{true}}"
-                        class="device-icon"
-                        src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
-                        binderror="bindBoughtError"
-                        data-index="{{index}}"
-                      ></image>
-                      <view class="device-desc">
-                        <view class="device-desc-name">
-                          <view class="name-click" bindtap="bindNow" data-device="{{device}}"></view>
-                          <view class="name" style="max-width:{{tools.getMaxWidth(device)}}"
-                            >{{device.applianceName}}</view
-                          >
-                        </view>
-                        <view
-                          data-device="{{device}}"
-                          class="delCard"
-                          style="background-image:url({{ baseImgUrl }}/card_ic_close@3x.png)"
-                        >
-                          <view class="delCard-click" data-device="{{device}}" bindtap="delBoughtDeviceCard"></view>
-                        </view>
-                      </view>
-
-                      <view class="bind-desc">
-                        <!-- <view class="onlineStatus">
-                            <view class="onlineStatus-click" bindtap="bindNow" data-device="{{device}}"></view>
-                            <view class="onlineStatus-text"
-                              >{{device.boughtType ? '去扫码绑定' : '待绑定'}} <text space="nbsp">| </text></view
-                            >
-                          </view> -->
-                        <view bindtap="bindNow" data-device="{{device}}" class="bindNow">
-                          立即绑定
-                          <mx-icon name="play" size="8" />
-                        </view>
-                      </view>
-
-                      <edit-delete-card
-                        id="editDeleteCard"
-                        editList="{{supportEditList}}"
-                        editFlag="{{editFlag}}"
-                        device="{{device}}"
-                        bind:editBacFun="editBacFun"
-                        support="support"
-                        wx:if="{{bouEInd===index&&showEdit}}"
-                      ></edit-delete-card>
-                      <view class="{{showAni?'blueMask':''}}" wx:if="{{bouEInd===index}}"></view>
-                    </view>
-                    <!-- 已购未激活设备卡片end -->
                   </block>
+                  <!-- 已购未激活设备卡片start -->
+                  <view
+                    wx:for="{{boughtDevices}}"
+                    wx:key="index"
+                    wx:for-index="index"
+                    wx:for-item="device"
+                    style="opacity: 1"
+                    class="'device-card' {{'bought-device-'+index}} {{bouEInd===index&&showAni?'upAni':''}}"
+                    bindlongpress="editeLongPress"
+                    data-type="boughtDevices"
+                    data-index="{{index}}"
+                    data-all="{{device}}"
+                    data-support="support"
+                  >
+                    <image
+                      bindtap="bindNow"
+                      data-device="{{device}}"
+                      lazy-load="{{true}}"
+                      class="device-icon"
+                      src="{{device.deviceImg?device.deviceImg:baseImgUrl+'dms_img_lack@3x.png'}}"
+                      binderror="bindBoughtError"
+                      data-index="{{index}}"
+                    ></image>
+                    <view class="device-desc">
+                      <view class="device-desc-name">
+                        <view class="name-click" bindtap="bindNow" data-device="{{device}}"></view>
+                        <view class="name" style="max-width:{{tools.getMaxWidth(device)}}"
+                          >{{device.applianceName}}</view
+                        >
+                      </view>
+                      <view
+                        data-device="{{device}}"
+                        class="delCard"
+                        style="background-image:url({{ baseImgUrl }}/card_ic_close@3x.png)"
+                      >
+                        <view class="delCard-click" data-device="{{device}}" bindtap="delBoughtDeviceCard"></view>
+                      </view>
+                    </view>
+                    <view class="bind-desc">
+                      <!-- <view class="onlineStatus">
+          <view class="onlineStatus-click" bindtap="bindNow" data-device="{{device}}"></view>
+          <view class="onlineStatus-text"
+            >{{device.boughtType ? '去扫码绑定' : '待绑定'}} <text space="nbsp">| </text></view
+          >
+        </view> -->
+                      <view bindtap="bindNow" data-device="{{device}}" class="bindNow">
+                        立即绑定
+                        <mx-icon name="play" size="8" />
+                      </view>
+                    </view>
+                    <edit-delete-card
+                      id="editDeleteCard"
+                      editList="{{supportEditList}}"
+                      editFlag="{{editFlag}}"
+                      device="{{device}}"
+                      bind:editBacFun="editBacFun"
+                      support="support"
+                      wx:if="{{bouEInd===index&&showEdit}}"
+                    ></edit-delete-card>
+                    <view class="{{showAni?'blueMask':''}}" wx:if="{{bouEInd===index}}"></view>
+                  </view>
+                  <!-- 已购未激活设备卡片end -->
                   <view
                     data-type="card"
                     wx:if="{{isCanAddDevice}}"
@@ -386,5 +402,9 @@
   </mx-dialog>
   <mx-dialog id="mx-dialog" />
   <mx-toast id="mx-toast" />
-  <version-update-dialog poupInfomation="{{poupInfomation}}" isWifiNetWork="{{isWifiNetWork}}" bindversionUpadte="versionUpadte"></version-update-dialog>
+  <version-update-dialog
+    poupInfomation="{{poupInfomation}}"
+    isWifiNetWork="{{isWifiNetWork}}"
+    bindversionUpadte="versionUpadte"
+  ></version-update-dialog>
 </view>

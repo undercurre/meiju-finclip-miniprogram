@@ -41,14 +41,14 @@
               <text class="wifi-name" wx:if="{{showNormalPaperwork}}">{{brandName}}_{{tools.toLocaleLowerCase(type)}}_</text>
               <text class="wifi-name" wx:if="{{!showNormalPaperwork}}">{{deviceBrandName}}_{{tools.toLocaleLowerCase(type)}}_</text>
               <text class="sn4">xxxx</text>
-              <text class="pad">(4位数字和字母)</text>
+              <text class="pad">(4位数字/字母)</text>
             </view>
             <view class="rc-hotpost" style="margin-bottom: 36rpx" wx:else>
               <image class="wifi-img" src="{{wifi}}"></image>
               <view>
                 <text class="wifi-name">COLMO_{{tools.toLocaleLowerCase(type)}}_</text>
                 <text class="sn4">xxxx</text>
-                <text class="pad">(4位数字和字母)</text>
+                <text class="pad">(4位数字/字母)</text>
                 <view>
                   <text class="sn4">或</text>
                   <text class="wifi-name">midea_{{tools.toLocaleLowerCase(type)}}_</text>
@@ -142,14 +142,14 @@
           <text class="wifi-name" wx:if="{{showNormalPaperwork}}">{{brandName}}_{{tools.toLocaleLowerCase(type)}}_</text>
           <text class="wifi-name" wx:if="{{!showNormalPaperwork}}">{{deviceBrandName}}_{{tools.toLocaleLowerCase(type)}}_</text>
           <text class="sn4">xxxx</text>
-          <text class="pad">(4位数字和字母)</text>
+          <text class="pad">(4位数字/字母)</text>
         </view>
         <view class="rc-hotpost" style="margin-bottom: 36rpx" wx:else>
           <image class="wifi-img" src="{{wifi}}"></image>
           <view>
             <text class="wifi-name">COLMO_{{tools.toLocaleLowerCase(type)}}_</text>
             <text class="sn4">xxxx</text>
-            <text class="pad">(4位数字和字母)</text>
+            <text class="pad">(4位数字/字母)</text>
             <view>
               <text class="sn4">或</text>
               <text class="wifi-name">midea_{{tools.toLocaleLowerCase(type)}}_</text>
@@ -192,7 +192,7 @@
             </view>
             <view class="detail-four detail-step">
               <text class="detail-text">
-                温馨提示：若没有发现类似无线网络，可关闭无线局域网开关再打开，刷新列表
+                温馨提示：若没有发现类似无线网络，可关闭WLAN开关再打开，刷新列表
               </text>
               <view class="step-four">
                 <image class="detail-img detail-step" src="{{imgBaseUrl+imges.detailStep4_1}}"></image>

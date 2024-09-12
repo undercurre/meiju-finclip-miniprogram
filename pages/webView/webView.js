@@ -109,6 +109,13 @@ Page({
     })
   },
 
+  //加载页面失败
+  loadError() {
+    console.log('加载失败------>')
+    this.setData({
+      noNetwork: true,
+    })
+  },
   //加载webview
   onloadWebview(options) {
     this.setData({

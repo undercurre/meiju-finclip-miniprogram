@@ -61,12 +61,12 @@ const wb01BindBLeAfterWifi = {
   // 'DA': {
   //     'SN8': ['66778899']
   // },
-  13: {
-    SN8: ['79009833'],
-  },
-  26: {
-    SN8: ['5706674Q', '5706674P', '57066720'],
-  },
+  // 13: {
+  //   SN8: ['79009833'],
+  // },
+  // 26: {
+  //   SN8: ['5706674Q', '5706674P', '57066720'],
+  // },
 }
 
 //是否走wb01直连后配网
@@ -277,6 +277,9 @@ const addDeviceService = {
     if (mode == 1) {
       //特殊逻辑 快连在小程序转为ap配网
       return 0
+    } else if (mode == '20' || mode == '020'){
+      //蜂窝配网，美居暂不支持
+      return 20
     } else if (mode == '' || !Object.keys(this.modeList).includes(mode)) {
       //mode为空 或者不规则都转为ap配网
       return 0
@@ -628,7 +631,11 @@ const addDeviceService = {
     } else if (mode == '000' || mode == '001' || mode == '1') {
       //001 1 的mode临时转为ap配网
       return 0
-    } else if (mode == '' || !Object.keys(modeList).includes(mode)) {
+    } else if(mode == '20' || mode == '020') {
+      //蜂窝配网，美居不支持
+      return 20
+    }
+     else if (mode == '' || !Object.keys(modeList).includes(mode)) {
       //mode为空 或者不规则都转为ap配网
       return 0
     }

@@ -64,28 +64,81 @@ const setPluginFilter = (pluginFilterS_N8, pluginFilter_type) => {
     }
   })
 }
-//缓存家庭和设备相关的信息
-const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedApplianceList) => {
-  let getApplianceListConfig = {}
+//缓存当前家庭id和设备列表的信息
+const setApplianceListConfig = (homeId, supportedApplianceList, unsupportedApplianceList, boughtDevices) => {
+  // if (getApp().globalData?.userData?.uid) {
+  //let getApplianceListConfig = {}
   if (wx.getStorageSync('applianceListConfig')) {
-    getApplianceListConfig = wx.getStorageSync('applianceListConfig')
+    wx.removeStorageSync('applianceListConfig')
+    // getApplianceListConfig = wx.getStorageSync('applianceListConfig')
+    // if (getApplianceListConfig.uid != getApp().globalData.userData.uid) {
+    // getApplianceListConfig = {}
+    // }
   }
-  let homeStorage = {}
+  let homeStorage = {
+    // uid: getApp().globalData.userData.uid,
+  }
   if (!homeStorage[homeId]) {
     homeStorage[homeId] = {
       supportedApplianceList: [],
       unsupportedApplianceList: [],
+      boughtDevices: [],
     }
   }
   homeStorage[homeId]['supportedApplianceList'] = supportedApplianceList
   homeStorage[homeId]['unsupportedApplianceList'] = unsupportedApplianceList
-  let applianceListConfig = {
-    ...homeStorage,
-    ...getApplianceListConfig,
-  }
-  console.log('缓存家庭设备信息', applianceListConfig)
-  wx.setStorageSync('applianceListConfig', applianceListConfig)
+  homeStorage[homeId]['boughtDevices'] = boughtDevices
+  // let applianceListConfig = {
+  // ...homeStorage,
+  // ...getApplianceListConfig,
+  // }
+  //console.log('缓存家庭设备信息', homeStorage)
+  wx.setStorageSync('applianceListConfig', homeStorage)
   wx.setStorageSync('currentHomeGroupId', homeId)
+}
+
+//保存会员信息
+const setVipUserInfo = (vipUserInfo) => {
+  //先清除，再保存
+  if (wx.getStorageSync('vipUserInfo')) wx.removeStorageSync('vipUserInfo')
+  wx.setStorageSync('vipUserInfo', vipUserInfo)
+}
+//缓存当前家庭
+const getCurrentHomeGroupId = () => {
+  return wx.getStorageSync('currentHomeGroupId')
+}
+//获取当前家庭设备数据
+const getApplianceListConfig = () => {
+  return wx.getStorageSync('applianceListConfig')
+}
+//缓存家庭列表
+const setHomeGrounpList = (homeList) => {
+  //先清除，再保存
+  if (wx.getStorageSync('homeGrounpList')) wx.removeStorageSync('homeGrounpList')
+  wx.setStorageSync('homeGrounpList', homeList)
+}
+//获取混存家庭列表
+const getStrogeHomeGrounpList = () => {
+  return wx.getStorageSync('homeGrounpList')
+}
+//缓存确权状态
+const setBatchAuthList = (batchAuthList) => {
+  //先清除，再保存
+  if (wx.getStorageSync('batchAuthList')) wx.removeStorageSync('batchAuthList')
+  wx.setStorageSync('batchAuthList', batchAuthList)
+}
+//获取换确权状态
+const getStrogeBatchAuthList = () => {
+  return wx.getStorageSync('batchAuthList')
+}
+
+//缓存设备图标
+const setDcpDeviceImg = (dcpDeviceImgList, spidDeviceImgList) => {
+  //先清除，再保存
+  if (wx.getStorageSync('dcpDeviceImgList')) wx.removeStorageSync('dcpDeviceImgList')
+  if (wx.getStorageSync('spidDeviceImgList')) wx.removeStorageSync('spidDeviceImgList')
+  wx.setStorageSync('dcpDeviceImgList', dcpDeviceImgList)
+  wx.setStorageSync('spidDeviceImgList', spidDeviceImgList)
 }
 
 //设置弹框显示的间隔时间
@@ -227,7 +280,7 @@ const setAutonInfo = (phoneNumber, tokenPwd, uid) => {
   ]
   wx.nextTick(() => {
     for (let i = 0, len = setStorageList.length; i < len; i++) {
-      wx.setStoragesync({
+      wx.setStorage({
         key: setStorageList[i].key,
         data: setStorageList[i].value,
       })
@@ -264,7 +317,7 @@ const checkTokenExpired = (MPTOKEN_USERINFO, MPTOKEN_EXPIRATION) => {
   const timestamp = Date.parse(new Date())
   return MPTOKEN_USERINFO && appTokenDeadTime && appTokenDeadTime > timestamp ? true : false
 }
-//token刷新过期
+//tokenPwd过期
 const checkTokenPwdExpired = (MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) => {
   let appTokenDeadTime = parseInt(MPTOKEN_AUTOLOGIN_EXPIRATION)
   const timestamp = Date.parse(new Date())
@@ -294,4 +347,12 @@ module.exports = {
   checkTokenPwdExpired,
   setPluginFilter,
   setApplianceListConfig,
+  setHomeGrounpList,
+  getStrogeHomeGrounpList,
+  setBatchAuthList,
+  getStrogeBatchAuthList,
+  getApplianceListConfig,
+  getCurrentHomeGroupId,
+  setVipUserInfo,
+  setDcpDeviceImg,
 }

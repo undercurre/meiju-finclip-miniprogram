@@ -450,15 +450,12 @@ Component({
         applianceStatus.running_status !== 'start' &&
         applianceStatus.running_status !== 'pause' &&
         applianceStatus.running_status !== 'fault' &&
-        applianceStatus.running_status !== 'delay'
+        applianceStatus.running_status !== 'delay' &&
+        applianceStatus.running_status !== 'end' &&
+        applianceStatus.baby_lock !== 1 &&
+        applianceStatus.lock !== 'on'
       ) {
-        if (
-          (applianceStatus.running_status === 'end' || applianceStatus.running_status === 'end_prevent_wrinkle') &&
-          this.data.currentTube.bucket !== 'dc'
-        ) {
-          return
-        }
-        this.isShowModePicker = true
+        this.data.isShowModePicker = true
         this.setData({
           isShowModePicker: true,
         })
@@ -473,8 +470,23 @@ Component({
         ) {
           canChangeCycleOnPause = true
         }
-        if (applianceStatus.power == 'on' && canChangeCycleOnPause && applianceStatus.running_status === 'pause') {
-          this.isShowModePicker = true
+        var supportChangeCycleAfterFinish = false;
+        if (this.data.deviceConfig.supportChangeCycleAfterFinish) {
+          supportChangeCycleAfterFinish = true
+        } else if (
+            this.data.deviceConfig.tubeList &&
+            (this.data.deviceConfig.tubeList[0].supportChangeCycleAfterFinish ||
+              this.data.deviceConfig.tubeList[1].supportChangeCycleAfterFinish)
+        ) {
+          supportChangeCycleAfterFinish = true
+        }
+        if (applianceStatus.power == 'on' && (canChangeCycleOnPause && applianceStatus.running_status === 'pause' ||
+         canChangeCycleOnPause && applianceStatus.running_status === 'delay_pause' ||
+         supportChangeCycleAfterFinish && applianceStatus.running_status === 'end') &&
+         applianceStatus.running_status !== 'fault' &&
+         applianceStatus.lock !== 'on' &&
+         applianceStatus.baby_lock !== 1) {
+          this.data.isShowModePicker = true
           this.setData({
             isShowModePicker: true,
           })
@@ -484,7 +496,7 @@ Component({
       }
     },
     closeModePop() {
-      this.isShowModePicker = false
+      this.data.isShowModePicker = false
       this.setData({
         isShowModePicker: false,
       })
@@ -498,7 +510,7 @@ Component({
       if (this.data.selectModeIndex === -1) {
         return
       }
-      this.isShowModePicker = false
+      this.data.isShowModePicker = false
       this.setData({
         isShowModePicker: false,
       })
@@ -634,24 +646,17 @@ Component({
       if (
         applianceStatus.power == 'on' &&
         applianceStatus.running_status !== 'start' &&
+        applianceStatus.running_status !== 'pause' &&
         applianceStatus.running_status !== 'fault' &&
         applianceStatus.running_status !== 'delay' &&
-        applianceStatus.baby_lock != 1 &&
-        applianceStatus.baby_lock != '1' &&
-        applianceStatus.baby_lock != 'on'
+        applianceStatus.running_status !== 'end' &&
+        applianceStatus.lock !== 'on' &&
+        applianceStatus.baby_lock !== 1 &&
+        applianceStatus.baby_lock !== '1'
       ) {
         running_status3 = {
           mainImg: this.data.modeImg.on,
           desc: '设置模式',
-        }
-        if (
-          (applianceStatus.running_status === 'end' || applianceStatus.running_status === 'end_prevent_wrinkle') &&
-          this.data.currentTube.bucket !== 'dc'
-        ) {
-          running_status3 = {
-            mainImg: this.data.modeImg.off,
-            desc: '设置模式',
-          }
         }
       } else {
         var canChangeCycleOnPause = false
@@ -664,12 +669,25 @@ Component({
         ) {
           canChangeCycleOnPause = true
         }
+        var supportChangeCycleAfterFinish = false
+        if (this.data.deviceConfig.supportChangeCycleAfterFinish) {
+            supportChangeCycleAfterFinish = true
+        } else if (
+          this.data.deviceConfig.tubeList &&
+          (this.data.deviceConfig.tubeList[0].supportChangeCycleAfterFinish ||
+            this.data.deviceConfig.tubeList[1].supportChangeCycleAfterFinish)
+        ) {
+            supportChangeCycleAfterFinish = true
+        }
         if (
-          canChangeCycleOnPause &&
-          applianceStatus.running_status === 'pause' &&
-          applianceStatus.baby_lock != 1 &&
-          applianceStatus.baby_lock != '1' &&
-          applianceStatus.baby_lock != 'on'
+          applianceStatus.power == 'on' &&
+          (canChangeCycleOnPause && applianceStatus.running_status === 'pause' ||
+          canChangeCycleOnPause && applianceStatus.running_status === 'delay_pause' ||
+          supportChangeCycleAfterFinish && applianceStatus.running_status === 'end') &&
+          applianceStatus.running_status !== 'fault' &&
+          applianceStatus.baby_lock !== 1 &&
+          applianceStatus.baby_lock !== '1' &&
+          applianceStatus.lock !== 'on'
         ) {
           running_status3 = {
             mainImg: this.data.modeImg.on,

@@ -19,7 +19,7 @@ page{
 }
 
 .invite-header-sub-title{
-  margin: 24rpx 0 48rpx 0;
+  margin: 24rpx 0 146rpx 0;
   font-family: PingFangSC-Regular;
   font-size: 28rpx;
   color: #8A8A8F;

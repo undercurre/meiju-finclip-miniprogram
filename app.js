@@ -37,6 +37,7 @@ import {
   isAutoLoginTokenValid,
   checkTokenExpired,
   checkTokenPwdExpired,
+  setDcpDeviceImg,
 } from './utils/redis.js'
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
@@ -99,29 +100,31 @@ App({
   getDcpDeviceImg() {
     let that = this
     let sceneIconList = wx.getStorageSync('dcpDeviceImgList')
+    let spidDeviceImgList = wx.getStorageSync('spidDeviceImgList')
+    console.log('获取设备图标缓存----》wx.getStorageSync', wx.getStorageSync('dcpDeviceImgList'))
     this.globalData.dcpDeviceImgList = sceneIconList
+    this.globalData.spidDeviceImgList = spidDeviceImgList
     loginMethods
       .getDcpDeviceImgs()
       .then((res) => {
-        console.log('获取设备图标 app内')
+        console.log('获取设备图标 app内', res)
         try {
           //部分手机会因为长度超限制设置失败
           wx.nextTick(() => {
-            wx.setStorageSync({
-              key: 'dcpDeviceImgList',
-              data: res,
-            })
+            setDcpDeviceImg(res.iconList, res.smartProductIdList)
           })
         } catch (error) {
           console.log('setStorage error', error)
         }
-        that.globalData.dcpDeviceImgList = res
+        that.globalData.dcpDeviceImgList = res.iconList
+        that.globalData.spidDeviceImgList = res.smartProductIdList
       })
       .catch((err) => {
         console.log(err)
       })
   },
   onLaunch: async function (options) {
+    console.log(`performance onLaunch start ${new Date().getTime() - this.globalData.performanceStartTime}`)
     console.log('launch options', options)
     //监听网络变化
     onNetworkStatusChange.call(this)
@@ -140,11 +143,25 @@ App({
         success: function (res) {
           console.log('Yoram getAppInfo success ------------>', res)
           env = res.data.data.ENV
+          self.globalData.appEnv = res.data.data.ENV
+          self.globalData.appVersion = res.data.data.VERSION_NAME
           self.getBlackWhiteList(options, env)
         },
         fail: function (res) {
           console.log('Yoram getAppInfo fail--------->', res)
           self.getBlackWhiteList(options, env)
+        },
+      })
+      const accountInfo = ft.getAccountInfoSync()
+      const deviceId = ft.getDeviceIdSync().data.id
+      console.log('当前小程序版本信息-------->', accountInfo.miniProgram)
+      this.globalData.deviceId = deviceId
+      this.globalData.miniProgram = accountInfo.miniProgram
+      // 网络请求返回日志标识
+      wx.getStorage({
+        key: 'isEnableHttpResponseLog',
+        success(res) {
+          self.globalData.isEnableHttpResponseLog = res.data
         },
       })
     } catch (error) {
@@ -169,15 +186,16 @@ App({
       if (typeof isAutoLogin !== 'boolean') {
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
+      //冷启动登录逻辑校验
       //60天内不需要重新登录
       if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
         //4小时不操作需要刷新用户token
-        if (isAutoLogin && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
           loginMethods.loginAPi
             .call(this)
             .then((res2) => {
-              console.log('app loginAPi sucesss', res2)
-              console.log('app loginAPi sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+              console.log('app onLaunch resfreshToken sucesss', res2)
+              console.log('app onLaunch resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
               this.globalData.isActionAppLaunch = false
               this.globalData.wxExpiration = true
               if (this.callbackFn) {
@@ -186,35 +204,31 @@ App({
             })
             .catch((err) => {
               console.log('app loginAPi catch', err)
-              this.setLoginFalse()
+              //先保持登录状态
+              this.globalData.isActionAppLaunch = false
+              loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+              //this.setLoginFalse()
             })
-        } else if (isAutoLogin && checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
           // 有效期内直接登录
+          this.globalData.isActionAppLaunch = false
           loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
-        } else {
-          this.setLoginFalse()
         }
       } else {
-        this.globalData.isLogon = false
-        this.globalData.wxExpiration = false
-        if (this.callbackFn) {
-          this.callbackFn()
-        }
+        this.setLoginFalse()
       }
     } catch (error) {
       console.log(error, 'app onLaunch try cache', error)
-      this.globalData.isLogon = false
-      this.globalData.isActionAppLaunch = false
-      this.globalData.wxExpiration = false
-      if (this.callbackFn) {
-        this.callbackFn()
-      }
+      this.setLoginFalse()
     }
     //获取设备图标
     this.getDcpDeviceImg()
+
+    console.log(`performance onLaunch end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },
 
   onShow: async function (options) {
+    console.log(`performance onShow start ${new Date().getTime() - this.globalData.performanceStartTime}`)
     //息屏后重连
     if (this.globalData.gloabalWebSocket && this.globalData.gloabalWebSocket._isClosed && this.globalData.isLogin) {
       initWebsocket()
@@ -227,25 +241,28 @@ App({
       let isAutoLogin = null
       let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
-      let mptoken = null
+      //let mptoken = null
+      let MPTOKEN_USERINFO
       isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
       MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
-      mptoken = wx.getStorageSync('MPTOKEN')
+      MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+      //mptoken = wx.getStorageSync('MPTOKEN')
       if (typeof isAutoLogin !== 'boolean') {
         setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
       }
-      let isloginTrue =
-        isAutoLogin &&
-        isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION) &&
-        !this.globalData.isActionAppLaunch &&
-        !this.checkActionAppShow(mptoken, MPTOKEN_EXPIRATION)
-      if (isloginTrue) {
+      //热启动阶段，热启动和热启动逻辑和小程序存在较大差异
+      //热启动如果超过60天，无需特殊处理
+      //if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) && !this.globalData.isActionAppLaunch) {
+      //4小时需要刷新token
+      if (!this.globalData.isActionAppLaunch && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
         this.globalData.isActionAppLaunch = false
         this.globalData.wxExpiration = null
         loginMethods.loginAPi
           .call(this)
           .then(() => {
+            console.log('app onshow resfreshToken sucesss')
+            console.log('app onshow resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
             this.globalData.wxExpiration = true
             if (this.callbackFn) {
               this.callbackFn()
@@ -254,12 +271,13 @@ App({
           .catch(() => {
             this.globalData.wxExpiration = true
             this.globalData.isLogon = false
-            this.globalData.wxExpiration = false
             if (this.callbackFn) {
               this.callbackFn()
             }
           })
       }
+      //有效期内不需要特殊处理
+      //}
     } catch (error) {
       console.log(error, 'onshow try cache')
     }
@@ -268,6 +286,8 @@ App({
     //this.triggerWxAuth()
     //获取设备信息
     this.getSystemInfo()
+
+    console.log(`performance onShow end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },
   //获取设备相关信息
   getSystemInfo() {
@@ -492,9 +512,9 @@ App({
 
   //黑白名单获取.appId
   getBlackWhiteList(options, env) {
-    let verType = 'trial'
-    if (env == 'prod') {
-      verType = 'release'
+    let verType = 'release'
+    if (env != 'prod') {
+      verType = 'trial'
     }
     console.log('插件黑白名单参数：verType:', verType)
     //先去缓存读取数据
@@ -595,6 +615,7 @@ App({
     bleSessionSecret: '',
     deviceSessionId: '',
     dcpDeviceImgList: {},
+    spidDeviceImgList: {},
     isUpdateAgreement: false, //是否已经更新协议
     wahinDecorator: {}, //华凌serve
     selectedProductCurrIndex: 1,
@@ -653,7 +674,11 @@ App({
     selectTab: 0,
     noNetwork: false, //判断是否有网络
     appEnv: '', //宿主的环境
-    appVersion: '',
+    appVersion: '', //宿主的版本号
+    miniProgram: {}, //小程序信息
+    isEnableHttpResponseLog: false, //开启hilog记录网络接口返回
+    deviceId: '',
+    performanceStartTime: new Date().getTime(),
   },
   scanDeviceMap: {},
   addDeviceInfo: {

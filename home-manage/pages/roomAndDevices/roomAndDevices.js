@@ -7,6 +7,7 @@ import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 import { roomDetail } from '../../../utils/paths.js'
 const commonBehavior = require('../../assets/behavior')
+import { showToast } from 'm-miniCommonSDK/index'
 Page({
   behaviors: [commonBehavior],
   /**
@@ -207,7 +208,7 @@ Page({
     }
     this.addRoom()
       .then((res) => {
-        console.log(res, '新建房间成功')
+        showToast('新建房间成功')
         if (res.data.code === 0) {
           this.setData({
             roomName: '',

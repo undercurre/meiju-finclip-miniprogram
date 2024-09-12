@@ -416,7 +416,17 @@
       }
   ],
   "preloadRule": {
-
+    "pages/index/index": {
+        "network": "all",
+      "packages": ["scan-devices","T0xAC", "T0xE2", "T0xDB", "T0xCA", "T0xB8", "T0xEA","homeManage"]
+    },
+    "distribution-network/scan-devices/pages/scan-device/scan-device": {
+        "network": "all",
+        "packages": [
+          "addDevicePage",
+          "select-devices"
+        ]
+      }
   },
   "tabBar": {
     "custom": true,

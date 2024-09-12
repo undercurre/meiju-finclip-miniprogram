@@ -12,6 +12,7 @@ const addSelect = '/assets/img/index/add_select.png'
 const addNoSelect = '/assets/img/index/add_no_select.png'
 const addDevice = '/assets/img/index/add_device.png'
 const addScan = '/assets/img/index/add_scan.png'
+const manageImg = '/assets/img/index/ic_guanli.png'
 import Toast from 'm-ui/mx-toast/toast'
 import { homeManage, homeDetail } from '../../../../utils/paths.js'
 const app = getApp()
@@ -23,9 +24,17 @@ Component({
     homeList: {
       type: Array,
       observer: function (val) {
-        const homePickerHeight = val.length > 5 ? '465rpx' : val.length * 86 + 80 + 'rpx' // 家庭管理弹窗高度
+        const homePickerHeight =
+          val.length > 5 ? '465rpx' : val.length == 5 ? val.length * 86 + 40 + 'rpx' : val.length * 86 + 80 + 'rpx' // 家庭管理弹窗高度
         this.data.homePickerHeight = homePickerHeight
         // this.loopHomeGrounpListForRedDot(val)
+      },
+    },
+    clickAfterCompletion: {
+      type: Boolean,
+      value: false,
+      observer: function (val) {
+        console.log('clickAfterCompletion是否可以点击', val)
       },
     },
     currentHomeGroupIndex: {
@@ -47,6 +56,7 @@ Component({
     addNoSelect,
     addDevice,
     addScan,
+    manageImg,
     addSelectIcon: '',
     baseImgUrl: baseImgApi.url,
     uid: null,
@@ -150,6 +160,7 @@ Component({
     },
     // 家庭管理  可优化 切换家庭管理的显示和隐藏
     switchShowHomeList() {
+      //if (this.data.clickAfterCompletion) return
       if (this.data.homeList.length == 1) {
         // const { homeList, ownHomeNum } = this.data
         // let target = homeList[0]

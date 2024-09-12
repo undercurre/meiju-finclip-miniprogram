@@ -2,7 +2,7 @@
   <mx-nav-bar
     title="关于美的美居"
     bgColor="#FFFFFF"
-    right-text="{{environment=='sit'?'测试使用':''}}"
+    right-text="{{appEnv!='prod'?'测试使用':''}}"
     bind:click-right="onClickRight"
     bind:click-left="backPage"
   ></mx-nav-bar>

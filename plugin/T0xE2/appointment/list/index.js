@@ -239,6 +239,19 @@ Page({
     this.pageEventChannel && this.pageEventChannel.emit('closeOneKeyAi')
   },
 
+  // 关闭智能抑垢
+  closeIntelligentScaleInhibition() {
+    const { status } = this.data
+    let isOn = status.intelligent_scale_inhibition == "on"
+    if(isOn){
+      let params = {
+        control_type: 'part',
+        intelligent_scale_inhibition: 'off'
+      }
+      this.pageEventChannel && this.pageEventChannel.emit('luaControl', params)
+    }
+  },
+
   // 切换预约开启状态
   toggleAppoint(item) {
     // 埋点
@@ -262,6 +275,7 @@ Page({
       this.switchCloudAi(0) // 关闭 云管家
       this.toggleAppointAI() // 关闭 AI管家
       this.closeOneKeyAi() // 关闭 一键智享
+      this.closeIntelligentScaleInhibition() // 关闭智能抑垢
     }
 
     // 发送预约开关请求
@@ -456,6 +470,11 @@ Page({
     //
     wx.navigateTo({
       url: `../add/index?data=${JSON.stringify(data)}`,
+      events: {
+        add_toggleAppointAI: ()=> this.toggleAppointAI(),
+        add_closeIntelligentScaleInhibition: ()=> this.closeIntelligentScaleInhibition(),
+        add_closeOneKeyAi: ()=> this.closeOneKeyAi()
+      },
     })
   },
 
@@ -489,6 +508,11 @@ Page({
     //
     wx.navigateTo({
       url: `../add/index?data=${JSON.stringify(data)}`,
+      events: {
+        add_toggleAppointAI: ()=> this.toggleAppointAI(),
+        add_closeIntelligentScaleInhibition: ()=> this.closeIntelligentScaleInhibition(),
+        add_closeOneKeyAi: ()=> this.closeOneKeyAi()
+      },
     })
   },
 

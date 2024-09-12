@@ -83,6 +83,9 @@ Page({
   },
 
   onLoad({ data }) {
+    // 更新： channel 接收card.js 的 4秒轮询的设备状态
+    this.pageEventChannel = this.getOpenerEventChannel()
+    // 
     const {
       applianceData,
       isCloudOn,
@@ -184,7 +187,7 @@ Page({
     });
   },
   openTempPicker() {
-    this.setData({ isShowTemPicker: true });
+    this.setData({ isShowTemPicker: true, "multiIndex[0]": this.data.tempIndex });
   },
 
   openStartTimePicker() {
@@ -284,7 +287,7 @@ Page({
       // 自定义
       this.setData({ "task.isRepeat": true });
     }
-    this.setData({ "task.week": selectedDays.join(",") });
+    this.setData({ "task.week": selectedDays.join(","), defaultWeekdaySelectList: selectedDays });
   },
 
   onWeekdayItemClick({ detail: weekdaySelectList }) {
@@ -363,6 +366,19 @@ Page({
       });
   },
 
+  // 关闭关闭AI管家
+  toggleAppointAI(){
+    this.pageEventChannel && this.pageEventChannel.emit('add_toggleAppointAI')
+  },
+  // 关闭智能抑垢
+  closeIntelligentScaleInhibition(){
+    this.pageEventChannel && this.pageEventChannel.emit('add_closeIntelligentScaleInhibition')
+  },
+  // 关闭一键智享
+  closeOneKeyAi(){
+    this.pageEventChannel && this.pageEventChannel.emit('add_closeOneKeyAi')
+  },
+
   // 保存
   saveAppoint() {
     const { setting, hasAppointOn, task, action } = this.data;
@@ -426,6 +442,12 @@ Page({
     }
     // 联动关闭云管家
     item.enable && this.switchCloudAi(0);
+    // 联动关闭AI管家
+    item.enable && this.toggleAppointAI();
+    // 联动关闭智能抑垢
+    item.enable && this.closeIntelligentScaleInhibition();
+    // 联动关闭一键智享
+    item.enable && this.closeOneKeyAi();
 
     // 发送预约保存请求
     requestService

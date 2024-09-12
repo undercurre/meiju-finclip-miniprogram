@@ -5,7 +5,8 @@ import trackApiList from '../track/oneKeyTrack/config/trackApiList.js'
 import { authorizedCommonTrack, trackLoaded } from '../track/track.js'
 import { pluginRequestTrack } from '../track/pluginTrack.js'
 import cloudMethods from '../globalCommon/js/cloud.js'
-
+import { checkTokenExpired, checkTokenPwdExpired } from './redis.js'
+import loginMethods from '../globalCommon/js/loginRegister'
 import qs from './qs/index'
 
 var requestService = {
@@ -132,6 +133,10 @@ var requestService = {
         method: method || 'POST',
         timeout: timeout || 15000, //lisin 新增接口超时时间传参
         success(resData) {
+          if (getApp().globalData.isEnableHttpResponseLog) {
+            // 只显示在Hilog，而不显示在vconsole
+            ft.showHiLog({ tag: 'http response success', url: url, content: resData.data })
+          }
           ApiTrack(apiName, selectApi, resData, 'success', params)
           trackLoaded('page_loaded_event', apiName, resData, 1, 'end')
           if (apiName === 'luaControl') {
@@ -171,7 +176,9 @@ var requestService = {
           } else {
             //登录态过期返回40002
             if (resData.data.errorCode == 40002 || resData.code == 40002 || resData.data.code == 40002) {
-              getApp().globalData.isLogon = false
+              //
+              refreshRoken()
+              // getApp().globalData.isLogon = false
             }
             ///mjl/v1/device/status/lua/get接口报1321错误码，进入后确权页面
             if (apiName == 'luaGet' && resData.data.code == '1321') {
@@ -181,22 +188,33 @@ var requestService = {
           }
         },
         fail(error) {
+          if (getApp().globalData.isEnableHttpResponseLog) {
+            // 只显示在Hilog，而不显示在vconsole
+            ft.showHiLog({ tag: 'http response error', url: url, content: error })
+          }
           console.log('error-----', error)
           console.log('当前网络error-----》', getApp().globalData.noNetwork)
           let pages = getCurrentPages()
           let currentPage = pages[pages.length - 1]
           let isDistributionMode = false
-          if(currentPage.route.includes('inputWifiInfo') || currentPage.route.includes('linkAp') || currentPage.route.includes('linkDevice')){
+          if (
+            currentPage.route.includes('inputWifiInfo') ||
+            currentPage.route.includes('linkAp') ||
+            currentPage.route.includes('linkDevice') ||
+            currentPage.route.includes('linkNetFail')
+          ) {
             isDistributionMode = true
           }
           if (getApp().globalData.noNetwork) {
-            getApp().checkNetLocal()
+            if (!isDistributionMode) {
+              getApp().checkNetLocal()
+            }
           } else if (error.errMsg == 'request:fail timeout' || error.errMsg == 'request:fail') {
-            if(!isDistributionMode){
+            if (!isDistributionMode) {
               showToast('网络请求失败')
             }
           } else {
-            if(!isDistributionMode){
+            if (!isDistributionMode) {
               showToast('系统繁忙，请稍后再试')
             }
           }
@@ -244,6 +262,38 @@ var requestService = {
       })
     })
   },
+}
+//刷新token
+var refreshRoken = function () {
+  try {
+    let MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION'),
+      MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION'),
+      MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+    //60天内不需要重新登录
+    if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
+      //4小时不操作需要刷新用户token
+      if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        loginMethods
+          .loginAPi()
+          .then(() => {
+            getApp().globalData.wxExpiration = true
+          })
+          .catch((err) => {
+            console.log('app loginAPi catch', err)
+            getApp().globalData.isLogon = false
+            //先保持登录状态
+            //loginMethods.getUserInfo(MPTOKEN_USERINFO)
+          })
+      } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        // 有效期内直接登录
+        loginMethods.getUserInfo(MPTOKEN_USERINFO)
+      }
+    } else {
+      getApp().globalData.isLogon = false
+    }
+  } catch {
+    getApp().globalData.isLogon = false
+  }
 }
 
 //上传文件接口通用封装
@@ -389,6 +439,10 @@ var rangersBurialPoint = function (apiName, param) {
 
   // app.$$Rangers = $$Rangers //挂载到全局实例
   if (apiName && param && app && app.globalData) {
+    param.harmonyAppVersion = app.globalData.miniProgram.version
+    param.harmonyAppInfoVersion = app.globalData.appInfoVersion //app完整的版本号
+    param.harmonySdkVersion = app.globalData.appSystemInfo.runtimeSDKVersion //凡泰SDK版本
+    param.harmonyFrameworkVersion = app.globalData.appSystemInfo.frameworkVersion //基础库版本
     //设置启动小程序来源埋点
     param.launch_source = app.globalData.launch_source
     //设置启动小程序投放渠道cid参数

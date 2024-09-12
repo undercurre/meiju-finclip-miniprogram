@@ -38,6 +38,9 @@ function getMode(mode) {
     return 3
   } else if (mode == '005') {
     return 5
+  } else if (mode == '20' || mode == '020'){
+    //蜂窝配网，美居暂不支持
+    return 20
   } else if (mode == '000' || mode == '001' || mode == '1') {
     //001 1 的mode临时转为ap配网
     return 0
