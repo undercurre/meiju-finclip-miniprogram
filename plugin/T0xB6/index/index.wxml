@@ -1,5 +1,5 @@
 <!--T0xAC//index/index.wxml-->
-<plugin-navbar navBarName="{{deviceInfo.name}}" backTo="{{backTo}}" style="z-index: 999;"></plugin-navbar>
+<navbar navBarName="{{deviceInfo.name || '抽油烟机'}}" bgColor="#fff"></navbar>
 <view class="{{isNewVersion ? 'mainContainer' : 'continer'}}">
     <view class="{{isNewVersion ? 'device-newCard' : 'device-card'}}">
         <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" applianceData="{{deviceInfo}}" id="card" ></device-card>

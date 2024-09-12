@@ -36,12 +36,14 @@ const onDeviceMotionChange = () => {
     wx.startDeviceMotionListening()
     wx.onDeviceMotionChange((res) => {
       wx.offDeviceMotionChange()
+      wx.stopDeviceMotionListening()
       resolve(res)
       return
     })
     // 没监听到onDeviceMotionChange，3S后reject，防止promise一直pending
     setTimeout(() => {
-      //wx.offDeviceMotionChange()
+      wx.offDeviceMotionChange()
+      wx.stopDeviceMotionListening()
       resolve(null)
     }, 3000)
   })

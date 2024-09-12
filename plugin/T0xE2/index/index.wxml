@@ -1,6 +1,6 @@
 <!--plugin/T0xE2/index/index.wxml-->
 <scroll-view class="{{deviceInfoStatus == '1' ? 'mainContainer' : 'offLineContainer'}}">
-   <plugin-navbar navBarName="{{deviceInfo.name}}" backTo="{{backTo}}" style="z-index: 999;"></plugin-navbar>
+    <navbar navBarName="{{deviceInfo.name || '电热水器'}}" bgColor="#fff"></navbar>
     <view class="device-newCard">
         <device-card wx:if="{{isInit}}" class="component{{deviceInfo.applianceCode}}" deviceInfo="{{deviceInfo}}"
             bindmodeChange="modeChange"></device-card>

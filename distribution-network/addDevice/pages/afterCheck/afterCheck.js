@@ -249,14 +249,17 @@ Page({
           return;
         }
         let page = getFullPageUrl()
-        let currentPage = page[page.length - 1]
-        if(currentPage.route.includes('afterCheck')){
+        if(page.includes('addDevice/pages/afterCheck/afterCheck')){
           let url = `/distribution-network/addDevice/pages/authTimeout/authTimeout`
           if(this.data.stopTemporarily){
             url = `/distribution-network/addDevice/pages/authTimeout/authTimeout?&identifierPage=linkDevice`
           }
           wx.redirectTo({
             url: url,
+            fail:(error)=>{
+              console.error('后确权页面倒计时为0跳转失败：',error)
+
+            }
           })
         }
       }

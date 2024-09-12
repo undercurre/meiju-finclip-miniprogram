@@ -3,7 +3,7 @@
   <view catchtap="hideFrame" class="frame-wrapper {{frameAnimate}}">
     <view catchtap="catchNone" class="frame pad-t-100 no-found-frame">
       <image class="close" bindtap="hideFrame" src="{{closeImg}}"></image>
-      <block wx:if="{{system=='Android'&&isSearching}}">
+      <block wx:if="{{(system!=='Android'|| system!=='iOS')&&isSearching}}">
         <block wx:if="{{!ifFoundWiFi}}">
           <view class="searching">
             <image class="searching-img" src="{{noFoundApDiscover}}"></image>
@@ -23,8 +23,8 @@
               <image class="foundAp-img-image" src="{{imgBaseUrl+imges.noFoundApSwitch}}"></image>
             </view> -->
             <view class="foundAp-img" wx:if="{{brand != 'colmo'}}">
-              <image style="width:400rpx;height: 360rpx;" class="wifiImg"  wx:if="{{system=='Android'}}" src="{{android_checkwifi}}"></image>
-              <image style="width:400rpx;height: 360rpx;" class="wifiImg" wx:if="{{system=='iOS'}}" src="{{noFoundApSwitch}}"></image>
+              <image style="width:686rpx;height: 368rpx;" class="wifiImg" src="{{android_checkwifi}}"></image>
+             <!-- <image style="width:400rpx;height: 360rpx;" class="wifiImg" wx:if="{{system=='iOS'}}" src="{{noFoundApSwitch}}"></image> -->
             </view>
             <view class="foundAp-img" wx:else>
               <image class="wifiImg" style="width:686rpx;height: 368rpx;"   src="{{img_wifi}}"></image>

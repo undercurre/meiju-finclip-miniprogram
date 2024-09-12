@@ -202,12 +202,12 @@ Page({
       msmartBleWrite,
     } = app.addDeviceInfo
     if(mode != 20){
-      setTimeout(() => {
-        this.setData({
-          curStep: 1,
-          // 'progressList[1].isFinish':true
-        })
-      }, 2000)
+    //   setTimeout(() => { //Yoram 20240912
+    //     this.setData({
+    //       curStep: 1,
+    //       // 'progressList[1].isFinish':true
+    //     })
+    //   }, 2000)
     } else {
       this.setData({
         progressList:[
@@ -369,10 +369,10 @@ Page({
         this.udp = wx.createUDPSocket()
         this.udp2 = wx.createUDPSocket()
         this.data.udpAdData = await this_.udpService.getUdpInfo(this_.udp, this_.udp2)
-        this.setData({
-          curStep: 1,
-          'progressList[0].isFinish': true
-        })
+        // this.setData({ //Yoram 20240912
+        //   curStep: 1,
+        //   'progressList[0].isFinish': true
+        // })
         if (this.data.udpAdData.tcpIp == '0.0.0.0') {
           this.data.udpAdData.tcpIp = '192.168.1.1'
           getApp().setMethodCheckingLog('tcpIp异常0.0.0.0，转换为192.168.1.1')
@@ -548,10 +548,10 @@ Page({
             app.addDeviceInfo.plainSn = plainTextSn
             app.addDeviceInfo.moduleVersion = this.data.wifi_version
             console.log('sn解密后', plainTextSn)
-            this.setData({
-              curStep: 1,
-              'progressList[0].isFinish': true
-            })
+            // this.setData({  //Yoram 20240912
+            //   curStep: 1,
+            //   'progressList[0].isFinish': true
+            // })
             //校验绑定码成功
             burialPoint.connectDeviceSuccess({
               //成功建立蓝牙协商埋点
@@ -709,10 +709,10 @@ Page({
             frequency: this.data.bindWifiInfo.frequency,
             wifi_version: app.addDeviceInfo.moduleVersion, //蓝牙配网上报模组版本
           })
-          this.setData({
-            curStep: 1,
-            'progressList[0].isFinish': true
-          })
+        //   this.setData({  //Yoram 20240912
+        //     curStep: 1,
+        //     'progressList[0].isFinish': true
+        //   })
           burialPoint.searchDevieLinkCloud({
             //开始查询云
             deviceSessionId: app.globalData.deviceSessionId,
@@ -837,10 +837,10 @@ Page({
             rssi: this.data.bindWifiInfo.signalStrength,
             frequency: this.data.bindWifiInfo.frequency,
           })
-          this.setData({
-            curStep: 1,
-            'progressList[0].isFinish': true
-          })
+        //   this.setData({  //Yoram 20240912
+        //     curStep: 1,
+        //     'progressList[0].isFinish': true
+        //   })
           burialPoint.searchDevieLinkCloud({
             //开始查询云
             deviceSessionId: app.globalData.deviceSessionId,
@@ -930,10 +930,10 @@ Page({
               frequency: this.data.bindWifiInfo.frequency,
               wifi_version: app.addDeviceInfo.moduleVersion, //蓝牙配网上报模组版本
             })
-            this.setData({
-              curStep: 1,
-              'progressList[0].isFinish': true
-            })
+            // this.setData({  //Yoram 20240912
+            //   curStep: 1,
+            //   'progressList[0].isFinish': true
+            // })
             burialPoint.searchDevieLinkCloud({
               //开始查询云
               deviceSessionId: app.globalData.deviceSessionId,
@@ -2377,6 +2377,10 @@ Page({
               this.sendApWifiAfter()
             }
           }
+          this.setData({ //Yoram 20240912
+            curStep: 1,
+            'progressList[0].isFinish': true
+          })
         }
       }
     })
@@ -2654,6 +2658,9 @@ Page({
     try {
       if (!this.data.bindWifiInfo) return
       let bindWifiInfo = this.data.bindWifiInfo
+      if(!bindWifiInfo.PswContent) { // 密码为空的情况，重置密码长度
+        bindWifiInfo.PswLength = 0
+      }
       let order = {}
       order.randomCode = getRandomString(32).toLocaleLowerCase() //'241205fca8bb549178cd1e5b7c4f8893'
       this.data.randomCode = order.randomCode
@@ -3441,8 +3448,11 @@ Page({
       // 有线配网不需要bindWifiInfo信息 兼容处理
       let bssid,encryptType,ssidLengthAndPswLength,ssidAndPsw,ssidAndPsw8Arr,ssidAndPswHex,chainHex
       if (bindWifiInfo && Object.keys(this.data.bindWifiTest).length) {
-        if(!this.data.bindWifiTest.BSSID) {
+        if(!this.data.bindWifiTest.BSSID) { // 处理BSSID获取不到的情况
             this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+        }
+        if(!this.data.bindWifiTest.PswContent) { // 处理wifi密码为空的情况
+            this.data.bindWifiTest.PswLength = 0
         }
         bssid = this.data.bindWifiTest.BSSID.split(':').join('')
         encryptType = this.data.bindWifiTest.EncryptType
@@ -3531,6 +3541,10 @@ Page({
       console.log('@module linkDevice.js\n@method sendWifiInfo\n@desc 编码后配网指令\n', order)
       if (ifWrite) {
         this.writeData(order)
+        this.setData({ //Yoram 20240912
+          curStep: 1,
+          'progressList[0].isFinish': true
+        })
         getApp().setMethodCheckingLog('蓝牙配网发送配网指令', order)
         log.info('蓝牙配网发送配网指令', order)
       } else {
@@ -3544,8 +3558,11 @@ Page({
   remoteSendWifiInfo(bindWifiInfo) {
     this.data.bindWifiTest = bindWifiInfo
     console.log('kkkkkkkk', this.data.bindWifiTest)
-    if(!this.data.bindWifiTest.BSSID) {
+    if(!this.data.bindWifiTest.BSSID) { // 处理BSSID获取不到的情况
         this.data.bindWifiTest.BSSID = "00:00:00:00:00:00"
+    }
+    if(!this.data.bindWifiTest.PswContent) { // 处理wifi密码为空的情况
+        this.data.bindWifiTest.PswLength = 0
     }
     let bssid = this.data.bindWifiTest.BSSID.split(':').join('')
     let encryptType = this.data.bindWifiTest.EncryptType
@@ -3923,11 +3940,11 @@ Page({
    */
   handleBLEDataChanged(respHexData, characteristic) {
     const { blueVersion, mode } = app.addDeviceInfo
-    if (mode != 'WB01_bluetooth_connection_network') {
-      this.setData({
-        curStep: 1,
-      })
-    }
+    // if (mode != 'WB01_bluetooth_connection_network') { //Yoram 20240912
+    //   this.setData({
+    //     curStep: 1,
+    //   })
+    // }
     if (!this.data.isOnbleResp) return
     app.addDeviceInfo.sn = this.data.sn
     const respHexDataArray = respHexData.split('aa55')
