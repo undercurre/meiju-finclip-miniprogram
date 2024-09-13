@@ -45,6 +45,13 @@ Page({
       noNetwork: true,
     })
   },
+  //加载页面超值
+  loadTimeout() {
+    console.log('加载超时------>', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+    this.setData({
+      noNetwork: true,
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */

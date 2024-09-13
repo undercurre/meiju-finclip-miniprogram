@@ -113,7 +113,7 @@ const failTextData = {
     errorCode: '1501',
     mainTitle: 'XX绑定失败',
     nextTitle: '家庭设备数量达到上限',
-    guideDesc: ['每个家庭最多可绑定140个设备，当前家庭设备数量已达上限。请切换家庭或创建新家庭，再进行添加。'],
+    guideDesc: ['每个家庭最多可绑定400个设备，当前家庭设备数量已达上限。请切换家庭或创建新家庭，再进行添加。'],
     isTest: false, //是否有测试一下
     isNeedInputPsw: false,
   },

@@ -212,11 +212,17 @@ App({
               //否则直接退出
               this.setLoginFalse()
             }
+            if (this.callbackFn) {
+              this.callbackFn()
+            }
           })
       } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
         // 有效期内直接登录
         this.globalData.isActionAppLaunch = false
         loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+        if (this.callbackFn) {
+          this.callbackFn()
+        }
       }
       // } else {
       // this.setLoginFalse()
@@ -224,6 +230,9 @@ App({
     } catch (error) {
       console.log(error, 'app onLaunch try cache', error)
       this.setLoginFalse()
+      if (this.callbackFn) {
+        this.callbackFn()
+      }
     }
     //获取设备图标
     this.getDcpDeviceImg()
@@ -273,8 +282,15 @@ App({
             }
           })
           .catch(() => {
-            this.globalData.wxExpiration = true
-            this.globalData.isLogon = false
+            //无网络先保持登录状态
+            if (this.globalData.noNetwork) {
+              this.globalData.isActionAppLaunch = false
+              loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+            } else {
+              //否则直接退出
+              this.globalData.wxExpiration = true
+              this.globalData.isLogon = false
+            }
             if (this.callbackFn) {
               this.callbackFn()
             }
