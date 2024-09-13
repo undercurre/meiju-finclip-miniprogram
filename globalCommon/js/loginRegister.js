@@ -144,7 +144,7 @@ const loginMethods = {
           })
           .catch((err) => {
             console.log('login catch res :', err)
-            app.globalData.isLogon = false
+            //app.globalData.isLogon = false
             if (!hasKey(err, 'data')) {
               reject(err)
               return
