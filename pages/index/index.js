@@ -1819,10 +1819,11 @@ Page({
       return !composeApplianceCodeList.includes(parseInt(item.applianceCode))
     })
     console.log('当前家庭设备列表===== ', currentFamilyDeviceList)
-    if (applianceList.bluetooth) {
-      //存在 遥控设备
-      currentFamilyDeviceList = this.addRemoteBindDevice(currentFamilyDeviceList, applianceList.bluetooth) //添加遥控设备卡片
-    }
+    //产品需求，鸿蒙遥控设备卡片无需展示
+    // if (applianceList.bluetooth) {
+    //存在 遥控设备
+    // currentFamilyDeviceList = this.addRemoteBindDevice(currentFamilyDeviceList, applianceList.bluetooth) //添加遥控设备卡片
+    // }
     if (wx.getStorageSync('localBlueDevices')) {
       //存在 本地蓝牙设备
       currentFamilyDeviceList = this.getLoaclBlueDevices(currentFamilyDeviceList, currentHomeGroupId) //添j加本地蓝牙设备 卡片

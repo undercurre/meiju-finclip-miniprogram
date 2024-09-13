@@ -307,7 +307,7 @@ const clickFamilyManagement = function (params) {
     obiect_type: 'family',
     page_module: '首页切换家庭弹窗',
     widget_name: '家庭管理',
-    widget_id: 'click_bth_management',
+    widget_id: 'click_bth_family_manage',
   })
 }
 

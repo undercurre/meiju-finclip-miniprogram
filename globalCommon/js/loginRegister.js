@@ -131,14 +131,14 @@ const loginMethods = {
               try {
                 ft?.setPreferences({
                   key: 'finClipLoginInfo',
-                  val: userInfo,
+                  val: { ...userInfo, ...{ deviceId: app.globalData.deviceId } },
                 })
               } catch (error) {
                 console.log('设置宿主缓存error', error)
               }
             } else {
               console.log('login fail res :', res.data)
-              app.globalData.isLogon = false
+              // app.globalData.isLogon = false
               reject(res)
             }
           })
@@ -272,7 +272,7 @@ const loginMethods = {
             try {
               ft?.setPreferences({
                 key: 'finClipLoginInfo',
-                val: res.data.data,
+                val: { ...res.data.data, ...{ deviceId: app.globalData.deviceId } },
               })
             } catch (error) {
               console.log('设置宿主缓存error', error)
