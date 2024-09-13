@@ -598,7 +598,7 @@ Component({
       return
     },
     computeStatus() {
-      if (this.data.applianceStatus && this.data.deviceConfig) {
+      if (this.data.applianceStatus && this.data.deviceConfig && this.data.modes && this.data.modes.length) {
         let result = luaToStatus(this.data.applianceStatus)
         let currentMode = this.data.modes.find((mode) => {
           return mode.value === result.wash_mode;

@@ -248,7 +248,7 @@ Component({
       }
       var currLink = `https://ismart.zhinengxiyifang.cn/washerPW_meijulite/${urlEnv}/index.html#/WashingWaterPower?env=${urlEnv}&applianceId=${this.data.applianceData.applianceCode}&deviceType=D9&deviceSubType=${this.data.applianceData.modelNumber}&userId=${app.globalData.userData.iotUserId}&deviceSn8=${this.data.applianceData.sn8}&loginState=true`
       let encodeLink = encodeURIComponent(currLink)
-      let currUrl = `../../../pages/webView/webView?webViewUrl=${encodeLink}`
+      let currUrl = `/pages/webView/webView?webViewUrl=${encodeLink}`
       wx.navigateTo({
         url: currUrl,
       })
@@ -389,7 +389,7 @@ Component({
           this.setData({
             modeNameShown: '云程序',
             modeIndex: 0,
-            pickerNameValue: this.data.pickerNameValue,
+            // pickerNameValue: this.data.pickerNameValue,
           })
         } else {
           if (
@@ -407,7 +407,7 @@ Component({
             this.setData({
               modeNameShown: this.data.modeNameShown,
               modeIndex: this.data.modeIndex,
-              pickerNameValue: this.data.pickerNameValue
+            //   pickerNameValue: this.data.pickerNameValue
             })
           }
         }
@@ -540,7 +540,6 @@ Component({
     selectModeChange(e) {
       if (e && e.detail && e.detail.value) {
         var result = e.detail.value[0]
-        console.log(result)
         if (this.data.modeInLocation !== this.data.currentTube.location) {
           this.closeModePop()
           return
@@ -555,7 +554,6 @@ Component({
           }
 
           if (result >= 0 && result < tempModes.length && tempModes[result]) {
-            console.log(JSON.stringify(tempModes[this.data.modeIndex]))
             this.data.selectModeIndex = result
             this.setData({
               selectModeIndex: result,
