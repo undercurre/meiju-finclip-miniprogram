@@ -407,7 +407,7 @@ Component({
             this.setData({
               modeNameShown: this.data.modeNameShown,
               modeIndex: this.data.modeIndex,
-              pickerNameValue: this.data.pickerNameValue,
+              pickerNameValue: this.data.pickerNameValue
             })
           }
         }
@@ -415,6 +415,15 @@ Component({
           modeInLocation: this.data.currentTube.location,
         })
       }
+    },
+    freshPickerNameValue() {
+        if (this.data.pickerNameValue >= 0) {
+        } else {
+          this.data.pickerNameValue[0] = 0;
+        }
+        this.setData({
+          pickerNameValue: this.data.pickerNameValue
+        })
     },
     computeStatus() {
       if (this.data.currentTube.location < 1 || this.data.currentTube.location > 2) {
@@ -440,8 +449,7 @@ Component({
         )
         return
       }
-
-      this.checkModeNames()
+      this.checkModeNames();
     },
     modeToggle() {
       let applianceStatus = this.data.applianceStatus
@@ -494,17 +502,20 @@ Component({
           //showHint
         }
       }
+      setTimeout(() => {
+        this.freshPickerNameValue();
+      }, 100);
     },
     closeModePop() {
       this.data.isShowModePicker = false
       this.setData({
         isShowModePicker: false,
       })
-      setTimeout(() => {
-        this.setData({
-          pickerNameValue: this.data.pickerNameValue,
-        })
-      }, 500)
+    //   setTimeout(() => {
+    //     this.setData({
+    //       pickerNameValue: this.data.pickerNameValue,
+    //     })
+    //   }, 500)
     },
     confirmModePop() {
       if (this.data.selectModeIndex === -1) {
