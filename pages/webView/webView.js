@@ -48,6 +48,7 @@ Page({
   //加载页面超值
   loadTimeout() {
     console.log('加载超时------>', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+    showToast('网络异常，请稍后再试！')
     this.setData({
       noNetwork: true,
     })

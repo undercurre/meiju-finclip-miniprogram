@@ -188,7 +188,8 @@ Page({
     let type = e.currentTarget.dataset.type
     let currLink = `${privacyApi.url}/mobile/agreement/?system=meijuApp&agreement_type=${type}`
     let encodeLink = encodeURIComponent(currLink)
-    let currUrl = `/pages/webView/webView?webViewUrl=${encodeLink}`
+    let title = type == 'register' ? '软件许可和用户协议' : '隐私协议'
+    let currUrl = `/pages/webView/webView?webViewUrl=${encodeLink}&pageTitle=${title}`
     console.log('新C4A隐私条款链接===', encodeLink)
     wx.navigateTo({
       url: currUrl,

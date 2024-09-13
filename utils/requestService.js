@@ -272,7 +272,7 @@ var refreshRoken = function () {
         getApp().globalData.wxExpiration = true
       })
       .catch((err) => {
-        console.log('app loginAPi catch', err)
+        console.log('续期 loginAPi catch', err)
         //续期不成功 直接退出
         getApp().globalData.isLogon = false
         wx.clearStorageSync()

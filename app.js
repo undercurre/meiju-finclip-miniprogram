@@ -205,19 +205,19 @@ App({
           .catch((err) => {
             console.log('app loginAPi catch', err)
             //无网络先保持登录状态
-            if (this.globalData.noNetwork) {
-              this.globalData.isActionAppLaunch = false
-              loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
-            } else {
-              //否则直接退出
-              this.setLoginFalse()
-            }
+            // if (this.globalData.noNetwork) {
+            this.globalData.isActionAppLaunch = false
+            loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+            // } else {
+            //否则直接退出
+            // this.setLoginFalse()
+            // }
             if (this.callbackFn) {
               this.callbackFn()
             }
           })
       } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-        // 有效期内直接登录
+        //有效期内直接登录
         this.globalData.isActionAppLaunch = false
         loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
         if (this.callbackFn) {
@@ -228,8 +228,11 @@ App({
       // this.setLoginFalse()
       // }
     } catch (error) {
+      let MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+      this.globalData.isActionAppLaunch = false
+      loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
       console.log(error, 'app onLaunch try cache', error)
-      this.setLoginFalse()
+      //this.setLoginFalse()
       if (this.callbackFn) {
         this.callbackFn()
       }
@@ -283,14 +286,8 @@ App({
           })
           .catch(() => {
             //无网络先保持登录状态
-            if (this.globalData.noNetwork) {
-              this.globalData.isActionAppLaunch = false
-              loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
-            } else {
-              //否则直接退出
-              this.globalData.wxExpiration = true
-              this.globalData.isLogon = false
-            }
+            this.globalData.isActionAppLaunch = false
+            loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
             if (this.callbackFn) {
               this.callbackFn()
             }
@@ -299,6 +296,12 @@ App({
       //有效期内不需要特殊处理
       //}
     } catch (error) {
+      let MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+      this.globalData.isActionAppLaunch = false
+      loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+      if (this.callbackFn) {
+        this.callbackFn()
+      }
       console.log(error, 'onshow try cache')
     }
     this.setMiniProgramData()
