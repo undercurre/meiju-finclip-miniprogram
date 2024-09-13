@@ -70,7 +70,6 @@ Page({
     app
       .checkGlobalExpiration()
       .then(() => {
-        const mobile = app.globalData.phoneNumber || ''
         this.setData({
           isLogon: app.globalData.isLogon,
         })
@@ -162,6 +161,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    //先从缓存拿
+    if (wx.getStorageSync('vipUserInfo') && app.globalData.isLogon) {
+      const vipData = wx.getStorageSync('vipUserInfo')
+      this.setData({
+        headImgUrl: vipData?.userCustomize?.headImgUrl,
+        nickName: vipData?.userCustomize?.nickName,
+      })
+    }
     // let self = this
     wx.getSystemInfo({
       success: (res) => {
@@ -227,7 +234,6 @@ Page({
 
   getVipUserInfo: function () {
     if (!app.globalData.isLogon) return
-    //先从缓存拿
     if (wx.getStorageSync('vipUserInfo')) {
       const vipData = wx.getStorageSync('vipUserInfo')
       this.setData({

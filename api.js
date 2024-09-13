@@ -1,6 +1,5 @@
 import config from './config.js' //环境及域名基地址配置
 import mainApi from './api/main-api.js' //小程序基础功能接口
-import activities from './api/activities-api.js' //活动接口
 import plugin from './api/plugin-api.js' //事业部插件的接口
 
 const environment = config.environment
@@ -49,7 +48,6 @@ var api = {
   clientYype: clientYype,
   iotTerminalIid: iotTerminalIid,
   ...mainApi,
-  ...activities,
   ...plugin,
 
   //登录地址
