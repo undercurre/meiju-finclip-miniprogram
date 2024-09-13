@@ -1767,6 +1767,7 @@ padding-right: 40px;
 }
 
 #meiju .room-name {
+  font-size:32rpx;
   display: inline-block;
   height: 72rpx;
   padding: 0rpx 32rpx;
