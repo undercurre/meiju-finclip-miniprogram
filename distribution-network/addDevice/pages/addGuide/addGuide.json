@@ -5,6 +5,5 @@
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
     "mx-lottie": "/miniprogram_npm/m-ui/mx-lottie/index",
     "permissionVerification":"../../../scan-devices/components/permissionVerification/permissionVerification"
-  },
-  "enablePullDownRefresh": true
+  }
 }
