@@ -2,7 +2,6 @@
   "navigationBarBackgroundColor": "#FFF",
   "navigationStyle": "custom",
   "navigationBarTextStyle": "black",
-  "enablePullDownRefresh": true,
   "usingComponents": {
     "link-device-header": "/distribution-network/addDevice/pages/component/input-wifi-header/input-wifi-header",
     "mp-actionSheet": "../component/actionsheet/actionsheet",
