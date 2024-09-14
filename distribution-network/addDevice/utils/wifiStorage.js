@@ -30,6 +30,10 @@ function setWifiStorage(wifiInfo) {
           item.PswLength = wifiInfo.PswLength
           storageWifiList[environment] = encyptWifi(storageWifiList[environment].slice(-3)) // 只保存三个
           wx.setStorageSync('storageWifiListV1', storageWifiList)
+          ft.setPreferences({  // 写入本地缓存，供630使用
+            key: 'storageWifiList', 
+            val: storageWifiList
+          })
           console.log('@module wifiStorage.js\n@method setWifiStorage\n@desc 更新WiFi缓存\n', storageWifiList)
           log.info('更新WiFi缓存', storageWifiList)
         }
@@ -40,6 +44,10 @@ function setWifiStorage(wifiInfo) {
       storageWifiList[environment].push(wifiInfo)
       storageWifiList[environment] = encyptWifi(storageWifiList[environment].slice(-3)) // 只保存三个
       wx.setStorageSync('storageWifiListV1', storageWifiList)
+      ft.setPreferences({ // 写入本地缓存，供630使用
+        key: 'storageWifiList', 
+        val: storageWifiList
+      })
       console.log('@module wifiStorage.js\n@method setWifiStorage\n@desc 新增WiFi缓存\n', storageWifiList)
       log.info('新增WiFi缓存', storageWifiList)
     }
