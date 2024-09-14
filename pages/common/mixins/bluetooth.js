@@ -1365,6 +1365,7 @@ module.exports = Behavior({
     },
 
     async actionGoNetwork(item) {
+      console.error('actionGoNetworkLock---:',this.actionGoNetworkLock)
       // 节流
       if (this.actionGoNetworkLock) return
       let self = this
@@ -1561,6 +1562,7 @@ module.exports = Behavior({
           await getPrivateKeys.getPrivateKey()
           this.actionGoNetwork(item)
         } catch (err) {
+          console.error('privateKeyerr--------------:',err)
           this.privateKeyErrorHand(item)
         }
         return
