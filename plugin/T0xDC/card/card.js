@@ -194,7 +194,7 @@ Component({
       if (targetUrl) {
         targetUrl += `?&env=${urlEnv}&applianceId=${this.data.applianceData.applianceCode}&deviceType=DC&deviceSubType=${this.data.project_no}&userId=${app.globalData.userData.iotUserId}&deviceSn8=${this.data.applianceData.sn8}&loginState=true`;
         let encodeLink = encodeURIComponent(targetUrl)
-        let currUrl = `../../../pages/webView/webView?webViewUrl=${encodeLink}`
+        let currUrl = `/pages/webView/webView?webViewUrl=${encodeLink}`
         wx.navigateTo({
           url: currUrl,
         })
@@ -517,7 +517,7 @@ Component({
       return
     },
     computeStatus() {
-      if (this.data.applianceStatus && this.data.deviceConfig) {
+      if (this.data.applianceStatus && this.data.deviceConfig && this.data.modes && this.data.modes.length) {
         let result = luaToStatus(this.data.applianceStatus)
         let currentMode = this.data.modes.find((mode) => {
           return mode.value === result.wash_mode;
