@@ -1097,9 +1097,14 @@ padding-right: 40px;
 #meiju .guide-skip {
   /* margin-top: 70%; */
   /* margin-top:248rpx; */
-  margin-top: 188rpx;
+ /*  margin-top: 188rpx; */
   text-align: center;
-  margin-bottom: 72rpx;
+
+  /*margin-bottom: 72rpx; */
+  position:fixed;
+  bottom:68rpx;
+  width: 750rpx;
+  justify-content: center;
 }
 
 #meiju .num-guide {
