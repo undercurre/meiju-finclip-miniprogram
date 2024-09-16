@@ -25,7 +25,7 @@
     </view>
     <view class="desc-list-fail" wx:if="{{ !isFromSubDeviceNetWork }}">
       <view
-        class="item"
+        class="item link-fail-item"
         wx:for="{{ failUiData.guideDesc }}"
         wx:key="*this"
         wx:for-item="failUiDataItem"
@@ -46,10 +46,10 @@
           </view>
         </view>
         <view wx:if="{{tools.isNeedWifiConfirmInput(failUiDataItem)}}" class="pws-confirm">
-          <input class="c4-2" wx:if="{{!continueConnectWifi}}" value="{{bindWifiInfo.SSIDContent}}" placeholder="{{wifiInputPlaceholder}}" disabled="true">
+          <input class="c4-2 link-fail-input-ssid" wx:if="{{!continueConnectWifi}}" value="{{bindWifiInfo.SSIDContent}}" placeholder="{{wifiInputPlaceholder}}" disabled="true">
             <text class="switch-wifi special-font-color" catchtap="clickSwitchWifi">切换WiFi</text>
           </input>
-          <input class="c4-2" wx:if="{{continueConnectWifi}}" value="{{bindWifiInfo.SSIDContent}}" bindblur="SSIDBlur" placeholder="{{wifiInputPlaceholder}}" bindinput="inputSSIDContent" maxlength='40'>
+          <input class="c4-2 link-fail-input-ssid" wx:if="{{continueConnectWifi}}" value="{{bindWifiInfo.SSIDContent}}" bindblur="SSIDBlur" placeholder="{{wifiInputPlaceholder}}" bindinput="inputSSIDContent" maxlength='40'>
           </input>
           <view wx:if="{{tipText}}" class="tips-switch-wifi">
             <!-- <image class="warn" src="{{imgBaseUrl+imges.zhuyi}}"></image> -->
