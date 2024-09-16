@@ -898,7 +898,7 @@ const brand = {
       showCancelButton: false,
       title: '该设备暂无法添加',
       message: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
-      confirmButtonText: '继续联网',
+      confirmButtonText: '返回首页',
       cancelButtonText: '放弃',
     },
     backButtonColor: 'black',
