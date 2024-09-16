@@ -526,6 +526,7 @@ Page({
             wx.navigateTo({
               url: paths.linkDevice,
               success:()=>{
+                console.log('搜索到设备跳转成功-----')
                 self.data.isjumpPageFalg = true
                 if (mode == 3 || mode == 18) {
                   app.addDeviceInfo.ifNearby = false
