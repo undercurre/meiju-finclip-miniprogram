@@ -68,10 +68,26 @@ Page({
   onShow() {
     myPageViewBurialPoint()
 
+    app
+      .checkGlobalExpiration()
+      .then(() => {
+        this.setData({
+          isLogon: app.globalData.isLogon,
+        })
+        this.getVipUserInfo()
+      })
+      .catch(() => {
+        this.getVipUserInfo()
+        app.globalData.isLogon = false
+        this.setData(
+          {
+            isLogon: app.globalData.isLogon,
+          },
+          () => {}
+        )
+      })
+
     app.watchLogin(this.watchBack, this) //kkk add 非刷新页面监听登录态
-    if (app.globalData.isLogon) {
-      this.getVipUserInfo()
-    }
     //当前tab页面检查协议是否已更新，已更新则关闭已渲染的协议更新弹窗（由于自定义遮罩层不能覆盖原生的tabbar，所以协议新弹窗出现时，可以点击tabbar，以至于tab页面都会渲染协议更新的弹窗）
     this.setData({
       isUpdatedAgreement: app.globalData.isUpdateAgreement,
@@ -257,6 +273,12 @@ Page({
       })
   },
 
+  //加载失败后重新加载
+  loadimage() {
+    this.setData({
+      headImgUrl: this.data.headImgUrl + '?v=' + Date.now(),
+    })
+  },
   //获取登录态信息
   mucuserlogin: function () {
     let self = this

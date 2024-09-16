@@ -7,7 +7,6 @@
   "backgroundColor": "#ecf0f6",
   "cache": true,
   "usingComponents": {
-    "index-header": "/pages/component/index-header/index-header",
     "center-product-dialog": "/pages/component/center-product-dialog/center-product-dialog",
     "trojan-horse": "/pages/component/trojan-horse/trojan-horse",
     "apply-for-family": "/pages/component/apply-for-family/apply-for-family",
@@ -28,7 +27,6 @@
     "advertise-bar": "view",
     "edit-delete-card": "view",
     "center-product-dialog": "view",
-    "scene-control-fault": "view",
     "apply-for-family": "view"
   }
 }

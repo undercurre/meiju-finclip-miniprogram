@@ -6,7 +6,7 @@ import Tracker from './track/oneKeyTrack/libs/index'
 import trackConfig from './track/oneKeyTrack/config/index'
 import { deviceInfoReport } from './track/track.js'
 import { requestService, rangersBurialPoint } from './utils/requestService'
-import { isEmptyObject, hasKey, dateFormat, getReqId, getStamp } from 'm-utilsdk/index'
+import { hasKey, dateFormat, getReqId, getStamp } from 'm-utilsdk/index'
 import weixinApi from './utils/weixin/weixin.api'
 import cloudMethods from '/globalCommon/js/cloud.js'
 import getBrand from './utils/getBrand'
@@ -31,14 +31,7 @@ import brandConfig from './distribution-network/assets/js/brand.js'
 
 import { onNetworkStatusChange } from './utils/util.js'
 import loginMethods from '/globalCommon/js/loginRegister'
-import {
-  checkTokenExpir,
-  setIsAutoLogin,
-  isAutoLoginTokenValid,
-  checkTokenExpired,
-  checkTokenPwdExpired,
-  setDcpDeviceImg,
-} from './utils/redis.js'
+import { checkTokenExpir, checkTokenExpired, setDcpDeviceImg } from './utils/redis.js'
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
 //const linkupSDK = require('./distribution-network/assets/sdk/index.js')
@@ -175,17 +168,10 @@ App({
     this.globalData.isActionAppLaunch = true
     try {
       this.initData()
-      let isAutoLogin = null
-      let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
       let MPTOKEN_USERINFO
-      isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-      MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
       MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
-      if (typeof isAutoLogin !== 'boolean') {
-        setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
-      }
       //冷启动登录逻辑校验
       //60天内不需要重新登录，和云端确认 60天逻辑无需校验
       // if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
@@ -254,19 +240,10 @@ App({
     console.log('scene', options.scene)
     console.log('options:', options)
     try {
-      let isAutoLogin = null
-      let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
-      //let mptoken = null
       let MPTOKEN_USERINFO
-      isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-      MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
       MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
-      //mptoken = wx.getStorageSync('MPTOKEN')
-      if (typeof isAutoLogin !== 'boolean') {
-        setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
-      }
       //热启动阶段，热启动和热启动逻辑和小程序存在较大差异
       //热启动如果超过60天，无需特殊处理
       //if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) && !this.globalData.isActionAppLaunch) {
