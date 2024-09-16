@@ -190,8 +190,9 @@
   justify-content: space-around;
   font-size: 24rpx;
   color: #267aff;
-  height: 20vh;
+  /* height: 20vh; */
   box-shadow: 0 2rpx 10rpx 0 rgba(0, 0, 0, 0.1);
+  padding-bottom:68rpx;
 }
 
 #meiju .scan-hint {
@@ -659,7 +660,8 @@
 }
 
 #meiju .input-checkWiFiPw-box{
-  margin-top: 56rpx;
+  margin-top: 32rpx;
+  padding-bottom:32rpx;
 }
 
 #meiju .input-checkWiFiPw{
@@ -672,6 +674,7 @@
 
 #meiju .bottom-button-wifi-showPic{
   padding: 32rpx 0rpx;
+  padding-bottom:50rpx;
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -2101,7 +2104,11 @@ padding-right: 40px;
 #meiju .link-fail-r {
   display: flex;
   align-items: flex-start;
-  line-height: 64rpx;
+  line-height: 48rpx;
+}
+
+#meiju .link-fail-item {
+    margin-bottom:48rpx;
 }
 
 #meiju .link-fail-c {
@@ -2120,6 +2127,7 @@ padding-right: 40px;
   text-align: left;
   line-height: 1.4;
   vertical-align: top;
+  margin-bottom:64rpx;
 }
 
 #meiju .tip-fail {
@@ -2138,12 +2146,17 @@ padding-right: 40px;
   height: 36rpx;
   line-height: 36rpx;
   text-align: center;
-  margin-top: 16rpx;
+  margin-top: 8rpx;
   margin-right: 16rpx;
   border-radius: 50%;
   color: #458BFF;
   background: #E9F1FF;
   font-size: 24rpx;
+}
+
+#meiju .link-fail-input-ssid{
+  margin-top:32rpx !important;
+  margin-bottom:24rpx !important;
 }
 
 

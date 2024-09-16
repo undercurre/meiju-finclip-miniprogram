@@ -63,7 +63,8 @@
             </view>
             <view class="main-has-device">
               <view class="has-device">发现附近设备：</view>
-              <scroll-view scroll-y="{{true}}" class="scrollView"  style="max-height: calc(85vh - 578rpx - {{statusBarHeight + 6}}px)">
+              <!-- <scroll-view scroll-y="{{true}}" class="scrollView"  style="max-height: calc(85vh - 578rpx - {{statusBarHeight + 6}}px)"> -->
+              <scroll-view scroll-y="{{true}}" class="scrollView"  style="max-height: calc(85vh - 518rpx - {{statusBarHeight + 6}}px)">
                 <view class="content-device">
                   <!--找朋友发现的设备start-->
                   <view
