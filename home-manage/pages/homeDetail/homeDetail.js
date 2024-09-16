@@ -299,7 +299,7 @@ Page({
   },
   //跳转用户管理列表
   goToMemberManage() {
-    let homeDetail = JSON.stringify(this.data.homeDetail)
+    let homeDetail = encodeURIComponent(JSON.stringify(this.data.homeDetail))
     wx.navigateTo({
       url: `${memberManage}?roleId=${this.data.roleId}&homegroupId=${this.data.homegroupId}&homedetail=${homeDetail}`,
     })

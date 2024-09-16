@@ -227,7 +227,7 @@ Page({
    */
   onLoad(options) {
     this.setData({
-      homeDetail: JSON.parse(options.homedetail),
+      homeDetail: JSON.parse(decodeURIComponent(options.homedetail)),
       homegroupId: options.homegroupId,
       // memberList: JSON.parse(options.memberList),
       roleId: options.roleId,
