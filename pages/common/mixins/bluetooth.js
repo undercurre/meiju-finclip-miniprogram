@@ -443,11 +443,18 @@ module.exports = Behavior({
         }
       } else {
         // ifSN8Matching = true
-        let formatType = deviceParam.category.includes('0x')?deviceParam.category:'0x' + deviceParam.category.toLocaleUpperCase()
-        if (isSupportPlugin(formatType, deviceParam.sn8)) {
+        let page = getFullPageUrl()
+        if (page.includes('scan-devices/pages/scan-device/scan-device')) {
           ifSN8Matching = true
+          console.log('添加设备页不校验')
+        } else {
+          let formatType = deviceParam.category.includes('0x')?deviceParam.category:'0x' + deviceParam.category.toLocaleUpperCase()
+          if (isSupportPlugin(formatType, deviceParam.sn8)) {
+            ifSN8Matching = true
+          }
+          console.log('formatType是否通过----：',formatType,deviceParam.sn8,ifSN8Matching)
         }
-        console.log('formatType是否通过----：',formatType,deviceParam.sn8,ifSN8Matching)
+
       }
       return ifSN8Matching
     },
