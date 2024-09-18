@@ -433,7 +433,7 @@ Page({
                 if (packInfo.isWifiCheck || packInfo.isBleCheck || packInfo.isCanSet) {
                   // 设备已确权
                   app.addDeviceInfo.isCheck = true
-                  wx.navigateTo({
+                  wx.redirectTo({
                     url: paths.linkDevice,
                     success:()=>{
                       self.data.isjumpPageFalg = true
@@ -444,7 +444,7 @@ Page({
                   })
                 } else if (app.addDeviceInfo.blueVersion == 1) {
                   // 一代蓝牙
-                  wx.navigateTo({
+                  wx.redirectTo({
                     url: paths.linkDevice,
                     success:()=>{
                       self.data.isjumpPageFalg = true
@@ -523,7 +523,7 @@ Page({
           console.error('靠近设备，判断当前是配网指引页1：',page.includes('addDevice/pages/addGuide/addGuide'))
           if (page.includes('addDevice/pages/addGuide/addGuide')){
             console.error('靠近设备，判断当前是配网指引页2：',page.includes('addDevice/pages/addGuide/addGuide'))
-            wx.navigateTo({
+            wx.redirectTo({
               url: paths.linkDevice,
               success:()=>{
                 console.log('搜索到设备跳转成功-----')
@@ -649,7 +649,7 @@ Page({
         clearInterval(timer)
         this.nearDeviceAnimate()
         setTimeout(() => {
-          wx.navigateTo({
+          wx.redirectTo({
             url: paths.linkDevice,
             success:()=>{
               this_.data.isjumpPageFalg = true
@@ -873,7 +873,7 @@ Page({
                     })
                     //跳过
                     app.addDeviceInfo.isCheck = false
-                    wx.navigateTo({
+                    wx.redirectTo({
                       url: paths.linkDevice,
                       success:()=>{
                         self.data.isjumpPageFalg = true
@@ -967,7 +967,7 @@ Page({
       linkType: app.addDeviceInfo.linkType,
     })
     if(mode == 20){
-      wx.navigateTo({
+      wx.redirectTo({
         url: paths.linkDevice,
         success:()=>{
           self.data.isjumpPageFalg = true
@@ -1057,7 +1057,7 @@ Page({
         clearInterval(timer)
         this.nearDeviceAnimate()
         setTimeout(() => {
-          wx.navigateTo({
+          wx.redirectTo({
             url: paths.linkDevice,
             success:()=>{
               self.data.isjumpPageFalg = true
@@ -1200,7 +1200,7 @@ Page({
         .then((res) => {
           if (res.action == 'confirm') {
             //确定
-            wx.navigateTo({
+            wx.redirectTo({
               url: paths.linkDevice,
               success:()=>{
                 self.data.isjumpPageFalg = true
@@ -1401,7 +1401,7 @@ Page({
                 self.initAddGuide()
               } else {
                 // 原有逻辑 ==>> 跳联网进度页
-                wx.navigateTo({
+                wx.redirectTo({
                   url: paths.linkDevice,
                   success:()=>{
                     self.data.isjumpPageFalg = true
@@ -1628,7 +1628,7 @@ Page({
       .then(() => {
         clearInterval(timer)
         console.log('跳过清除了定时器')
-        wx.navigateTo({
+        wx.redirectTo({
           url: paths.linkDevice,
           success:()=>{
             this_.data.isjumpPageFalg = true
