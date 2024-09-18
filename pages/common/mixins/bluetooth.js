@@ -1567,6 +1567,7 @@ module.exports = Behavior({
         }
         try {
           await getPrivateKeys.getPrivateKey()
+          this.actionGoNetworkLock = null
           this.actionGoNetwork(item)
         } catch (err) {
           console.error('privateKeyerr--------------:',err)
