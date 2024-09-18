@@ -86,8 +86,9 @@ Page({
     if (this.options && this.options.needCheckLogStatus) {
       loginMethods.getLogoutStatus().then((res) => {
         if (res && +res.code === 0) {
-          loginMethods.logout()
-          showToast('退出成功！')
+          loginMethods.logout().then(() => {
+            showToast('退出成功！')
+          })
           wx.switchTab({
             url: '/pages/mytab/mytab',
           })

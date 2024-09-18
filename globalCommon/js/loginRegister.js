@@ -473,23 +473,58 @@ const loginMethods = {
   },
   // 退出登录
   logout() {
-    getApp().globalData.isLogon = false
-    wx.removeStorageSync('batchAuthList')
-    getApp().globalData.applianceAuthList = null
-    removeStorageSync()
-    closeWebsocket()
-    // clearStorageSync()
-    setIsAutoLogin(false)
-    removeUserInfo()
-    //清除宿主缓存
-    try {
-      ft?.setPreferences({
-        key: 'finClipLoginInfo',
-        val: '',
-      })
-    } catch (error) {
-      console.log('delete宿主缓存error', error)
-    }
+    return new Promise((resolve, reject) => {
+      let userInfo = wx.getStorageSync('userInfo')
+      let reqData = {
+        data: {
+          iotAppId: api.iotAppId,
+          deviceId:
+            getApp().globalData.deviceId ||
+            getApp().globalData.appSystemInfo.deviceId ||
+            userInfo.userInfo.mobile ||
+            '',
+          deviceName: getApp().globalData.appSystemInfo.model || '',
+          uid: userInfo.uid || '',
+        },
+
+        iotData: {
+          reqId: getReqId(),
+          stamp: getStamp(),
+        },
+        timestamp: getStamp(),
+        stamp: getStamp(),
+      }
+      requestService
+        .request('logout', reqData)
+        .then((res) => {
+          if (res.data.code === 0) {
+            getApp().globalData.isLogon = false
+            wx.removeStorageSync('batchAuthList')
+            getApp().globalData.applianceAuthList = null
+            removeStorageSync()
+            closeWebsocket()
+            // clearStorageSync()
+            setIsAutoLogin(false)
+            removeUserInfo()
+            //清除宿主缓存
+            try {
+              ft?.setPreferences({
+                key: 'finClipLoginInfo',
+                val: '',
+              })
+            } catch (error) {
+              console.log('delete宿主缓存error', error)
+            }
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        })
+        .catch((err) => {
+          console.log(err, 'logout')
+          reject(err)
+        })
+    })
   },
   // 获取是否在c4a提交注销
   getLogoutStatus() {

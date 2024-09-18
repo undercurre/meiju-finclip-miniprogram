@@ -121,6 +121,7 @@ App({
     console.log('launch options', options)
     //监听网络变化
     onNetworkStatusChange.call(this)
+    this.initCloudData() //多云协议
     // 分包异步加载
     //this.globalData.linkupSDK = linkupSDK // 存入全局变量，其他包可以直接引用
     // 全局加载蓝牙
@@ -162,8 +163,7 @@ App({
       console.log(error)
     }
     this.$$Rangers = $$Rangers
-    CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日志
-    this.initCloudData() //多云协议
+    CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日
     //小程序跳转
     this.globalData.isActionAppLaunch = true
     try {

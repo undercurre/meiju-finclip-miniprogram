@@ -5,12 +5,20 @@ import trackApiList from '../track/oneKeyTrack/config/trackApiList.js'
 import { authorizedCommonTrack, trackLoaded } from '../track/track.js'
 import { pluginRequestTrack } from '../track/pluginTrack.js'
 import cloudMethods from '../globalCommon/js/cloud.js'
-import { checkTokenExpired, checkTokenPwdExpired } from './redis.js'
 import loginMethods from '../globalCommon/js/loginRegister'
 import qs from './qs/index'
 
 var requestService = {
   request: (apiName, params, method, headerObj, timeout) => {
+    //接口调用之前判断网络
+    if (getApp().globalData.noNetwork) {
+      wx.showToast({
+        title: '网络未连接，请检查您的网络设置',
+        icon: 'none',
+        duration: 3000,
+      })
+      return
+    }
     let app = getApp() || this
     return new Promise((resolve, reject) => {
       let timestamp = getStamp()

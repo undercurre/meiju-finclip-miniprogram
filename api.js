@@ -107,7 +107,12 @@ var api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/homegroup/member/join/home/scancode`,
     api: '/v1/homegroup/member/join/home/scancode',
   },
-
+  //退出登录
+  logout: {
+    url: `${domain[`${environment}`]}/mj/user/logout`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/logout`,
+    api: '/mj/user/logout',
+  },
   //协议更新——协议变更判断
   checkAgreementApi: {
     url: `${domain[`${environment}`] + masPrefix}/v1/user/c4a/agreement/checkAgree`,

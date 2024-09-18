@@ -71,7 +71,7 @@ Component({
         module: '公共',
         page_module: '底部tab',
         widget_id: 'click_tab_item',
-        object_name: data.name,
+        widget_name: data.name,
       })
     },
   },

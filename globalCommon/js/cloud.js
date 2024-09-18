@@ -94,7 +94,7 @@ const cloudMethods = {
           ? wx.getStorageSync('cloudRegion')
           : 0
     let masConfigUrL = apiArray[1]
-    if (cloudGlobalModule && cloudRegion) {
+    if (cloudGlobalModule && cloudRegion && cloudGlobalModule.fixedRegion)  {
       cloudGlobalModule = JSON.parse(cloudGlobalModule)
       //使用for匹配
       for (let fixedRegionItem of cloudGlobalModule.fixedRegion) {

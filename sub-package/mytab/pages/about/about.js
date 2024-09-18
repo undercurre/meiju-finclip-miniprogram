@@ -142,9 +142,6 @@ Page({
     wx.navigateTo({
       url: currUrl,
     })
-    if (type == 0) {
-    } else {
-    }
   },
   // 退出登录
   switchAccount: function () {
@@ -157,28 +154,36 @@ Page({
     }).then((res) => {
       if (res.action == 'confirm') {
         wx.getNetworkType({
-            success(res){
-                const networkType = res.networkType
-                console.log(`退出登录-----networkType=${networkType}`)
-                if(['unknown', 'none'].includes(networkType)){
-                    setTimeout(() => {
-                        showToast('退出登录失败')
-                    }, 0)
-                }else{
-                    console.log(`退出登录-----loginMethods.logout`)
-                    loginMethods.logout()
-                    that.setData({
-                        isLogon: false,
-                    })
-                    setTimeout(() => {
-                        showToast('退出成功')
-                    }, 0)
-                    console.log(`退出登录-----switchTab, /pages/mytab/mytab`)
-                    wx.switchTab({
-                        url: '/pages/mytab/mytab',
-                    })
-                }
+          success(res) {
+            const networkType = res.networkType
+            console.log(`退出登录-----networkType=${networkType}`)
+            if (['unknown', 'none'].includes(networkType)) {
+              setTimeout(() => {
+                showToast('网络异常，请稍后再试')
+              }, 0)
+            } else {
+              console.log('退出登录-----loginMethods.logout')
+              loginMethods
+                .logout()
+                .then(() => {
+                  setTimeout(() => {
+                    showToast('退出成功')
+                  }, 0)
+                  that.setData({
+                    isLogon: false,
+                  })
+                  console.log('退出登录-----switchTab, /pages/mytab/mytab')
+                  wx.switchTab({
+                    url: '/pages/mytab/mytab',
+                  })
+                })
+                .catch(() => {
+                  setTimeout(() => {
+                    showToast('退出登录失败')
+                  }, 0)
+                })
             }
+          },
         })
       }
     })
