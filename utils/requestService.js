@@ -10,8 +10,9 @@ import qs from './qs/index'
 
 var requestService = {
   request: (apiName, params, method, headerObj, timeout) => {
+    let app = getApp() || this
     //接口调用之前判断网络
-    if (getApp().globalData.noNetwork) {
+    if (app && app.globalData && app.globalData.noNetwork) {
       wx.showToast({
         title: '网络未连接，请检查您的网络设置',
         icon: 'none',
@@ -19,7 +20,6 @@ var requestService = {
       })
       return
     }
-    let app = getApp() || this
     return new Promise((resolve, reject) => {
       let timestamp = getStamp()
       let apiObj = api[apiName]

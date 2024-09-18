@@ -177,6 +177,15 @@ App({
       // if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
       //4小时不操作需要刷新用户token
       if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        //无网且有用户缓存信息
+        if (this.globalData.noNetwork && MPTOKEN_USERINFO) {
+          this.globalData.isActionAppLaunch = false
+          loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+          if (this.callbackFn) {
+            this.callbackFn()
+          }
+          return
+        }
         loginMethods.loginAPi
           .call(this)
           .then((res2) => {
