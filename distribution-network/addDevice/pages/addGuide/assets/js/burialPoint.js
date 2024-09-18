@@ -953,7 +953,7 @@ export const burialPoint = {
       widget_id: '',
       widget_name: '',
       device_info: {
-        device_session_id: param.device_session_id, //一次配网事件标识
+        device_session_id: param.deviceSessionId, //一次配网事件标识
         sn: param.sn, //sn码
         sn8: param.sn8, //sn8码
         a0:param.a0,
@@ -974,7 +974,7 @@ export const burialPoint = {
       widget_id: '',
       widget_name: '',
       device_info: {
-        device_session_id: param.device_session_id, //一次配网事件标识
+        device_session_id: param.deviceSessionId, //一次配网事件标识
         sn: param.sn, //sn码
         sn8: param.sn8, //sn8码
         a0:param.a0,
@@ -996,7 +996,7 @@ export const burialPoint = {
       widget_id: 'guide_authorize_bluetooth_enable_button',
       widget_name: '配网指引蓝牙权限去开启按钮',
       device_info: {
-        device_session_id: param.device_session_id, //一次配网事件标识
+        device_session_id: param.deviceSessionId, //一次配网事件标识
         sn: param.sn, //sn码
         sn8: param.sn8, //sn8码
         a0:param.a0,
@@ -1017,7 +1017,7 @@ export const burialPoint = {
       widget_id: 'guide_authorize_bluetooth_enable_button',
       widget_name: '配网指引蓝牙权限去开启按钮',
       device_info: {
-        device_session_id: param.device_session_id, //一次配网事件标识
+        device_session_id: param.deviceSessionId, //一次配网事件标识
         sn: param.sn, //sn码
         sn8: param.sn8, //sn8码
         a0:param.a0,
