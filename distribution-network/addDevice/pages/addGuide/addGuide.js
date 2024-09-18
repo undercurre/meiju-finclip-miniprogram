@@ -205,6 +205,7 @@ Page({
         type: app.addDeviceInfo.type,
         moduleVersion: app.addDeviceInfo.blueVersion,
         linkType: app.addDeviceInfo.linkType,
+        widget_cate: app.addDeviceInfo.type
       })
     }
     if(!bluetoothAuthorized){
@@ -1334,6 +1335,11 @@ Page({
             if(isSupDevice){
               searchSupDeviceNum += 1
             }
+            console.log('packInfo.isWifiCheck==============================：', packInfo.isWifiCheck)
+            console.log('packInfo.isBleCheck==============================：', packInfo.isBleCheck)
+            console.log('packInfo.isCanSet==============================：', packInfo.isCanSet)
+            console.log('isSupDevice==============================：', isSupDevice)
+            console.log('searchSupDeviceNum==============================：', searchSupDeviceNum)
             if (packInfo.isWifiCheck || packInfo.isBleCheck || packInfo.isCanSet || isSupDevice) {
               if(isSupDevice && searchSupDeviceNum>1){
                 return
@@ -1362,6 +1368,7 @@ Page({
               app.addDeviceInfo.adData = deviceAds
               app.addDeviceInfo.blueVersion = self.getBleVersion(device.advertisData)
               app.addDeviceInfo.deviceId = device.deviceId
+              console.log('device.advertisData==========================:',device.advertisData)
               app.addDeviceInfo.mac = self.getIosMac(device.advertisData)
               app.addDeviceInfo.sn8 = self.getBlueSn8(deviceAds)
               app.addDeviceInfo.ssid = self.getBluetoothSSID(
@@ -1711,6 +1718,7 @@ Page({
         type: app.addDeviceInfo.type,
         moduleVersion: app.addDeviceInfo.blueVersion,
         linkType: app.addDeviceInfo.linkType,
+        widget_cate: app.addDeviceInfo.type
       })
       // this.setData({
       //   ishowBlueRes: true,
@@ -1724,6 +1732,7 @@ Page({
           type: app.addDeviceInfo.type,
           moduleVersion: app.addDeviceInfo.blueVersion,
           linkType: app.addDeviceInfo.linkType,
+          widget_cate: app.addDeviceInfo.type
         })
       }
   
@@ -1734,6 +1743,7 @@ Page({
           type: app.addDeviceInfo.type,
           moduleVersion: app.addDeviceInfo.blueVersion,
           linkType: app.addDeviceInfo.linkType,
+          widget_cate: app.addDeviceInfo.type
         }) 
       }
 
