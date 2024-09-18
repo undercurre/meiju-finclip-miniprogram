@@ -149,7 +149,10 @@ Component({
     goAddDeviceJia() {
       this.switchShowAddList()
       this.triggerEvent('goAddDeviceJia')
-      bthAddDeviceBurialPoint()
+      let parmas = {
+        pageModule: '顶栏',
+      }
+      bthAddDeviceBurialPoint(parmas)
     },
     //扫一扫
     goScanCode() {

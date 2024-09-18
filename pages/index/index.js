@@ -1053,18 +1053,17 @@ Page({
             console.log('移除数字遥控对应的直连设备缓存错误', error)
           }
         } else {
-          wx.showToast({
-            title: '删除失败，请重试~',
-            icon: 'none',
-          })
+          showToast('删除失败，请重试~')
         }
       })
       .catch((error) => {
         console.log('errorerror', error)
-        wx.showToast({
-          title: '删除失败，请重试~',
-          icon: 'none',
-        })
+        if (error.data.code == 1392) {
+          showToast('设备已被删除')
+          this.refreshApplianceData()
+          return
+        }
+        showToast('删除失败，请重试~')
       })
   },
   //隐藏修改设备名称弹框
@@ -2829,7 +2828,10 @@ Page({
     app.globalData.deviceSessionId = creatDeviceSessionId(app.globalData.userData.uid)
     let card = e.currentTarget.dataset.card
     if (card == 'card') {
-      bthAddDeviceBurialPoint()
+      let parmas = {
+        pageModule: '卡片',
+      }
+      bthAddDeviceBurialPoint(parmas)
     }
     clickEventTracking('user_behavior_event', 'goAddDeviceJia', {
       device_info: {
