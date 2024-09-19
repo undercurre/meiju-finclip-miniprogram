@@ -24,7 +24,7 @@ Component({
       MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
       if (!app.globalData.noNetWork && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
         app.globalData.wxExpiration = true
-        loginMethods.loginAPi.call(this).then(() => {
+        loginMethods.loginAPi().then(() => {
           console.log('resfreshToken sucesss')
           app.globalData.wxExpiration = true
           THAT.triggerEvent('initHomeInfo')
