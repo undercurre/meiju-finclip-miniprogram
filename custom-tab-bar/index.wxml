@@ -6,6 +6,7 @@
     wx:key="index"
     class="tab-bar-item"
     data-path="{{item.pagePath}}"
+    data-name="{{item.text}}"
     data-index="{{index}}"
     bindtap="switchTab"
   >

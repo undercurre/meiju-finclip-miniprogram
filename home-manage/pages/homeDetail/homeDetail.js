@@ -7,6 +7,7 @@ import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 import { roomAndDevices, memberManage } from '../../../utils/paths.js'
+import { showToast } from 'm-miniCommonSDK/index'
 const commonBehavior = require('../../assets/behavior')
 // const roomIco = '/assets/img/index/room.png'
 // const equipmentIco = '/assets/img/index/device.png'
@@ -183,11 +184,9 @@ Page({
       burialPoint.clickpopupconfirmBurialPoint()
       this.homeDelete()
         .then((res) => {
-          console.log(res.data.code, '删除家庭成功')
-          wx.showToast({
-            title: '删除家庭成功',
-            icon: 'none',
-          })
+          setTimeout(() => {
+            showToast('删除家庭成功')
+          }, 0)
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })
@@ -202,11 +201,9 @@ Page({
       burialPoint.confirmQuitFamilyClick()
       this.homeQuit()
         .then((res) => {
-          console.log(res, '退出家庭成功')
-          wx.showToast({
-            title: '退出家庭成功',
-            icon: 'none',
-          })
+          setTimeout(() => {
+            showToast('退出家庭成功')
+          }, 0)
           app.globalData.ifRefreshHomeList = true
           wx.navigateBack()
         })
@@ -271,6 +268,7 @@ Page({
     this.familyNameEdit()
       .then((res) => {
         console.log(res, '修改家庭名称成功')
+        showToast('修改家庭名称成功')
         app.globalData.ifRefreshHomeList = true
         this.setData({
           familyDialogShow: false,
@@ -301,7 +299,7 @@ Page({
   },
   //跳转用户管理列表
   goToMemberManage() {
-    let homeDetail = JSON.stringify(this.data.homeDetail)
+    let homeDetail = encodeURIComponent(JSON.stringify(this.data.homeDetail))
     wx.navigateTo({
       url: `${memberManage}?roleId=${this.data.roleId}&homegroupId=${this.data.homegroupId}&homedetail=${homeDetail}`,
     })
@@ -349,11 +347,11 @@ Page({
    */
   onLoad(options) {
     this.setData({
-      homeDetail: JSON.parse(options.homeitem),
+      homeDetail: JSON.parse(decodeURIComponent(options.homeitem)),
       homegroupId: options.homegroupId,
-      name: options.name,
+      name: decodeURIComponent(options.name),
       roleId: options.roleId,
-      familyValue: options.name,
+      familyValue: decodeURIComponent(options.name),
       ownHomeNum: options.ownHomeNum,
     })
   },

@@ -1,5 +1,5 @@
 // "navigationStyle": "custom", 其他与defaultWebview一致
-import { hasKey } from 'm-utilsdk/index'
+import { hasKey, dateFormat } from 'm-utilsdk/index'
 import { aesEncryptUrl, getFullPageUrl } from '../../utils/util.js'
 const app = getApp()
 import loginMethods from '../../globalCommon/js/loginRegister.js'
@@ -38,6 +38,21 @@ Page({
     this.onloadWebview(options)
   },
 
+  //加载页面失败
+  loadError() {
+    console.log('加载失败------>', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+    this.setData({
+      noNetwork: true,
+    })
+  },
+  //加载页面超值
+  loadTimeout() {
+    console.log('加载超时------>', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+    showToast('网络异常，请稍后再试！')
+    this.setData({
+      noNetwork: true,
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -71,8 +86,9 @@ Page({
     if (this.options && this.options.needCheckLogStatus) {
       loginMethods.getLogoutStatus().then((res) => {
         if (res && +res.code === 0) {
-          loginMethods.logout()
-          showToast('退出成功！')
+          loginMethods.logout().then(() => {
+            showToast('退出成功！')
+          })
           wx.switchTab({
             url: '/pages/mytab/mytab',
           })

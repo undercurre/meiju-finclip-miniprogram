@@ -203,22 +203,22 @@ Page({
   },
   inviteMembersNew() {
     burialPoint.clickInvitePoint({
-        page_id: 'page_family_Memberlist',
-        page_name: '成员列表页',
+      page_id: 'page_family_Memberlist',
+      page_name: '成员列表页',
+    })
+    if (this.data.memberList.length >= 20) {
+      wx.showToast({
+        title: '您的家庭成员已经达到20个上限，无法继续新增',
+        icon: 'none',
       })
-      if (this.data.memberList.length >= 20) {
-        wx.showToast({
-          title: '您的家庭成员已经达到20个上限，无法继续新增',
-          icon: 'none',
-        })
-        return
-      }
-      const { homeDetail, homegroupId } = this.data
-      this.gotoInvite(homeDetail, homegroupId)
+      return
+    }
+    const { homeDetail, homegroupId } = this.data
+    this.gotoInvite(homeDetail, homegroupId)
   },
   inviteMembers() {
-    if(!inviteDebounce){
-        inviteDebounce = debounce(this.inviteMembersNew, 300, 300)
+    if (!inviteDebounce) {
+      inviteDebounce = debounce(this.inviteMembersNew, 300, 300)
     }
     inviteDebounce()
   },
@@ -227,7 +227,7 @@ Page({
    */
   onLoad(options) {
     this.setData({
-      homeDetail: JSON.parse(options.homedetail),
+      homeDetail: JSON.parse(decodeURIComponent(options.homedetail)),
       homegroupId: options.homegroupId,
       // memberList: JSON.parse(options.memberList),
       roleId: options.roleId,

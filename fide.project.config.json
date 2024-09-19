@@ -75,7 +75,7 @@
     "minify": true,
     "minifyWXSS": true,
     "autoPrefixWXSS": true,
-    "obfuscate": false,
+    "obfuscate": true,
     "bundle": false,
     "userConfirmedBundleSwitch": false,
     "urlCheck": true,

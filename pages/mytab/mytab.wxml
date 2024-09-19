@@ -14,7 +14,7 @@
         <view class="userinfoDetail">
           <view class="userinfo-avatar">
             <!-- <open-data type="userAvatarUrl"></open-data> -->
-            <image class="header-img" mode="aspectFill" src="{{headImgUrl}}"></image>
+            <image class="header-img" mode="aspectFill" binderror="loadimage" src="{{headImgUrl}}"></image>
           </view>
           <view class="userinfo-detail">
             <view class="user-nick-name text-overflow2">{{nickName}}</view>

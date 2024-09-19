@@ -38,10 +38,10 @@ Component({
    * 组件的初始数据
    */
   data: {
-    img: {
-      addDeviceImg: normalPic,
-      deviceFlag: false,
-    },
+    // img: {
+    addDeviceImg: normalPic,
+    deviceFlag: false,
+    // },
   },
 
   /**
@@ -49,13 +49,13 @@ Component({
    */
   methods: {
     errorImgLoad() {
-        this.setData({
-            addDeviceImg: home_img_jiadian_low
-        })
-    },
-    updateValue(val){
       this.setData({
-        btnConent:val
+        addDeviceImg: home_img_jiadian_low,
+      })
+    },
+    updateValue(val) {
+      this.setData({
+        btnConent: val,
       })
     },
     checkFun() {

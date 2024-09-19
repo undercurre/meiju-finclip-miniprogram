@@ -230,11 +230,11 @@ const clearStorageSync = () => {
   wx.clearStorageSync()
 }
 /**
- * 清除除多云外的别的参数
+ * 退出登录清除除多云以及首页弹窗提示之外外的别的参数
  */
 const removeStorageSync = () => {
   let StorageInfoList = wx.getStorageInfoSync().keys
-  let filterList = ['cloudRegion', 'cloudGlobalModule']
+  let filterList = ['cloudRegion', 'cloudGlobalModule', 'PROMPTPOPUP']
   let clearInfoList = StorageInfoList.filter((a, i) => {
     return filterList.every((f) => f != a)
   })

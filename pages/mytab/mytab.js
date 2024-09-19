@@ -3,7 +3,7 @@ const app = getApp() //获取应用实例
 const service = require('./assets/js/service')
 const imgBaseUrlMixins = require('../common/mixins/base-img-mixins.js')
 import { getReqId, getStamp, hasKey } from 'm-utilsdk/index'
-import { getFullPageUrl, debounce } from '../../utils/util'
+import { getFullPageUrl, debounce, showToast } from '../../utils/util'
 import { requestService } from '../../utils/requestService'
 import { logonStatusApi, baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking } from '../../track/track.js'
@@ -67,10 +67,10 @@ Page({
   behaviors: [service, imgBaseUrlMixins, computedBehavior],
   onShow() {
     myPageViewBurialPoint()
+
     app
       .checkGlobalExpiration()
       .then(() => {
-        const mobile = app.globalData.phoneNumber || ''
         this.setData({
           isLogon: app.globalData.isLogon,
         })
@@ -86,6 +86,7 @@ Page({
           () => {}
         )
       })
+
     app.watchLogin(this.watchBack, this) //kkk add 非刷新页面监听登录态
     //当前tab页面检查协议是否已更新，已更新则关闭已渲染的协议更新弹窗（由于自定义遮罩层不能覆盖原生的tabbar，所以协议新弹窗出现时，可以点击tabbar，以至于tab页面都会渲染协议更新的弹窗）
     this.setData({
@@ -162,6 +163,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    //先从缓存拿
+    if (wx.getStorageSync('vipUserInfo') && app.globalData.isLogon) {
+      const vipData = wx.getStorageSync('vipUserInfo')
+      this.setData({
+        headImgUrl: vipData?.userCustomize?.headImgUrl,
+        nickName: vipData?.userCustomize?.nickName,
+      })
+    }
     // let self = this
     wx.getSystemInfo({
       success: (res) => {
@@ -174,14 +183,18 @@ Page({
 
   //点击跳转设置页面
   goToSettingPage() {
-    if(!jumpSettingDebounce){
-        jumpSettingDebounce = debounce(() => {
-             //埋点
-            clickSeetingMenuSettingBurialPoint()
-            wx.navigateTo({
-                url: '/sub-package/mytab/pages/about/about',
-            })
-        }, 300, 300)
+    if (!jumpSettingDebounce) {
+      jumpSettingDebounce = debounce(
+        () => {
+          //埋点
+          clickSeetingMenuSettingBurialPoint()
+          wx.navigateTo({
+            url: '/sub-package/mytab/pages/about/about',
+          })
+        },
+        300,
+        300
+      )
     }
     jumpSettingDebounce()
   },
@@ -189,33 +202,40 @@ Page({
    * 跳转到隐私协议页面
    */
   gotoPrivcayPage() {
-    if(!jumpSafeDebounce){
-        jumpSafeDebounce = debounce(() => {
-            clickSeetingMenuPrivcyBurialPoint()
-            wx.navigateTo({
-                url: '/pages/privacyAndSafa/privacyAndSafa',
-            })
-        }, 300, 300)
+    if (!jumpSafeDebounce) {
+      jumpSafeDebounce = debounce(
+        () => {
+          clickSeetingMenuPrivcyBurialPoint()
+          wx.navigateTo({
+            url: '/pages/privacyAndSafa/privacyAndSafa',
+          })
+        },
+        300,
+        300
+      )
     }
     jumpSafeDebounce()
   },
   //点击跳转关于页面
   gotoAoutPage() {
-    if(!jumpAboutDebounce){
-        jumpAboutDebounce = debounce(() => {
-            //埋点
-            clickSeetingMenuAboutBurialPoint()
-            wx.navigateTo({
-                url: '/pages/aboutApp/aboutApp',
-            })
-        }, 300, 300)
+    if (!jumpAboutDebounce) {
+      jumpAboutDebounce = debounce(
+        () => {
+          //埋点
+          clickSeetingMenuAboutBurialPoint()
+          wx.navigateTo({
+            url: '/pages/aboutApp/aboutApp',
+          })
+        },
+        300,
+        300
+      )
     }
     jumpAboutDebounce()
   },
 
   getVipUserInfo: function () {
     if (!app.globalData.isLogon) return
-    //先从缓存拿
     if (wx.getStorageSync('vipUserInfo')) {
       const vipData = wx.getStorageSync('vipUserInfo')
       this.setData({
@@ -234,20 +254,31 @@ Page({
         mobile: app.globalData.userData.userInfo.mobile,
       },
     }
-    requestService.request('getVipUserInfo', data).then((resp) => {
-      const vipData = resp?.data?.data
-      app.globalData.userData.grade = vipData?.grade
-      setVipUserInfo(vipData)
-      this.setData({
-        headImgUrl: vipData?.userCustomize?.headImgUrl,
-        nickName: vipData?.userCustomize?.nickName,
-        vipLevel: vipData?.grade,
-        paymentMember: vipData?.paymentMember,
-        levelName: vipData?.levelName,
+    requestService
+      .request('getVipUserInfo', data)
+      .then((resp) => {
+        const vipData = resp?.data?.data
+        app.globalData.userData.grade = vipData?.grade
+        setVipUserInfo(vipData)
+        this.setData({
+          headImgUrl: vipData?.userCustomize?.headImgUrl,
+          nickName: vipData?.userCustomize?.nickName,
+          vipLevel: vipData?.grade,
+          paymentMember: vipData?.paymentMember,
+          levelName: vipData?.levelName,
+        })
       })
-    })
+      .catch(() => {
+        showToast('系统繁忙，请稍后再试')
+      })
   },
 
+  //加载失败后重新加载
+  loadimage() {
+    this.setData({
+      headImgUrl: this.data.headImgUrl + '?v=' + Date.now(),
+    })
+  },
   //获取登录态信息
   mucuserlogin: function () {
     let self = this

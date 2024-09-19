@@ -26,7 +26,7 @@ import Dialog from '../../../../miniprogram_npm/m-ui/mx-dialog/dialog'
 const brandStyle = require('../../../assets/js/brand.js')
 import { imgesList } from '../../../assets/js/shareImg.js'
 import { commonDialog } from '../../../assets/js/commonDialog'
-let findFriendTimer, findFriendTimer2 //主设备找朋友定时查询
+let findFriendTimer, findFriendTimer2, getWifiListInterval //主设备找朋友定时查询
 let scanHintTimer
 const imgUrl = imgBaseUrl.url + '/shareImg/' + app.globalData.brand
 Page({
@@ -387,6 +387,7 @@ monitorBluetooth(){
   clearTimer() {
     clearInterval(findFriendTimer)
     clearInterval(findFriendTimer2)
+    clearInterval(getWifiListInterval)
     this.setData({
       findFriendTime: 0,
     })

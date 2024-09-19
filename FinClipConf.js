@@ -85,5 +85,23 @@ module.exports = {
       sync: true, //是否为同步api
       params: {},
     },
+    {
+      // 设置缓存
+      name: 'setPreferences',
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      // 打印HiLog日志
+      name: 'showHiLog',
+      sync: false, //是否为同步api
+      params: {},
+    },
+    {
+      // 获取设备ID
+      name: 'getDeviceIdSync',
+      sync: true, //是否为同步api
+      params: {},
+    },
   ],
 }

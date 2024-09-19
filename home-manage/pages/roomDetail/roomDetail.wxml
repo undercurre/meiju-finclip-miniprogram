@@ -6,7 +6,7 @@
   bind:click-left="onClickLeft"
 />
 <view class="main-container">
-  <mx-cell-group>
+  <mx-cell-group border="{{ false }}">
     <mx-cell size="large" center imageSize="32" is-link="{{ roleId!=1003 }}" title="房间名称" bindtap="showEditDialog">
       <view class="room-name">{{ roomName }}</view>
     </mx-cell>
@@ -15,7 +15,7 @@
   <!-- <text>设备列表</text> -->
   <!-- </view> -->
   <view wx:if="{{roomDetail.applianceList.length > 0}}" class="device-list-title"></view>
-  <mx-cell-group>
+  <mx-cell-group border="{{ false }}">
     <mx-cell
       wx:for="{{ roomDetail.applianceList }}"
       wx:key="index"

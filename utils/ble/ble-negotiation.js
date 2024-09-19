@@ -487,10 +487,15 @@ module.exports = Behavior({
 
     writeData(data) {
       console.log('发送数据：', data)
+      const self = this
       packageSize = 200
       let offset = 0
       data = hexString2Uint8Array(data) //uni8array
-      this.writePackage(data, offset)
+      setTimeout(() => { // 等待前一个写数据返回后再执行下一个写数据
+        if(self.data.connected) { // 添加判断，蓝牙连接状态连着的时候才写数据
+            self.writePackage(data, offset)
+        }
+      }, 100)
 
       // if (retry > 0) {
       //   this.retryTimeout = setTimeout(() => {

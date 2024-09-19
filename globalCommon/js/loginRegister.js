@@ -79,12 +79,7 @@ const loginMethods = {
   //发送网络请求登陆小程序(自动登陆)
   async loginAPi() {
     // this.getSystemInfo().then((system) => {
-    let system
-    await wx.getSystemInfo({
-      success(res) {
-        system = res
-      },
-    })
+    let system = wx.getSystemInfoSync()
     let userInfo = wx.getStorageSync('userInfo')
     let app = getApp() || this
     if (userInfo) {
@@ -99,7 +94,8 @@ const loginMethods = {
           platform: 110,
           iotAppId: api.iotAppId,
           rule: 1,
-          deviceId: system.deviceId || userInfo.userInfo.mobile || '',
+          deviceId: app.globalData.deviceId || system.deviceId || userInfo.userInfo.mobile || '',
+          deviceName: system.model || '',
           tokenPwd: userInfo.mdata.tokenPwdInfo.tokenPwd || '',
           uid: userInfo.uid || '',
           nickname: (userInfo.userInfo && userInfo.userInfo.nickName) || '',
@@ -135,20 +131,20 @@ const loginMethods = {
               try {
                 ft?.setPreferences({
                   key: 'finClipLoginInfo',
-                  val: userInfo,
+                  val: { ...userInfo, ...{ deviceId: app.globalData.deviceId } },
                 })
               } catch (error) {
                 console.log('设置宿主缓存error', error)
               }
             } else {
               console.log('login fail res :', res.data)
-              app.globalData.isLogon = false
+              // app.globalData.isLogon = false
               reject(res)
             }
           })
           .catch((err) => {
             console.log('login catch res :', err)
-            app.globalData.isLogon = false
+            //app.globalData.isLogon = false
             if (!hasKey(err, 'data')) {
               reject(err)
               return
@@ -193,7 +189,8 @@ const loginMethods = {
           appKey: '46579c15',
           imgCode: params.imgCode,
           randomToken: params.randomToken,
-          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+          deviceName: app.globalData.appSystemInfo.model || '',
+          deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         },
         iotData: {
           iotAppId: api.iotAppId,
@@ -230,7 +227,8 @@ const loginMethods = {
         appVersion: app.globalData.appVersion || '9.0,',
         osVersion: '',
         platform: 110,
-        deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+        deviceName: app.globalData.appSystemInfo.model || '',
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
         smsCode: params.vercode,
       }
       let data = {
@@ -241,7 +239,8 @@ const loginMethods = {
           iotAppId: api.iotAppId,
           mobile: params.phoneNumber,
           smsCode: params.vercode,
-          deviceId: app.globalData.appSystemInfo.deviceId || params.phoneNumber,
+          deviceName: app.globalData.appSystemInfo.model || '',
+          deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || params.phoneNumber,
           nickname: (app.globalData.userInfo && app.globalData.userInfo.nickName) || '',
           reqId: reqId,
           stamp: getTimeStamp(new Date()),
@@ -273,7 +272,7 @@ const loginMethods = {
             try {
               ft?.setPreferences({
                 key: 'finClipLoginInfo',
-                val: res.data.data,
+                val: { ...res.data.data, ...{ deviceId: app.globalData.deviceId } },
               })
             } catch (error) {
               console.log('设置宿主缓存error', error)
@@ -474,23 +473,58 @@ const loginMethods = {
   },
   // 退出登录
   logout() {
-    getApp().globalData.isLogon = false
-    wx.removeStorageSync('batchAuthList')
-    getApp().globalData.applianceAuthList = null
-    removeStorageSync()
-    closeWebsocket()
-    // clearStorageSync()
-    setIsAutoLogin(false)
-    removeUserInfo()
-    //清除宿主缓存
-    try {
-      ft?.setPreferences({
-        key: 'finClipLoginInfo',
-        val: '',
-      })
-    } catch (error) {
-      console.log('delete宿主缓存error', error)
-    }
+    return new Promise((resolve, reject) => {
+      let userInfo = wx.getStorageSync('userInfo')
+      let reqData = {
+        data: {
+          iotAppId: api.iotAppId,
+          deviceId:
+            getApp().globalData.deviceId ||
+            getApp().globalData.appSystemInfo.deviceId ||
+            userInfo.userInfo.mobile ||
+            '',
+          deviceName: getApp().globalData.appSystemInfo.model || '',
+          uid: userInfo.uid || '',
+        },
+
+        iotData: {
+          reqId: getReqId(),
+          stamp: getStamp(),
+        },
+        timestamp: getStamp(),
+        stamp: getStamp(),
+      }
+      requestService
+        .request('logout', reqData)
+        .then((res) => {
+          if (res.data.code === 0) {
+            getApp().globalData.isLogon = false
+            wx.removeStorageSync('batchAuthList')
+            getApp().globalData.applianceAuthList = null
+            removeStorageSync()
+            closeWebsocket()
+            // clearStorageSync()
+            setIsAutoLogin(false)
+            removeUserInfo()
+            //清除宿主缓存
+            try {
+              ft?.setPreferences({
+                key: 'finClipLoginInfo',
+                val: '',
+              })
+            } catch (error) {
+              console.log('delete宿主缓存error', error)
+            }
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        })
+        .catch((err) => {
+          console.log(err, 'logout')
+          reject(err)
+        })
+    })
   },
   // 获取是否在c4a提交注销
   getLogoutStatus() {

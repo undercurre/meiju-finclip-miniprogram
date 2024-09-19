@@ -1,3 +1,8 @@
+/*
+ * @desc:
+ * @author: zhucc22
+ * @Date: 2024-07-09 16:49:32
+ */
 const app = getApp() //获取应用实例
 import { formatTime, getStamp } from 'm-utilsdk/index'
 import { judgeWayToMiniProgram } from '../utils/util'
@@ -55,66 +60,19 @@ Component({
     switchTab(e) {
       const data = e.currentTarget.dataset
       const url = data.path
-      // app.globalData.selectTab = data.index
-      // const selected = data.index
-      // this.setData({
-      // selected,
-      // })
-      const currentUid =
-        app.globalData.userData && app.globalData.userData.uid && app.globalData.isLogon
-          ? app.globalData.userData.uid
-          : ''
-      const randam = getStamp()
       this.data.isSwitchedTab = true
       this.trackTab(data)
-      if (url == '/pages/shopping/shopping') {
-        let appId = 'wx255b67a1403adbc2'
-        let path = 'page/index2/index2'
-        let extra = {
-          jp_source: 3,
-          jp_c4a_uid: currentUid,
-          jp_rand: randam,
-        }
-        judgeWayToMiniProgram(appId, path, extra)
-        this.clickBurdPoint('shopping_tab')
-      } else {
-        wx.switchTab({ url })
-        if (url == '/pages/index/index') {
-          this.clickBurdPoint('device_tab')
-        } else if (url == '/pages/mytab/mytab') {
-          this.clickBurdPoint('mytab_tab')
-        }
-      }
+      wx.switchTab({ url })
     },
     trackTab(data) {
-      const index = data.index
-      const obj = this.data.list[index]
+      console.log('-----data--------->', data)
       rangersBurialPoint('user_behavior_event', {
-        page_id: 'page_bottom_tab',
-        home_tab: obj.page_name,
+        home_tab: data.name,
         module: '公共',
-        // ...commonParams,
-        // module: hasKey(selectParams, 'module') ? selectParams["module"] : '首页',
-        page_path: obj.pagePath,
-        widget_id: 'click_tab_item',
-        widget_name: obj.text,
         page_module: '底部tab',
-        ramk: '',
-        object_type: 'tab',
-        object_id: index,
-        object_name: obj.text,
-        ext_info: '',
-        open_id: app.globalData.openId || '',
+        widget_id: 'click_tab_item',
+        widget_name: data.name,
       })
-    },
-    /**
-     * 点击事件埋点
-     */
-    clickBurdPoint(clickType) {
-      // wx.reportAnalytics('count_click_list', {
-      // click_type: clickType,
-      // click_time: formatTime(new Date()),
-      // })
     },
   },
 })

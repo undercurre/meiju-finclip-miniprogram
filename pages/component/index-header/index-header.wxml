@@ -1,4 +1,0 @@
-<view class="header" style="top:{{statusBarHeight+ 6}}px">
-  <image class="logo" src="/assets/img/meiju-icon.png"></image>
-  <text class="app-name">美的美居</text>
-</view>

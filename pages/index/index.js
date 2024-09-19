@@ -25,14 +25,16 @@ import {
 } from '../../utils/pluginFilter'
 import wxList from '../../globalCommon/js/wxList.js'
 import {
-  indexViewBurialPoint,
   clickOpenPluginBurialPoint,
   clickSwitchFamilyBurialPoint,
   editAndDeleteApplianceViewBurialPoint,
   editAndDeleteApplianceClickBurialPoint,
   checkFamilyPermissionBurialPoint,
   checkFamilyPermissionAddBurialPoint,
-  cardClickPluginBurialPoint,
+  clickCardBurialPoint,
+  clickCardUnsupportedBurialPoint,
+  bthAddDeviceBurialPoint,
+  MideaHomeViewBurialPoint,
 } from 'assets/js/burialPoint'
 import { baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking, trackLoaded } from '../../track/track.js'
@@ -60,6 +62,7 @@ let jumpPluginDebounce = null
 let jumpEventObj = null
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
+const videoSrc = imgBaseUrl.url + '/video/login.mp4'
 let shouldGetDeviceDataFromStorage = false // 是否都缓存（手动切换家庭后读缓存）
 let forceUpdateWhenOnshow = false // 触发onshow是否需要更新
 let isGoToPlugin = true
@@ -76,7 +79,12 @@ import {
 } from '../../utils/redis.js'
 Page({
   behaviors: [bluetooth],
+  onReady() {
+    console.log(`page performance onReady start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
+  },
   async onShow() {
+    MideaHomeViewBurialPoint()
+    console.log(`page performance onShow start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
     if (getApp().globalData.gloabalWebSocket && getApp().globalData.gloabalWebSocket._isClosed) {
       this.initPushData()
     }
@@ -202,6 +210,7 @@ Page({
         isDeviceLength: false,
       })
     }
+    console.log(`page performance onShow end ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
   },
   versionUpadte(e) {
     //子组件传承
@@ -449,6 +458,7 @@ Page({
   },
   data: {
     indexHeader,
+    videoSrc,
     indexSrc,
     addIndexDevice,
     resetScrollTop: 0,
@@ -1043,18 +1053,17 @@ Page({
             console.log('移除数字遥控对应的直连设备缓存错误', error)
           }
         } else {
-          wx.showToast({
-            title: '删除失败，请重试~',
-            icon: 'none',
-          })
+          showToast('删除失败，请重试~')
         }
       })
       .catch((error) => {
         console.log('errorerror', error)
-        wx.showToast({
-          title: '删除失败，请重试~',
-          icon: 'none',
-        })
+        if (error.data.code == 1392) {
+          showToast('设备已被删除')
+          this.refreshApplianceData()
+          return
+        }
+        showToast('删除失败，请重试~')
       })
   },
   //隐藏修改设备名称弹框
@@ -1628,11 +1637,13 @@ Page({
               currentHomeGroupIndex: homeGroupIndex,
               homeList: this.data.homeList,
               isHourse: false,
+              clickAfterCompletion: false,
             })
           })
           return
         }
         this.setData({
+          clickAfterCompletion: false,
           isHourse: false,
         })
       })
@@ -1807,10 +1818,11 @@ Page({
       return !composeApplianceCodeList.includes(parseInt(item.applianceCode))
     })
     console.log('当前家庭设备列表===== ', currentFamilyDeviceList)
-    if (applianceList.bluetooth) {
-      //存在 遥控设备
-      currentFamilyDeviceList = this.addRemoteBindDevice(currentFamilyDeviceList, applianceList.bluetooth) //添加遥控设备卡片
-    }
+    //产品需求，鸿蒙遥控设备卡片无需展示
+    // if (applianceList.bluetooth) {
+    //存在 遥控设备
+    // currentFamilyDeviceList = this.addRemoteBindDevice(currentFamilyDeviceList, applianceList.bluetooth) //添加遥控设备卡片
+    // }
     if (wx.getStorageSync('localBlueDevices')) {
       //存在 本地蓝牙设备
       currentFamilyDeviceList = this.getLoaclBlueDevices(currentFamilyDeviceList, currentHomeGroupId) //添j加本地蓝牙设备 卡片
@@ -1853,6 +1865,7 @@ Page({
           this.setData({
             isHomeListLoaded: true,
             isLogon: app.globalData.isLogon,
+            clickAfterCompletion: false,
           })
           reject(error)
         })
@@ -2127,6 +2140,7 @@ Page({
       name: 'unsupportedApplianceList',
       data: allUnsupportedApplianceList,
     })
+    console.log('设置缓存 计算长度=====', aLLDeviceLength)
     const isExpandNoSupportDevice = this.checkIsExpandNoSupportDevice(supportedApplianceList)
     if (app.globalData.dcpDeviceImgList) {
       supportedApplianceList.forEach((item) => {
@@ -2145,7 +2159,7 @@ Page({
           app.globalData.spidDeviceImgList
         )
       })
-    } else {
+    } else if (getCurrentHomeGroupId() == currentHomeGroupId) {
       supportedApplianceList.forEach((item) => {
         var newArr = this.data.supportedApplianceList.filter((subItem) => item.applianceCode == subItem.applianceCode)
         item.deviceImg = newArr[0].deviceImg
@@ -2154,6 +2168,9 @@ Page({
         var newArr = this.data.unsupportedApplianceList.filter((subItem) => item.applianceCode == subItem.applianceCode)
         item.deviceImg = newArr[0].deviceImg
       })
+    } else {
+      console.log('重新拉取图片')
+      this.getIotDeviceV3()
     }
     //缓存当前家庭设备信息
     console.log('缓存家庭')
@@ -2279,13 +2296,13 @@ Page({
         // }
         //2.切换到当前家庭
         this.updateHomeGroup(currentHomeGroupIndex, currentHomeInfo.homegroupId)
-        wx.nextTick(() => {
-          indexViewBurialPoint({
-            familyId: currentHomeInfo.homegroupId,
-            familyName: currentHomeInfo.name,
-            tabName: '设备',
-          })
-        })
+        // wx.nextTick(() => {
+        // indexViewBurialPoint({
+        // familyId: currentHomeInfo.homegroupId,
+        // familyName: currentHomeInfo.name,
+        // tabName: '设备',
+        // })
+        // })
       })
       .catch((e) => {
         trackLoaded('page_loaded_event', 'horseHide')
@@ -2443,6 +2460,7 @@ Page({
     })
   },
   async onLoad(options) {
+    console.log(`page performance onLoad start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
     //获取缓存数据
     this.getStrogeIndex()
     //获取设备图标
@@ -2479,7 +2497,7 @@ Page({
       isNfcFirstInit: true,
     })
     if (app.globalData.isLogon) {
-      this.initPushData()
+      //this.initPushData()
       if (app.globalData.uid) {
         this.setData({
           uid: app.globalData.uid,
@@ -2488,7 +2506,7 @@ Page({
       }
     } else {
       try {
-        this.initPushData()
+        //this.initPushData()
         const isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
         if (isAutoLogin) {
           app.watchLogin(() => {
@@ -2520,6 +2538,7 @@ Page({
         if_sys: 1, //本需求固定为1
       },
     })
+    console.log(`page performance onLoad end ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
   },
 
   //获取当前用户下的空调设备
@@ -2566,27 +2585,6 @@ Page({
     let from = e.currentTarget.dataset.from
     setPluginDeviceInfo(currDeviceInfo)
     console.log('currDeviceInfo', currDeviceInfo, e.currentTarget.dataset)
-    if (from == 'plain') {
-      clickOpenPluginBurialPoint({
-        applianceCode: currDeviceInfo.applianceCode,
-        homegroupId: currDeviceInfo.homegroupId,
-        deviceName: currDeviceInfo.name,
-        onlineStatus: currDeviceInfo.onlineStatus || '',
-        pluginType: currDeviceInfo.type,
-        sn8: currDeviceInfo.sn8,
-      })
-    } else {
-      //物模型卡片点击埋点
-      cardClickPluginBurialPoint({
-        applianceCode: currDeviceInfo.applianceCode,
-        deviceName: currDeviceInfo.name,
-        onlineStatus: currDeviceInfo.onlineStatus || '',
-        pluginType: currDeviceInfo.type,
-        sn8: currDeviceInfo.sn8,
-        ...currDeviceInfo,
-        is_support_current_device: e.currentTarget.dataset.support === 'support' ? 1 : 0,
-      })
-    }
     let bindType = currDeviceInfo.bindType || ''
     let sn8 = currDeviceInfo.sn8
     let formatType = type.includes('0x') ? type.substr(2, 2) : type
@@ -2596,6 +2594,8 @@ Page({
     }
     console.log('是否支持===', isSupperCurrentDevice)
     if (isSupperCurrentDevice) {
+      //支持的设备埋点
+      clickCardBurialPoint(currDeviceInfo)
       try {
         if (isNeedCheckList.indexOf(formatType) == -1) {
           let batchAuthList = wx.getStorageSync('batchAuthList'),
@@ -2626,6 +2626,15 @@ Page({
             })
             console.log('跳插件前花费时长====', new Date() - start)
           } else {
+            //打开插件埋点
+            clickOpenPluginBurialPoint({
+              applianceCode: currDeviceInfo.applianceCode,
+              homegroupId: currDeviceInfo.homegroupId,
+              deviceName: currDeviceInfo.name,
+              pluginType: currDeviceInfo.type,
+              sn8: currDeviceInfo.sn8,
+              smartProductId: currDeviceInfo.smartProductId,
+            })
             console.log(
               '跳转的插件路径：',
               getPluginUrl(getCommonType(type, currDeviceInfo), JSON.stringify(currDeviceInfo))
@@ -2662,6 +2671,8 @@ Page({
       }
     } else {
       console.log('小木马跳插件就绪2', parseInt(Date.now()))
+      //不支持设备埋点
+      clickCardUnsupportedBurialPoint()
       wx.navigateTo({
         url: '/pages/unSupportDevice/unSupportDevice?deviceInfo=' + encodeURIComponent(JSON.stringify(currDeviceInfo)),
         complete() {
@@ -2810,11 +2821,18 @@ Page({
     })
   },
   //添加设备
-  async goAddDeviceJia() {
+  async goAddDeviceJia(e) {
     // 防爆击处理
     if (!this.data.isGoToScan) return
     this.data.isGoToScan = false
     app.globalData.deviceSessionId = creatDeviceSessionId(app.globalData.userData.uid)
+    let type = e.currentTarget.dataset.type
+    if (type && type == 'card') {
+      let parmas = {
+        pageModule: '卡片',
+      }
+      bthAddDeviceBurialPoint(parmas)
+    }
     clickEventTracking('user_behavior_event', 'goAddDeviceJia', {
       device_info: {
         device_session_id: app.globalData.deviceSessionId, //一次配网事件标识

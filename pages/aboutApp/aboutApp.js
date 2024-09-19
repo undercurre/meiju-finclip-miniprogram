@@ -221,8 +221,9 @@ Page({
     } else {
       let env = config.environment == 'sit' ? 'sit' : 'uat'
       let url = item.link[env]
+      let title = item.title
       wx.navigateTo({
-        url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}`,
+        url: `/pages/webView/webView?webViewUrl=${encodeURIComponent(url)}&pageTitle=${title}`,
       })
     }
   },

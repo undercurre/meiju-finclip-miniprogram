@@ -1670,20 +1670,24 @@ module.exports = Behavior({
      * @param {Number} isIndex 是否首页
      */
     async getWifiList(isIndex = 1) {
+      const self = this
       const brandConfig = app.globalData.brandConfig[app.globalData.brand]
       if (!brandConfig.ap) return
       const res = await this.checkSystem()
       if (res) return
       service.getWxApiPromise(wx.startWifi).then((res1) => {
-        console.log('@module bluetooth.js\n@method getWifiList\n@desc startWifi成功\n', res1)
+        // console.log('@module bluetooth.js\n@method getWifiList\n@desc startWifi成功\n', res1)
         if (isIndex == 1) {
           this.setMixinsWifiClose()
         }
         setTimeout(() => {
           service.getWxApiPromise(wx.getWifiList)
         }, 1000)
+        getWifiListInterval = setInterval(() => {
+            service.getWxApiPromise(wx.getWifiList)
+        }, 2000);
         wx.onGetWifiList((res3) => {
-        //   console.log('@module bluetooth.js\n@method getWifiList\n@desc 获取到WiFi列表\n', res3)
+          console.log('@module bluetooth.js\n@method getWifiList\n@desc 获取到WiFi列表\n', res3)
           res3.wifiList.forEach((device) => {
             // 校验设备热点名称
             if (!this.filterAPName(brandConfig.apNameHeader, device.SSID)) return
@@ -1691,6 +1695,8 @@ module.exports = Behavior({
             // WiFi强度校验
             // todo:Yoram930 调试，暂时放开信号强度
             // console.log("=====device=======",device)
+            //过滤刚刚配网后2分钟的热点
+            if(this.filterHasLinkup(device.SSID)) return
             if (device.signalStrength < 99) return
             // console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过ap强度校验\n', device)
             //校验是否蓝牙已发现
@@ -1734,11 +1740,11 @@ module.exports = Behavior({
             console.log('添加的AP自发现设备', this.data.devices)
             this.setMixinsDialogShow()
           })
-          setTimeout(() => {
-            wx.getWifiList({
-              fail: () => {},
-            })
-          }, 2000)
+        //   setTimeout(() => {
+        //     wx.getWifiList({
+        //       fail: () => {},
+        //     })
+        //   }, 2000)
         })
       })
     },
@@ -1774,6 +1780,19 @@ module.exports = Behavior({
       const reg = new RegExp(`(${headerReg})[0-9a-fA-F]{2}_[0-9a-zA-Z]{4}`)
 
       return reg.test(SSID)
+    },
+    /**
+     * 过虑刚刚配网完成的设备热点
+     */
+    filterHasLinkup(ssid) {
+        let lastLinkupDevice = app.globalData.lastLinkupDevice
+        let currentTiem = new Date().getTime()
+        console.log("lastLinkupDevice:",lastLinkupDevice,ssid,currentTiem - lastLinkupDevice?.addTime)
+        if(ssid == lastLinkupDevice?.ssid && (currentTiem - lastLinkupDevice?.addTime) < 2 * 60 * 1000) {
+            return true
+        } else {
+            return false
+        }
     },
     filterBluetoothScan(SSID) {
       const fonudDevices = this.data.devices

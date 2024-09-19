@@ -2,9 +2,10 @@ const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import { api } from '../../api'
 import { getReqId, getStamp } from 'm-utilsdk/index'
-import { showToast } from '../../utils/util'
+import { showToast, debounce } from '../../utils/util'
 import loginMethods from '../../globalCommon/js/loginRegister'
 const timeLimit = 60
+let checkSmsCodeDebounce = null
 Page({
   /**
    * 页面的初始数据
@@ -26,11 +27,12 @@ Page({
       imgDataCode: '',
     },
   },
+
   backPage() {
     wx.navigateBack()
   },
   recheckPhone() {
-    if (this.data.valideCodeInfo.imgCode.length <= 0) {
+    if (this.data.valideCodeInfo.imgCode.length <= 0 || !this.data.valideCodeInfo.imgCode) {
       return
     }
     this.checkPhone({
@@ -40,12 +42,9 @@ Page({
     this.toggleValideCode()
   },
   toggleValideCode() {
-    this.setData(
-      {},
-      {
-        showValideCodeDialog: false,
-      }
-    )
+    this.setData({
+      showValideCodeDialog: false,
+    })
   },
   checkPhone(requestParam) {
     let params = {
@@ -58,7 +57,7 @@ Page({
         stamp: getStamp(new Date()),
       },
       data: {
-        deviceId: this.data.oldMobile,
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || this.data.oldMobile,
         appKey: '46579c15',
         ...requestParam,
       },
@@ -105,11 +104,17 @@ Page({
       case 1006:
         showToast('手机号输入有误，请重新输入')
         break
+      case 1100:
+        showToast('验证码已过期')
+        break
       case 1104:
         showToast(`${this.data.mobile}手机号已注册，请更换新手机号`)
         break
+      case 1129:
+        showToast('获取频繁，请稍后再试！')
+        break
       default:
-        showToast(res.data.msg || '系统错误，请稍后重试')
+        showToast('系统错误，请稍后重试')
         break
     }
   },
@@ -142,7 +147,23 @@ Page({
       })
     }
   },
+
+  //防重
   checkSmsCode() {
+    if (!checkSmsCodeDebounce) {
+      checkSmsCodeDebounce = debounce(
+        () => {
+          this.checkSmsCodeRequest()
+        },
+        300,
+        300
+      )
+    }
+    checkSmsCodeDebounce()
+  },
+
+  checkSmsCodeRequest() {
+    if (!this.data.inputValue) return
     wx.showLoading({ title: '绑定中', icon: 'loading', duration: 10000 })
     let params = {
       iotData: {
@@ -181,25 +202,21 @@ Page({
         showToast('验证码错误，请重新输入')
         break
       case 1100:
-        this.handExpire()
+        showToast('验证码已过期')
         break
       default:
-        showToast(res.data.msg || '系统错误，请稍后重试')
+        showToast('系统错误，请稍后重试')
         break
     }
   },
   //过期处理
   handExpire() {
-    wx.showToast({
-      title: '验证码已过期',
-      icon: 'none',
-      duration: 2000,
+    setTimeout(() => {
+      showToast('验证码已过期')
+    }, 0)
+    wx.navigateBack({
+      delta: 4,
     })
-    setTimeout(function () {
-      wx.navigateBack({
-        delta: 4,
-      })
-    }, 2000)
   },
   bindPhone(randomCodeNew) {
     let params = {
@@ -224,12 +241,12 @@ Page({
             })
           })
         } else {
-          showToast(res.data.msg || '系统错误，请稍后重试')
+          showToast('系统错误，请稍后重试')
         }
       })
       .catch((res) => {
-        let msg = res.data.code == 1118 ? '修改手机号失败' : res.data.msg
-        showToast(msg || '系统错误，稍后重试')
+        let msg = res.data.code == 1118 ? '修改手机号失败' : '系统错误，稍后重试'
+        showToast(msg)
       })
       .finally(() => {
         this.setData({ isLoading: false })
@@ -267,6 +284,7 @@ Page({
         console.log(res.data.data.mobile, 'targetres')
       })
       .catch((err) => {
+        showToast('系统错误，请稍后重试')
         wx.hideLoading()
         console.log(err, 'err')
       })

@@ -13,7 +13,6 @@ export default function () {
     environment = env
   } catch (error) {
     console.log('同步获取app版本error------->', error)
-    environment = 'prod'
   }
   console.log('当前小程序环境-------->', environment)
   return environment

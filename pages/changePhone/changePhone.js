@@ -36,7 +36,7 @@ Page({
     })
   },
   recheckPhone() {
-    if (this.data.valideCodeInfo.imgCode.length <= 0) {
+    if (this.data.valideCodeInfo.imgCode.length <= 0 || !this.data.valideCodeInfo.imgCode) {
       return
     }
     this.checkPhone(
@@ -49,12 +49,9 @@ Page({
     this.toggleValideCode()
   },
   toggleValideCode() {
-    this.setData(
-      {},
-      {
-        showValideCodeDialog: false,
-      }
-    )
+    this.setData({
+      showValideCodeDialog: false,
+    })
   },
   changeValideCode(event) {
     let valideCodeInfo = this.data.valideCodeInfo
@@ -65,38 +62,41 @@ Page({
   },
   handleResult(res) {
     console.log(`请求返回结果：${JSON.stringify(res)}`)
-    if(res.data && typeof res.data.code !== 'undefined'){
-        switch (Number(res.data.code)) {
-            case 0:
-                wx.navigateTo({
-                    url: `../checkValidecode/checkValidecode?mobile=${this.data.inputValue}&oldMobile=${this.data.oldMobile}`,
-                })
-                break
-            case 65011:
-                this.setData({
-                    showValideCodeDialog: true,
-                    valideCodeInfo: {
-                    randomToken: res.data.data.randomToken,
-                    imgCode: '',
-                    imgDataCode: res.data.data.imgCode,
-                    },
-                })
-                break
-            case 1006:
-                showToast('手机号输入有误，请重新输入')
-                break
-            case 1104:
-                showToast(`${this.data.inputValue}手机号已注册，请更换新手机号`)
-                break
-            case 1100:
-                showToast('验证码已过期')
-                break
-            default:
-                showToast(res.data.msg || '系统错误，请稍后重试')
-                break
-        }
-    }else{
-        showToast(res.msg || '系统错误，请稍后重试')
+    if (res.data && typeof res.data.code !== 'undefined') {
+      switch (Number(res.data.code)) {
+        case 0:
+          wx.navigateTo({
+            url: `../checkValidecode/checkValidecode?mobile=${this.data.inputValue}&oldMobile=${this.data.oldMobile}`,
+          })
+          break
+        case 65011:
+          this.setData({
+            showValideCodeDialog: true,
+            valideCodeInfo: {
+              randomToken: res.data.data.randomToken,
+              imgCode: '',
+              imgDataCode: res.data.data.imgCode,
+            },
+          })
+          break
+        case 1006:
+          showToast('手机号输入有误，请重新输入')
+          break
+        case 1104:
+          showToast(`${this.data.inputValue}手机号已注册，请更换新手机号`)
+          break
+        case 1100:
+          showToast('验证码已过期')
+          break
+        case 1129:
+          showToast('获取频繁，请稍后再试！')
+          break
+        default:
+          showToast('系统错误，请稍后重试')
+          break
+      }
+    } else {
+      showToast('系统错误，请稍后重试')
     }
   },
   checkPhone(event, requestParam) {
@@ -119,7 +119,7 @@ Page({
         stamp: getStamp(new Date()),
       },
       data: {
-        deviceId: app.globalData.appSystemInfo.deviceId || this.data.inputValue,
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || this.data.inputValue,
         appKey: '46579c15',
         ...requestParam,
       },
@@ -163,6 +163,7 @@ Page({
       })
       .catch((err) => {
         wx.hideLoading()
+        showToast('系统繁忙，请稍后再试')
         console.log(err, 'err')
       })
   },

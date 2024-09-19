@@ -5,9 +5,10 @@
   bind:handleAgree="handleAgree"
   bind:handleDisagree="handleDisagree"
 ></privacy-popup>
+<!-- 首次启动弹窗提示 -->
+<prompt-popup />
 <view class="box inner-wrap-backgruop" style="height: 100vh; background-size: 100% 100%" bindtap="closeEditListPop">
   <block>
-    <!-- <index-header></index-header> -->
     <device-card-tips isShow="{{deviceCardIsShow}}"></device-card-tips>
   </block>
   <view id="inner-wrap" class="inner-wrap-backgruop" style="height: 100vh; background-size: 100% 100%">

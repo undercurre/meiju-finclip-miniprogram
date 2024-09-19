@@ -20,8 +20,8 @@ Page({
   },
   //   注销账号
   cancelAccount() {
-    if(!cancelAccount){
-        cancelAccount = debounce(this.getJwtToken, 300, 300)
+    if (!cancelAccount) {
+      cancelAccount = debounce(this.getJwtToken, 300, 300)
     }
     cancelAccount()
   },
@@ -46,12 +46,16 @@ Page({
       })
   },
   changeMobile() {
-    if(!changePhone){
-        changePhone = debounce(() => {
-            wx.navigateTo({
-                url: '../bindPhone/bindPhone',
-              })
-        }, 300, 300)
+    if (!changePhone) {
+      changePhone = debounce(
+        () => {
+          wx.navigateTo({
+            url: '../bindPhone/bindPhone',
+          })
+        },
+        300,
+        300
+      )
     }
     changePhone()
   },

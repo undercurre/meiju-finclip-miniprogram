@@ -191,6 +191,10 @@
   border-radius: 0 0 24rpx 24rpx;
 }
 
+.icon-home-manage-icon {
+  margin-right: 8rpx;
+}
+
 .icon-home-manage {
   display: block;
   width: 36rpx;
@@ -275,6 +279,7 @@ button[class='inviteButton']::after {
   color: #000;
   display: flex;
   align-items: center;
+  white-space:nowrap;
 }
 
 .add-picker-options-wrapper {

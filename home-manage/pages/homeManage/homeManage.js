@@ -1,6 +1,7 @@
 // pages/homeManage/homeManage.js
 const app = getApp() //获取应用实例
 import { requestService } from '../../../utils/requestService'
+import { showToast } from 'm-miniCommonSDK/index'
 import { getReqId, getStamp, validateFun } from 'm-utilsdk/index'
 import { baseImgApi } from '../../../api'
 import burialPoint from '../../assets/burialPoint'
@@ -37,6 +38,7 @@ Page({
     creatList: [],
     inviteList: [],
     isButtonClicked: false,
+    isButtonDetailClicked: false,
   },
   // 获取数据-家庭列表和邀请码
   getInitData() {
@@ -198,11 +200,9 @@ Page({
     this.addFamily()
       .then((res) => {
         app.globalData.ifRefreshHomeList = true
-        wx.showToast({
-          title: '创建家庭成功',
-          icon: 'none',
-          duration: 2500,
-        })
+        setTimeout(() => {
+          showToast('创建家庭成功')
+        }, 0)
         console.log(res, '创建家庭成功')
         this.setData({
           dialogShow: false,
@@ -219,13 +219,13 @@ Page({
             this.setData({
               familyValue: '',
             })
-            let homeitem = JSON.stringify(target[0])
+            let homeitem = encodeURIComponent(JSON.stringify(target[0]))
             //新建完家庭后跳转至该家庭详情页面
-            setTimeout(function () {
-              wx.navigateTo({
-                url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${target[0].name}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,
-              })
-            }, 2500) //延迟2秒时间
+            wx.navigateTo({
+              url: `${homeDetail}?homegroupId=${target[0].homegroupId}&name=${encodeURIComponent(
+                target[0].name
+              )}&roleId=${target[0].roleId}&ownHomeNum=${this.data.ownHomeNum}&homeitem=${homeitem}`,
+            })
           })
           .catch((err) => {
             console.log(err)
@@ -334,8 +334,18 @@ Page({
     })
   },
   goToDetail(e) {
+    //防止暴击
+    if (this.data.isButtonDetailClicked) {
+      return
+    }
+    this.data.isButtonDetailClicked = true
+    // 执行按钮点击事件的操作
+    setTimeout(() => {
+      this.data.isButtonDetailClicked = false
+    }, 1000)
     let { name, homegroupid, roleid, ownhomenum, homeitem } = e.currentTarget.dataset
-    homeitem = JSON.stringify(homeitem)
+    homeitem = encodeURIComponent(JSON.stringify(homeitem))
+    name = encodeURIComponent(name)
     burialPoint.clickbthFamilyDetailBurialPoint()
     wx.navigateTo({
       url: `${homeDetail}?homegroupId=${homegroupid}&name=${name}&roleId=${roleid}&ownHomeNum=${ownhomenum}&homeitem=${homeitem}`,

@@ -6,7 +6,7 @@ import Tracker from './track/oneKeyTrack/libs/index'
 import trackConfig from './track/oneKeyTrack/config/index'
 import { deviceInfoReport } from './track/track.js'
 import { requestService, rangersBurialPoint } from './utils/requestService'
-import { isEmptyObject, hasKey, dateFormat, getReqId, getStamp } from 'm-utilsdk/index'
+import { hasKey, dateFormat, getReqId, getStamp } from 'm-utilsdk/index'
 import weixinApi from './utils/weixin/weixin.api'
 import cloudMethods from '/globalCommon/js/cloud.js'
 import getBrand from './utils/getBrand'
@@ -31,14 +31,7 @@ import brandConfig from './distribution-network/assets/js/brand.js'
 
 import { onNetworkStatusChange } from './utils/util.js'
 import loginMethods from '/globalCommon/js/loginRegister'
-import {
-  checkTokenExpir,
-  setIsAutoLogin,
-  isAutoLoginTokenValid,
-  checkTokenExpired,
-  checkTokenPwdExpired,
-  setDcpDeviceImg,
-} from './utils/redis.js'
+import { checkTokenExpir, checkTokenExpired, setDcpDeviceImg } from './utils/redis.js'
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
 
 //const linkupSDK = require('./distribution-network/assets/sdk/index.js')
@@ -124,9 +117,13 @@ App({
       })
   },
   onLaunch: async function (options) {
+    console.log(`performance onLaunch start ${new Date().getTime() - this.globalData.performanceStartTime}`)
     console.log('launch options', options)
     //监听网络变化
     onNetworkStatusChange.call(this)
+    this.initCloudData() //多云协议
+    //获取设备图标
+    this.getDcpDeviceImg()
     // 分包异步加载
     //this.globalData.linkupSDK = linkupSDK // 存入全局变量，其他包可以直接引用
     // 全局加载蓝牙
@@ -152,74 +149,88 @@ App({
         },
       })
       const accountInfo = ft.getAccountInfoSync()
+      const deviceId = ft.getDeviceIdSync().data.id
       console.log('当前小程序版本信息-------->', accountInfo.miniProgram)
+      this.globalData.deviceId = deviceId
       this.globalData.miniProgram = accountInfo.miniProgram
+      // 网络请求返回日志标识
+      wx.getStorage({
+        key: 'isEnableHttpResponseLog',
+        success(res) {
+          self.globalData.isEnableHttpResponseLog = res.data
+        },
+      })
     } catch (error) {
       this.getBlackWhiteList(options, env)
       console.log(error)
     }
     this.$$Rangers = $$Rangers
-    CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日志
-    this.initCloudData() //多云协议
+    CKECKING_LOG.uploadOfflineCheckingLog() // 上传配网无网阶段埋点日
     //小程序跳转
     this.globalData.isActionAppLaunch = true
     try {
       this.initData()
-      let isAutoLogin = null
-      let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
       let MPTOKEN_USERINFO
-      isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-      MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
       MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
-      if (typeof isAutoLogin !== 'boolean') {
-        setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
-      }
       //冷启动登录逻辑校验
-      //60天内不需要重新登录
-      console.log(
-        '冷启动 checkTokenPwdExpired---->',
-        checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)
-      )
-      console.log('冷启动 checkTokenExpired---->', !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION))
-      if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
-        //4小时不操作需要刷新用户token
-        if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-          console.log('冷启动 超过4小时刷新token---->')
-          loginMethods.loginAPi
-            .call(this)
-            .then((res2) => {
-              console.log('app onLaunch resfreshToken sucesss', res2)
-              console.log('app onLaunch resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
-              this.globalData.isActionAppLaunch = false
-              this.globalData.wxExpiration = true
-              if (this.callbackFn) {
-                this.callbackFn()
-              }
-            })
-            .catch((err) => {
-              console.log('app loginAPi catch', err)
-              this.setLoginFalse()
-            })
-        } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-          console.log('冷启动 无需刷新token---->')
-          // 有效期内直接登录
-          this.globalData.isActionAppLaunch = false
-          loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+      //60天内不需要重新登录，和云端确认 60天逻辑无需校验
+      // if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
+      //4小时不操作需要刷新用户token
+      if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        loginMethods.loginAPi
+          .call(this)
+          .then((res2) => {
+            console.log('app onLaunch resfreshToken sucesss', res2)
+            console.log('app onLaunch resfreshToken sucesss 优化', dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss.S'))
+            this.globalData.isActionAppLaunch = false
+            this.globalData.wxExpiration = true
+            if (this.callbackFn) {
+              this.callbackFn()
+            }
+          })
+          .catch((err) => {
+            console.log('app loginAPi catch', err)
+            //无网络先保持登录状态
+            // if (this.globalData.noNetwork) {
+            this.globalData.isActionAppLaunch = false
+            loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+            // } else {
+            //否则直接退出
+            // this.setLoginFalse()
+            // }
+            if (this.callbackFn) {
+              this.callbackFn()
+            }
+          })
+      } else if (checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
+        //有效期内直接登录
+        this.globalData.isActionAppLaunch = false
+        loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+        if (this.callbackFn) {
+          this.callbackFn()
         }
-      } else {
-        this.setLoginFalse()
       }
+      // } else {
+      // this.setLoginFalse()
+      // }
     } catch (error) {
+      let MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+      this.globalData.isActionAppLaunch = false
+      loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
       console.log(error, 'app onLaunch try cache', error)
-      this.setLoginFalse()
+      //this.setLoginFalse()
+      if (this.callbackFn) {
+        this.callbackFn()
+      }
     }
-    //获取设备图标
-    this.getDcpDeviceImg()
+
+    console.log(`performance onLaunch end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },
 
   onShow: async function (options) {
+    console.log(`performance onShow start ${new Date().getTime() - this.globalData.performanceStartTime}`)
     //息屏后重连
     if (this.globalData.gloabalWebSocket && this.globalData.gloabalWebSocket._isClosed && this.globalData.isLogin) {
       initWebsocket()
@@ -229,27 +240,15 @@ App({
     console.log('scene', options.scene)
     console.log('options:', options)
     try {
-      let isAutoLogin = null
-      let MPTOKEN_AUTOLOGIN_EXPIRATION = 0
       let MPTOKEN_EXPIRATION = 0
-      //let mptoken = null
       let MPTOKEN_USERINFO
-      isAutoLogin = wx.getStorageSync('ISAUTOLOGIN')
-      MPTOKEN_AUTOLOGIN_EXPIRATION = wx.getStorageSync('MPTOKEN_AUTOLOGIN_EXPIRATION')
       MPTOKEN_EXPIRATION = wx.getStorageSync('MPTOKEN_EXPIRATION')
       MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
-      //mptoken = wx.getStorageSync('MPTOKEN')
-      if (typeof isAutoLogin !== 'boolean') {
-        setIsAutoLogin(isAutoLoginTokenValid(MPTOKEN_AUTOLOGIN_EXPIRATION, MPTOKEN_EXPIRATION))
-      }
       //热启动阶段，热启动和热启动逻辑和小程序存在较大差异
       //热启动如果超过60天，无需特殊处理
       //if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION) && !this.globalData.isActionAppLaunch) {
       //4小时需要刷新token
-      console.log('热启动 isActionAppLaunch---->', !this.globalData.isActionAppLaunch)
-      console.log('热启动 checkTokenExpired---->', !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION))
       if (!this.globalData.isActionAppLaunch && !checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-        console.log('热启动 超过4小时刷新token---->')
         this.globalData.isActionAppLaunch = false
         this.globalData.wxExpiration = null
         loginMethods.loginAPi
@@ -263,8 +262,9 @@ App({
             }
           })
           .catch(() => {
-            this.globalData.wxExpiration = true
-            this.globalData.isLogon = false
+            //无网络先保持登录状态
+            this.globalData.isActionAppLaunch = false
+            loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
             if (this.callbackFn) {
               this.callbackFn()
             }
@@ -273,6 +273,12 @@ App({
       //有效期内不需要特殊处理
       //}
     } catch (error) {
+      let MPTOKEN_USERINFO = wx.getStorageSync('userInfo')
+      this.globalData.isActionAppLaunch = false
+      loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
+      if (this.callbackFn) {
+        this.callbackFn()
+      }
       console.log(error, 'onshow try cache')
     }
     this.setMiniProgramData()
@@ -280,6 +286,8 @@ App({
     //this.triggerWxAuth()
     //获取设备信息
     this.getSystemInfo()
+
+    console.log(`performance onShow end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },
   //获取设备相关信息
   getSystemInfo() {
@@ -668,6 +676,10 @@ App({
     appEnv: '', //宿主的环境
     appVersion: '', //宿主的版本号
     miniProgram: {}, //小程序信息
+    isEnableHttpResponseLog: false, //开启hilog记录网络接口返回
+    deviceId: '',
+    performanceStartTime: new Date().getTime(),
+    lastLinkupDevice: {}
   },
   scanDeviceMap: {},
   addDeviceInfo: {

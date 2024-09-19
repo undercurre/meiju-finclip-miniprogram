@@ -4,6 +4,7 @@
   height: 100%;
   top: 0;
   left: 0;
+  z-index: 2;
   /* background-image: linear-gradient(180deg, rgba(153, 192, 255, 0.16) 0%, rgba(255, 255, 255, 0.16) 100%); */
 }
 .topBac {
@@ -186,6 +187,12 @@ button::after {
 .login-content-privacy{
   width: 100%;
 }
-image{
-  height: auto;
+
+.login-bg-video {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
 }

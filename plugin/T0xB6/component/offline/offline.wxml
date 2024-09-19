@@ -1,0 +1,6 @@
+<view class="offline-container">
+  <image class="offline-img" src="assets/img/img_offline@2x.png"></image>
+  <view class="offline-title">已离线</view>
+  <view class="offline-desc">1、请确认设备供电正常</view>
+  <view class="offline-desc">2、请确认设备连接家庭WIFI正常</view>
+</view>
