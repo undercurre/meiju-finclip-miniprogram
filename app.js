@@ -122,6 +122,8 @@ App({
     //监听网络变化
     onNetworkStatusChange.call(this)
     this.initCloudData() //多云协议
+    //获取设备图标
+    this.getDcpDeviceImg()
     // 分包异步加载
     //this.globalData.linkupSDK = linkupSDK // 存入全局变量，其他包可以直接引用
     // 全局加载蓝牙
@@ -177,15 +179,6 @@ App({
       // if (checkTokenPwdExpired(MPTOKEN_USERINFO, MPTOKEN_AUTOLOGIN_EXPIRATION)) {
       //4小时不操作需要刷新用户token
       if (!checkTokenExpired(MPTOKEN_USERINFO, MPTOKEN_EXPIRATION)) {
-        //无网且有用户缓存信息
-        if (this.globalData.noNetwork && MPTOKEN_USERINFO) {
-          this.globalData.isActionAppLaunch = false
-          loginMethods.getUserInfo.call(this, MPTOKEN_USERINFO)
-          if (this.callbackFn) {
-            this.callbackFn()
-          }
-          return
-        }
         loginMethods.loginAPi
           .call(this)
           .then((res2) => {
@@ -232,8 +225,6 @@ App({
         this.callbackFn()
       }
     }
-    //获取设备图标
-    this.getDcpDeviceImg()
 
     console.log(`performance onLaunch end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },

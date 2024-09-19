@@ -150,6 +150,7 @@ const getFullPageUrl = (str) => {
 
   return params ? `${route}?${params}` : route
 }
+
 const showToast = (title, icon = 'none', duration = 3000) => {
   wx.showToast({
     title: title,
