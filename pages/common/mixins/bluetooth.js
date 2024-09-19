@@ -1692,7 +1692,7 @@ module.exports = Behavior({
             // console.log('@module bluetooth.js\n@method getWifiList\n@desc 通过名称校验\n', device)
             // WiFi强度校验
             // todo:Yoram930 调试，暂时放开信号强度
-            console.log("=====device=======",device)
+            // console.log("=====device=======",device)
             //过滤刚刚配网后2分钟的热点
             if(this.filterHasLinkup(device.SSID)) return
             if (device.signalStrength < 99) return
@@ -1786,14 +1786,8 @@ module.exports = Behavior({
         let lastLinkupDevice = app.globalData.lastLinkupDevice
         let currentTiem = new Date().getTime()
         if(ssid == lastLinkupDevice?.ssid && (currentTiem - lastLinkupDevice?.addTime) < 2 * 60 * 1000) {
-            console.log("not show ssid")
-            console.log("lastLinkupDevice:", lastLinkupDevice)
-            console.log("currentSSID:",ssid)
-            console.log("currentTiem:",currentTiem)
-            console.log("totle:",currentTiem - lastLinkupDevice?.addTime)
             return true
         } else {
-            console.log("show ssid")
             return false
         }
     },
