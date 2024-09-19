@@ -61,14 +61,14 @@
 
         <!-- 主内容 -->
         <view class="cell-group flex flex_column align_center" style="opacity: {{deviceStatus<5?1:0.5}};">
-          <van-cell title="预约" label="预定时段内自动加热" custom-class="top-cell" title-class="cell-title" is-link
+          <!-- <van-cell title="预约" label="预定时段内自动加热" custom-class="top-cell" title-class="cell-title" is-link
             bind:click="goappointment" wx:if="{{showFunAppointType}}">
             <view class="cell-img-wrap flex align_center justify_center" slot="icon"
               style="background:{{deviceStatus<5?(deviceStatus == 1 || deviceStatus == 0 ? '#ffaa10' : '#FF6A4C'):'#d8dbe1'}}">
               <image src="{{images.appointOn}}" class="cell-img" />
             </view>
             <text style="font-size: 32rpx;color: #666666;">{{nextAppointText}}</text>
-          </van-cell>
+          </van-cell> -->
           <van-cell label="智能控温，省电省心" custom-class="bottom-cell" title-class="cell-title" border="{{false}}"
             wx:if="{{showFunCloudHome}}">
             <view class="cell-img-wrap flex align_center justify_center" slot="icon"
