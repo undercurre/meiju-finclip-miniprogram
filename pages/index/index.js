@@ -2826,8 +2826,8 @@ Page({
     if (!this.data.isGoToScan) return
     this.data.isGoToScan = false
     app.globalData.deviceSessionId = creatDeviceSessionId(app.globalData.userData.uid)
-    let card = e.currentTarget.dataset.card
-    if (card == 'card') {
+    let type = e.currentTarget.dataset.type
+    if (type && type == 'card') {
       let parmas = {
         pageModule: '卡片',
       }

@@ -1,0 +1,14 @@
+<mx-dialog
+  z-index="999999"
+  title="{{title}}"
+  use-slot
+  confirm-button-text="{{confirmButtonText}}"
+  show="{{ innerShow }}"
+  bind:confirm="handleAgree"
+>
+  <view class="prompt-dialog__bd">
+    <view class="prompt-dialog__tip">{{tiptilte}}</view>
+    <view class="prompt-dialog__tips"> {{desc1}}</view>
+    <view class="prompt-dialog__tips"> {{desc2}}</view>
+  </view>
+</mx-dialog>
