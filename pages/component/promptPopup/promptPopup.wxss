@@ -1,0 +1,16 @@
+.prompt-dialog__bd{
+  padding:40rpx 48rpx 48rpx 48rpx ;
+  font-family: PingFangSC-Regular;
+}
+.prompt-dialog__tip,.prompt-dialog__tips{
+  display: inline-block;
+  font-size: 26rpx;
+  color: #111111;
+  letter-spacing: -0.08px;
+  line-height: 32rpx;
+  font-weight: 400;
+}
+.prompt-dialog__tips{
+  text-indent: 2em; 
+}
+
