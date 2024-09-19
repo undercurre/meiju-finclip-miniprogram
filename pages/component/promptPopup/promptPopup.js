@@ -21,7 +21,7 @@ Component({
     addDeviceClickFlag: false,
   },
   lifetimes: {
-    attached: function () {
+    ready: function () {
       let promptPopup = wx.getStorageSync('PROMPTPOPUP')
       if (!promptPopup) {
         this.popUp()

@@ -6,7 +6,7 @@
   bind:handleDisagree="handleDisagree"
 ></privacy-popup>
 <!-- 首次启动弹窗提示 -->
-<prompt-popup></prompt-popup>
+<prompt-popup />
 <view class="box inner-wrap-backgruop" style="height: 100vh; background-size: 100% 100%" bindtap="closeEditListPop">
   <block>
     <device-card-tips isShow="{{deviceCardIsShow}}"></device-card-tips>
