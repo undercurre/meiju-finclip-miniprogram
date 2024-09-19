@@ -3065,9 +3065,9 @@ Page({
           clearInterval(timer) //停止计时
 
           Dialog.confirm({
-            title: `请将手机连上家庭WiFi "${wifiInfo.SSIDContent}",\n以完成设备联网,连接后返回本页面`,
+            title: `请将手机连上家庭WiFi "${wifiInfo.SSIDContent}",\n连接后返回本页面。未连接家庭WiFi可能会导致联网失败`,
             confirmButtonText: '去连接',
-            cancelButtonText: '取消',
+            cancelButtonText: '退出联网',
             cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
             confirmButtonColor: this.data.dialogStyle.confirmButtonColor,
           })
@@ -3084,6 +3084,7 @@ Page({
             .catch((error) => {
               if (error.action == 'cancel') {
                 self.timing()
+                self.discardAdd() //退出联网
                 getApp().setMethodFailedCheckingLog('点击取消去手动回连wifi')
                 app.globalData.linkupSDK.commonIndex.commonUtils.apLogReportEven({
                   msg: '点击取消去手动回连wifi',
