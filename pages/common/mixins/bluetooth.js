@@ -1435,10 +1435,35 @@ module.exports = Behavior({
           }
           let netWorking = guideInfo?.data?.data?.cableNetWorking ? 'cableNetWorking' : 'wifiNetWorking'
           if (item.fm == 'scanCode') {
+            let curPages = getFullPageUrl()
+            console.log('page:',curPages.includes('scan-devices/pages/scan-device/scan-device'),curPages)
             //扫码去后台配置的配网方式
             app.addDeviceInfo.mode = guideInfo.data.data[netWorking].mainConnectinfoList[0].mode //重置配网方式
-            if(guideInfo.data.data[netWorking].mainConnectinfoList[0].mode == '17'){
-              app.addDeviceInfo.mode = 0
+            if(guideInfo.data.data[netWorking].mainConnectinfoList[0].mode == '17'&& curPages.includes('scan-devices/pages/scan-device/scan-device') &&  !self.data.isChangeMode){
+              self.data.isChangeMode = true
+              item.mode = 0
+              this.actionGoNetworkLock = null
+              this.actionGoNetwork(item)
+              return
+            }
+            if(self.data.isChangeMode && curPages.includes('scan-devices/pages/scan-device/scan-device')){
+              self.data.isChangeMode = false
+              if(guideInfo.data.data[netWorking].mainConnectinfoList[0].mode != 0){
+                Dialog.confirm({
+                  title: '该设备暂不支持在HarmonyOS NEXT系统添加，功能正在迭代升级中，敬请期待',
+                  confirmButtonText: '我知道了',
+                  confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+                  showCancelButton: false,
+                }).then((res) => {
+                  if (res.action == 'confirm') {
+                    self.data.isjumpPageFalg = true
+                    wx.switchTab({
+                      url: homePage,
+                    })
+                  }
+                })
+                return
+              }
             }
             app.addDeviceInfo.dataSource = guideInfo.data.data[netWorking].dataSource
             app.addDeviceInfo.brandTypeInfo = guideInfo.data.data[netWorking].brand // 保存设备的品牌
