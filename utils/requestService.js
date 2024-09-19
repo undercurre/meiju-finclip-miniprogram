@@ -11,15 +11,6 @@ import qs from './qs/index'
 var requestService = {
   request: (apiName, params, method, headerObj, timeout) => {
     let app = getApp() || this
-    //接口调用之前判断网络
-    if (app && app.globalData && app.globalData.noNetwork) {
-      wx.showToast({
-        title: '网络未连接，请检查您的网络设置',
-        icon: 'none',
-        duration: 3000,
-      })
-      return
-    }
     return new Promise((resolve, reject) => {
       let timestamp = getStamp()
       let apiObj = api[apiName]
@@ -205,10 +196,10 @@ var requestService = {
           let currentPage = pages[pages.length - 1]
           let isDistributionMode = false
           if (
-            currentPage.route.includes('inputWifiInfo') ||
-            currentPage.route.includes('linkAp') ||
-            currentPage.route.includes('linkDevice') ||
-            currentPage.route.includes('linkNetFail')
+            currentPage?.route.includes('inputWifiInfo') ||
+            currentPage?.route.includes('linkAp') ||
+            currentPage?.route.includes('linkDevice') ||
+            currentPage?.route.includes('linkNetFail')
           ) {
             isDistributionMode = true
           }
