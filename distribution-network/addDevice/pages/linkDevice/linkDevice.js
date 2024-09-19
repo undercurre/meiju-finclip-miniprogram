@@ -3759,6 +3759,7 @@ Page({
             app.addDeviceInfo.applianceCode = resp.data.data.applianceCode
             app.addDeviceInfo.lastBindName = resp.data.data.name
             app.globalData.currentRoomId = resp.data.data.roomId
+            app.globalData.lastLinkupDevice = {ssid: app.addDeviceInfo.ssid, addTime : new Date().getTime()} // 记录配网设备
             burialPoint.deviceSuccessBindFamily({
               deviceSessionId: app.globalData.deviceSessionId,
               type: this.data.addDeviceInfo.type,

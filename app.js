@@ -679,6 +679,7 @@ App({
     isEnableHttpResponseLog: false, //开启hilog记录网络接口返回
     deviceId: '',
     performanceStartTime: new Date().getTime(),
+    lastLinkupDevice: {}
   },
   scanDeviceMap: {},
   addDeviceInfo: {
