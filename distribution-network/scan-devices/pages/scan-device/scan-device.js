@@ -76,7 +76,7 @@ Page({
     monitorBluetoothFalg:false,//监听蓝牙标识符
     isjumpPageFalg:false,//是否跳转页面标识符
     isShowContent:false,//是否显示内容标识符
-
+    isChangeMode:false,//扫码mode是否等于17，扫描mode=17的二维码，云端返回mode=17时，应入参mode=0去请求，请求到AP配网指引就调AP配网指引，未请求到AP配网指引，就报不支持，现在直接报不支持
   },
   ifBackFromScan: false, // 从扫码页返回标识
 
@@ -348,6 +348,7 @@ monitorBluetooth(){
           wx.offGetWifiList()
           this.clearTimer()
           this._clearTimeout()
+          this.data.isChangeMode = false
         } else {
           //代表小程序切到后台 - 不做处理
         }
@@ -380,6 +381,7 @@ monitorBluetooth(){
     this._clearTimeout()
     wx.offBluetoothAdapterStateChange()
     this.data.monitorBluetoothFalg = false
+    this.data.isChangeMode = false
   },
 
   clearTimer() {

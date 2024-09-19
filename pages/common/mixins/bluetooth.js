@@ -146,7 +146,7 @@ module.exports = Behavior({
     showOpenLocation: false, //是否显示打开位置信息提示
     showOpenBluetooth: false, //是否显示打开蓝牙提示
     dialogStyle: brandStyle.config[app.globalData.brand].dialogStyle,
-  },
+      },
   methods: {
     //根据广播包 获取设备品类和sn8
     getBlueSn8(advertisData) {
@@ -1457,9 +1457,7 @@ module.exports = Behavior({
                 }).then((res) => {
                   if (res.action == 'confirm') {
                     self.data.isjumpPageFalg = true
-                    wx.switchTab({
-                      url: homePage,
-                    })
+ 
                   }
                 })
                 return
