@@ -110,7 +110,7 @@ var api = {
   //退出登录
   logout: {
     url: `${domain[`${environment}`]}/mj/user/logout`,
-    masUrl: `${domain[`${environment}`] + masPrefix}/mj/user/logout`,
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/mj/user/logout`,
     api: '/mj/user/logout',
   },
   //协议更新——协议变更判断
