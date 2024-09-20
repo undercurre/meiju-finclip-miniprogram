@@ -39,6 +39,8 @@ const pkg = '' //require('./miniprogram_npm/m-ble-crypto/bluetooth-crypto.js')
 const cardSDK = require('./moudle-card/index.js')
 let getBlackWhiteListTime = 0 //获取插件黑白名单次数
 // let resolveCallBack, rejectCallBack = null;
+console.debug = () => {}
+console.log = () => {}
 App({
   ...weixinApi,
   //获取多云协议数据
