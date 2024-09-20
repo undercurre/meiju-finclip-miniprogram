@@ -890,6 +890,9 @@ Page({
           getApp().setMethodFailedCheckingLog('wx.getWifiList()', `获取wifi列表异常。error=${JSON.stringify(error)}`)
         }
       )
+      setTimeout(() => {
+         wx.getWifiList()
+      }, 200)
     }
   },
 
