@@ -6,6 +6,7 @@ import { showToast, debounce } from '../../utils/util'
 import loginMethods from '../../globalCommon/js/loginRegister'
 const timeLimit = 60
 let checkSmsCodeDebounce = null
+
 Page({
   /**
    * 页面的初始数据
@@ -26,6 +27,7 @@ Page({
       imgCode: '',
       imgDataCode: '',
     },
+    checkSmsCodeButton: false,
   },
 
   backPage() {
@@ -113,6 +115,9 @@ Page({
       case 1129:
         showToast('获取频繁，请稍后再试！')
         break
+      case 65009:
+        showToast('验证码错误，请重新输入！')
+        break
       default:
         showToast('系统错误，请稍后重试')
         break
@@ -149,21 +154,31 @@ Page({
   },
 
   //防重
-  checkSmsCode() {
-    if (!checkSmsCodeDebounce) {
-      checkSmsCodeDebounce = debounce(
-        () => {
-          this.checkSmsCodeRequest()
-        },
-        300,
-        300
-      )
-    }
-    checkSmsCodeDebounce()
-  },
+  // checkSmsCode() {
+  // if (!checkSmsCodeDebounce) {
+  // checkSmsCodeDebounce = debounce(
+  // () => {
+  // this.checkSmsCodeRequest()
+  // },
+  // 300,
+  // 300
+  // )
+  // }
+  // checkSmsCodeDebounce()
+  // },
 
-  checkSmsCodeRequest() {
+  checkSmsCode() {
     if (!this.data.inputValue) return
+    //防止暴击
+    if (this.data.checkSmsCodeButton) {
+      return
+    }
+    this.data.checkSmsCodeButton = true
+    // 执行按钮点击事件的操作
+    setTimeout(() => {
+      this.data.checkSmsCodeButton = false
+    }, 300)
+    //console.log('获取当前输入验证码------》', this.data.inputValue)
     wx.showLoading({ title: '绑定中', icon: 'loading', duration: 10000 })
     let params = {
       iotData: {
@@ -175,7 +190,7 @@ Page({
         type: '7',
       },
       data: {
-        deviceId: this.data.oldMobile,
+        deviceId: app.globalData.deviceId || app.globalData.appSystemInfo.deviceId || this.data.oldMobile,
       },
       reqId: getReqId(),
       stamp: getStamp(new Date()),
@@ -225,7 +240,7 @@ Page({
       randomCodeNew: randomCodeNew,
       reqId: getReqId(),
       stamp: getStamp(new Date()),
-      appVersion: '9.1.0',
+      appVersion: app.globalData.appVersion || '9.1.0',
     }
     this.setData({ isLoading: true })
     requestService
@@ -262,7 +277,7 @@ Page({
   inputPhone(event) {
     let inputValue = event.detail.value
     this.setData({
-      inputValue: inputValue,
+      inputValue: event.detail.value,
       hasFixlength: inputValue.length != 0,
       classForButton: `changePhoneBtn ${inputValue.length == 0 ? 'haveSomeOpacity' : ''}`,
     })
