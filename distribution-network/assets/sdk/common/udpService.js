@@ -3,27 +3,21 @@
  * 设备的udp有两种情况，一种是设备自启udp广播，可以直接监听广播消息，另外一种是通过发送udp信息到设备(指定端口），设备会有回播
  */
 const app = getApp()
-import {
-  hexStringToArrayBuffer,
-  ab2hex,
-  isEmptyObject,
-  hexCharCodeToStr
-} from 'm-utilsdk/index'
-import {
-  commonUtils
-} from './commonUtils'
-import {
-  addDeviceService
-} from '../../../../pages/common/sdk/common/addDeviceService'
-import {
-  apUtils
-} from '../ap_core/apUtils'
+import { hexStringToArrayBuffer, ab2hex, isEmptyObject, hexCharCodeToStr } from 'm-utilsdk/index'
+import { commonUtils } from './commonUtils'
+import { addDeviceService } from '../../../../pages/common/sdk/common/addDeviceService'
+import { apUtils } from '../ap_core/apUtils'
 let udpCycTimer
 const WX_LOG = require('m-miniCommonSDK/utils/log')
+function getRandomInt(min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 const udpService = {
   /**
    * 获取udp广播包消息
-   * @param {*} udp 
+   * @param {*} udp
    */
   async openbroadcast(udp) {
     console.log('调用openbroadcast++++')
@@ -55,7 +49,8 @@ const udpService = {
         console.log('暂不支持udp')
         return
       }
-      udp.bind()
+
+      udp.bind(getRandomInt(50000, 65535))
       udp.onListening(function (res) {
         console.log('监听中...')
       })
@@ -69,8 +64,8 @@ const udpService = {
             let udpMsgBody = apUtils.decode2body(hexMsg).body //解密模组消息
             let adData = apUtils.parseUdpBody(udpMsgBody) //解析UDP消息体
             console.log('获取udp返回', adData)
-            if (hexCharCodeToStr(adData.ssid).toLocaleLowerCase() == app.addDeviceInfo.ssid
-              .toLocaleLowerCase()) { //校验响应包
+            if (hexCharCodeToStr(adData.ssid).toLocaleLowerCase() == app.addDeviceInfo.ssid.toLocaleLowerCase()) {
+              //校验响应包
               udpAdData = adData
               WX_LOG.info('获取udp返回信息', 'udp.onMessage', adData)
               resolve(adData)
@@ -114,7 +109,7 @@ const udpService = {
   },
   /**
    * 监听设备自启广播
-   * @param {*} udp 
+   * @param {*} udp
    */
   onDeviceAutoUdp(udp) {
     console.log('调用onDeviceAutoUdp++++')
@@ -129,21 +124,20 @@ const udpService = {
           console.log('监听中...', res)
         })
         udp.onMessage((res) => {
-          console.log("onMessage", res)
+          console.log('onMessage', res)
           if (res) {
             //udp2广播信息
             let hexMsg = ab2hex(res.message).toLocaleLowerCase()
             console.log('udp2 message', hexMsg)
-            console.log('udp2 message decode2body',apUtils.decode2body(hexMsg))
+            console.log('udp2 message decode2body', apUtils.decode2body(hexMsg))
             if (apUtils.decode2body(hexMsg).type == '007a') {
               let udpMsgBody = apUtils.decode2body(hexMsg).body
               let adData = apUtils.parseUdpBody(udpMsgBody)
-              console.log("=======success return=========",adData,app.addDeviceInfo)
-              if (hexCharCodeToStr(adData.ssid).toLocaleLowerCase() == app.addDeviceInfo.ssid
-                .toLocaleLowerCase()) {
+              console.log('=======success return=========', adData, app.addDeviceInfo)
+              if (hexCharCodeToStr(adData.ssid).toLocaleLowerCase() == app.addDeviceInfo.ssid.toLocaleLowerCase()) {
                 //过滤偶现没有版本信息的包
                 WX_LOG.info('设备自启udp成功', 'udp.onMessage')
-                console.log("=======success return=====resolve====",adData)
+                console.log('=======success return=====resolve====', adData)
                 resolve(adData)
               }
             }
@@ -159,8 +153,8 @@ const udpService = {
   },
   /**
    * 获取udp设备信息
-   * @param {*} udp 
-   * @param {*} udp2 
+   * @param {*} udp
+   * @param {*} udp2
    */
   getUdpInfo(udp, udp2) {
     let openbroadcast = this.openbroadcast(udp)
@@ -170,7 +164,7 @@ const udpService = {
 
   /**
    * 关闭udp实例的监听
-   * @param {*} udp 
+   * @param {*} udp
    */
   closeUdp(udp, udp2) {
     udp.offMessage()
@@ -180,11 +174,11 @@ const udpService = {
   },
 
   // 解决linkDevice页面获取不到udpCycTimer 从而清除不了定时器问题
-  stopInterval(){
+  stopInterval() {
     clearInterval(udpCycTimer)
-  }
+  },
 }
 
 module.exports = {
-  udpService
+  udpService,
 }
