@@ -1,7 +1,7 @@
 const brand = {
     brand: 'meiju',
     /* 配网方式 */
-    ap: true, // ap配网，mode == 0
+    ap: false, // ap配网，mode == 0
     bluetooth: true, // 蓝牙配网，mode == 3
     singleBlue: true, // 单蓝牙（厨房秤），mode == 5
     'NB-IOT': true, // NB-IOT，mode == 8

@@ -1582,6 +1582,7 @@ module.exports = Behavior({
             }
           })
         }
+        return
       }
       // 判断全局的密钥有没有，有就跳过，没有就重新拉取
       if (!app.globalData.privateKey && app.addDeviceInfo.mode != '103' && app.addDeviceInfo.mode != '100') {
