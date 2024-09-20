@@ -324,7 +324,7 @@ monitorBluetooth(){
       }
 
     //   this.actionBlue()
-      this.actionWifi()
+    //   this.actionWifi() // 屏蔽ap自发现
 
     }
     // this.sendFindFriendOrder() 暂时屏蔽找朋友配网
@@ -801,7 +801,7 @@ monitorBluetooth(){
     console.log('[retry permission]', permission)
     if (permission) {
       this.actionBlue()
-      this.actionWifi()
+    //   this.actionWifi() // 屏蔽ap自发现
     } 
     // else {
     //   wx.showToast({
