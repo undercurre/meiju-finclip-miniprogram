@@ -92,7 +92,7 @@ Page({
           showToast('获取频繁，请稍后再试！')
           break
         case 65009:
-          showToast('验证码错误，请重新输！')
+          showToast('验证码错误，请重新输入！')
           break
         default:
           showToast('系统错误，请稍后重试')
