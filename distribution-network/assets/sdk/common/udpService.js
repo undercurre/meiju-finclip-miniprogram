@@ -50,7 +50,7 @@ const udpService = {
         return
       }
 
-      udp.bind(getRandomInt(50000, 65535))
+      udp.bind()
       udp.onListening(function (res) {
         console.log('监听中...')
       })
