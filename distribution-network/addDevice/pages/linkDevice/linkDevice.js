@@ -2512,6 +2512,10 @@ Page({
     const order0043 = this.apUtils.construOrder(params)
     if (this.tcp) {
       this.tcp.write(hexStringToArrayBuffer(order0043))
+      this.setData({ //Yoram 20240912
+        curStep: 1,
+        'progressList[0].isFinish': true
+      })
       // 超时未收到模组回报则重发指令
       setTimeout(() => {
         if (!this.ifLowUDPRespond0043) this.writeTemporaryID()
