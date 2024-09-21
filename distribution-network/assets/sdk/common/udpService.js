@@ -79,32 +79,34 @@ const udpService = {
         reject(res)
       })
       console.log('发送udp时的地址====', udpBroadcastAddress)
-      if (udp) {
-        udp.send({
-          setBroadcast: true, //允许广播
-          address: udpBroadcastAddress,
-          port: 6445,
-          message: hexStringToArrayBuffer(msg),
-        })
-      }
-      udpCycTimer = setInterval(() => {
-        if (!isEmptyObject(udpAdData)) {
-          clearInterval(udpCycTimer)
-        } else {
-          let msg = apUtils.construOrder(parmas)
-          console.log('发送udp时的地址====', udpBroadcastAddress)
-          if (udp) {
-            udp.send({
-              setBroadcast: true, //允许广播
-              address: udpBroadcastAddress,
-              port: 6445,
-              message: hexStringToArrayBuffer(msg),
-            })
-          }
-          console.log('再次发送udp======')
+      setTimeout(() => {
+        if (udp) {
+          udp.send({
+            setBroadcast: true, //允许广播
+            address: udpBroadcastAddress,
+            port: 6445,
+            message: hexStringToArrayBuffer(msg),
+          })
         }
-      }, 2000)
-      console.log('发送成功')
+        udpCycTimer = setInterval(() => {
+          if (!isEmptyObject(udpAdData)) {
+            clearInterval(udpCycTimer)
+          } else {
+            let msg = apUtils.construOrder(parmas)
+            console.log('发送udp时的地址====', udpBroadcastAddress)
+            if (udp) {
+              udp.send({
+                setBroadcast: true, //允许广播
+                address: udpBroadcastAddress,
+                port: 6445,
+                message: hexStringToArrayBuffer(msg),
+              })
+            }
+            console.log('再次发送udp======')
+          }
+        }, 2000)
+        console.log('发送成功')
+      }, 200)
     })
   },
   /**

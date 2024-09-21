@@ -83,7 +83,7 @@ Page({
     console.log(`page performance onReady start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
     // 默认打印相关版本信息
     console.error(`APP环境：${getApp().globalData.appEnv}
-      APP版本：${getApp().globalData.appVersion}
+      APP版本：${getApp().globalData.appInfoVersion}
       小程序版本：${getApp().globalData.miniProgram?.version}
       FinClip SDK版本：${getApp().globalData.appSystemInfo?.runtimeSDKVersion}
       基础库版本：${getApp().globalData.appSystemInfo?.frameworkVersion}`)
