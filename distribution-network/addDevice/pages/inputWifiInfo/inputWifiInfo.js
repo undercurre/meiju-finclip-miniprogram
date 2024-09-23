@@ -447,9 +447,9 @@ Page({
       rssi: res.signalStrength,
       deviceSessionId: app.globalData.deviceSessionId,
       moduleType: app.globalData.moduleType,
-      type: app.globalData.type,
-      sn8: app.globalData.sn8,
-      moduleVison: app.globalData.blueVersion,
+      type: app.addDeviceInfo.type,
+      sn8: app.addDeviceInfo.sn8,
+      moduleVison: app.addDeviceInfo.blueVersion,
       linkType: app.addDeviceInfo.linkType,
     })
   },
@@ -2058,6 +2058,11 @@ Page({
       burialPoint.noticeWifiPageStatus({
         pageStatus: 'show',
         deviceSessionId: app.globalData.deviceSessionId,
+        moduleType: app.globalData.moduleType,
+        type: app.addDeviceInfo.type,
+        sn8: app.addDeviceInfo.sn8,
+        moduleVison: app.addDeviceInfo.blueVersion,
+        linkType: app.addDeviceInfo.linkType
       })
     }
     app.globalData.isCanClearFound = true //配网流程返回首页或设备发现页清除ap蓝牙自发现已发现的设备信息
@@ -2089,6 +2094,11 @@ Page({
       burialPoint.noticeWifiPageStatus({
         pageStatus: 'hide',
         deviceSessionId: app.globalData.deviceSessionId,
+        moduleType: app.globalData.moduleType,
+        type: app.addDeviceInfo.type,
+        sn8: app.addDeviceInfo.sn8,
+        moduleVison: app.addDeviceInfo.blueVersion,
+        linkType: app.addDeviceInfo.linkType,
       })
     }
   },

@@ -628,7 +628,7 @@ monitorBluetooth(){
         sn: '', //sn码
         sn8: item.sn8, //sn8码
         a0: '', //a0码
-        widget_cate: item.type, //设备品类
+        widget_cate: item.category, //设备品类
         wifi_model_version: item.moduleVersion, //模组wifi版本
         link_type: linkType, //连接方式 bluetooth/ap/...
         iot_device_id: '', //设备id
@@ -827,6 +827,7 @@ monitorBluetooth(){
         iot_device_id: '', //设备id
       },
     })
+    burialPoint.noDeviceFound()
     // 修改为弹框展示
     // wx.navigateTo({
     //   url: paths.scanHelp,

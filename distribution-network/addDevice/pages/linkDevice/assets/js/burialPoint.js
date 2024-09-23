@@ -592,7 +592,7 @@ export const burialPoint = {
    */
   // 蓝牙配网密码错误提示弹窗 浏览埋点
   bluePswFailDialogView: (params) => {
-    rangersBurialPoint('content_exposure_event', {
+    rangersBurialPoint('user_page_view', {
       page_path: getFullPageUrl(),
       module: 'appliance',
       page_id: 'page_process',
