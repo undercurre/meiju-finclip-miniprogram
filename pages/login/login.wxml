@@ -6,7 +6,8 @@
   <!-- <view class="topBac" style="margin-top: {{statusBarHeight}}px;"> -->
   <!-- <image src="{{topBacImg}}" class="topBacImg"></image> -->
   <!-- </view> -->
-  <view animation="{{ animationLogin1 }}" class="login-logo" style="margin-top:{{logoTop+statusBarHeight}}rpx">
+  <!-- <view animation="{{ animationLogin1 }}" class="login-logo" style="margin-top:{{logoTop+statusBarHeight}}rpx"> -->
+  <view animation="{{ animationLogin1 }}" class="login-logo">
     <image class="login-logo-image" src="{{loginLogoSrc}}"></image>
     <!-- <mx-image custom-class="login-logo-image" src="{{loginLogoSrc}}"></mx-image> -->
   </view>
