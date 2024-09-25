@@ -19,7 +19,7 @@ const udpService = {
    * 获取udp广播包消息
    * @param {*} udp
    */
-  async openbroadcast(udp) {
+  async openbroadcast(udp, checkLanOnline) {
     console.log('调用openbroadcast++++')
     // var msg = '5A5A01114800920000000000992C3B130806151400000000000000000000000000000000000000007F75BD6B3E4F8B762E849C6E578D6590AB77CD526E688D5C3DBD16E5AA3495B6'
     let udpBroadcastAddress = '255.255.255.255' //默认
@@ -57,6 +57,9 @@ const udpService = {
       udp.onMessage((res) => {
         console.log('onMessage:', res)
         if (res) {
+            if(checkLanOnline) { // 回家路由后局域网在线，不校验响应包
+                resolve(res)
+            }
           //udp广播信息
           let hexMsg = ab2hex(res.message).toLocaleLowerCase()
           console.log('udp message', hexMsg)
@@ -158,8 +161,8 @@ const udpService = {
    * @param {*} udp
    * @param {*} udp2
    */
-  getUdpInfo(udp, udp2) {
-    let openbroadcast = this.openbroadcast(udp)
+  getUdpInfo(udp, udp2,checkLanOnline) {
+    let openbroadcast = this.openbroadcast(udp,checkLanOnline)
     let onDeviceAutoUdp = this.onDeviceAutoUdp(udp2)
     return Promise.race([onDeviceAutoUdp, openbroadcast])
   },

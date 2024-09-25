@@ -1381,6 +1381,66 @@ Page({
       }
     }
   },
+//监听ap配网完成后wifi切换
+async onAPWifiSwitch() {
+    const self = this
+    try {
+        if(this.data.isLinkcloud || this.data.isStopGetExists) return
+        let wifiInfo = await self.wifiService.getConnectedWifi()
+        if (wifiInfo.SSID == this.data.bindWifiInfo.SSIDContent) {
+            console.error("4169:udpAdData the same wifi")
+            try {
+                let udpAdData = await self.udpService.getUdpInfo(self.data.callBackudp, self.data.callBackudp2, true) // 证明连上局域网
+                console.error("4169:udpAdData:",udpAdData)
+                if(!udpAdData){
+                    console.error('获取不到udp 1,标识1307')
+                    self.data.routeFlag = true
+                    // 1307
+                    self.data.isLAN = '1'
+                } else {
+                    console.error('获取udp------')
+                    self.data.routeFlag = true
+                    // 4169
+                    self.data.isLAN = '2'
+                    // stopInterval方法需要更新sdk版本 1.0.5才能使用
+                    this.udpService.stopInterval()
+                    this.udpService.closeUdp(self.data.callBackudp, self.data.callBackudp2)
+                    self.data.callBackudp = null
+                    self.data.callBackudp2 = null
+                }
+        
+            } catch (error) {
+                console.error('获取不到udp error,标识1307')
+                self.data.isLAN = '1'
+                // 获取不到设备广播包
+                this.data.routeFlag = true
+                // stopInterval方法需要更新sdk版本 1.0.5才能使用
+                this.udpService.stopInterval()
+                if(self.data.callBackudp){
+                    this.udpService.closeUdp(self.data.callBackudp, self.data.callBackudp2)
+                }
+                self.data.callBackudp = null
+                self.data.callBackudp2 = null        
+            }
+        } else {
+            console.error("4169:udpAdData not the same wifi:")
+            setTimeout(() => {
+                self.onAPWifiSwitch()
+            }, 1000)   
+        }
+    } catch (error) {
+        console.log('[get connected wifi fail]', error)
+        getApp().setMethodFailedCheckingLog(
+        'wx.getConnectedWifi()',
+        `调用微信接口wx.getConnectedWifi()异常。error=${JSON.stringify(error)}`
+        )
+        if (this.data.pageStatus == 'show') {
+        this.linkDeviceService.delay(1500).then((end) => {
+            this.onAPWifiSwitch()
+        })
+        }
+    }
+},
 
   //ap配网密码错误重新发送配网指令
   retrySendApLinknetOrder() {
@@ -2772,61 +2832,64 @@ Page({
 
     self.data.callBackudp = wx.createUDPSocket()
     self.data.callBackudp2 = wx.createUDPSocket()
-
-    wx.onWifiConnected(async (res) => {
-      //自动回连成功wifi
-      this.data.isBackLinkRoute = true //成功回连路由
-      let wifiInfo = res.wifi
-      burialPoint.autoBackRouteSuccess({
-        deviceSessionId: app.globalData.deviceSessionId,
-        type: app.addDeviceInfo.type,
-        sn8: app.addDeviceInfo.sn8,
-        moduleVersion: '', //ap配网没有像蓝牙的协议版本
-        linkType: app.addDeviceInfo.linkType,
-        ssid: wifiInfo.SSID,
-        frequency: wifiInfo.frequency,
-        rssi: wifiInfo.signalStrength,
-        wifi_version: app.addDeviceInfo.moduleVersion, //模组版本埋点上报
-      })
-      console.log('连上了wifi', res)
-      log.info('connect wifi success')
+    console.error("before onWifiConnected")
+    self.onAPWifiSwitch()
+    // wx.onWifiConnected(async (res) => {
+    //     console.error("in onWifiConnected")
+    //   //自动回连成功wifi
+    //   this.data.isBackLinkRoute = true //成功回连路由
+    //   let wifiInfo = res.wifi
+    //   burialPoint.autoBackRouteSuccess({
+    //     deviceSessionId: app.globalData.deviceSessionId,
+    //     type: app.addDeviceInfo.type,
+    //     sn8: app.addDeviceInfo.sn8,
+    //     moduleVersion: '', //ap配网没有像蓝牙的协议版本
+    //     linkType: app.addDeviceInfo.linkType,
+    //     ssid: wifiInfo.SSID,
+    //     frequency: wifiInfo.frequency,
+    //     rssi: wifiInfo.signalStrength,
+    //     wifi_version: app.addDeviceInfo.moduleVersion, //模组版本埋点上报
+    //   })
+    //   console.error('连上了wifi', res)
+    //   log.info('connect wifi success')
      
-      try {
+    //   try {
 
-        let udpAdData = await self.udpService.getUdpInfo(self.data.callBackudp, self.data.callBackudp2) // 证明连上局域网
-        if(!udpAdData){
-          console.error('获取不到udp 1,标识1307')
-          self.data.routeFlag = true
-          // 1307
-          self.data.isLAN = '1'
-        } else {
-          console.error('获取udp------')
-          self.data.routeFlag = true
-          // 4169
-          self.data.isLAN = '2'
-          // stopInterval方法需要更新sdk版本 1.0.5才能使用
-          this.udpService.stopInterval()
-          this.udpService.closeUdp(self.data.callBackudp, self.data.callBackudp2)
-          self.data.callBackudp = null
-          self.data.callBackudp2 = null
-        }
+    //     let udpAdData = await self.udpService.getUdpInfo(self.data.callBackudp, self.data.callBackudp2) // 证明连上局域网
+    //     console.error("4169:udpAdData:",udpAdData)
+    //     if(!udpAdData){
+    //       console.error('获取不到udp 1,标识1307')
+    //       self.data.routeFlag = true
+    //       // 1307
+    //       self.data.isLAN = '1'
+    //     } else {
+    //       console.error('获取udp------')
+    //       self.data.routeFlag = true
+    //       // 4169
+    //       self.data.isLAN = '2'
+    //       // stopInterval方法需要更新sdk版本 1.0.5才能使用
+    //       this.udpService.stopInterval()
+    //       this.udpService.closeUdp(self.data.callBackudp, self.data.callBackudp2)
+    //       self.data.callBackudp = null
+    //       self.data.callBackudp2 = null
+    //     }
 
-      } catch (error) {
-        console.error('获取不到udp error,标识1307')
-        self.data.isLAN = '1'
-        // 获取不到设备广播包
-        this.data.routeFlag = true
-        // stopInterval方法需要更新sdk版本 1.0.5才能使用
-        this.udpService.stopInterval()
-        if(self.data.callBackudp){
-          this.udpService.closeUdp(self.data.callBackudp, self.data.callBackudp2)
-        }
-        self.data.callBackudp = null
-        self.data.callBackudp2 = null        
-      }
+    //   } catch (error) {
+    //     console.error('获取不到udp error,标识1307')
+    //     self.data.isLAN = '1'
+    //     // 获取不到设备广播包
+    //     this.data.routeFlag = true
+    //     // stopInterval方法需要更新sdk版本 1.0.5才能使用
+    //     this.udpService.stopInterval()
+    //     if(self.data.callBackudp){
+    //       this.udpService.closeUdp(self.data.callBackudp, self.data.callBackudp2)
+    //     }
+    //     self.data.callBackudp = null
+    //     self.data.callBackudp2 = null        
+    //   }
 
-      wx.offWifiConnected()
-    })
+    //   wx.offWifiConnected()
+    // })
     let searchDevieLinkCloud = {
       //开始查询云
       deviceSessionId: app.globalData.deviceSessionId,
