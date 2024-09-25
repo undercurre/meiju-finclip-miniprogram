@@ -377,7 +377,7 @@ export const burialPoint = {
    * 请将手机连上wifi页 show and hide
    */
   noticeWifiPageStatus: (params) => {
-    rangersBurialPoint('user_behavior_event', {
+    rangersBurialPoint('user_page_view', {
       page_path: getFullPageUrl(),
       module: 'appliance',
       page_id: 'page_connect_WiFi_notice',
@@ -386,6 +386,10 @@ export const burialPoint = {
       widget_id: params.pageStatus == 'show' ? 'reception' : 'background',
       device_info: {
         device_session_id: params.deviceSessionId, //一次配网事件标识
+        sn8:params.sn8,
+        widget_cate:params.type,
+        link_type:params.linkType || 'bluetooth',
+
       },
     })
     console.log('请将手机连上wifi页 show and hide')

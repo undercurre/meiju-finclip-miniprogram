@@ -258,4 +258,44 @@ export const burialPoint = {
       },
     })
   },
+
+  noDeviceFound:()=>{
+    rangersBurialPoint('user_behavior_event', {
+      module: 'appliance',
+      page_id: '', //参考接口请求参数“pageId”
+      page_name: '', 
+      widget_id: 'no_device_found_button',
+      widget_name: '未搜索到所需设备按钮',
+      device_info: {
+        device_session_id: '', //一次配网事件标识
+        sn: '', //sn码
+        sn8: '', //sn8码
+        a0:'',
+        widget_cate: '', //设备品类-
+        wifi_model_version:'',
+        link_type:''
+      },
+    })
+  },
+  clickFoundAppliance:(param)=>{
+    rangersBurialPoint('user_behavior_event', {
+      module: 'appliance',
+      page_id: '', //参考接口请求参数“pageId”
+      page_name: '', 
+      widget_id: 'click_found_appliance',
+      widget_name: '附近设备icon',
+      ext_info:{
+        is_near:param.ext_info.is_near
+      },
+      device_info: {
+        device_session_id: param.device_info.device_session_id, //一次配网事件标识
+        sn: '', //sn码
+        sn8: param.device_info.sn8, //sn8码
+        a0:'',
+        widget_cate: param.device_info.widget_cate, //设备品类-
+        wifi_model_version:'',
+        link_type:''
+      },
+    })
+  }
 }
