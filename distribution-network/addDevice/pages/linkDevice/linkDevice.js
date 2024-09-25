@@ -4269,7 +4269,7 @@ Page({
           console.log('goLinkDeviceFailPage跳转失败页 成功')
         },
         fail:(error)=>{
-          console.log('goLinkDeviceFailPage跳转失败页失败:',error,mode)
+          console.error('goLinkDeviceFailPage跳转失败页失败:',error,mode)
         }
       })
     } else {
@@ -4280,7 +4280,7 @@ Page({
           console.log('goLinkDeviceFailPage非5和air_conditioning_bluetooth_connection跳转失败页 成功')
         },
         fail:(error)=>{
-          console.log('goLinkDeviceFailPage非5和air_conditioning_bluetooth_connection跳转失败页失败:',error,mode)
+          console.error('goLinkDeviceFailPage非5和air_conditioning_bluetooth_connection跳转失败页失败:',error,mode)
         }
       })
     }
