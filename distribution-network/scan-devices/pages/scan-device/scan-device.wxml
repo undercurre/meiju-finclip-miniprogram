@@ -118,11 +118,11 @@
                       wx:if="{{!deviceItem.isSupport && brand == 'colmo'}}"
                       >暂不支持</view
                     >
-                    <view style="opacity: {{deviceItem.isSameSn8Nearest?1:0}};" class="same-sn8-nearest" wx:if="{{brand == 'colmo'}}">
+                    <view style="opacity: {{deviceItem.isSameSn8Nearest?1:0}};" class="same-sn8-nearest" wx:if="{{!deviceItem.isSupport && brand == 'colmo'}}">
                       <image class="colmo-nearest-img" src="./assest/img/label_near@3x.png"></image>
                     </view>
                     <!-- <view class="device-describe overflow-ellipsis">{{ deviceItem.RSSI }}</view> -->
-                    <view style="opacity: {{deviceItem.isSameSn8Nearest?1:0}};" class="same-sn8-nearest" wx:if="{{brand !== 'colmo'}}">
+                    <view style="opacity: {{deviceItem.isSameSn8Nearest?1:0}};" class="same-sn8-nearest" wx:if="{{ !(deviceItem.isSupport) && brand !== 'colmo'}}">
                       <text class="same-sn8-nearest-text">同品类距离最近</text>
                     </view>
 
