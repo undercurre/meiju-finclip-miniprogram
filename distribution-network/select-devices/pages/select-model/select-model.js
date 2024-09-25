@@ -122,7 +122,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    this.data.clickFLag = false
+      this.data.clickFLag = false
   },
 
   /**
@@ -332,6 +332,7 @@ Page({
     let deviceName = e.currentTarget.dataset.name
     console.log('spid======:',e.currentTarget.dataset.spid)
     let spid = e.currentTarget.dataset.spid
+    console.log('clickFLag----:',this.data.clickFLag,clickFLag)
     if (clickFLag) {
       getApp().setMethodFailedCheckingLog('prodClicked', '点击防重处理不触发')
       console.log('prodClicked点击防重处理不触发')
@@ -505,9 +506,18 @@ Page({
           if (addDeviceSDK.isCanWb01BindBLeAfterWifi(category, code)) {
             app.addDeviceInfo = addDeviceInfo
             app.addDeviceInfo.mode = 'WB01_bluetooth_connection'
-            self.data.clickFLag = false
+            // self.data.clickFLag = false
             wx.navigateTo({
               url: addGuide,
+              success:()=>{
+                setTimeout(() => {
+                  self.data.clickFLag = false
+                }, 2000)
+              },
+              fail:(error)=>{
+                self.data.clickFLag = false
+                console.log('选型跳转失败mode=WB01_bluetooth_connection--error:',error)
+              },
             })
             return
           }
@@ -516,14 +526,31 @@ Page({
             app.addDeviceInfo = addDeviceInfo
             wx.navigateTo({
               url: addGuide,
+              success:()=>{
+                setTimeout(() => {
+                  self.data.clickFLag = false
+                }, 2000)
+              },
+              fail:(error)=>{
+                self.data.clickFLag = false
+                console.log('mode == 5 || mode == 9 || mode == 10 || mode == 100 || mode == 103--error:',error)
+              }
             })
           } else if (mode == 0 || mode == 3) {
             console.log('跳inputWifiInfo')
             app.addDeviceInfo = addDeviceInfo
             console.log(app.addDeviceInfo)
-            self.data.clickFLag = false
             wx.navigateTo({
               url: inputWifiInfo,
+              success:()=>{
+                setTimeout(() => {
+                  self.data.clickFLag = false
+                }, 2000)
+              },
+              fail:(error)=>{
+                self.data.clickFLag = false
+                console.log('mode == 0 || mode == 3--error:',error)
+              }
             })
           } else if(mode == 6){
             console.log('子设备链路')
@@ -557,8 +584,14 @@ Page({
             } else if(cellularType == 0){
              wx.navigateTo({
                url: addGuide,
+               success:()=>{
+                setTimeout(() => {
+                  self.data.clickFLag = false
+                }, 2000)
+               },
                fail: function (error) {
-                 console.log("跳转页面过多错误处理")
+                self.data.clickFLag = false
+                 console.log("选型cellularType == 0跳转页面过多错误处理-----:",error)
                  wx.redirectTo({
                    url: addGuide,
                  })

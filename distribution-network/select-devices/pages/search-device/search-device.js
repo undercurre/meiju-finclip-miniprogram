@@ -673,15 +673,18 @@ Page({
             app.addDeviceInfo.mode = 'WB01_bluetooth_connection'
             wx.navigateTo({
               url: addGuide,
+              success:()=>{
+                setTimeout(() => {
+                  self.data.clickFLag = false
+                }, 2000)
+              },
               fail: function (error) {
-                console.log("跳转页面过多错误处理")
+                self.data.clickFLag = false
+                console.log("搜索跳转失败mode=WB01_bluetooth_connection--error：",error)
                 wx.redirectTo({
                   url: addGuide,
                 })
               }
-            })
-            self.setData({
-              clickFLag: false,
             })
             return
           }
@@ -689,8 +692,14 @@ Page({
             console.log('跳addguide')
             wx.navigateTo({
               url: addGuide,
+              success:()=>{
+                setTimeout(() => {
+                  self.data.clickFLag = false
+                }, 2000)
+              },
               fail: function (error) {
-                console.log("跳转页面过多错误处理")
+                console.log("搜索跳转页面过多错误处理：error:",error)
+                self.data.clickFLag = false
                 wx.redirectTo({
                   url: addGuide,
                 })
@@ -706,8 +715,14 @@ Page({
             console.log(app.addDeviceInfo)
             wx.navigateTo({
               url: inputWifiInfo,
+              success:()=>{
+                setTimeout(() => {
+                  self.data.clickFLag = false
+                }, 2000)
+              },
               fail: function (error) {
-                console.log("跳转页面过多错误处理")
+                self.data.clickFLag = false
+                console.log("搜索跳转页面过多错误处理 mode == 0 || mode == 3--error：",error)
                 wx.redirectTo({
                   url: inputWifiInfo,
                 })
@@ -742,26 +757,53 @@ Page({
             if (hasWifiNetWorking && hasCableNetWorking) {
               app.addDeviceInfo = addDeviceInfo
               console.log(app.addDeviceInfo)
-              self.data.clickFLag = false
+              
               console.log('connectType', connectType)
               wx.navigateTo({
                 url: connectType,
+                success:()=>{
+                  setTimeout(()=>{
+                    self.data.clickFLag = false
+                  },2000)
+                },
+                fail:(error)=>{
+                  self.data.clickFLag = false
+                  console.log('connectType--error:',error)
+                }
               })
             } else if (hasWifiNetWorking && !hasCableNetWorking) {
               // 只返回无线
               app.addDeviceInfo = addDeviceInfo
               console.log(app.addDeviceInfo)
-              self.data.clickFLag = false
+              // self.data.clickFLag = false
               wx.navigateTo({
                 url: inputWifiInfo,
+                success:()=>{
+                  setTimeout(()=>{
+                    self.data.clickFLag = false
+                  },2000)
+                },
+                fail:(error)=>{
+                  self.data.clickFLag = false
+                  console.log('只返回无线--error:',error)
+                }
               })
             } else if (!hasWifiNetWorking && hasCableNetWorking) {
               // 只返回有线
               console.log('跳addguide')
               app.addDeviceInfo = addDeviceInfo
-              self.data.clickFLag = false
+              // self.data.clickFLag = false
               wx.navigateTo({
                 url: addGuide,
+                success:()=>{
+                  setTimeout(()=>{
+                    self.data.clickFLag = false
+                  },2000)
+                },
+                fail:(error)=>{
+                  self.data.clickFLag = false
+                  console.log('只返回有线--error:',error)
+                }
               })
             }
           } else if(mode == 20){
@@ -775,8 +817,14 @@ Page({
              } else if(cellularType == 0){
                wx.navigateTo({
                  url: addGuide,
+                 success:()=>{
+                  setTimeout(() => {
+                    self.data.clickFLag = false
+                  }, 2000)
+                 },
                  fail: function (error) {
-                   console.log("跳转页面过多错误处理")
+                  self.data.clickFLag = false
+                   console.log("搜索cellularType == 0跳转页面过多错误处理--error:",error)
                    wx.redirectTo({
                      url: addGuide,
                    })

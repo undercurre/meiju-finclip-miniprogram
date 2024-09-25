@@ -405,10 +405,21 @@ Page({
                 let { fmType, combinedDeviceFlag,mode,fm } = app.addDeviceInfo
                 if (fmType && fmType == 'ap' && !combinedDeviceFlag) { //组合设备不走该路径
                   setWifiStorage(self.data.bindWifiInfo) //保存本次失败页的wifi账号密码到wifi缓存里，到wifi登记页再取出显示
+                  console.log('ap自发现配网失败点击重试跳设备发现页 准备调用wx.reLaunch')
                   wx.reLaunch({
                     url: paths.scanDevice,
-                    complete() {
+                    success:(res)=>{
+                      console.log('ap自发现配网失败点击重试跳设备发现页 调用wx.reLaunch成功：',res)
+                      setTimeout(()=>{
+                        self.drawBtnClickFlag = false
+                      },2000)
+                    },
+                    fail:(error)=>{
                       self.drawBtnClickFlag = false
+                      console.error('ap自发现配网失败点击重试跳设备发现页 调用wx.reLaunch失败：',error)
+                    },
+                    complete() {
+                      // self.drawBtnClickFlag = false
                     }
                   })
                 } else if(mode == 20){
@@ -426,11 +437,22 @@ Page({
                       url = paths.scanDevice
                     }
                   }
+                  console.log('mode == 20 准备调用wx.reLaun')
                   wx.reLaunch({
                     url:url,
-                    complete() {
+                    success:(res)=>{
+                      console.log('mode == 20 调用wx.reLaunch 成功：',res)
+                      setTimeout(()=>{
+                        self.drawBtnClickFlag = false
+                      },2000)
+                    },
+                    fail:(error)=>{
                       self.drawBtnClickFlag = false
-                    }
+                      console.error('mode == 20 调用wx.reLaunch失败：',error)
+                    },
+                    // complete() {
+                    //   self.drawBtnClickFlag = false
+                    // }
                   })
                   return
                 } else {
@@ -460,7 +482,7 @@ Page({
             app
               .checkNet()
               .then(() => {
-                self.drawBtnClickFlag = false
+                // self.drawBtnClickFlag = false
                 //校验当前网络是否畅通
                 if (mode == 'WB01_bluetooth_connection_network') {
                   self.goToBlueConctrol()
@@ -1582,9 +1604,19 @@ Page({
         moduleVersion: moduleVersion,
       })
     }
-
+    console.log('backToIndex 准备调用wx.reLaunch')
     wx.reLaunch({
       url: paths.index,
+      success:(res)=>{
+        console.log('backToIndex 调用wx.reLaunch 成功:',res)
+        setTimeout(()=>{
+          self.drawBtnClickFlag = false
+        },2000)
+      },
+      fail:(error)=>{
+        self.drawBtnClickFlag = false
+        console.error('backToIndex 调用wx.reLaunch 失败:',error)
+      }
     })
   },
 
@@ -1596,9 +1628,20 @@ Page({
     })
     let type0x = type.includes('0x') ? type : '0x' + type
     let deviceInfo = encodeURIComponent(JSON.stringify(cloudBackDeviceInfo))
+    console.log('goToBlueConctrol msmart 去直连插件 准备调用wx.reLaunch')
     wx.reLaunch({
       // url: `/plugin/T${type0x}/index/index?backTo=/pages/index/index&deviceInfo=${deviceInfo}`,
       url: getPluginUrl(type0x) + `?backTo=/pages/index/index&deviceInfo=${deviceInfo}`,
+      success:(res)=>{
+        console.log('goToBlueConctrol msmart 去直连插件 成功:',res)
+        setTimeout(()=>{
+          self.drawBtnClickFlag = false
+        },2000)
+      },
+      fail:(error)=>{
+        self.drawBtnClickFlag = false
+        console.error('goToBlueConctrol msmart 去直连插件 失败:',error)
+      }
     })
   },
 

@@ -1376,23 +1376,40 @@ Page({
         // wx.navigateTo({
         //     url: paths.linkDevice,
         // })
+        console.log('自发现ap 准备调用navigateTo')
         wx.navigateTo({
           url: paths.linkAp, //手动连接ap页
+          success:(res)=>{
+            console.log('isCanDrivingLinkDeviceAp(ssid) success:',res)
+            setTimeout(()=>{
+              self.data.clickNetFLag = false
+            },2000)
+          },
           fail(error) {
+            self.data.clickNetFLag = false
+            console.log('isCanDrivingLinkDeviceAp(ssid) fail:',error)
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
-            self.data.clickNetFLag = false
+            // self.data.clickNetFLag = false
           },
         })
       } else {
+        console.log('手动连接ap页 准备调用navigateTo')
         wx.navigateTo({
           url: paths.linkAp, //手动连接ap页
+          success:(res)=>{
+            console.log('非isCanDrivingLinkDeviceAp(ssid) success:',res)
+            setTimeout(()=>{
+              self.data.clickNetFLag = false
+            },2000)
+          },
           fail(error) {
+            console.log('非isCanDrivingLinkDeviceAp(ssid) fail:',error)
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
-            self.data.clickNetFLag = false
+            // self.data.clickNetFLag = false
           },
         })
       }
@@ -1417,13 +1434,21 @@ Page({
             app.addDeviceInfo.deviceName = deviceImgMap[type].title
           }
           // app.addDeviceInfo.isCanDrivingLinkDeviceAp = true
+          console.log('跳过配网指引 准备调用navigateTo')
           wx.navigateTo({
             url: paths.linkAp,
+            success:(res)=>{
+              console.log('跳过配网指引 调用navigateTo成功：',res)
+              setTimeout(()=>{
+                self.data.clickNetFLag = false
+              },2000)
+            },
             fail(error) {
+              self.data.clickNetFLag = false
               getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
             },
             complete() {
-              self.data.clickNetFLag = false
+              // self.data.clickNetFLag = false
             },
           })
           burialPoint.apLocalLog({
@@ -1459,115 +1484,197 @@ Page({
     if (mode == 'air_conditioning_bluetooth_connection' || mode == 'air_conditioning_bluetooth_connection_network') {
       //做了直连
       app.addDeviceInfo.mode = 'air_conditioning_bluetooth_connection_network' //去配网
+      console.log('蓝牙直连 准备调用navigateTo')
       wx.navigateTo({
         url: paths.linkDevice,
-        complete() {
+        success:(res)=>{
+          console.log('蓝牙直连 调用navigateTo成功：',res)
+          setTimeout(()=>{
+            self.data.clickNetFLag = false
+          },2000)
+        },
+        fail(error) {
           self.data.clickNetFLag = false
+          console.error('蓝牙直连 调用navigateTo失败：',error)
+        },
+        complete() {
+          // self.data.clickNetFLag = false
         },
       })
       console.log('change mode---------', app.addDeviceInfo.mode)
       return
     }
     if (mode == 'WB01_bluetooth_connection_network') {
+      console.log('masmart做了直连 去配网 准备调用navigateTo')
       //masmart做了直连 去配网
       wx.navigateTo({
         url: paths.linkDevice,
+        success:(res)=>{
+          console.log('masmart做了直连 去配网 调用navigateTo成功：',res)
+          setTimeout(()=>{
+            self.data.clickNetFLag = false
+          },2000)
+        },
         fail(error) {
+          console.error('masmart做了直连 去配网 调用navigateTo失败：',error)
+          self.data.clickNetFLag = false
           getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
         },
         complete() {
-          self.data.clickNetFLag = false
+          // self.data.clickNetFLag = false
         },
       })
       return
     }
     if ((mode == 5 && fm == 'autoFound' && blueVersion != 1) || (mode == 3 && fm == 'bluePugin')) {
+      console.log('mode == 5 && fm == autoFound && blueVersion != 1 || (mode == 3 && fm == bluePugin 准备调用navigateTo')
       wx.navigateTo({
         url: paths.linkDevice,
+        success:(res)=>{
+          console.log('mode == 5 && fm == autoFound && blueVersion != 1 || (mode == 3 && fm == bluePugin 调用navigateTo成功：',res)
+          setTimeout(()=>{
+            self.data.clickNetFLag = false
+          },2000)
+        },
         fail(error) {
+          console.error('mode == 5 && fm == autoFound && blueVersion != 1 || (mode == 3 && fm == bluePugin 调用navigateTo失败：',error)
+          self.data.clickNetFLag = false
           getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
         },
         complete() {
-          self.data.clickNetFLag = false
+          // self.data.clickNetFLag = false
         },
       })
       return
     }
     if (mode == 3) {
       if (fm != 'autoFound' && !this.ifFindMatchedBlueDevice) {
+        console.log('fm != autoFound && !this.ifFindMatchedBlueDevice 准备调用navigateTo')
         // 非自发现未匹配到设备蓝牙，跳转配网指引页
         wx.navigateTo({
           url: paths.addGuide,
+          success:(res)=>{
+            console.log('fm != autoFound && !this.ifFindMatchedBlueDevice 调用navigateTo成功：',res)
+            setTimeout(()=>{
+              self.data.clickNetFLag = false
+            },2000)
+          },
           fail(error) {
+            self.data.clickNetFLag = false
+            console.log('fm != autoFound && !this.ifFindMatchedBlueDevice 调用navigateTo失败：',error)
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
-            self.data.clickNetFLag = false
+
           },
         })
         return
       }
       if (isCheck) {
         // 设备已确权，跳转联网进度页
+        console.log('设备已确权，跳转联网进度页 准备调用navigateTo')
         wx.navigateTo({
           url: paths.linkDevice,
+          success:(res)=>{
+            console.log('设备已确权，跳转联网进度页 调用navigateTo成功：',res)
+            setTimeout(()=>{
+              self.data.clickNetFLag = false
+            },2000)
+          },
           fail(error) {
+            self.data.clickNetFLag = false
+            console.error('设备已确权，跳转联网进度页 调用navigateTo失败：',error)
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
-            self.data.clickNetFLag = false
+            // self.data.clickNetFLag = false
           },
         })
         return
       }
       if (blueVersion == 1) {
         // 一代蓝牙，跳转配网指引页
+        console.log('一代蓝牙，跳转配网指引页 准备调用navigateTo')
         wx.navigateTo({
           url: paths.addGuide,
+          success:(res)=>{
+            console.log('设备已确权，跳转联网进度页 调用navigateTo成功：',res)
+            setTimeout(()=>{
+              self.data.clickNetFLag = false
+            },2000)
+          },
           fail(error) {
+            console.log('设备已确权，跳转联网进度页 调用navigateTo失败：',error)
+            self.data.clickNetFLag = false
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
-            self.data.clickNetFLag = false
+            // self.data.clickNetFLag = false
           },
         })
         return
       }
       if (this.ifNearbyChecked) {
         // 靠近确权成功，跳转联网进度页
+        console.log('靠近确权成功，跳转联网进度页 准备调用navigateTo')
         wx.navigateTo({
           url: paths.linkDevice,
+          success:(res)=>{
+            console.log('靠近确权成功，跳转联网进度页 调用navigateTo成功：',res)
+            setTimeout(()=>{
+              self.data.clickNetFLag = false
+            },2000)
+          },
           fail(error) {
+            console.error('靠近确权成功，跳转联网进度页 调用navigateTo失败：',error)
+            self.data.clickNetFLag = false
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
-            self.data.clickNetFLag = false
+            // self.data.clickNetFLag = false
           },
         })
         return
       } else {
         // 靠近确权失败，跳转靠近确权
+        console.log('靠近确权失败，跳转靠近确权 准备调用navigateTo')
         app.addDeviceInfo.ifNearby = true
         wx.navigateTo({
           url: paths.addGuide,
+          success:(res)=>{
+            console.log('靠近确权失败，跳转靠近确权 调用navigateTo成功：',res)
+            setTimeout(()=>{
+              self.data.clickNetFLag = false
+            },2000)
+          },
           fail(error) {
+            console.error('靠近确权失败，跳转靠近确权 调用navigateTo失败：',error)
+            self.data.clickNetFLag = false
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
-            self.data.clickNetFLag = false
+            // self.data.clickNetFLag = false
           },
         })
         return
       }
     }
-
+    console.log('其他1111111 准备调用navigateTo')
     wx.navigateTo({
       url: paths.addGuide,
+      success:(res)=>{
+        console.log('其他1111111 调用navigateTo成功：',res)
+        setTimeout(()=>{
+          self.data.clickNetFLag = false
+        },2000)
+      },
       fail(error) {
+        console.error('其他1111111 调用navigateTo失败:',error)
+        self.data.clickNetFLag = false
         getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
       },
       complete() {
-        self.data.clickNetFLag = false
+        // self.data.clickNetFLag = false
       },
     })
     this.data.isSwitchWifi = false //不切换
