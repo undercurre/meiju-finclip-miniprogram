@@ -37,17 +37,8 @@ Page({
     poupInfomation: {
       show: false,
       poupInfo: {
-        img: 'https://wx3.sinaimg.cn/mw690/92321886gy1hqaaubetpyj21jk25nat4.jpg',
-        info: `考虑放假了丝
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            
-            扣法兰看手机卡拉卡`,
+        img: '',
+        info: '',
         type: 1, //1.应用市场， 3.是参与内测
       },
     },
@@ -82,7 +73,7 @@ Page({
         console.error('res=================:', res)
 
         params = {
-          deviceId: res.deviceId,
+          deviceId: app.globalData.deviceId,
           os: res.platform.toLowerCase() == 'harmony' ? 'HarmonyOS' : '',
           channel: res.brand.toLowerCase(),
           deviceName: res.model,

@@ -256,7 +256,7 @@ Page({
     wx.getSystemInfo({
       success(res) {
         params = {
-          deviceId: res.deviceId,
+          deviceId: app.globalData.deviceId,
           os: res.platform.toLowerCase() == 'harmony' ? 'HarmonyOS' : '',
           channel: res.brand.toLowerCase(),
           deviceName: res.model,
@@ -570,17 +570,8 @@ Page({
     poupInfomation: {
       show: false,
       poupInfo: {
-        img: 'https://wx3.sinaimg.cn/mw690/92321886gy1hqaaubetpyj21jk25nat4.jpg',
-        info: `首页强制更新考虑放假了丝
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            开了房见识到了肯德基凯撒
-            
-            扣法兰看手机卡拉卡`,
+        img: 'https://wx3..cn/mw690/92321886gy1hqaaubetpyj21jk25nat4.jpg',
+        info: '',
         type: 3, //假定1是可升级， 2是参与内测，3是必须升级
       },
     },
