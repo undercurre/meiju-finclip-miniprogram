@@ -516,7 +516,7 @@ Page({
               },
               fail:(error)=>{
                 self.data.clickFLag = false
-                console.log('选型跳转失败mode=WB01_bluetooth_connection--error:',error)
+                console.error('选型跳转失败mode=WB01_bluetooth_connection--error:',error)
               },
             })
             return
@@ -533,7 +533,7 @@ Page({
               },
               fail:(error)=>{
                 self.data.clickFLag = false
-                console.log('mode == 5 || mode == 9 || mode == 10 || mode == 100 || mode == 103--error:',error)
+                console.error('mode == 5 || mode == 9 || mode == 10 || mode == 100 || mode == 103--error:',error)
               }
             })
           } else if (mode == 0 || mode == 3) {
@@ -549,7 +549,7 @@ Page({
               },
               fail:(error)=>{
                 self.data.clickFLag = false
-                console.log('mode == 0 || mode == 3--error:',error)
+                console.error('mode == 0 || mode == 3--error:',error)
               }
             })
           } else if(mode == 6){
@@ -591,7 +591,7 @@ Page({
                },
                fail: function (error) {
                 self.data.clickFLag = false
-                 console.log("选型cellularType == 0跳转页面过多错误处理-----:",error)
+                 console.error("选型cellularType == 0跳转页面过多错误处理-----:",error)
                  wx.redirectTo({
                    url: addGuide,
                  })
@@ -1033,7 +1033,7 @@ Page({
               wx.navigateTo({
                 url: linkDevice,
                 fail: function (error) {
-                  console.log("选型搜索----跳转页面过多错误处理")
+                  console.error("选型搜索----跳转页面过多错误处理:",error)
                   wx.redirectTo({
                     url: linkDevice,
                   })
@@ -1043,7 +1043,7 @@ Page({
               wx.navigateTo({
                 url: addGuide,
                 fail: function (error) {
-                  console.log("跳转页面过多错误处理")
+                  console.error("cellularType == 0 跳转页面过多错误处理---:",error)
                   wx.redirectTo({
                     url: addGuide,
                   })

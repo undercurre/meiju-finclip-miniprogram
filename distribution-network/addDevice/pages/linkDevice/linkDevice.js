@@ -885,7 +885,7 @@ Page({
                 console.log('WB01_bluetooth_connection_network跳转wifiSuccessSimple页 调用wx.reLaunch 成功:',res)
               },
               fail:(error)=>{
-                console.log('WB01_bluetooth_connection_network跳转wifiSuccessSimple页失败:',error)
+                console.error('WB01_bluetooth_connection_network跳转wifiSuccessSimple页失败:',error)
               }
             })
             clearInterval(timer)
@@ -983,7 +983,7 @@ Page({
                   console.log('WB01_bluetooth_connection_network非msmartBleWrite跳转wifiSuccessSimple页 成功:',res)
                 },
                 fail:(error)=>{
-                  console.log('WB01_bluetooth_connection_network非msmartBleWrite跳转wifiSuccessSimple页失败:',error)
+                  console.error('WB01_bluetooth_connection_network非msmartBleWrite跳转wifiSuccessSimple页失败:',error)
                 }
               })
               clearInterval(timer)
@@ -1016,7 +1016,7 @@ Page({
               console.log('mode100跳转成功页 成功:',res)
             },
             fail:(error)=>{
-              console.log('mode100跳转成功页失败:',error)
+              console.error('mode100跳转成功页失败:',error)
             }
           })
         } catch (error) {
@@ -1048,7 +1048,7 @@ Page({
               console.log('mode8跳转成功页成功:',res)
             },
             fail:(error)=>{
-              console.log('mode8跳转成功页失败:',error)
+              console.error('mode8跳转成功页失败:',error)
             }
           })
         } catch (error) {
@@ -1253,7 +1253,7 @@ Page({
               console.log('绑定账号成功跳转成功页成功:',res)
             },
             fail:(error)=>{
-              console.log('绑定账号成功跳转成功页失败:',error)
+              console.error('绑定账号成功跳转成功页失败:',error)
             }
           })
           resolve(resp)
@@ -3037,7 +3037,7 @@ Page({
                   console.log('有组合设备未确权跳转成功')
                 },
                 fail:(error)=>{
-                  console.log('有组合设备未确权跳转失败:',error)
+                  console.error('有组合设备未确权跳转失败:',error)
                 }
               })
             } else { // 已确权
@@ -3048,7 +3048,7 @@ Page({
                   console.log('有组合设备已确权跳转成功')
                 },
                 fail:(error)=>{
-                  console.log('有组合设备已确权跳转失败:',error)
+                  console.error('有组合设备已确权跳转失败:',error)
                 }
               })
             }
@@ -3063,7 +3063,7 @@ Page({
                     console.log('非组合设备后确权跳转成功')
                   },
                   fail:(error)=>{
-                    console.log('非组合设备后确权跳转失败:',error)
+                    console.error('非组合设备后确权跳转失败:',error)
                   }
                 })
               } else { // 已确权
@@ -3074,7 +3074,7 @@ Page({
                     console.log('非组合设备已确权跳转成功')
                   },
                   fail:(error)=>{
-                    console.log('非组合设备已确权跳转失败:',error)
+                    console.error('非组合设备已确权跳转失败:',error)
                   }
                 })
               }
@@ -3087,7 +3087,7 @@ Page({
                     console.log('非组合设备获取确权状态报错了，跳转到成功页')
                   },
                   fail:(error)=>{
-                    console.log('非组合设备获取确权状态报错了，跳转到成功页失败:',error)
+                    console.error('非组合设备获取确权状态报错了，跳转到成功页失败:',error)
                   }
                 })
               }
@@ -3318,7 +3318,7 @@ Page({
                     console.log('华凌未确权 先跳后确权页面 成功')
                   },
                   fail:(error)=>{
-                    console.log('华凌未确权 先跳后确权页面失败:',error)
+                    console.error('华凌未确权 先跳后确权页面失败:',error)
                   }
                 })
               } else { // 已确权
@@ -3329,7 +3329,7 @@ Page({
                     console.log('华凌已确权 先跳成功页成功')
                   },
                   fail:(error)=>{
-                    console.log('华凌已确权 先跳成功页失败:',error)
+                    console.error('华凌已确权 先跳成功页失败:',error)
                   }
                 })
               }
@@ -3342,7 +3342,7 @@ Page({
                     console.log('华凌获取确权状态报错了，直接跳转到成功页成功')
                   },
                   fail:(error)=>{
-                    console.log('华凌获取确权状态报错了，直接跳转到成功页失败:',error)
+                    console.error('华凌获取确权状态报错了，直接跳转到成功页失败:',error)
                   }
                 })
               }
@@ -3767,7 +3767,7 @@ Page({
           console.log('WB01_bluetooth_connection_network，直接跳转到插件页成功')
         },
         fail:(error)=>{
-          console.log('WB01_bluetooth_connection_network，直接跳转到插件页失败:',error)
+          console.error('WB01_bluetooth_connection_network，直接跳转到插件页失败:',error)
         }
       })
       return
@@ -3782,7 +3782,7 @@ Page({
         console.log('discardAdd函数，跳转到首页成功')
       },
       fail:(error)=>{
-        console.log('discardAdd函数，跳转到首页失败:',error)
+        console.error('discardAdd函数，跳转到首页失败:',error)
       }
     })
   },
@@ -3918,7 +3918,7 @@ Page({
               console.log('linkDevice非组合设备跳转后确权页面成功')
             },
             fail:(error)=>{
-              console.log('linkDevice非组合设备跳转后确权页面失败:',error)
+              console.error('linkDevice非组合设备跳转后确权页面失败:',error)
             }
           })
         } else { // 已确权
@@ -3929,7 +3929,7 @@ Page({
               console.log('linkDevice非组合设备已确权跳转页面成功')
             },
             fail:(error)=>{
-              console.log('linkDevice非组合设备已确权跳转页面失败:',error)
+              console.error('linkDevice非组合设备已确权跳转页面失败:',error)
             }
           })
         }
@@ -3948,7 +3948,7 @@ Page({
             console.log('linkDevice跳转保存页面成功')
           },
           fail:(error)=>{
-            console.log('linkDevice跳转保存页面失败:',error)
+            console.error('linkDevice跳转保存页面失败:',error)
           }
         })
       }

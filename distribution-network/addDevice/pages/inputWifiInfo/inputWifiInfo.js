@@ -1387,7 +1387,7 @@ Page({
           },
           fail(error) {
             self.data.clickNetFLag = false
-            console.log('isCanDrivingLinkDeviceAp(ssid) fail:',error)
+            console.error('isCanDrivingLinkDeviceAp(ssid) fail:',error)
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
@@ -1405,7 +1405,7 @@ Page({
             },2000)
           },
           fail(error) {
-            console.log('非isCanDrivingLinkDeviceAp(ssid) fail:',error)
+            console.error('非isCanDrivingLinkDeviceAp(ssid) fail:',error)
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
@@ -1445,6 +1445,7 @@ Page({
             },
             fail(error) {
               self.data.clickNetFLag = false
+              console.error('跳过配网指引 调用navigateTo失败：',error)
               getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
             },
             complete() {
@@ -1561,7 +1562,7 @@ Page({
           },
           fail(error) {
             self.data.clickNetFLag = false
-            console.log('fm != autoFound && !this.ifFindMatchedBlueDevice 调用navigateTo失败：',error)
+            console.error('fm != autoFound && !this.ifFindMatchedBlueDevice 调用navigateTo失败：',error)
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },
           complete() {
@@ -1598,13 +1599,13 @@ Page({
         wx.navigateTo({
           url: paths.addGuide,
           success:(res)=>{
-            console.log('设备已确权，跳转联网进度页 调用navigateTo成功：',res)
+            console.log('一代蓝牙，跳转配网指引页 调用navigateTo成功：',res)
             setTimeout(()=>{
               self.data.clickNetFLag = false
             },2000)
           },
           fail(error) {
-            console.log('设备已确权，跳转联网进度页 调用navigateTo失败：',error)
+            console.error('一代蓝牙，跳转配网指引页 调用navigateTo失败：',error)
             self.data.clickNetFLag = false
             getApp().setMethodFailedCheckingLog('wx.navigateTo()', `下一步跳转异常。error=${JSON.stringify(error)}`)
           },

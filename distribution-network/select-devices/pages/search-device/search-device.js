@@ -680,7 +680,7 @@ Page({
               },
               fail: function (error) {
                 self.data.clickFLag = false
-                console.log("搜索跳转失败mode=WB01_bluetooth_connection--error：",error)
+                console.error("搜索跳转失败mode=WB01_bluetooth_connection--error：",error)
                 wx.redirectTo({
                   url: addGuide,
                 })
@@ -698,7 +698,7 @@ Page({
                 }, 2000)
               },
               fail: function (error) {
-                console.log("搜索跳转页面过多错误处理：error:",error)
+                console.error("搜索跳转页面过多错误处理：error:",error)
                 self.data.clickFLag = false
                 wx.redirectTo({
                   url: addGuide,
@@ -722,7 +722,7 @@ Page({
               },
               fail: function (error) {
                 self.data.clickFLag = false
-                console.log("搜索跳转页面过多错误处理 mode == 0 || mode == 3--error：",error)
+                console.error("搜索跳转页面过多错误处理 mode == 0 || mode == 3--error：",error)
                 wx.redirectTo({
                   url: inputWifiInfo,
                 })
@@ -768,7 +768,7 @@ Page({
                 },
                 fail:(error)=>{
                   self.data.clickFLag = false
-                  console.log('connectType--error:',error)
+                  console.error('connectType--error:',error)
                 }
               })
             } else if (hasWifiNetWorking && !hasCableNetWorking) {
@@ -785,7 +785,7 @@ Page({
                 },
                 fail:(error)=>{
                   self.data.clickFLag = false
-                  console.log('只返回无线--error:',error)
+                  console.error('只返回无线--error:',error)
                 }
               })
             } else if (!hasWifiNetWorking && hasCableNetWorking) {
@@ -802,7 +802,7 @@ Page({
                 },
                 fail:(error)=>{
                   self.data.clickFLag = false
-                  console.log('只返回有线--error:',error)
+                  console.error('只返回有线--error:',error)
                 }
               })
             }
@@ -824,7 +824,7 @@ Page({
                  },
                  fail: function (error) {
                   self.data.clickFLag = false
-                   console.log("搜索cellularType == 0跳转页面过多错误处理--error:",error)
+                   console.error("搜索cellularType == 0跳转页面过多错误处理--error:",error)
                    wx.redirectTo({
                      url: addGuide,
                    })
@@ -1240,7 +1240,7 @@ Page({
             wx.navigateTo({
               url: addGuide,
               fail: function (error) {
-                console.log("跳转页面过多错误处理")
+                console.error("跳转页面过多错误处理----error:",error)
                 wx.redirectTo({
                   url: addGuide,
                 })
@@ -1256,7 +1256,7 @@ Page({
             wx.navigateTo({
               url: addGuide,
               fail: function (error) {
-                console.log("跳转页面过多错误处理")
+                console.error("跳转页面过多错误处理 ---跳addguide :",error)
                 wx.redirectTo({
                   url: addGuide,
                 })
@@ -1273,7 +1273,7 @@ Page({
             wx.navigateTo({
               url: inputWifiInfo,
               fail: function (error) {
-                console.log("跳转页面过多错误处理")
+                console.error("跳转页面过多错误处理--跳inputWifiInfo:",error)
                 wx.redirectTo({
                   url: inputWifiInfo,
                 })
@@ -1339,7 +1339,7 @@ Page({
               wx.navigateTo({
                 url: linkDevice,
                 fail: function (error) {
-                  console.log("选型搜索----跳转页面过多错误处理")
+                  console.error("选型搜索----跳转页面过多错误处理:",error)
                   wx.redirectTo({
                     url: linkDevice,
                   })
@@ -1349,7 +1349,7 @@ Page({
               wx.navigateTo({
                 url: addGuide,
                 fail: function (error) {
-                  console.log("跳转页面过多错误处理")
+                  console.error("跳转页面过多错误处理---cellularType == 0:",error)
                   wx.redirectTo({
                     url: addGuide,
                   })
