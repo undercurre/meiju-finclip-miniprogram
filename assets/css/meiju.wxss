@@ -1057,7 +1057,7 @@ padding-right: 40px;
   color: #666666;
   line-height: 28rpx;
   font-weight: 500;
-  bottom: -10px;
+  bottom: -40px;
 }
 
 #meiju .add-guide-desc {
