@@ -28,7 +28,6 @@ Component({
   methods: {
     //自定义事件
     clickCancel(e) {
-      console.log('handleClick:',handleClick)
       if (!handleClick()) {
         console.log('点击取消按钮11111111')
         return
@@ -41,7 +40,6 @@ Component({
       })
     },
     clickConfirm(e) {
-      console.log('handleClick:',this.data.handleClick)
       if(!this.properties.buttomButonData.isClickConfirm){
       //确定
         this.properties.buttomButonData.success({
