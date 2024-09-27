@@ -682,7 +682,7 @@ Component({
       this.setData({ nextAppointText: need.length ? need[0] : '' })
     },
     // 获取云端下发给电控的预约信息
-    getCloudToDeviceAppoint(){
+    getCloudToDeviceAppoint(appointData){
       requestService
       .request('e2', {
         msg: 'getExecuteOrderList',
@@ -692,13 +692,27 @@ Component({
       })
       .then(({data}) => {
         if(data.retCode == '0'){
-          let { time, isStart } = this.getNextAppointLegal(data.result)
-          this.setData({nextAppointText: time ? `${time}${isStart?'用水':'结束'}` : ''})
+          let { time, isStart, taskId } = this.getNextAppointLegal(data.result)
+          let { haveAppiont, setting } = this.data
+          let desc = ''
+          if(haveAppiont&&taskId){
+            let obj = appointData.find(i=>i.taskId==taskId)
+            if(obj.taskId){
+              let str = obj.startTime>=obj.endTime ? '次日' : ''
+              let btnTextArr1 = setting.appointType=='delayPartAppoint' ? '用水' : '开机'
+              // let btnTextArr2 = `${obj.startTime}-${str}${obj.endTime}`
+              let btnTextArr2 = `${obj.startTime} `
+              desc = `${btnTextArr2} ${btnTextArr1}`
+            }
+          }
+          this.setData({nextAppointText: desc})
+          // this.setData({nextAppointText: time ? `${time}${isStart?'用水':'结束'}` : ''})
         }
       })
     },
     // 获取下次预约数据-法定节假日预约使用
     getNextAppointLegal(result){
+      let taskId = ''
       let time = ''
       let isStart = ''
       if(result.length){
@@ -717,12 +731,13 @@ Component({
             temp: i.Temp,
             isRepeat: i.IsRepeat,
             IsCrossDay: i.IsCrossDay || 0,
-            id: index // 通过添加ID，为后面筛选唯一识别
+            taskId: i.Id || '' // 通过添加ID，为后面筛选唯一识别 
           }
         })
         let isBefore = list.every(i => now_time < i.start)
         let isAfter = list.every(i => now_time >= i.end)
         if(isBefore){ // 当前时间在所有预约总时间跨度的 前面
+          taskId = list[0].taskId
           time = list[0].start
           isStart = 1
         }else if(isAfter){ // 当前时间在所有预约总时间跨度的 后面
@@ -730,6 +745,7 @@ Component({
         }else{ // 当前时间在所有预约总时间跨度的 里面
           let cur_list = list.filter(i=>(now_time>=i.start&&now_time<i.end))
           if(cur_list.length){ // 当前时间在其中一条或多条预约区间里面
+            taskId = cur_list[0].taskId
             let first = cur_list[0]
             // time = first.end
             time = first.IsCrossDay&&first.end=='23:59' ? '' : first.end // 云端返回跨天时则不显示
@@ -743,12 +759,13 @@ Component({
             // }
           }else{ // 当前时间不在任何一条预约区间里面
             let future = list.filter(i => now_time < i.start)
+            taskId = future[0].taskId
             time = future[0].start
             isStart = 1
           }
         }
       }
-      return { time, isStart }
+      return { time, isStart, taskId }
     },
 
     // 将星期字符串转换为中文周期
@@ -909,9 +926,10 @@ Component({
             appointOnTimeList: this.getAppointOnTimeList(appointData),
           }) // 获取预约开启的数据
           if(this.data.setting.appointHoliday){
-            this.getCloudToDeviceAppoint()
+            this.getCloudToDeviceAppoint(result)
           }else{
-            this.getNextAppoint()
+            // this.getNextAppoint()
+            this.getCloudToDeviceAppoint(result)
           }
         })
         .catch(() => wx.showToast({ title: '查询预约数据失败', icon: 'none' }))
@@ -1245,9 +1263,12 @@ Component({
     },
 
     // 开关机切换
-    powerToggle() {
+    powerToggle(is) {
       if (this.data.deviceStatus > 5) return
       let power = this.data.status.power == 'on' ? 'off' : 'on'
+      if(is){
+        power = (is=='on'||is=='off') ? is : power
+      }
       this.setData({ changing: true })
       this.luaControl({
         power: power,
