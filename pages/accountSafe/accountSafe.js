@@ -1,14 +1,12 @@
 const app = getApp() //获取应用实例
-import { requestService, uploadFileTask } from '../../utils/requestService'
-import { debounce } from '../../utils/util'
+import { requestService } from '../../utils/requestService'
+import { preventDoubleClick } from '../../utils/util'
 import config from '../../config.js' //环境及域名基地址配置
 import { showToast } from 'm-miniCommonSDK/index'
-// import loginMethods from '../../globalCommon/js/loginRegister.js'
-import { webView } from '../../utils/paths'
-let changePhone = null
-let cancelAccount = null
+// import loginMethods from '../../globalCommon/js/loginRegister.js
 
 Page({
+  handleClick: preventDoubleClick(),
   /**
    * 页面的初始数据
    */
@@ -20,10 +18,9 @@ Page({
   },
   //   注销账号
   cancelAccount() {
-    if (!cancelAccount) {
-      cancelAccount = debounce(this.getJwtToken, 300, 300)
+    if (this.handleClick()) {
+      this.getJwtToken()
     }
-    cancelAccount()
   },
   getJwtToken() {
     const wxAccessToken = app.globalData.wxAccessToken
@@ -46,18 +43,11 @@ Page({
       })
   },
   changeMobile() {
-    if (!changePhone) {
-      changePhone = debounce(
-        () => {
-          wx.navigateTo({
-            url: '../bindPhone/bindPhone',
-          })
-        },
-        300,
-        300
-      )
+    if (this.handleClick()) {
+      wx.navigateTo({
+        url: '../bindPhone/bindPhone',
+      })
     }
-    changePhone()
   },
   getVipUserInfo() {
     let data = {

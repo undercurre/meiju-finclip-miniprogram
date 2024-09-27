@@ -15,19 +15,19 @@ const addDevice = '/assets/img/index/add_device.png'
 const addScan = '/assets/img/index/add_scan.png'
 const manageImg = '/assets/img/index/ic_guanli.png'
 import Toast from 'm-ui/mx-toast/toast'
-import { homeManage, homeDetail } from '../../../../utils/paths.js'
+import { homeManage } from '../../../../utils/paths.js'
 const app = getApp()
 Component({
-  behaviors: [],
-
   // 属性定义（详情参见下文）
   properties: {
     homeList: {
       type: Array,
       observer: function (val) {
-        const homePickerHeight =
-          val.length > 5 ? '465rpx' : val.length == 5 ? val.length * 86 + 40 + 'rpx' : val.length * 86 + 80 + 'rpx' // 家庭管理弹窗高度
-        this.data.homePickerHeight = homePickerHeight
+        const homePickerHeight = val.length > 5 ? '465' : val.length == 5 ? val.length * 86 + 40 : val.length * 86 + 80 // 家庭管理弹窗高度
+        this.setData({
+          homePickerHeight,
+        })
+        //this.data.homePickerHeight = homePickerHeight
         // this.loopHomeGrounpListForRedDot(val)
       },
     },
@@ -131,10 +131,12 @@ Component({
         let showAddList = !this.data.showAddList
         if (showAddList) {
           clickBtnMoreBurialPoint()
-          addPickerAnimation.height(addHeight).width(addWidth).opacity(1).step()
+          //addPickerAnimation.height(addHeight).width(addWidth).opacity(1).step()
+          addPickerAnimation.opacity(1).step()
         } else {
           showAddList = false
-          addPickerAnimation.height(0).width(0).opacity(0).step()
+          //addPickerAnimati0).opacity(0).step()
+          addPickerAnimation.opacity(0).step()
         }
         const addPickerAnimationData = addPickerAnimation.export() // 家庭管理动画
         this.setData({
@@ -187,24 +189,27 @@ Component({
       const homeList = this.data.homeList
       if (homeList.length > 0) {
         let showHomeList = !this.data.showHomeList
-        const homePickerAnimation = this.data.homePickerAnimation
+        //const homePickerAnimation = this.data.homePickerAnimation
         const iconTriangleAnimation = this.data.iconTriangleAnimation
-        const height = this.data.homePickerHeight
+        //const height = this.data.homePickerHeight
         if (showHomeList && homeManageShow) {
-          homePickerAnimation.height(height).width('432rpx').opacity(1).step()
+          //homePickerAnimation.height(height).width('432rpx').opacity(1).step()
+          //homePickerAnimation.scale(1, 1).opacity(1).step()
           iconTriangleAnimation.rotate(180).step()
           //埋点
           clickManageFamily({ familyId: app?.globalData?.applianceHomeData?.homegroupId })
           //this.clickDropdownFamily()
         } else {
           showHomeList = false
-          homePickerAnimation.height(0).width(0).opacity(0).step()
+          //homePickerAnimation.height(0).width(0).opacity(0).step()
+          //homePickerAnimation.scale(0, 0).opacity(0).step()
+
           iconTriangleAnimation.rotate(360).step()
         }
-        const homePickerAnimationData = homePickerAnimation.export() // 家庭管理动画
+        //const homePickerAnimationData = homePickerAnimation.export() // 家庭管理动画
         const iconTriangleAnimationData = iconTriangleAnimation.export() // 家庭管理三角动画
         this.setData({
-          homePickerAnimationData,
+          // homePickerAnimationData,
           iconTriangleAnimationData,
           showHomeList,
         })
@@ -220,12 +225,15 @@ Component({
     // 初始化家庭管理动画
     createAnimationData() {
       const homePickerAnimation = wx.createAnimation({
-        duration: 200,
-        timingFunction: 'ease',
+        duration: 400,
+        delay: 500,
+        timingFunction: 'ease-in-out',
       })
       const addPickerAnimation = wx.createAnimation({
-        duration: 200,
-        timingFunction: 'ease',
+        duration: 400,
+        delay: 500,
+        timingFunction: 'ease-in-out',
+        transformOrigin: 'top left',
       })
       const iconTriangleAnimation = wx.createAnimation({
         duration: 200,

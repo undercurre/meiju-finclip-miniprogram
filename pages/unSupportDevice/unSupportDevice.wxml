@@ -1,10 +1,12 @@
 <!--pages/unSupportDevice/unSupportDevice.wxml-->
 <view class="page" style="padding-top:{{statusBarHeight+40}}px">
-  <plugin-navbar backTo="{{backTo}}" navBarName="{{deviceInfo.name}}" bind:clickBack="clickBack"></plugin-navbar>
+  <!-- <plugin-navbar backTo="{{backTo}}" navBarName="{{deviceInfo.name}}" bind:clickBack="clickBack"></plugin-navbar> -->
   <view class="content">
     <view class="unSupport flex-cc">
       <image class="unSupport-icon" src="{{images.unSupport}}"></image>
-      <view wx:if="{{fm=='inputWifi'}}" class="unSupport-desc">该设备暂不支持在HarmonyOS NEXT系统控制，功能正在迭代升级中，敬请期待</view>
+      <view wx:if="{{fm=='inputWifi'}}" class="unSupport-desc"
+        >该设备暂不支持在HarmonyOS NEXT系统控制，功能正在迭代升级中，敬请期待</view
+      >
       <view wx:else class="unSupport-desc">该设备暂不支持在HarmonyOS NEXT系统控制，功能正在迭代升级中，敬请期待</view>
       <view wx:if="{{fm=='inputWifi' || isCanTryLink}}" class="wifiControl" bindtap="backToWifiInput"
         >尝试网络远程控制</view

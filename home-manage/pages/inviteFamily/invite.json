@@ -1,5 +1,6 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#f9f9f9",
   "usingComponents": {
     "mx-nav-bar": "m-ui/mx-nav-bar/index",
     "mx-cell": "m-ui/mx-cell/index",

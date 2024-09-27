@@ -51,21 +51,19 @@
 
 .home-picker-wrap {
   position: absolute;
-  top: 76rpx;
-  left: 32rpx;
+  top: 92rpx;
+  left: 22rpx;
   z-index: 99999;
 }
 
 .home-picker {
   position: relative;
-  top: 16rpx;
-  left: -10rpx;
   bottom: 0rpx;
   /* right: 0rpx; */
   z-index: 100;
-  width: 0;
-  height: 0;
-  opacity: 0;
+  width: 432rpx;
+  max-height: var(--homePickerHeight +'rpx');
+  /* opacity: 0; */
   /* width: 392rpx; */
   max-height: 612rpx;
   border-radius: 16rpx;
@@ -249,20 +247,22 @@ button[class='inviteButton']::after {
 
 .add_list_wrap {
   position: absolute;
-  top: 70rpx;
-  right: 32rpx;
+  top: 86rpx;
+  right: 22rpx;
   z-index: 999999;
+  width: 238rpx;
+  height: 153rpx
 }
 
 .add-list-pick {
   position: relative;
-  top: 16rpx;
-  bottom: 0rpx;
-  right: -10rpx;
+  /* top: 16rpx; */
+  /* bottom: 0rpx; */
+  /* right: -10rpx; */
   z-index: 100;
-  width: 0;
-  height: 0;
-  opacity: 0;
+  width: 238rpx;
+  height: 153rpx;
+  /* opacity: 0; */
   max-height: 612rpx;
   border-radius: 16rpx;
   box-shadow: 0 8px 16px 0 rgba(202, 213, 230, 0.20);

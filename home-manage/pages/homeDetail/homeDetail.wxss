@@ -1,6 +1,6 @@
 /* home-manage/pages/homeDetail/homeDetail.wxss */
 page {
-  background-color: #f9f9f9;
+  background: radial-gradient(circle farthest-corner at center center, 10%, #267AFF 0.2, transparent 40px);
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
   --iphonex-fix-bottom: env(safe-area-inset-bottom);

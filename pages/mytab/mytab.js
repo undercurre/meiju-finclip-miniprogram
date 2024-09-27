@@ -3,7 +3,7 @@ const app = getApp() //获取应用实例
 const service = require('./assets/js/service')
 const imgBaseUrlMixins = require('../common/mixins/base-img-mixins.js')
 import { getReqId, getStamp, hasKey } from 'm-utilsdk/index'
-import { getFullPageUrl, debounce, showToast } from '../../utils/util'
+import { getFullPageUrl, preventDoubleClick, showToast } from '../../utils/util'
 import { requestService } from '../../utils/requestService'
 import { logonStatusApi, baseImgApi, imgBaseUrl } from '../../api'
 import { clickEventTracking } from '../../track/track.js'
@@ -22,18 +22,6 @@ const headerImg = '/assets/img/about/header.png'
 const aboutImg = '/assets/img/about/about.png'
 const privacyImg = '/assets/img/about/privacy.png'
 const settinfImg = '/assets/img/about/setting.png'
-const phoneList = [
-  '15298380419',
-  '13724277075',
-  '13790028623',
-  '13724881864',
-  '17017510821',
-  '19129572834',
-  '13127506861',
-  '18682060259',
-  '13510421123',
-]
-
 // 我的页面列表默认数据
 let defaultPageListData = [
   {
@@ -60,10 +48,8 @@ let defaultPageListData = [
     openType: '',
   },
 ]
-let jumpSettingDebounce = null
-let jumpAboutDebounce = null
-let jumpSafeDebounce = null
 Page({
+  handleClick: preventDoubleClick(),
   behaviors: [service, imgBaseUrlMixins, computedBehavior],
   onShow() {
     myPageViewBurialPoint()
@@ -183,55 +169,36 @@ Page({
 
   //点击跳转设置页面
   goToSettingPage() {
-    if (!jumpSettingDebounce) {
-      jumpSettingDebounce = debounce(
-        () => {
-          //埋点
-          clickSeetingMenuSettingBurialPoint()
-          wx.navigateTo({
-            url: '/sub-package/mytab/pages/about/about',
-          })
-        },
-        300,
-        300
-      )
+    if (this.handleClick()) {
+      //埋点
+      clickSeetingMenuSettingBurialPoint()
+      wx.navigateTo({
+        url: '/sub-package/mytab/pages/about/about',
+      })
     }
-    jumpSettingDebounce()
   },
   /**
    * 跳转到隐私协议页面
    */
   gotoPrivcayPage() {
-    if (!jumpSafeDebounce) {
-      jumpSafeDebounce = debounce(
-        () => {
-          clickSeetingMenuPrivcyBurialPoint()
-          wx.navigateTo({
-            url: '/pages/privacyAndSafa/privacyAndSafa',
-          })
-        },
-        300,
-        300
-      )
+    if (this.handleClick()) {
+      //埋点
+      clickSeetingMenuPrivcyBurialPoint()
+      wx.navigateTo({
+        url: '/pages/privacyAndSafa/privacyAndSafa',
+      })
     }
-    jumpSafeDebounce()
   },
   //点击跳转关于页面
   gotoAoutPage() {
-    if (!jumpAboutDebounce) {
-      jumpAboutDebounce = debounce(
-        () => {
-          //埋点
-          clickSeetingMenuAboutBurialPoint()
-          wx.navigateTo({
-            url: '/pages/aboutApp/aboutApp',
-          })
-        },
-        300,
-        300
-      )
+    if (this.handleClick()) {
+      console.log('jinlai----')
+      //埋点
+      clickSeetingMenuAboutBurialPoint()
+      wx.navigateTo({
+        url: '/pages/aboutApp/aboutApp',
+      })
     }
-    jumpAboutDebounce()
   },
 
   getVipUserInfo: function () {
