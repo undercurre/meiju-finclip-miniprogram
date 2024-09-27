@@ -408,6 +408,9 @@ export const burialPoint = {
       widget_id: params.pageStatus == 'show' ? 'reception' : 'background',
       device_info: {
         device_session_id: params.deviceSessionId, //一次配网事件标识
+        sn8:params.sn8,
+        widget_cate:params.type,
+        link_type:params.linkType || 'bluetooth',
       },
     })
     console.log('输入家庭WiFi密码页 show and hide')

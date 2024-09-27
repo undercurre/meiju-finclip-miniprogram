@@ -31,7 +31,7 @@
         wx:for-item="failUiDataItem"
         wx:for-index="failUiDataindex"
       >
-        <view class="{{failUiData.guideDesc.length>1?'link-fail-r':'link-fail-c'}}">
+        <view class="{{failUiData.guideDesc.length>1?'link-fail-r':(tools.isNeedWifiConfirmInput(failUiDataItem)?'link-fail-c-has-psw':'link-fail-c')}}">
           <view wx:if="{{failUiData.guideDesc.length>1}}" class="num-fail">{{failUiDataindex+1}}</view>
            <view class="{{brand!='meiju'?'link-fail-text theme-font-color':'text theme-font-color'}}">
             {{tools.formatGuideDesc(failUiDataItem,deviceName)}}

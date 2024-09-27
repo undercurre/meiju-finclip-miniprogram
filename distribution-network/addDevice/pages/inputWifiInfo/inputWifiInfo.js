@@ -446,7 +446,7 @@ Page({
       frequency: res.frequency,
       rssi: res.signalStrength,
       deviceSessionId: app.globalData.deviceSessionId,
-      moduleType: app.globalData.moduleType,
+      moduleType: app.addDeviceInfo.moduleType,
       type: app.addDeviceInfo.type,
       sn8: app.addDeviceInfo.sn8,
       moduleVison: app.addDeviceInfo.blueVersion,
@@ -820,10 +820,10 @@ Page({
           frequency: res.frequency,
           rssi: res.signalStrength,
           deviceSessionId: app.globalData.deviceSessionId,
-          moduleType: app.globalData.moduleType,
-          type: app.globalData.type,
-          sn8: app.globalData.sn8,
-          moduleVison: app.globalData.blueVersion,
+          moduleType: app.addDeviceInfo.moduleType,
+          type: aapp.addDeviceInfo.type,
+          sn8: app.addDeviceInfo.sn8,
+          moduleVison: app.addDeviceInfo.blueVersion,
           linkType: app.addDeviceInfo.linkType,
         })
       })
@@ -2158,6 +2158,9 @@ Page({
       burialPoint.editWifiPageStatus({
         pageStatus: 'show',
         deviceSessionId: app.globalData.deviceSessionId,
+        type: app.addDeviceInfo.type,
+        sn8: app.addDeviceInfo.sn8,
+        linkType: app.addDeviceInfo.linkType
       })
     }
 
@@ -2194,6 +2197,9 @@ Page({
       burialPoint.editWifiPageStatus({
         pageStatus: 'hide',
         deviceSessionId: app.globalData.deviceSessionId,
+        type: app.addDeviceInfo.type,
+        sn8: app.addDeviceInfo.sn8,
+        linkType: app.addDeviceInfo.linkType
       })
     }
 
