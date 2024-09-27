@@ -8,7 +8,7 @@ import {
 
 // let numClick = 0;
 let selectedDays = [];
-let today = new Date().getDay();
+// let today = new Date().getDay(); // new Date() 不能写在外面
 const getModeBuryParams = function (mode, lastObj, changeObj) {
   let newObj = {
     ...lastObj,
@@ -83,6 +83,7 @@ Page({
   },
 
   onLoad({ data }) {
+    let today = new Date().getDay();
     // 更新： channel 接收card.js 的 4秒轮询的设备状态
     this.pageEventChannel = this.getOpenerEventChannel()
     // 
@@ -187,7 +188,7 @@ Page({
     });
   },
   openTempPicker() {
-    this.setData({ isShowTemPicker: true, "multiIndex[0]": this.data.tempIndex });
+    this.setData({ isShowTemPicker: true, "multiIndex[0]": this.data.tempIndex});
   },
 
   openStartTimePicker() {
@@ -266,6 +267,7 @@ Page({
   },
 
   onLoopItemClick({ detail: index }) {
+    let today = new Date().getDay();
     console.log({ index });
     if (index == 0) {
       // 单次
@@ -291,6 +293,7 @@ Page({
   },
 
   onWeekdayItemClick({ detail: weekdaySelectList }) {
+    let today = new Date().getDay();
     console.log({ weekdaySelectList });
     this.setData({ "task.week": weekdaySelectList.join(",") });
     if (this.data.task.week == undefined || this.data.task.week == "") {
@@ -381,6 +384,7 @@ Page({
 
   // 保存
   saveAppoint() {
+    let today = new Date().getDay();
     const { setting, hasAppointOn, task, action } = this.data;
     const { applianceCode, sn8 } = this.data.applianceData;
 
