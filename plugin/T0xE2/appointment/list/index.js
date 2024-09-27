@@ -89,11 +89,10 @@ Page({
     })
     // end 添加字节埋点：进入插件页
     // 首次进入时需要主动查询（只有有云管家功能才查询）
-    this.data.setting.cardList.map((item) => {
-      if (item == 'cloudHome4') {
-        this.getCloudSwitch()
-      }
-    })
+    let { setting } = this.data
+    if(setting.funcList.some(i=>i.key=='cloudHome4')||setting.cardList.includes('cloudHome4')){
+      this.getCloudSwitch()
+    }
   },
 
   beforeChange({
