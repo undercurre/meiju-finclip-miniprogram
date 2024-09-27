@@ -821,7 +821,7 @@ Page({
           rssi: res.signalStrength,
           deviceSessionId: app.globalData.deviceSessionId,
           moduleType: app.addDeviceInfo.moduleType,
-          type: aapp.addDeviceInfo.type,
+          type: app.addDeviceInfo.type,
           sn8: app.addDeviceInfo.sn8,
           moduleVison: app.addDeviceInfo.blueVersion,
           linkType: app.addDeviceInfo.linkType,
