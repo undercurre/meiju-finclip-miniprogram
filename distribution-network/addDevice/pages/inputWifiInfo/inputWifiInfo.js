@@ -26,11 +26,13 @@ import { imgesList } from '../../../assets/js/shareImg.js'
 import { commonDialog } from '../../../assets/js/commonDialog'
 import { getPluginUrl } from '../../../../utils/getPluginUrl'
 const backUpApUtil = require('../../../assets/asyncSubpackages/apUtils.js')
+import {preventDoubleClick } from '../../../../utils/util.js'
 const imgUrl = imgBaseUrl.url + '/shareImg/' + app.globalData.brand
 let interval = null
 let showImgTime = null
 const systemInfo = wx.getSystemInfoSync()
 Page({
+  handleClick: preventDoubleClick(2000),
   behaviors: [
     addDeviceMixin,
     netWordMixin,
@@ -1241,6 +1243,10 @@ Page({
   },
   //下一步
   async configNetWork() {
+    if (!this.handleClick()) {
+      console.log('wifi登记页重复点击11111111')
+      return
+    }
     let self = this
     if (this.data.clickNetFLag) {
       return
@@ -1384,9 +1390,7 @@ Page({
           url: paths.linkAp, //手动连接ap页
           success:(res)=>{
             console.log('isCanDrivingLinkDeviceAp(ssid) success:',res)
-            setTimeout(()=>{
-              self.data.clickNetFLag = false
-            },2000)
+            self.data.clickNetFLag = false
           },
           fail(error) {
             self.data.clickNetFLag = false
@@ -1403,9 +1407,7 @@ Page({
           url: paths.linkAp, //手动连接ap页
           success:(res)=>{
             console.log('非isCanDrivingLinkDeviceAp(ssid) success:',res)
-            setTimeout(()=>{
-              self.data.clickNetFLag = false
-            },2000)
+            self.data.clickNetFLag = false
           },
           fail(error) {
             console.error('非isCanDrivingLinkDeviceAp(ssid) fail:',error)
@@ -1442,9 +1444,7 @@ Page({
             url: paths.linkAp,
             success:(res)=>{
               console.log('跳过配网指引 调用navigateTo成功：',res)
-              setTimeout(()=>{
-                self.data.clickNetFLag = false
-              },2000)
+              self.data.clickNetFLag = false
             },
             fail(error) {
               self.data.clickNetFLag = false
@@ -1493,9 +1493,7 @@ Page({
         url: paths.linkDevice,
         success:(res)=>{
           console.log('蓝牙直连 调用navigateTo成功：',res)
-          setTimeout(()=>{
-            self.data.clickNetFLag = false
-          },2000)
+          self.data.clickNetFLag = false
         },
         fail(error) {
           self.data.clickNetFLag = false
@@ -1515,9 +1513,7 @@ Page({
         url: paths.linkDevice,
         success:(res)=>{
           console.log('masmart做了直连 去配网 调用navigateTo成功：',res)
-          setTimeout(()=>{
-            self.data.clickNetFLag = false
-          },2000)
+          self.data.clickNetFLag = false
         },
         fail(error) {
           console.error('masmart做了直连 去配网 调用navigateTo失败：',error)
@@ -1536,9 +1532,7 @@ Page({
         url: paths.linkDevice,
         success:(res)=>{
           console.log('mode == 5 && fm == autoFound && blueVersion != 1 || (mode == 3 && fm == bluePugin 调用navigateTo成功：',res)
-          setTimeout(()=>{
-            self.data.clickNetFLag = false
-          },2000)
+          self.data.clickNetFLag = false
         },
         fail(error) {
           console.error('mode == 5 && fm == autoFound && blueVersion != 1 || (mode == 3 && fm == bluePugin 调用navigateTo失败：',error)
@@ -1559,9 +1553,7 @@ Page({
           url: paths.addGuide,
           success:(res)=>{
             console.log('fm != autoFound && !this.ifFindMatchedBlueDevice 调用navigateTo成功：',res)
-            setTimeout(()=>{
-              self.data.clickNetFLag = false
-            },2000)
+            self.data.clickNetFLag = false
           },
           fail(error) {
             self.data.clickNetFLag = false
@@ -1581,9 +1573,7 @@ Page({
           url: paths.linkDevice,
           success:(res)=>{
             console.log('设备已确权，跳转联网进度页 调用navigateTo成功：',res)
-            setTimeout(()=>{
-              self.data.clickNetFLag = false
-            },2000)
+            self.data.clickNetFLag = false
           },
           fail(error) {
             self.data.clickNetFLag = false
@@ -1603,9 +1593,7 @@ Page({
           url: paths.addGuide,
           success:(res)=>{
             console.log('一代蓝牙，跳转配网指引页 调用navigateTo成功：',res)
-            setTimeout(()=>{
-              self.data.clickNetFLag = false
-            },2000)
+            self.data.clickNetFLag = false
           },
           fail(error) {
             console.error('一代蓝牙，跳转配网指引页 调用navigateTo失败：',error)
@@ -1625,9 +1613,7 @@ Page({
           url: paths.linkDevice,
           success:(res)=>{
             console.log('靠近确权成功，跳转联网进度页 调用navigateTo成功：',res)
-            setTimeout(()=>{
-              self.data.clickNetFLag = false
-            },2000)
+            self.data.clickNetFLag = false
           },
           fail(error) {
             console.error('靠近确权成功，跳转联网进度页 调用navigateTo失败：',error)
@@ -1647,9 +1633,7 @@ Page({
           url: paths.addGuide,
           success:(res)=>{
             console.log('靠近确权失败，跳转靠近确权 调用navigateTo成功：',res)
-            setTimeout(()=>{
-              self.data.clickNetFLag = false
-            },2000)
+            self.data.clickNetFLag = false
           },
           fail(error) {
             console.error('靠近确权失败，跳转靠近确权 调用navigateTo失败：',error)
@@ -1668,9 +1652,7 @@ Page({
       url: paths.addGuide,
       success:(res)=>{
         console.log('其他1111111 调用navigateTo成功：',res)
-        setTimeout(()=>{
-          self.data.clickNetFLag = false
-        },2000)
+        self.data.clickNetFLag = false
       },
       fail(error) {
         console.error('其他1111111 调用navigateTo失败:',error)

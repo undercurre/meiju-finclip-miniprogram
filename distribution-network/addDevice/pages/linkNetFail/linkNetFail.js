@@ -410,9 +410,8 @@ Page({
                     url: paths.scanDevice,
                     success:(res)=>{
                       console.log('ap自发现配网失败点击重试跳设备发现页 调用wx.reLaunch成功：',res)
-                      setTimeout(()=>{
-                        self.drawBtnClickFlag = false
-                      },2000)
+                      self.drawBtnClickFlag = false
+
                     },
                     fail:(error)=>{
                       self.drawBtnClickFlag = false
@@ -442,9 +441,8 @@ Page({
                     url:url,
                     success:(res)=>{
                       console.log('mode == 20 调用wx.reLaunch 成功：',res)
-                      setTimeout(()=>{
-                        self.drawBtnClickFlag = false
-                      },2000)
+                      self.drawBtnClickFlag = false
+
                     },
                     fail:(error)=>{
                       self.drawBtnClickFlag = false

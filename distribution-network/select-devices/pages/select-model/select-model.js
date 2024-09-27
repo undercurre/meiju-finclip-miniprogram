@@ -2,7 +2,7 @@ const requestService = getApp().getGlobalConfig().requestService
 const rangersBurialPoint = getApp().getGlobalConfig().rangersBurialPoint
 const imgBaseUrl = getApp().getGlobalConfig().imgBaseUrl
 import { getStamp, getReqId } from 'm-utilsdk/index'
-import { checkWxVersion_807 } from '../../../../utils/util.js'
+import { checkWxVersion_807,preventDoubleClick } from '../../../../utils/util.js'
 import { getFullPageUrl, showToast, computedBehavior } from 'm-miniCommonSDK/index'
 import { addGuide, inputWifiInfo, searchDevice,scanDevice,linkDevice } from '../../../../utils/paths'
 import { isSupportPlugin } from '../../../../utils/pluginFilter'
@@ -24,6 +24,7 @@ const getBatchAuthListMixin = app.globalData.brand == 'colmo' ? require('../../.
 const superGatewayMixin = app.globalData.brand == 'colmo' ? require('../../../assets/js/superGatewayMixin.js') : Behavior({})
 const bluetooth = require('../../../../pages/common/mixins/bluetooth.js')
 Page({
+  handleClick: preventDoubleClick(2000),
   behaviors: [computedBehavior, getFamilyPermissionMixin, getBatchAuthListMixin, superGatewayMixin,bluetooth],
   /**
    * 页面的初始数据
@@ -321,6 +322,11 @@ Page({
   },
   //产品点击
   async prodClicked(e) {
+    if (!this.handleClick()) {
+      console.log('重复点击11111111')
+      return
+    }
+    console.error('重复点击通过防重')
     getApp().setActionCheckingLog('prodClicked', '选择型号页点击了对应产品')
     let self = this
     let { clickFLag } = this.data
@@ -506,14 +512,10 @@ Page({
           if (addDeviceSDK.isCanWb01BindBLeAfterWifi(category, code)) {
             app.addDeviceInfo = addDeviceInfo
             app.addDeviceInfo.mode = 'WB01_bluetooth_connection'
-            // self.data.clickFLag = false
+            self.data.clickFLag = false
             wx.navigateTo({
               url: addGuide,
-              success:()=>{
-                setTimeout(() => {
-                  self.data.clickFLag = false
-                }, 2000)
-              },
+              success:()=>{},
               fail:(error)=>{
                 self.data.clickFLag = false
                 console.error('选型跳转失败mode=WB01_bluetooth_connection--error:',error)
@@ -527,9 +529,8 @@ Page({
             wx.navigateTo({
               url: addGuide,
               success:()=>{
-                setTimeout(() => {
-                  self.data.clickFLag = false
-                }, 2000)
+                self.data.clickFLag = false
+
               },
               fail:(error)=>{
                 self.data.clickFLag = false
@@ -543,9 +544,7 @@ Page({
             wx.navigateTo({
               url: inputWifiInfo,
               success:()=>{
-                setTimeout(() => {
-                  self.data.clickFLag = false
-                }, 2000)
+                self.data.clickFLag = false
               },
               fail:(error)=>{
                 self.data.clickFLag = false
@@ -585,9 +584,7 @@ Page({
              wx.navigateTo({
                url: addGuide,
                success:()=>{
-                setTimeout(() => {
-                  self.data.clickFLag = false
-                }, 2000)
+                self.data.clickFLag = false
                },
                fail: function (error) {
                 self.data.clickFLag = false
