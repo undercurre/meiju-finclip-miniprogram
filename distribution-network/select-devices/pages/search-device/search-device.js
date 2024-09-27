@@ -3,7 +3,7 @@ const rangersBurialPoint = getApp().getGlobalConfig().rangersBurialPoint
 const imgBaseUrl = getApp().getGlobalConfig().imgBaseUrl
 import { mideaServiceImgApi } from '../../../../api'
 import { getStamp, getReqId } from 'm-utilsdk/index'
-import { checkWxVersion_807 } from '../../../../utils/util.js'
+import { checkWxVersion_807,preventDoubleClick } from '../../../../utils/util.js'
 import { getFullPageUrl, showToast, computedBehavior } from 'm-miniCommonSDK/index'
 import { addGuide, inputWifiInfo,connectType,scanDevice,linkDevice } from '../../../../utils/paths'
 import { isSupportPlugin } from '../../../../utils/pluginFilter'
@@ -39,6 +39,7 @@ const fontColor = {
 const superGatewayMixin = app.globalData.brand == 'colmo' ? require('../../../assets/js/superGatewayMixin.js') : Behavior({})
 const getBatchAuthListMixin = app.globalData.brand == 'colmo' ? require('../../../../components/home/my-home-appliances/behavior') : Behavior({})
 Page({
+  handleClick: preventDoubleClick(2000),
   behaviors: [computedBehavior, getFamilyPermissionMixin, superGatewayMixin, getBatchAuthListMixin,bluetooth],
   /**
    * 页面的初始数据
@@ -485,6 +486,10 @@ Page({
   },
   //产品点击
   async prodClicked(e) {
+    if (!this.handleClick()) {
+      console.log('搜索设备重复点击11111111')
+      return
+    }
     getApp().setActionCheckingLog('prodClicked', '选择型号页点击了对应产品')
     let self = this
     let { clickFLag } = this.data
@@ -674,9 +679,7 @@ Page({
             wx.navigateTo({
               url: addGuide,
               success:()=>{
-                setTimeout(() => {
-                  self.data.clickFLag = false
-                }, 2000)
+                self.data.clickFLag = false
               },
               fail: function (error) {
                 self.data.clickFLag = false
@@ -693,9 +696,7 @@ Page({
             wx.navigateTo({
               url: addGuide,
               success:()=>{
-                setTimeout(() => {
-                  self.data.clickFLag = false
-                }, 2000)
+                self.data.clickFLag = false
               },
               fail: function (error) {
                 console.error("搜索跳转页面过多错误处理：error:",error)
@@ -716,9 +717,7 @@ Page({
             wx.navigateTo({
               url: inputWifiInfo,
               success:()=>{
-                setTimeout(() => {
-                  self.data.clickFLag = false
-                }, 2000)
+                self.data.clickFLag = false
               },
               fail: function (error) {
                 self.data.clickFLag = false
@@ -762,9 +761,7 @@ Page({
               wx.navigateTo({
                 url: connectType,
                 success:()=>{
-                  setTimeout(()=>{
-                    self.data.clickFLag = false
-                  },2000)
+                  self.data.clickFLag = false
                 },
                 fail:(error)=>{
                   self.data.clickFLag = false
@@ -775,13 +772,11 @@ Page({
               // 只返回无线
               app.addDeviceInfo = addDeviceInfo
               console.log(app.addDeviceInfo)
-              // self.data.clickFLag = false
+              self.data.clickFLag = false
               wx.navigateTo({
                 url: inputWifiInfo,
                 success:()=>{
-                  setTimeout(()=>{
-                    self.data.clickFLag = false
-                  },2000)
+
                 },
                 fail:(error)=>{
                   self.data.clickFLag = false
@@ -792,13 +787,11 @@ Page({
               // 只返回有线
               console.log('跳addguide')
               app.addDeviceInfo = addDeviceInfo
-              // self.data.clickFLag = false
+              self.data.clickFLag = false
               wx.navigateTo({
                 url: addGuide,
                 success:()=>{
-                  setTimeout(()=>{
-                    self.data.clickFLag = false
-                  },2000)
+
                 },
                 fail:(error)=>{
                   self.data.clickFLag = false
@@ -818,9 +811,7 @@ Page({
                wx.navigateTo({
                  url: addGuide,
                  success:()=>{
-                  setTimeout(() => {
-                    self.data.clickFLag = false
-                  }, 2000)
+                  self.data.clickFLag = false
                  },
                  fail: function (error) {
                   self.data.clickFLag = false

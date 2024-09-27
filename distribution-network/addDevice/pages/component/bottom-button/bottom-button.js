@@ -1,4 +1,6 @@
 // author:lisin date:2021/10/19
+import { preventDoubleClick } from '../../../../../utils/util.js'
+let handleClick = preventDoubleClick(2000)
 Component({
   externalClasses: ['bottom-button2', 'confirm', 'cancle'],
   properties: {
@@ -21,11 +23,15 @@ Component({
   },
   data: {
     // 这里是一些组件内部数据
-    isClickConfirm:false
+    isClickConfirm:false,
   },
   methods: {
     //自定义事件
     clickCancel(e) {
+      if (!handleClick()) {
+        console.log('点击取消按钮11111111')
+        return
+      }
       //取消
       console.log('kkkkkk', e.target.dataset.tap, this.properties.buttomButonData)
       this.triggerEvent('clickActiveCancel', '')
