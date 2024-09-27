@@ -179,12 +179,6 @@ Page({
     // temPicker.setIndexes([this.data.tempIndex]);
   },
 
-  onShow() {
-    console.log('old date', today)
-    today = new Date().getDay();
-    console.log('new date', today)
-  },
-
   initSelections() {
     const { tem,tempIndex } = this.data;
     const selections = tem;
@@ -195,7 +189,7 @@ Page({
     });
   },
   openTempPicker() {
-    this.setData({ isShowTemPicker: true, "multiIndex[0]": this.data.tempIndex});
+    this.setData({ isShowTemPicker: true, "multiIndex[0]": this.data.tempIndex });
   },
 
   openStartTimePicker() {
@@ -400,8 +394,6 @@ Page({
     let isNextDay = false;
     let toast_str =
       setting.appointType == "delayPartAppoint" ? "开始用水时间" : "开机时间";
-    today = new Date().getDay();
-    console.log('new date', today)
     if (!item.isRepeat && item.enable) {
       let now = new Date();
       let hour = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();

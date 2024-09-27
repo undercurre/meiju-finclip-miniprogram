@@ -420,6 +420,8 @@ Page({
       } else {
         item.week = "" + today;
       }
+    }else {
+      item.week = "" + today;
     }
     // 判断预约冲突
     let isConflict = false;
