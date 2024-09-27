@@ -282,11 +282,14 @@ Component({
     },
     temCellRightText() {
       const {
+        setting,
         isCloudOn,
         isCloudDelay,
-        status: { temperature },
+        status: { temperature, wash_temperature },
       } = this.data
-      if (isCloudOn && !isCloudDelay) {
+      if(setting&&setting.specialConfig=='noSetTemp'){
+        return (wash_temperature || '40') + '℃'
+      }else if (isCloudOn && !isCloudDelay) {
         return '云管家·控温中'
       } else {
         return (temperature || '60') + '℃'
@@ -1064,8 +1067,14 @@ Component({
     // 打开温度选择器
     openTemPicker() {
       if (this.data.deviceStatus >= 5) return
-      this.initSelections()
-      this.initTemperatureIndex()
+      const { setting } = this.data
+      if(setting.specialConfig=='noSetTemp'){
+        this.initSelectionsBath()
+        this.initTemperatureIndexBath()
+      }else{
+        this.initSelections()
+        this.initTemperatureIndex()
+      }
       this.setData({ isShowTemPicker: true })
     },
 
@@ -1087,6 +1096,18 @@ Component({
         })
       }
     },
+    initSelectionsBath() {
+      const { setting, applianceData } = this.data;
+      const { tem } = this.data;
+      let rang = setting.bathTempRange
+      const selections = pickerRangeCreate(rang[0], rang[1], 1);
+      this.setData({
+        min: rang[0],
+        max: rang[1],
+        selections,
+        "multiArray[0]": selections,
+      });
+    },
     initTemperatureIndex() {
       const { selections, status } = this.data
       let minTemp = selections[0]
@@ -1097,6 +1118,14 @@ Component({
       this.setData({
         'multiIndex[0]': temperatureIndex<0 ? 0 : temperatureIndex,
       })
+    },
+    initTemperatureIndexBath() {
+      const { selections, status } = this.data;
+      let minTemp = selections[0];
+      const temperatureIndex = Math.round((status.wash_temperature - minTemp) / 1);
+      this.setData({
+        "multiIndex[0]": temperatureIndex,
+      });
     },
 
     // 关闭温度选择器
@@ -1126,8 +1155,21 @@ Component({
       }
       this.rangersBurialPointClick('plugin_function_click_check', params)
       //
-      if (this.data.isCloudOn) {
-        this.setCustomTemp(temp)
+      const { setting } = this.data;
+      if(setting.specialConfig=='noSetTemp'){
+        this.setData({ changing: true })
+        let params = {
+          "wash_temperature": temp,
+          "set_bath_temp": 'on',
+          "control_type": setting.isNew ? "part" : ""
+        }
+        this.luaControl(params).then((data) => {
+          this.setData({ status: data })
+          this.updateUI()
+        }).finally(() => this.setData({ isShowTemPicker: false }))
+      }else if (this.data.isCloudOn) {
+        // this.setCustomTemp(temp)
+        this.set3hourOff(temp)
       } else {
         this.luaTemp(temp)
       }
@@ -1136,7 +1178,20 @@ Component({
     luaTemp(temp) {
       this.setData({ changing: true })
       let params = {}
-      if (this.data.setting.isNew) {
+      if(this.data.setting.specialConfig == 'EQ1_temp'){
+        // EQ1特有逻辑（A010与A011），随功能变化的温度控制组件
+        if(this.data.status.shower == 'on' || this.data.status.mode == 'shower') {
+          params = {
+            "custom": "on",
+            "shower": "on",
+            "temperature": parseInt(temp),
+          }
+        } else {
+          params = {
+            "temperature": parseInt(temp),
+          }
+        }
+      }else if (this.data.setting.isNew) {
         params = {
           temperature: parseInt(temp),
           control_type: 'part',
