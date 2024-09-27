@@ -3,7 +3,11 @@
 <view id="{{brand}}">
   <view class="page link-fail-container" style="padding-top:{{statusBarHeight+40}}px">
     <link-device-header isNavCancel="{{ combinedStatus == -1 && !isFromSubDeviceNetWork }}" bind:clickCancel="clickBack" buttonColor="{{brandConfig.backButtonColor}}" backText="{{'取消'}}"></link-device-header>
-    <view class="fail-link-flow">
+    <scroll-view
+      scroll-y="{{true}}"
+      style="height:{{contentHeight * 2}}rpx;"
+    >
+    <view class="fail-link-flow" wx:if="{{isShowDeviceImage}}">
       <image src="{{meiPhone}}" class="fail-phone-img"></image>
       <image src="{{zhuyi}}" class="fail-blue-tooth-img"></image>
       <image wx:if="{{!deviceImgLoaded}}" class="fail-device-img" src="{{dms_img_lack}}"></image>
@@ -87,7 +91,7 @@
         </view>
       </view>
     </view>
-
+    </scroll-view>
     <!-- 底部按钮 -->
     <bottom-button bind:clickCancel="" buttomButonData="{{buttomButonData}}" brand="{{brand}}" confirm="confirm" bottom-button2="bottom-button2" cancle="cancle"></bottom-button>
 

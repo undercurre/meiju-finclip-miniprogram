@@ -71,6 +71,8 @@ Page({
     deviceInfo: {},
     net_ic_fail: imgUrl + imgesList['net_ic_fail'],
     isFromSubDeviceNetWork: false, // 是否来自子设备配网
+    isShowDeviceImage:true,
+    contentHeight:658,
   },
 
   computed: {
@@ -1758,6 +1760,24 @@ Page({
   deviceImgError(e) {
     console.error('@module linkNetFail.js\n@method deviceImgError\n@desc  联网失败页设备图片加载失败\n', e)
     log.error('@module linkNetFail.js\n@method deviceImgError\n@desc  联网失败页设备图片加载失败\n', e)
+  },
+
+  /**
+   * 密码聚焦
+   */
+  pswFocus(){
+    this.setData({
+      isShowDeviceImage:false
+    })
+  },
+
+  /**
+   *  密码失焦
+   */
+  pswBlur(){
+    this.setData({
+      isShowDeviceImage:true
+    })
   },
 
   /**
