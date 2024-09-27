@@ -225,7 +225,7 @@ Page({
   toggleAppointAI() {
     const { status } = this.data
     let isAiHomeOn = status.memory == 'on' || status.mode == 'memory'
-    if (isAiHomeOn && status.memory === 'on') {
+    if (isAiHomeOn) {
       let params = {
         control_type: 'part',
         memory: 'off'
@@ -238,7 +238,6 @@ Page({
   closeOneKeyAi() {
     this.pageEventChannel && this.pageEventChannel.emit('closeOneKeyAi')
   },
-
   // 关闭智能抑垢
   closeIntelligentScaleInhibition() {
     const { status } = this.data
