@@ -52,6 +52,10 @@ Component({
     isCloudOn: false, // 云管家开关状态
     isCloudDelay: false, // 云管家暂停
     aiTemp: '', // 云管家温度
+    aiTempList: [], // 云管家-智能控温曲线
+    selfTempList: [], // 云管家-自定义控温曲线
+    isStudying: true, // 云管家学习状态
+    cloudMode: 1, // 已选模式：0智能，1自定义，2智能关机
     timeLeft: 0,
     bathTime: '--',
     inWaterTemperature: 20, // 进水温度
@@ -1095,11 +1099,12 @@ Component({
     // 温度设置picker取消事件
     onTemPickerCancel(e) {
       const temp = this.data.multiArray[0][e.detail[0]]
-      if (this.data.isCloudOn) {
-        this.set3hourOff(temp)
-      } else {
-        this.closeTemPicker()
-      }
+      // if (this.data.isCloudOn) {
+      //   this.set3hourOff(temp)
+      // } else {
+      //   this.closeTemPicker()
+      // }
+      this.closeTemPicker()
     },
 
     // 温度设置picker确认事件
@@ -1213,9 +1218,9 @@ Component({
           console.log('执行了重新查询开关')
           if (data.retCode == '0') {
             this.setData({ isCloudOn: data.result.switch == '1' })
-            if (this.data.isCloudOn) {
-              this.getAiTemp()
-            }
+            // if (this.data.isCloudOn) {
+            //   this.getAiTemp()
+            // }
           }
         })
         .finally(() => wx.hideLoading())
@@ -1588,7 +1593,6 @@ Component({
         appData:this.data.status,
         data:{funName:'cloudManager'}
       })
-      console.log('kjhkgkg',closeList)
       if(closeList.length<1){
         this.cloudHomeSetTemp()     
         return
@@ -1611,7 +1615,6 @@ Component({
     },
     // 
     closeNightElectricityCloud(){
-      console.log('kjhkgkg','peakvalleyNightElec')
       requestService.request('e2',{
         msg: 'peakvalleyNightElec',
           params: {
@@ -1621,14 +1624,140 @@ Component({
             switch: 0,
           },
       }).then(res=>{
-        console.log('kjhkgkg',2,'peakvalleyNightElec')
+        
       })
     },
-    // 
+    /////////////////提取当前hour对应的温度
+    // 初始化数据，获取是否学习期、控温模式
     cloudHomeSetTemp(){
-
+      requestService.request('e2',{
+        msg: 'cloudManagerSetTempModeSetting',
+          params: {
+            applianceId: String(this.data.applianceData.applianceCode),
+            action: 'get',
+          },
+      }).then(({ data })=>{
+        console.log('开启云管家后设置','mode',data)
+        if (data.retCode == "0") {
+          let isEarly = true
+          let tabType = 0
+          if(data.result){
+            isEarly = data.result.isStudying
+            tabType = isEarly ? 2 : (data.result.mode==1 ? 2 : 1) // mode：0智能，1自定义，2智能关机 
+            this.setData({ isStudying: isEarly, cloudMode: tabType })
+          }
+          if(tabType==1){
+            if(!isEarly){
+              this.cloudHomeSetTempAi()//非学习期，执行智能温度数据获取
+            }else{
+              this.cloudHomeSetTempSelf()//自定义温度数据获取
+            }
+          }else if(tabType==2){
+            this.cloudHomeSetTempSelf()//自定义温度数据获取
+          }
+        }
+      })
     },
-
+    // 按当前温度初始化aiData/selfData
+    creatArrData(val){
+      let temp = Number(val)
+      if(temp == 80){
+        let arr = new Array(24).fill(75) 
+        return arr
+      }else{
+        let arr = new Array(24).fill(temp) 
+        return arr
+      }
+    },
+    cloudHomeSetTempAi(){
+      // 按当前温度初始化aiData
+      let aiData = this.creatArrData(this.data.status.temperature)
+      requestService.request("e2", {
+        msg: "getEcoSetTempData",
+        params: {
+          applianceId: String(this.data.applianceData.applianceCode),
+          queryMode: "C",
+        },
+      })
+      .then(({ data }) => {
+        console.log('开启云管家后设置','ai',data)
+        if(data.retCode == "0"){
+          let aiList = data.result.data
+          if (aiList.length == 24) {
+            aiList.forEach((item, i) => {
+              aiData.splice(i, 1, item.temp)
+            })
+          }
+          let aiPowerOffData = aiData.map(temp=>{
+            if(temp==37){ // 闲时关机模式时，集团推送37度即为关机，云端会下发关机；闲时低温模式时，集团推送37度即为37度，云端会下发37
+              return 29 // 前端APP统一以29度作为关机并显示关机数据
+            }else{
+              return temp
+            }
+          })
+          let list = this.data.cloudMode==2 ? aiPowerOffData : aiData
+          this.cloudHomeSetTempNow(list)
+        }
+      })
+    },
+    cloudHomeSetTempSelf(){
+      // 按当前温度初始化selfData
+      let selfData = this.creatArrData(this.data.status.temperature)
+      let today = new Date().getDay()
+      requestService.request("e2", {
+        msg: "cloudManagerManulSetTempDataV2",
+        params: {
+          applianceId: String(this.data.applianceData.applianceCode),
+          platform: this.data.applianceData.sn8,
+          action: "get",
+        },
+      })
+      .then(({ data }) => {
+        console.log('开启云管家后设置','self',data)
+        if(data.retCode == "0"){
+          let weekendTemp = data.result.weekendTemp||[] // 周末曲线
+          let weekendSwitch = data.result.weekendSwitch // 是否打开
+          let workDayTemp = data.result.workDayTemp||[] // 工作日曲线
+          let workDaySwitch = data.result.workDaySwitch // 是否打开
+          if(today==0||today==6){
+            if(weekendSwitch&&weekendTemp.length){
+              selfData=weekendTemp
+            }
+          }else{
+            if(workDaySwitch&&workDayTemp.length){
+              selfData=workDayTemp
+            }
+          }
+          this.cloudHomeSetTempNow(selfData)
+        }
+      })
+    },
+    cloudHomeSetTempNow(list){
+      let numIndex = new Date().getHours();
+      let temp = list[numIndex]
+      requestService.request("e2", {
+        msg: "setCloudSetTempEvent",
+        params: {
+          applianceId: String(this.data.applianceData.applianceCode),
+          temp: temp,
+          fun: "cloudManager",
+        },
+      }).then(({data})=>{
+        console.log('开启云管家后设置','set',temp)
+        if(data.retCode=='0'){
+          if(Number(temp)<30){
+            this.powerToggle('off')
+          }else if(this.data.status.power == 'off'){
+            this.powerToggle('on')
+            setTimeout(() => {
+              this.luaTemp(temp)
+            }, 1500);
+          }else{
+            this.luaTemp(temp)
+          }
+        }
+      })
+    },
     // 云管家切换
     cloudAiToggle(switchStatus) {
       this.setData({ changing: true })
