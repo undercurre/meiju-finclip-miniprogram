@@ -278,11 +278,7 @@ const failTextData = {
     errorCode: '4169',
     mainTitle: 'XX联网失败',
     nextTitle: '路由器无法连接网络',
-    guideDesc: [
-      '请确保家庭WiFi与密码填写正确，并确保该WiFi网络畅通 测试一下',
-      '请确保连接家庭2.4GHz WiFi，不可连接5GHz WiFi',
-      '请将路由器尽量靠近设备',
-    ],
+    guideDesc: ['请确保家庭WiFi网络畅通。测试一下'],
     isTest: true, //是否有测试一下
     isNeedInputPsw: true,
     msg: 'AP配网，局域网在线，云端查找sn和随机数都没找到',
