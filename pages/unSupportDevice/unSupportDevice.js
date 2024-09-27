@@ -45,6 +45,7 @@ Page({
       this.setData({
         deviceInfo: deviceInfo,
       })
+      this.setNavBarTitle(deviceInfo.name)
       let type = deviceInfo.type
       let formatType = type.includes('0x') ? type.substr(2, 2) : type
       if (
@@ -86,6 +87,11 @@ Page({
         url: '/pages/download/download',
       })
     }, 2000)
+  },
+  setNavBarTitle(title) {
+    wx.setNavigationBarTitle({
+      title,
+    })
   },
   //获取设备图片
   getDeviceImg(type, sn8) {

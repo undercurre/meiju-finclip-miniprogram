@@ -388,7 +388,7 @@ function onNetworkStatusChange() {
         that.globalData.noNetwork = false
         //网络状态变化事件的回调函数   开启网络监听，监听小程序的网络变化
         wx.onNetworkStatusChange(function (resp) {
-          console.log('监听网络变化11111-------->', resp)
+          console.log('监听网络变化app-------->', resp)
           if (resp.isConnected) {
             //网络变为有网s
             that.globalData.noNetwork = false
@@ -401,7 +401,7 @@ function onNetworkStatusChange() {
         that.globalData.noNetwork = true
         //无网状态
         wx.onNetworkStatusChange(function (resp) {
-          console.log('监听网络变化222222-------->', resp)
+          console.log('监听网络变化app-------->', resp)
           if (resp.isConnected) {
             that.globalData.noNetwork = false
           } else {
@@ -412,15 +412,26 @@ function onNetworkStatusChange() {
     },
   })
 }
-function debounce(fn, delay = 300) {
-  let timer = null
+
+function preventDoubleClick(time = 300) {
+  console.log('防重----》')
+  let lastClickTime = 0
   return function () {
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-      fn()
-    }, delay)
+    console.log('1111', currentTime)
+    const currentTime = Date.now()
+    console.log(currentTime)
+    console.log(lastClickTime)
+    if (currentTime - lastClickTime < time) {
+      // 如果在指定的间隔时间内点击了，则返回false，表示点击被阻止
+      return false
+    } else {
+      // 如果超出指定间隔时间，则更新时间并返回true，表示点击被允许
+      lastClickTime = currentTime
+      return true
+    }
   }
 }
+
 module.exports = {
   getNewSign, //new sign
   getMarketSign,
@@ -444,5 +455,5 @@ module.exports = {
   getIcon,
   checkNetwork,
   onNetworkStatusChange,
-  debounce,
+  preventDoubleClick,
 }

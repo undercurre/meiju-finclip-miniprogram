@@ -6,9 +6,9 @@ import burialPoint from '../../assets/burialPoint'
 import { plate, plateName } from '../../../plate'
 import { PUBLIC, ERROR } from '../../../color'
 const commonBehavior = require('../../assets/behavior')
-import { debounce } from '../../../utils/util'
-let inviteDebounce = null
+import { preventDoubleClick } from '../../../utils/util'
 Page({
+  handleClick: preventDoubleClick(),
   behaviors: [commonBehavior],
   /**
    * 页面的初始数据
@@ -217,10 +217,9 @@ Page({
     this.gotoInvite(homeDetail, homegroupId)
   },
   inviteMembers() {
-    if (!inviteDebounce) {
-      inviteDebounce = debounce(this.inviteMembersNew, 300, 300)
+    if (this.handleClick()) {
+      this.inviteMembersNew()
     }
-    inviteDebounce()
   },
   /**
    * 生命周期函数--监听页面加载

@@ -21,8 +21,9 @@
     </view>
   </view>
   <view class="home-picker-cover" wx:if="{{showAddList}}" bind:touchend="switchShowAddList"></view>
-  <view class="add_list_wrap">
-    <view class="add-list-pick" animation="{{addPickerAnimationData}}" bindtap="switchShowAddList">
+  <!-- <view class="add_list_wrap"> -->
+  <mx-transition show="{{ showAddList }}" duration="{{ { enter: 300, leave: 300 } }}" custom-class="add_list_wrap">
+    <view class="add-list-pick" bindtap="switchShowAddList">
       <scroll-view>
         <view catchtap="goAddDeviceJia" class="add-picker-options-wrapper">
           <mx-icon size="16" name="{{addDevice}}" classPrefix="mx-iconfont"></mx-icon
@@ -34,10 +35,12 @@
         </view>
       </scroll-view>
     </view>
-  </view>
+  </mx-transition>
+  <!-- </view> -->
   <view class="home-picker-cover" wx:if="{{showHomeList}}" bind:touchend="switchShowHomeList"></view>
-  <view class="home-picker-wrap">
-    <view class="home-picker" animation="{{homePickerAnimationData}}" bindtap="switchShowHomeList">
+  <!-- <view class="home-picker-wrap"> -->
+  <mx-transition show="{{ showHomeList }}" duration="{{ { enter: 300, leave: 300 } }}" custom-class="home-picker-wrap">
+    <view class="home-picker" style="--homePickerHeight:{{homePickerHeight}}" bindtap="switchShowHomeList">
       <scroll-view scroll-y class="home-picker-scroll">
         <view
           class="{{tools.filterHomePickerOptionsWrapper(bindex,currentHomeGroupIndex)}}"
@@ -70,7 +73,7 @@
         家庭管理
       </view>
     </view>
-  </view>
+  </mx-transition>
   <view class="home-toast-content">
     <mx-toast id="mx-toast" />
   </view>

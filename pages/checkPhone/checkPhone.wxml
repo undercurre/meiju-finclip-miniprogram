@@ -1,21 +1,37 @@
 <view>
-    <mx-nav-bar title=""  bind:click-left="backPage"></mx-nav-bar>
-    <view class="main-container">
-        <view class="container-title">验证身份</view>
-        <view class="container-tips">请补全当前绑定的手机号</view>
-        <view class="input-wrapper-box">
-            <view class="input-wrapper-show">
-            <span class="input-wrapper-span">{{mobileLeft}}</span>
-            <view class="input-wrapper-middle">
-                <span class="{{['input-wrapper-middle-span', inputList[0] == '' ? 'input-wrapper-middle-span-none' : '']}}">{{ inputList[0] }}</span>
-                <span class="{{['input-wrapper-middle-span', inputList[1] == '' ? 'input-wrapper-middle-span-none' : '']}}">{{ inputList[1] }}</span>
-                <span class="{{['input-wrapper-middle-span', inputList[2] == '' ? 'input-wrapper-middle-span-none' : '']}}">{{ inputList[2] }}</span>
-                <span class="{{['input-wrapper-middle-span', inputList[3] == '' ? 'input-wrapper-middle-span-none' : '']}}">{{ inputList[3] }}</span>
-            </view>
-            <span class="input-wrapper-span">{{mobileRight}}</span>
-            </view>
-            <input type="number" class="input-wrapper-hidden" bindvalue="inputValue" bindinput="inputPhone" maxlength="4"/>
+  <!-- <mx-nav-bar title=""  bind:click-left="backPage"></mx-nav-bar> -->
+  <view class="main-container">
+    <view class="container-title">验证身份</view>
+    <view class="container-tips">请补全当前绑定的手机号</view>
+    <view class="input-wrapper-box">
+      <view class="input-wrapper-show">
+        <span class="input-wrapper-span">{{mobileLeft}}</span>
+        <view class="input-wrapper-middle">
+          <span class="{{['input-wrapper-middle-span', inputList[0] == '' ? 'input-wrapper-middle-span-none' : '']}}"
+            >{{ inputList[0] }}</span
+          >
+          <span class="{{['input-wrapper-middle-span', inputList[1] == '' ? 'input-wrapper-middle-span-none' : '']}}"
+            >{{ inputList[1] }}</span
+          >
+          <span class="{{['input-wrapper-middle-span', inputList[2] == '' ? 'input-wrapper-middle-span-none' : '']}}"
+            >{{ inputList[2] }}</span
+          >
+          <span class="{{['input-wrapper-middle-span', inputList[3] == '' ? 'input-wrapper-middle-span-none' : '']}}"
+            >{{ inputList[3] }}</span
+          >
         </view>
-        <mx-button size="large" type="primary" custom-class="{{classForButton}}" round="{{true}}" bind:click="checkPhone" disabled="{{!hasFixlength}}">下一步</mx-button>
+        <span class="input-wrapper-span">{{mobileRight}}</span>
+      </view>
+      <input type="number" class="input-wrapper-hidden" bindvalue="inputValue" bindinput="inputPhone" maxlength="4" />
     </view>
+    <mx-button
+      size="large"
+      type="primary"
+      custom-class="{{classForButton}}"
+      round="{{true}}"
+      bind:click="checkPhone"
+      disabled="{{!hasFixlength}}"
+      >下一步</mx-button
+    >
+  </view>
 </view>

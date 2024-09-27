@@ -1,4 +1,4 @@
-<mx-nav-bar title="{{title}}" showBg bind:click-left="onClickLeft"></mx-nav-bar>
+<!-- <mx-nav-bar title="{{title}}" showBg bind:click-left="onClickLeft"></mx-nav-bar> -->
 <view class="invite-content-container">
   <view class="invite-header-tit">
     <view class="invite-header-title">邀请家人加入“{{homeItem.name}}”</view>

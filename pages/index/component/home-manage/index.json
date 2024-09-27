@@ -2,6 +2,7 @@
   "component": true,
   "usingComponents": {
     "mx-icon": "/miniprogram_npm/m-ui/mx-icon/index",
-    "mx-toast":"/miniprogram_npm/m-ui/mx-toast/index"
+    "mx-toast":"/miniprogram_npm/m-ui/mx-toast/index",
+    "mx-transition":"m-ui/mx-transition/index"
   }
 }

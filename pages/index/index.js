@@ -57,9 +57,7 @@ import {
 import { filterConfig } from './assets/filter.js'
 import { resolveTemplate, resolveUiTemplate } from './assets/module-card-templates/resolvetemplate'
 import config from '../../config'
-import { debounce } from '../../utils/util'
-let jumpPluginDebounce = null
-let jumpEventObj = null
+import { preventDoubleClick } from '../../utils/util'
 const homeStorage = new HomeStorage()
 const addIndexDevice = imgBaseUrl.url + '/harmonyos/index/add_index_device.png'
 const videoSrc = imgBaseUrl.url + '/video/login.mp4'
@@ -78,6 +76,7 @@ import {
   setDcpDeviceImg,
 } from '../../utils/redis.js'
 Page({
+  handleClick: preventDoubleClick(),
   behaviors: [bluetooth],
   onReady() {
     console.log(`page performance onReady start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
@@ -2577,11 +2576,10 @@ Page({
       },
     })
   },
-  async goToPluginReal() {
+  async goToPluginReal(e) {
     console.log('小木马跳插件开始', parseInt(Date.now()))
     let start = new Date()
     let self = this
-    let e = jumpEventObj
     if (!isGoToPlugin) return
     isGoToPlugin = false
     let type = e.currentTarget.dataset.type && e.currentTarget.dataset.type != null ? e.currentTarget.dataset.type : ''
@@ -2691,11 +2689,9 @@ Page({
     }
   },
   async goToPlugin(e) {
-    if (!jumpPluginDebounce) {
-      jumpPluginDebounce = debounce(this.goToPluginReal, 300, 300)
+    if (this.handleClick()) {
+      this.goToPluginReal(e)
     }
-    jumpEventObj = e
-    jumpPluginDebounce()
   },
   //当前手机网络状态
   nowNetType() {

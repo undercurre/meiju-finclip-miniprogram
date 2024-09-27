@@ -2,12 +2,12 @@ const app = getApp() //获取应用实例
 import { requestService, uploadFileTask } from '../../utils/requestService'
 import { api } from '../../api'
 import { getReqId, getStamp } from 'm-utilsdk/index'
-import { showToast, debounce } from '../../utils/util'
+import { showToast, preventDoubleClick } from '../../utils/util'
 import loginMethods from '../../globalCommon/js/loginRegister'
 const timeLimit = 60
-let checkSmsCodeDebounce = null
 
 Page({
+  handleClick: preventDoubleClick(),
   /**
    * 页面的初始数据
    */
@@ -154,30 +154,13 @@ Page({
   },
 
   //防重
-  // checkSmsCode() {
-  // if (!checkSmsCodeDebounce) {
-  // checkSmsCodeDebounce = debounce(
-  // () => {
-  // this.checkSmsCodeRequest()
-  // },
-  // 300,
-  // 300
-  // )
-  // }
-  // checkSmsCodeDebounce()
-  // },
-
   checkSmsCode() {
-    if (!this.data.inputValue) return
-    //防止暴击
-    if (this.data.checkSmsCodeButton) {
-      return
+    if (this.handleClick()) {
+      this.checkSmsCodeRequest()
     }
-    this.data.checkSmsCodeButton = true
-    // 执行按钮点击事件的操作
-    setTimeout(() => {
-      this.data.checkSmsCodeButton = false
-    }, 300)
+  },
+
+  checkSmsCodeRequest() {
     //console.log('获取当前输入验证码------》', this.data.inputValue)
     wx.showLoading({ title: '绑定中', icon: 'loading', duration: 10000 })
     let params = {

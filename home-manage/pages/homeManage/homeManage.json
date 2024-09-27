@@ -1,7 +1,7 @@
 {
   "navigationStyle": "custom",
   "navigationBarTitleText": "家庭管理",
-  "navigationBarBackgroundColor": "#f9f9f9",
+  "navigationBarBackgroundColor": "#e1e8f8",
   "usingComponents": {
     "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
     "mx-field": "/miniprogram_npm/m-ui/mx-field/index",
