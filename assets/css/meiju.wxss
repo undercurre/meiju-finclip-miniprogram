@@ -2124,6 +2124,13 @@ padding-right: 40px;
   width: 100%;
 }
 
+#meiju .link-fail-c-has-psw {
+
+}
+#meiju .link-fail-c-has-psw .text {
+ width: 100%;
+}
+
 #meiju .tip-list-fail {
   width: 88%;
   margin: 24rpx auto 24rpx;
