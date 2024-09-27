@@ -172,20 +172,28 @@ Component({
         return ''
       }
       const { hotWaterType = '' } = this.data.setting
-      const { heat_water_level, cur_temperature } = this.data.status
+      const { heat_water_level, cur_temperature, one_egg } = this.data.status
       let hotWaterQuantity = ''
       if (hotWaterType == 'percentWater') {
         hotWaterQuantity = heat_water_level==undefined ? '' : (heat_water_level > 100 ? '100%' : heat_water_level + '%')
       } else {
         // 否则根据温度判断热水量
-        if (cur_temperature < 45) {
-          hotWaterQuantity = '不足'
-        } else if (cur_temperature < 55) {
-          hotWaterQuantity = '较少'
-        } else if (cur_temperature < 65) {
-          hotWaterQuantity = '较多'
-        } else {
-          hotWaterQuantity = '充足'
+        // if (cur_temperature < 45) {
+        //   hotWaterQuantity = '不足'
+        // } else if (cur_temperature < 55) {
+        //   hotWaterQuantity = '较少'
+        // } else if (cur_temperature < 65) {
+        //   hotWaterQuantity = '较多'
+        // } else {
+        //   hotWaterQuantity = '充足'
+        // }
+        if(cur_temperature < 30){
+          hotWaterQuantity = '不足5%'
+        }else if(cur_temperature >= 75){
+          hotWaterQuantity = one_egg == 'on'? 50 : 100
+        }else{
+          let val = (cur_temperature-30)*2+10
+          hotWaterQuantity = one_egg == 'on'? val/2 : val
         }
       }
       return hotWaterQuantity
