@@ -445,7 +445,7 @@ const appRoutefun = (res) => {
   } else {
     //否则清除
     try {
-      if (getCurrentPages().length <= 1 && (path != homeIndex || path != mytab)) {
+      if (getCurrentPages().length <= 1 && (path == homeIndex || path == mytab)) {
         ft.offCustomEvent(customCallback)
       }
     } catch (error) {
