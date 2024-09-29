@@ -3,10 +3,7 @@
 <view id="{{brand}}">
   <view class="page link-fail-container" style="padding-top:{{statusBarHeight+40}}px">
     <link-device-header isNavCancel="{{ combinedStatus == -1 && !isFromSubDeviceNetWork }}" bind:clickCancel="clickBack" buttonColor="{{brandConfig.backButtonColor}}" backText="{{'取消'}}"></link-device-header>
-    <scroll-view
-      scroll-y="{{true}}"
-      style="height:{{contentHeight * 2}}rpx;"
-    >
+
     <view class="fail-link-flow" wx:if="{{isShowDeviceImage}}">
       <image src="{{meiPhone}}" class="fail-phone-img"></image>
       <image src="{{zhuyi}}" class="fail-blue-tooth-img"></image>
@@ -35,7 +32,7 @@
         wx:for-item="failUiDataItem"
         wx:for-index="failUiDataindex"
       >
-        <view class="{{failUiData.guideDesc.length>1?'link-fail-r':(tools.isNeedWifiConfirmInput(failUiDataItem)?'link-fail-c-has-psw':'link-fail-c')}}">
+        <view class="{{failUiData.guideDesc.length>1?'link-fail-r':(tools.isNeedWifiConfirmInput(failUiDataItem,failUiData.errorCode)?'link-fail-c-has-psw':'link-fail-c')}}">
           <view wx:if="{{failUiData.guideDesc.length>1}}" class="num-fail">{{failUiDataindex+1}}</view>
            <view class="{{brand!='meiju'?'link-fail-text theme-font-color':'text theme-font-color'}}">
             {{tools.formatGuideDesc(failUiDataItem,deviceName)}}
@@ -49,7 +46,7 @@
             >
           </view>
         </view>
-        <view wx:if="{{tools.isNeedWifiConfirmInput(failUiDataItem)}}" class="pws-confirm">
+        <view wx:if="{{tools.isNeedWifiConfirmInput(failUiDataItem,failUiData.errorCode)}}" class="pws-confirm">
           <input class="c4-2 link-fail-input-ssid" wx:if="{{!continueConnectWifi}}" value="{{bindWifiInfo.SSIDContent}}" placeholder="{{wifiInputPlaceholder}}" disabled="true">
             <text class="switch-wifi special-font-color" catchtap="clickSwitchWifi">切换WiFi</text>
           </input>
@@ -91,7 +88,7 @@
         </view>
       </view>
     </view>
-    </scroll-view>
+
     <!-- 底部按钮 -->
     <bottom-button bind:clickCancel="" buttomButonData="{{buttomButonData}}" brand="{{brand}}" confirm="confirm" bottom-button2="bottom-button2" cancle="cancle"></bottom-button>
 

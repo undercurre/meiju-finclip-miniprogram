@@ -39,7 +39,10 @@ var isTest = function (itemText) {
 }
 
 //是否需要wifi确认框
-var isNeedWifiConfirmInput = function (itemText) {
+var isNeedWifiConfirmInput = function (itemText,errorCode) {
+    if(errorCode == '4169'){
+        return true
+    }
     if (itemText.indexOf('WiFi与密码填写正确') != -1) {
         return true
     } else {

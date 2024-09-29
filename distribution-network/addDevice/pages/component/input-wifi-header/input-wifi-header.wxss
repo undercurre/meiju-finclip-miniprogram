@@ -1,5 +1,6 @@
 .header {
-  height: 60rpx;
+  /*height: 60rpx;*/
+  height:60px;
   width: 100%;
   padding-left: 32rpx;
   box-sizing: border-box;
@@ -8,11 +9,12 @@
   font-size: 18px;
   white-space: nowrap;
   position: fixed;
-  top: 44rpx;
+  top: 0;
   left: 0;
   z-index: 99;
   display: flex;
   align-items: center;
+  background:#fff;
 }
 
 .back {
