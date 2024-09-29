@@ -29,7 +29,7 @@ const CKECKING_LOG = new CheckingLog({
 // 配网品牌配置
 import brandConfig from './distribution-network/assets/js/brand.js'
 
-import { onNetworkStatusChange } from './utils/util.js'
+import { onNetworkStatusChange, appRoutefun } from './utils/util.js'
 import loginMethods from '/globalCommon/js/loginRegister'
 import { checkTokenExpir, checkTokenExpired, setDcpDeviceImg } from './utils/redis.js'
 import Dialog from './miniprogram_npm/m-ui/mx-dialog/dialog'
@@ -123,6 +123,10 @@ App({
     console.log('launch options', options)
     //监听网络变化
     onNetworkStatusChange.call(this)
+    //全局路由监听
+    wx.onAppRoute(appRoutefun)
+    // 取消全局路由监听
+    // wx.offAppRoute(appRoutefun)
     this.initCloudData() //多云协议
     //获取设备图标
     this.getDcpDeviceImg()

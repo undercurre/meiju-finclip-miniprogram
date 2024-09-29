@@ -111,4 +111,5 @@ module.exports = {
   roomAndDevices: '/home-manage/pages/roomAndDevices/roomAndDevices',
   roomDetail: '/home-manage/pages/roomDetail/roomDetail',
   scanCodeResult: '/pages/scanCode-result/index',
+  homeIndex: 'pages/index/index',
 }

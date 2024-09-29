@@ -103,5 +103,10 @@ module.exports = {
       sync: true, //是否为同步api
       params: {},
     },
+    {
+      name: 'setPathMarkForBackPress',
+      sync: false, //是否为同步api
+      params: {},
+    },
   ],
 }
