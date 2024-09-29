@@ -431,35 +431,34 @@ function preventDoubleClick(time = 300) {
   }
 }
 
-//全局路由监听 // 清除指定 customCallback  ft.offCustomEvent(customCallback) // 清除所有 customCallback //ft.offCustomEvent()
+//全局路由监听 // 清除指定 customCallback  ft.offCustomEvent(customCallback) // 清除所有 customCallback //ft.offCustomEvent(）
+const onBackPressKey = 'handleBackToIndex'
 const appRoutefun = (res) => {
   console.log('路由监听---------->', res)
   let { openType, path } = res
   if (openType == 'reLaunch' && path != homeIndex) {
     try {
-      ft.setPathMarkForBackPress({ path: path })
+      //先清处
+      ft.offCustomEvent(customCallback)
+      //在监听
+      ft.setPathMarkForBackPress({ path: onBackPressKey })
+      //ft.addCustomEventListener('onBackPress', customCallback)
       ft.onCustomEvent(customCallback)
     } catch (error) {
       console.error('onCustomEvent监听 error-------->', error)
-    }
-  } else {
-    //否则清除
-    try {
-      if (getCurrentPages().length <= 1 && (path == homeIndex || path == mytab)) {
-        ft.offCustomEvent(customCallback)
-      }
-    } catch (error) {
-      console.error('offCustomEvent监听 error-------->', error)
     }
   }
 }
 
 const customCallback = (resp) => {
   console.log('左滑事件监听---------->', resp)
-  if (resp.event == 'onBackPress') {
+  if (resp.event == 'onBackPress' && resp.data?.path == onBackPressKey) {
     if (getCurrentPages().length > 1) {
+      ft.setPathMarkForBackPress({ path: onBackPressKey })
       wx.navigateBack()
     } else {
+      ft.offCustomEvent(customCallback)
+      //ft.removeCustomEventListener('onBackPress', () => {})
       wx.switchTab({
         url: index,
       })

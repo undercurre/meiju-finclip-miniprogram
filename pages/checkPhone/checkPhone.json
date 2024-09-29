@@ -2,6 +2,7 @@
     
   "navigationBarTitleText": "",
   "usingComponents": {
+    "mx-button": "/miniprogram_npm/m-ui/mx-button/index",
     "mx-nav-bar": "/miniprogram_npm/m-ui/mx-nav-bar/index"
   }
 }
