@@ -9,7 +9,7 @@ import {
   getStamp,
   isEmptyObject,
 } from 'm-utilsdk/index'
-import { login } from '../utils/paths.js'
+import { login, homeIndex, index, mytab } from '../utils/paths.js'
 import { canIUseOpenEmbeddedMiniProgram } from './version'
 import config from '../config'
 import { baseImgApi, deviceImgApi } from '../api.js'
@@ -414,10 +414,9 @@ function onNetworkStatusChange() {
 }
 
 function preventDoubleClick(time = 300) {
-  console.log('防重----》')
+  console.log('防重-------->')
   let lastClickTime = 0
   return function () {
-    console.log('1111', currentTime)
     const currentTime = Date.now()
     console.log(currentTime)
     console.log(lastClickTime)
@@ -428,6 +427,42 @@ function preventDoubleClick(time = 300) {
       // 如果超出指定间隔时间，则更新时间并返回true，表示点击被允许
       lastClickTime = currentTime
       return true
+    }
+  }
+}
+
+//全局路由监听 // 清除指定 customCallback  ft.offCustomEvent(customCallback) // 清除所有 customCallback //ft.offCustomEvent()
+const appRoutefun = (res) => {
+  console.log('路由监听---------->', res)
+  let { openType, path } = res
+  if (openType == 'reLaunch' && path != homeIndex) {
+    try {
+      ft.setPathMarkForBackPress({ path: path })
+      ft.onCustomEvent(customCallback)
+    } catch (error) {
+      console.error('onCustomEvent监听 error-------->', error)
+    }
+  } else {
+    //否则清除
+    try {
+      if (getCurrentPages().length <= 1 && (path != homeIndex || path != mytab)) {
+        ft.offCustomEvent(customCallback)
+      }
+    } catch (error) {
+      console.error('offCustomEvent监听 error-------->', error)
+    }
+  }
+}
+
+const customCallback = (resp) => {
+  console.log('左滑事件监听---------->', resp)
+  if (resp.event == 'onBackPress') {
+    if (getCurrentPages().length > 1) {
+      wx.navigateBack()
+    } else {
+      wx.switchTab({
+        url: index,
+      })
     }
   }
 }
@@ -456,4 +491,5 @@ module.exports = {
   checkNetwork,
   onNetworkStatusChange,
   preventDoubleClick,
+  appRoutefun,
 }
