@@ -2131,7 +2131,7 @@ Page({
     } catch (error) {
       console.log('[isGrayUser error]', error)
     }
-    this.checkNet()
+    await this.checkNet()
     this.data.pageStatus = 'show'
     //如果是蓝牙配网则判断蓝牙是否授权
     if (addDeviceSDK.bluetoothAuthModes.includes(app.addDeviceInfo.mode)) {
