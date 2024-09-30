@@ -3753,6 +3753,7 @@ async onAPWifiSwitch() {
     })
   },
   clickWaitAminute() {
+    this.linkBackPress('linkDevice')
     let {
       type,
       sn8,
@@ -4383,6 +4384,7 @@ async onAPWifiSwitch() {
    */
   async onLoad() {
     let self = this
+    this.linkBackPress('linkDevice')
     app.onLoadCheckingLog()
     this.data.brand = app.globalData.brand
     this.setData({
@@ -4402,6 +4404,23 @@ async onAPWifiSwitch() {
       { "sn": "", "a0": "" }
     ],
       this.init()
+  },
+
+  linkBackPress(name){ //侧滑监听了一次就不成功了，点击再等等按钮后，再调用一次才生效
+    try {
+      ft.offCustomEvent(this.linkCallback)
+      ft.setPathMarkForBackPress({path:name})
+      if(name != ''){
+        ft.onCustomEvent(this.linkCallback)
+      }
+    } catch (error) {
+      console.error('onCustomEvent监听 linkCallback error-------->', error)
+    }
+  },
+  linkCallback(res){
+    console.error('reslink----------------------:',res)
+    this.clickCancel()
+    
   },
 
   /**
@@ -4458,6 +4477,7 @@ async onAPWifiSwitch() {
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    this.linkBackPress('')
     this.data.pageStatus = 'unload'
     app.onUnloadCheckingLog()
     app.globalData.scanObj = {} //配网成功了后，需要清除数据，不然下次自发现会用到旧的数据状态
