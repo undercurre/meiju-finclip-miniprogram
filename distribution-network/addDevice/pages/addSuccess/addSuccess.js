@@ -20,8 +20,10 @@ import { imgesList } from '../../../assets/js/shareImg.js'
 import Dialog from '../../../../miniprogram_npm/m-ui/mx-dialog/dialog'
 const brandStyle = require('../../../assets/js/brand.js')
 const imgUrl = imgBaseUrl.url + '/shareImg/' + app.globalData.brand
+import { preventDoubleClick } from '../../../../utils/util.js'
 let showToastTimer = null
 Page({
+  handleClick: preventDoubleClick(2000),
   behaviors: [addDeviceMixin, netWordMixin, getFamilyPermissionMixin],
   /**
    * 页面的初始数据
@@ -540,6 +542,10 @@ Page({
    * @author lny 
    */
   async changeBindDviceInfo() {
+    if (!this.handleClick()) {
+      console.log('重复点击保存')
+      return
+    }
     const this_ = this
     let clickFlag = false
     if (this.data.changeClickFlagNew) return
