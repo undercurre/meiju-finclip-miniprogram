@@ -232,6 +232,19 @@ App({
       }
     }
 
+    // 查看小程序更新情况
+    const updateManager = ft.getUpdateManager()
+    updateManager.onCheckForUpdate(function (res) {
+      // 请求完新版本信息的回调
+      console.info('小程序更新检查结果：' + JSON.stringify(res))
+    })
+    updateManager.onUpdateReady(function () {
+      console.info('小程序更新下载完成')
+    })
+    updateManager.onUpdateFailed(function () {
+      // 新版本下载失败
+      console.error('小程序更新下载失败')
+    })
     console.log(`performance onLaunch end ${new Date().getTime() - this.globalData.performanceStartTime}`)
   },
 
