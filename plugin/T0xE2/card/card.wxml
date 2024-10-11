@@ -108,7 +108,7 @@
           bind:cancel="onTemPickerCancel" cancel-button-text="{{isCloudOn?'本次（三小时）':'取消'}}"
           confirm-button-text="{{isCloudOn?'永久（关闭云管家）':'确认'}}" />
       </van-popup> -->
-      <c-picker show="{{isShowTemPicker}}" mode="multiSelector" range="{{multiArray}}" value="{{ multiIndex }}" unit="℃" bind:confirm="onTemPickerConfirm" bind:cancel="onTemPickerCancel" leftBtnText="{{'取消'}}" rightBtnText="{{isCloudOn?'暂停云管家':'确认'}}"/>
+      <c-picker show="{{isShowTemPicker}}" mode="multiSelector" range="{{multiArray}}" value="{{ multiIndex }}" unit="℃" bind:confirm="onTemPickerConfirm" bind:cancel="onTemPickerCancel" leftBtnText="{{isCloudOn?'本次（三小时）':'取消'}}" rightBtnText="{{isCloudOn?'永久（关闭云管家）':'确认'}}"/>
     </view>
     <!-- 活动弹窗 -->
     <activity-wrapper></activity-wrapper>
