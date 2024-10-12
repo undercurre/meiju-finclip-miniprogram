@@ -52,10 +52,6 @@ Component({
     isCloudOn: false, // 云管家开关状态
     isCloudDelay: false, // 云管家暂停
     aiTemp: '', // 云管家温度
-    aiTempList: [], // 云管家-智能控温曲线
-    selfTempList: [], // 云管家-自定义控温曲线
-    isStudying: true, // 云管家学习状态
-    cloudMode: 1, // 已选模式：0智能，1自定义，2智能关机
     timeLeft: 0,
     bathTime: '--',
     inWaterTemperature: 20, // 进水温度
@@ -172,28 +168,20 @@ Component({
         return ''
       }
       const { hotWaterType = '' } = this.data.setting
-      const { heat_water_level, cur_temperature, one_egg } = this.data.status
+      const { heat_water_level, cur_temperature } = this.data.status
       let hotWaterQuantity = ''
       if (hotWaterType == 'percentWater') {
         hotWaterQuantity = heat_water_level==undefined ? '' : (heat_water_level > 100 ? '100%' : heat_water_level + '%')
       } else {
         // 否则根据温度判断热水量
-        // if (cur_temperature < 45) {
-        //   hotWaterQuantity = '不足'
-        // } else if (cur_temperature < 55) {
-        //   hotWaterQuantity = '较少'
-        // } else if (cur_temperature < 65) {
-        //   hotWaterQuantity = '较多'
-        // } else {
-        //   hotWaterQuantity = '充足'
-        // }
-        if(cur_temperature < 30){
-          hotWaterQuantity = '不足5%'
-        }else if(cur_temperature >= 75){
-          hotWaterQuantity = one_egg == 'on'? 50 : 100
-        }else{
-          let val = (cur_temperature-30)*2+10
-          hotWaterQuantity = one_egg == 'on'? val/2 : val
+        if (cur_temperature < 45) {
+          hotWaterQuantity = '不足'
+        } else if (cur_temperature < 55) {
+          hotWaterQuantity = '较少'
+        } else if (cur_temperature < 65) {
+          hotWaterQuantity = '较多'
+        } else {
+          hotWaterQuantity = '充足'
         }
       }
       return hotWaterQuantity
@@ -282,14 +270,11 @@ Component({
     },
     temCellRightText() {
       const {
-        setting,
         isCloudOn,
         isCloudDelay,
-        status: { temperature, wash_temperature },
+        status: { temperature },
       } = this.data
-      if(setting&&setting.specialConfig=='noSetTemp'){
-        return (wash_temperature || '40') + '℃'
-      }else if (isCloudOn && !isCloudDelay) {
+      if (isCloudOn && !isCloudDelay) {
         return '云管家·控温中'
       } else {
         return (temperature || '60') + '℃'
@@ -682,7 +667,7 @@ Component({
       this.setData({ nextAppointText: need.length ? need[0] : '' })
     },
     // 获取云端下发给电控的预约信息
-    getCloudToDeviceAppoint(appointData){
+    getCloudToDeviceAppoint(){
       requestService
       .request('e2', {
         msg: 'getExecuteOrderList',
@@ -692,27 +677,13 @@ Component({
       })
       .then(({data}) => {
         if(data.retCode == '0'){
-          let { time, isStart, taskId } = this.getNextAppointLegal(data.result)
-          let { haveAppiont, setting } = this.data
-          let desc = ''
-          if(haveAppiont&&taskId){
-            let obj = appointData.find(i=>i.taskId==taskId)
-            if(obj.taskId){
-              let str = obj.startTime>=obj.endTime ? '次日' : ''
-              let btnTextArr1 = setting.appointType=='delayPartAppoint' ? '用水' : '开机'
-              // let btnTextArr2 = `${obj.startTime}-${str}${obj.endTime}`
-              let btnTextArr2 = `${obj.startTime} `
-              desc = `${btnTextArr2} ${btnTextArr1}`
-            }
-          }
-          this.setData({nextAppointText: desc})
-          // this.setData({nextAppointText: time ? `${time}${isStart?'用水':'结束'}` : ''})
+          let { time, isStart } = this.getNextAppointLegal(data.result)
+          this.setData({nextAppointText: time ? `${time}${isStart?'用水':'结束'}` : ''})
         }
       })
     },
     // 获取下次预约数据-法定节假日预约使用
     getNextAppointLegal(result){
-      let taskId = ''
       let time = ''
       let isStart = ''
       if(result.length){
@@ -731,13 +702,12 @@ Component({
             temp: i.Temp,
             isRepeat: i.IsRepeat,
             IsCrossDay: i.IsCrossDay || 0,
-            taskId: i.Id || '' // 通过添加ID，为后面筛选唯一识别 
+            id: index // 通过添加ID，为后面筛选唯一识别
           }
         })
         let isBefore = list.every(i => now_time < i.start)
         let isAfter = list.every(i => now_time >= i.end)
         if(isBefore){ // 当前时间在所有预约总时间跨度的 前面
-          taskId = list[0].taskId
           time = list[0].start
           isStart = 1
         }else if(isAfter){ // 当前时间在所有预约总时间跨度的 后面
@@ -745,7 +715,6 @@ Component({
         }else{ // 当前时间在所有预约总时间跨度的 里面
           let cur_list = list.filter(i=>(now_time>=i.start&&now_time<i.end))
           if(cur_list.length){ // 当前时间在其中一条或多条预约区间里面
-            taskId = cur_list[0].taskId
             let first = cur_list[0]
             // time = first.end
             time = first.IsCrossDay&&first.end=='23:59' ? '' : first.end // 云端返回跨天时则不显示
@@ -759,13 +728,12 @@ Component({
             // }
           }else{ // 当前时间不在任何一条预约区间里面
             let future = list.filter(i => now_time < i.start)
-            taskId = future[0].taskId
             time = future[0].start
             isStart = 1
           }
         }
       }
-      return { time, isStart, taskId }
+      return { time, isStart }
     },
 
     // 将星期字符串转换为中文周期
@@ -926,10 +894,9 @@ Component({
             appointOnTimeList: this.getAppointOnTimeList(appointData),
           }) // 获取预约开启的数据
           if(this.data.setting.appointHoliday){
-            this.getCloudToDeviceAppoint(result)
+            this.getCloudToDeviceAppoint()
           }else{
-            // this.getNextAppoint()
-            this.getCloudToDeviceAppoint(result)
+            this.getNextAppoint()
           }
         })
         .catch(() => wx.showToast({ title: '查询预约数据失败', icon: 'none' }))
@@ -1085,14 +1052,8 @@ Component({
     // 打开温度选择器
     openTemPicker() {
       if (this.data.deviceStatus >= 5) return
-      const { setting } = this.data
-      if(setting.specialConfig=='noSetTemp'){
-        this.initSelectionsBath()
-        this.initTemperatureIndexBath()
-      }else{
-        this.initSelections()
-        this.initTemperatureIndex()
-      }
+      this.initSelections()
+      this.initTemperatureIndex()
       this.setData({ isShowTemPicker: true })
     },
 
@@ -1114,18 +1075,6 @@ Component({
         })
       }
     },
-    initSelectionsBath() {
-      const { setting, applianceData } = this.data;
-      const { tem } = this.data;
-      let rang = setting.bathTempRange
-      const selections = pickerRangeCreate(rang[0], rang[1], 1);
-      this.setData({
-        min: rang[0],
-        max: rang[1],
-        selections,
-        "multiArray[0]": selections,
-      });
-    },
     initTemperatureIndex() {
       const { selections, status } = this.data
       let minTemp = selections[0]
@@ -1137,14 +1086,6 @@ Component({
         'multiIndex[0]': temperatureIndex<0 ? 0 : temperatureIndex,
       })
     },
-    initTemperatureIndexBath() {
-      const { selections, status } = this.data;
-      let minTemp = selections[0];
-      const temperatureIndex = Math.round((status.wash_temperature - minTemp) / 1);
-      this.setData({
-        "multiIndex[0]": temperatureIndex,
-      });
-    },
 
     // 关闭温度选择器
     closeTemPicker() {
@@ -1154,12 +1095,11 @@ Component({
     // 温度设置picker取消事件
     onTemPickerCancel(e) {
       const temp = this.data.multiArray[0][e.detail[0]]
-      // if (this.data.isCloudOn) {
-      //   this.set3hourOff(temp)
-      // } else {
-      //   this.closeTemPicker()
-      // }
-      this.closeTemPicker()
+      if (this.data.isCloudOn) {
+        this.set3hourOff(temp)
+      } else {
+        this.closeTemPicker()
+      }
     },
 
     // 温度设置picker确认事件
@@ -1173,21 +1113,8 @@ Component({
       }
       this.rangersBurialPointClick('plugin_function_click_check', params)
       //
-      const { setting } = this.data;
-      if(setting.specialConfig=='noSetTemp'){
-        this.setData({ changing: true })
-        let params = {
-          "wash_temperature": temp,
-          "set_bath_temp": 'on',
-          "control_type": setting.isNew ? "part" : ""
-        }
-        this.luaControl(params).then((data) => {
-          this.setData({ status: data })
-          this.updateUI()
-        }).finally(() => this.setData({ isShowTemPicker: false }))
-      }else if (this.data.isCloudOn) {
-        // this.setCustomTemp(temp)
-        this.set3hourOff(temp)
+      if (this.data.isCloudOn) {
+        this.setCustomTemp(temp)
       } else {
         this.luaTemp(temp)
       }
@@ -1196,20 +1123,7 @@ Component({
     luaTemp(temp) {
       this.setData({ changing: true })
       let params = {}
-      if(this.data.setting.specialConfig == 'EQ1_temp'){
-        // EQ1特有逻辑（A010与A011），随功能变化的温度控制组件
-        if(this.data.status.shower == 'on' || this.data.status.mode == 'shower') {
-          params = {
-            "custom": "on",
-            "shower": "on",
-            "temperature": parseInt(temp),
-          }
-        } else {
-          params = {
-            "temperature": parseInt(temp),
-          }
-        }
-      }else if (this.data.setting.isNew) {
+      if (this.data.setting.isNew) {
         params = {
           temperature: parseInt(temp),
           control_type: 'part',
@@ -1263,12 +1177,9 @@ Component({
     },
 
     // 开关机切换
-    powerToggle(is) {
+    powerToggle() {
       if (this.data.deviceStatus > 5) return
       let power = this.data.status.power == 'on' ? 'off' : 'on'
-      if(is){
-        power = (is=='on'||is=='off') ? is : power
-      }
       this.setData({ changing: true })
       this.luaControl({
         power: power,
@@ -1302,9 +1213,9 @@ Component({
           console.log('执行了重新查询开关')
           if (data.retCode == '0') {
             this.setData({ isCloudOn: data.result.switch == '1' })
-            // if (this.data.isCloudOn) {
-            //   this.getAiTemp()
-            // }
+            if (this.data.isCloudOn) {
+              this.getAiTemp()
+            }
           }
         })
         .finally(() => wx.hideLoading())
@@ -1677,6 +1588,7 @@ Component({
         appData:this.data.status,
         data:{funName:'cloudManager'}
       })
+      console.log('kjhkgkg',closeList)
       if(closeList.length<1){
         this.cloudHomeSetTemp()     
         return
@@ -1699,6 +1611,7 @@ Component({
     },
     // 
     closeNightElectricityCloud(){
+      console.log('kjhkgkg','peakvalleyNightElec')
       requestService.request('e2',{
         msg: 'peakvalleyNightElec',
           params: {
@@ -1708,140 +1621,14 @@ Component({
             switch: 0,
           },
       }).then(res=>{
-        
+        console.log('kjhkgkg',2,'peakvalleyNightElec')
       })
     },
-    /////////////////提取当前hour对应的温度
-    // 初始化数据，获取是否学习期、控温模式
+    // 
     cloudHomeSetTemp(){
-      requestService.request('e2',{
-        msg: 'cloudManagerSetTempModeSetting',
-          params: {
-            applianceId: String(this.data.applianceData.applianceCode),
-            action: 'get',
-          },
-      }).then(({ data })=>{
-        console.log('开启云管家后设置','mode',data)
-        if (data.retCode == "0") {
-          let isEarly = true
-          let tabType = 0
-          if(data.result){
-            isEarly = data.result.isStudying
-            tabType = isEarly ? 2 : (data.result.mode==1 ? 2 : 1) // mode：0智能，1自定义，2智能关机 
-            this.setData({ isStudying: isEarly, cloudMode: tabType })
-          }
-          if(tabType==1){
-            if(!isEarly){
-              this.cloudHomeSetTempAi()//非学习期，执行智能温度数据获取
-            }else{
-              this.cloudHomeSetTempSelf()//自定义温度数据获取
-            }
-          }else if(tabType==2){
-            this.cloudHomeSetTempSelf()//自定义温度数据获取
-          }
-        }
-      })
+
     },
-    // 按当前温度初始化aiData/selfData
-    creatArrData(val){
-      let temp = Number(val)
-      if(temp == 80){
-        let arr = new Array(24).fill(75) 
-        return arr
-      }else{
-        let arr = new Array(24).fill(temp) 
-        return arr
-      }
-    },
-    cloudHomeSetTempAi(){
-      // 按当前温度初始化aiData
-      let aiData = this.creatArrData(this.data.status.temperature)
-      requestService.request("e2", {
-        msg: "getEcoSetTempData",
-        params: {
-          applianceId: String(this.data.applianceData.applianceCode),
-          queryMode: "C",
-        },
-      })
-      .then(({ data }) => {
-        console.log('开启云管家后设置','ai',data)
-        if(data.retCode == "0"){
-          let aiList = data.result.data
-          if (aiList.length == 24) {
-            aiList.forEach((item, i) => {
-              aiData.splice(i, 1, item.temp)
-            })
-          }
-          let aiPowerOffData = aiData.map(temp=>{
-            if(temp==37){ // 闲时关机模式时，集团推送37度即为关机，云端会下发关机；闲时低温模式时，集团推送37度即为37度，云端会下发37
-              return 29 // 前端APP统一以29度作为关机并显示关机数据
-            }else{
-              return temp
-            }
-          })
-          let list = this.data.cloudMode==2 ? aiPowerOffData : aiData
-          this.cloudHomeSetTempNow(list)
-        }
-      })
-    },
-    cloudHomeSetTempSelf(){
-      // 按当前温度初始化selfData
-      let selfData = this.creatArrData(this.data.status.temperature)
-      let today = new Date().getDay()
-      requestService.request("e2", {
-        msg: "cloudManagerManulSetTempDataV2",
-        params: {
-          applianceId: String(this.data.applianceData.applianceCode),
-          platform: this.data.applianceData.sn8,
-          action: "get",
-        },
-      })
-      .then(({ data }) => {
-        console.log('开启云管家后设置','self',data)
-        if(data.retCode == "0"){
-          let weekendTemp = data.result.weekendTemp||[] // 周末曲线
-          let weekendSwitch = data.result.weekendSwitch // 是否打开
-          let workDayTemp = data.result.workDayTemp||[] // 工作日曲线
-          let workDaySwitch = data.result.workDaySwitch // 是否打开
-          if(today==0||today==6){
-            if(weekendSwitch&&weekendTemp.length){
-              selfData=weekendTemp
-            }
-          }else{
-            if(workDaySwitch&&workDayTemp.length){
-              selfData=workDayTemp
-            }
-          }
-          this.cloudHomeSetTempNow(selfData)
-        }
-      })
-    },
-    cloudHomeSetTempNow(list){
-      let numIndex = new Date().getHours();
-      let temp = list[numIndex]
-      requestService.request("e2", {
-        msg: "setCloudSetTempEvent",
-        params: {
-          applianceId: String(this.data.applianceData.applianceCode),
-          temp: temp,
-          fun: "cloudManager",
-        },
-      }).then(({data})=>{
-        console.log('开启云管家后设置','set',temp)
-        if(data.retCode=='0'){
-          if(Number(temp)<30){
-            this.powerToggle('off')
-          }else if(this.data.status.power == 'off'){
-            this.powerToggle('on')
-            setTimeout(() => {
-              this.luaTemp(temp)
-            }, 1500);
-          }else{
-            this.luaTemp(temp)
-          }
-        }
-      })
-    },
+
     // 云管家切换
     cloudAiToggle(switchStatus) {
       this.setData({ changing: true })
