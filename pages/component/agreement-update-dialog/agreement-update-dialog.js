@@ -189,19 +189,23 @@ Component({
     error() {
       console.log('每当组件方法抛出错误时执行')
     },
-    /*组件所在页面的生命周期 */
-    pageLifetimes: {
-      show: function () {
-        // 页面被展示
-        this.checkAgreement() // 页面展示时检查一遍
-      },
-      hide: function () {
-        // 页面被隐藏
-        console.log('页面被隐藏')
-        this.setData({
-          agreementDialogShow: false,
-        })
-      },
+  },
+  /*组件所在页面的生命周期 */
+  pageLifetimes: {
+    show: function () {
+      // 页面被展示
+      setTimeout(() => {
+        if (app.globalData.isLogon) {
+          this.checkAgreement() // 页面展示时检查一遍
+        }
+      }, 2000)
+    },
+    hide: function () {
+      // 页面被隐藏
+      console.log('页面被隐藏')
+      this.setData({
+        agreementDialogShow: false,
+      })
     },
   },
 })
