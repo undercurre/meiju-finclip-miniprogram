@@ -112,4 +112,5 @@ module.exports = {
   roomDetail: '/home-manage/pages/roomDetail/roomDetail',
   scanCodeResult: '/pages/scanCode-result/index',
   homeIndex: 'pages/index/index',
+  accountSafe: 'pages/accountSafe/accountSafe'
 }
