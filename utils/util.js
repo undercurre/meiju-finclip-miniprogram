@@ -9,7 +9,7 @@ import {
   getStamp,
   isEmptyObject,
 } from 'm-utilsdk/index'
-import { login, homeIndex, index, mytab } from '../utils/paths.js'
+import { login, homeIndex, index, mytab, accountSafe } from '../utils/paths.js'
 import { canIUseOpenEmbeddedMiniProgram } from './version'
 import config from '../config'
 import { baseImgApi, deviceImgApi } from '../api.js'
@@ -436,7 +436,7 @@ const onBackPressKey = 'handleBackToIndex'
 const appRoutefun = (res) => {
   console.log('路由监听---------->', res)
   let { openType, path } = res
-  if (openType == 'reLaunch' && path != homeIndex) {
+  if (openType == 'reLaunch' && (path != homeIndex || path != mytab || path != accountSafe)) {
     try {
       //先清处
       ft.offCustomEvent(customCallback)
