@@ -4,10 +4,12 @@
   <view class="content">
     <view class="unSupport flex-cc">
       <image class="unSupport-icon" src="{{images.unSupport}}"></image>
-      <view wx:if="{{fm=='inputWifi'}}" class="unSupport-desc"
+      <view wx:if="{{fm=='inputWifi' && !isHavePlanTime}}" class="unSupport-desc"
         >该设备暂不支持在HarmonyOS NEXT系统控制，功能正在迭代升级中，敬请期待</view
       >
-      <view wx:else class="unSupport-desc">该设备暂不支持在HarmonyOS NEXT系统控制，功能正在迭代升级中，敬请期待</view>
+      <view wx:else class="unSupport-desc"
+        >该设备暂不支持在HarmonyOS NEXT系统控制，预计于{{havePlanTime.launchTime}}支持，敬请期待</view
+      >
       <view wx:if="{{fm=='inputWifi' || isCanTryLink}}" class="wifiControl" bindtap="backToWifiInput"
         >尝试网络远程控制</view
       >

@@ -1,6 +1,6 @@
 // pages/unSupportDevice/unSupportDevice.js
 const app = getApp()
-import { baseImgApi, deviceImgApi } from '../../api'
+import { baseImgApi, deviceImgApi, api } from '../../api'
 import { deviceImgMap } from '../../utils/deviceImgMap'
 import paths from '../../utils/paths'
 import { rangersBurialPoint } from '../../utils/requestService'
@@ -23,6 +23,8 @@ Page({
     fm: '', //inputWifi
     sn8: ['22040025', '22040043'],
     isCanTryLink: false,
+    havePlanTime: {},
+    isHavePlanTime: false,
   },
 
   /**
@@ -42,6 +44,7 @@ Page({
     }
     if (options.deviceInfo) {
       let deviceInfo = JSON.parse(decodeURIComponent(options.deviceInfo))
+      this.getServiceConfig(deviceInfo)
       this.setData({
         deviceInfo: deviceInfo,
       })
@@ -73,6 +76,42 @@ Page({
           ['deviceInfo.deviceImg']: this.getDeviceImg(this.data.deviceInfo.type, this.data.deviceInfo.sn8),
         })
       }
+    }
+  },
+  //获取上线时间提示的配置
+  getServiceConfig(deviceInfo) {
+    let that = this
+    wx.request({
+      url:
+        api.serviceConfigApi +
+        '/airc_business_config/harmonyLaunchConfNotice/harmonyLaunchConf.json' +
+        '?v=' +
+        Date.now(), // 你的远程JSON文件地址
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data)
+        if (res.data && res.data.length > 0) {
+          that.isHavePlanTime(deviceInfo, res.data)
+        }
+      },
+      fail: function (error) {
+        console.error('请求失败', error)
+      },
+    })
+  },
+  //判断是否有上线计划
+  isHavePlanTime(deviceInfo, lauchTimeList) {
+    const havePlanTime = lauchTimeList.find((item) => item.sn8 == deviceInfo.sn8 || item.a0 == deviceInfo.modelNumber)
+    console.log('计划上线时间 当前设备------>', havePlanTime)
+    if (havePlanTime) {
+      this.setData({
+        isHavePlanTime: true,
+        havePlanTime,
+      })
+    } else {
+      this.setData({
+        isHavePlanTime: false,
+      })
     }
   },
   //返回app错误回调

@@ -28,8 +28,10 @@ const qwid = config.qwid
 const serviceAppid = config.serviceAppid
 const clientYype = config.clientYype
 const iotTerminalIid = config.iotTerminalIid
+const serviceConfigApi = config.serviceConfigApi
 var api = {
   isMasEnv: isMasEnv,
+  serviceConfigApi: `${serviceConfigApi[`${environment}`]}`,
   urlPrefix: `${domain[`${environment}`]}` + (isMasEnv ? masPrefix : ''),
   apiKey: `${apiKey[`${environment}`]}`,
   iotAppId: `${iotAppId[`${environment}`]}`,

@@ -35,7 +35,7 @@ Page({
       homeItem: JSON.parse(decodeURIComponent(options.homeItem)),
       // roleId: options.roleId,
     })
-    this.getMemberQrcode(options.homegroupid)
+    //this.getMemberQrcode(options.homegroupid)
     //this.receiveSocketData()
   },
   //接收推送
@@ -131,7 +131,11 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow() {},
+  onShow() {
+    if (this.data.homegroupId) {
+      this.getMemberQrcode(this.data.homegroupId)
+    }
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
