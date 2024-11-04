@@ -2,6 +2,7 @@ import { getTimeStamp, getReqId, getUID, getStamp, hasKey } from 'm-utilsdk/inde
 import { showToast } from '../../utils/util.js'
 import { closeWebsocket } from '../../utils/initWebsocket.js'
 import { requestService, rangersBurialPoint } from '../../utils/requestService'
+import { loginCheckResultBurialPoint } from '../../pages/login/assets/burialPoint'
 import {
   setTokenStorage,
   setIsAutoLogin,
@@ -283,6 +284,7 @@ const loginMethods = {
             app.globalData.isLogon = false
             reject(res)
           }
+          loginCheckResultBurialPoint({ mobile: params.phoneNumber, code: res.data.code })
         })
         .catch((err) => {
           console.log('login catch res :', err)
@@ -301,6 +303,7 @@ const loginMethods = {
             Toast({ context: that, position: 'bottom', message: msg })
           }
           reject(err)
+          loginCheckResultBurialPoint({ mobile: params.phoneNumber, code: err.data.code })
         })
     })
   },

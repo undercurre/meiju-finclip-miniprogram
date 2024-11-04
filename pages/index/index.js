@@ -76,7 +76,7 @@ import {
   setDcpDeviceImg,
 } from '../../utils/redis.js'
 Page({
-  handleClick: preventDoubleClick(),
+  handleClick: preventDoubleClick(600),
   behaviors: [bluetooth],
   onReady() {
     console.log(`page performance onReady start ${new Date().getTime() - getApp().globalData.performanceStartTime}`)
@@ -2756,47 +2756,8 @@ Page({
         Toast({ context: this, position: 'bottom', message: '加入家庭成功' })
         console.log(res)
         let homeId = res.homegroupId
+        that.switchFamily(homeId)
         getApp().globalData.ifRefreshHomeList = true
-        that.getHomeGrouplistService().then((data) => {
-          data.forEach((item, index) => {
-            if (item.homegroupId == homeId) {
-              service
-                .getHomeGroupMemberStatus(homeId)
-                .then(() => {
-                  //保存当前访问家庭供下次登录使用
-                  service
-                    .homegroupDefaultSetService(homeId)
-                    .then(() => {
-                      this.updateHomeGroup(index, homeId)
-                    })
-                    .catch((error) => {
-                      console.log('切换家庭失败', error)
-                      this.setData({
-                        isHourse: false,
-                      })
-                      wx.showToast({
-                        title: '切换家庭失败',
-                        icon: 'none',
-                      })
-                    })
-                })
-                .catch((e) => {
-                  const code = e?.data?.code
-                  if (code === 1200) {
-                    showToast('已退出/被移除家庭，切换失败')
-                  }
-                  if (code === 1203) {
-                    showToast('该家庭已被删除，切换失败')
-                  }
-                  this.setData({
-                    isHourse: false,
-                  })
-                })
-              //this.selectHomeGroupOption(data)
-              //that.init(index)
-            }
-          })
-        })
       })
       .catch((error) => {
         console.log(error)
@@ -2804,8 +2765,55 @@ Page({
         var label = 'code未知系统错误'
         label = scodeResonse(code)
         Toast({ context: this, position: 'bottom', message: label })
+        if (error.data.code == 1204) {
+          that.switchFamily(error.data.data.homegroupId)
+        }
       })
   },
+  //扫码成功后切换家庭
+  switchFamily(homeId) {
+    this.getHomeGrouplistService().then((data) => {
+      data.forEach((item, index) => {
+        if (item.homegroupId == homeId) {
+          service
+            .getHomeGroupMemberStatus(homeId)
+            .then(() => {
+              //保存当前访问家庭供下次登录使用
+              service
+                .homegroupDefaultSetService(homeId)
+                .then(() => {
+                  this.updateHomeGroup(index, homeId)
+                })
+                .catch((error) => {
+                  console.log('切换家庭失败', error)
+                  this.setData({
+                    isHourse: false,
+                  })
+                  wx.showToast({
+                    title: '切换家庭失败',
+                    icon: 'none',
+                  })
+                })
+            })
+            .catch((e) => {
+              const code = e?.data?.code
+              if (code === 1200) {
+                showToast('已退出/被移除家庭，切换失败')
+              }
+              if (code === 1203) {
+                showToast('该家庭已被删除，切换失败')
+              }
+              this.setData({
+                isHourse: false,
+              })
+            })
+          //this.selectHomeGroupOption(data)
+          //that.init(index)
+        }
+      })
+    })
+  },
+
   //不支持配网和家庭时 直接展示跳转链接
   gotoScanCodeResult(result) {
     result = encodeURIComponent(result)

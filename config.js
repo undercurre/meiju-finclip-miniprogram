@@ -181,5 +181,11 @@ const config = {
     sit: 'develop',
     prod: 'release',
   },
+  //支持提示设备上线时间
+  serviceConfigApi: {
+    dev: 'https://config-sit.smartmidea.net',
+    sit: 'https://config-sit.smartmidea.net',
+    prod: 'https://config.smartmidea.net',
+  },
 }
 export default config

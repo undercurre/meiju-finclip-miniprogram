@@ -251,7 +251,6 @@ Page({
   },
   // 更新phoneNumber变量的值
   handlePhoneNumberInput(val) {
-    console.log(`当前输入的值：${val.detail}`)
     let value = val.detail.replace(/[^\d]/g, '')
     // 只允许输入数字
     // if (!/^[0-9]*$/.test(value)) {
@@ -360,10 +359,10 @@ Page({
         imgCode: this.data.verImgCode,
         randomToken: this.data.randomToken,
       })
-      .then(() => {
+      .then((res) => {
         Toast({ context: this, position: 'bottom', message: '获取成功' })
         //短信验证码获取成功埋点
-        getCodeBurialPoint({ mobile: this.data.phoneNumber })
+        getCodeBurialPoint({ mobile: this.data.phoneNumber, code: res.data.code })
         let time = 60
         this.setTime(time)
         this.setData({
@@ -578,7 +577,7 @@ Page({
             loading: false,
           })
           //登录成功
-          loginCheckResultBurialPoint({ mobile: this.data.phoneNumber })
+          //loginCheckResultBurialPoint({ mobile: this.data.phoneNumber, code: resp.data.code })
           this.resetLoginBtnDes()
           //登录成功-进行初始化，同意隐私协议
           this.makeAgreeLatest(this.data.phoneNumber)
