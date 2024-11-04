@@ -33,7 +33,7 @@ const getCodeBurialPoint = function (params) {
   rangersBurialPoint('get_code', {
     module: '登录注册',
     page_name: '短信注册页',
-    code: '0',
+    code: params.code,
     mobile: params.mobile,
     sms_code_type: '登录注册',
   })
