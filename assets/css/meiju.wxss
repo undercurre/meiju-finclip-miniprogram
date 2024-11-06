@@ -2799,6 +2799,10 @@ padding-right: 40px;
   line-height: 24px;
   font-weight: 500;
 }
+#meiju .rightImg {
+  width: 10px;
+  height: 14px;
+}
 #meiju .middleTop {
   font-family: PingFangSC-Regular;
   font-size: 16px;
