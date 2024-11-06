@@ -31,7 +31,7 @@
     </view>
     <view class="family">
       <text class="addSuccess-title">所属家庭</text>
-      <view wx:if="{{ isFromSubDeviceNetWork }}" class="device-name-input input" style="opacity: 0.4">
+      <view wx:if="{{ isFromSubDeviceNetWork ||  isFromMultiSn}}" class="device-name-input input" style="opacity: 0.4">
         <text class="theme-font-color">{{familyInfo.name}}</text>
       </view>
       <view wx:else class="device-name-input input" bindtap="switchFamily">

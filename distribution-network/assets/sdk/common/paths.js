@@ -95,5 +95,9 @@ module.exports = {
     privacy: '/sub-package/privacy/privacy',
     homeDetail: 'home-manage/pages/homeDetail/homeDetail',
     memberManage: 'home-manage/pages/memberManage/memberManage',
+    bluetoothDirectLink: '/distribution-network/addDevice/pages/bluetoothDirectLink/guide/index',
+    multiSnAuth: '/distribution-network/addDevice/pages/multiSnAuth/multiSnAuth',
+    multiSnAddSuccess: '/distribution-network/addDevice/pages/multiSnAddSuccess/multiSnAddSuccess',
+    multiSnAddFail: '/distribution-network/addDevice/pages/multiSnAddFail/multiSnAddFail'
   }
   

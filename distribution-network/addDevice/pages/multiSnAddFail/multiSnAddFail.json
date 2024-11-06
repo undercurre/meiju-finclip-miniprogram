@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "navigationStyle": "custom",
+  "usingComponents": {
+	"link-device-header": "/distribution-network/addDevice/pages/component/input-wifi-header/input-wifi-header"
+  },
+  "enablePullDownRefresh": true
+}

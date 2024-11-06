@@ -867,6 +867,17 @@ var api = {
     masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/appliance/auth/batch/get`,
     api: '/v1/appliance/auth/batch/get',
   },
+    //网关子设备元数据关联查询（绑定过程使用）
+  gatewayMetaGet: {
+    url: 'https://iot-appliance-sit.smartmidea.net/v1/gateway/meta/get',
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/gateway/meta/get`,
+    api: '/v1/gateway/meta/get',
+  },
+  batchHomeBind: {
+    url: 'https://iot-appliance-sit.smartmidea.net/v1/appliance/subdevice/batch/home/bind',
+    masUrl: `${domain[`${environment}`] + masPrefix}/HarmonyOS/v1/appliance/subdevice/batch/home/bind`,
+    api: '/v1/appliance/subdevice/batch/home/bind',
+  }
 }
 
 let uploadApi = {

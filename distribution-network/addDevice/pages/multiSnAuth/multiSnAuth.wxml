@@ -1,0 +1,19 @@
+<view id="{{brand}}">
+  <view class="authTop">
+    <view class="imgWrapper">
+      <view class="icon-img"><image src="{{imgBaseUrl+images.colmoIcon}}" ></image></view>
+      <image src="{{imgBaseUrl+images.authIcon}}" class="center-icon-img"></image>
+      <image src="{{deviceImgUrl}}" class="icon-img"></image>
+    </view>
+    <text class="text">{{'授权“' + deviceName +'”使用并管理COLMO下的设备'}}</text>
+  </view>
+  <view class="authBottom">
+    <view class="authBtn" bindtap="handleAuth">立即授权</view>
+    <view>
+      <text class="cancelBtn" bindtap="handleCancle">取消授权并停止绑定</text>
+    </view>
+  </view>
+  <c-loading id="loading"></c-loading>
+  <!-- <mx-loading id="loading" type="spinner" color="#1989fa" vertical/> -->
+  <mx-dialog id="mx-dialog"></mx-dialog>
+</view>

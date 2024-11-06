@@ -1,0 +1,27 @@
+<view id="{{brand}}">
+  <view class="successTitle">
+    <image class="successImg" src="{{imgBaseUrl+images.successIcon}}"></image>
+    <text class="successText">设备联网成功</text>
+  </view>
+  <view class="ListWrapper">
+    <view class="DeviceItem" wx:for="{{devicesList}}" wx:key="index" wx:for-index="index" wx:for-item="device">
+      <image class="deviceImg" src="{{device.deviceImg}}"></image>
+      <view class="middleWrapper">
+        <view class="middleTop">{{device.deviceName + ' | ' + device.room}}</view>
+        <view class="middleBottom" >
+          <image class="littleImg" src="{{imgBaseUrl+images.successLittleIcon}}"></image>
+          <text class="middleBottomText">联网成功</text>
+        </view>
+      </view>
+      <view class="rightWrapper" bindtap="handleSetting" data-item="{{device}}">
+        <view class="settingText">设置</view>
+        <image src="{{imgBaseUrl+images.leftArrow}}" class="rightImg"></image>
+      </view>
+    </view>
+  </view>
+  <view class="bottomDes" wx:if="{{devicesList.length > 1}}">
+    <view class="bottomSpot"></view>
+    <view class="bottomDesText">上述设备为关联设备，已同步联网成功</view>
+  </view>
+  <view class="bottomBtn" bindtap="handleFinish">完成</view>
+</view>

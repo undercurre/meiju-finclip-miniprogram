@@ -2760,7 +2760,79 @@ padding-right: 40px;
   font-size: 32rpx;
 }
 
+#meiju .text {
+  font-family: PingFangSC-Medium;
+  font-size: 14px;
+  color: #000000;
+  text-align: center;
+  line-height: 14px;
+  font-weight: 500;
+}
 
+#meiju .authBtn {
+  background: #267AFF;
+  border-radius: 24px;
+}
+
+#meiju .loading-container .loading-main .loading-content {
+  opacity: 0.8;
+  background: #000000;
+  box-shadow: 0 0 6px 2px rgba(0,0,0,0.05);
+  border-radius: 13px;
+}
+
+#meiju .cancelBtn {
+  font-family: PingFangSC-Medium;
+  font-size: 14px;
+  color: #267AFF;
+  letter-spacing: 0;
+  line-height: 14px;
+  font-weight: 500;
+}
+
+#meiju .successText {
+  font-family: PingFangSC-Medium;
+  font-size: 24px;
+  color: #000000;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 24px;
+  font-weight: 500;
+}
+#meiju .middleTop {
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #000000;
+  line-height: 16px;
+  font-weight: 400;
+}
+#meiju .middleBottomText {
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #8A8A8F;
+  line-height: 12px;
+  font-weight: 400;
+}
+#meiju .settingText {
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #666666;
+  text-align: right;
+  line-height: 14px;
+  font-weight: 400;
+}
+#meiju .bottomDesText {
+  font-family: PingFangSC-Regular;
+  font-size: 12px;
+  color: #8A8A8F;
+  letter-spacing: -0.17px;
+  line-height: 12px;
+  font-weight: 400;
+}
+#meiju .bottomBtn {
+  background: #267AFF;
+  border-radius: 24px;
+}
 #meiju {
   --picker-option-selected-text-color:#267AFF;
   --action-sheet-confirm-text-color:#000000;

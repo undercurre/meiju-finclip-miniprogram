@@ -23,7 +23,7 @@
   color: #000000;
   letter-spacing: 0;
   text-align: center;
-  line-height: 48rpx;
+  line-height: 55rpx;
   font-weight: 500;
 }
 
