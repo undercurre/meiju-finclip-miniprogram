@@ -22,6 +22,14 @@ Component({
       type: String,
       value: '32'
     },
+	fontSize: {
+		type: String,
+		value: '18'
+	},
+	opacity: {
+		type: String,
+		value: '1'
+	},
     brandName:{
       type:String,
       value:getApp().globalData.brand

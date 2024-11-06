@@ -1177,8 +1177,73 @@ Page({
       getApp().setMethodFailedCheckingLog('wx.scanCode()', `微信扫码接口返回异常，error=${JSON.stringify(error)}`)
       return
     }
+    console.log('是否多SN链路', this.checkUrlParameters(scanResult.result))
+    // url有同时有productId authUrl appliance字段且有值，走多SN链路
+    if (this.checkUrlParameters(scanResult.result)) {
+      // url中v=2，去云端查询中控屏是否上报子设备
+      if (this.containsVEqualsTwo(scanResult.result)) {
+        if (app.globalData.currentHomeInfo.roleId != 1001) {
+          Dialog.confirm({
+            title: `暂无权限添加`,
+            message: `${app.addDeviceInfo.deviceName}仅支持家庭的创建者添加。您可将家庭切换到您创建的家庭中，重新添加，或请当前家庭的创建者扫描二维码添加`,
+            confirmButtonText: '我知道了',
+            confirmButtonColor:this.data.dialogStyle.confirmButtonColor,
+            cancelButtonColor:this.data.dialogStyle.cancelButtonColor3,
+            showCancelButton:false
+          })
+          .then((res) => {
+            if (res.action == 'confirm') {
+              //知道了
+              wx.navigateTo({
+                url: '/pages/index/index?tabPageId=1'
+              })
+            }
+          })
+          return
+        }
+        let scanCdoeResObj = addDeviceSDK.dynamicCodeAdd.getTouchScreenScanCodeInfo(scanResult.result)  
+        console.log('bigScreenScanCodeInfo=======1111', scanCdoeResObj)
+        console.log('app.addDeviceInfo.type', app.addDeviceInfo)
+        if (scanCdoeResObj?.type  && (app.addDeviceInfo.type !=  scanCdoeResObj.type.toUpperCase())) {
+          Dialog.confirm({
+            title: `二维码不匹配，请扫描${app.addDeviceInfo.deviceName}屏幕上的二维码`,
+            confirmButtonText: '我知道了',
+            confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+            cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+            showCancelButton: false,
+          }).then((res) => {
+            if (res.action == 'confirm') {
+            }
+          })
+          return
+        }
+        app.addDeviceInfo.hostDevice = scanCdoeResObj
+        console.log('多Sn-----', app.addDeviceInfo)
+        wx.navigateTo({
+          url: paths.multiSnAuth,
+        })
+        return
+      } else {
+
+      }
+    } else {
+    }
     let scanCdoeResObj = addDeviceSDK.dynamicCodeAdd.getTouchScreenScanCodeInfo(scanResult.result)
     console.log('bigScreenScanCodeInfo=======', scanCdoeResObj)
+    console.log('app.addDeviceInfo', app.addDeviceInfo)
+    if (scanCdoeResObj?.type  && (app.addDeviceInfo.type !=  scanCdoeResObj.type.toUpperCase())) {
+      Dialog.confirm({
+        title: `二维码不匹配，请扫描${app.addDeviceInfo.deviceName}屏幕上的二维码`,
+        confirmButtonText: '我知道了',
+        confirmButtonColor: this.data.dialogStyle.confirmButtonColor2,
+        cancelButtonColor: this.data.dialogStyle.cancelButtonColor3,
+        showCancelButton: false,
+      }).then((res) => {
+        if (res.action == 'confirm') {
+        }
+      })
+      return
+    }
     if (scanCdoeResObj.verificationCode && scanCdoeResObj.verificationCodeKey) {
       //有验证码信息
       app.addDeviceInfo.type = scanCdoeResObj.type.toUpperCase()
@@ -2370,4 +2435,24 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () { },
+  // 检测url中是否同时包含productId authUrl appliance
+  checkUrlParameters(url) {
+    const fields = ['productId', 'authUrl', 'appliance'];
+    const foundFields = {};
+    fields.forEach(field => {
+      foundFields[field] = false;
+    });
+    const regex = /(\w+)=([^&]+)/g;
+    let match;
+    while ((match = regex.exec(url)) !== null) {
+      if (fields.includes(match[1])) {
+        foundFields[match[1]] = true;
+      }
+    }
+    return Object.values(foundFields).every(value => value === true);
+  },
+  containsVEqualsTwo(str) {
+    const regex = /v=2/
+    return regex.test(str)
+  },
 })

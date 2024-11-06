@@ -112,5 +112,6 @@ module.exports = {
   roomDetail: '/home-manage/pages/roomDetail/roomDetail',
   scanCodeResult: '/pages/scanCode-result/index',
   homeIndex: 'pages/index/index',
-  accountSafe: 'pages/accountSafe/accountSafe'
+  accountSafe: 'pages/accountSafe/accountSafe',
+  multiSnAuth: '/distribution-network/addDevice/pages/multiSnAuth/multiSnAuth'
 }

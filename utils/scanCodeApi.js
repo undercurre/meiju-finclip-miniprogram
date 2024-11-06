@@ -224,6 +224,12 @@ export async function actionScanResult(
   }
 
   if (addDeviceSDK.dynamicCodeAdd.isDeCodeDynamicCode(scanRes.result)) {
+    console.log('是否多SN链路', checkUrlParameters(scanRes.result))
+    if (checkUrlParameters(scanRes.result)) {
+      // url有同时有productId authUrl appliance字段且有值，走多SN链路
+      handleMultiSn(scanRes.result, getDeviceApImgAndName)
+      return
+    }
     //触屏动态二维码
     dynamicCodeAdd(scanRes.result, getDeviceApImgAndName, showNotSupport, justAppSupport)
     return
@@ -934,13 +940,116 @@ function clickQRcodeGuide() {
   jumpQRcodeGuide()
 }
 function jumpQRcodeGuide() {
-  const brandConfig = app.globalData.brandConfig[app.globalData.brand]
-  const guideUrl =
-    brandConfig.QRcodeGuideUrl ||
-    `${paths.webView}?webViewUrl=${encodeURIComponent(
-      `${commonH5Api.url}deviceQrCode.html`
-    )}&pageTitle=如何找到设备的二维码`
-  wx.navigateTo({
-    url: guideUrl,
-  })
+    const brandConfig = app.globalData.brandConfig[app.globalData.brand]
+    const guideUrl =
+      brandConfig.QRcodeGuideUrl ||
+      `${paths.webView}?webViewUrl=${encodeURIComponent(
+        `${commonH5Api.url}deviceQrCode.html`
+      )}&pageTitle=如何找到设备的二维码`
+    wx.navigateTo({
+      url: guideUrl,
+    })
+  }
+
+// 检测url中是否同时包含productId authUrl appliance
+function checkUrlParameters(url) {
+  const fields = ['productId', 'authUrl', 'appliance'];
+  const foundFields = {};
+  fields.forEach(field => {
+    foundFields[field] = false;
+  });
+  const regex = /(\w+)=([^&]+)/g;
+  let match;
+  while ((match = regex.exec(url)) !== null) {
+    if (fields.includes(match[1])) {
+      foundFields[match[1]] = true;
+    }
+  }
+  return Object.values(foundFields).every(value => value === true);
+}
+function containsVEqualsTwo(str) {
+  const regex = /v=2/
+  return regex.test(str)
+}
+
+async function handleMultiSn(scanResult, getDeviceApImgAndName) {
+  // url中v=2，去云端查询中控屏是否上报子设备
+  if (containsVEqualsTwo(scanResult)) {
+    let scanCdoeResObj = addDeviceSDK.dynamicCodeAdd.getTouchScreenScanCodeInfo(scanResult)  
+    console.log('handleMultiSn ScanCodeInfo=======', scanCdoeResObj)
+    console.log('app.globalData.dcpDeviceImgList', app.globalData.dcpDeviceImgList)
+    if (scanCdoeResObj.verificationCode && scanCdoeResObj.verificationCodeKey) {
+      //有验证码信息
+      let addDeviceInfo = {
+        mode: 100, //触屏配网mode
+        type: scanCdoeResObj.type.toUpperCase(),
+        sn: scanCdoeResObj.sn,
+        bigScreenScanCodeInfo: scanCdoeResObj,
+      }
+      let sn8 = addDeviceInfo.sn && addDeviceInfo.sn.substring(9,17)
+      let deviceNameAndImg = getDeviceApImgAndNameBySn8(app.globalData.dcpDeviceImgList, scanCdoeResObj.type.toUpperCase(),sn8)
+      console.log('deviceNameAndImg', deviceNameAndImg)
+      addDeviceInfo.deviceName = deviceNameAndImg.deviceImg.name
+      addDeviceInfo.deviceImg = deviceNameAndImg.deviceImg.icon
+      addDeviceInfo.sn8 = sn8 //大屏扫码，添加Sn8到addDeviceInfo
+      app.addDeviceInfo = addDeviceInfo
+      console.log('addDeviceInfo ------', app.addDeviceInfo)
+    }
+    app.addDeviceInfo.hostDevice = scanCdoeResObj
+    let param = {
+      code: app.addDeviceInfo.sn8,
+      stamp: getStamp(),
+      reqId: getReqId(),
+      enterpriseCode: '0000',
+      category: app.addDeviceInfo.type,
+      productId: app.addDeviceInfo.bigScreenScanCodeInfo.productId,
+      queryType: 1,
+    }
+    let res = await requestService.request('multiNetworkGuide', param)
+    console.log('res=====', res)
+    let netWorking = 'wifiNetWorking'
+    let mode = res.data.data[netWorking].mainConnectinfoList[0].mode
+    console.log('mode=====', mode)
+    app.addDeviceInfo.guideInfo = res.data.data[netWorking].mainConnectinfoList
+    app.addDeviceInfo.dataSource = res.data.data[netWorking].dataSource
+    app.addDeviceInfo.brandTypeInfo = res.data.data[netWorking].brand
+    app.addDeviceInfo.currentGatewayInfo = app.addDeviceInfo.currentGatewayInfo || {}
+    app.addDeviceInfo.linkType = addDeviceSDK.getLinkType(mode)
+    console.log('多Sn-----', app.addDeviceInfo)
+    if (app.globalData.homeRoleId != 1001) {
+      Dialog.confirm({
+        title: `暂无权限添加`,
+        message: `${app.addDeviceInfo.deviceName}仅支持家庭的创建者添加。您可将家庭切换到您创建的家庭中，重新添加，或请当前家庭的创建者扫描二维码添加`,
+        confirmButtonText: '我知道了',
+        confirmButtonColor:brandConfig.dialogStyle.confirmButtonColor,
+        cancelButtonColor:brandConfig.dialogStyle.cancelButtonColor3,
+        showCancelButton:false
+      })
+      .then((res) => {
+        if (res.action == 'confirm') {
+          //知道了
+          wx.navigateTo({
+            url: '/pages/index/index?tabPageId=1'
+          })
+        }
+      })
+      return
+    }
+    wx.navigateTo({
+      url: paths.multiSnAuth,
+    })
+    return
+  } else {
+    return
+  }
+}
+
+function getDeviceApImgAndNameBySn8(dcpDeviceImgList, category, sn8) {
+  let item = new Object()
+  console.log('获取图标命名称1', dcpDeviceImgList, sn8)
+  if (dcpDeviceImgList[category]) {
+    item.deviceImg = dcpDeviceImgList[category][sn8]
+  }
+  console.log('获取图标命名称2', item)
+  return item
 }

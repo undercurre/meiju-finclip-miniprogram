@@ -1,0 +1,14 @@
+<!--components/comon/c-loading/index.wxml-->
+<view class="loading-container"  catchtouchmove="true" hidden="{{!loadingState}}">
+  <view class="loading-mask" wx:if="{{maskState}}"></view>
+  <view class="loading-main">
+    <view class="loading-content">
+      <view class="loading-image">
+        <image src="../../../asset/png/loading.png"></image>
+      </view>
+      <view class="loading-text">
+        {{loadingText}}
+      </view>
+    </view>
+  </view>
+</view>

@@ -195,7 +195,10 @@
           "pages/linkCombinedDevice/linkCombinedDevice",
           "pages/linkCombinedFail/linkCombinedFail",
           "pages/reLinkCombined/reLinkCombined",
-          "pages/wifiGuide/wifiGuide"
+          "pages/wifiGuide/wifiGuide",
+          "pages/multiSnAuth/multiSnAuth",
+          "pages/multiSnAddSuccess/multiSnAddSuccess",
+          "pages/multiSnAddFail/multiSnAddFail"
         ]
       },
       {

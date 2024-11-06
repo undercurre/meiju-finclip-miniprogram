@@ -1,0 +1,60 @@
+/* components/comon/c-loading/index.wxss */
+/* components/rwj-loading/index.wxss */
+  .loading-container{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+  }
+  .loading-container .loading-mask{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    background-color: rgba(0,0,0,0.5);
+  }
+  .loading-container .loading-main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 99;
+  }
+  .loading-container .loading-main .loading-content{
+    width: 192rpx;
+    height: 192rpx;
+    background-color: #151617;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 13px;
+  }
+  .loading-container .loading-main .loading-content .loading-image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 112rpx;
+    height: 112rpx;
+  }
+  .loading-container .loading-main .loading-content .loading-image image{
+    width: 70rpx;
+    height: 70rpx;
+  }
+  @keyframes loading{
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+  }
+  .loading-container .loading-main .loading-content .loading-text{
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #E8E8E8;
+    text-align: center;
+    line-height: 12px;
+    font-weight: 400;
+  }

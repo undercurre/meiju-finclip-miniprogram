@@ -1,0 +1,138 @@
+.successTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 216rpx;
+  margin-bottom: 80rpx;
+}
+
+.successImg {
+  width: 180rpx;
+  height: 180rpx;
+  margin-bottom: 48rpx;
+}
+.successText {
+  font-family: PingFangSC-Regular;
+  font-size: 48rpx;
+  color: rgba(255,255,255,0.80);
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 400;
+}
+
+.ListWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DeviceItem {
+  width: 654rpx;
+  height: 160rpx;
+  background: rgba(177,193,234,0.05);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.deviceImg {
+  width: 112rpx;
+  height: 112rpx;
+  margin-left: 32rpx;
+  margin-right: 16rpx;
+}
+
+.middleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.middleTop {
+  width: 300rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: rgba(255,255,255,0.80);
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.middleBottom {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.littleImg {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 16rpx;
+}
+
+.middleBottomText {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.60);
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.rightWrapper {
+  display: flex;
+  margin-right: 24rpx;
+}
+
+.settingText {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.60);
+  letter-spacing: 0;
+  text-align: right;
+  font-weight: 400;
+}
+
+.rightImg {
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 8rpx;
+}
+
+.bottomDes {
+  display: flex;
+  align-items: center;
+  margin-top: 32rpx;
+  padding-left: 48rpx;
+}
+
+.bottomSpot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 12rpx;
+  background: rgba(255,255,255,0.40);
+  margin: 0 16rpx 0 8rpx;
+}
+
+.bottomDesText {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.40);
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.bottomBtn {
+  width: 654rpx;
+  height: 96rpx;
+  background: #B35336;
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: rgba(255,255,255,0.80);
+  text-align: center;
+  line-height: 96rpx;
+  font-weight: 400;
+  position: absolute;
+  bottom: 108rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}

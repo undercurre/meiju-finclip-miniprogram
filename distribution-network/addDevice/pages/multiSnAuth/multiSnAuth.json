@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "c-loading": "../component/c-loading",
+    "mx-dialog": "/miniprogram_npm/m-ui/mx-dialog/index",
+    "mx-loading": "/miniprogram_npm/m-ui/mx-loading/index"
+  },
+  "enablePullDownRefresh": true
+}

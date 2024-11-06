@@ -78,6 +78,7 @@ Page({
     ishowFocus: false, //打开新建房间后，自动聚焦   
     roomFlag: false, // 全空格标识符,
     isFromSubDeviceNetWork: false, // 是否来自子设备配网
+    isFromMultiSn: false, // 是否来自多SN动态二维码
     showContainer:false
   },
   /**
@@ -143,7 +144,8 @@ Page({
     this.data.brand = app.globalData.brand
     this.setData({
       brand: this.data.brand,
-      isFromSubDeviceNetWork: options.fromSubDeviceNetwork ? true : false
+      isFromSubDeviceNetWork: options.fromSubDeviceNetwork ? true : false,
+      isFromMultiSn: options.fromMultiSn ? true : false
     })
     wx.nextTick(()=>{
       this.setData({
@@ -206,6 +208,44 @@ Page({
             sn: sn,
             plainSn: plainSn,
             isCreateFamily: app.globalData.isCreateFamily
+          })
+        }  else if (app.addDeviceInfo.multiSnFlag) {
+          // 动态二维码多SN链路
+          if (app.addDeviceInfo.isMainDevice) {
+            this.data.deviceInfo = app.addDeviceInfo
+          } else {
+            this.data.deviceInfo = app.addDeviceInfo.subDeviceInfo
+          }
+          const {
+            deviceName,
+            mac,
+            type,
+            sn8,
+            blueVersion,
+            mode,
+            sn,
+            bindType,
+            moduleVersion,
+            isTwice,
+            plainSn,
+            lastBindName,
+            applianceCode
+          } = this.data.deviceInfo
+          this.setData({
+            combinedStatus: -1,
+            titleDeviceName: deviceName,
+            deviceName: lastBindName || deviceName,
+            btMac: mac,
+            // sn: options.sn || '',
+            type: type,
+            sn8: sn8,
+            blueVersion: blueVersion,
+            sn: sn,
+            bindType: bindType,
+            mode: mode,
+            isCreateFamily: app.globalData.isCreateFamily,
+            plainSn: plainSn,
+            applianceCode: applianceCode
           })
         } else { // 单品配网原逻辑
 
@@ -276,7 +316,19 @@ Page({
           const roomId = this.data.deviceInfo.roomId
           console.log('当前房间id---', roomId)
           this.getFamilyInfo(this.currentHomeGroupId, roomId)
-        } else {
+        } else if (this.data.isFromMultiSn) {
+            let roomId
+            if (app.addDeviceInfo.isMainDevice) {
+              roomId = app.globalData.currentRoomId
+              console.log('动态二维码 主设备房间id---', app.globalData.currentRoomId)
+            } else {
+              console.log('动态二维码 子设备房间id---', app.addDeviceInfo.subDeviceInfo.roomId)
+              roomId = app.addDeviceInfo.subDeviceInfo.roomId
+            }
+            console.log('动态二维码 当前房间id---', roomId)
+            this.getFamilyInfo(this.currentHomeGroupId, roomId)
+        }
+        else {
           console.log('当前房间id===', app.globalData.currentRoomId)
           this.getFamilyInfo(this.currentHomeGroupId)
         }
@@ -672,6 +724,13 @@ Page({
           resp.data.data.homegroupId = this.currentHomeGroupId
           if (!resp.data.data.roomName) {
             resp.data.data.roomName = this.data.currentRoomName //补充房间名
+            if (!this.data.currentRoomName && this.data.isFromMultiSn) {
+              if (app.addDeviceInfo.isMainDevice) {
+                resp.data.data.roomName = app.addDeviceInfo.room
+              } else {
+                resp.data.data.roomName = app.addDeviceInfo.subDeviceInfo.room
+              }
+            }
           }
           app.globalData.currentRoomName = resp.data.data.roomName
           resp.data.data.sn8 = this.data.sn8 //补充sn8
@@ -708,6 +767,22 @@ Page({
           })
           console.log('homeModify---绑定设备结果', resp.data.data)
           log.info('change bind device info result', resp.data.data)
+          console.log('getApp().globalData.currentHomeInfo', getApp().globalData.currentHomeInfo)
+          if (this.data.isFromMultiSn) {
+            console.log('app.addDeviceInfo.deviceName', app.addDeviceInfo.deviceName)
+            console.log('resp.data.data.beforeApplianceName', resp.data.data.beforeApplianceName)
+            if (app.addDeviceInfo.isMainDevice) {
+              app.addDeviceInfo.room = resp.data.data.roomName
+              app.addDeviceInfo.deviceName = resp.data.data.name
+            } else {
+              let roomData = app.globalData.roomList.filter(item => item.name == resp.data.data.roomName)
+              console.log('roomData------', roomData)
+              app.addDeviceInfo.subDeviceInfo.roomId = roomData[0].roomId
+              app.addDeviceInfo.subDeviceInfo.room = resp.data.data.roomName
+              app.addDeviceInfo.subDeviceInfo.name = resp.data.data.name
+              app.addDeviceInfo.subDeviceInfo.deviceName = resp.data.data.name
+            }
+          }
           if (this.data.combinedStatus > -1 && app.combinedDeviceInfo[0].sn) {
             if (app.combinedDeviceInfo[0].sn == resp.data.data.sn) {
               app.combinedDeviceInfo[0].cloudBackDeviceInfo = resp.data.data
@@ -716,6 +791,13 @@ Page({
               app.globalData.currentRoomId = this.data.currentRoomId
               app.addDeviceInfo.cloudBackDeviceInfo = resp.data.data
               app.addDeviceInfo.cloudBackDeviceInfo.roomId = this.data.currentRoomId
+            }
+          } else if (this.data.isFromMultiSn) {
+            if (app.addDeviceInfo.isMainDevice) {
+              app.globalData.currentRoomId = this.data.currentRoomId
+              app.addDeviceInfo.cloudBackDeviceInfo = resp.data.data
+              app.addDeviceInfo.cloudBackDeviceInfo.roomId = this.data.currentRoomId
+            } else {
             }
           } else {
             app.globalData.currentRoomId = this.data.currentRoomId
@@ -849,6 +931,14 @@ Page({
           }
           if (mode == 100) {
             //触屏配网
+            console.log('isFromMultiSn', this.data.isFromMultiSn)
+            if (this.data.isFromMultiSn) {
+              wx.navigateTo({
+                url: paths.multiSnAddSuccess,
+              })
+              return
+            }
+            
             goToInvitePage(homeName, app.addDeviceInfo.cloudBackDeviceInfo, '/pages/index/index', true)
             getApp().setMethodCheckingLog('changeBindDviceInfo')
           }
@@ -1132,6 +1222,7 @@ Page({
           currentRoomId: data.roomId,
           currentRoomName: data.name,
         })
+        app.globalData.roomList = this.data.familyInfo.roomList
       })
       .catch((e) => {
         console.log('创建房间失败', e)
